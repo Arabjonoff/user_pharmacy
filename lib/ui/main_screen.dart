@@ -16,72 +16,116 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int currentTabIndex = 0;
-  List<Widget> tabs = [
-    HomeScreen(),
-    CatalogScreen(translate("main.catalog")),
-    CardScreen(),
-    FavoritesScreen(),
-    MenuScreen(),
-  ];
+  int _selectedIndex = 0;
 
-  onTapped(int index) {
-    setState(() {
-      currentTabIndex = index;
-    });
-  }
+  List<GlobalKey<NavigatorState>> _navigatorKeys = [
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>()
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: tabs[currentTabIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: onTapped,
-        unselectedItemColor: Colors.black26,
-        selectedItemColor: Colors.red,
-        currentIndex: currentTabIndex,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text(
-              translate('main.home'),
-              maxLines: 1,
-              style: TextStyle(fontSize: 12),
+    return WillPopScope(
+      onWillPop: () async {
+        final isFirstRouteInCurrentTab =
+            !await _navigatorKeys[_selectedIndex].currentState.maybePop();
+        return isFirstRouteInCurrentTab;
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            _buildOffstageNavigator(0),
+            _buildOffstageNavigator(1),
+            _buildOffstageNavigator(2),
+            _buildOffstageNavigator(3),
+            _buildOffstageNavigator(4),
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          unselectedItemColor: Colors.black26,
+          selectedItemColor: Colors.red,
+          currentIndex: _selectedIndex,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text(
+                translate('main.home'),
+                maxLines: 1,
+                style: TextStyle(fontSize: 12),
+              ),
             ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            title: Text(
-              translate('main.catalog'),
-              maxLines: 1,
-              style: TextStyle(fontSize: 12),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list),
+              title: Text(
+                translate('main.catalog'),
+                maxLines: 1,
+                style: TextStyle(fontSize: 12),
+              ),
             ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_shopping_cart),
-            title: Text(
-              translate('main.card'),
-              maxLines: 1,
-              style: TextStyle(fontSize: 12),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add_shopping_cart),
+              title: Text(
+                translate('main.card'),
+                maxLines: 1,
+                style: TextStyle(fontSize: 12),
+              ),
             ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border),
-            title: Text(
-              translate('main.favourite'),
-              maxLines: 1,
-              style: TextStyle(fontSize: 12),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_border),
+              title: Text(
+                translate('main.favourite'),
+                maxLines: 1,
+                style: TextStyle(fontSize: 12),
+              ),
             ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            title: Text(
-              translate('main.menu'),
-              maxLines: 1,
-              style: TextStyle(fontSize: 12),
-            ),
-          )
-        ],
+            BottomNavigationBarItem(
+              icon: Icon(Icons.menu),
+              title: Text(
+                translate('main.menu'),
+                maxLines: 1,
+                style: TextStyle(fontSize: 12),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Map<String, WidgetBuilder> _routeBuilders(BuildContext context, int index) {
+    return {
+      '/': (context) {
+        return [
+          HomeScreen(),
+          CatalogScreen(translate("main.catalog")),
+          CardScreen(),
+          FavoritesScreen(),
+          MenuScreen(),
+        ].elementAt(index);
+      },
+    };
+  }
+
+  Widget _buildOffstageNavigator(int index) {
+    var routeBuilders = _routeBuilders(context, index);
+
+    return Offstage(
+      offstage: _selectedIndex != index,
+      child: Navigator(
+        key: _navigatorKeys[index],
+        onGenerateRoute: (routeSettings) {
+          return MaterialPageRoute(
+            builder: (context) => routeBuilders[routeSettings.name](context),
+          );
+        },
       ),
     );
   }
