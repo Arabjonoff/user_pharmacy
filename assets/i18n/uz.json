@@ -1,0 +1,9 @@
+{
+  "main": {
+    "home": "Home",
+    "catalog": "Catalog",
+    "card": "Card",
+    "favourite": "Favourite",
+    "menu": "Menu"
+  }
+}

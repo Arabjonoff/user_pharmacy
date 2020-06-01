@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_translate/localization_delegate.dart';
+import 'package:flutter_translate/localization_provider.dart';
+import 'package:flutter_translate/localized_app.dart';
+
+import 'ui/main_screen.dart';
+
+void main() async {
+  var delegate = await LocalizationDelegate.create(
+      fallbackLocale: 'en_US', supportedLocales: ['en_US', 'ru', 'uz']);
+
+  runApp(LocalizedApp(delegate, MyApp()));
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var localizationDelegate = LocalizedApp.of(context).delegate;
+    return LocalizationProvider(
+      state: LocalizationProvider.of(context).state,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          localizationDelegate
+        ],
+        supportedLocales: localizationDelegate.supportedLocales,
+        locale: localizationDelegate.currentLocale,
+        theme: ThemeData(
+          primarySwatch: Colors.red,
+        ),
+        home: MainScreen(),
+      ),
+    );
+  }
+}
