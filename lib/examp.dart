@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SearchList extends StatefulWidget {
+  SearchList({Key key}) : super(key: key);
+
   @override
   _SearchListState createState() => new _SearchListState();
 }

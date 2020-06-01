@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/ui/main/catalog/sub_catalog_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 
 class CatalogScreen extends StatefulWidget {
@@ -46,6 +47,15 @@ class _CatalogScreenState extends State<CatalogScreen> {
             child: ListView.builder(
               itemBuilder: (context, position) {
                 return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.fade,
+                        child: SubCatalogScreen(position.toString()),
+                      ),
+                    );
+                  },
                   child: Column(
                     children: <Widget>[
                       Container(

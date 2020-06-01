@@ -5,7 +5,7 @@ import 'package:pharmacy/ui/main/card_screen.dart';
 import 'package:pharmacy/ui/main/favorites_screen.dart';
 import 'package:pharmacy/ui/main/menu_screen.dart';
 
-import 'main/catalog_screen.dart';
+import 'main/catalog/catalog_screen.dart';
 import 'main/home_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -50,6 +50,7 @@ class _MainScreenState extends State<MainScreen> {
               _selectedIndex = index;
             });
           },
+          backgroundColor: Colors.white,
           unselectedItemColor: Colors.black26,
           selectedItemColor: Colors.red,
           currentIndex: _selectedIndex,
@@ -71,7 +72,21 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.add_shopping_cart),
+              icon: Stack(
+                children: <Widget>[
+                  Center(
+                    child: Icon(Icons.add_shopping_cart),
+                  ),
+//                  Center(
+//                    child: Container(
+//                      margin: EdgeInsets.only(bottom: 15,left: 15),
+//                      height: 5,
+//                      width: 5,
+//                      color: Colors.red,
+//                    ),
+//                  )
+                ],
+              ),
               title: Text(
                 translate('main.card'),
                 maxLines: 1,

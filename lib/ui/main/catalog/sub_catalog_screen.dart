@@ -1,33 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/ui/search/search_screen.dart';
 
-class SearchScreen extends StatefulWidget {
+class SubCatalogScreen extends StatefulWidget {
+  String name;
+
+  SubCatalogScreen(this.name);
+
   @override
   State<StatefulWidget> createState() {
-    return _SearchScreenState();
+    return _SubCatalogScreenState();
   }
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SubCatalogScreenState extends State<SubCatalogScreen> {
   Size size;
-  TextEditingController searchController = TextEditingController();
-  bool isSearchText = false;
-
-  _SearchScreenState() {
-    searchController.addListener(() {
-      if (searchController.text.length > 0) {
-        setState(() {
-          isSearchText = true;
-        });
-      } else {
-        setState(() {
-          isSearchText = false;
-        });
-      }
-      print(searchController.text);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +45,9 @@ class _SearchScreenState extends State<SearchScreen> {
                       },
                     ),
                     Text(
-                      translate("search_hint"),
+                      widget.name,
                       style: TextStyle(color: Colors.white, fontSize: 21),
+                      maxLines: 1,
                     )
                   ],
                 ),
@@ -68,8 +58,10 @@ class _SearchScreenState extends State<SearchScreen> {
             margin: EdgeInsets.only(top: 104),
             height: size.height - 104,
             child: ListView.builder(
+              itemCount: 3,
               itemBuilder: (context, position) {
                 return GestureDetector(
+                  onTap: () {},
                   child: Column(
                     children: <Widget>[
                       Container(
@@ -107,56 +99,42 @@ class _SearchScreenState extends State<SearchScreen> {
             child: Material(
               elevation: 5.0,
               borderRadius: BorderRadius.circular(9.0),
-              child: Row(
-                children: <Widget>[
-                  IconButton(
-                    icon: new Icon(
-                      Icons.search,
-                      size: 24,
-                      color: Colors.red,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.fade,
+                      child: SearchScreen(),
                     ),
-                    onPressed: () {},
-                  ),
-                  Expanded(
-                    child: TextFormField(
-                      autofocus: true,
-                      cursorColor: Colors.black,
-                      decoration: new InputDecoration(
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.only(left: 3, right: 3),
-                        hintText: translate("search_hint"),
+                  );
+                },
+                child: Row(
+                  children: <Widget>[
+                    IconButton(
+                      icon: new Icon(
+                        Icons.search,
+                        size: 24,
+                        color: Colors.red,
                       ),
-                      controller: searchController,
                     ),
-                  ),
-                  isSearchText
-                      ? IconButton(
-                          icon: new Icon(
-                            Icons.close,
-                            size: 24,
-                            color: Colors.black45,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              searchController.text = "";
-                            });
-                          },
-                        )
-                      : IconButton(
-                          icon: new Icon(
-                            Icons.scanner,
-                            size: 24,
-                            color: Colors.black45,
-                          ),
-                          onPressed: () {
-                            print("click");
-                          },
-                        ),
-                ],
+                    Expanded(
+                      child: Text(
+                        translate("search_hint"),
+                      ),
+                    ),
+                    IconButton(
+                      icon: new Icon(
+                        Icons.scanner,
+                        size: 24,
+                        color: Colors.black45,
+                      ),
+                      onPressed: () {
+                        print("click");
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           )
