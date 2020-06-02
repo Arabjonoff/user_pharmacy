@@ -215,10 +215,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             onPressed: () {},
                             child: Row(
                               children: <Widget>[
-                                Icon(
-                                  Icons.message,
-                                  color: Colors.green,
-                                  size: 48,
+                                Container(
+                                  height: 56,
+                                  width: 56,
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Image.asset("assets/images/circle_green.png"),
+                                      Container(
+                                        padding: EdgeInsets.all(15),
+                                        child:
+                                        Image.asset("assets/images/chatting.png"),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 Expanded(
                                   child: Center(
@@ -244,10 +253,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             onPressed: () {},
                             child: Row(
                               children: <Widget>[
-                                Icon(
-                                  Icons.message,
-                                  color: Colors.green,
-                                  size: 48,
+                                Container(
+                                  height: 56,
+                                  width: 56,
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Image.asset("assets/images/circle_green.png"),
+                                      Container(
+                                        padding: EdgeInsets.all(15),
+                                        child:
+                                        Image.asset("assets/images/phone_green.png"),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 Expanded(
                                   child: Center(

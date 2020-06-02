@@ -1,4 +1,3 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -302,28 +301,148 @@ class _MenuScreenState extends State<MenuScreen> {
                     ),
                   ),
                 ),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Center(
-                        child: Container(
-
-                          height: 36,
-                          width: 36,
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          child: DottedBorder(
-                            color: Colors.black,
-                            strokeWidth: 1,
-                            child: FlutterLogo(size: 36),
-                          ),
+                Container(
+                  margin: EdgeInsets.only(left: 25,right: 25),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              height: 75,
+                              width: 75,
+                              child: Stack(
+                                children: <Widget>[
+                                  Image.asset("assets/images/circle_green.png"),
+                                  Container(
+                                    padding: EdgeInsets.all(25),
+                                    child:
+                                    Image.asset("assets/images/chatting.png"),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: 125,
+                              child: Center(
+                                child: Text(
+                                  translate("menu.write"),
+                                  style: TextStyle(
+                                    fontSize: 19,
+                                    color: AppTheme.black_text,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 125,
+                              child: Center(
+                                child: Text(
+                                  translate("menu.chat"),
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: AppTheme.black_text,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    )
-                  ],
-                )
+                      Expanded(
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              height: 75,
+                              width: 75,
+                              child: Stack(
+                                children: <Widget>[
+                                  Image.asset("assets/images/circle_green.png"),
+                                  Container(
+                                    padding: EdgeInsets.all(25),
+                                    child:
+                                    Image.asset("assets/images/phone_green.png"),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: 125,
+                              child: Center(
+                                child: Text(
+                                  translate("menu.call"),
+                                  style: TextStyle(
+                                    fontSize: 19,
+                                    color: AppTheme.black_text,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 125,
+                              child: Center(
+                                child: Text(
+                                  translate("menu.hotline"),
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: AppTheme.black_text,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              height: 75,
+                              width: 75,
+                              child: Stack(
+                                children: <Widget>[
+                                  Image.asset("assets/images/circle_green.png"),
+                                  Container(
+                                    padding: EdgeInsets.all(25),
+                                    child:
+                                    Image.asset("assets/images/question_green.png"),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: 125,
+                              child: Center(
+                                child: Text(
+                                  translate("menu.faq"),
+                                  style: TextStyle(
+                                    fontSize: 19,
+                                    color: AppTheme.black_text,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 125,
+                              child: Center(
+                                child: Text(
+                                  translate("menu.ques_answ"),
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: AppTheme.black_text,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 25,
+                ),
               ],
             ),
           ),

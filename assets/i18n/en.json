@@ -19,6 +19,13 @@
     "filter": "Filter"
   },
   "menu": {
-    "help": "Help is needed?"
+    "help": "Help is needed?",
+    "write": "Write",
+    "chat": "to chat",
+    "call": "Call",
+    "hotline": "to the hotline",
+    "faq": "FAQ",
+    "ques_answ": "Question and answer"
+
   }
 }
