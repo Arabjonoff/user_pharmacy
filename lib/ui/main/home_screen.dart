@@ -111,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         children: <Widget>[
           Container(
             height: 104,
-            color: Colors.red,
+            color: Color(0xFFD00B52),
           ),
           Container(
             margin: EdgeInsets.only(top: 104),
@@ -233,7 +233,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 Expanded(
                                   child: Center(
                                     child: Text(
-                                      translate("home.chat"),
+                                      translate("home.call"),
                                       style: TextStyle(
                                         fontSize: 13,
                                       ),

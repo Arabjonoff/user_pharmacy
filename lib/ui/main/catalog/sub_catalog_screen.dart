@@ -27,7 +27,7 @@ class _SubCatalogScreenState extends State<SubCatalogScreen> {
           Container(
             height: 104,
             width: size.width,
-            color: Colors.red,
+            color: Color(0xFFD00B52),
             child: Container(
               margin: EdgeInsets.only(top: 24, left: 3, bottom: 24),
               width: size.width,
@@ -75,7 +75,7 @@ class _SubCatalogScreenState extends State<SubCatalogScreen> {
                             Icon(
                               Icons.arrow_forward_ios,
                               size: 16,
-                              color: Colors.red,
+                              color: Color(0xFFD00B52),
                             )
                           ],
                         ),
@@ -115,7 +115,7 @@ class _SubCatalogScreenState extends State<SubCatalogScreen> {
                       icon: new Icon(
                         Icons.search,
                         size: 24,
-                        color: Colors.red,
+                        color: Color(0xFFD00B52),
                       ),
                     ),
                     Expanded(

@@ -38,7 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
           Container(
             height: 104,
             width: size.width,
-            color: Colors.red,
+            color: Color(0xFFD00B52),
             child: Container(
               margin: EdgeInsets.only(top: 24, left: 3, bottom: 24),
               width: size.width,
@@ -83,7 +83,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             Icon(
                               Icons.arrow_forward_ios,
                               size: 16,
-                              color: Colors.red,
+                              color: Color(0xFFD00B52),
                             )
                           ],
                         ),
@@ -113,7 +113,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     icon: new Icon(
                       Icons.search,
                       size: 24,
-                      color: Colors.red,
+                      color: Color(0xFFD00B52),
                     ),
                     onPressed: () {},
                   ),

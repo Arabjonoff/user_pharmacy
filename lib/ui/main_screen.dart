@@ -44,39 +44,42 @@ class _MainScreenState extends State<MainScreen> {
             _buildOffstageNavigator(4),
           ],
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
-          backgroundColor: Colors.white,
-          unselectedItemColor: Colors.black26,
-          selectedItemColor: Colors.red,
-          currentIndex: _selectedIndex,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text(
-                translate('main.home'),
-                maxLines: 1,
-                style: TextStyle(fontSize: 12),
+        bottomNavigationBar: Theme(
+          data: Theme.of(context).copyWith(
+            canvasColor: Colors.white,
+          ),
+          child: BottomNavigationBar(
+            onTap: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            unselectedItemColor: Colors.black26,
+            selectedItemColor: Color.fromRGBO(208, 11, 82, 1.0),
+            currentIndex: _selectedIndex,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                title: Text(
+                  translate('main.home'),
+                  maxLines: 1,
+                  style: TextStyle(fontSize: 12),
+                ),
               ),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.list),
-              title: Text(
-                translate('main.catalog'),
-                maxLines: 1,
-                style: TextStyle(fontSize: 12),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.list),
+                title: Text(
+                  translate('main.catalog'),
+                  maxLines: 1,
+                  style: TextStyle(fontSize: 12),
+                ),
               ),
-            ),
-            BottomNavigationBarItem(
-              icon: Stack(
-                children: <Widget>[
-                  Center(
-                    child: Icon(Icons.add_shopping_cart),
-                  ),
+              BottomNavigationBarItem(
+                icon: Stack(
+                  children: <Widget>[
+                    Center(
+                      child: Icon(Icons.add_shopping_cart),
+                    ),
 //                  Center(
 //                    child: Container(
 //                      margin: EdgeInsets.only(bottom: 15,left: 15),
@@ -85,31 +88,32 @@ class _MainScreenState extends State<MainScreen> {
 //                      color: Colors.red,
 //                    ),
 //                  )
-                ],
+                  ],
+                ),
+                title: Text(
+                  translate('main.card'),
+                  maxLines: 1,
+                  style: TextStyle(fontSize: 12),
+                ),
               ),
-              title: Text(
-                translate('main.card'),
-                maxLines: 1,
-                style: TextStyle(fontSize: 12),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.favorite_border),
+                title: Text(
+                  translate('main.favourite'),
+                  maxLines: 1,
+                  style: TextStyle(fontSize: 12),
+                ),
               ),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border),
-              title: Text(
-                translate('main.favourite'),
-                maxLines: 1,
-                style: TextStyle(fontSize: 12),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.menu),
-              title: Text(
-                translate('main.menu'),
-                maxLines: 1,
-                style: TextStyle(fontSize: 12),
-              ),
-            )
-          ],
+              BottomNavigationBarItem(
+                icon: Icon(Icons.menu),
+                title: Text(
+                  translate('main.menu'),
+                  maxLines: 1,
+                  style: TextStyle(fontSize: 12),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
