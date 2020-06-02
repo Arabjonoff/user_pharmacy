@@ -5,6 +5,7 @@ import 'package:pharmacy/ui/main/card_screen.dart';
 import 'package:pharmacy/ui/main/favorites_screen.dart';
 import 'package:pharmacy/ui/main/menu_screen.dart';
 
+import '../app_theme.dart';
 import 'main/catalog/catalog_screen.dart';
 import 'main/home_screen.dart';
 
@@ -55,7 +56,7 @@ class _MainScreenState extends State<MainScreen> {
               });
             },
             unselectedItemColor: Colors.black26,
-            selectedItemColor: Color.fromRGBO(208, 11, 82, 1.0),
+            selectedItemColor: AppTheme.red_app_color,
             currentIndex: _selectedIndex,
             items: [
               BottomNavigationBarItem(

@@ -10,6 +10,8 @@
   "home": {
     "question": "Are you have questions?",
     "message": "Message",
-    "call": "call me"
+    "call": "call me",
+    "sale": "Sale",
+    "all": "All"
   }
 }

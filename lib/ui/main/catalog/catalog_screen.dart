@@ -5,6 +5,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/ui/main/catalog/sub_catalog_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 
+import '../../../app_theme.dart';
+
 class CatalogScreen extends StatefulWidget {
   String name;
 
@@ -28,7 +30,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
           Container(
             height: 104,
             width: size.width,
-            color: Color(0xFFD00B52),
+            color: AppTheme.red_app_color,
             child: Container(
               margin: EdgeInsets.only(top: 24, left: 15, bottom: 24),
               width: size.width,
@@ -69,7 +71,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                             Icon(
                               Icons.arrow_forward_ios,
                               size: 16,
-                              color: Color(0xFFD00B52),
+                              color: AppTheme.red_app_color,
                             )
                           ],
                         ),
@@ -109,7 +111,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                       icon: new Icon(
                         Icons.search,
                         size: 24,
-                        color: Color(0xFFD00B52),
+                        color: AppTheme.red_app_color,
                       ),
                     ),
                     Expanded(

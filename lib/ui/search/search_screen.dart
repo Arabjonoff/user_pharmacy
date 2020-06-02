@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 
+import '../../app_theme.dart';
+
 class SearchScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -38,7 +40,7 @@ class _SearchScreenState extends State<SearchScreen> {
           Container(
             height: 104,
             width: size.width,
-            color: Color(0xFFD00B52),
+            color: AppTheme.red_app_color,
             child: Container(
               margin: EdgeInsets.only(top: 24, left: 3, bottom: 24),
               width: size.width,
@@ -83,7 +85,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             Icon(
                               Icons.arrow_forward_ios,
                               size: 16,
-                              color: Color(0xFFD00B52),
+                              color: AppTheme.red_app_color,
                             )
                           ],
                         ),
@@ -113,7 +115,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     icon: new Icon(
                       Icons.search,
                       size: 24,
-                      color: Color(0xFFD00B52),
+                      color: AppTheme.red_app_color,
                     ),
                     onPressed: () {},
                   ),
