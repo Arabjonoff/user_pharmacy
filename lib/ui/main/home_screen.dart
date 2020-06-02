@@ -12,10 +12,24 @@ class HomeScreen extends StatefulWidget {
   }
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  var animationController;
   Size size;
   TextEditingController searchController = TextEditingController();
   bool isSearchText = false;
+
+  @override
+  void initState() {
+    animationController = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
 
   _HomeScreenState() {
     searchController.addListener(() {
@@ -41,7 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-
     int _current = 0;
     final List<Widget> imageSliders = imgList
         .map(
@@ -93,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
         .toList();
 
     return Scaffold(
-      backgroundColor: Colors.black12,
+      backgroundColor: Color(0xFFF2F3F8),
       body: Stack(
         children: <Widget>[
           Container(
@@ -238,20 +251,60 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   height: 200.0,
                   child: ListView.builder(
+                    padding: const EdgeInsets.only(
+                        top: 0, bottom: 0, right: 15, left: 15),
                     scrollDirection: Axis.horizontal,
-                    itemCount: 25,
-                    itemBuilder: (BuildContext context, int i) => Card(
-                      child: Container(
-                        width: 160.0,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Text('20'),
-                            Text('akhsgdahghsgdh')
-                          ],
+                    itemCount: imgList.length * 3,
+                    itemBuilder: (BuildContext context, int index) {
+                      final int count =
+                          imgList.length > 10 ? 10 : imgList.length;
+                      final Animation<double> animation =
+                          Tween<double>(begin: 0.0, end: 1.0).animate(
+                        CurvedAnimation(
+                          parent: animationController,
+                          curve: Interval((1 / 10) * index, 1.0,
+                              curve: Curves.fastOutSlowIn),
                         ),
-                      ),
-                    ),
+                      );
+                      animationController.forward();
+                      return AnimatedBuilder(
+                        animation: animationController,
+                        builder: (BuildContext context, Widget child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: Transform(
+                              transform: Matrix4.translationValues(
+                                  100 * (1.0 - animation.value), 0.0, 0.0),
+                              child: SizedBox(
+                                width: 130,
+                                child: Stack(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 32,
+                                          left: 8,
+                                          right: 8,
+                                          bottom: 16),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.green,
+                                          borderRadius: const BorderRadius.only(
+                                            bottomRight: Radius.circular(8.0),
+                                            bottomLeft: Radius.circular(8.0),
+                                            topLeft: Radius.circular(8.0),
+                                            topRight: Radius.circular(8.0),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
                 ),
                 Container(
