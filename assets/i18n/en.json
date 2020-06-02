@@ -13,5 +13,9 @@
     "call": "call me",
     "sale": "Sale",
     "all": "All"
+  },
+  "item": {
+    "sort": "By popularity",
+    "filter": "Filter"
   }
 }
