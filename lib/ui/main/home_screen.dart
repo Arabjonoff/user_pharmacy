@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -31,19 +32,68 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  int _current = 0;
-  List imgList = [
-    'https://images.unsplash.com/photo-1502117859338-fd9daa518a9a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',
-    'https://images.unsplash.com/photo-1554321586-92083ba0a115?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',
-    'https://images.unsplash.com/photo-1536679545597-c2e5e1946495?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',
-    'https://images.unsplash.com/photo-1543922596-b3bbaba80649?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',
-    'https://images.unsplash.com/photo-1502943693086-33b5b1cfdf2f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80'
+  final List<String> imgList = [
+    'https://cdn.bmwblog.com/wp-content/uploads/2020/05/2020-BMW-X1-xDrive20i-67-1260x608.jpg',
+    'http://cdn.motorpage.ru/Photos/800/110BD.jpg',
+    'https://img4.postila.ru/storage/2432000/2417963/5fe49b9e07b3cd441cf26c11171939cb.jpg',
   ];
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
+
+    int _current = 0;
+    final List<Widget> imageSliders = imgList
+        .map(
+          (item) => Container(
+            child: Container(
+              margin: EdgeInsets.all(5.0),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: Stack(
+                    children: <Widget>[
+                      Image.network(
+                        item,
+                        fit: BoxFit.cover,
+                        width: 1000.0,
+                        height: 150,
+                      ),
+                      Positioned(
+                        bottom: 0.0,
+                        left: 0.0,
+                        right: 0.0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Color.fromARGB(200, 0, 0, 0),
+                                Color.fromARGB(0, 0, 0, 0)
+                              ],
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                            ),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 20.0),
+                          child: Text(
+                            '',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
+          ),
+        )
+        .toList();
+
     return Scaffold(
+      backgroundColor: Colors.black12,
       body: Stack(
         children: <Widget>[
           Container(
@@ -58,13 +108,152 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   margin: EdgeInsets.all(15),
                   height: 105,
-                  child: Material(
-                    elevation: 5.0,
-                    color: Colors.black12,
-                    borderRadius: BorderRadius.circular(9.0),
+                  child: Image.asset(
+                    "assets/karta_aptika.jpg",
+                    height: 105,
+                    fit: BoxFit.fill,
                   ),
                 ),
-
+                Container(
+                  height: 180,
+                  child: Column(
+                    children: [
+                      CarouselSlider(
+                        items: imageSliders,
+                        options: CarouselOptions(
+                            autoPlay: true,
+                            aspectRatio: 2.0,
+                            height: 150,
+                            onPageChanged: (index, reason) {
+                              setState(() {
+                                _current = index;
+                              });
+                            }),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: imgList.map((url) {
+                          int index = imgList.indexOf(url);
+                          return Container(
+                            width: 8.0,
+                            height: 8.0,
+                            margin: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 2.0),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: _current == index
+                                  ? Color.fromRGBO(0, 0, 0, 0.9)
+                                  : Color.fromRGBO(0, 0, 0, 0.4),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(15),
+                  height: 120,
+                  child: Image.asset(
+                    "assets/give_karta.jpg",
+                    height: 105,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 15, right: 15),
+                  child: Text(
+                    translate("home.question"),
+                    style: TextStyle(color: Colors.black87, fontSize: 21),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(15),
+                  height: 75,
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Material(
+                          elevation: 5.0,
+                          borderRadius: BorderRadius.circular(9.0),
+                          child: MaterialButton(
+                            onPressed: () {},
+                            child: Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.message,
+                                  color: Colors.green,
+                                  size: 48,
+                                ),
+                                Expanded(
+                                  child: Center(
+                                    child: Text(
+                                      translate("home.message"),
+                                      style: TextStyle(fontSize: 13),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Expanded(
+                        child: Material(
+                          elevation: 5.0,
+                          borderRadius: BorderRadius.circular(9.0),
+                          child: MaterialButton(
+                            onPressed: () {},
+                            child: Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.message,
+                                  color: Colors.green,
+                                  size: 48,
+                                ),
+                                Expanded(
+                                  child: Center(
+                                    child: Text(
+                                      translate("home.chat"),
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 200.0,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 25,
+                    itemBuilder: (BuildContext context, int i) => Card(
+                      child: Container(
+                        width: 160.0,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Text('20'),
+                            Text('akhsgdahghsgdh')
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Container(
                   height: 45,
                   color: Colors.blue,

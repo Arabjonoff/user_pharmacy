@@ -6,5 +6,10 @@
     "favourite": "Favourite",
     "menu": "Menu"
   },
-  "search_hint": "Search"
+  "search_hint": "Search",
+  "home": {
+    "question": "Are you have questions?",
+    "message": "Message",
+    "call": "call me"
+  }
 }
