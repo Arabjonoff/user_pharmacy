@@ -17,5 +17,8 @@
   "item": {
     "sort": "By popularity",
     "filter": "Filter"
+  },
+  "menu": {
+    "help": "Help is needed?"
   }
 }

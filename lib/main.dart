@@ -6,7 +6,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/localization_delegate.dart';
 import 'package:flutter_translate/localization_provider.dart';
 import 'package:flutter_translate/localized_app.dart';
-import 'package:pharmacy/ui/item/item_screen.dart';
 
 import 'app_theme.dart';
 import 'ui/main_screen.dart';
@@ -51,7 +50,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: ItemScreen("SALOM Dunyo"),
+        home: MainScreen(),
       ),
     );
   }

@@ -106,7 +106,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.menu),
+                icon: Icon(Icons.more_vert),
                 title: Text(
                   translate('main.menu'),
                   maxLines: 1,
