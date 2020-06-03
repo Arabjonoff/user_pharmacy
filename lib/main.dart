@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: ItemScreen("Amiksin tablitka 125 mg"),
+        home: MainScreen(),
       ),
     );
   }

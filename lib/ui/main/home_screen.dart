@@ -204,6 +204,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     children: <Widget>[
                       Expanded(
                         child: Material(
+                          color: AppTheme.white,
                           elevation: 5.0,
                           borderRadius: BorderRadius.circular(9.0),
                           child: MaterialButton(
@@ -243,6 +244,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ),
                       Expanded(
                         child: Material(
+                          color: AppTheme.white,
                           elevation: 5.0,
                           borderRadius: BorderRadius.circular(9.0),
                           child: MaterialButton(

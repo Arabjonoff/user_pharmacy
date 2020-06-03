@@ -94,7 +94,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                       Container(
                         height: 1,
-                        color: Colors.black12,
+                        color: AppTheme.black_linear,
                       )
                     ],
                   ),
@@ -129,7 +129,10 @@ class _SearchScreenState extends State<SearchScreen> {
                         enabledBorder: InputBorder.none,
                         errorBorder: InputBorder.none,
                         disabledBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.only(left: 3, right: 3),
+                        contentPadding: EdgeInsets.only(
+                          left: 3,
+                          right: 3,
+                        ),
                         hintText: translate("search_hint"),
                       ),
                       controller: searchController,

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/ui/item/item_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 
 import '../../app_theme.dart';
@@ -137,7 +138,16 @@ class _ItemListScreenState extends State<ItemListScreen> {
                     itemCount: imgSale.length * 20,
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          print("object");
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.fade,
+                              child: ItemScreen("Папаверин"),
+                            ),
+                          );
+                        },
                         child: Column(
                           children: <Widget>[
                             Container(

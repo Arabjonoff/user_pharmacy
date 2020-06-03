@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/ui/item/item_screen.dart';
 import 'file:///D:/Flutter/ishxona/user_pharmacy/lib/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 
@@ -54,7 +55,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                       context,
                       PageTransition(
                         type: PageTransitionType.fade,
-                        child: ItemListScreen(position.toString()),
+                        child: ItemScreen(position.toString()),
                       ),
                     );
                   },
