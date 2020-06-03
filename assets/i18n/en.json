@@ -16,7 +16,9 @@
   },
   "item": {
     "sort": "By popularity",
-    "filter": "Filter"
+    "filter": "Filter",
+    "description": "Description",
+    "price": "Price availability"
   },
   "menu": {
     "help": "Help is needed?",
@@ -26,6 +28,6 @@
     "hotline": "to the hotline",
     "faq": "FAQ",
     "ques_answ": "Question and answer"
-
   }
+
 }
