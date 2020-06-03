@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -45,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           isSearchText = false;
         });
       }
-      print(searchController.text);
     });
   }
 
@@ -60,11 +60,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     'https://i0.wp.com/oldlekar.ru/wp-content/uploads/citramon.jpg',
     'https://www.sandoz.ru/sites/www.sandoz.ru/files/linex-16-32-48_0.png'
   ];
+  int _current = 0;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    int _current = 0;
+
     final List<Widget> imageSliders = imgList
         .map(
           (item) => Container(
@@ -158,24 +159,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               });
                             }),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: imgList.map((url) {
-                          int index = imgList.indexOf(url);
-                          return Container(
-                            width: 8.0,
-                            height: 8.0,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 2.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: _current == index
-                                  ? Color.fromRGBO(0, 0, 0, 0.9)
-                                  : Color.fromRGBO(0, 0, 0, 0.4),
-                            ),
-                          );
-                        }).toList(),
-                      ),
+                      DotsIndicator(
+                        dotsCount: imageSliders.length,
+                        position: _current.toDouble(),
+                        decorator: DotsDecorator(
+                          activeColor: AppTheme.red_app_color,
+                          size: Size.square(9.0),
+                          activeSize: Size(27.0, 9.0),
+                          activeShape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -220,11 +215,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   width: 56,
                                   child: Stack(
                                     children: <Widget>[
-                                      Image.asset("assets/images/circle_green.png"),
+                                      Image.asset(
+                                          "assets/images/circle_green.png"),
                                       Container(
                                         padding: EdgeInsets.all(15),
-                                        child:
-                                        Image.asset("assets/images/chatting.png"),
+                                        child: Image.asset(
+                                            "assets/images/chatting.png"),
                                       ),
                                     ],
                                   ),
@@ -258,11 +254,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   width: 56,
                                   child: Stack(
                                     children: <Widget>[
-                                      Image.asset("assets/images/circle_green.png"),
+                                      Image.asset(
+                                          "assets/images/circle_green.png"),
                                       Container(
                                         padding: EdgeInsets.all(15),
-                                        child:
-                                        Image.asset("assets/images/phone_green.png"),
+                                        child: Image.asset(
+                                            "assets/images/phone_green.png"),
                                       ),
                                     ],
                                   ),

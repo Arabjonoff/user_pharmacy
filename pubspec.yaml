@@ -25,6 +25,8 @@ dependencies:
   carousel_slider: ^2.1.0
   page_transition: ^1.1.5
   cached_network_image: ^2.2.0+1
+  dots_indicator: ^1.1.0
+  animations: ^1.1.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

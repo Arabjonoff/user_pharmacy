@@ -9,6 +9,7 @@ import 'package:flutter_translate/localized_app.dart';
 
 import 'app_theme.dart';
 import 'ui/main_screen.dart';
+import 'examp.dart';
 
 void main() async {
   var delegate = await LocalizationDelegate.create(
