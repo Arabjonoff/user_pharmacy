@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/database/database_helper_card.dart';
+import 'package:pharmacy/database/database_helper_star.dart';
 import 'package:pharmacy/model/item_model.dart';
 import 'package:pharmacy/ui/item/item_screen.dart';
 
@@ -19,22 +21,45 @@ class ItemViewList extends StatefulWidget {
 }
 
 class _ItemViewListState extends State<ItemViewList> {
+  List<ItemModel> itemStar = new List();
+  List<ItemModel> itemCard = new List();
+  DatabaseHelperCard dbCard = new DatabaseHelperCard();
+  DatabaseHelperStar dbStar = new DatabaseHelperStar();
+
   @override
   void initState() {
-    ///
-    for (int i = 0; i < widget.item.length; i++) {
-      if (i % 2 == 0) {
-        widget.item[i].favourite = true;
-      } else {
-        widget.item[i].favourite = false;
-      }
-      widget.item[i].cardCount = i;
-    }
+    dbStar.getAllProducts().then((products) {
+      setState(() {
+        products.forEach((products) {
+          itemStar.add(ItemModel.fromMap(products));
+        });
+      });
+    });
+    dbCard.getAllProducts().then((products) {
+      setState(() {
+        products.forEach((i) {
+          itemCard.add(ItemModel.fromMap(i));
+        });
+      });
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    for (var i = 0; i < widget.item.length; i++) {
+      for (var j = 0; j < itemStar.length; j++) {
+        if (widget.item[i].id == itemStar[j].id) {
+          widget.item[i].favourite = true;
+        }
+      }
+      for (var j = 0; j < itemCard.length; j++) {
+        if (widget.item[i].id == itemCard[j].id) {
+          widget.item[i].cardCount = itemCard[j].cardCount;
+        }
+      }
+    }
+
     return Scaffold(
       body: ListView.builder(
         shrinkWrap: false,
@@ -105,8 +130,14 @@ class _ItemViewListState extends State<ItemViewList> {
                                         ),
                                   onPressed: () {
                                     setState(() {
-                                      widget.item[index].favourite =
-                                          !widget.item[index].favourite;
+                                      if (widget.item[index].favourite) {
+                                        dbStar.deleteProducts(
+                                            widget.item[index].id);
+                                        widget.item[index].favourite = false;
+                                      } else {
+                                        dbStar.saveProducts(widget.item[index]);
+                                        widget.item[index].favourite = true;
+                                      }
                                     });
                                   },
                                 ),
@@ -182,6 +213,20 @@ class _ItemViewListState extends State<ItemViewList> {
                                                                   .item[index]
                                                                   .cardCount -
                                                               1;
+                                                          dbCard.updateProduct(
+                                                              widget
+                                                                  .item[index]);
+                                                        });
+                                                      } else {
+                                                        setState(() {
+                                                          widget.item[index]
+                                                              .cardCount = widget
+                                                                  .item[index]
+                                                                  .cardCount -
+                                                              1;
+                                                          dbCard.deleteProducts(
+                                                              widget.item[index]
+                                                                  .id);
                                                         });
                                                       }
                                                     },
@@ -227,6 +272,8 @@ class _ItemViewListState extends State<ItemViewList> {
                                                               .item[index]
                                                               .cardCount +
                                                           1;
+                                                      dbCard.updateProduct(
+                                                          widget.item[index]);
                                                     });
                                                   },
                                                 ),
@@ -237,8 +284,10 @@ class _ItemViewListState extends State<ItemViewList> {
                                             child: MaterialButton(
                                               onPressed: () {
                                                 setState(() {
-                                                  widget.item[index]
-                                                      .cardCount = 1;
+                                                  widget.item[index].cardCount =
+                                                      1;
+                                                  dbCard.saveProducts(
+                                                      widget.item[index]);
                                                 });
                                               },
                                               child: Icon(
