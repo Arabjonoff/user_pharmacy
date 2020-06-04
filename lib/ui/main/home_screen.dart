@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/model/sale_model.dart';
-import 'package:pharmacy/ui/search/scanner_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
+import 'package:pharmacy/utils/utils.dart';
 
 import '../../app_theme.dart';
 
@@ -513,7 +513,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     context,
                     PageTransition(
                       type: PageTransitionType.fade,
-                      child: SearchScreen(),
+                      child: SearchScreen(""),
                     ),
                   );
                 },
@@ -525,6 +525,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         size: 24,
                         color: AppTheme.red_app_color,
                       ),
+
                     ),
                     Expanded(
                       child: Text(
@@ -538,14 +539,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         color: Colors.black45,
                       ),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            child: ScannerScreen(),
+                        var response = Utils.scanBarcodeNormal();
+                        response.then(
+                          (value) => Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.fade,
+                              child: SearchScreen(value),
+                            ),
                           ),
                         );
-                        print("click");
                       },
                     ),
                   ],

@@ -1,20 +1,70 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:pharmacy/model/item_model.dart';
+import 'package:pharmacy/ui/list/item_view_list.dart';
 
 import '../../app_theme.dart';
 
 class SearchScreen extends StatefulWidget {
+  String name;
+
+  SearchScreen(this.name);
+
   @override
   State<StatefulWidget> createState() {
     return _SearchScreenState();
   }
 }
 
+final List<ItemModel> items = [
+  ItemModel(
+    'https://littleone.com/uploads/publication/6133/_840/5cf6754c5b7533.84660925.jpg',
+    'Aмиксин таблетки 125 мг 6 шт',
+    'Противовирусные',
+    'Описание препарата Амиксин®',
+    '125 000 so\'m',
+  ),
+  ItemModel(
+    'http://apteka999.uz/img_product/563.jpg',
+    'Aмиксин таблетки 125 мг 6 шт',
+    'Противовирусные',
+    'Описание препарата Амиксин®',
+    '125 000 so\'m',
+  ),
+  ItemModel(
+    'https://i0.wp.com/oldlekar.ru/wp-content/uploads/citramon.jpg',
+    'Aмиксин таблетки 125 мг 6 шт',
+    'Противовирусные',
+    'Описание препарата Амиксин®',
+    '125 000 so\'m',
+  ),
+  ItemModel(
+    'https://www.sandoz.ru/sites/www.sandoz.ru/files/linex-16-32-48_0.png',
+    'Aмиксин таблетки 125 мг 6 шт',
+    'Противовирусные',
+    'Описание препарата Амиксин®',
+    '125 000 so\'m',
+  ),
+  ItemModel(
+    'https://interchem.ua/uploads/drugs/andipa10.png',
+    'Aмиксин таблетки 125 мг 6 шт',
+    'Противовирусные',
+    'Описание препарата Амиксин®',
+    '125 000 so\'m',
+  ),
+];
+
 class _SearchScreenState extends State<SearchScreen> {
   Size size;
   TextEditingController searchController = TextEditingController();
   bool isSearchText = false;
+
+  @override
+  void initState() {
+    searchController.text = widget.name;
+    super.initState();
+  }
 
   _SearchScreenState() {
     searchController.addListener(() {
@@ -69,38 +119,7 @@ class _SearchScreenState extends State<SearchScreen> {
           Container(
             margin: EdgeInsets.only(top: 104),
             height: size.height - 104,
-            child: ListView.builder(
-              itemBuilder: (context, position) {
-                return GestureDetector(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                position.toString(),
-                              ),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: AppTheme.red_app_color,
-                            )
-                          ],
-                        ),
-                        height: 48,
-                        margin: EdgeInsets.only(left: 15, right: 15),
-                      ),
-                      Container(
-                        height: 1,
-                        color: AppTheme.black_linear,
-                      )
-                    ],
-                  ),
-                );
-              },
-            ),
+            child: ItemViewList(items),
           ),
           Container(
             margin: EdgeInsets.only(top: 80, left: 15, right: 15, bottom: 15),

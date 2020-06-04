@@ -300,7 +300,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                     context,
                     PageTransition(
                       type: PageTransitionType.fade,
-                      child: SearchScreen(),
+                      child: SearchScreen(""),
                     ),
                   );
                 },

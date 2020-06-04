@@ -102,7 +102,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                     context,
                     PageTransition(
                       type: PageTransitionType.fade,
-                      child: SearchScreen(),
+                      child: SearchScreen(""),
                     ),
                   );
                 },
