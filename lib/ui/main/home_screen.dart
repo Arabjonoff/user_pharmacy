@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/model/sale_model.dart';
+import 'package:pharmacy/ui/search/scanner_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 
 import '../../app_theme.dart';
@@ -49,41 +51,56 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
   }
 
-  final List<String> imgList = [
+  int _current = 0;
+  final List<String> imageCarusel = [
     'https://cdn.bmwblog.com/wp-content/uploads/2020/05/2020-BMW-X1-xDrive20i-67-1260x608.jpg',
     'http://cdn.motorpage.ru/Photos/800/110BD.jpg',
     'https://img4.postila.ru/storage/2432000/2417963/5fe49b9e07b3cd441cf26c11171939cb.jpg'
   ];
-  final List<String> imgSale = [
-    'https://littleone.com/uploads/publication/6133/_840/5cf6754c5b7533.84660925.jpg',
-    'http://apteka999.uz/img_product/563.jpg',
-    'https://i0.wp.com/oldlekar.ru/wp-content/uploads/citramon.jpg',
-    'https://www.sandoz.ru/sites/www.sandoz.ru/files/linex-16-32-48_0.png'
+
+  List<SaleModel> saleIfo = [
+    SaleModel(
+        'https://littleone.com/uploads/publication/6133/_840/5cf6754c5b7533.84660925.jpg',
+        "06.05.2020",
+        "25%"),
+    SaleModel('http://apteka999.uz/img_product/563.jpg', "04.03.2020", "3%"),
+    SaleModel('https://i0.wp.com/oldlekar.ru/wp-content/uploads/citramon.jpg',
+        "04.03.2020", "23%"),
+    SaleModel(
+        'https://www.sandoz.ru/sites/www.sandoz.ru/files/linex-16-32-48_0.png',
+        "04.03.2020",
+        "23%"),
+    SaleModel(
+        'https://interchem.ua/uploads/drugs/andipa10.png', "09.03.2020", "17%"),
   ];
-  int _current = 0;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
 
-    final List<Widget> imageSliders = imgList
+    final List<Widget> imageSliders = imageCarusel
         .map(
           (item) => Container(
             child: Container(
               margin: EdgeInsets.all(5.0),
               child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(9.0)),
                   child: Stack(
                     children: <Widget>[
                       Container(
                         width: 1000.0,
                         height: 150,
-                        child: CachedNetworkImage(
-                          imageUrl: item,
-                          placeholder: (context, url) => Icon(Icons.camera_alt),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
-                          fit: BoxFit.cover,
+                        child: Material(
+                          elevation: 5,
+                          borderRadius: BorderRadius.circular(9.0),
+                          child: CachedNetworkImage(
+                            imageUrl: item,
+                            placeholder: (context, url) =>
+                                Icon(Icons.camera_alt),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       Positioned(
@@ -137,10 +154,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   margin:
                       EdgeInsets.only(left: 15, right: 15, top: 25, bottom: 20),
                   height: 105,
-                  child: Image.asset(
-                    "assets/karta_aptika.jpg",
-                    height: 105,
-                    fit: BoxFit.fill,
+                  child: Material(
+                    borderRadius: BorderRadius.circular(9.0),
+                    elevation: 5,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(9.0),
+                      child: Image.asset(
+                        "assets/karta_aptika.jpg",
+                        height: 105,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
                   ),
                 ),
                 Container(
@@ -178,10 +202,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   margin:
                       EdgeInsets.only(left: 15, right: 15, top: 25, bottom: 20),
                   height: 120,
-                  child: Image.asset(
-                    "assets/give_karta.jpg",
-                    height: 105,
-                    fit: BoxFit.fill,
+                  child: Material(
+                    borderRadius: BorderRadius.circular(9.0),
+                    elevation: 5,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(9.0),
+                      child: Image.asset(
+                        "assets/give_karta.jpg",
+                        height: 120,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -312,12 +343,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   height: 180.0,
                   child: ListView.builder(
                     padding: const EdgeInsets.only(
-                        top: 0, bottom: 0, right: 15, left: 15),
+                      top: 0,
+                      bottom: 0,
+                      right: 15,
+                      left: 15,
+                    ),
                     scrollDirection: Axis.horizontal,
-                    itemCount: imgSale.length,
+                    itemCount: saleIfo.length,
                     itemBuilder: (BuildContext context, int index) {
                       final int count =
-                          imgSale.length > 10 ? 10 : imgSale.length;
+                          saleIfo.length > 10 ? 10 : saleIfo.length;
                       final Animation<double> animation =
                           Tween<double>(begin: 0.0, end: 1.0).animate(
                         CurvedAnimation(
@@ -336,35 +371,51 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               transform: Matrix4.translationValues(
                                   100 * (1.0 - animation.value), 0.0, 0.0),
                               child: Container(
-                                width: 170,
-                                height: 170,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Container(
-                                      child: Material(
-                                        elevation: 5,
+                                child: Material(
+                                  elevation: 5,
+                                  borderRadius: BorderRadius.circular(9.0),
+                                  child: Stack(
+                                    children: <Widget>[
+                                      ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(9.0),
-                                        child: CachedNetworkImage(
-                                          imageUrl: imgSale[index],
-                                          placeholder: (context, url) =>
-                                              Icon(Icons.camera_alt),
-                                          errorWidget: (context, url, error) =>
-                                              Icon(Icons.error),
-                                          fit: BoxFit.cover,
+                                        child: Container(
+                                          width: 180,
+                                          height: 180,
+                                          child: CachedNetworkImage(
+                                            imageUrl: saleIfo[index].image,
+                                            placeholder: (context, url) =>
+                                                Icon(Icons.camera_alt),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
+                                            fit: BoxFit.fill,
+                                          ),
                                         ),
                                       ),
-                                      padding: EdgeInsets.only(
-                                        left: 5,
-                                        top: 16,
-                                        bottom: 16,
-                                        right: 9,
+                                      Container(
+                                        height: 25,
+                                        margin: EdgeInsets.all(15),
+                                        child: Text(
+                                          saleIfo[index].date,
+                                          style: TextStyle(
+                                            color: AppTheme.dark_grey,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
-                                      width: 170,
-                                      height: 170,
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
+                                padding: EdgeInsets.only(
+                                  left: 5,
+                                  top: 16,
+                                  bottom: 16,
+                                  right: 16,
+                                ),
+                                width: 180,
+                                height: 180,
                               ),
                             ),
                           );
@@ -374,15 +425,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 Container(
-                  height: 80,
+                  height: 130,
+                  width: 170,
                   child: ListView.builder(
                     padding: const EdgeInsets.only(
                         top: 0, bottom: 0, right: 15, left: 15),
                     scrollDirection: Axis.horizontal,
-                    itemCount: imgList.length * 3,
+                    itemCount: saleIfo.length,
                     itemBuilder: (BuildContext context, int index) {
                       final int count =
-                          imgList.length > 10 ? 10 : imgList.length;
+                          saleIfo.length > 10 ? 10 : imageCarusel.length;
                       final Animation<double> animation =
                           Tween<double>(begin: 0.0, end: 1.0).animate(
                         CurvedAnimation(
@@ -399,32 +451,44 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             opacity: animation,
                             child: Transform(
                               transform: Matrix4.translationValues(
-                                  100 * (1.0 - animation.value), 0.0, 0.0),
-                              child: SizedBox(
-                                height: 70,
-                                width: 150,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 15,
-                                          left: 8,
-                                          right: 8,
-                                          bottom: 16),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: AppTheme.grey,
-                                          borderRadius: const BorderRadius.only(
-                                            bottomRight: Radius.circular(8.0),
-                                            bottomLeft: Radius.circular(8.0),
-                                            topLeft: Radius.circular(8.0),
-                                            topRight: Radius.circular(8.0),
+                                100 * (1.0 - animation.value),
+                                0.0,
+                                0.0,
+                              ),
+                              child: Container(
+                                child: Material(
+                                  elevation: 5,
+                                  borderRadius: BorderRadius.circular(9.0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(9.0),
+                                        child: Container(
+                                          width: 50,
+                                          height: 130,
+                                          child: CachedNetworkImage(
+                                            imageUrl: saleIfo[index].image,
+                                            placeholder: (context, url) =>
+                                                Icon(Icons.camera_alt),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
+                                            fit: BoxFit.fill,
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
+                                padding: EdgeInsets.only(
+                                  left: 5,
+                                  top: 3,
+                                  bottom: 48,
+                                  right: 16,
+                                ),
+                                width: 170,
+                                height: 140,
                               ),
                             ),
                           );
@@ -474,6 +538,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         color: Colors.black45,
                       ),
                       onPressed: () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            child: ScannerScreen(),
+                          ),
+                        );
                         print("click");
                       },
                     ),
