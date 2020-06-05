@@ -36,7 +36,8 @@
     "from_pharmacy": "Leave from the pharmacy",
     "latin_name": "Latin name",
     "active_substance": "Active substance",
-    "atx": "ATX:"
+    "atx": "ATX:",
+    "card": "В корзину"
   },
   "menu": {
     "help": "Help is needed?",

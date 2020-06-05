@@ -7,10 +7,9 @@ import 'package:flutter_translate/localization_delegate.dart';
 import 'package:flutter_translate/localization_provider.dart';
 import 'package:flutter_translate/localized_app.dart';
 import 'package:pharmacy/ui/item/item_screen.dart';
+import 'package:pharmacy/ui/main_screen.dart';
 
 import 'app_theme.dart';
-import 'ui/main_screen.dart';
-import 'examp.dart';
 
 void main() async {
   var delegate = await LocalizationDelegate.create(

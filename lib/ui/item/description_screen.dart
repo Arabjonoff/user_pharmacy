@@ -5,6 +5,10 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/app_theme.dart';
 
 class DescriptionScreen extends StatefulWidget {
+
+  int id;
+  DescriptionScreen(this.id);
+
   @override
   State<StatefulWidget> createState() {
     return _DescriptionScreenState();
@@ -14,17 +18,18 @@ class DescriptionScreen extends StatefulWidget {
 class _DescriptionScreenState extends State<DescriptionScreen> {
   ScrollController _controller;
   bool scroll = true;
+  bool isCard = true;
   int lastPosition = 0;
 
   _scrollListener() {
     if (lastPosition > _controller.offset.toInt()) {
       setState(() {
-        scroll = false;
+        scroll = true;
         lastPosition = _controller.offset.toInt();
       });
     } else {
       setState(() {
-        scroll = true;
+        scroll = false;
         lastPosition = _controller.offset.toInt();
       });
     }
@@ -482,7 +487,7 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
               ),
               Container(
                 margin:
-                EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 25),
+                    EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 25),
                 child: Text(
                   "Papaverine",
                   style: TextStyle(
@@ -502,7 +507,34 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
                 ),
               ),
             ],
-          )
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: scroll
+                ? Container(
+                    height: 56,
+                    margin: EdgeInsets.all(15),
+                    child: Material(
+                      elevation: 5,
+                      borderRadius: BorderRadius.circular(3.0),
+                      child: isCard
+                          ? MaterialButton(
+                              color: AppTheme.red_app_color,
+                              child: Center(
+                                child: Text(
+                                  translate("item.card"),
+                                  style: TextStyle(
+                                    color: AppTheme.white,
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {},
+                            )
+                          : Container(),
+                    ),
+                  )
+                : Container(),
+          ),
         ],
       ),
     );

@@ -74,7 +74,10 @@ class _ItemViewListState extends State<ItemViewList> {
                 context,
                 PageTransition(
                   type: PageTransitionType.fade,
-                  child: ItemScreen(widget.item[index].name),
+                  child: ItemScreen(
+                    widget.item[index].id,
+                    widget.item[index].name,
+                  ),
                 ),
               );
             },
