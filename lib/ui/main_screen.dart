@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/ui/main/card_screen.dart';
-import 'package:pharmacy/ui/main/favorites_screen.dart';
+import 'file:///D:/Flutter/ishxona/user_pharmacy/lib/ui/main/favorite/favorites_screen.dart';
 import 'package:pharmacy/ui/main/menu_screen.dart';
 
 import '../app_theme.dart';

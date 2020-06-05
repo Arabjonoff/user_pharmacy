@@ -6,10 +6,11 @@ class ItemModel {
   String about;
   String price;
   bool favourite = false;
-  int cardCount = 0;
 
-  ItemModel(this.id, this.image, this.name, this.title, this.about, this.price,
+  ItemModel(this.id, this.name, this.image, this.title, this.about, this.price,
       this.cardCount);
+
+  int cardCount = 0;
 
   int get getId => id;
 
@@ -62,8 +63,8 @@ class ItemModel {
   static List<ItemModel> itemsModel = <ItemModel>[
     ItemModel(
       0,
-      'https://uteka.ru/media/768/2/c5/2c58dcf7bb0a26584f9459b201be306a.jpg',
       'Амиксин таблетки 125 мг 6 шт',
+      'https://uteka.ru/media/768/2/c5/2c58dcf7bb0a26584f9459b201be306a.jpg',
       'Противовирусные',
       'Описание препарата Амиксин®',
       '67 000 so\'m',
@@ -71,8 +72,8 @@ class ItemModel {
     ),
     ItemModel(
       1,
-      'https://apteka.uz/upload/resize_cache/iblock/63f/400_400_1/63fc248df41ca5a90543fdbb03e78a85.jpg',
       'ПАПАВЕРИНА ГИДРОХЛОРИД суппозитории ректальные 20 мг N10',
+      'https://apteka.uz/upload/resize_cache/iblock/63f/400_400_1/63fc248df41ca5a90543fdbb03e78a85.jpg',
       'Противовирусные',
       'Описание препарата папаверин',
       '27 100 so\'m',
@@ -80,8 +81,8 @@ class ItemModel {
     ),
     ItemModel(
       2,
-      'https://e-apteka.com.ua/image/cachewebp/catalog/foto/fotoijyl/3186-370x370.webp',
       'Цитрамон-Дарница таб №10',
+      'https://e-apteka.com.ua/image/cachewebp/catalog/foto/fotoijyl/3186-370x370.webp',
       'Активные вещества',
       'Описание препарата Цитрамон',
       '5 500 so\'m',
@@ -89,8 +90,8 @@ class ItemModel {
     ),
     ItemModel(
       3,
-      'https://zdravcity.ru/upload/resize_cache/iblock/33f/600_600_Y17536bdc4c4bd27fc2607277fa439b45d/photo_es_994F499D-D28F-47EA-5E05-3E40A030A7DD.jpg',
       'Линекс форте капс.№28',
+      'https://zdravcity.ru/upload/resize_cache/iblock/33f/600_600_Y17536bdc4c4bd27fc2607277fa439b45d/photo_es_994F499D-D28F-47EA-5E05-3E40A030A7DD.jpg',
       'Лактобактерии ацидофильные',
       'Lek d.d.',
       '45 000 so\'m',
@@ -98,8 +99,8 @@ class ItemModel {
     ),
     ItemModel(
       4,
-      'https://interchem.ua/uploads/drugs/andipa10.png',
       'АНАЛЬГИН-ДИБАЗОЛ-ПАПАВЕРИН (ANALGIN-DIBAZOL-PAPAVERINE)',
+      'https://interchem.ua/uploads/drugs/andipa10.png',
       'Метамизола натрия моногидрат',
       'Папаверина гидрохлорид',
       '125 000 so\'m',

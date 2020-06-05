@@ -26,7 +26,6 @@ class _CardScreenState extends State<CardScreen> {
         products.forEach((i) {
           itemCard.add(ItemModel.fromMap(i));
         });
-        print(products.length.toString() + "Card");
       });
     });
     super.initState();

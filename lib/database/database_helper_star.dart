@@ -76,13 +76,13 @@ class DatabaseHelperStar {
     List<ItemModel> products = new List();
     for (int i = 0; i < list.length; i++) {
       var user = new ItemModel(
-        list[i]["id"],
-        list[i]["name"],
-        list[i]["image"],
-        list[i]["title"],
-        list[i]["about"],
-        list[i]["price"],
-        list[i]["cardCount"],
+        list[i][columnId],
+        list[i][columnName],
+        list[i][columnImage],
+        list[i][columnTitle],
+        list[i][columnAbout],
+        list[i][columnPrice],
+        list[i][columnCount],
       );
       products.add(user);
     }
