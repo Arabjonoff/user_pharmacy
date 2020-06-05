@@ -211,7 +211,7 @@ class _ItemViewListState extends State<ItemViewList> {
                                                       onPressed: () {
                                                         if (widget.item[index]
                                                                 .cardCount >
-                                                            0) {
+                                                            1) {
                                                           setState(() {
                                                             widget.item[index]
                                                                 .cardCount = widget
@@ -223,7 +223,10 @@ class _ItemViewListState extends State<ItemViewList> {
                                                                     widget.item[
                                                                         index]);
                                                           });
-                                                        } else {
+                                                        } else if (widget
+                                                                .item[index]
+                                                                .cardCount ==
+                                                            1) {
                                                           setState(() {
                                                             widget.item[index]
                                                                 .cardCount = widget

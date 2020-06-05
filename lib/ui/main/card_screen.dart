@@ -21,13 +21,14 @@ class _CardScreenState extends State<CardScreen> {
 
   @override
   void initState() {
-//    dbCard.getAllProducts().then((products) {
-//      setState(() {
-//        products.forEach((i) {
-//          itemCard.add(ItemModel.fromMap(i));
-//        });
-//      });
-//    });
+    dbCard.getAllProducts().then((products) {
+      setState(() {
+        products.forEach((i) {
+          itemCard.add(ItemModel.fromMap(i));
+        });
+        print(products.length.toString() + "Card");
+      });
+    });
     super.initState();
   }
 
