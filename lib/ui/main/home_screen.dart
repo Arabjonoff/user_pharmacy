@@ -60,14 +60,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   List<SaleModel> saleIfo = [
     SaleModel(
-        'https://littleone.com/uploads/publication/6133/_840/5cf6754c5b7533.84660925.jpg',
+        'https://uteka.ru/media/768/2/c5/2c58dcf7bb0a26584f9459b201be306a.jpg',
         "06.05.2020",
         "25%"),
-    SaleModel('http://apteka999.uz/img_product/563.jpg', "04.03.2020", "3%"),
-    SaleModel('https://i0.wp.com/oldlekar.ru/wp-content/uploads/citramon.jpg',
-        "04.03.2020", "23%"),
     SaleModel(
-        'https://www.sandoz.ru/sites/www.sandoz.ru/files/linex-16-32-48_0.png',
+        'https://apteka.uz/upload/resize_cache/iblock/63f/400_400_1/63fc248df41ca5a90543fdbb03e78a85.jpg',
+        "04.03.2020",
+        "3%"),
+    SaleModel(
+        'https://e-apteka.com.ua/image/cachewebp/catalog/foto/fotoijyl/3186-370x370.webp',
+        "04.03.2020",
+        "23%"),
+    SaleModel(
+        'https://zdravcity.ru/upload/resize_cache/iblock/33f/600_600_Y17536bdc4c4bd27fc2607277fa439b45d/photo_es_994F499D-D28F-47EA-5E05-3E40A030A7DD.jpg',
         "04.03.2020",
         "23%"),
     SaleModel(
@@ -525,7 +530,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         size: 24,
                         color: AppTheme.red_app_color,
                       ),
-
                     ),
                     Expanded(
                       child: Text(

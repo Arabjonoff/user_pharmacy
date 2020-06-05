@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:pharmacy/ui/item/item_screen.dart';
+import 'package:pharmacy/model/item_model.dart';
+import 'package:pharmacy/ui/list/item_view_list.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 
 import '../../app_theme.dart';
@@ -22,12 +22,7 @@ class ItemListScreen extends StatefulWidget {
 class _ItemListScreenState extends State<ItemListScreen> {
   Size size;
 
-  final List<String> imgSale = [
-    'https://littleone.com/uploads/publication/6133/_840/5cf6754c5b7533.84660925.jpg',
-    'http://apteka999.uz/img_product/563.jpg',
-    'https://i0.wp.com/oldlekar.ru/wp-content/uploads/citramon.jpg',
-    'https://www.sandoz.ru/sites/www.sandoz.ru/files/linex-16-32-48_0.png'
-  ];
+  List<ItemModel> items = ItemModel.itemsModel;
 
   @override
   Widget build(BuildContext context) {
@@ -132,157 +127,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                 ),
                 Container(
                   height: size.height - 160,
-                  child: ListView.builder(
-                    shrinkWrap: false,
-                    scrollDirection: Axis.vertical,
-                    itemCount: imgSale.length * 20,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          print("object");
-                          Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              child: ItemScreen("Папаверин"),
-                            ),
-                          );
-                        },
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    padding: EdgeInsets.all(11),
-                                    height: 120,
-                                    width: 120,
-                                    child: Center(
-                                      child: CachedNetworkImage(
-                                        imageUrl: imgSale[index % 4],
-                                        placeholder: (context, url) =>
-                                            Icon(Icons.camera_alt),
-                                        errorWidget: (context, url, error) =>
-                                            Icon(Icons.error),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        SizedBox(
-                                          height: 7,
-                                        ),
-                                        Row(
-                                          children: <Widget>[
-                                            Expanded(
-                                              child: Text(
-                                                "Name\nName",
-                                                style: TextStyle(
-                                                  color: AppTheme.black_text,
-                                                  fontSize: 19,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                            IconButton(
-                                              icon: Icon(
-                                                Icons.favorite_border,
-                                                size: 24,
-                                              ),
-                                              onPressed: () {},
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 7),
-                                        Text(
-                                          "sds",
-                                          style: TextStyle(
-                                            color:
-                                                AppTheme.black_transparent_text,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        SizedBox(height: 7),
-                                        Row(
-                                          children: <Widget>[
-                                            Icon(
-                                              Icons.more_horiz,
-                                              color: Colors.green,
-                                              size: 36,
-                                            ),
-                                            SizedBox(width: 11),
-                                            Expanded(
-                                              child: Text(
-                                                "SSSSSS",
-                                                style: TextStyle(
-                                                  color: AppTheme
-                                                      .black_transparent_text,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        Container(
-                                          height: 56,
-                                          child: Row(
-                                            children: <Widget>[
-                                              Expanded(
-                                                child: Text(
-                                                  "125 000 so'm",
-                                                  style: TextStyle(
-                                                    color: AppTheme.black_text,
-                                                    fontSize: 19,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 75,
-                                                height: 36,
-                                                child: Material(
-                                                  child: MaterialButton(
-                                                    onPressed: () {},
-                                                    child: Icon(
-                                                      Icons.add_shopping_cart,
-                                                      color: AppTheme.white,
-                                                      size: 24,
-                                                    ),
-                                                  ),
-                                                  elevation: 5,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(7.0)),
-                                                  color: AppTheme.red_app_color,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              margin: EdgeInsets.only(left: 15, right: 15),
-                            ),
-                            Container(
-                              height: 1,
-                              color: Colors.black12,
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                  child: ItemViewList(items),
                 ),
               ],
             ),

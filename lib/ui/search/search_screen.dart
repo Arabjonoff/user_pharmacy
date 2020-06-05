@@ -17,53 +17,7 @@ class SearchScreen extends StatefulWidget {
   }
 }
 
-final List<ItemModel> items = [
-  ItemModel(
-    0,
-    'https://littleone.com/uploads/publication/6133/_840/5cf6754c5b7533.84660925.jpg',
-    'Aмиксин таблетки 125 мг 6 шт',
-    'Противовирусные',
-    'Описание препарата Амиксин®',
-    '125 000 so\'m',
-    0,
-  ),
-  ItemModel(
-    1,
-    'http://apteka999.uz/img_product/563.jpg',
-    'Aмиксин таблетки 125 мг 6 шт',
-    'Противовирусные',
-    'Описание препарата Амиксин®',
-    '125 000 so\'m',
-    0,
-  ),
-  ItemModel(
-    2,
-    'https://i0.wp.com/oldlekar.ru/wp-content/uploads/citramon.jpg',
-    'Aмиксин таблетки 125 мг 6 шт',
-    'Противовирусные',
-    'Описание препарата Амиксин®',
-    '125 000 so\'m',
-    0,
-  ),
-  ItemModel(
-    3,
-    'https://www.sandoz.ru/sites/www.sandoz.ru/files/linex-16-32-48_0.png',
-    'Aмиксин таблетки 125 мг 6 шт',
-    'Противовирусные',
-    'Описание препарата Амиксин®',
-    '125 000 so\'m',
-    0,
-  ),
-  ItemModel(
-    4,
-    'https://interchem.ua/uploads/drugs/andipa10.png',
-    'Aмиксин таблетки 125 мг 6 шт',
-    'Противовирусные',
-    'Описание препарата Амиксин®',
-    '125 000 so\'m',
-    0,
-  ),
-];
+final List<ItemModel> items = ItemModel.itemsModel;
 
 class _SearchScreenState extends State<SearchScreen> {
   Size size;
@@ -187,7 +141,6 @@ class _SearchScreenState extends State<SearchScreen> {
                             color: Colors.black45,
                           ),
                           onPressed: () {
-                            print("click");
                           },
                         ),
                 ],
