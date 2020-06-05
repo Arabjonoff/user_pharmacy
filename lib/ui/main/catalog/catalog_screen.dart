@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:pharmacy/ui/item/item_screen.dart';
+import 'package:pharmacy/model/category_model.dart';
+import 'package:pharmacy/ui/main/catalog/sub_catalog_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 
 import '../../../app_theme.dart';
@@ -16,11 +17,13 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   Size size;
+  List<CategoryModel> categoryModel = CategoryModel.categoryModel;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: AppTheme.background,
       body: Stack(
         children: <Widget>[
           Container(
@@ -43,36 +46,53 @@ class _CategoryScreenState extends State<CategoryScreen> {
             margin: EdgeInsets.only(top: 104),
             height: size.height - 104,
             child: ListView.builder(
+              itemCount: categoryModel.length,
               itemBuilder: (context, position) {
                 return GestureDetector(
                   onTap: () {
+//                    Navigator.push(
+//                      context,
+//                      PageTransition(
+//                        type: PageTransitionType.fade,
+//                        child: ItemScreen(position.toString()),
+//                      ),
+//                    );
                     Navigator.push(
                       context,
                       PageTransition(
                         type: PageTransitionType.fade,
-                        child: ItemScreen(position.toString()),
+                        child: SubCategoryScreen(
+                          categoryModel[position].name,
+                          categoryModel[position].subCategory,
+                        ),
                       ),
                     );
                   },
                   child: Column(
                     children: <Widget>[
                       Container(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                position.toString(),
+                        color: AppTheme.white,
+                        child: Container(
+                          height: 48,
+                          margin: EdgeInsets.only(left: 15, right: 15),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Text(
+                                  categoryModel[position].name,
+                                  style: TextStyle(
+                                      color: AppTheme.dark_grey,
+                                      fontWeight: FontWeight.w600),
+                                ),
                               ),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: AppTheme.red_app_color,
-                            )
-                          ],
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: AppTheme.red_app_color,
+                              )
+                            ],
+                          ),
                         ),
-                        height: 48,
-                        margin: EdgeInsets.only(left: 15, right: 15),
                       ),
                       Container(
                         height: 1,

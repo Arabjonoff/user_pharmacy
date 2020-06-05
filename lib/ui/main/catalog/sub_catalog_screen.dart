@@ -2,22 +2,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/model/category_model.dart';
+import 'package:pharmacy/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 
 import '../../../app_theme.dart';
 
-class SubCatalogScreen extends StatefulWidget {
+class SubCategoryScreen extends StatefulWidget {
   String name;
+  List<SubCategoryModel> list;
 
-  SubCatalogScreen(this.name);
+  SubCategoryScreen(this.name, this.list);
 
   @override
   State<StatefulWidget> createState() {
-    return _SubCatalogScreenState();
+    return _SubCategoryScreenState();
   }
 }
 
-class _SubCatalogScreenState extends State<SubCatalogScreen> {
+class _SubCategoryScreenState extends State<SubCategoryScreen> {
   Size size;
 
   @override
@@ -60,29 +63,45 @@ class _SubCatalogScreenState extends State<SubCatalogScreen> {
             margin: EdgeInsets.only(top: 104),
             height: size.height - 104,
             child: ListView.builder(
-              itemCount: 3,
+              itemCount: widget.list.length,
               itemBuilder: (context, position) {
                 return GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.fade,
+                        child: ItemListScreen(
+                          widget.list[position].name,
+                        ),
+                      ),
+                    );
+                  },
                   child: Column(
                     children: <Widget>[
                       Container(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                position.toString(),
+                        color: AppTheme.white,
+                        child: Container(
+                          height: 48,
+                          margin: EdgeInsets.only(left: 15, right: 15),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Text(
+                                  widget.list[position].name,
+                                  style: TextStyle(
+                                      color: AppTheme.dark_grey,
+                                      fontWeight: FontWeight.w600),
+                                ),
                               ),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: AppTheme.red_app_color,
-                            )
-                          ],
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: AppTheme.red_app_color,
+                              )
+                            ],
+                          ),
                         ),
-                        height: 48,
-                        margin: EdgeInsets.only(left: 15, right: 15),
                       ),
                       Container(
                         height: 1,
