@@ -3,23 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/ui/item/item_screen.dart';
-import 'file:///D:/Flutter/ishxona/user_pharmacy/lib/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 
 import '../../../app_theme.dart';
 
-class CatalogScreen extends StatefulWidget {
-  String name;
-
-  CatalogScreen(this.name);
-
+class CategoryScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _CatalogScreenState();
+    return _CategoryScreenState();
   }
 }
 
-class _CatalogScreenState extends State<CatalogScreen> {
+class _CategoryScreenState extends State<CategoryScreen> {
   Size size;
 
   @override
@@ -38,7 +33,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  widget.name,
+                  translate("main.catalog"),
                   style: TextStyle(color: Colors.white, fontSize: 21),
                 ),
               ),

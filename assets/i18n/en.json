@@ -1,4 +1,14 @@
 {
+  "welcome": {
+    "skip": "Skip",
+    "one_title": "one title",
+    "one_content": "one content",
+    "two_title": "two title",
+    "two_content": "two content",
+    "three_title": "three title",
+    "three_content": "three content",
+    "login": "Login"
+  },
   "main": {
     "home": "Home",
     "catalog": "Catalog",
@@ -6,7 +16,6 @@
     "favourite": "Favourite",
     "menu": "Menu"
   },
-  "search_hint": "Search",
   "home": {
     "question": "Are you have questions?",
     "message": "Message",
@@ -38,5 +47,9 @@
     "faq": "FAQ",
     "ques_answ": "Question and answer"
   },
+  "card": {
+    "name": "Корзина"
+  },
+  "search_hint": "Search",
   "info": "Папавери́н — опиумный алкалоид, производное изохинолина, лекарственное средство спазмолитического и гипотензивного действия. Выделен из опия и исследован в 1848 году Георгом Мерком. Г. Мерк был сыном Эммануила Мерка, основателя компании Merck Corp., крупнейшей немецкой химической и фармацевтической компании."
 }

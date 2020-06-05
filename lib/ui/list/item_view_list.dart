@@ -30,36 +30,49 @@ class _ItemViewListState extends State<ItemViewList> {
   void initState() {
     dbStar.getAllProducts().then((products) {
       setState(() {
-        products.forEach((products) {
-          itemStar.add(ItemModel.fromMap(products));
-        });
+        for (var i = 0; i < widget.item.length; i++) {
+          for (var j = 0; j < products.length; j++) {
+            if (widget.item[i].id == products[j].id) {
+              widget.item[i].favourite = true;
+            }
+          }
+        }
+//        products.forEach((products) {
+//          itemStar.add(ItemModel.fromMap(products));
+//        });
       });
     });
     dbCard.getAllProducts().then((products) {
       setState(() {
-        products.forEach((i) {
-          itemCard.add(ItemModel.fromMap(i));
-        });
+        for (var i = 0; i < widget.item.length; i++) {
+          for (var j = 0; j < products.length; j++) {
+            if (widget.item[i].id == products[j].id) {
+              widget.item[i].cardCount = products[j].cardCount;
+            }
+          }
+        }
       });
     });
+
+//    for (var i = 0; i < widget.item.length; i++) {
+//      for (var j = 0; j < itemStar.length; j++) {
+//        if (widget.item[i].id == itemStar[j].id) {
+//          widget.item[i].favourite = true;
+//        }
+//      }
+//      for (var j = 0; j < itemCard.length; j++) {
+//        if (widget.item[i].id == itemCard[j].id) {
+//          widget.item[i].cardCount = itemCard[j].cardCount;
+//        }
+//      }
+//      print(itemCard.length.toString());
+//    }
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
-    for (var i = 0; i < widget.item.length; i++) {
-      for (var j = 0; j < itemStar.length; j++) {
-        if (widget.item[i].id == itemStar[j].id) {
-          widget.item[i].favourite = true;
-        }
-      }
-      for (var j = 0; j < itemCard.length; j++) {
-        if (widget.item[i].id == itemCard[j].id) {
-          widget.item[i].cardCount = itemCard[j].cardCount;
-        }
-      }
-    }
-
     return Scaffold(
       body: ListView.builder(
         shrinkWrap: false,

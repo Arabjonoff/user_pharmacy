@@ -125,9 +125,9 @@ class _MainScreenState extends State<MainScreen> {
       '/': (context) {
         return [
           HomeScreen(),
-          CatalogScreen(translate("main.catalog")),
-          CardScreen(),
-          FavoritesScreen(),
+          CategoryScreen(),
+          new CardScreen(),
+          new FavoritesScreen(),
           MenuScreen(),
         ].elementAt(index);
       },
