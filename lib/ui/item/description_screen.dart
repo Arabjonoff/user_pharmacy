@@ -5,9 +5,10 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/app_theme.dart';
 
 class DescriptionScreen extends StatefulWidget {
-
   int id;
-  DescriptionScreen(this.id);
+  String image;
+
+  DescriptionScreen(this.id, this.image);
 
   @override
   State<StatefulWidget> createState() {
@@ -44,7 +45,6 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(scroll);
     return Scaffold(
       backgroundColor: AppTheme.white,
       body: Stack(
@@ -59,8 +59,7 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
                   children: <Widget>[
                     Center(
                       child: CachedNetworkImage(
-                        imageUrl:
-                            'https://interchem.ua/uploads/drugs/andipa10.png',
+                        imageUrl: widget.image,
                         placeholder: (context, url) => Icon(Icons.camera_alt),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                         fit: BoxFit.fitHeight,

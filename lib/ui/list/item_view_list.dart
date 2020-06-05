@@ -5,6 +5,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper_card.dart';
 import 'package:pharmacy/database/database_helper_star.dart';
 import 'package:pharmacy/model/item_model.dart';
+import 'package:pharmacy/ui/item/description_screen.dart';
 import 'package:pharmacy/ui/item/item_screen.dart';
 
 import '../../app_theme.dart';
@@ -68,15 +69,17 @@ class _ItemViewListState extends State<ItemViewList> {
       scrollDirection: Axis.vertical,
       itemCount: widget.item.length,
       itemBuilder: (context, index) {
-        return GestureDetector(
+        return InkWell(
           onTap: () {
             Navigator.push(
               context,
               PageTransition(
                 type: PageTransitionType.fade,
+                alignment: Alignment.bottomCenter,
                 child: ItemScreen(
                   widget.item[index].id,
                   widget.item[index].name,
+                  widget.item[index].image,
                 ),
               ),
             );

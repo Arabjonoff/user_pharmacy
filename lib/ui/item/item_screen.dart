@@ -7,8 +7,11 @@ import 'package:pharmacy/ui/item/description_screen.dart';
 class ItemScreen extends StatefulWidget {
   int id;
   String name;
+  String image;
 
-  ItemScreen(this.id, this.name);
+
+  ItemScreen(this.id, this.name, this.image);
+
 
   @override
   State<StatefulWidget> createState() {
@@ -78,8 +81,8 @@ class _ItemScreenState extends State<ItemScreen> {
           ),
         ),
         body: TabBarView(children: [
-          DescriptionScreen(widget.id),
-          DescriptionScreen(widget.id),
+          DescriptionScreen(widget.id,widget.image),
+          DescriptionScreen(widget.id,widget.image),
         ]),
       ),
     );
