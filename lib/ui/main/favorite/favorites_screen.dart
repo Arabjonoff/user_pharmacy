@@ -4,6 +4,7 @@ import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/database/database_helper_star.dart';
 import 'package:pharmacy/model/item_model.dart';
 import 'package:pharmacy/ui/list/item_view_list.dart';
+import 'package:pharmacy/ui/main/favorite/favorite_empty_screen.dart';
 
 import '../../../app_theme.dart';
 
@@ -37,7 +38,24 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       body: new FutureBuilder<List<ItemModel>>(
         future: dbStar.getProdu(),
         builder: (context, snapshot) {
-          return ItemViewList(snapshot.data);
+          List<ItemModel> data = snapshot.data;
+          if (data == null) {
+            return Container(
+              height: size.height - 80,
+              width: size.width,
+              child: Center(
+                child: Text("error"),
+              ),
+            );
+          } else {
+            return data.length == 0
+                ? FavoriteEmptyScreen()
+                : Container(
+                    height: size.height - 80,
+                    width: size.width,
+                    child: ItemViewList(snapshot.data),
+                  );
+          }
         },
       ),
     );

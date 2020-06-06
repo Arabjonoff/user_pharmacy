@@ -4,6 +4,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/database/database_helper_card.dart';
 import 'package:pharmacy/model/item_model.dart';
 import 'package:pharmacy/ui/list/item_view_list.dart';
+import 'package:pharmacy/ui/main/card/card_empty_screen.dart';
 
 import '../../../app_theme.dart';
 
@@ -15,7 +16,6 @@ class CardScreen extends StatefulWidget {
 }
 
 class _CardScreenState extends State<CardScreen> {
-
   Size size;
 
   DatabaseHelperCard dbCard = new DatabaseHelperCard();
@@ -38,7 +38,24 @@ class _CardScreenState extends State<CardScreen> {
       body: new FutureBuilder<List<ItemModel>>(
         future: dbCard.getProdu(),
         builder: (context, snapshot) {
-          return ItemViewList(snapshot.data);
+          List<ItemModel> data = snapshot.data;
+          if (data == null) {
+            return Container(
+              height: size.height - 80,
+              width: size.width,
+              child: Center(
+                child: Text("error"),
+              ),
+            );
+          } else {
+            return data.length == 0
+                ? CardEmptyScreen()
+                : Container(
+                    height: size.height - 80,
+                    width: size.width,
+                    child: ItemViewList(snapshot.data),
+                  );
+          }
         },
       ),
     );

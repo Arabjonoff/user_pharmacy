@@ -5,7 +5,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper_card.dart';
 import 'package:pharmacy/database/database_helper_star.dart';
 import 'package:pharmacy/model/item_model.dart';
-import 'package:pharmacy/ui/item/description_screen.dart';
 import 'package:pharmacy/ui/item/item_screen.dart';
 
 import '../../app_theme.dart';
@@ -31,7 +30,6 @@ class _ItemViewListState extends State<ItemViewList> {
   void initState() {
     dbStar.getAllProducts().then((products) {
       setState(() {
-        print(products.length);
         products.forEach((products) {
           itemStar.add(ItemModel.fromMap(products));
         });
