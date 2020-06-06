@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:pharmacy/database/database_helper_card.dart';
+import 'package:pharmacy/database/database_helper_star.dart';
 import 'package:pharmacy/model/item_model.dart';
-import 'package:pharmacy/ui/list/item_view_list.dart';
+import 'package:pharmacy/ui/view/item_view.dart';
 
 import '../../app_theme.dart';
 
@@ -24,9 +26,43 @@ class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchController = TextEditingController();
   bool isSearchText = false;
 
+  List<ItemModel> itemStar = new List();
+  List<ItemModel> itemCard = new List();
+  DatabaseHelperCard dbCard = new DatabaseHelperCard();
+  DatabaseHelperStar dbStar = new DatabaseHelperStar();
+
   @override
   void initState() {
     searchController.text = widget.name;
+    dbStar.getAllProducts().then((products) {
+      setState(() {
+        products.forEach((products) {
+          itemStar.add(ItemModel.fromMap(products));
+        });
+        for (var i = 0; i < items.length; i++) {
+          for (var j = 0; j < itemStar.length; j++) {
+            if (items[i].id == itemStar[j].id) {
+              items[i].favourite = true;
+            }
+          }
+        }
+      });
+    });
+
+    dbCard.getAllProducts().then((products) {
+      setState(() {
+        products.forEach((products) {
+          itemCard.add(ItemModel.fromMap(products));
+        });
+        for (var i = 0; i < items.length; i++) {
+          for (var j = 0; j < itemCard.length; j++) {
+            if (items[i].id == itemCard[j].id) {
+              items[i].cardCount = itemCard[j].cardCount;
+            }
+          }
+        }
+      });
+    });
     super.initState();
   }
 
@@ -41,7 +77,6 @@ class _SearchScreenState extends State<SearchScreen> {
           isSearchText = false;
         });
       }
-      print(searchController.text);
     });
   }
 
@@ -83,8 +118,18 @@ class _SearchScreenState extends State<SearchScreen> {
           Container(
             margin: EdgeInsets.only(top: 104),
             height: size.height - 104,
-            child: ItemViewList(items),
+            width: size.width,
+            child: ListView.builder(
+              physics: BouncingScrollPhysics(),
+              shrinkWrap: false,
+              scrollDirection: Axis.vertical,
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                return ItemView(items[index]);
+              },
+            ),
           ),
+
           Container(
             margin: EdgeInsets.only(top: 80, left: 15, right: 15, bottom: 15),
             height: 48,
@@ -140,8 +185,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             size: 24,
                             color: Colors.black45,
                           ),
-                          onPressed: () {
-                          },
+                          onPressed: () {},
                         ),
                 ],
               ),

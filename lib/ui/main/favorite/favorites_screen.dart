@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/database/database_helper_star.dart';
 import 'package:pharmacy/model/item_model.dart';
-import 'package:pharmacy/ui/list/item_view_list.dart';
 import 'package:pharmacy/ui/main/favorite/favorite_empty_screen.dart';
+import 'package:pharmacy/ui/view/item_view.dart';
 
 import '../../../app_theme.dart';
 
@@ -48,12 +48,26 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               ),
             );
           } else {
+
+            for (var i = 0; i < data.length; i++) {
+
+                  data[i].favourite = true;
+            }
+
             return data.length == 0
                 ? FavoriteEmptyScreen()
                 : Container(
                     height: size.height - 80,
                     width: size.width,
-                    child: ItemViewList(snapshot.data),
+                    child: ListView.builder(
+                      shrinkWrap: false,
+                      scrollDirection: Axis.vertical,
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        return ItemView(data[index]);
+                      },
+                    ),
+                    //  child: ItemView(snapshot.data),
                   );
           }
         },

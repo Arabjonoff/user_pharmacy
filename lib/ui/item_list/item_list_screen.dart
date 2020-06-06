@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/database/database_helper_card.dart';
+import 'package:pharmacy/database/database_helper_star.dart';
 import 'package:pharmacy/model/item_model.dart';
-import 'package:pharmacy/ui/list/item_view_list.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
+import 'package:pharmacy/ui/view/item_view.dart';
 
 import '../../app_theme.dart';
 
@@ -23,6 +25,45 @@ class _ItemListScreenState extends State<ItemListScreen> {
   Size size;
 
   List<ItemModel> items = ItemModel.itemsModel;
+
+  List<ItemModel> itemStar = new List();
+  List<ItemModel> itemCard = new List();
+  DatabaseHelperCard dbCard = new DatabaseHelperCard();
+  DatabaseHelperStar dbStar = new DatabaseHelperStar();
+
+  @override
+  void initState() {
+    dbStar.getAllProducts().then((products) {
+      setState(() {
+        products.forEach((products) {
+          itemStar.add(ItemModel.fromMap(products));
+        });
+        for (var i = 0; i < items.length; i++) {
+          for (var j = 0; j < itemStar.length; j++) {
+            if (items[i].id == itemStar[j].id) {
+              items[i].favourite = true;
+            }
+          }
+        }
+      });
+    });
+
+    dbCard.getAllProducts().then((products) {
+      setState(() {
+        products.forEach((products) {
+          itemCard.add(ItemModel.fromMap(products));
+        });
+        for (var i = 0; i < items.length; i++) {
+          for (var j = 0; j < itemCard.length; j++) {
+            if (items[i].id == itemCard[j].id) {
+              items[i].cardCount = itemCard[j].cardCount;
+            }
+          }
+        }
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +168,16 @@ class _ItemListScreenState extends State<ItemListScreen> {
                 ),
                 Container(
                   height: size.height - 160,
-                  child: ItemViewList(items),
+                  width: size.width,
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: false,
+                    scrollDirection: Axis.vertical,
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      return ItemView(items[index]);
+                    },
+                  ),
                 ),
               ],
             ),
