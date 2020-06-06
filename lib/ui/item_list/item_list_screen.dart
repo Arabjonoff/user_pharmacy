@@ -9,6 +9,7 @@ import 'package:pharmacy/ui/view/item_view.dart';
 
 import '../../app_theme.dart';
 
+// ignore: must_be_immutable
 class ItemListScreen extends StatefulWidget {
   String name;
 
@@ -190,6 +191,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                         size: 24,
                         color: AppTheme.red_app_color,
                       ),
+                      onPressed: (){},
                     ),
                     Expanded(
                       child: Text(

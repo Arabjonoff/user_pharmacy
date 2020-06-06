@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/app_theme.dart';
 
+import '../main_screen.dart';
+
 class WelcomePage extends StatefulWidget {
   @override
   _WelcomePageState createState() => _WelcomePageState();
@@ -36,13 +38,21 @@ class _WelcomePageState extends State<WelcomePage> {
         actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 20, top: 20),
-            child: Text(
-              translate("welcome.skip"),
-              style: TextStyle(
-                color: AppTheme.grey,
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
+            child: GestureDetector(
+              child: Text(
+                translate("welcome.skip"),
+                style: TextStyle(
+                  color: AppTheme.grey,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
+              onTap: () {
+                Navigator.of(context).pushReplacement(
+                    new MaterialPageRoute(builder: (BuildContext context) {
+                  return MainScreen();
+                }));
+              },
             ),
           )
         ],
@@ -98,7 +108,13 @@ class _WelcomePageState extends State<WelcomePage> {
                       child: Text(
                         translate("welcome.login"),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(
+                            new MaterialPageRoute(
+                                builder: (BuildContext context) {
+                          return MainScreen();
+                        }));
+                      },
                     ),
                   ),
                 ),

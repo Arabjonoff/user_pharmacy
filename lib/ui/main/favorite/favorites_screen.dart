@@ -27,11 +27,17 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppTheme.red_app_color,
-        title: Text(
-          translate("star.name"),
-          textAlign: TextAlign.start,
-          style: TextStyle(
-            color: Colors.white,
+        title: Container(
+          width: size.width,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              translate("star.name"),
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
           ),
         ),
       ),

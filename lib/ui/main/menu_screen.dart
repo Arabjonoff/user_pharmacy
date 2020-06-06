@@ -26,19 +26,22 @@ class _MenuScreenState extends State<MenuScreen> {
             width: size.width,
             color: AppTheme.red_app_color,
             child: Container(
-              margin: EdgeInsets.only(top: 24, left: 15, bottom: 24),
+              margin: EdgeInsets.only(top: 24, left: 15),
               width: size.width,
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   translate("main.menu"),
-                  style: TextStyle(color: Colors.white, fontSize: 21),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 21,
+                  ),
                 ),
               ),
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 80),
+            margin: EdgeInsets.only(top: 56),
             child: ListView(
               children: <Widget>[
                 GestureDetector(
@@ -302,7 +305,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 25,right: 25),
+                  margin: EdgeInsets.only(left: 25, right: 25),
                   child: Row(
                     children: <Widget>[
                       Expanded(
@@ -316,8 +319,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                   Image.asset("assets/images/circle_green.png"),
                                   Container(
                                     padding: EdgeInsets.all(25),
-                                    child:
-                                    Image.asset("assets/images/chatting.png"),
+                                    child: Image.asset(
+                                        "assets/images/chatting.png"),
                                   ),
                                 ],
                               ),
@@ -360,8 +363,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                   Image.asset("assets/images/circle_green.png"),
                                   Container(
                                     padding: EdgeInsets.all(25),
-                                    child:
-                                    Image.asset("assets/images/phone_green.png"),
+                                    child: Image.asset(
+                                        "assets/images/phone_green.png"),
                                   ),
                                 ],
                               ),
@@ -404,8 +407,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                   Image.asset("assets/images/circle_green.png"),
                                   Container(
                                     padding: EdgeInsets.all(25),
-                                    child:
-                                    Image.asset("assets/images/question_green.png"),
+                                    child: Image.asset(
+                                        "assets/images/question_green.png"),
                                   ),
                                 ],
                               ),

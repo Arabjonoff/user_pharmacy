@@ -530,6 +530,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         size: 24,
                         color: AppTheme.red_app_color,
                       ),
+                      onPressed: () {},
                     ),
                     Expanded(
                       child: Text(

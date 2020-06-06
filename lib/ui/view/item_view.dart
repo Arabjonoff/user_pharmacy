@@ -8,6 +8,7 @@ import 'package:pharmacy/ui/item/item_screen.dart';
 
 import '../../app_theme.dart';
 
+// ignore: must_be_immutable
 class ItemView extends StatefulWidget {
   ItemModel item;
 

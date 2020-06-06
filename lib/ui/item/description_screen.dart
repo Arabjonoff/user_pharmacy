@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/app_theme.dart';
 
+// ignore: must_be_immutable
 class DescriptionScreen extends StatefulWidget {
   int id;
   String image;

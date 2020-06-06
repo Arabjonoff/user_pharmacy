@@ -8,6 +8,7 @@ import 'package:pharmacy/ui/search/search_screen.dart';
 
 import '../../../app_theme.dart';
 
+// ignore: must_be_immutable
 class SubCategoryScreen extends StatefulWidget {
   String name;
   List<SubCategoryModel> list;
@@ -138,6 +139,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                         size: 24,
                         color: AppTheme.red_app_color,
                       ),
+                      onPressed: (){},
                     ),
                     Expanded(
                       child: Text(

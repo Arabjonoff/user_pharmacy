@@ -7,6 +7,7 @@ import 'package:flutter_translate/localization_delegate.dart';
 import 'package:flutter_translate/localization_provider.dart';
 import 'package:flutter_translate/localized_app.dart';
 import 'package:pharmacy/ui/main_screen.dart';
+import 'package:pharmacy/ui/welcome/welcome_screen.dart';
 
 import 'app_theme.dart';
 
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: MainScreen(),
+        home: WelcomePage(),
       ),
     );
   }

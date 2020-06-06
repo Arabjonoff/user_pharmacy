@@ -7,6 +7,7 @@ import 'package:pharmacy/ui/view/item_view.dart';
 
 import '../../app_theme.dart';
 
+// ignore: must_be_immutable
 class SearchScreen extends StatefulWidget {
   String name;
 

@@ -4,6 +4,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/app_theme.dart';
 import 'package:pharmacy/ui/item/description_screen.dart';
 
+// ignore: must_be_immutable
 class ItemScreen extends StatefulWidget {
   int id;
   String name;

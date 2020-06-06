@@ -23,40 +23,38 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: AppTheme.red_app_color,
+        title: Container(
+          width: size.width,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              translate("main.catalog"),
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ),
       backgroundColor: AppTheme.background,
       body: Stack(
         children: <Widget>[
           Container(
-            height: 104,
+            height: 24,
             width: size.width,
             color: AppTheme.red_app_color,
-            child: Container(
-              margin: EdgeInsets.only(top: 24, left: 15, bottom: 24),
-              width: size.width,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  translate("main.catalog"),
-                  style: TextStyle(color: Colors.white, fontSize: 21),
-                ),
-              ),
-            ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 104),
-            height: size.height - 104,
+            margin: EdgeInsets.only(top: 24),
             child: ListView.builder(
               itemCount: categoryModel.length,
               itemBuilder: (context, position) {
                 return GestureDetector(
                   onTap: () {
-//                    Navigator.push(
-//                      context,
-//                      PageTransition(
-//                        type: PageTransitionType.fade,
-//                        child: ItemScreen(position.toString()),
-//                      ),
-//                    );
                     Navigator.push(
                       context,
                       PageTransition(
@@ -105,7 +103,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 80, left: 15, right: 15, bottom: 15),
+            margin: EdgeInsets.only(left: 15, right: 15, bottom: 15),
             height: 48,
             width: double.infinity,
             child: Material(
@@ -129,6 +127,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         size: 24,
                         color: AppTheme.red_app_color,
                       ),
+                      onPressed: () {},
                     ),
                     Expanded(
                       child: Text(

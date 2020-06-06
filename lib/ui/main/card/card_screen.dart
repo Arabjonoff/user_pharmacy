@@ -29,11 +29,17 @@ class _CardScreenState extends State<CardScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppTheme.red_app_color,
-        title: Text(
-          translate("card.name"),
-          textAlign: TextAlign.start,
-          style: TextStyle(
-            color: Colors.white,
+        title: Container(
+          width: size.width,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              translate("card.name"),
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
           ),
         ),
       ),
