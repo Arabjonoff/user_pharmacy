@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
-import 'package:pharmacy/database/database_helper_card.dart';
-import 'package:pharmacy/database/database_helper_star.dart';
+import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/item_model.dart';
 import 'package:pharmacy/ui/view/item_view.dart';
 
@@ -26,30 +25,16 @@ class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchController = TextEditingController();
   bool isSearchText = false;
 
-  List<ItemModel> itemStar = new List();
   List<ItemModel> itemCard = new List();
-  DatabaseHelperCard dbCard = new DatabaseHelperCard();
-  DatabaseHelperStar dbStar = new DatabaseHelperStar();
+  DatabaseHelper dataBase = new DatabaseHelper();
+
 
   @override
   void initState() {
     searchController.text = widget.name;
-    dbStar.getAllProducts().then((products) {
-      setState(() {
-        products.forEach((products) {
-          itemStar.add(ItemModel.fromMap(products));
-        });
-        for (var i = 0; i < items.length; i++) {
-          for (var j = 0; j < itemStar.length; j++) {
-            if (items[i].id == itemStar[j].id) {
-              items[i].favourite = true;
-            }
-          }
-        }
-      });
-    });
 
-    dbCard.getAllProducts().then((products) {
+
+    dataBase.getAllProducts().then((products) {
       setState(() {
         products.forEach((products) {
           itemCard.add(ItemModel.fromMap(products));
@@ -58,6 +43,7 @@ class _SearchScreenState extends State<SearchScreen> {
           for (var j = 0; j < itemCard.length; j++) {
             if (items[i].id == itemCard[j].id) {
               items[i].cardCount = itemCard[j].cardCount;
+              items[i].favourite = itemCard[j].favourite;
             }
           }
         }
@@ -129,7 +115,6 @@ class _SearchScreenState extends State<SearchScreen> {
               },
             ),
           ),
-
           Container(
             margin: EdgeInsets.only(top: 80, left: 15, right: 15, bottom: 15),
             height: 48,

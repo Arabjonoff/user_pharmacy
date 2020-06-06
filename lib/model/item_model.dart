@@ -1,16 +1,15 @@
 class ItemModel {
   int id;
-  String image;
   String name;
+  String image;
   String title;
   String about;
   String price;
   bool favourite = false;
+  int cardCount = 0;
 
   ItemModel(this.id, this.name, this.image, this.title, this.about, this.price,
-      this.cardCount);
-
-  int cardCount = 0;
+      this.favourite, this.cardCount);
 
   int get getId => id;
 
@@ -35,6 +34,7 @@ class ItemModel {
     this.title = obj["title"];
     this.about = obj["about"];
     this.price = obj["price"];
+    this.favourite = obj["favourite"];
     this.cardCount = obj["cardCount"];
   }
 
@@ -46,6 +46,7 @@ class ItemModel {
     map["title"] = title;
     map["about"] = about;
     map["price"] = price;
+    map["favourite"] = favourite ? 1 : 0;
     map["cardCount"] = cardCount;
     return map;
   }
@@ -57,6 +58,7 @@ class ItemModel {
     this.title = map["title"];
     this.about = map["about"];
     this.price = map["price"];
+    this.favourite = map["favourite"] == 1 ? true : false;
     this.cardCount = map["cardCount"];
   }
 
@@ -68,6 +70,7 @@ class ItemModel {
       'Противовирусные',
       'Описание препарата Амиксин®',
       '67 000 so\'m',
+      false,
       0,
     ),
     ItemModel(
@@ -77,6 +80,7 @@ class ItemModel {
       'Противовирусные',
       'Описание препарата папаверин',
       '27 100 so\'m',
+      false,
       0,
     ),
     ItemModel(
@@ -86,6 +90,7 @@ class ItemModel {
       'Активные вещества',
       'Описание препарата Цитрамон',
       '5 500 so\'m',
+      false,
       0,
     ),
     ItemModel(
@@ -95,6 +100,7 @@ class ItemModel {
       'Лактобактерии ацидофильные',
       'Lek d.d.',
       '45 000 so\'m',
+      false,
       0,
     ),
     ItemModel(
@@ -104,6 +110,7 @@ class ItemModel {
       'Метамизола натрия моногидрат',
       'Папаверина гидрохлорид',
       '125 000 so\'m',
+      false,
       0,
     ),
   ];

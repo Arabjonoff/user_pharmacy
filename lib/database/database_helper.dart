@@ -4,10 +4,10 @@ import 'package:path/path.dart';
 import 'package:pharmacy/model/item_model.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseHelperCard {
-  static final DatabaseHelperCard _instance = new DatabaseHelperCard.internal();
+class DatabaseHelper {
+  static final DatabaseHelper _instance = new DatabaseHelper.internal();
 
-  factory DatabaseHelperCard() => _instance;
+  factory DatabaseHelper() => _instance;
 
   final String tableNote = 'cardTable';
   final String columnId = 'id';
@@ -16,11 +16,12 @@ class DatabaseHelperCard {
   final String columnTitle = 'title';
   final String columnAbout = 'about';
   final String columnPrice = 'price';
+  final String columnFav = 'favourite';
   final String columnCount = 'cardCount';
 
   static Database _db;
 
-  DatabaseHelperCard.internal();
+  DatabaseHelper.internal();
 
   Future<Database> get db async {
     if (_db != null) {
@@ -46,6 +47,7 @@ class DatabaseHelperCard {
         '$columnTitle TEXT, '
         '$columnAbout TEXT, '
         '$columnPrice TEXT, '
+        '$columnFav INTEGER, '
         '$columnCount INTEGER)');
   }
 
@@ -64,13 +66,14 @@ class DatabaseHelperCard {
       columnTitle,
       columnAbout,
       columnPrice,
+      columnFav,
       columnCount,
     ]);
 
     return result.toList();
   }
 
-  Future<List<ItemModel>> getProdu() async {
+  Future<List<ItemModel>> getProdu(bool card) async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM $tableNote');
     List<ItemModel> products = new List();
@@ -82,9 +85,18 @@ class DatabaseHelperCard {
         list[i][columnTitle],
         list[i][columnAbout],
         list[i][columnPrice],
+        list[i][columnFav] == 1 ? true : false,
         list[i][columnCount],
       );
-      products.add(user);
+      if (card) {
+        if (user.cardCount > 0) {
+          products.add(user);
+        }
+      } else {
+        if (user.favourite) {
+          products.add(user);
+        }
+      }
     }
     return products;
   }
@@ -105,6 +117,7 @@ class DatabaseHelperCard {
           columnTitle,
           columnAbout,
           columnPrice,
+          columnFav,
           columnCount,
         ],
         where: '$columnId = ?',

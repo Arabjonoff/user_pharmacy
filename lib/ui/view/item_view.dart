@@ -2,8 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:pharmacy/database/database_helper_card.dart';
-import 'package:pharmacy/database/database_helper_star.dart';
+import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/item_model.dart';
 import 'package:pharmacy/ui/item/item_screen.dart';
 
@@ -21,9 +20,7 @@ class ItemView extends StatefulWidget {
 }
 
 class _ItemViewState extends State<ItemView> {
-  DatabaseHelperCard dbCard = new DatabaseHelperCard();
-  DatabaseHelperStar dbStar = new DatabaseHelperStar();
-
+  DatabaseHelper dataBase = new DatabaseHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +53,8 @@ class _ItemViewState extends State<ItemView> {
                     child: Center(
                       child: CachedNetworkImage(
                         imageUrl: widget.item.image,
-                        placeholder: (context, url) =>
-                            Icon(Icons.camera_alt),
-                        errorWidget: (context, url, error) =>
-                            Icon(Icons.error),
+                        placeholder: (context, url) => Icon(Icons.camera_alt),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -87,24 +82,31 @@ class _ItemViewState extends State<ItemView> {
                             IconButton(
                               icon: widget.item.favourite
                                   ? Icon(
-                                Icons.favorite,
-                                size: 24,
-                                color: AppTheme.red_app_color,
-                              )
+                                      Icons.favorite,
+                                      size: 24,
+                                      color: AppTheme.red_app_color,
+                                    )
                                   : Icon(
-                                Icons.favorite_border,
-                                size: 24,
-                                color: AppTheme.dark_grey,
-                              ),
+                                      Icons.favorite_border,
+                                      size: 24,
+                                      color: AppTheme.dark_grey,
+                                    ),
                               onPressed: () {
                                 setState(() {
                                   if (widget.item.favourite) {
-                                    dbStar.deleteProducts(
-                                        widget.item.id);
                                     widget.item.favourite = false;
+                                    if (widget.item.cardCount == 0) {
+                                      dataBase.deleteProducts(widget.item.id);
+                                    } else {
+                                      dataBase.updateProduct(widget.item);
+                                    }
                                   } else {
-                                    dbStar.saveProducts(widget.item);
                                     widget.item.favourite = true;
+                                    if (widget.item.cardCount == 0) {
+                                      dataBase.saveProducts(widget.item);
+                                    } else {
+                                      dataBase.updateProduct(widget.item);
+                                    }
                                   }
                                 });
                               },
@@ -159,119 +161,118 @@ class _ItemViewState extends State<ItemView> {
                                 height: 40,
                                 child: widget.item.cardCount > 0
                                     ? SizedBox(
-                                  height: 40,
-                                  child: Row(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        width: 40,
                                         height: 40,
-                                        child: IconButton(
-                                          icon: Icon(
-                                            Icons.remove_circle,
-                                            color: Color.fromRGBO(
-                                                203, 203, 203, 1.0),
-                                          ),
-                                          onPressed: () {
-                                            if (widget.item
-                                                .cardCount >
-                                                1) {
-                                              setState(() {
-                                                widget.item
-                                                    .cardCount = widget
-                                                    .item
-                                                    .cardCount -
-                                                    1;
-                                                dbCard.updateProduct(
-                                                    widget
-                                                        .item);
-                                              });
-                                            } else if (widget
-                                                .item
-                                                .cardCount ==
-                                                1) {
-                                              setState(() {
-                                                widget.item
-                                                    .cardCount = widget
-                                                    .item
-                                                    .cardCount -
-                                                    1;
-                                                dbCard.deleteProducts(
-                                                    widget.item
-                                                        .id);
-                                              });
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 30,
-                                        width: 60,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                          new BorderRadius.all(
-                                            Radius.circular(10.0),
-                                          ),
-                                          border: Border.all(
-                                            color: Color.fromRGBO(
-                                                203, 203, 203, 1.0),
-                                          ),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            widget
-                                                .item.cardCount
-                                                .toString(),
-                                            textAlign:
-                                            TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 20.0,
-                                              color: Colors.black,
+                                        child: Row(
+                                          children: <Widget>[
+                                            SizedBox(
+                                              width: 40,
+                                              height: 40,
+                                              child: IconButton(
+                                                icon: Icon(
+                                                  Icons.remove_circle,
+                                                  color: Color.fromRGBO(
+                                                      203, 203, 203, 1.0),
+                                                ),
+                                                onPressed: () {
+                                                  if (widget.item.cardCount >
+                                                      1) {
+                                                    setState(() {
+                                                      widget.item.cardCount =
+                                                          widget.item
+                                                                  .cardCount -
+                                                              1;
+                                                      dataBase.updateProduct(
+                                                          widget.item);
+                                                    });
+                                                  } else if (widget
+                                                          .item.cardCount ==
+                                                      1) {
+                                                    setState(() {
+                                                      widget.item.cardCount =
+                                                          widget.item
+                                                                  .cardCount -
+                                                              1;
+                                                      if (widget
+                                                          .item.favourite) {
+                                                        dataBase.updateProduct(
+                                                            widget.item);
+                                                      } else {
+                                                        dataBase.deleteProducts(
+                                                            widget.item.id);
+                                                      }
+                                                    });
+                                                  }
+                                                },
+                                              ),
                                             ),
+                                            Container(
+                                              height: 30,
+                                              width: 60,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    new BorderRadius.all(
+                                                  Radius.circular(10.0),
+                                                ),
+                                                border: Border.all(
+                                                  color: Color.fromRGBO(
+                                                      203, 203, 203, 1.0),
+                                                ),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  widget.item.cardCount
+                                                      .toString(),
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            IconButton(
+                                              icon: Icon(
+                                                Icons.add_circle,
+                                                color: Color.fromRGBO(
+                                                    203, 203, 203, 1.0),
+                                              ),
+                                              onPressed: () {
+                                                setState(() {
+                                                  widget.item.cardCount =
+                                                      widget.item.cardCount + 1;
+                                                  dataBase.updateProduct(
+                                                      widget.item);
+                                                });
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Material(
+                                        child: MaterialButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              widget.item.cardCount = 1;
+                                              if (widget.item.favourite) {
+                                                dataBase
+                                                    .updateProduct(widget.item);
+                                              } else {
+                                                dataBase
+                                                    .saveProducts(widget.item);
+                                              }
+                                            });
+                                          },
+                                          child: Icon(
+                                            Icons.add_shopping_cart,
+                                            color: AppTheme.white,
+                                            size: 24,
                                           ),
                                         ),
+                                        elevation: 5,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(7.0)),
+                                        color: AppTheme.red_app_color,
                                       ),
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.add_circle,
-                                          color: Color.fromRGBO(
-                                              203, 203, 203, 1.0),
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            widget.item
-                                                .cardCount = widget
-                                                .item
-                                                .cardCount +
-                                                1;
-                                            dbCard.updateProduct(
-                                                widget.item);
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                )
-                                    : Material(
-                                  child: MaterialButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        widget.item.cardCount =
-                                        1;
-                                        dbCard.saveProducts(
-                                            widget.item);
-                                      });
-                                    },
-                                    child: Icon(
-                                      Icons.add_shopping_cart,
-                                      color: AppTheme.white,
-                                      size: 24,
-                                    ),
-                                  ),
-                                  elevation: 5,
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(7.0)),
-                                  color: AppTheme.red_app_color,
-                                ),
                               ),
                             ],
                           ),

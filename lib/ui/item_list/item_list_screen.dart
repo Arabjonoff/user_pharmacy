@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:pharmacy/database/database_helper_card.dart';
-import 'package:pharmacy/database/database_helper_star.dart';
+import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/item_model.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 import 'package:pharmacy/ui/view/item_view.dart';
@@ -26,29 +25,12 @@ class _ItemListScreenState extends State<ItemListScreen> {
 
   List<ItemModel> items = ItemModel.itemsModel;
 
-  List<ItemModel> itemStar = new List();
   List<ItemModel> itemCard = new List();
-  DatabaseHelperCard dbCard = new DatabaseHelperCard();
-  DatabaseHelperStar dbStar = new DatabaseHelperStar();
+  DatabaseHelper dataBase = new DatabaseHelper();
 
   @override
   void initState() {
-    dbStar.getAllProducts().then((products) {
-      setState(() {
-        products.forEach((products) {
-          itemStar.add(ItemModel.fromMap(products));
-        });
-        for (var i = 0; i < items.length; i++) {
-          for (var j = 0; j < itemStar.length; j++) {
-            if (items[i].id == itemStar[j].id) {
-              items[i].favourite = true;
-            }
-          }
-        }
-      });
-    });
-
-    dbCard.getAllProducts().then((products) {
+    dataBase.getAllProducts().then((products) {
       setState(() {
         products.forEach((products) {
           itemCard.add(ItemModel.fromMap(products));
@@ -57,6 +39,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
           for (var j = 0; j < itemCard.length; j++) {
             if (items[i].id == itemCard[j].id) {
               items[i].cardCount = itemCard[j].cardCount;
+              items[i].favourite = itemCard[j].favourite;
             }
           }
         }
