@@ -7,12 +7,21 @@ import 'package:flutter_translate/localization_delegate.dart';
 import 'package:flutter_translate/localization_provider.dart';
 import 'package:flutter_translate/localized_app.dart';
 import 'package:pharmacy/ui/main_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_theme.dart';
+
+String language = 'en_US';
 
 void main() async {
   var delegate = await LocalizationDelegate.create(
       fallbackLocale: 'en_US', supportedLocales: ['en_US', 'ru', 'uz']);
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  if (prefs.getString('language') != null) {
+    language = prefs.getString('language');
+  }
+
 
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
@@ -22,9 +31,11 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     var localizationDelegate = LocalizedApp.of(context).delegate;
+    localizationDelegate.changeLocale(Locale(language));
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,

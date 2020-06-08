@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app_theme.dart';
 
@@ -13,6 +14,7 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen> {
   Size size;
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +47,13 @@ class _MenuScreenState extends State<MenuScreen> {
             child: ListView(
               children: <Widget>[
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     var localizationDelegate =
                         LocalizedApp.of(context).delegate;
                     localizationDelegate.changeLocale(Locale("en_US"));
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    await prefs.setString('language', 'en_US');
                   },
                   child: Column(
                     children: <Widget>[
@@ -80,10 +85,13 @@ class _MenuScreenState extends State<MenuScreen> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     var localizationDelegate =
                         LocalizedApp.of(context).delegate;
                     localizationDelegate.changeLocale(Locale("ru"));
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    await prefs.setString('language', 'ru');
                   },
                   child: Column(
                     children: <Widget>[
@@ -115,11 +123,13 @@ class _MenuScreenState extends State<MenuScreen> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     var localizationDelegate =
                         LocalizedApp.of(context).delegate;
                     localizationDelegate.changeLocale(Locale("uz"));
-                    print("object");
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    await prefs.setString('language', 'uz');
                   },
                   child: Column(
                     children: <Widget>[
