@@ -45,7 +45,11 @@ class _MenuScreenState extends State<MenuScreen> {
             child: ListView(
               children: <Widget>[
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    var localizationDelegate =
+                        LocalizedApp.of(context).delegate;
+                    localizationDelegate.changeLocale(Locale("en_US"));
+                  },
                   child: Column(
                     children: <Widget>[
                       Container(
@@ -54,7 +58,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             SizedBox(width: 15),
                             Expanded(
                               child: Text(
-                                "position.toString()",
+                                translate("language.en"),
                               ),
                             ),
                             Icon(
@@ -76,7 +80,11 @@ class _MenuScreenState extends State<MenuScreen> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    var localizationDelegate =
+                        LocalizedApp.of(context).delegate;
+                    localizationDelegate.changeLocale(Locale("ru"));
+                  },
                   child: Column(
                     children: <Widget>[
                       Container(
@@ -85,7 +93,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             SizedBox(width: 15),
                             Expanded(
                               child: Text(
-                                "position.toString()",
+                                translate("language.ru"),
                               ),
                             ),
                             Icon(
@@ -107,7 +115,12 @@ class _MenuScreenState extends State<MenuScreen> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    var localizationDelegate =
+                        LocalizedApp.of(context).delegate;
+                    localizationDelegate.changeLocale(Locale("uz"));
+                    print("object");
+                  },
                   child: Column(
                     children: <Widget>[
                       Container(
@@ -116,7 +129,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             SizedBox(width: 15),
                             Expanded(
                               child: Text(
-                                "position.toString()",
+                                translate("language.uz"),
                               ),
                             ),
                             Icon(
