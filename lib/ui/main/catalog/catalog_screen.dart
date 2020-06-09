@@ -69,6 +69,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   },
                   child: Column(
                     children: <Widget>[
+                      position == 0
+                          ? SizedBox(
+                              height: 24,
+                            )
+                          : Container(),
                       Container(
                         color: AppTheme.white,
                         child: Container(

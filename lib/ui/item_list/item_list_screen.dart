@@ -150,18 +150,14 @@ class _ItemListScreenState extends State<ItemListScreen> {
                   height: 1,
                   color: Colors.black12,
                 ),
-                Container(
-                  height: size.height - 160,
-                  width: size.width,
-                  child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    shrinkWrap: false,
-                    scrollDirection: Axis.vertical,
-                    itemCount: items.length,
-                    itemBuilder: (context, index) {
-                      return ItemView(items[index]);
-                    },
-                  ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: ClampingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    return ItemView(items[index]);
+                  },
                 ),
               ],
             ),
@@ -191,7 +187,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                         size: 24,
                         color: AppTheme.red_app_color,
                       ),
-                      onPressed: (){},
+                      onPressed: () {},
                     ),
                     Expanded(
                       child: Text(

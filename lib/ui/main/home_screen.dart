@@ -502,6 +502,90 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     },
                   ),
                 ),
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: ClampingScrollPhysics(),
+                  padding: const EdgeInsets.only(
+                    top: 0,
+                    bottom: 0,
+                    right: 15,
+                    left: 15,
+                  ),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                  ),
+                  scrollDirection: Axis.vertical,
+                  itemCount: saleIfo.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final int count = saleIfo.length > 10 ? 10 : saleIfo.length;
+                    final Animation<double> animation =
+                        Tween<double>(begin: 0.0, end: 1.0).animate(
+                      CurvedAnimation(
+                        parent: animationController,
+                        curve: Interval((1 / count) * index, 1.0,
+                            curve: Curves.fastOutSlowIn),
+                      ),
+                    );
+                    animationController.forward();
+                    return AnimatedBuilder(
+                      animation: animationController,
+                      builder: (BuildContext context, Widget child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: Transform(
+                            transform: Matrix4.translationValues(
+                                100 * (1.0 - animation.value), 0.0, 0.0),
+                            child: Container(
+                              child: Material(
+                                elevation: 5,
+                                borderRadius: BorderRadius.circular(9.0),
+                                child: Stack(
+                                  children: <Widget>[
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(9.0),
+                                      child: Container(
+                                        width: 180,
+                                        height: 180,
+                                        child: CachedNetworkImage(
+                                          imageUrl: saleIfo[index].image,
+                                          placeholder: (context, url) =>
+                                              Icon(Icons.camera_alt),
+                                          errorWidget: (context, url, error) =>
+                                              Icon(Icons.error),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 25,
+                                      margin: EdgeInsets.all(15),
+                                      child: Text(
+                                        saleIfo[index].date,
+                                        style: TextStyle(
+                                          color: AppTheme.dark_grey,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              padding: EdgeInsets.only(
+                                left: 5,
+                                top: 16,
+                                bottom: 16,
+                                right: 16,
+                              ),
+                              width: 180,
+                              height: 180,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                )
               ],
             ),
           ),
