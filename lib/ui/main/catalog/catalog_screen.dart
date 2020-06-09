@@ -34,6 +34,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               translate("main.catalog"),
               textAlign: TextAlign.start,
               style: TextStyle(
+                fontFamily: "Sofia",
                 color: Colors.white,
               ),
             ),
