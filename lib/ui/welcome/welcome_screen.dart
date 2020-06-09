@@ -49,9 +49,10 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
               onTap: () {
                 Navigator.of(context).pushReplacement(
-                    new MaterialPageRoute(builder: (BuildContext context) {
-                  return MainScreen();
-                }));
+                  new MaterialPageRoute(builder: (BuildContext context) {
+                    return MainScreen();
+                  }),
+                );
               },
             ),
           )
@@ -107,6 +108,10 @@ class _WelcomePageState extends State<WelcomePage> {
                     child: MaterialButton(
                       child: Text(
                         translate("welcome.login"),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 21
+                        ),
                       ),
                       onPressed: () {
                         Navigator.of(context).pushReplacement(
@@ -145,9 +150,10 @@ class _WelcomePageState extends State<WelcomePage> {
           Text(
             title,
             style: TextStyle(
-                color: AppTheme.dark_grey,
-                fontSize: 30,
-                fontWeight: FontWeight.bold),
+              color: AppTheme.dark_grey,
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           SizedBox(
             height: 20,
@@ -186,7 +192,9 @@ class _WelcomePageState extends State<WelcomePage> {
       width: isActive ? 45 : 9,
       margin: EdgeInsets.only(right: 5),
       decoration: BoxDecoration(
-          color: Colors.blueAccent, borderRadius: BorderRadius.circular(5)),
+        color: Colors.blueAccent,
+        borderRadius: BorderRadius.circular(5),
+      ),
     );
   }
 
