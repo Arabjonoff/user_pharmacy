@@ -13,6 +13,8 @@ import 'app_theme.dart';
 
 String language = 'en_US';
 
+///apple test
+
 void main() async {
   var delegate = await LocalizationDelegate.create(
       fallbackLocale: 'en_US', supportedLocales: ['en_US', 'ru', 'uz']);
