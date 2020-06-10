@@ -2,12 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/item_model.dart';
 import 'package:pharmacy/ui/item/item_screen.dart';
 
 import '../../app_theme.dart';
+
+final priceFormat = new NumberFormat("#,##0", "ru");
 
 // ignore: must_be_immutable
 class ItemView extends StatefulWidget {
@@ -129,7 +132,8 @@ class _ItemViewState extends State<ItemView> {
                             children: <Widget>[
                               Expanded(
                                 child: Text(
-                                  widget.item.price,
+                                  priceFormat.format(widget.item.price) +
+                                      translate("sum"),
                                   style: TextStyle(
                                     color: AppTheme.black_text,
                                     fontSize: 19,
@@ -141,17 +145,21 @@ class _ItemViewState extends State<ItemView> {
                                 height: 40,
                                 child: widget.item.cardCount > 0
                                     ? SizedBox(
-                                        height: 40,
+                                        height: 36,
                                         child: Row(
                                           children: <Widget>[
-                                            SizedBox(
-                                              width: 40,
-                                              height: 40,
+                                            Container(
+                                              height: 36,
+                                              width: 36,
                                               child: IconButton(
                                                 icon: Icon(
                                                   Icons.remove_circle,
                                                   color: Color.fromRGBO(
-                                                      203, 203, 203, 1.0),
+                                                    203,
+                                                    203,
+                                                    203,
+                                                    1.0,
+                                                  ),
                                                 ),
                                                 onPressed: () {
                                                   if (widget.item.cardCount >
@@ -187,15 +195,19 @@ class _ItemViewState extends State<ItemView> {
                                             ),
                                             Container(
                                               height: 30,
-                                              width: 60,
+                                              width: 48,
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     new BorderRadius.all(
-                                                  Radius.circular(10.0),
+                                                  Radius.circular(6.0),
                                                 ),
                                                 border: Border.all(
                                                   color: Color.fromRGBO(
-                                                      203, 203, 203, 1.0),
+                                                    203,
+                                                    203,
+                                                    203,
+                                                    1.0,
+                                                  ),
                                                 ),
                                               ),
                                               child: Center(
@@ -210,20 +222,25 @@ class _ItemViewState extends State<ItemView> {
                                                 ),
                                               ),
                                             ),
-                                            IconButton(
-                                              icon: Icon(
-                                                Icons.add_circle,
-                                                color: Color.fromRGBO(
-                                                    203, 203, 203, 1.0),
+                                            Container(
+                                              height: 36,
+                                              width: 36,
+                                              child: IconButton(
+                                                icon: Icon(
+                                                  Icons.add_circle,
+                                                  color: Color.fromRGBO(
+                                                      203, 203, 203, 1.0),
+                                                ),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    widget.item.cardCount =
+                                                        widget.item.cardCount +
+                                                            1;
+                                                    dataBase.updateProduct(
+                                                        widget.item);
+                                                  });
+                                                },
                                               ),
-                                              onPressed: () {
-                                                setState(() {
-                                                  widget.item.cardCount =
-                                                      widget.item.cardCount + 1;
-                                                  dataBase.updateProduct(
-                                                      widget.item);
-                                                });
-                                              },
                                             ),
                                           ],
                                         ),
@@ -249,10 +266,13 @@ class _ItemViewState extends State<ItemView> {
                                                 color: AppTheme.white,
                                                 size: 19,
                                               ),
-                                              SizedBox(width: 3,),
+                                              SizedBox(
+                                                width: 3,
+                                              ),
                                               Text(
                                                 translate("item.buy"),
-                                                style: TextStyle(color: AppTheme.white),
+                                                style: TextStyle(
+                                                    color: AppTheme.white),
                                               ),
                                             ],
                                           ),

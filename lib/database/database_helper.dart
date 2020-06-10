@@ -46,7 +46,7 @@ class DatabaseHelper {
         '$columnImage TEXT, '
         '$columnTitle TEXT, '
         '$columnAbout TEXT, '
-        '$columnPrice TEXT, '
+        '$columnPrice INTEGER, '
         '$columnFav INTEGER, '
         '$columnCount INTEGER)');
   }

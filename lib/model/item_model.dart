@@ -4,7 +4,7 @@ class ItemModel {
   String image;
   String title;
   String about;
-  String price;
+  int price;
   bool favourite = false;
   int cardCount = 0;
 
@@ -21,7 +21,7 @@ class ItemModel {
 
   String get getAbout => about;
 
-  String get getPrice => price;
+  int get getPrice => price;
 
   bool get getFavourite => favourite;
 
@@ -69,7 +69,7 @@ class ItemModel {
       'https://uteka.ru/media/768/2/c5/2c58dcf7bb0a26584f9459b201be306a.jpg',
       'Противовирусные',
       'Описание препарата Амиксин®',
-      '67 000 so\'m',
+      6700000,
       false,
       0,
     ),
@@ -79,7 +79,7 @@ class ItemModel {
       'https://apteka.uz/upload/resize_cache/iblock/63f/400_400_1/63fc248df41ca5a90543fdbb03e78a85.jpg',
       'Противовирусные',
       'Описание препарата папаверин',
-      '27 100 so\'m',
+      27100,
       false,
       0,
     ),
@@ -89,7 +89,7 @@ class ItemModel {
       'https://e-apteka.com.ua/image/cachewebp/catalog/foto/fotoijyl/3186-370x370.webp',
       'Активные вещества',
       'Описание препарата Цитрамон',
-      '5 500 so\'m',
+      5920,
       false,
       0,
     ),
@@ -99,7 +99,7 @@ class ItemModel {
       'https://zdravcity.ru/upload/resize_cache/iblock/33f/600_600_Y17536bdc4c4bd27fc2607277fa439b45d/photo_es_994F499D-D28F-47EA-5E05-3E40A030A7DD.jpg',
       'Лактобактерии ацидофильные',
       'Lek d.d.',
-      '45 000 so\'m',
+      48000,
       false,
       0,
     ),
@@ -109,7 +109,7 @@ class ItemModel {
       'https://interchem.ua/uploads/drugs/andipa10.png',
       'Метамизола натрия моногидрат',
       'Папаверина гидрохлорид',
-      '125 000 so\'m',
+      98000,
       false,
       0,
     ),

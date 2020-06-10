@@ -11,9 +11,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_theme.dart';
 
-String language = 'en_US';
 
-///apple test
+
+String language = 'en_US';
 
 void main() async {
   var delegate = await LocalizationDelegate.create(
