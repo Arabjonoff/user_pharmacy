@@ -7,7 +7,6 @@ import 'package:flutter_translate/localization_delegate.dart';
 import 'package:flutter_translate/localization_provider.dart';
 import 'package:flutter_translate/localized_app.dart';
 import 'package:pharmacy/ui/main_screen.dart';
-import 'package:pharmacy/ui/welcome/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_theme.dart';
@@ -25,7 +24,6 @@ void main() async {
     language = prefs.getString('language');
   }
 
-
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
@@ -34,7 +32,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     var localizationDelegate = LocalizedApp.of(context).delegate;

@@ -20,10 +20,12 @@
     "question": "Are you have questions?",
     "message": "Message",
     "call": "call me",
-    "sale": "Sale",
-    "all": "All"
+    "sale": "Акции и скидки",
+    "all": "All",
+    "best": "лучшей предлежения"
   },
   "item": {
+    "buy": "купить",
     "sort": "By popularity",
     "filter": "Filter",
     "description": "Description",
@@ -38,6 +40,7 @@
     "active_substance": "Active substance",
     "atx": "ATX:",
     "card": "В корзину"
+
   },
   "menu": {
     "language": "Language",

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/item_model.dart';
@@ -66,7 +67,7 @@ class _ItemViewState extends State<ItemView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         SizedBox(
-                          height: 15,
+                          height: 25,
                         ),
                         Row(
                           children: <Widget>[
@@ -75,74 +76,52 @@ class _ItemViewState extends State<ItemView> {
                                 widget.item.name,
                                 style: TextStyle(
                                   color: AppTheme.black_text,
-                                  fontSize: 19,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ),
-                            IconButton(
-                              icon: widget.item.favourite
-                                  ? Icon(
-                                      Icons.favorite,
-                                      size: 24,
-                                      color: AppTheme.red_app_color,
-                                    )
-                                  : Icon(
-                                      Icons.favorite_border,
-                                      size: 24,
-                                      color: AppTheme.dark_grey,
-                                    ),
-                              onPressed: () {
-                                setState(() {
-                                  if (widget.item.favourite) {
-                                    widget.item.favourite = false;
-                                    if (widget.item.cardCount == 0) {
-                                      dataBase.deleteProducts(widget.item.id);
-                                    } else {
-                                      dataBase.updateProduct(widget.item);
-                                    }
-                                  } else {
-                                    widget.item.favourite = true;
-                                    if (widget.item.cardCount == 0) {
-                                      dataBase.saveProducts(widget.item);
-                                    } else {
-                                      dataBase.updateProduct(widget.item);
-                                    }
-                                  }
-                                });
-                              },
-                            ),
+//                            IconButton(
+//                              icon: widget.item.favourite
+//                                  ? Icon(
+//                                      Icons.favorite,
+//                                      size: 19,
+//                                      color: AppTheme.red_app_color,
+//                                    )
+//                                  : Icon(
+//                                      Icons.favorite_border,
+//                                      size: 19,
+//                                      color: AppTheme.dark_grey,
+//                                    ),
+//                              onPressed: () {
+//                                setState(() {
+//                                  if (widget.item.favourite) {
+//                                    widget.item.favourite = false;
+//                                    if (widget.item.cardCount == 0) {
+//                                      dataBase.deleteProducts(widget.item.id);
+//                                    } else {
+//                                      dataBase.updateProduct(widget.item);
+//                                    }
+//                                  } else {
+//                                    widget.item.favourite = true;
+//                                    if (widget.item.cardCount == 0) {
+//                                      dataBase.saveProducts(widget.item);
+//                                    } else {
+//                                      dataBase.updateProduct(widget.item);
+//                                    }
+//                                  }
+//                                });
+//                              },
+//                            ),
                           ],
                         ),
-                        SizedBox(height: 7),
+                        SizedBox(height: 3),
                         Text(
                           widget.item.title,
                           style: TextStyle(
                             color: AppTheme.black_transparent_text,
-                            fontSize: 16,
+                            fontSize: 15,
                             fontWeight: FontWeight.w600,
                           ),
-                        ),
-                        SizedBox(height: 7),
-                        Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.more_horiz,
-                              color: Colors.green,
-                              size: 36,
-                            ),
-                            SizedBox(width: 11),
-                            Expanded(
-                              child: Text(
-                                widget.item.about,
-                                style: TextStyle(
-                                  color: AppTheme.black_transparent_text,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            )
-                          ],
                         ),
                         Container(
                           height: 56,
@@ -263,16 +242,25 @@ class _ItemViewState extends State<ItemView> {
                                               }
                                             });
                                           },
-                                          child: Icon(
-                                            Icons.add_shopping_cart,
-                                            color: AppTheme.white,
-                                            size: 24,
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.add_shopping_cart,
+                                                color: AppTheme.white,
+                                                size: 19,
+                                              ),
+                                              SizedBox(width: 3,),
+                                              Text(
+                                                translate("item.buy"),
+                                                style: TextStyle(color: AppTheme.white),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        elevation: 5,
+                                        elevation: 3,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(7.0)),
-                                        color: AppTheme.red_app_color,
+                                        color: AppTheme.green,
                                       ),
                               ),
                             ],

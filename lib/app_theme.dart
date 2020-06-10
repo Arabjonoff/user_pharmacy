@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
-  static const Color notWhite = Color(0xFFEDF0F2);
+  static const Color notWhite = Color(0xFF818C99);
   static const Color nearlyWhite = Color(0xFFFEFEFE);
   static const Color white = Color(0xFFFFFFFF);
   static const Color nearlyBlack = Color(0xFF213333);
@@ -19,9 +19,12 @@ class AppTheme {
   static const Color spacer = Color(0xFFF2F2F2);
   static const String fontName = 'WorkSans';
 
+  static const Color green = Color(0xFF3F8AE0);
+  static const Color black_transparent = Color(0xFFEBEDF0);
+
   static const Color black_text = Color(0xFF333333);
   static const Color black_transparent_text = Color(0xFFC7CBD3);
-  static const Color red_app_color = Color(0xFFD00B52);
+  static const Color red_app_color = Color(0xFF3F8AE0);
   static const Color background = Color(0xFFF2F3F8);
 
   static const Color black_linear = Colors.black12;

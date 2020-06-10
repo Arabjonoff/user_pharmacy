@@ -33,8 +33,6 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     searchController.text = widget.name;
-
-
     dataBase.getAllProducts().then((products) {
       setState(() {
         products.forEach((products) {

@@ -7,7 +7,7 @@ import 'package:pharmacy/ui/main/menu_screen.dart';
 
 import '../app_theme.dart';
 import 'main/catalog/catalog_screen.dart';
-import 'main/home_screen.dart';
+import 'main/home/home_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
