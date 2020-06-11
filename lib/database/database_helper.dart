@@ -87,6 +87,7 @@ class DatabaseHelper {
         list[i][columnPrice],
         list[i][columnFav] == 1 ? true : false,
         list[i][columnCount],
+        false
       );
       if (card) {
         if (user.cardCount > 0) {

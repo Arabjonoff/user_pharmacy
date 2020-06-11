@@ -7,9 +7,10 @@ class ItemModel {
   int price;
   bool favourite = false;
   int cardCount = 0;
+  bool sale;
 
   ItemModel(this.id, this.name, this.image, this.title, this.about, this.price,
-      this.favourite, this.cardCount);
+      this.favourite, this.cardCount, this.sale);
 
   int get getId => id;
 
@@ -26,6 +27,8 @@ class ItemModel {
   bool get getFavourite => favourite;
 
   int get getCardCount => cardCount;
+
+  bool get getSale => sale;
 
   ItemModel.map(dynamic obj) {
     this.id = obj["id"];
@@ -72,16 +75,18 @@ class ItemModel {
       6700000,
       false,
       0,
+      false,
     ),
     ItemModel(
       1,
-      'ПАПАВЕРИНА ГИДРОХЛОРИД суппозитории ректальные 20 мг N10',
+      'ПАПАВЕРИНА ГИДРОХЛОРИД суппозитории ректальные 20 мг N10 ГИ Д РОХЛОРИД суппозитории ректальные 20 мг N10',
       'https://apteka.uz/upload/resize_cache/iblock/63f/400_400_1/63fc248df41ca5a90543fdbb03e78a85.jpg',
       'Противовирусные',
       'Описание препарата папаверин',
       27100,
       false,
       0,
+      true,
     ),
     ItemModel(
       2,
@@ -92,6 +97,7 @@ class ItemModel {
       5920,
       false,
       0,
+      false,
     ),
     ItemModel(
       3,
@@ -102,6 +108,7 @@ class ItemModel {
       48000,
       false,
       0,
+      false,
     ),
     ItemModel(
       4,
@@ -112,6 +119,7 @@ class ItemModel {
       98000,
       false,
       0,
+      false,
     ),
   ];
 }

@@ -46,6 +46,8 @@ class _ItemScreenState extends State<ItemScreen> {
             children: [
               Text(
                 widget.name,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
             ],
           ),

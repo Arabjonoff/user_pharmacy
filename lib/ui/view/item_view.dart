@@ -45,7 +45,7 @@ class _ItemViewState extends State<ItemView> {
         );
       },
       child: Container(
-        height: 132.5,
+        height: widget.item.sale ? 144.5 : 132.5,
         color: AppTheme.white,
         child: Column(
           children: <Widget>[
@@ -86,6 +86,7 @@ class _ItemViewState extends State<ItemView> {
                               Expanded(
                                 child: Text(
                                   widget.item.name,
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: AppTheme.black_text,
@@ -139,6 +140,18 @@ class _ItemViewState extends State<ItemView> {
                           Expanded(
                             child: Container(),
                           ),
+                          widget.item.sale
+                              ? StrikeThroughWidget(
+                                  child: Text(
+                                    priceFormat.format(widget.item.price) +
+                                        translate("sum"),
+                                    style: TextStyle(
+                                        color: AppTheme.black_transparent_text,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                )
+                              : Container(),
                           Container(
                             margin: EdgeInsets.only(bottom: 16.5),
                             height: 30,
@@ -149,7 +162,9 @@ class _ItemViewState extends State<ItemView> {
                                     priceFormat.format(widget.item.price) +
                                         translate("sum"),
                                     style: TextStyle(
-                                        color: AppTheme.black_text,
+                                        color: widget.item.sale
+                                            ? AppTheme.red_text_sale
+                                            : AppTheme.black_text,
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -329,6 +344,29 @@ class _ItemViewState extends State<ItemView> {
               color: AppTheme.black_linear,
             )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class StrikeThroughWidget extends StatelessWidget {
+  final Widget _child;
+
+  StrikeThroughWidget({Key key, @required Widget child})
+      : this._child = child,
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: _child,
+//      padding: EdgeInsets.symmetric(horizontal: 8),
+      // this line is optional to make strikethrough effect outside a text
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/red.png'),
+          fit: BoxFit.fitWidth,
         ),
       ),
     );
