@@ -277,93 +277,93 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.all(15),
-                height: 75,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Material(
-                        elevation: 5.0,
-                        color: AppTheme.white,
-                        borderRadius: BorderRadius.circular(9.0),
-                        child: MaterialButton(
-                          onPressed: () {},
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                height: 56,
-                                width: 56,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Image.asset(
-                                        "assets/images/circle_green.png"),
-                                    Container(
-                                      padding: EdgeInsets.all(15),
-                                      child: Image.asset(
-                                          "assets/images/chatting.png"),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Center(
-                                  child: Text(
-                                    translate("home.message"),
-                                    style: TextStyle(fontSize: 13),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Expanded(
-                      child: Material(
-                        elevation: 5.0,
-                        color: AppTheme.white,
-                        borderRadius: BorderRadius.circular(9.0),
-                        child: MaterialButton(
-                          onPressed: () {},
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                height: 56,
-                                width: 56,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Image.asset(
-                                        "assets/images/circle_green.png"),
-                                    Container(
-                                      padding: EdgeInsets.all(15),
-                                      child: Image.asset(
-                                          "assets/images/phone_green.png"),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Center(
-                                  child: Text(
-                                    translate("home.call"),
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+//              Container(
+//                margin: EdgeInsets.all(15),
+//                height: 75,
+//                child: Row(
+//                  children: <Widget>[
+////                    Expanded(
+////                      child: Material(
+////                        elevation: 5.0,
+////                        color: AppTheme.white,
+////                        borderRadius: BorderRadius.circular(9.0),
+////                        child: MaterialButton(
+////                          onPressed: () {},
+////                          child: Row(
+////                            children: <Widget>[
+////                              Container(
+////                                height: 56,
+////                                width: 56,
+////                                child: Stack(
+////                                  children: <Widget>[
+////                                    Image.asset(
+////                                        "assets/images/circle_green.png"),
+////                                    Container(
+////                                      padding: EdgeInsets.all(15),
+////                                      child: Image.asset(
+////                                          "assets/images/chatting.png"),
+////                                    ),
+////                                  ],
+////                                ),
+////                              ),
+////                              Expanded(
+////                                child: Center(
+////                                  child: Text(
+////                                    translate("home.message"),
+////                                    style: TextStyle(fontSize: 13),
+////                                  ),
+////                                ),
+////                              )
+////                            ],
+////                          ),
+////                        ),
+////                      ),
+////                    ),
+//                    SizedBox(
+//                      width: 15,
+//                    ),
+//                    Expanded(
+//                      child: Material(
+//                        elevation: 5.0,
+//                        color: AppTheme.white,
+//                        borderRadius: BorderRadius.circular(9.0),
+//                        child: MaterialButton(
+//                          onPressed: () {},
+//                          child: Row(
+//                            children: <Widget>[
+//                              Container(
+//                                height: 56,
+//                                width: 56,
+//                                child: Stack(
+//                                  children: <Widget>[
+//                                    Image.asset(
+//                                        "assets/images/circle_green.png"),
+//                                    Container(
+//                                      padding: EdgeInsets.all(15),
+//                                      child: Image.asset(
+//                                          "assets/images/phone_green.png"),
+//                                    ),
+//                                  ],
+//                                ),
+//                              ),
+//                              Expanded(
+//                                child: Center(
+//                                  child: Text(
+//                                    translate("home.call"),
+//                                    style: TextStyle(
+//                                      fontSize: 13,
+//                                    ),
+//                                  ),
+//                                ),
+//                              )
+//                            ],
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ],
+//                ),
+//              ),
               Container(
                 margin:
                     EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 25),

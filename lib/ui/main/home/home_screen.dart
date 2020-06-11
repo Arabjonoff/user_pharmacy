@@ -1,10 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/item_model.dart';
+import 'package:pharmacy/model/top_item_model.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 import 'package:pharmacy/ui/view/item_view.dart';
 import 'package:pharmacy/utils/utils.dart';
@@ -19,10 +19,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 final List<ItemModel> items = ItemModel.itemsModel;
+final List<TopItemModel> topItems = TopItemModel.topTitle;
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   var animationController;
   Size size;
+  bool isLoad = true;
   List<ItemModel> itemCard = new List();
   DatabaseHelper dataBase = new DatabaseHelper();
 
@@ -97,21 +99,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           child: Text(
                             translate("search_hint"),
                             style: TextStyle(
-                              color: AppTheme.notWhite,
-                            ),
+                                color: AppTheme.notWhite, fontSize: 17),
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                IconButton(
-                  icon: new Icon(
-                    Icons.scanner,
-                    size: 24,
-                    color: AppTheme.green,
+                GestureDetector(
+                  child: Container(
+                    margin: EdgeInsets.only(left: 15),
+                    child: Center(
+                      child: Image.asset("assets/images/scanner.png"),
+                    ),
                   ),
-                  onPressed: () {
+                  onTap: () {
                     var response = Utils.scanBarcodeNormal();
                     response.then(
                       (value) => Navigator.push(
@@ -136,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             height: 10,
           ),
           Container(
-            height: 150.0,
+            height: 113.0,
             child: ListView.builder(
               padding: EdgeInsets.only(
                 top: 0,
@@ -145,47 +147,69 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 left: 15,
               ),
               scrollDirection: Axis.horizontal,
-              itemCount: items.length,
+              itemCount: topItems.length,
               itemBuilder: (BuildContext context, int index) {
                 animationController.forward();
                 return Container(
-                  child: Material(
-                    elevation: 2,
-                    borderRadius: BorderRadius.circular(9.0),
-                    child: Stack(
-                      children: <Widget>[
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(9.0),
-                          child: Container(
-                            width: 135,
-                            height: 135,
-                            child: CachedNetworkImage(
-                              imageUrl: items[index].image,
-                              placeholder: (context, url) =>
-                                  Icon(Icons.camera_alt),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                              fit: BoxFit.fill,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Container(
+                      padding: EdgeInsets.only(left: 12),
+                      width: 113,
+                      color: topItems[index].color,
+                      height: 113,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 16,
+                          ),
+                          SizedBox(
+                            height: 24,
+                          ),
+                          SizedBox(
+                            height: 23,
+                          ),
+                          SizedBox(
+                            height: 16,
+                            child: Text(
+                              topItems[index].name,
+                              style: TextStyle(
+                                color: AppTheme.white,
+                                fontSize: 13,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            height: 22,
+                            child: Text(
+                              topItems[index].title.toUpperCase(),
+                              style: TextStyle(
+                                color: AppTheme.white,
+                                fontSize: 17,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   padding: EdgeInsets.only(
-                    top: 5,
-                    bottom: 10,
-                    right: 15,
+                    right: 12,
                   ),
-                  width: 150,
-                  height: 150,
+                  width: 128,
+                  height: 113,
                 );
               },
             ),
           ),
           Container(
-            height: 220.0,
-            margin: EdgeInsets.only(top: 10),
+            height: 154.0,
+            margin: EdgeInsets.only(top: 32),
             child: ListView.builder(
               padding: const EdgeInsets.only(
                 top: 0,
@@ -194,9 +218,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 left: 15,
               ),
               scrollDirection: Axis.horizontal,
-              itemCount: items.length,
+              itemCount: 5,
               itemBuilder: (BuildContext context, int index) {
-                final int count = items.length > 10 ? 10 : items.length;
+                //final int count = items.length > 10 ? 10 : items.length;
+                final int count = 5;
                 final Animation<double> animation =
                     Tween<double>(begin: 0.0, end: 1.0).animate(
                   CurvedAnimation(
@@ -219,44 +244,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Material(
-                                elevation: 1,
-                                borderRadius: BorderRadius.circular(9.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(9.0),
-                                  child: Container(
-                                    color: AppTheme.white,
-                                    width: 300,
-                                    height: 148,
-                                    child: CachedNetworkImage(
-                                      imageUrl: items[index].image,
-                                      placeholder: (context, url) =>
-                                          Icon(Icons.camera_alt),
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 7, bottom: 15),
-                                child: Text(
-                                  'до ' + index.toString() + ' апрель',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppTheme.notWhite,
-                                  ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(16.0),
+                                child: Container(
+                                  color: AppTheme.white,
+                                  width: 311,
+                                  height: 154,
+//                                    child: CachedNetworkImage(
+//                                      imageUrl: items[index].image,
+//                                      placeholder: (context, url) =>
+//                                          Icon(Icons.camera_alt),
+//                                      errorWidget: (context, url, error) =>
+//                                          Icon(Icons.error),
+//                                      fit: BoxFit.fitHeight,
+//                                    ),
+                                  child: Image.asset("assets/images/sale.png"),
                                 ),
                               ),
                             ],
                           ),
                           padding: EdgeInsets.only(
-                            top: 5,
-                            bottom: 10,
                             right: 15,
                           ),
+                          height: 154,
                         ),
                       ),
                     );
@@ -266,11 +276,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           ),
           Container(
-            height: 5,
-            color: AppTheme.black_transparent,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 15, right: 15, top: 25),
+            margin: EdgeInsets.only(left: 15, right: 15, top: 32),
             child: Row(
               children: <Widget>[
                 Text(
@@ -278,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   style: TextStyle(
                     color: AppTheme.black_text,
                     fontWeight: FontWeight.bold,
-                    fontSize: 19,
+                    fontSize: 20,
                   ),
                 ),
                 Expanded(
@@ -291,11 +297,47 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),
             scrollDirection: Axis.vertical,
-            itemCount: items.length,
+            itemCount:
+                isLoad ? items.length > 3 ? 3 : items.length : items.length,
             itemBuilder: (context, index) {
               return ItemView(items[index]);
             },
-          )
+          ),
+          isLoad
+              ? Container(
+                  margin: EdgeInsets.only(top: 32.5, bottom: 32.5),
+                  width: size.width,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isLoad = false;
+                        });
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(9.0),
+                          border: Border.all(
+                            color: AppTheme.green,
+                            width: 2.0,
+                          ),
+                        ),
+                        child: Text(
+                          translate(
+                            "home.show_all",
+                          ),
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: AppTheme.green,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : Container(),
         ],
       ),
     );

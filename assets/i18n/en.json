@@ -1,5 +1,6 @@
 {
   "sum": " so'm",
+  "search_hint": "Drug search",
   "welcome": {
     "skip": "Skip",
     "one_title": "one title",
@@ -18,45 +19,15 @@
     "menu": "Menu"
   },
   "home": {
-    "question": "Are you have questions?",
-    "message": "Message",
-    "call": "call me",
-    "sale": "Promotions and discounts",
-    "all": "All",
-    "best": "better presentation"
-  },
-  "item": {
-    "buy": "buy",
-    "sort": "By popularity",
-    "filter": "Filter",
-    "description": "Description",
-    "price": "Price availability",
-    "all_price": "See all prices",
-    "bonus": "bonus",
-    "analog": "analogues",
-    "country": "Country",
-    "active_substances": "Active substances",
-    "from_pharmacy": "Leave from the pharmacy",
-    "latin_name": "Latin name",
-    "active_substance": "Active substance",
-    "atx": "ATX:",
-    "card": "В корзину"
-  },
-  "menu": {
-    "language": "Language",
-    "help": "Help is needed?",
-    "write": "Write",
-    "chat": "to chat",
-    "call": "Call",
-    "hotline": "to the hotline",
-    "faq": "FAQ",
-    "ques_answ": "Question and answer"
-  },
-  "card": {
-    "name": "Корзина"
-  },
-  "star": {
-    "name": "Favorite"
+    "best": "Best offers",
+    "your": "Ваша",
+    "karta": "Карта",
+    "look": "Посмотреть",
+    "pharmacy": "в аптеке",
+    "pharma": "аптек",
+    "set": "Задать",
+    "question": "Вопрос",
+    "show_all": "Show all"
   },
   "language": {
     "en": "English",
@@ -65,6 +36,7 @@
     "message": "Please select a language from the list",
     "title": "Language Selection"
   },
-  "search_hint": "Search",
-  "info": "Папавери́н — опиумный алкалоид, производное изохинолина, лекарственное средство спазмолитического и гипотензивного действия. Выделен из опия и исследован в 1848 году Георгом Мерком. Г. Мерк был сыном Эммануила Мерка, основателя компании Merck Corp., крупнейшей немецкой химической и фармацевтической компании."
+  "item": {
+    "buy": "Buy"
+  }
 }
