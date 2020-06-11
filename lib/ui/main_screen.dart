@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/ui/main/menu_screen.dart';
 
@@ -62,8 +63,8 @@ class _MainScreenState extends State<MainScreen> {
             items: [
               BottomNavigationBarItem(
                 icon: _selectedIndex == 0
-                    ? Image.asset("assets/menu/home_selected.png")
-                    : Image.asset("assets/menu/home_unselected.png"),
+                    ? SvgPicture.asset("assets/menu/home_selected.svg")
+                    : SvgPicture.asset("assets/menu/home_unselected.svg"),
                 title: Text(
                   translate('main.home'),
                   maxLines: 1,
@@ -72,8 +73,8 @@ class _MainScreenState extends State<MainScreen> {
               ),
               BottomNavigationBarItem(
                 icon: _selectedIndex == 1
-                    ? Image.asset("assets/menu/catalog_selected.png")
-                    : Image.asset("assets/menu/catalog_unselected.png"),
+                    ? SvgPicture.asset("assets/menu/catalog_selected.svg")
+                    : SvgPicture.asset("assets/menu/catalog_unselected.svg"),
                 title: Text(
                   translate('main.catalog'),
                   maxLines: 1,
@@ -85,8 +86,8 @@ class _MainScreenState extends State<MainScreen> {
                   children: <Widget>[
                     Center(
                       child: _selectedIndex == 2
-                          ? Image.asset("assets/menu/card_selected.png")
-                          : Image.asset("assets/menu/card_unselected.png"),
+                          ? SvgPicture.asset("assets/menu/card_selected.svg")
+                          : SvgPicture.asset("assets/menu/card_unselected.svg"),
                     ),
 //                  Center(
 //                    child: Container(
@@ -106,8 +107,8 @@ class _MainScreenState extends State<MainScreen> {
               ),
               BottomNavigationBarItem(
                 icon: _selectedIndex == 3
-                    ? Image.asset("assets/menu/favourite_selected.png")
-                    : Image.asset("assets/menu/favourite_unselected.png"),
+                    ? SvgPicture.asset("assets/menu/favourite_selected.svg")
+                    : SvgPicture.asset("assets/menu/favourite_unselected.svg"),
                 title: Text(
                   translate('main.favourite'),
                   maxLines: 1,
@@ -116,8 +117,8 @@ class _MainScreenState extends State<MainScreen> {
               ),
               BottomNavigationBarItem(
                 icon: _selectedIndex == 4
-                    ? Image.asset("assets/menu/menu_selected.png")
-                    : Image.asset("assets/menu/menu_unselected.png"),
+                    ? SvgPicture.asset("assets/menu/menu_selected.svg")
+                    : SvgPicture.asset("assets/menu/menu_unselected.svg"),
                 title: Text(
                   translate('main.menu'),
                   maxLines: 1,

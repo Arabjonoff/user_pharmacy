@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper.dart';
@@ -155,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     borderRadius: BorderRadius.circular(10.0),
                     child: Stack(
                       children: [
-                        Image.asset(topItems[index].image),
+                        SvgPicture.asset(topItems[index].image),
                         Container(
                           padding: EdgeInsets.only(left: 12),
                           width: 113,
@@ -199,7 +200,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ],
                           ),
                         ),
-
                       ],
                     ),
                   ),
