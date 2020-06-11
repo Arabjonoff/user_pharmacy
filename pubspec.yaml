@@ -35,6 +35,7 @@ flutter:
   assets:
     - assets/i18n/
     - assets/images/
+    - assets/menu/
 
 
   fonts:

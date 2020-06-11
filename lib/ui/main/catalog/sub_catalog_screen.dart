@@ -33,7 +33,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
           Container(
             height: 104,
             width: size.width,
-            color: AppTheme.red_app_color,
+            color: AppTheme.green_app_color,
             child: Container(
               margin: EdgeInsets.only(top: 24, left: 3, bottom: 24),
               width: size.width,
@@ -98,7 +98,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                               Icon(
                                 Icons.arrow_forward_ios,
                                 size: 16,
-                                color: AppTheme.red_app_color,
+                                color: AppTheme.green_app_color,
                               )
                             ],
                           ),
@@ -137,7 +137,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                       icon: new Icon(
                         Icons.search,
                         size: 24,
-                        color: AppTheme.red_app_color,
+                        color: AppTheme.green_app_color,
                       ),
                       onPressed: (){},
                     ),

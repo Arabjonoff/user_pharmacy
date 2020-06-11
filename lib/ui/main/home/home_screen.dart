@@ -153,49 +153,54 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 return Container(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
-                    child: Container(
-                      padding: EdgeInsets.only(left: 12),
-                      width: 113,
-                      color: topItems[index].color,
-                      height: 113,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 16,
-                          ),
-                          SizedBox(
-                            height: 24,
-                          ),
-                          SizedBox(
-                            height: 23,
-                          ),
-                          SizedBox(
-                            height: 16,
-                            child: Text(
-                              topItems[index].name,
-                              style: TextStyle(
-                                color: AppTheme.white,
-                                fontSize: 13,
+                    child: Stack(
+                      children: [
+                        Image.asset(topItems[index].image),
+                        Container(
+                          padding: EdgeInsets.only(left: 12),
+                          width: 113,
+                          height: 113,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 16,
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 22,
-                            child: Text(
-                              topItems[index].title.toUpperCase(),
-                              style: TextStyle(
-                                color: AppTheme.white,
-                                fontSize: 17,
+                              SizedBox(
+                                height: 24,
                               ),
-                            ),
+                              SizedBox(
+                                height: 23,
+                              ),
+                              SizedBox(
+                                height: 16,
+                                child: Text(
+                                  topItems[index].name,
+                                  style: TextStyle(
+                                    color: AppTheme.white,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 22,
+                                child: Text(
+                                  topItems[index].title.toUpperCase(),
+                                  style: TextStyle(
+                                    color: AppTheme.white,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                        ],
-                      ),
+                        ),
+
+                      ],
                     ),
                   ),
                   padding: EdgeInsets.only(

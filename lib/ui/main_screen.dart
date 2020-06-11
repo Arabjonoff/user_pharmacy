@@ -57,30 +57,36 @@ class _MainScreenState extends State<MainScreen> {
               });
             },
             unselectedItemColor: Colors.black26,
-            selectedItemColor: AppTheme.red_app_color,
+            selectedItemColor: AppTheme.green_app_color,
             currentIndex: _selectedIndex,
             items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
+                icon: _selectedIndex == 0
+                    ? Image.asset("assets/menu/home_selected.png")
+                    : Image.asset("assets/menu/home_unselected.png"),
                 title: Text(
                   translate('main.home'),
                   maxLines: 1,
-                  style: TextStyle(fontSize: 12),
+                  style: TextStyle(fontSize: 13),
                 ),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.list),
+                icon: _selectedIndex == 1
+                    ? Image.asset("assets/menu/catalog_selected.png")
+                    : Image.asset("assets/menu/catalog_unselected.png"),
                 title: Text(
                   translate('main.catalog'),
                   maxLines: 1,
-                  style: TextStyle(fontSize: 12),
+                  style: TextStyle(fontSize: 13),
                 ),
               ),
               BottomNavigationBarItem(
                 icon: Stack(
                   children: <Widget>[
                     Center(
-                      child: Icon(Icons.add_shopping_cart),
+                      child: _selectedIndex == 2
+                          ? Image.asset("assets/menu/card_selected.png")
+                          : Image.asset("assets/menu/card_unselected.png"),
                     ),
 //                  Center(
 //                    child: Container(
@@ -95,23 +101,27 @@ class _MainScreenState extends State<MainScreen> {
                 title: Text(
                   translate('main.card'),
                   maxLines: 1,
-                  style: TextStyle(fontSize: 12),
+                  style: TextStyle(fontSize: 13),
                 ),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.favorite_border),
+                icon: _selectedIndex == 3
+                    ? Image.asset("assets/menu/favourite_selected.png")
+                    : Image.asset("assets/menu/favourite_unselected.png"),
                 title: Text(
                   translate('main.favourite'),
                   maxLines: 1,
-                  style: TextStyle(fontSize: 12),
+                  style: TextStyle(fontSize: 13),
                 ),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.more_vert),
+                icon: _selectedIndex == 4
+                    ? Image.asset("assets/menu/menu_selected.png")
+                    : Image.asset("assets/menu/menu_unselected.png"),
                 title: Text(
                   translate('main.menu'),
                   maxLines: 1,
-                  style: TextStyle(fontSize: 12),
+                  style: TextStyle(fontSize: 13),
                 ),
               )
             ],

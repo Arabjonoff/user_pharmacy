@@ -4,30 +4,30 @@ import 'package:flutter_translate/flutter_translate.dart';
 class TopItemModel {
   String name;
   String title;
-  Color color;
+  String image;
 
-  TopItemModel(this.name, this.title, this.color);
+  TopItemModel(this.name, this.title, this.image);
 
   static List<TopItemModel> topTitle = <TopItemModel>[
     TopItemModel(
       translate("home.your"),
       translate("home.karta"),
-      Color(0xFF825AD7),
+      "assets/images/card.png",
     ),
     TopItemModel(
       translate("home.look"),
       translate("home.pharmacy"),
-      Color(0xFF27BDEC),
+      "assets/images/card2.png",
     ),
     TopItemModel(
       translate("home.karta"),
       translate("home.pharma"),
-      Color(0xFF36CF86),
+      "assets/images/card3.png",
     ),
     TopItemModel(
       translate("home.set"),
       translate("home.question"),
-      Color(0xFFEFA434),
+      "assets/images/card4.png",
     ),
   ];
 }

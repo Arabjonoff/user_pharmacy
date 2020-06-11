@@ -58,7 +58,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
           Container(
             height: 104,
             width: size.width,
-            color: AppTheme.red_app_color,
+            color: AppTheme.green_app_color,
             child: Container(
               margin: EdgeInsets.only(top: 24, left: 3, bottom: 24),
               width: size.width,
@@ -99,7 +99,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                           children: <Widget>[
                             Icon(
                               Icons.sort,
-                              color: AppTheme.red_app_color,
+                              color: AppTheme.green_app_color,
                               size: 24,
                             ),
                             SizedBox(
@@ -123,7 +123,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                           children: <Widget>[
                             Icon(
                               Icons.settings_applications,
-                              color: AppTheme.red_app_color,
+                              color: AppTheme.green_app_color,
                               size: 24,
                             ),
                             SizedBox(
@@ -185,7 +185,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                       icon: new Icon(
                         Icons.search,
                         size: 24,
-                        color: AppTheme.red_app_color,
+                        color: AppTheme.green_app_color,
                       ),
                       onPressed: () {},
                     ),

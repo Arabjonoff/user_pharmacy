@@ -144,7 +144,7 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
                   children: <Widget>[
                     Material(
                       elevation: 5,
-                      color: AppTheme.red_app_color,
+                      color: AppTheme.green_app_color,
                       borderRadius: BorderRadius.circular(9.0),
                       child: MaterialButton(
                         child: Container(
@@ -519,7 +519,7 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
                       borderRadius: BorderRadius.circular(3.0),
                       child: isCard
                           ? MaterialButton(
-                              color: AppTheme.red_app_color,
+                              color: AppTheme.green_app_color,
                               child: Center(
                                 child: Text(
                                   translate("item.card"),

@@ -25,7 +25,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: AppTheme.red_app_color,
+        backgroundColor: AppTheme.green_app_color,
         title: Container(
           width: size.width,
           child: Align(
@@ -47,7 +47,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           Container(
             height: 24,
             width: size.width,
-            color: AppTheme.red_app_color,
+            color: AppTheme.green_app_color,
           ),
           Container(
             margin: EdgeInsets.only(top: 24),
@@ -92,7 +92,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                               Icon(
                                 Icons.arrow_forward_ios,
                                 size: 16,
-                                color: AppTheme.red_app_color,
+                                color: AppTheme.green_app_color,
                               )
                             ],
                           ),
@@ -131,7 +131,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       icon: new Icon(
                         Icons.search,
                         size: 24,
-                        color: AppTheme.red_app_color,
+                        color: AppTheme.green_app_color,
                       ),
                       onPressed: () {},
                     ),
