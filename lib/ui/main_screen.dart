@@ -57,7 +57,7 @@ class _MainScreenState extends State<MainScreen> {
                 _selectedIndex = index;
               });
             },
-            unselectedItemColor: Colors.black26,
+            unselectedItemColor: AppTheme.menu_unselected,
             selectedItemColor: AppTheme.green_app_color,
             currentIndex: _selectedIndex,
             items: [
