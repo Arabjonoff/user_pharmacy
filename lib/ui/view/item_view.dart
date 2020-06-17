@@ -316,10 +316,12 @@ class _ItemViewState extends State<ItemView> {
                                               ),
                                               color: AppTheme.green,
                                             ),
-                                            child: Icon(
-                                              Icons.add_shopping_cart,
-                                              color: AppTheme.white,
-                                              size: 19,
+                                            child: Center(
+                                              child: Icon(
+                                                Icons.add_shopping_cart,
+                                                color: AppTheme.white,
+                                                size: 17,
+                                              ),
                                             ),
                                           ),
                                         ),
