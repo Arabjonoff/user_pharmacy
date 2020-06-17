@@ -15,321 +15,142 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   Size size;
 
-
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: AppTheme.background,
-      body: Stack(
+      backgroundColor: AppTheme.white,
+      body: ListView(
         children: <Widget>[
           Container(
-            height: 80,
+            margin: EdgeInsets.only(
+              left: 12,
+              right: 12,
+            ),
             width: size.width,
-            color: AppTheme.green_app_color,
-            child: Container(
-              margin: EdgeInsets.only(top: 24, left: 15),
-              width: size.width,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  translate("main.menu"),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 21,
-                  ),
-                ),
-              ),
+            child: Image.asset(
+              "assets/images/menu_image.png",
+              fit: BoxFit.fitWidth,
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 56),
-            child: ListView(
+            height: 60,
+            margin: EdgeInsets.only(
+              left: 74,
+              top: 24,
+              right: 14,
+            ),
+            child: Column(
+              children: [
+
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap: () async {
+              var localizationDelegate = LocalizedApp.of(context).delegate;
+              localizationDelegate.changeLocale(Locale("en_US"));
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              await prefs.setString('language', 'en_US');
+            },
+            child: Column(
               children: <Widget>[
-                GestureDetector(
-                  onTap: () async {
-                    var localizationDelegate =
-                        LocalizedApp.of(context).delegate;
-                    localizationDelegate.changeLocale(Locale("en_US"));
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    await prefs.setString('language', 'en_US');
-                  },
-                  child: Column(
+                Container(
+                  child: Row(
                     children: <Widget>[
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            SizedBox(width: 15),
-                            Expanded(
-                              child: Text(
-                                translate("language.en"),
-                              ),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: AppTheme.green_app_color,
-                            ),
-                            SizedBox(width: 15),
-                          ],
+                      SizedBox(width: 15),
+                      Expanded(
+                        child: Text(
+                          translate("language.en"),
                         ),
-                        height: 48,
-                        color: AppTheme.white,
                       ),
-                      Container(
-                        height: 1,
-                        color: Colors.black12,
-                      )
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                        color: AppTheme.green_app_color,
+                      ),
+                      SizedBox(width: 15),
                     ],
                   ),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    var localizationDelegate =
-                        LocalizedApp.of(context).delegate;
-                    localizationDelegate.changeLocale(Locale("ru"));
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    await prefs.setString('language', 'ru');
-                  },
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            SizedBox(width: 15),
-                            Expanded(
-                              child: Text(
-                                translate("language.ru"),
-                              ),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: AppTheme.green_app_color,
-                            ),
-                            SizedBox(width: 15),
-                          ],
-                        ),
-                        height: 48,
-                        color: AppTheme.white,
-                      ),
-                      Container(
-                        height: 1,
-                        color: Colors.black12,
-                      )
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    var localizationDelegate =
-                        LocalizedApp.of(context).delegate;
-                    localizationDelegate.changeLocale(Locale("uz"));
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    await prefs.setString('language', 'uz');
-                  },
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            SizedBox(width: 15),
-                            Expanded(
-                              child: Text(
-                                translate("language.uz"),
-                              ),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: AppTheme.green_app_color,
-                            ),
-                            SizedBox(width: 15),
-                          ],
-                        ),
-                        height: 48,
-                        color: AppTheme.white,
-                      ),
-                      Container(
-                        height: 1,
-                        color: Colors.black12,
-                      )
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            SizedBox(width: 15),
-                            Expanded(
-                              child: Text(
-                                "position.toString()",
-                              ),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: AppTheme.green_app_color,
-                            ),
-                            SizedBox(width: 15),
-                          ],
-                        ),
-                        height: 48,
-                        color: AppTheme.white,
-                      ),
-                      Container(
-                        height: 1,
-                        color: Colors.black12,
-                      )
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            SizedBox(width: 15),
-                            Expanded(
-                              child: Text(
-                                "position.toString()",
-                              ),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: AppTheme.green_app_color,
-                            ),
-                            SizedBox(width: 15),
-                          ],
-                        ),
-                        height: 48,
-                        color: AppTheme.white,
-                      ),
-                      Container(
-                        height: 1,
-                        color: Colors.black12,
-                      )
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            SizedBox(width: 15),
-                            Expanded(
-                              child: Text(
-                                "position.toString()",
-                              ),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: AppTheme.green_app_color,
-                            ),
-                            SizedBox(width: 15),
-                          ],
-                        ),
-                        height: 48,
-                        color: AppTheme.white,
-                      ),
-                      Container(
-                        height: 1,
-                        color: Colors.black12,
-                      )
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            SizedBox(width: 15),
-                            Expanded(
-                              child: Text(
-                                "position.toString()",
-                              ),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: AppTheme.green_app_color,
-                            ),
-                            SizedBox(width: 15),
-                          ],
-                        ),
-                        height: 48,
-                        color: AppTheme.white,
-                      ),
-                      Container(
-                        height: 1,
-                        color: Colors.black12,
-                      )
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            SizedBox(width: 15),
-                            Expanded(
-                              child: Text(
-                                "position.toString()",
-                              ),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: AppTheme.green_app_color,
-                            ),
-                            SizedBox(width: 15),
-                          ],
-                        ),
-                        height: 48,
-                        color: AppTheme.white,
-                      ),
-                      Container(
-                        height: 1,
-                        color: Colors.black12,
-                      )
-                    ],
-                  ),
+                  height: 48,
+                  color: AppTheme.white,
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 35),
-                  child: Center(
-                    child: Text(
-                      translate("menu.help"),
-                      style: TextStyle(
-                        color: AppTheme.black_text,
-                        fontSize: 19,
+                  height: 1,
+                  color: Colors.black12,
+                )
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap: () async {
+              var localizationDelegate = LocalizedApp.of(context).delegate;
+              localizationDelegate.changeLocale(Locale("ru"));
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              await prefs.setString('language', 'ru');
+            },
+            child: Column(
+              children: <Widget>[
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(width: 15),
+                      Expanded(
+                        child: Text(
+                          translate("language.ru"),
+                        ),
                       ),
-                    ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                        color: AppTheme.green_app_color,
+                      ),
+                      SizedBox(width: 15),
+                    ],
                   ),
+                  height: 48,
+                  color: AppTheme.white,
                 ),
                 Container(
-                  height: 25,
+                  height: 1,
+                  color: Colors.black12,
+                )
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap: () async {
+              var localizationDelegate = LocalizedApp.of(context).delegate;
+              localizationDelegate.changeLocale(Locale("uz"));
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              await prefs.setString('language', 'uz');
+            },
+            child: Column(
+              children: <Widget>[
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(width: 15),
+                      Expanded(
+                        child: Text(
+                          translate("language.uz"),
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                        color: AppTheme.green_app_color,
+                      ),
+                      SizedBox(width: 15),
+                    ],
+                  ),
+                  height: 48,
+                  color: AppTheme.white,
                 ),
+                Container(
+                  height: 1,
+                  color: Colors.black12,
+                )
               ],
             ),
           ),
