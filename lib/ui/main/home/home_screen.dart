@@ -7,7 +7,7 @@ import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/item_model.dart';
 import 'package:pharmacy/model/top_item_model.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
-import 'package:pharmacy/ui/view/item_view.dart';
+import 'package:pharmacy/ui/view/item_home_view.dart';
 import 'package:pharmacy/utils/utils.dart';
 
 import '../../../app_theme.dart';
@@ -313,7 +313,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             itemCount:
                 isLoad ? items.length > 3 ? 3 : items.length : items.length,
             itemBuilder: (context, index) {
-              return ItemView(items[index]);
+              return ItemHomeView(items[index]);
             },
           ),
           isLoad

@@ -13,18 +13,18 @@ import '../../app_theme.dart';
 final priceFormat = new NumberFormat("#,##0", "ru");
 
 // ignore: must_be_immutable
-class ItemView extends StatefulWidget {
+class ItemHomeView extends StatefulWidget {
   ItemModel item;
 
-  ItemView(this.item);
+  ItemHomeView(this.item);
 
   @override
   State<StatefulWidget> createState() {
-    return _ItemViewState();
+    return _ItemHomeViewState();
   }
 }
 
-class _ItemViewState extends State<ItemView> {
+class _ItemHomeViewState extends State<ItemHomeView> {
   DatabaseHelper dataBase = new DatabaseHelper();
 
   @override
@@ -309,17 +309,35 @@ class _ItemViewState extends State<ItemView> {
                                           },
                                           child: Container(
                                             height: 30,
-                                            width: 30,
+                                            padding:
+                                                EdgeInsets.only(left: 13.3),
+                                            width: 101,
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0),
-                                              ),
+                                                  Radius.circular(10.0)),
                                               color: AppTheme.green,
                                             ),
-                                            child: Icon(
-                                              Icons.add_shopping_cart,
-                                              color: AppTheme.white,
-                                              size: 19,
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.add_shopping_cart,
+                                                  color: AppTheme.white,
+                                                  size: 19,
+                                                ),
+                                                SizedBox(
+                                                  width: 7.11,
+                                                ),
+                                                Text(
+                                                  translate("item.buy"),
+                                                  style: TextStyle(
+                                                    color: AppTheme.white,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontFamily:
+                                                        AppTheme.fontSFProText,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),

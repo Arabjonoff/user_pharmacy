@@ -6,10 +6,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/localization_delegate.dart';
 import 'package:flutter_translate/localization_provider.dart';
 import 'package:flutter_translate/localized_app.dart';
-import 'package:pharmacy/ui/main_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_theme.dart';
+import 'delete/delete_screen.dart';
 
 String language = 'en_US';
 
@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: MainScreen(),
+        home: MyBody(),
       ),
     );
   }
