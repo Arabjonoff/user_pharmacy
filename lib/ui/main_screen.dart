@@ -68,7 +68,10 @@ class _MainScreenState extends State<MainScreen> {
                 title: Text(
                   translate('main.home'),
                   maxLines: 1,
-                  style: TextStyle(fontSize: 13),
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontFamily: AppTheme.fontSFProText,
+                  ),
                 ),
               ),
               BottomNavigationBarItem(
@@ -78,7 +81,10 @@ class _MainScreenState extends State<MainScreen> {
                 title: Text(
                   translate('main.catalog'),
                   maxLines: 1,
-                  style: TextStyle(fontSize: 13),
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontFamily: AppTheme.fontSFProText,
+                  ),
                 ),
               ),
               BottomNavigationBarItem(
@@ -102,7 +108,10 @@ class _MainScreenState extends State<MainScreen> {
                 title: Text(
                   translate('main.card'),
                   maxLines: 1,
-                  style: TextStyle(fontSize: 13),
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontFamily: AppTheme.fontSFProText,
+                  ),
                 ),
               ),
               BottomNavigationBarItem(
@@ -112,7 +121,10 @@ class _MainScreenState extends State<MainScreen> {
                 title: Text(
                   translate('main.favourite'),
                   maxLines: 1,
-                  style: TextStyle(fontSize: 13),
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontFamily: AppTheme.fontSFProText,
+                  ),
                 ),
               ),
               BottomNavigationBarItem(
@@ -122,7 +134,10 @@ class _MainScreenState extends State<MainScreen> {
                 title: Text(
                   translate('main.menu'),
                   maxLines: 1,
-                  style: TextStyle(fontSize: 13),
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontFamily: AppTheme.fontSFProText,
+                  ),
                 ),
               )
             ],

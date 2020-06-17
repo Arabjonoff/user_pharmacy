@@ -38,6 +38,9 @@ flutter:
 
 
   fonts:
-    - family: Sofia
+    - family: SFProText
       fonts:
-        - asset: assets/fonts/Sofia-Regular.ttf
+        - asset: assets/fonts/SFProText-Regular.ttf
+    - family: TTCommons
+      fonts:
+        - asset: assets/fonts/TTCommons-DemiBold.ttf
