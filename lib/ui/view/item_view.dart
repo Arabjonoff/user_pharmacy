@@ -88,8 +88,9 @@ class _ItemViewState extends State<ItemView> {
                                   widget.item.name,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
                                     color: AppTheme.black_text,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: AppTheme.fontSFProText,
                                     fontSize: 13,
                                   ),
                                   maxLines: 2,
@@ -135,6 +136,8 @@ class _ItemViewState extends State<ItemView> {
                             style: TextStyle(
                               color: AppTheme.black_transparent_text,
                               fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: AppTheme.fontSFProText,
                             ),
                           ),
                           Expanded(
@@ -146,9 +149,11 @@ class _ItemViewState extends State<ItemView> {
                                     priceFormat.format(widget.item.price) +
                                         translate("sum"),
                                     style: TextStyle(
-                                        color: AppTheme.black_transparent_text,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
+                                      color: AppTheme.black_transparent_text,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: AppTheme.fontSFProText,
+                                    ),
                                   ),
                                 )
                               : Container(),
@@ -162,11 +167,13 @@ class _ItemViewState extends State<ItemView> {
                                     priceFormat.format(widget.item.price) +
                                         translate("sum"),
                                     style: TextStyle(
-                                        color: widget.item.sale
-                                            ? AppTheme.red_text_sale
-                                            : AppTheme.black_text,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
+                                      color: widget.item.sale
+                                          ? AppTheme.red_text_sale
+                                          : AppTheme.black_text,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: AppTheme.fontSFProText,
+                                    ),
                                   ),
                                 ),
                                 Container(
@@ -320,7 +327,9 @@ class _ItemViewState extends State<ItemView> {
                                                   translate("item.buy"),
                                                   style: TextStyle(
                                                     color: AppTheme.white,
-                                                    fontWeight: FontWeight.bold,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontFamily:
+                                                        AppTheme.fontSFProText,
                                                     fontSize: 12,
                                                   ),
                                                 ),

@@ -100,7 +100,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           child: Text(
                             translate("search_hint"),
                             style: TextStyle(
-                                color: AppTheme.notWhite, fontSize: 17),
+                                color: AppTheme.notWhite,
+                                fontSize: 15,
+                                fontFamily: AppTheme.fontSFProText,
+                                fontWeight: FontWeight.normal),
                           ),
                         ),
                       ],
@@ -181,6 +184,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   style: TextStyle(
                                     color: AppTheme.white,
                                     fontSize: 13,
+                                    fontFamily: AppTheme.fontSFProText,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ),
@@ -191,6 +196,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   style: TextStyle(
                                     color: AppTheme.white,
                                     fontSize: 17,
+                                    fontFamily: AppTheme.fontSFProText,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ),
@@ -288,7 +295,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   translate("home.best"),
                   style: TextStyle(
                     color: AppTheme.black_text,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: AppTheme.fontSFProDisplay,
                     fontSize: 20,
                   ),
                 ),
@@ -334,9 +342,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             "home.show_all",
                           ),
                           style: TextStyle(
-                              fontSize: 15,
-                              color: AppTheme.green,
-                              fontWeight: FontWeight.bold),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: AppTheme.fontSFProText,
+                            color: AppTheme.green,
+                          ),
                         ),
                       ),
                     ),

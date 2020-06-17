@@ -10,8 +10,8 @@ class AppTheme {
   static const Color grey = Color(0xFF3A5160);
   static const Color dark_grey = Color(0xFF313A44);
 
-  static const Color black_catalog=Color(0xFF000000);
-  static const Color arrow_catalog=Color(0xFFB8C1CC);
+  static const Color black_catalog = Color(0xFF000000);
+  static const Color arrow_catalog = Color(0xFFB8C1CC);
 
   static const Color darkText = Color(0xFF253840);
   static const Color darkerText = Color(0xFF17262A);
@@ -23,6 +23,7 @@ class AppTheme {
 
   static const String fontCommons = 'TTCommons';
   static const String fontSFProText = 'SFProText';
+  static const String fontSFProDisplay = 'SFProDisplay';
 
   static const Color green = Color(0xFF3F8AE0);
   static const Color black_transparent = Color(0xFFEBEDF0);
