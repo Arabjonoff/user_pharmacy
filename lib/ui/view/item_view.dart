@@ -179,112 +179,116 @@ class _ItemViewState extends State<ItemView> {
                                 Container(
                                   height: 30,
                                   child: widget.item.cardCount > 0
-                                      ? SizedBox(
+                                      ? Container(
                                           height: 30,
+                                          decoration: BoxDecoration(
+                                            color: AppTheme.green_transparent,
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          width: 120,
                                           child: Row(
                                             children: <Widget>[
-                                              Container(
-                                                height: 30,
-                                                width: 30,
-                                                child: IconButton(
-                                                  icon: Icon(
-                                                    Icons.remove_circle,
-                                                    color: Color.fromRGBO(
-                                                      203,
-                                                      203,
-                                                      203,
-                                                      1.0,
+                                              GestureDetector(
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: AppTheme.green,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      10.0,
                                                     ),
-                                                    size: 15,
                                                   ),
-                                                  onPressed: () {
-                                                    if (widget.item.cardCount >
-                                                        1) {
-                                                      setState(() {
-                                                        widget.item.cardCount =
-                                                            widget.item
-                                                                    .cardCount -
-                                                                1;
-                                                        dataBase.updateProduct(
-                                                            widget.item);
-                                                      });
-                                                    } else if (widget
-                                                            .item.cardCount ==
-                                                        1) {
-                                                      setState(() {
-                                                        widget.item.cardCount =
-                                                            widget.item
-                                                                    .cardCount -
-                                                                1;
-                                                        if (widget
-                                                            .item.favourite) {
-                                                          dataBase
-                                                              .updateProduct(
-                                                                  widget.item);
-                                                        } else {
-                                                          dataBase
-                                                              .deleteProducts(
-                                                                  widget
-                                                                      .item.id);
-                                                        }
-                                                      });
-                                                    }
-                                                  },
-                                                ),
-                                              ),
-                                              Container(
-                                                height: 24,
-                                                width: 48,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      new BorderRadius.all(
-                                                    Radius.circular(6.0),
-                                                  ),
-                                                  border: Border.all(
-                                                    color: Color.fromRGBO(
-                                                      203,
-                                                      203,
-                                                      203,
-                                                      1.0,
+                                                  margin: EdgeInsets.all(2.0),
+                                                  height: 26,
+                                                  width: 26,
+                                                  child: Center(
+                                                    child: Icon(
+                                                      Icons.remove,
+                                                      color: AppTheme.white,
+                                                      size: 19,
                                                     ),
                                                   ),
                                                 ),
-                                                child: Center(
-                                                  child: Text(
-                                                    widget.item.cardCount
-                                                        .toString(),
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontSize: 20.0,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                height: 30,
-                                                width: 30,
-                                                child: IconButton(
-                                                  icon: Icon(
-                                                    Icons.add_circle,
-                                                    color: Color.fromRGBO(
-                                                      203,
-                                                      203,
-                                                      203,
-                                                      1.0,
-                                                    ),
-                                                    size: 15,
-                                                  ),
-                                                  onPressed: () {
+                                                onTap: () {
+                                                  if (widget.item.cardCount >
+                                                      1) {
                                                     setState(() {
                                                       widget.item.cardCount =
                                                           widget.item
-                                                                  .cardCount +
+                                                                  .cardCount -
                                                               1;
                                                       dataBase.updateProduct(
                                                           widget.item);
                                                     });
-                                                  },
+                                                  } else if (widget
+                                                          .item.cardCount ==
+                                                      1) {
+                                                    setState(() {
+                                                      widget.item.cardCount =
+                                                          widget.item
+                                                                  .cardCount -
+                                                              1;
+                                                      if (widget
+                                                          .item.favourite) {
+                                                        dataBase.updateProduct(
+                                                            widget.item);
+                                                      } else {
+                                                        dataBase.deleteProducts(
+                                                            widget.item.id);
+                                                      }
+                                                    });
+                                                  }
+                                                },
+                                              ),
+                                              Container(
+                                                height: 30,
+                                                width: 60,
+                                                child: Center(
+                                                  child: Text(
+                                                    widget.item.cardCount
+                                                            .toString() +
+                                                        " " +
+                                                        translate("item.sht"),
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 15.0,
+                                                      color: AppTheme.green,
+                                                      fontFamily: AppTheme
+                                                          .fontSFProText,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    widget.item.cardCount =
+                                                        widget.item.cardCount +
+                                                            1;
+                                                    dataBase.updateProduct(
+                                                        widget.item);
+                                                  });
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: AppTheme.green,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      10.0,
+                                                    ),
+                                                  ),
+                                                  height: 26,
+                                                  width: 26,
+                                                  margin: EdgeInsets.all(2.0),
+                                                  child: Center(
+                                                    child: Icon(
+                                                      Icons.add,
+                                                      color: AppTheme.white,
+                                                      size: 19,
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ],

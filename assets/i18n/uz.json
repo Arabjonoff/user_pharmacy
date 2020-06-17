@@ -37,6 +37,7 @@
     "title": "Language Selection"
   },
   "item": {
-    "buy": "Купить"
+    "buy": "Купить",
+    "sht": "шт."
   }
 }

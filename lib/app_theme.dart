@@ -26,6 +26,7 @@ class AppTheme {
   static const String fontSFProDisplay = 'SFProDisplay';
 
   static const Color green = Color(0xFF3F8AE0);
+  static const Color green_transparent = Color.fromRGBO(63, 138, 224, 0.1);
   static const Color black_transparent = Color(0xFFEBEDF0);
 
   static const Color black_text = Color(0xFF1C1C1E);
