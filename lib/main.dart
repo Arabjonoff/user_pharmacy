@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/localization_delegate.dart';
 import 'package:flutter_translate/localization_provider.dart';
 import 'package:flutter_translate/localized_app.dart';
+import 'package:pharmacy/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/ui/main_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -60,7 +61,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: MainScreen(),
+        home: ItemListScreen("SJAasj kdc dsc"),
       ),
     );
   }
