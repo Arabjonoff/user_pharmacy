@@ -58,7 +58,7 @@ class _MainScreenState extends State<MainScreen> {
               });
             },
             unselectedItemColor: AppTheme.menu_unselected,
-            selectedItemColor: AppTheme.green_app_color,
+            selectedItemColor: AppTheme.blue_app_color,
             currentIndex: _selectedIndex,
             items: [
               BottomNavigationBarItem(

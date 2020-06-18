@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/item_model.dart';
-import 'package:pharmacy/ui/view/item_view.dart';
+import 'package:pharmacy/ui/view/item_search_view.dart';
 
 import '../../app_theme.dart';
 
@@ -28,7 +28,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   List<ItemModel> itemCard = new List();
   DatabaseHelper dataBase = new DatabaseHelper();
-
 
   @override
   void initState() {
@@ -69,112 +68,109 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Container(
-            height: 104,
-            width: size.width,
-            color: AppTheme.green_app_color,
-            child: Container(
-              margin: EdgeInsets.only(top: 24, left: 3, bottom: 24),
-              width: size.width,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Row(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: AppTheme.white,
+        brightness: Brightness.light,
+        title: Container(
+          height: 36,
+          width: double.infinity,
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(9.0),
+                    color: AppTheme.black_transparent,
+                  ),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: new Icon(
+                          Icons.search,
+                          size: 24,
+                          color: AppTheme.notWhite,
+                        ),
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    Text(
-                      translate("search_hint"),
-                      style: TextStyle(color: Colors.white, fontSize: 21),
-                    )
-                  ],
+                      Expanded(
+                        child: Center(
+                          child: TextFormField(
+                            autofocus: true,
+                            cursorColor: AppTheme.notWhite,
+                            style: TextStyle(
+                              color: AppTheme.black_catalog,
+                              fontSize: 17,
+                              fontFamily: AppTheme.fontSFProText,
+                              fontWeight: FontWeight.normal,
+                            ),
+                            decoration: new InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              hintText: translate("search_hint"),
+                            ),
+                            controller: searchController,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 104),
-            height: size.height - 104,
-            width: size.width,
-            child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              shrinkWrap: false,
-              scrollDirection: Axis.vertical,
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                return ItemView(items[index]);
-              },
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 80, left: 15, right: 15, bottom: 15),
-            height: 48,
-            width: double.infinity,
-            child: Material(
-              elevation: 5.0,
-              borderRadius: BorderRadius.circular(9.0),
-              child: Row(
-                children: <Widget>[
-                  IconButton(
-                    icon: new Icon(
-                      Icons.search,
-                      size: 24,
-                      color: AppTheme.green_app_color,
-                    ),
-                    onPressed: () {},
+              Container(
+                margin: EdgeInsets.only(left: 12),
+                child: Text(
+                  translate("search.cancel"),
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    color: AppTheme.blue_app_color,
+                    fontFamily: AppTheme.fontSFProText,
+                    fontSize: 17,
                   ),
-                  Expanded(
-                    child: TextFormField(
-                      autofocus: true,
-                      cursorColor: Colors.black,
-                      decoration: new InputDecoration(
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.only(
-                          left: 3,
-                          right: 3,
-                        ),
-                        hintText: translate("search_hint"),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+      backgroundColor: AppTheme.white,
+      body: Stack(
+        children: <Widget>[
+          isSearchText
+              ? Container(
+                  child: ListView(
+                    children: [
+                      Text("AAAAAAAAAAAAAA"),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: ClampingScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        itemCount: items.length,
+                        itemBuilder: (context, index) {
+                          return ItemSearchView(items[index]);
+                        },
                       ),
-                      controller: searchController,
-                    ),
+                    ],
                   ),
-                  isSearchText
-                      ? IconButton(
-                          icon: new Icon(
-                            Icons.close,
-                            size: 24,
-                            color: Colors.black45,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              searchController.text = "";
-                            });
-                          },
-                        )
-                      : IconButton(
-                          icon: new Icon(
-                            Icons.scanner,
-                            size: 24,
-                            color: Colors.black45,
-                          ),
-                          onPressed: () {},
-                        ),
-                ],
-              ),
-            ),
-          )
+                )
+              : Container(
+                  child: ListView(
+                    children: [
+                      Text("false"),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: ClampingScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        itemCount: items.length,
+                        itemBuilder: (context, index) {
+                          return ItemSearchView(items[index]);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
         ],
       ),
     );

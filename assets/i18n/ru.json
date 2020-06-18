@@ -41,5 +41,8 @@
     "sht": "шт.",
     "sort": "По названию",
     "filter": "Фильтр"
+  },
+  "search": {
+    "cancel": "cancel"
   }
 }

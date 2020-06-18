@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: ItemListScreen("SJAasj kdc dsc"),
+        home: SearchScreen("dsc"),
       ),
     );
   }

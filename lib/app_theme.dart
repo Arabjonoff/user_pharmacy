@@ -25,19 +25,18 @@ class AppTheme {
   static const String fontSFProText = 'SFProText';
   static const String fontSFProDisplay = 'SFProDisplay';
 
-  static const Color green = Color(0xFF3F8AE0);
-  static const Color green_transparent = Color.fromRGBO(63, 138, 224, 0.1);
+  static const Color blue = Color(0xFF3F8AE0);
+  static const Color blue_transparent = Color.fromRGBO(63, 138, 224, 0.1);
   static const Color black_transparent = Color(0xFFEBEDF0);
 
   static const Color black_text = Color(0xFF1C1C1E);
   static const Color red_text_sale = Color(0xFFFF3347);
   static const Color black_transparent_text = Color(0xFF818C99);
   static const Color black_linear = Color(0x1F000000);
-  static const Color green_app_color = Color(0xFF3F8AE0);
+  static const Color blue_app_color = Color(0xFF3F8AE0);
   static const Color menu_unselected = Color(0xFF99A2AD);
   static const Color background = Color(0xFFF2F3F8);
 
-  static const Color green_text = Colors.green;
 
   static const TextTheme textTheme = TextTheme(
     headline4: display1,

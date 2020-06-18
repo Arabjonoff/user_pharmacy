@@ -30,7 +30,7 @@ class _ItemScreenState extends State<ItemScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: AppTheme.green_app_color,
+          backgroundColor: AppTheme.blue_app_color,
           elevation: 0,
           leading: IconButton(
             icon: Icon(
@@ -52,7 +52,7 @@ class _ItemScreenState extends State<ItemScreen> {
             ],
           ),
           bottom: TabBar(
-            labelColor: AppTheme.green_app_color,
+            labelColor: AppTheme.blue_app_color,
             unselectedLabelColor: Colors.white,
             indicatorSize: TabBarIndicatorSize.label,
             indicator: BoxDecoration(

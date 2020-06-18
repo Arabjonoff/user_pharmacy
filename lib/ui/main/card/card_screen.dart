@@ -28,7 +28,7 @@ class _CardScreenState extends State<CardScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppTheme.green_app_color,
+        backgroundColor: AppTheme.blue_app_color,
         title: Container(
           width: size.width,
           child: Align(

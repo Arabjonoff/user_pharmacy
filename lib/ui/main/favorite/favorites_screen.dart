@@ -26,7 +26,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppTheme.green_app_color,
+        backgroundColor: AppTheme.blue_app_color,
         title: Container(
           width: size.width,
           child: Align(

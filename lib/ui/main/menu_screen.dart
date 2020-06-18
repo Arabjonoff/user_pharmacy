@@ -67,7 +67,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       Icon(
                         Icons.arrow_forward_ios,
                         size: 16,
-                        color: AppTheme.green_app_color,
+                        color: AppTheme.blue_app_color,
                       ),
                       SizedBox(width: 15),
                     ],
@@ -103,7 +103,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       Icon(
                         Icons.arrow_forward_ios,
                         size: 16,
-                        color: AppTheme.green_app_color,
+                        color: AppTheme.blue_app_color,
                       ),
                       SizedBox(width: 15),
                     ],
@@ -139,7 +139,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       Icon(
                         Icons.arrow_forward_ios,
                         size: 16,
-                        color: AppTheme.green_app_color,
+                        color: AppTheme.blue_app_color,
                       ),
                       SizedBox(width: 15),
                     ],

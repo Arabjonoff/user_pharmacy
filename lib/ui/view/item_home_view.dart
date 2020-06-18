@@ -182,7 +182,7 @@ class _ItemHomeViewState extends State<ItemHomeView> {
                                       ? Container(
                                           height: 30,
                                           decoration: BoxDecoration(
-                                            color: AppTheme.green_transparent,
+                                            color: AppTheme.blue_transparent,
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
                                           ),
@@ -192,7 +192,7 @@ class _ItemHomeViewState extends State<ItemHomeView> {
                                               GestureDetector(
                                                 child: Container(
                                                   decoration: BoxDecoration(
-                                                    color: AppTheme.green,
+                                                    color: AppTheme.blue,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                       10.0,
@@ -252,7 +252,7 @@ class _ItemHomeViewState extends State<ItemHomeView> {
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontSize: 15.0,
-                                                      color: AppTheme.green,
+                                                      color: AppTheme.blue,
                                                       fontFamily: AppTheme
                                                           .fontSFProText,
                                                       fontWeight:
@@ -273,7 +273,7 @@ class _ItemHomeViewState extends State<ItemHomeView> {
                                                 },
                                                 child: Container(
                                                   decoration: BoxDecoration(
-                                                    color: AppTheme.green,
+                                                    color: AppTheme.blue,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                       10.0,
@@ -315,7 +315,7 @@ class _ItemHomeViewState extends State<ItemHomeView> {
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(10.0)),
-                                              color: AppTheme.green,
+                                              color: AppTheme.blue,
                                             ),
                                             child: Row(
                                               children: [

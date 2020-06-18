@@ -182,7 +182,7 @@ class _ItemViewState extends State<ItemView> {
                                       ? Container(
                                           height: 30,
                                           decoration: BoxDecoration(
-                                            color: AppTheme.green_transparent,
+                                            color: AppTheme.blue_transparent,
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
                                           ),
@@ -192,7 +192,7 @@ class _ItemViewState extends State<ItemView> {
                                               GestureDetector(
                                                 child: Container(
                                                   decoration: BoxDecoration(
-                                                    color: AppTheme.green,
+                                                    color: AppTheme.blue,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                       10.0,
@@ -252,7 +252,7 @@ class _ItemViewState extends State<ItemView> {
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontSize: 15.0,
-                                                      color: AppTheme.green,
+                                                      color: AppTheme.blue,
                                                       fontFamily: AppTheme
                                                           .fontSFProText,
                                                       fontWeight:
@@ -273,7 +273,7 @@ class _ItemViewState extends State<ItemView> {
                                                 },
                                                 child: Container(
                                                   decoration: BoxDecoration(
-                                                    color: AppTheme.green,
+                                                    color: AppTheme.blue,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                       10.0,
@@ -314,7 +314,7 @@ class _ItemViewState extends State<ItemView> {
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(10.0),
                                               ),
-                                              color: AppTheme.green,
+                                              color: AppTheme.blue,
                                             ),
                                             child: Center(
                                               child: Icon(

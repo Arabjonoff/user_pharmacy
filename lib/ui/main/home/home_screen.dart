@@ -7,7 +7,7 @@ import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/item_model.dart';
 import 'package:pharmacy/model/top_item_model.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
-import 'package:pharmacy/ui/view/item_home_view.dart';
+import 'package:pharmacy/ui/view/item_view.dart';
 import 'package:pharmacy/utils/utils.dart';
 
 import '../../../app_theme.dart';
@@ -94,16 +94,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             size: 24,
                             color: AppTheme.notWhite,
                           ),
-                          onPressed: () {},
                         ),
                         Expanded(
                           child: Text(
                             translate("search_hint"),
                             style: TextStyle(
-                                color: AppTheme.notWhite,
-                                fontSize: 15,
-                                fontFamily: AppTheme.fontSFProText,
-                                fontWeight: FontWeight.normal),
+                              color: AppTheme.notWhite,
+                              fontSize: 15,
+                              fontFamily: AppTheme.fontSFProText,
+                              fontWeight: FontWeight.normal,
+                            ),
                           ),
                         ),
                       ],
@@ -313,7 +313,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             itemCount:
                 isLoad ? items.length > 3 ? 3 : items.length : items.length,
             itemBuilder: (context, index) {
-              return ItemHomeView(items[index]);
+              return ItemView(items[index]);
             },
           ),
           isLoad
@@ -333,7 +333,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(9.0),
                           border: Border.all(
-                            color: AppTheme.green,
+                            color: AppTheme.blue,
                             width: 2.0,
                           ),
                         ),
@@ -345,7 +345,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             fontFamily: AppTheme.fontSFProText,
-                            color: AppTheme.green,
+                            color: AppTheme.blue,
                           ),
                         ),
                       ),
