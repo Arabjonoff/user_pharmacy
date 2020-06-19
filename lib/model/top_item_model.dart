@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
 class TopItemModel {

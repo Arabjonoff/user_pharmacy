@@ -43,6 +43,7 @@
     "filter": "Фильтр"
   },
   "search": {
-    "cancel": "cancel"
+    "cancel": "cancel",
+    "history": "История запросов"
   }
 }
