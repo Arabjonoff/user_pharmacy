@@ -78,7 +78,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                   style: TextStyle(
                                     fontSize: 17,
                                     color: AppTheme.black_catalog,
-                                    fontFamily: AppTheme.fontSFProText,
+                                    fontFamily: AppTheme.fontRoboto,
                                   ),
                                 ),
                               ),
@@ -136,7 +136,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             style: TextStyle(
                               color: AppTheme.notWhite,
                               fontSize: 17,
-                              fontFamily: AppTheme.fontSFProText,
+                              fontFamily: AppTheme.fontRoboto,
                             ),
                           ),
                         ),

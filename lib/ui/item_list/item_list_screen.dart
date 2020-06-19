@@ -112,7 +112,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                               child: Text(
                                 translate("item.sort"),
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontSFProText,
+                                  fontFamily: AppTheme.fontRoboto,
                                   fontSize: 15,
                                   color: AppTheme.black_text,
                                   fontWeight: FontWeight.w500,
@@ -141,7 +141,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                               child: Text(
                                 translate("item.filter"),
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontSFProText,
+                                  fontFamily: AppTheme.fontRoboto,
                                   fontSize: 15,
                                   color: AppTheme.black_text,
                                   fontWeight: FontWeight.w500,
@@ -206,7 +206,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                             style: TextStyle(
                               color: AppTheme.notWhite,
                               fontSize: 17,
-                              fontFamily: AppTheme.fontSFProText,
+                              fontFamily: AppTheme.fontRoboto,
                             ),
                           ),
                         ),

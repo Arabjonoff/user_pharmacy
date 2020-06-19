@@ -79,7 +79,7 @@ class _ItemSearchViewState extends State<ItemSearchView> {
                             style: TextStyle(
                               color: AppTheme.black_text,
                               fontWeight: FontWeight.w500,
-                              fontFamily: AppTheme.fontSFProText,
+                              fontFamily: AppTheme.fontRoboto,
                               fontSize: 13,
                             ),
                             maxLines: 2,
@@ -91,7 +91,7 @@ class _ItemSearchViewState extends State<ItemSearchView> {
                               color: AppTheme.black_transparent_text,
                               fontSize: 13,
                               fontWeight: FontWeight.normal,
-                              fontFamily: AppTheme.fontSFProText,
+                              fontFamily: AppTheme.fontRoboto,
                             ),
                           ),
                         ],

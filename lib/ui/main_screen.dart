@@ -70,7 +70,7 @@ class _MainScreenState extends State<MainScreen> {
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: 13,
-                    fontFamily: AppTheme.fontSFProText,
+                    fontFamily: AppTheme.fontRoboto,
                   ),
                 ),
               ),
@@ -83,7 +83,7 @@ class _MainScreenState extends State<MainScreen> {
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: 13,
-                    fontFamily: AppTheme.fontSFProText,
+                    fontFamily: AppTheme.fontRoboto,
                   ),
                 ),
               ),
@@ -110,7 +110,7 @@ class _MainScreenState extends State<MainScreen> {
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: 13,
-                    fontFamily: AppTheme.fontSFProText,
+                    fontFamily: AppTheme.fontRoboto,
                   ),
                 ),
               ),
@@ -123,7 +123,7 @@ class _MainScreenState extends State<MainScreen> {
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: 13,
-                    fontFamily: AppTheme.fontSFProText,
+                    fontFamily: AppTheme.fontRoboto,
                   ),
                 ),
               ),
@@ -136,7 +136,7 @@ class _MainScreenState extends State<MainScreen> {
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: 13,
-                    fontFamily: AppTheme.fontSFProText,
+                    fontFamily: AppTheme.fontRoboto,
                   ),
                 ),
               )

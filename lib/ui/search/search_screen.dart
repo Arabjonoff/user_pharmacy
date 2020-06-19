@@ -105,7 +105,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               style: TextStyle(
                                 color: AppTheme.notWhite,
                                 fontSize: 15,
-                                fontFamily: AppTheme.fontSFProText,
+                                fontFamily: AppTheme.fontRoboto,
                                 fontWeight: FontWeight.normal,
                               ),
                               decoration: InputDecoration(
@@ -114,7 +114,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 hintStyle: TextStyle(
                                   color: AppTheme.notWhite,
                                   fontSize: 15,
-                                  fontFamily: AppTheme.fontSFProText,
+                                  fontFamily: AppTheme.fontRoboto,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
@@ -134,7 +134,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   style: TextStyle(
                     fontWeight: FontWeight.normal,
                     color: AppTheme.blue_app_color,
-                    fontFamily: AppTheme.fontSFProText,
+                    fontFamily: AppTheme.fontRoboto,
                     fontSize: 17,
                   ),
                 ),
@@ -166,7 +166,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
-                                fontFamily: AppTheme.fontSFProText,
+                                fontFamily: AppTheme.fontRoboto,
                                 color: AppTheme.black_text,
                               ),
                             ),

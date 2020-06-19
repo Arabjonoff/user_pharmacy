@@ -90,7 +90,7 @@ class _ItemViewState extends State<ItemView> {
                                   style: TextStyle(
                                     color: AppTheme.black_text,
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: AppTheme.fontSFProText,
+                                    fontFamily: AppTheme.fontRoboto,
                                     fontSize: 13,
                                   ),
                                   maxLines: 2,
@@ -137,7 +137,7 @@ class _ItemViewState extends State<ItemView> {
                               color: AppTheme.black_transparent_text,
                               fontSize: 12,
                               fontWeight: FontWeight.normal,
-                              fontFamily: AppTheme.fontSFProText,
+                              fontFamily: AppTheme.fontRoboto,
                             ),
                           ),
                           Expanded(
@@ -152,7 +152,7 @@ class _ItemViewState extends State<ItemView> {
                                       color: AppTheme.black_transparent_text,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500,
-                                      fontFamily: AppTheme.fontSFProText,
+                                      fontFamily: AppTheme.fontRoboto,
                                     ),
                                   ),
                                 )
@@ -172,7 +172,7 @@ class _ItemViewState extends State<ItemView> {
                                           : AppTheme.black_text,
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
-                                      fontFamily: AppTheme.fontSFProText,
+                                      fontFamily: AppTheme.fontRoboto,
                                     ),
                                   ),
                                 ),
@@ -254,7 +254,7 @@ class _ItemViewState extends State<ItemView> {
                                                       fontSize: 15.0,
                                                       color: AppTheme.blue,
                                                       fontFamily: AppTheme
-                                                          .fontSFProText,
+                                                          .fontRoboto,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                     ),
