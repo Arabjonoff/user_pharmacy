@@ -36,13 +36,13 @@ class _MenuScreenState extends State<MenuScreen> {
           Container(
             height: 60,
             margin: EdgeInsets.only(
-              left: 74,
+              left: 14,
               top: 24,
               right: 14,
             ),
             child: Column(
               children: [
-
+                Text("Shahboz Turonov")
               ],
             ),
           ),

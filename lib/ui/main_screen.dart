@@ -153,8 +153,8 @@ class _MainScreenState extends State<MainScreen> {
         return [
           HomeScreen(),
           CategoryScreen(),
-          new CardScreen(),
-          new FavoritesScreen(),
+          CardScreen(),
+          FavoritesScreen(),
           MenuScreen(),
         ].elementAt(index);
       },
