@@ -103,14 +103,14 @@ class _SearchScreenState extends State<SearchScreen> {
                               autofocus: true,
                               cursorColor: AppTheme.notWhite,
                               style: TextStyle(
-                                color: AppTheme.notWhite,
+                                color: AppTheme.black_text,
                                 fontSize: 15,
                                 fontFamily: AppTheme.fontRoboto,
-                                fontWeight: FontWeight.normal,
+                                fontWeight: FontWeight.w600,
                               ),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText: translate("search_hint"),
+                                hintText: translate("search_real"),
                                 hintStyle: TextStyle(
                                   color: AppTheme.notWhite,
                                   fontSize: 15,
@@ -165,7 +165,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               translate("search.history"),
                               style: TextStyle(
                                 fontSize: 13,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                                 fontFamily: AppTheme.fontRoboto,
                                 color: AppTheme.black_text,
                               ),
