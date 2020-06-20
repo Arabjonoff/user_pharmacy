@@ -45,7 +45,7 @@ class _ItemViewState extends State<ItemView> {
         );
       },
       child: Container(
-        height: widget.item.sale ? 144.5 : 132.5,
+        height: widget.item.sale ? 172 : 160,
         color: AppTheme.white,
         child: Column(
           children: <Widget>[
@@ -55,16 +55,16 @@ class _ItemViewState extends State<ItemView> {
                   Container(
                     margin: EdgeInsets.only(
                       top: 16,
-                      left: 16,
-                      right: 16,
-                      bottom: 34.5,
+                      left: 15,
+                      right: 14,
+                      bottom: 22.5,
                     ),
-                    height: 82,
-                    width: 82,
+                    height: 112,
+                    width: 112,
                     child: Center(
                       child: CachedNetworkImage(
-                        height: 82,
-                        width: 82,
+                        height: 112,
+                        width: 112,
                         imageUrl: widget.item.image,
                         placeholder: (context, url) => Icon(Icons.camera_alt),
                         errorWidget: (context, url, error) => Icon(Icons.error),
@@ -73,109 +73,79 @@ class _ItemViewState extends State<ItemView> {
                   ),
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.only(right: 16),
+                      margin: EdgeInsets.only(right: 17),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           SizedBox(
-                            height: 26,
+                            height: 18,
+                          ),
+                          Text(
+                            widget.item.name,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: AppTheme.black_text,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: AppTheme.fontRoboto,
+                              fontSize: 13,
+                            ),
+                            maxLines: 2,
                           ),
                           Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Text(
-                                  widget.item.name,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: AppTheme.black_text,
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: AppTheme.fontRoboto,
-                                    fontSize: 13,
-                                  ),
-                                  maxLines: 2,
-                                ),
-                              ),
-//                            IconButton(
-//                              icon: widget.item.favourite
-//                                  ? Icon(
-//                                      Icons.favorite,
-//                                      size: 19,
-//                                      color: AppTheme.red_app_color,
-//                                    )
-//                                  : Icon(
-//                                      Icons.favorite_border,
-//                                      size: 19,
-//                                      color: AppTheme.dark_grey,
-//                                    ),
-//                              onPressed: () {
-//                                setState(() {
-//                                  if (widget.item.favourite) {
-//                                    widget.item.favourite = false;
-//                                    if (widget.item.cardCount == 0) {
-//                                      dataBase.deleteProducts(widget.item.id);
-//                                    } else {
-//                                      dataBase.updateProduct(widget.item);
-//                                    }
-//                                  } else {
-//                                    widget.item.favourite = true;
-//                                    if (widget.item.cardCount == 0) {
-//                                      dataBase.saveProducts(widget.item);
-//                                    } else {
-//                                      dataBase.updateProduct(widget.item);
-//                                    }
-//                                  }
-//                                });
-//                              },
-//                            ),
-                            ],
+                            children: <Widget>[],
                           ),
                           SizedBox(height: 3),
                           Text(
                             widget.item.title,
                             style: TextStyle(
                               color: AppTheme.black_transparent_text,
-                              fontSize: 12,
+                              fontSize: 11,
                               fontWeight: FontWeight.normal,
                               fontFamily: AppTheme.fontRoboto,
                             ),
                           ),
                           Expanded(
-                            child: Container(),
-                          ),
-                          widget.item.sale
-                              ? StrikeThroughWidget(
-                                  child: Text(
-                                    priceFormat.format(widget.item.price) +
-                                        translate("sum"),
-                                    style: TextStyle(
-                                      color: AppTheme.black_transparent_text,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: AppTheme.fontRoboto,
-                                    ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                widget.item.sale
+                                    ? StrikeThroughWidget(
+                                        child: Text(
+                                          priceFormat
+                                                  .format(widget.item.price) +
+                                              translate("sum"),
+                                          style: TextStyle(
+                                            color:
+                                                AppTheme.black_transparent_text,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: AppTheme.fontRoboto,
+                                          ),
+                                        ),
+                                      )
+                                    : Container(),
+                                Text(
+                                  priceFormat.format(widget.item.price) +
+                                      translate("sum"),
+                                  style: TextStyle(
+                                    color: widget.item.sale
+                                        ? AppTheme.red_text_sale
+                                        : AppTheme.black_text,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: AppTheme.fontRoboto,
                                   ),
-                                )
-                              : Container(),
+                                ),
+                              ],
+                            ),
+                          ),
                           Container(
-                            margin: EdgeInsets.only(bottom: 16.5),
+                            margin: EdgeInsets.only(bottom: 15.5),
                             height: 30,
                             child: Row(
                               children: <Widget>[
-                                Expanded(
-                                  child: Text(
-                                    priceFormat.format(widget.item.price) +
-                                        translate("sum"),
-                                    style: TextStyle(
-                                      color: widget.item.sale
-                                          ? AppTheme.red_text_sale
-                                          : AppTheme.black_text,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: AppTheme.fontRoboto,
-                                    ),
-                                  ),
-                                ),
                                 Container(
                                   height: 30,
                                   child: widget.item.cardCount > 0
@@ -253,8 +223,8 @@ class _ItemViewState extends State<ItemView> {
                                                     style: TextStyle(
                                                       fontSize: 15.0,
                                                       color: AppTheme.blue,
-                                                      fontFamily: AppTheme
-                                                          .fontRoboto,
+                                                      fontFamily:
+                                                          AppTheme.fontRoboto,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                     ),
@@ -309,7 +279,7 @@ class _ItemViewState extends State<ItemView> {
                                           },
                                           child: Container(
                                             height: 30,
-                                            width: 30,
+                                            width: 120,
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(10.0),
@@ -317,14 +287,54 @@ class _ItemViewState extends State<ItemView> {
                                               color: AppTheme.blue,
                                             ),
                                             child: Center(
-                                              child: Icon(
-                                                Icons.add_shopping_cart,
-                                                color: AppTheme.white,
-                                                size: 17,
+                                              child: Text(
+                                                translate("item.card"),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: AppTheme.fontRoboto,
+                                                  color: AppTheme.white,
+                                                ),
                                               ),
                                             ),
                                           ),
                                         ),
+                                ),
+                                Expanded(
+                                  child: Container(),
+                                ),
+                                GestureDetector(
+                                  child: widget.item.favourite
+                                      ? Icon(
+                                          Icons.favorite,
+                                          size: 24,
+                                          color: AppTheme.blue_app_color,
+                                        )
+                                      : Icon(
+                                          Icons.favorite_border,
+                                          size: 24,
+                                          color: AppTheme.dark_grey,
+                                        ),
+                                  onTap: () {
+                                    setState(() {
+                                      if (widget.item.favourite) {
+                                        widget.item.favourite = false;
+                                        if (widget.item.cardCount == 0) {
+                                          dataBase
+                                              .deleteProducts(widget.item.id);
+                                        } else {
+                                          dataBase.updateProduct(widget.item);
+                                        }
+                                      } else {
+                                        widget.item.favourite = true;
+                                        if (widget.item.cardCount == 0) {
+                                          dataBase.saveProducts(widget.item);
+                                        } else {
+                                          dataBase.updateProduct(widget.item);
+                                        }
+                                      }
+                                    });
+                                  },
                                 ),
                               ],
                             ),
