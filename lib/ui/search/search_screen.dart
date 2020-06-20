@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/item_model.dart';
+import 'package:pharmacy/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/ui/view/item_search_history_view.dart';
 import 'package:pharmacy/ui/view/item_search_view.dart';
 
@@ -100,8 +102,20 @@ class _SearchScreenState extends State<SearchScreen> {
                           height: 36,
                           child: Align(
                             alignment: Alignment.centerLeft,
-                            child: TextField(
+                            child: TextFormField(
+                              textInputAction: TextInputAction.search,
                               autofocus: true,
+                              onFieldSubmitted: (value) {
+                                Navigator.push(
+                                  context,
+                                  PageTransition(
+                                    type: PageTransitionType.fade,
+                                    child: ItemListScreen(
+                                      translate("search.result"),
+                                    ),
+                                  ),
+                                );
+                              },
                               cursorColor: AppTheme.notWhite,
                               style: TextStyle(
                                 color: AppTheme.black_text,
