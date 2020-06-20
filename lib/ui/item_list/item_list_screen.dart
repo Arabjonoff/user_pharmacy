@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -57,49 +55,92 @@ class _ItemListScreenState extends State<ItemListScreen> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: AppTheme.white,
-        brightness: Brightness.light,
-        leading: IconButton(
-          icon: Icon(
-            Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
-            color: AppTheme.black_catalog,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text(
-          widget.name,
-          textAlign: TextAlign.start,
-          style: TextStyle(
-            //fontFamily: "Sofia",
-            fontSize: 21,
-            fontFamily: AppTheme.fontCommons,
-            fontWeight: FontWeight.normal,
-            color: AppTheme.black_text,
-          ),
-        ),
-      ),
+//      appBar: AppBar(
+//        elevation: 0.0,
+//        backgroundColor: AppTheme.white,
+//        brightness: Brightness.light,
+//        leading: IconButton(
+//          icon: Icon(
+//            Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
+//            color: AppTheme.black_catalog,
+//          ),
+//          onPressed: () {
+//            Navigator.pop(context);
+//          },
+//        ),
+//        title: Text(
+//          widget.name,
+//          textAlign: TextAlign.start,
+//          style: TextStyle(
+//            //fontFamily: "Sofia",
+//            fontSize: 21,
+//            fontFamily: AppTheme.fontCommons,
+//            fontWeight: FontWeight.normal,
+//            color: AppTheme.black_text,
+//          ),
+//        ),
+//      ),
       backgroundColor: AppTheme.white,
       body: Stack(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(top: 48),
+            margin: EdgeInsets.only(top: 24, left: 12, right: 12),
+            height: 70,
+            child: Row(
+              children: [
+                GestureDetector(
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    size: 24,
+                    color: AppTheme.blue_app_color,
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.name,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontCommons,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 17,
+                          color: AppTheme.black_text,
+                        ),
+                      ),
+                      Text(
+                        "0",
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRoboto,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 13,
+                          color: AppTheme.black_transparent_text,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 118),
             child: ListView(
               children: <Widget>[
                 Container(
                   height: 56,
-                  margin: EdgeInsets.only(left: 12, right: 12),
+                  margin: EdgeInsets.only(left: 15, right: 15),
                   child: Row(
                     children: <Widget>[
                       Expanded(
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            SizedBox(
-                              width: 13,
-                            ),
                             Container(
                               child: SvgPicture.asset(
                                 "assets/images/name_sort.svg",
@@ -108,26 +149,29 @@ class _ItemListScreenState extends State<ItemListScreen> {
                             SizedBox(
                               width: 19,
                             ),
-                            Expanded(
-                              child: Text(
-                                translate("item.sort"),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontSize: 15,
-                                  color: AppTheme.black_text,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                            Text(
+                              translate("item.sort"),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontSize: 15,
+                                color: AppTheme.black_text,
+                                fontWeight: FontWeight.w500,
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
+                      Container(
+                        width: 1,
+                        margin: EdgeInsets.only(top: 16, bottom: 8),
+                        height: 56,
+                        color: AppTheme.black_linear,
+                      ),
                       Expanded(
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            SizedBox(
-                              width: 13,
-                            ),
                             Container(
                               child: SvgPicture.asset(
                                 "assets/images/filter.svg",
@@ -137,17 +181,15 @@ class _ItemListScreenState extends State<ItemListScreen> {
                             SizedBox(
                               width: 19,
                             ),
-                            Expanded(
-                              child: Text(
-                                translate("item.filter"),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontSize: 15,
-                                  color: AppTheme.black_text,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                            Text(
+                              translate("item.filter"),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontSize: 15,
+                                color: AppTheme.black_text,
+                                fontWeight: FontWeight.w500,
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -179,6 +221,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
               bottom: 6,
             ),
             margin: EdgeInsets.only(
+              top: 94,
               left: 12,
               right: 12,
             ),
@@ -198,7 +241,6 @@ class _ItemListScreenState extends State<ItemListScreen> {
                             size: 24,
                             color: AppTheme.notWhite,
                           ),
-                          onPressed: () {},
                         ),
                         Expanded(
                           child: Text(
@@ -216,7 +258,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                 ),
                 GestureDetector(
                   child: Container(
-                    margin: EdgeInsets.only(left: 15,right: 6),
+                    margin: EdgeInsets.only(left: 15, right: 6),
                     child: Center(
                       child: Image.asset("assets/images/scanner.png"),
                     ),

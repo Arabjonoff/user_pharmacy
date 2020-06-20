@@ -8,6 +8,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/item_model.dart';
 import 'package:pharmacy/model/top_item_model.dart';
+import 'package:pharmacy/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 import 'package:pharmacy/utils/utils.dart';
 
@@ -305,19 +306,31 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 Expanded(
                   child: Container(),
                 ),
-                Text(
-                  translate("home.show_all"),
-                  style: TextStyle(
-                    color: AppTheme.blue_app_color,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: AppTheme.fontRoboto,
-                    fontSize: 15,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.fade,
+                        child: ItemListScreen(
+                          translate("home.best"),
+                        ),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    translate("home.show_all"),
+                    style: TextStyle(
+                      color: AppTheme.blue_app_color,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: AppTheme.fontRoboto,
+                      fontSize: 15,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-
           Container(
             height: 250.0,
             margin: EdgeInsets.only(top: 16),
