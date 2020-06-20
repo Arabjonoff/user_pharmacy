@@ -24,28 +24,47 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: AppTheme.white,
-        brightness: Brightness.light,
-        title: Text(
-          translate("main.catalog"),
-          textAlign: TextAlign.start,
-          style: TextStyle(
-            //fontFamily: "Sofia",
-            fontSize: 21,
-            fontFamily: AppTheme.fontCommons,
-            fontWeight: FontWeight.normal,
-            color: AppTheme.black_text,
-          ),
-        ),
-      ),
+//      appBar: AppBar(
+//        elevation: 0.0,
+//        backgroundColor: AppTheme.white,
+//        brightness: Brightness.light,
+//        title: Text(
+//          translate("main.catalog"),
+//          textAlign: TextAlign.start,
+//          style: TextStyle(
+//            //fontFamily: "Sofia",
+//            fontSize: 21,
+//            fontFamily: AppTheme.fontCommons,
+//            fontWeight: FontWeight.normal,
+//            color: AppTheme.black_text,
+//          ),
+//        ),
+//      ),
       backgroundColor: AppTheme.white,
       body: Stack(
         children: <Widget>[
           Container(
+            margin: EdgeInsets.only(top: 24, left: 12, right: 12),
+            height: 70,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  translate("main.catalog"),
+                  style: TextStyle(
+                    fontFamily: AppTheme.fontCommons,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 17,
+                    color: AppTheme.black_text,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
             width: size.width,
-            margin: EdgeInsets.only(top: 56),
+            margin: EdgeInsets.only(top: 108),
             child: ListView.builder(
               itemCount: categoryModel.length,
               itemBuilder: (context, position) {
@@ -76,7 +95,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                 child: Text(
                                   categoryModel[position].name,
                                   style: TextStyle(
-                                    fontSize: 17,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.normal,
                                     color: AppTheme.black_catalog,
                                     fontFamily: AppTheme.fontRoboto,
                                   ),
@@ -92,8 +112,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         ),
                       ),
                       Container(
+                        margin: EdgeInsets.only(
+                          left: 8,
+                          right: 8,
+                        ),
                         height: 1,
-                        color: Colors.black12,
+                        color: AppTheme.black_linear_category,
                       )
                     ],
                   ),
@@ -102,15 +126,17 @@ class _CategoryScreenState extends State<CategoryScreen> {
             ),
           ),
           Container(
+            color: AppTheme.white,
             height: 48,
             width: size.width,
             padding: EdgeInsets.only(
               top: 6,
               bottom: 6,
-            ),
-            margin: EdgeInsets.only(
               left: 12,
               right: 12,
+            ),
+            margin: EdgeInsets.only(
+              top: 84,
             ),
             child: Row(
               children: <Widget>[
@@ -120,27 +146,38 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       borderRadius: BorderRadius.circular(9.0),
                       color: AppTheme.black_transparent,
                     ),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          icon: new Icon(
-                            Icons.search,
-                            size: 24,
-                            color: AppTheme.notWhite,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            child: SearchScreen(""),
                           ),
-                          onPressed: () {},
-                        ),
-                        Expanded(
-                          child: Text(
-                            translate("search_hint"),
-                            style: TextStyle(
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: new Icon(
+                              Icons.search,
+                              size: 24,
                               color: AppTheme.notWhite,
-                              fontSize: 17,
-                              fontFamily: AppTheme.fontRoboto,
                             ),
                           ),
-                        ),
-                      ],
+                          Expanded(
+                            child: Text(
+                              translate("search_hint"),
+                              style: TextStyle(
+                                color: AppTheme.notWhite,
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: AppTheme.fontRoboto,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
