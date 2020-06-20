@@ -349,6 +349,7 @@ class _ItemViewState extends State<ItemView> {
             ),
             Container(
               height: 1,
+              margin: EdgeInsets.only(left: 8,right: 8),
               color: AppTheme.black_linear,
             )
           ],

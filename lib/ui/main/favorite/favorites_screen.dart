@@ -25,23 +25,23 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppTheme.blue_app_color,
-        title: Container(
-          width: size.width,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              translate("star.name"),
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-      ),
-      backgroundColor: AppTheme.background,
+//      appBar: AppBar(
+//        backgroundColor: AppTheme.blue_app_color,
+//        title: Container(
+//          width: size.width,
+//          child: Align(
+//            alignment: Alignment.centerLeft,
+//            child: Text(
+//              translate("star.name"),
+//              textAlign: TextAlign.start,
+//              style: TextStyle(
+//                color: Colors.white,
+//              ),
+//            ),
+//          ),
+//        ),
+//      ),
+      backgroundColor: AppTheme.white,
       body: FutureBuilder<List<ItemModel>>(
         future: dataBase.getProdu(false),
         builder: (context, snapshot) {
