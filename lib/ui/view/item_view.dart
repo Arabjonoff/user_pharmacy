@@ -86,7 +86,7 @@ class _ItemViewState extends State<ItemView> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: AppTheme.black_text,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               fontFamily: AppTheme.fontRoboto,
                               fontSize: 13,
                             ),
@@ -120,7 +120,7 @@ class _ItemViewState extends State<ItemView> {
                                             color:
                                                 AppTheme.black_transparent_text,
                                             fontSize: 12,
-                                            fontWeight: FontWeight.w500,
+                                            fontWeight: FontWeight.w600,
                                             fontFamily: AppTheme.fontRoboto,
                                           ),
                                         ),
@@ -134,10 +134,11 @@ class _ItemViewState extends State<ItemView> {
                                         ? AppTheme.red_text_sale
                                         : AppTheme.black_text,
                                     fontSize: 15,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w600,
                                     fontFamily: AppTheme.fontRoboto,
                                   ),
                                 ),
+                                SizedBox(height: 7,),
                               ],
                             ),
                           ),
@@ -291,7 +292,7 @@ class _ItemViewState extends State<ItemView> {
                                                 translate("item.card"),
                                                 style: TextStyle(
                                                   fontSize: 12,
-                                                  fontWeight: FontWeight.w500,
+                                                  fontWeight: FontWeight.w600,
                                                   fontFamily: AppTheme.fontRoboto,
                                                   color: AppTheme.white,
                                                 ),
@@ -313,7 +314,7 @@ class _ItemViewState extends State<ItemView> {
                                       : Icon(
                                           Icons.favorite_border,
                                           size: 24,
-                                          color: AppTheme.dark_grey,
+                                          color: AppTheme.arrow_catalog,
                                         ),
                                   onTap: () {
                                     setState(() {

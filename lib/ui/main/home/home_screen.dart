@@ -298,7 +298,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   translate("home.best"),
                   style: TextStyle(
                     color: AppTheme.black_text,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                     fontFamily: AppTheme.fontRoboto,
                     fontSize: 20,
                   ),
@@ -322,7 +322,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     translate("home.show_all"),
                     style: TextStyle(
                       color: AppTheme.blue_app_color,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       fontFamily: AppTheme.fontRoboto,
                       fontSize: 15,
                     ),
@@ -388,7 +388,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     color: AppTheme.black_text,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w600,
                                     fontFamily: AppTheme.fontRoboto,
                                     fontSize: 13,
                                   ),
@@ -559,6 +559,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   priceFormat.format(
                                                           items[index].price) +
                                                       translate("sum"),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   style: TextStyle(
                                                     color: AppTheme.white,
                                                     fontWeight: FontWeight.w500,
