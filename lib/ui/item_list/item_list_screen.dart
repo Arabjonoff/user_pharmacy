@@ -113,7 +113,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                         ),
                       ),
                       Text(
-                        "0",
+                        items.length.toString()+" " + translate("item.tovar"),
                         style: TextStyle(
                           fontFamily: AppTheme.fontRoboto,
                           fontWeight: FontWeight.normal,
@@ -128,7 +128,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 118),
+            margin: EdgeInsets.only(top: 108),
             child: ListView(
               children: <Widget>[
                 Container(
@@ -214,16 +214,17 @@ class _ItemListScreenState extends State<ItemListScreen> {
             ),
           ),
           Container(
+            color: AppTheme.white,
             height: 48,
             width: size.width,
             padding: EdgeInsets.only(
               top: 6,
               bottom: 6,
-            ),
-            margin: EdgeInsets.only(
-              top: 94,
               left: 12,
               right: 12,
+            ),
+            margin: EdgeInsets.only(
+              top: 84,
             ),
             child: Row(
               children: <Widget>[
@@ -233,32 +234,44 @@ class _ItemListScreenState extends State<ItemListScreen> {
                       borderRadius: BorderRadius.circular(9.0),
                       color: AppTheme.black_transparent,
                     ),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          icon: new Icon(
-                            Icons.search,
-                            size: 24,
-                            color: AppTheme.notWhite,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            child: SearchScreen(""),
                           ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            translate("search_hint"),
-                            style: TextStyle(
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: new Icon(
+                              Icons.search,
+                              size: 24,
                               color: AppTheme.notWhite,
-                              fontSize: 17,
-                              fontFamily: AppTheme.fontRoboto,
                             ),
                           ),
-                        ),
-                      ],
+                          Expanded(
+                            child: Text(
+                              translate("search_hint"),
+                              style: TextStyle(
+                                color: AppTheme.notWhite,
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: AppTheme.fontRoboto,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 GestureDetector(
                   child: Container(
-                    margin: EdgeInsets.only(left: 15, right: 6),
+                    margin: EdgeInsets.only(left: 17, right: 6),
                     child: Center(
                       child: Image.asset("assets/images/scanner.png"),
                     ),

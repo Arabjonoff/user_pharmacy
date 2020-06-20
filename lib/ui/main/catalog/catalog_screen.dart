@@ -133,7 +133,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               top: 6,
               bottom: 6,
               left: 12,
-              right: 12,
+              right: 18,
             ),
             margin: EdgeInsets.only(
               top: 84,
@@ -183,7 +183,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 ),
                 GestureDetector(
                   child: Container(
-                    margin: EdgeInsets.only(left: 15),
+                    margin: EdgeInsets.only(left: 17),
                     child: Center(
                       child: Image.asset("assets/images/scanner.png"),
                     ),
