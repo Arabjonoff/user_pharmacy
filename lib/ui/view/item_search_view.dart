@@ -52,7 +52,7 @@ class _ItemSearchViewState extends State<ItemSearchView> {
                     margin: EdgeInsets.only(
                       top: 16,
                       left: 16,
-                      right: 8,
+                      right: 16,
                       bottom: 16.5,
                     ),
                     height: 48,
@@ -78,7 +78,7 @@ class _ItemSearchViewState extends State<ItemSearchView> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: AppTheme.black_text,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               fontFamily: AppTheme.fontRoboto,
                               fontSize: 13,
                             ),
@@ -113,6 +113,7 @@ class _ItemSearchViewState extends State<ItemSearchView> {
             ),
             Container(
               height: 1,
+              margin: EdgeInsets.only(left: 8, right: 8),
               color: AppTheme.black_linear,
             )
           ],

@@ -29,6 +29,8 @@ class AppTheme {
   static const Color blue_transparent = Color.fromRGBO(63, 138, 224, 0.1);
   static const Color black_transparent = Color(0xFFEBEDF0);
 
+  static const Color search_empty = Color(0xFF818C99);
+
   static const Color black_text = Color(0xFF1C1C1E);
   static const Color red_text_sale = Color(0xFFFF3347);
   static const Color black_transparent_text = Color(0xFF818C99);

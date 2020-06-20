@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/item_model.dart';
@@ -149,13 +150,38 @@ class _SearchScreenState extends State<SearchScreen> {
           Container(
             width: size.width,
             child: isSearchText
-                ? ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: items.length,
-                    itemBuilder: (context, index) {
-                      return ItemSearchView(items[index]);
-                    },
-                  )
+                ? items.length > 0
+                    ? ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: items.length,
+                        itemBuilder: (context, index) {
+                          return ItemSearchView(items[index]);
+                        },
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            "assets/images/empty.svg",
+                            height: 155,
+                            width: 155,
+                          ),
+                          Container(
+                            width: 210,
+                            child: Text(
+                              translate("search.empty"),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontSize: 17,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.search_empty,
+                              ),
+                            ),
+                          )
+                        ],
+                      )
                 : ListView(
                     children: [
                       Container(
@@ -200,78 +226,6 @@ class _SearchScreenState extends State<SearchScreen> {
                     ],
                   ),
           ),
-//          Container(
-//            height: 48,
-//            width: size.width,
-//            padding: EdgeInsets.only(
-//              top: 6,
-//              bottom: 6,
-//            ),
-//            margin: EdgeInsets.only(
-//              top: 28,
-//              left: 12,
-//              right: 12,
-//            ),
-//            child: Row(
-//              children: <Widget>[
-//                Expanded(
-//                  child: Container(
-//                    decoration: BoxDecoration(
-//                      borderRadius: BorderRadius.circular(9.0),
-//                      color: AppTheme.black_transparent,
-//                    ),
-//                    child: Row(
-//                      children: [
-//                        IconButton(
-//                          icon: new Icon(
-//                            Icons.search,
-//                            size: 24,
-//                            color: AppTheme.notWhite,
-//                          ),
-//                          onPressed: () {},
-//                        ),
-//                        Expanded(
-//                          child: Center(
-//                            child: TextFormField(
-//                              autofocus: true,
-//                              cursorColor: AppTheme.notWhite,
-//                              style: TextStyle(
-//                                color: AppTheme.notWhite,
-//                                fontSize: 17,
-//                                fontFamily: AppTheme.fontSFProText,
-//                                fontWeight: FontWeight.normal,
-//                              ),
-//                              decoration: new InputDecoration(
-//                                border: InputBorder.none,
-//                                focusedBorder: InputBorder.none,
-//                                enabledBorder: InputBorder.none,
-//                                errorBorder: InputBorder.none,
-//                                disabledBorder: InputBorder.none,
-//                                hintText: translate("search_hint"),
-//                              ),
-//                              controller: searchController,
-//                            ),
-//                          ),
-//                        ),
-//                      ],
-//                    ),
-//                  ),
-//                ),
-//                Container(
-//                  margin: EdgeInsets.only(left: 12),
-//                  child: Text(
-//                    translate("search.cancel"),
-//                    style: TextStyle(
-//                      fontWeight: FontWeight.normal,
-//                      color: AppTheme.blue_app_color,
-//                      fontFamily: AppTheme.fontSFProText,
-//                      fontSize: 17,
-//                    ),
-//                  ),
-//                ),
-//              ],
-//            ),
-//          ),
         ],
       ),
     );
