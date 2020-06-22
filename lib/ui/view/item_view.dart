@@ -36,11 +36,7 @@ class _ItemViewState extends State<ItemView> {
           PageTransition(
             type: PageTransitionType.fade,
             alignment: Alignment.bottomCenter,
-            child: ItemScreen(
-              widget.item.id,
-              widget.item.name,
-              widget.item.image,
-            ),
+            child: ItemScreen(widget.item),
           ),
         );
       },
@@ -138,7 +134,9 @@ class _ItemViewState extends State<ItemView> {
                                     fontFamily: AppTheme.fontRoboto,
                                   ),
                                 ),
-                                SizedBox(height: 7,),
+                                SizedBox(
+                                  height: 7,
+                                ),
                               ],
                             ),
                           ),
@@ -293,7 +291,8 @@ class _ItemViewState extends State<ItemView> {
                                                 style: TextStyle(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w600,
-                                                  fontFamily: AppTheme.fontRoboto,
+                                                  fontFamily:
+                                                      AppTheme.fontRoboto,
                                                   color: AppTheme.white,
                                                 ),
                                               ),
@@ -349,7 +348,7 @@ class _ItemViewState extends State<ItemView> {
             ),
             Container(
               height: 1,
-              margin: EdgeInsets.only(left: 8,right: 8),
+              margin: EdgeInsets.only(left: 8, right: 8),
               color: AppTheme.black_linear,
             )
           ],

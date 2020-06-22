@@ -28,6 +28,7 @@ class AppTheme {
   static const Color blue = Color(0xFF3F8AE0);
   static const Color blue_transparent = Color.fromRGBO(63, 138, 224, 0.1);
   static const Color black_transparent = Color(0xFFEBEDF0);
+  static const Color tab_transparent = Color(0xFFF2F3F5);
 
   static const Color search_empty = Color(0xFF818C99);
 
@@ -39,7 +40,6 @@ class AppTheme {
   static const Color blue_app_color = Color(0xFF3F8AE0);
   static const Color menu_unselected = Color(0xFF99A2AD);
   static const Color background = Color(0xFFF2F3F8);
-
 
   static const TextTheme textTheme = TextTheme(
     headline4: display1,

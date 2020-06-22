@@ -37,9 +37,7 @@ class _ItemHomeViewState extends State<ItemHomeView> {
             type: PageTransitionType.fade,
             alignment: Alignment.bottomCenter,
             child: ItemScreen(
-              widget.item.id,
-              widget.item.name,
-              widget.item.image,
+              widget.item,
             ),
           ),
         );
@@ -253,8 +251,8 @@ class _ItemHomeViewState extends State<ItemHomeView> {
                                                     style: TextStyle(
                                                       fontSize: 15.0,
                                                       color: AppTheme.blue,
-                                                      fontFamily: AppTheme
-                                                          .fontRoboto,
+                                                      fontFamily:
+                                                          AppTheme.fontRoboto,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                     ),

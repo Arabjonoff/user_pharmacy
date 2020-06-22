@@ -6,10 +6,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/localization_delegate.dart';
 import 'package:flutter_translate/localization_provider.dart';
 import 'package:flutter_translate/localized_app.dart';
-import 'package:pharmacy/ui/main_screen.dart';
+import 'package:pharmacy/ui/item/item_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_theme.dart';
+import 'model/item_model.dart';
 
 String language = 'en_US';
 
@@ -55,11 +56,11 @@ class MyApp extends StatelessWidget {
         supportedLocales: localizationDelegate.supportedLocales,
         locale: localizationDelegate.currentLocale,
         theme: ThemeData(
-          primarySwatch: Colors.red,
+          accentColor: Color(0xFF818C99),
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: MainScreen(),
+        home: ItemScreen(ItemModel.itemsModel[0]),
       ),
     );
   }

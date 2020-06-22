@@ -33,9 +33,7 @@ class _ItemSearchHistoryViewState extends State<ItemSearchHistoryView> {
             type: PageTransitionType.fade,
             alignment: Alignment.bottomCenter,
             child: ItemScreen(
-              widget.item.id,
-              widget.item.name,
-              widget.item.image,
+              widget.item
             ),
           ),
         );

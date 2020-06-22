@@ -43,7 +43,11 @@
     "sort": "По названию",
     "filter": "Фильтр",
     "card": "В корзину",
-    "tovar": "товаров"
+    "tovar": "товаров",
+    "description": "Опасание",
+    "instruction": "Инструкции",
+    "drotaverine": "Дротаверин",
+    "analog": "Аналоги"
   },
   "search": {
     "cancel": "cancel",
