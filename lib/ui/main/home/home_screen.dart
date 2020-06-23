@@ -7,10 +7,13 @@ import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/item_model.dart';
+import 'package:pharmacy/model/sale_model.dart';
 import 'package:pharmacy/model/top_item_model.dart';
 import 'package:pharmacy/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
+import 'package:pharmacy/utils/api.dart';
 import 'package:pharmacy/utils/utils.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../app_theme.dart';
 
@@ -225,46 +228,57 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           Container(
             height: 154.0,
             margin: EdgeInsets.only(top: 32),
-            child: ListView.builder(
-              padding: const EdgeInsets.only(
-                top: 0,
-                bottom: 0,
-                right: 12,
-                left: 12,
-              ),
-              scrollDirection: Axis.horizontal,
-              itemCount: 5,
-              itemBuilder: (BuildContext context, int index) {
-                //final int count = items.length > 10 ? 10 : items.length;
-                final int count = 5;
-                final Animation<double> animation =
-                    Tween<double>(begin: 0.0, end: 1.0).animate(
-                  CurvedAnimation(
-                    parent: animationController,
-                    curve: Interval((1 / count) * index, 1.0,
-                        curve: Curves.fastOutSlowIn),
-                  ),
-                );
-                animationController.forward();
-                return AnimatedBuilder(
-                  animation: animationController,
-                  builder: (BuildContext context, Widget child) {
-                    return FadeTransition(
-                      opacity: animation,
-                      child: Transform(
-                        transform: Matrix4.translationValues(
-                            100 * (1.0 - animation.value), 0.0, 0.0),
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(16.0),
-                                child: Container(
-                                  color: AppTheme.white,
-                                  width: 311,
-                                  height: 154,
+            child: FutureBuilder<List<Result>>(
+                future: API.getSale(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return ListView.builder(
+                        itemCount: 10,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) => Shimmer.fromColors(
+                            baseColor: Colors.grey[400],
+                            highlightColor: Colors.white));
+                  }
+                  return ListView.builder(
+                    padding: const EdgeInsets.only(
+                      top: 0,
+                      bottom: 0,
+                      right: 12,
+                      left: 12,
+                    ),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      //final int count = items.length > 10 ? 10 : items.length;
+                      final int count = 5;
+                      final Animation<double> animation =
+                          Tween<double>(begin: 0.0, end: 1.0).animate(
+                        CurvedAnimation(
+                          parent: animationController,
+                          curve: Interval((1 / count) * index, 1.0,
+                              curve: Curves.fastOutSlowIn),
+                        ),
+                      );
+                      animationController.forward();
+                      return AnimatedBuilder(
+                        animation: animationController,
+                        builder: (BuildContext context, Widget child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: Transform(
+                              transform: Matrix4.translationValues(
+                                  100 * (1.0 - animation.value), 0.0, 0.0),
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      child: Container(
+                                        color: AppTheme.white,
+                                        width: 311,
+                                        height: 154,
 //                                    child: CachedNetworkImage(
 //                                      imageUrl: items[index].image,
 //                                      placeholder: (context, url) =>
@@ -273,22 +287,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 //                                          Icon(Icons.error),
 //                                      fit: BoxFit.fitHeight,
 //                                    ),
-                                  child: Image.asset("assets/images/sale.png"),
+                                        child: Image.asset(
+                                          "assets/images/sale.png",
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
+                                padding: EdgeInsets.only(
+                                  right: 12,
+                                ),
+                                height: 154,
                               ),
-                            ],
-                          ),
-                          padding: EdgeInsets.only(
-                            right: 12,
-                          ),
-                          height: 154,
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  );
+                }),
           ),
           Container(
             margin: EdgeInsets.only(left: 12, right: 12, top: 32),
