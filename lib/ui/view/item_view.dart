@@ -5,6 +5,7 @@ import 'package:flutter_translate/global.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper.dart';
+import 'package:pharmacy/model/api/item_model.dart';
 import 'package:pharmacy/model/item_model.dart';
 import 'package:pharmacy/ui/item/item_screen.dart';
 
@@ -14,7 +15,7 @@ final priceFormat = new NumberFormat("#,##0", "ru");
 
 // ignore: must_be_immutable
 class ItemView extends StatefulWidget {
-  ItemModel item;
+  ItemResult item;
 
   ItemView(this.item);
 
@@ -31,14 +32,14 @@ class _ItemViewState extends State<ItemView> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          PageTransition(
-            type: PageTransitionType.fade,
-            alignment: Alignment.bottomCenter,
-            child: ItemScreen(widget.item),
-          ),
-        );
+//        Navigator.push(
+//          context,
+//          PageTransition(
+//            type: PageTransitionType.fade,
+//            alignment: Alignment.bottomCenter,
+//            child: ItemScreen(widget.item),
+//          ),
+//        );
       },
       child: Container(
         height: widget.item.sale ? 172 : 160,
@@ -93,7 +94,7 @@ class _ItemViewState extends State<ItemView> {
                           ),
                           SizedBox(height: 3),
                           Text(
-                            widget.item.title,
+                            widget.item.manufacturer.name,
                             style: TextStyle(
                               color: AppTheme.black_transparent_text,
                               fontSize: 11,
@@ -186,8 +187,8 @@ class _ItemViewState extends State<ItemView> {
                                                           widget.item
                                                                   .cardCount -
                                                               1;
-                                                      dataBase.updateProduct(
-                                                          widget.item);
+//                                                      dataBase.updateProduct(
+//                                                          widget.item);
                                                     });
                                                   } else if (widget
                                                           .item.cardCount ==
@@ -199,8 +200,8 @@ class _ItemViewState extends State<ItemView> {
                                                               1;
                                                       if (widget
                                                           .item.favourite) {
-                                                        dataBase.updateProduct(
-                                                            widget.item);
+//                                                        dataBase.updateProduct(
+//                                                            widget.item);
                                                       } else {
                                                         dataBase.deleteProducts(
                                                             widget.item.id);
@@ -236,8 +237,8 @@ class _ItemViewState extends State<ItemView> {
                                                     widget.item.cardCount =
                                                         widget.item.cardCount +
                                                             1;
-                                                    dataBase.updateProduct(
-                                                        widget.item);
+//                                                    dataBase.updateProduct(
+//                                                        widget.item);
                                                   });
                                                 },
                                                 child: Container(
@@ -267,13 +268,13 @@ class _ItemViewState extends State<ItemView> {
                                           onTap: () {
                                             setState(() {
                                               widget.item.cardCount = 1;
-                                              if (widget.item.favourite) {
-                                                dataBase
-                                                    .updateProduct(widget.item);
-                                              } else {
-                                                dataBase
-                                                    .saveProducts(widget.item);
-                                              }
+//                                              if (widget.item.favourite) {
+//                                                dataBase
+//                                                    .updateProduct(widget.item);
+//                                              } else {
+//                                                dataBase
+//                                                    .saveProducts(widget.item);
+//                                              }
                                             });
                                           },
                                           child: Container(
@@ -323,15 +324,15 @@ class _ItemViewState extends State<ItemView> {
                                           dataBase
                                               .deleteProducts(widget.item.id);
                                         } else {
-                                          dataBase.updateProduct(widget.item);
+                                         // dataBase.updateProduct(widget.item);
                                         }
                                       } else {
                                         widget.item.favourite = true;
-                                        if (widget.item.cardCount == 0) {
-                                          dataBase.saveProducts(widget.item);
-                                        } else {
-                                          dataBase.updateProduct(widget.item);
-                                        }
+//                                        if (widget.item.cardCount == 0) {
+//                                          dataBase.saveProducts(widget.item);
+//                                        } else {
+//                                          dataBase.updateProduct(widget.item);
+//                                        }
                                       }
                                     });
                                   },

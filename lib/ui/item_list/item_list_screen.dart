@@ -4,9 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper.dart';
-import 'package:pharmacy/model/item_model.dart';
+import 'package:pharmacy/model/api/item_model.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 import 'package:pharmacy/ui/view/item_view.dart';
+import 'package:pharmacy/utils/api.dart';
 import 'package:pharmacy/utils/utils.dart';
 
 import '../../app_theme.dart';
@@ -14,8 +15,10 @@ import '../../app_theme.dart';
 // ignore: must_be_immutable
 class ItemListScreen extends StatefulWidget {
   String name;
+  int type;
+  int id;
 
-  ItemListScreen(this.name);
+  ItemListScreen(this.name, this.type, this.id);
 
   @override
   State<StatefulWidget> createState() {
@@ -26,28 +29,28 @@ class ItemListScreen extends StatefulWidget {
 class _ItemListScreenState extends State<ItemListScreen> {
   Size size;
 
-  List<ItemModel> items = ItemModel.itemsModel;
-
-  List<ItemModel> itemCard = new List();
+//  List<ItemModel> items = ItemModel.itemsModel;
+//
+//  List<ItemModel> itemCard = new List();
   DatabaseHelper dataBase = new DatabaseHelper();
 
   @override
   void initState() {
-    dataBase.getAllProducts().then((products) {
-      setState(() {
-        products.forEach((products) {
-          itemCard.add(ItemModel.fromMap(products));
-        });
-        for (var i = 0; i < items.length; i++) {
-          for (var j = 0; j < itemCard.length; j++) {
-            if (items[i].id == itemCard[j].id) {
-              items[i].cardCount = itemCard[j].cardCount;
-              items[i].favourite = itemCard[j].favourite;
-            }
-          }
-        }
-      });
-    });
+//    dataBase.getAllProducts().then((products) {
+//      setState(() {
+//        products.forEach((products) {
+//          itemCard.add(ItemModel.fromMap(products));
+//        });
+//        for (var i = 0; i < items.length; i++) {
+//          for (var j = 0; j < itemCard.length; j++) {
+//            if (items[i].id == itemCard[j].id) {
+//              items[i].cardCount = itemCard[j].cardCount;
+//              items[i].favourite = itemCard[j].favourite;
+//            }
+//          }
+//        }
+//      });
+//    });
     super.initState();
   }
 
@@ -55,31 +58,6 @@ class _ItemListScreenState extends State<ItemListScreen> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-//      appBar: AppBar(
-//        elevation: 0.0,
-//        backgroundColor: AppTheme.white,
-//        brightness: Brightness.light,
-//        leading: IconButton(
-//          icon: Icon(
-//            Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
-//            color: AppTheme.black_catalog,
-//          ),
-//          onPressed: () {
-//            Navigator.pop(context);
-//          },
-//        ),
-//        title: Text(
-//          widget.name,
-//          textAlign: TextAlign.start,
-//          style: TextStyle(
-//            //fontFamily: "Sofia",
-//            fontSize: 21,
-//            fontFamily: AppTheme.fontCommons,
-//            fontWeight: FontWeight.normal,
-//            color: AppTheme.black_text,
-//          ),
-//        ),
-//      ),
       backgroundColor: AppTheme.white,
       body: Stack(
         children: <Widget>[
@@ -113,7 +91,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                         ),
                       ),
                       Text(
-                        items.length.toString()+" " + translate("item.tovar"),
+                        items.length.toString() + " " + translate("item.tovar"),
                         style: TextStyle(
                           fontFamily: AppTheme.fontRoboto,
                           fontWeight: FontWeight.normal,
@@ -201,13 +179,35 @@ class _ItemListScreenState extends State<ItemListScreen> {
                   height: 1,
                   color: AppTheme.black_linear,
                 ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: ClampingScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    return ItemView(items[index]);
+                FutureBuilder<List<ItemResult>>(
+                  future: API.getItems(widget.id),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return SizedBox(
+                        child: Text(
+                          "нет интернета",
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+                    }
+                    return snapshot.hasData
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            physics: ClampingScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+//                              return Text(
+//                                snapshot.data[index].image
+//                              );
+                              return ItemView(
+                                snapshot.data[index],
+                              );
+                            },
+                          )
+                        : Center(
+                            child: CircularProgressIndicator(),
+                          );
                   },
                 ),
               ],

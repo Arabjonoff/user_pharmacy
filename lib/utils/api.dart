@@ -53,9 +53,26 @@ class API {
 
     String reply = await response.transform(utf8.decoder).join();
     httpClient.close();
-    print(reply);
+
     final Map parsed = json.decode(reply);
     final saleModel = CategoryModel.fromJson(parsed);
+
+    return saleModel.results;
+  }
+
+  ///get Items
+  static Future<List<ItemResult>> getItems(int id) async {
+    String url = Utils.BASE_URL + '/api/v1/drugs?category=' + id.toString();
+
+    HttpClient httpClient = new HttpClient();
+    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+    httpClient.close();
+    final Map parsed = json.decode(reply);
+    final saleModel = ItemModel.fromJson(parsed);
 
     return saleModel.results;
   }

@@ -344,6 +344,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         type: PageTransitionType.fade,
                         child: ItemListScreen(
                           translate("home.best"),
+                          2,
+                          0
                         ),
                       ),
                     );

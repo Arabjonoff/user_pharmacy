@@ -60,7 +60,7 @@ class _CardScreenState extends State<CardScreen> {
                             scrollDirection: Axis.vertical,
                             itemCount: data.length,
                             itemBuilder: (context, index) {
-                              return ItemView(data[index]);
+                             // return ItemView(data[index]);
                             },
                           ),
                           Container(

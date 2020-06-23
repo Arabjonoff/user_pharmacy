@@ -48,7 +48,7 @@ class ItemResult {
 
   bool favourite = false;
   int cardCount = 0;
-  bool sale;
+  bool sale = false;
 
   int get getId => id;
 

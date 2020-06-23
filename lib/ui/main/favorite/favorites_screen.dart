@@ -63,7 +63,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     scrollDirection: Axis.vertical,
                     itemCount: data.length,
                     itemBuilder: (context, index) {
-                      return ItemView(data[index]);
+                     // return ItemView(data[index]);
                     },
                   ),
                   //child: ItemView(snapshot.data),

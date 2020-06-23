@@ -81,6 +81,8 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                         type: PageTransitionType.fade,
                         child: ItemListScreen(
                           widget.list[position].name,
+                          1,
+                          widget.list[position].id,
                         ),
                       ),
                     );
