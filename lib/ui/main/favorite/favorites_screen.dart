@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/database/database_helper.dart';
-import 'package:pharmacy/model/item_model.dart';
+import 'package:pharmacy/model/api/item_model.dart';
 import 'package:pharmacy/ui/main/favorite/favorite_empty_screen.dart';
 import 'package:pharmacy/ui/view/item_view.dart';
 
@@ -42,7 +41,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 //        ),
 //      ),
       backgroundColor: AppTheme.white,
-      body: FutureBuilder<List<ItemModel>>(
+      body: FutureBuilder<List<ItemResult>>(
         future: dataBase.getProdu(false),
         builder: (context, snapshot) {
           var data = snapshot.data;
@@ -63,7 +62,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     scrollDirection: Axis.vertical,
                     itemCount: data.length,
                     itemBuilder: (context, index) {
-                     // return ItemView(data[index]);
+                      return ItemView(data[index]);
                     },
                   ),
                   //child: ItemView(snapshot.data),

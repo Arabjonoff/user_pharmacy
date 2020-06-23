@@ -3,14 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper.dart';
-import 'package:pharmacy/model/item_model.dart';
+import 'package:pharmacy/model/api/item_model.dart';
 import 'package:pharmacy/ui/item/item_screen.dart';
 
 import '../../app_theme.dart';
 
 // ignore: must_be_immutable
 class ItemSearchView extends StatefulWidget {
-  ItemModel item;
+  ItemResult item;
 
   ItemSearchView(this.item);
 
@@ -32,9 +32,7 @@ class _ItemSearchViewState extends State<ItemSearchView> {
           PageTransition(
             type: PageTransitionType.fade,
             alignment: Alignment.bottomCenter,
-            child: ItemScreen(
-              widget.item
-            ),
+            child: ItemScreen(widget.item),
           ),
         );
       },
@@ -84,7 +82,7 @@ class _ItemSearchViewState extends State<ItemSearchView> {
                           ),
                           SizedBox(height: 3),
                           Text(
-                            widget.item.title,
+                            widget.item.name,
                             style: TextStyle(
                               color: AppTheme.black_transparent_text,
                               fontSize: 13,

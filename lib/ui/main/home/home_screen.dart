@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/api/item_model.dart';
-import 'package:pharmacy/model/item_model.dart' as s;
 import 'package:pharmacy/model/top_item_model.dart';
 import 'package:pharmacy/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
@@ -33,7 +32,7 @@ final List<TopItemModel> topItems = TopItemModel.topTitle;
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   var animationController;
   Size size;
-  List<s.ItemModel> itemCard = new List();
+  List<ItemResult> itemCard = new List();
   DatabaseHelper dataBase = new DatabaseHelper();
   bool isLoad = false;
 
@@ -52,11 +51,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         dataBase.getAllProducts().then((products) {
           setState(() {
             products.forEach((products) {
-              itemCard.add(s.ItemModel.fromMap(products));
+              itemCard.add(ItemResult.fromMap(products));
             });
             for (var i = 0; i < items.length; i++) {
               for (var j = 0; j < itemCard.length; j++) {
                 if (items[i].id == itemCard[j].id) {
+                  print(itemCard[j].cardCount);
                   items[i].cardCount = itemCard[j].cardCount;
                   items[i].favourite = itemCard[j].favourite;
                 }
@@ -342,11 +342,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       context,
                       PageTransition(
                         type: PageTransitionType.fade,
-                        child: ItemListScreen(
-                          translate("home.best"),
-                          2,
-                          0
-                        ),
+                        child: ItemListScreen(translate("home.best"), 2, 0),
                       ),
                     );
                   },
@@ -483,8 +479,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     items[index].cardCount =
                                                         items[index].cardCount -
                                                             1;
-//                                                    dataBase.updateProduct(
-//                                                        items[index]);
+                                                    dataBase.updateProduct(
+                                                        items[index]);
                                                   });
                                                 } else if (items[index]
                                                         .cardCount ==
@@ -495,8 +491,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             1;
                                                     if (items[index]
                                                         .favourite) {
-//                                                      dataBase.updateProduct(
-//                                                          items[index]);
+                                                      dataBase.updateProduct(
+                                                          items[index]);
                                                     } else {
                                                       dataBase.deleteProducts(
                                                           items[index].id);
@@ -532,8 +528,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   items[index].cardCount =
                                                       items[index].cardCount +
                                                           1;
-//                                                  dataBase.updateProduct(
-//                                                      items[index]);
+                                                  dataBase.updateProduct(
+                                                      items[index]);
                                                 });
                                               },
                                               child: Container(
@@ -563,13 +559,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         onTap: () {
                                           setState(() {
                                             items[index].cardCount = 1;
-//                                            if (items[index].favourite) {
-//                                              dataBase
-//                                                  .updateProduct(items[index]);
-//                                            } else {
-//                                              dataBase
-//                                                  .saveProducts(items[index]);
-//                                            }
+                                            if (items[index].favourite) {
+                                              dataBase
+                                                  .updateProduct(items[index]);
+                                            } else {
+                                              dataBase
+                                                  .saveProducts(items[index]);
+                                            }
                                           });
                                         },
                                         child: Container(

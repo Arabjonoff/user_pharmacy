@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:path/path.dart';
-import 'package:pharmacy/model/item_model.dart';
+import 'package:pharmacy/model/api/item_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
@@ -12,10 +12,11 @@ class DatabaseHelper {
   final String tableNote = 'cardTable';
   final String columnId = 'id';
   final String columnName = 'name';
+  final String columnBarcode = 'barcode';
   final String columnImage = 'image';
-  final String columnTitle = 'title';
-  final String columnAbout = 'about';
+  final String columnImageThumbnail = 'image_thumbnail';
   final String columnPrice = 'price';
+  final String columnManufacturer = 'manufacturer';
   final String columnFav = 'favourite';
   final String columnCount = 'cardCount';
 
@@ -34,7 +35,7 @@ class DatabaseHelper {
 
   initDb() async {
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'notes.db');
+    String path = join(databasesPath, 'ewew.db');
     var db = await openDatabase(path, version: 1, onCreate: _onCreate);
     return db;
   }
@@ -43,15 +44,16 @@ class DatabaseHelper {
     await db.execute('CREATE TABLE $tableNote('
         '$columnId INTEGER PRIMARY KEY, '
         '$columnName TEXT, '
+        '$columnBarcode TEXT, '
         '$columnImage TEXT, '
-        '$columnTitle TEXT, '
-        '$columnAbout TEXT, '
-        '$columnPrice INTEGER, '
+        '$columnImageThumbnail TEXT, '
+        '$columnPrice REAL, '
+        '$columnManufacturer TEXT, '
         '$columnFav INTEGER, '
         '$columnCount INTEGER)');
   }
 
-  Future<int> saveProducts(ItemModel item) async {
+  Future<int> saveProducts(ItemResult item) async {
     var dbClient = await db;
     var result = await dbClient.insert(tableNote, item.toMap());
     return result;
@@ -62,10 +64,11 @@ class DatabaseHelper {
     var result = await dbClient.query(tableNote, columns: [
       columnId,
       columnName,
+      columnBarcode,
       columnImage,
-      columnTitle,
-      columnAbout,
+      columnImageThumbnail,
       columnPrice,
+      columnManufacturer,
       columnFav,
       columnCount,
     ]);
@@ -73,29 +76,30 @@ class DatabaseHelper {
     return result.toList();
   }
 
-  Future<List<ItemModel>> getProdu(bool card) async {
+  Future<List<ItemResult>> getProdu(bool card) async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM $tableNote');
-    List<ItemModel> products = new List();
+    List<ItemResult> products = new List();
     for (int i = 0; i < list.length; i++) {
-      var user = new ItemModel(
+      var items = new ItemResult(
         list[i][columnId],
         list[i][columnName],
+        list[i][columnBarcode],
         list[i][columnImage],
-        list[i][columnTitle],
-        list[i][columnAbout],
+        list[i][columnImageThumbnail],
         list[i][columnPrice],
+        Manifacture(list[i][columnManufacturer]),
         list[i][columnFav] == 1 ? true : false,
         list[i][columnCount],
-        false
       );
+
       if (card) {
-        if (user.cardCount > 0) {
-          products.add(user);
+        if (items.cardCount > 0) {
+          products.add(items);
         }
       } else {
-        if (user.favourite) {
-          products.add(user);
+        if (items.favourite) {
+          products.add(items);
         }
       }
     }
@@ -108,16 +112,16 @@ class DatabaseHelper {
         await dbClient.rawQuery('SELECT COUNT(*) FROM $tableNote'));
   }
 
-  Future<ItemModel> getProducts(int id) async {
+  Future<ItemResult> getProducts(int id) async {
     var dbClient = await db;
     List<Map> result = await dbClient.query(tableNote,
         columns: [
           columnId,
           columnName,
-          columnImage,
-          columnTitle,
-          columnAbout,
+          columnBarcode,
+          columnImageThumbnail,
           columnPrice,
+          columnManufacturer,
           columnFav,
           columnCount,
         ],
@@ -125,7 +129,7 @@ class DatabaseHelper {
         whereArgs: [id]);
 
     if (result.length > 0) {
-      return ItemModel.fromMap(result.first);
+      return ItemResult.fromMap(result.first);
     }
 
     return null;
@@ -137,7 +141,7 @@ class DatabaseHelper {
         .delete(tableNote, where: '$columnId = ?', whereArgs: [id]);
   }
 
-  Future<int> updateProduct(ItemModel products) async {
+  Future<int> updateProduct(ItemResult products) async {
     var dbClient = await db;
     return await dbClient.update(tableNote, products.toMap(),
         where: "$columnId = ?", whereArgs: [products.id]);

@@ -29,28 +29,13 @@ class ItemListScreen extends StatefulWidget {
 class _ItemListScreenState extends State<ItemListScreen> {
   Size size;
 
-//  List<ItemModel> items = ItemModel.itemsModel;
-//
-//  List<ItemModel> itemCard = new List();
+  List<ItemResult> items = new List();
+  List<ItemResult> itemCard = new List();
+
   DatabaseHelper dataBase = new DatabaseHelper();
 
   @override
   void initState() {
-//    dataBase.getAllProducts().then((products) {
-//      setState(() {
-//        products.forEach((products) {
-//          itemCard.add(ItemModel.fromMap(products));
-//        });
-//        for (var i = 0; i < items.length; i++) {
-//          for (var j = 0; j < itemCard.length; j++) {
-//            if (items[i].id == itemCard[j].id) {
-//              items[i].cardCount = itemCard[j].cardCount;
-//              items[i].favourite = itemCard[j].favourite;
-//            }
-//          }
-//        }
-//      });
-//    });
     super.initState();
   }
 
@@ -190,18 +175,32 @@ class _ItemListScreenState extends State<ItemListScreen> {
                         ),
                       );
                     }
+                    items = snapshot.data;
+                    dataBase.getAllProducts().then((products) {
+                      setState(() {
+                        products.forEach((products) {
+                          itemCard.add(ItemResult.fromMap(products));
+                        });
+                        for (var i = 0; i < items.length; i++) {
+                          for (var j = 0; j < itemCard.length; j++) {
+                            if (items[i].id == itemCard[j].id) {
+                              items[i].cardCount = itemCard[j].cardCount;
+                              items[i].favourite = itemCard[j].favourite;
+                            }
+                          }
+                        }
+                      });
+                    });
+
                     return snapshot.hasData
                         ? ListView.builder(
                             shrinkWrap: true,
                             physics: ClampingScrollPhysics(),
                             scrollDirection: Axis.vertical,
-                            itemCount: snapshot.data.length,
+                            itemCount: items.length,
                             itemBuilder: (context, index) {
-//                              return Text(
-//                                snapshot.data[index].image
-//                              );
                               return ItemView(
-                                snapshot.data[index],
+                                items[index],
                               );
                             },
                           )

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/database/database_helper.dart';
-import 'package:pharmacy/model/item_model.dart';
+import 'package:pharmacy/model/api/item_model.dart';
 import 'package:pharmacy/ui/view/item_view.dart';
 
 import '../../../app_theme.dart';
@@ -34,7 +34,7 @@ class _CardScreenState extends State<CardScreen> {
         children: [
           Container(
             margin: EdgeInsets.only(top: 64),
-            child: FutureBuilder<List<ItemModel>>(
+            child: FutureBuilder<List<ItemResult>>(
               future: dataBase.getProdu(true),
               builder: (context, snapshot) {
                 allCount = 0;
@@ -60,7 +60,7 @@ class _CardScreenState extends State<CardScreen> {
                             scrollDirection: Axis.vertical,
                             itemCount: data.length,
                             itemBuilder: (context, index) {
-                             // return ItemView(data[index]);
+                              return ItemView(data[index]);
                             },
                           ),
                           Container(

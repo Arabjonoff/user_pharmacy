@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/database/database_helper.dart';
-import 'package:pharmacy/model/item_model.dart';
+import 'package:pharmacy/model/api/item_model.dart';
 import 'package:pharmacy/ui/main/home/home_screen.dart';
 
 import '../../app_theme.dart';
 
 // ignore: must_be_immutable
 class ItemScreen extends StatefulWidget {
-  ItemModel item;
+  ItemResult item;
 
   ItemScreen(this.item);
 
@@ -21,7 +21,7 @@ class ItemScreen extends StatefulWidget {
   }
 }
 
-final List<ItemModel> items = ItemModel.itemsModel;
+final List<ItemResult> items = new List();
 
 class _ItemScreenState extends State<ItemScreen>
     with SingleTickerProviderStateMixin {
@@ -35,7 +35,7 @@ class _ItemScreenState extends State<ItemScreen>
   TabController _tabController;
   ScrollController _scrollController;
 
-  List<ItemModel> itemCard = new List();
+  List<ItemResult> itemCard = new List();
   DatabaseHelper dataBase = new DatabaseHelper();
 
   Widget _buildCarousel() {
@@ -73,7 +73,7 @@ class _ItemScreenState extends State<ItemScreen>
                 child: Row(
                   children: [
                     Text(
-                      widget.item.title,
+                      widget.item.manufacturer.name,
                       style: TextStyle(
                         fontSize: 12,
                         fontFamily: AppTheme.fontRoboto,
@@ -173,7 +173,7 @@ class _ItemScreenState extends State<ItemScreen>
     dataBase.getAllProducts().then((products) {
       setState(() {
         products.forEach((products) {
-          itemCard.add(ItemModel.fromMap(products));
+          itemCard.add(ItemResult.fromMap(products));
         });
         for (var i = 0; i < items.length; i++) {
           for (var j = 0; j < itemCard.length; j++) {
@@ -408,8 +408,8 @@ class _ItemScreenState extends State<ItemScreen>
                                             setState(() {
                                               items[index].cardCount =
                                                   items[index].cardCount - 1;
-                                              dataBase
-                                                  .updateProduct(items[index]);
+//                                              dataBase
+//                                                  .updateProduct(items[index]);
                                             });
                                           } else if (items[index].cardCount ==
                                               1) {
@@ -417,8 +417,8 @@ class _ItemScreenState extends State<ItemScreen>
                                               items[index].cardCount =
                                                   items[index].cardCount - 1;
                                               if (items[index].favourite) {
-                                                dataBase.updateProduct(
-                                                    items[index]);
+//                                                dataBase.updateProduct(
+//                                                    items[index]);
                                               } else {
                                                 dataBase.deleteProducts(
                                                     items[index].id);
@@ -450,8 +450,8 @@ class _ItemScreenState extends State<ItemScreen>
                                           setState(() {
                                             items[index].cardCount =
                                                 items[index].cardCount + 1;
-                                            dataBase
-                                                .updateProduct(items[index]);
+//                                            dataBase
+//                                                .updateProduct(items[index]);
                                           });
                                         },
                                         child: Container(
@@ -480,11 +480,11 @@ class _ItemScreenState extends State<ItemScreen>
                                   onTap: () {
                                     setState(() {
                                       items[index].cardCount = 1;
-                                      if (items[index].favourite) {
-                                        dataBase.updateProduct(items[index]);
-                                      } else {
-                                        dataBase.saveProducts(items[index]);
-                                      }
+//                                      if (items[index].favourite) {
+//                                        dataBase.updateProduct(items[index]);
+//                                      } else {
+//                                        dataBase.saveProducts(items[index]);
+//                                      }
                                     });
                                   },
                                   child: Container(
@@ -703,8 +703,8 @@ class _ItemScreenState extends State<ItemScreen>
                                             setState(() {
                                               items[index].cardCount =
                                                   items[index].cardCount - 1;
-                                              dataBase
-                                                  .updateProduct(items[index]);
+//                                              dataBase
+//                                                  .updateProduct(items[index]);
                                             });
                                           } else if (items[index].cardCount ==
                                               1) {
@@ -712,8 +712,8 @@ class _ItemScreenState extends State<ItemScreen>
                                               items[index].cardCount =
                                                   items[index].cardCount - 1;
                                               if (items[index].favourite) {
-                                                dataBase.updateProduct(
-                                                    items[index]);
+//                                                dataBase.updateProduct(
+//                                                    items[index]);
                                               } else {
                                                 dataBase.deleteProducts(
                                                     items[index].id);
@@ -745,8 +745,8 @@ class _ItemScreenState extends State<ItemScreen>
                                           setState(() {
                                             items[index].cardCount =
                                                 items[index].cardCount + 1;
-                                            dataBase
-                                                .updateProduct(items[index]);
+//                                            dataBase
+//                                                .updateProduct(items[index]);
                                           });
                                         },
                                         child: Container(
@@ -775,11 +775,11 @@ class _ItemScreenState extends State<ItemScreen>
                                   onTap: () {
                                     setState(() {
                                       items[index].cardCount = 1;
-                                      if (items[index].favourite) {
-                                        dataBase.updateProduct(items[index]);
-                                      } else {
-                                        dataBase.saveProducts(items[index]);
-                                      }
+//                                      if (items[index].favourite) {
+//                                        dataBase.updateProduct(items[index]);
+//                                      } else {
+//                                        dataBase.saveProducts(items[index]);
+//                                      }
                                     });
                                   },
                                   child: Container(

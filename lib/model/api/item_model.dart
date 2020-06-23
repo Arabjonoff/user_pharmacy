@@ -28,16 +28,6 @@ class ItemModel {
 }
 
 class ItemResult {
-  ItemResult({
-    this.id,
-    this.name,
-    this.barcode,
-    this.image,
-    this.imageThumbnail,
-    this.price,
-    this.manufacturer,
-  });
-
   int id;
   String name;
   String barcode;
@@ -49,6 +39,18 @@ class ItemResult {
   bool favourite = false;
   int cardCount = 0;
   bool sale = false;
+
+  ItemResult(
+    this.id,
+    this.name,
+    this.barcode,
+    this.image,
+    this.imageThumbnail,
+    this.price,
+    this.manufacturer,
+    this.favourite,
+    this.cardCount,
+  );
 
   int get getId => id;
 
@@ -64,15 +66,25 @@ class ItemResult {
 
   Manifacture get getManufacturer => manufacturer;
 
-  factory ItemResult.fromJson(Map<String, dynamic> json) => ItemResult(
-        id: json["id"],
-        name: json["name"],
-        barcode: json["barcode"],
-        image: json["image"],
-        imageThumbnail: json["image_thumbnail"],
-        price: json["price"].toDouble(),
-        manufacturer: Manifacture.fromJson(json["manufacturer"]),
-      );
+  bool get getFavourite => favourite;
+
+  int get getCardCount => cardCount;
+
+  bool get getSale => sale;
+
+  ItemResult.fromJson(Map<String, dynamic> map) {
+    this.id = map["id"];
+    this.name = map["name"];
+    this.barcode = map["barcode"];
+    this.image = map["image"];
+    this.imageThumbnail = map["image_thumbnail"];
+    this.price = map["price"].toDouble();
+    this.favourite = map["favourite"] == 1 ? true : false;
+    this.cardCount = map["cardCount"];
+    this.manufacturer = Manifacture.fromMap(map["manufacturer"]);
+    this.favourite = false;
+    this.cardCount = 0;
+  }
 
   ItemResult.fromMap(Map<String, dynamic> map) {
     this.id = map["id"];
@@ -81,7 +93,11 @@ class ItemResult {
     this.image = map["image"];
     this.imageThumbnail = map["image_thumbnail"];
     this.price = map["price"].toDouble();
-    this.manufacturer = Manifacture.fromJson(map["manufacturer"]);
+    this.favourite = map["favourite"] == 1 ? true : false;
+    this.cardCount = map["cardCount"];
+    this.manufacturer = Manifacture(map["manufacturer"].toString());
+    this.favourite = map["favourite"] == 1 ? true : false;
+    this.cardCount = map["cardCount"];
   }
 
   Map<String, dynamic> toMap() {
@@ -92,6 +108,8 @@ class ItemResult {
     map["image"] = image;
     map["image_thumbnail"] = imageThumbnail;
     map["price"] = price;
+    map["favourite"] = favourite ? 1 : 0;
+    map["cardCount"] = cardCount;
     map["manufacturer"] = manufacturer.name;
     return map;
   }
@@ -108,15 +126,15 @@ class ItemResult {
 }
 
 class Manifacture {
-  Manifacture({
+  Manifacture(
     this.name,
-  });
+  );
 
   String name;
 
-  factory Manifacture.fromJson(Map<String, dynamic> json) => Manifacture(
-        name: json["name"],
-      );
+  Manifacture.fromMap(Map<String, dynamic> map) {
+    this.name = map["name"];
+  }
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();

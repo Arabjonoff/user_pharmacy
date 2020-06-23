@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper.dart';
-import 'package:pharmacy/model/item_model.dart';
+import 'package:pharmacy/model/api/item_model.dart';
 import 'package:pharmacy/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/ui/view/item_search_history_view.dart';
 import 'package:pharmacy/ui/view/item_search_view.dart';
@@ -23,14 +23,14 @@ class SearchScreen extends StatefulWidget {
   }
 }
 
-final List<ItemModel> items = ItemModel.itemsModel;
+final List<ItemResult> items = new List();
 
 class _SearchScreenState extends State<SearchScreen> {
   Size size;
   TextEditingController searchController = TextEditingController();
   bool isSearchText = false;
 
-  List<ItemModel> itemCard = new List();
+  List<ItemResult> itemCard = new List();
   DatabaseHelper dataBase = new DatabaseHelper();
 
   @override
@@ -39,7 +39,7 @@ class _SearchScreenState extends State<SearchScreen> {
     dataBase.getAllProducts().then((products) {
       setState(() {
         products.forEach((products) {
-          itemCard.add(ItemModel.fromMap(products));
+          itemCard.add(ItemResult.fromMap(products));
         });
         for (var i = 0; i < items.length; i++) {
           for (var j = 0; j < itemCard.length; j++) {
