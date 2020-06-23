@@ -6,14 +6,16 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper.dart';
-import 'package:pharmacy/model/item_model.dart';
-import 'package:pharmacy/model/sale_model.dart';
+import 'package:pharmacy/model/api/item_model.dart';
+import 'package:pharmacy/model/item_model.dart' as s;
 import 'package:pharmacy/model/top_item_model.dart';
 import 'package:pharmacy/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 import 'package:pharmacy/utils/api.dart';
 import 'package:pharmacy/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
+
+import 'file:///D:/Flutter/ishxona/user_pharmacy/lib/model/api/sale_model.dart';
 
 import '../../../app_theme.dart';
 
@@ -26,34 +28,46 @@ class HomeScreen extends StatefulWidget {
   }
 }
 
-final List<ItemModel> items = ItemModel.itemsModel;
 final List<TopItemModel> topItems = TopItemModel.topTitle;
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   var animationController;
   Size size;
-  List<ItemModel> itemCard = new List();
+  List<s.ItemModel> itemCard = new List();
   DatabaseHelper dataBase = new DatabaseHelper();
+  bool isLoad = false;
+
+  List<ItemResult> items = new List();
 
   @override
   void initState() {
     animationController = AnimationController(
         duration: const Duration(milliseconds: 3000), vsync: this);
-    dataBase.getAllProducts().then((products) {
-      setState(() {
-        products.forEach((products) {
-          itemCard.add(ItemModel.fromMap(products));
-        });
-        for (var i = 0; i < items.length; i++) {
-          for (var j = 0; j < itemCard.length; j++) {
-            if (items[i].id == itemCard[j].id) {
-              items[i].cardCount = itemCard[j].cardCount;
-              items[i].favourite = itemCard[j].favourite;
+
+    var responce = API.getHome();
+
+    responce.then(
+      (value) => {
+        items = value,
+        print(items.length),
+        dataBase.getAllProducts().then((products) {
+          setState(() {
+            products.forEach((products) {
+              itemCard.add(s.ItemModel.fromMap(products));
+            });
+            for (var i = 0; i < items.length; i++) {
+              for (var j = 0; j < itemCard.length; j++) {
+                if (items[i].id == itemCard[j].id) {
+                  items[i].cardCount = itemCard[j].cardCount;
+                  items[i].favourite = itemCard[j].favourite;
+                }
+              }
             }
-          }
-        }
-      });
-    });
+          });
+        }),
+      },
+    );
+
     super.initState();
   }
 
@@ -249,8 +263,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     scrollDirection: Axis.horizontal,
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
-                      //final int count = items.length > 10 ? 10 : items.length;
-                      final int count = 5;
+                      final int count =
+                          snapshot.data.length > 10 ? 10 : snapshot.data.length;
                       final Animation<double> animation =
                           Tween<double>(begin: 0.0, end: 1.0).animate(
                         CurvedAnimation(
@@ -279,17 +293,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         color: AppTheme.white,
                                         width: 311,
                                         height: 154,
-//                                    child: CachedNetworkImage(
-//                                      imageUrl: items[index].image,
-//                                      placeholder: (context, url) =>
-//                                          Icon(Icons.camera_alt),
-//                                      errorWidget: (context, url, error) =>
-//                                          Icon(Icons.error),
-//                                      fit: BoxFit.fitHeight,
-//                                    ),
-                                        child: Image.asset(
-                                          "assets/images/sale.png",
+                                        child: CachedNetworkImage(
+                                          imageUrl: snapshot.data[index].image,
+                                          placeholder: (context, url) =>
+                                              Icon(Icons.camera_alt),
+                                          errorWidget: (context, url, error) =>
+                                              Icon(Icons.error),
+                                          fit: BoxFit.fitHeight,
                                         ),
+//                                        child: Image.asset(
+//                                          "assets/images/sale.png",
+//                                        ),
                                       ),
                                     ),
                                   ],
@@ -390,7 +404,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 width: 140,
                                 height: 140,
                                 child: CachedNetworkImage(
-                                  imageUrl: items[index].image,
+                                  imageUrl: items[index].getImageThumbnail,
                                   placeholder: (context, url) =>
                                       Icon(Icons.camera_alt),
                                   errorWidget: (context, url, error) =>
@@ -415,7 +429,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               Container(
                                 margin: EdgeInsets.only(top: 3),
                                 child: Text(
-                                  items[index].name,
+                                  items[index].manufacturer.name,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     color: AppTheme.black_transparent_text,
@@ -468,8 +482,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     items[index].cardCount =
                                                         items[index].cardCount -
                                                             1;
-                                                    dataBase.updateProduct(
-                                                        items[index]);
+//                                                    dataBase.updateProduct(
+//                                                        items[index]);
                                                   });
                                                 } else if (items[index]
                                                         .cardCount ==
@@ -480,8 +494,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             1;
                                                     if (items[index]
                                                         .favourite) {
-                                                      dataBase.updateProduct(
-                                                          items[index]);
+//                                                      dataBase.updateProduct(
+//                                                          items[index]);
                                                     } else {
                                                       dataBase.deleteProducts(
                                                           items[index].id);
@@ -517,8 +531,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   items[index].cardCount =
                                                       items[index].cardCount +
                                                           1;
-                                                  dataBase.updateProduct(
-                                                      items[index]);
+//                                                  dataBase.updateProduct(
+//                                                      items[index]);
                                                 });
                                               },
                                               child: Container(
@@ -548,13 +562,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         onTap: () {
                                           setState(() {
                                             items[index].cardCount = 1;
-                                            if (items[index].favourite) {
-                                              dataBase
-                                                  .updateProduct(items[index]);
-                                            } else {
-                                              dataBase
-                                                  .saveProducts(items[index]);
-                                            }
+//                                            if (items[index].favourite) {
+//                                              dataBase
+//                                                  .updateProduct(items[index]);
+//                                            } else {
+//                                              dataBase
+//                                                  .saveProducts(items[index]);
+//                                            }
                                           });
                                         },
                                         child: Container(

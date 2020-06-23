@@ -9,8 +9,17 @@ class ItemModel {
   int cardCount = 0;
   bool sale;
 
-  ItemModel(this.id, this.name, this.image, this.title, this.about, this.price,
-      this.favourite, this.cardCount, this.sale);
+  ItemModel(
+    this.id,
+    this.name,
+    this.image,
+    this.title,
+    this.about,
+    this.price,
+    this.favourite,
+    this.cardCount,
+    this.sale,
+  );
 
   int get getId => id;
 
