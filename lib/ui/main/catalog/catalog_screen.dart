@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:pharmacy/model/category_model.dart';
+import 'package:pharmacy/model/api/category_model.dart';
 import 'package:pharmacy/ui/main/catalog/sub_catalog_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
+import 'package:pharmacy/utils/api.dart';
 import 'package:pharmacy/utils/utils.dart';
 
 import '../../../app_theme.dart';
@@ -18,28 +19,26 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   Size size;
-  List<CategoryModel> categoryModel = CategoryModel.categoryModel;
+  List<CategoryResult> categoryModel = new List();
+  bool load = false;
+
+  @override
+  void initState() {
+    var responce = API.getCategory();
+
+    responce.then(
+      (value) => {
+        categoryModel = value,
+      },
+    );
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-//      appBar: AppBar(
-//        elevation: 0.0,
-//        backgroundColor: AppTheme.white,
-//        brightness: Brightness.light,
-//        title: Text(
-//          translate("main.catalog"),
-//          textAlign: TextAlign.start,
-//          style: TextStyle(
-//            //fontFamily: "Sofia",
-//            fontSize: 21,
-//            fontFamily: AppTheme.fontCommons,
-//            fontWeight: FontWeight.normal,
-//            color: AppTheme.black_text,
-//          ),
-//        ),
-//      ),
       backgroundColor: AppTheme.white,
       body: Stack(
         children: <Widget>[
@@ -76,7 +75,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         type: PageTransitionType.fade,
                         child: SubCategoryScreen(
                           categoryModel[position].name,
-                          categoryModel[position].subCategory,
+                          categoryModel[position].childs,
                         ),
                       ),
                     );

@@ -9,14 +9,14 @@ class CategoryModel {
   int count;
   dynamic next;
   dynamic previous;
-  List<Result> results;
+  List<CategoryResult> results;
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
         count: json["count"],
         next: json["next"],
         previous: json["previous"],
         results:
-            List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
+            List<CategoryResult>.from(json["results"].map((x) => CategoryResult.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -27,8 +27,8 @@ class CategoryModel {
       };
 }
 
-class Result {
-  Result({
+class CategoryResult {
+  CategoryResult({
     this.id,
     this.name,
     this.childs,
@@ -38,7 +38,7 @@ class Result {
   String name;
   List<Child> childs;
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory CategoryResult.fromJson(Map<String, dynamic> json) => CategoryResult(
         id: json["id"],
         name: json["name"],
         childs: List<Child>.from(json["childs"].map((x) => Child.fromJson(x))),

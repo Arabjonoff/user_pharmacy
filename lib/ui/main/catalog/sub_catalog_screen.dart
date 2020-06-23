@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:pharmacy/model/category_model.dart';
+import 'package:pharmacy/model/api/category_model.dart';
 import 'package:pharmacy/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 import 'package:pharmacy/utils/utils.dart';
@@ -12,7 +12,7 @@ import '../../../app_theme.dart';
 // ignore: must_be_immutable
 class SubCategoryScreen extends StatefulWidget {
   String name;
-  List<SubCategoryModel> list;
+  List<Child> list;
 
   SubCategoryScreen(this.name, this.list);
 
@@ -29,31 +29,6 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-//      appBar: AppBar(
-//        elevation: 0.0,
-//        backgroundColor: AppTheme.white,
-//        brightness: Brightness.light,
-//        leading: IconButton(
-//          icon: Icon(
-//            Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
-//            color: AppTheme.black_catalog,
-//          ),
-//          onPressed: () {
-//            Navigator.pop(context);
-//          },
-//        ),
-//        title: Text(
-//          widget.name,
-//          textAlign: TextAlign.start,
-//          style: TextStyle(
-//            //fontFamily: "Sofia",
-//            fontSize: 21,
-//            fontFamily: AppTheme.fontCommons,
-//            fontWeight: FontWeight.normal,
-//            color: AppTheme.black_text,
-//          ),
-//        ),
-//      ),
       backgroundColor: AppTheme.white,
       body: Stack(
         children: <Widget>[

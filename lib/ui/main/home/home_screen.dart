@@ -49,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     responce.then(
       (value) => {
         items = value,
-        print(items.length),
         dataBase.getAllProducts().then((products) {
           setState(() {
             products.forEach((products) {
