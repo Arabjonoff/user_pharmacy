@@ -79,8 +79,6 @@ class ItemResult {
     this.image = map["image"];
     this.imageThumbnail = map["image_thumbnail"];
     this.price = map["price"].toDouble();
-    this.favourite = map["favourite"] == 1 ? true : false;
-    this.cardCount = map["cardCount"];
     this.manufacturer = Manifacture.fromMap(map["manufacturer"]);
     this.favourite = false;
     this.cardCount = 0;
@@ -93,8 +91,6 @@ class ItemResult {
     this.image = map["image"];
     this.imageThumbnail = map["image_thumbnail"];
     this.price = map["price"].toDouble();
-    this.favourite = map["favourite"] == 1 ? true : false;
-    this.cardCount = map["cardCount"];
     this.manufacturer = Manifacture(map["manufacturer"].toString());
     this.favourite = map["favourite"] == 1 ? true : false;
     this.cardCount = map["cardCount"];

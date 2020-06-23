@@ -56,7 +56,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             for (var i = 0; i < items.length; i++) {
               for (var j = 0; j < itemCard.length; j++) {
                 if (items[i].id == itemCard[j].id) {
-                  print(itemCard[j].cardCount);
                   items[i].cardCount = itemCard[j].cardCount;
                   items[i].favourite = itemCard[j].favourite;
                 }
@@ -342,7 +341,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       context,
                       PageTransition(
                         type: PageTransitionType.fade,
-                        child: ItemListScreen(translate("home.best"), 2, 0),
+                        child: ItemListScreen(
+                          translate("home.best"),
+                          2,
+                          0,
+                        ),
                       ),
                     );
                   },

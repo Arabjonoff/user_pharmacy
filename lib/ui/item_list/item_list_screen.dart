@@ -165,7 +165,11 @@ class _ItemListScreenState extends State<ItemListScreen> {
                   color: AppTheme.black_linear,
                 ),
                 FutureBuilder<List<ItemResult>>(
-                  future: API.getItems(widget.id),
+                  future: widget.type == 1
+                      ? API.getItems(widget.id)
+                      : widget.type == 2
+                          ? API.getHome()
+                          : API.getItems(widget.id),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       return SizedBox(
@@ -175,23 +179,24 @@ class _ItemListScreenState extends State<ItemListScreen> {
                         ),
                       );
                     }
-                    items = snapshot.data;
-                    dataBase.getAllProducts().then((products) {
-                      setState(() {
-                        products.forEach((products) {
-                          itemCard.add(ItemResult.fromMap(products));
-                        });
-                        for (var i = 0; i < items.length; i++) {
-                          for (var j = 0; j < itemCard.length; j++) {
-                            if (items[i].id == itemCard[j].id) {
-                              items[i].cardCount = itemCard[j].cardCount;
-                              items[i].favourite = itemCard[j].favourite;
+                    if (snapshot.hasData) {
+                      items = snapshot.data;
+                      dataBase.getAllProducts().then((products) {
+                        setState(() {
+                          products.forEach((products) {
+                            itemCard.add(ItemResult.fromMap(products));
+                          });
+                          for (var i = 0; i < items.length; i++) {
+                            for (var j = 0; j < itemCard.length; j++) {
+                              if (items[i].id == itemCard[j].id) {
+                                items[i].cardCount = itemCard[j].cardCount;
+                                items[i].favourite = itemCard[j].favourite;
+                              }
                             }
                           }
-                        }
+                        });
                       });
-                    });
-
+                    }
                     return snapshot.hasData
                         ? ListView.builder(
                             shrinkWrap: true,

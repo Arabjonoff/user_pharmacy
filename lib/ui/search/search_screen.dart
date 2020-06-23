@@ -112,7 +112,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                     type: PageTransitionType.fade,
                                     child: ItemListScreen(
                                       translate("search.result"),
-                                      1,
+                                      3,
                                       0,
                                     ),
                                   ),
