@@ -86,7 +86,7 @@ class API {
     HttpClientResponse response = await request.close();
 
     String reply = await response.transform(utf8.decoder).join();
-    print(reply);
+
     httpClient.close();
     final Map parsed = json.decode(reply);
     final saleModel = ItemModel.fromJson(parsed);

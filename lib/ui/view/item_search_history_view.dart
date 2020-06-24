@@ -10,7 +10,7 @@ import '../../app_theme.dart';
 
 // ignore: must_be_immutable
 class ItemSearchHistoryView extends StatefulWidget {
-  ItemResult item;
+  String item;
 
   ItemSearchHistoryView(this.item);
 
@@ -27,16 +27,16 @@ class _ItemSearchHistoryViewState extends State<ItemSearchHistoryView> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          PageTransition(
-            type: PageTransitionType.fade,
-            alignment: Alignment.bottomCenter,
-            child: ItemScreen(
-              widget.item
-            ),
-          ),
-        );
+//        Navigator.push(
+//          context,
+//          PageTransition(
+//            type: PageTransitionType.fade,
+//            alignment: Alignment.bottomCenter,
+//            child: ItemScreen(
+//              widget.item
+//            ),
+//          ),
+//        );
       },
       child: Container(
         height: 48.5,
@@ -63,7 +63,7 @@ class _ItemSearchHistoryViewState extends State<ItemSearchHistoryView> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        widget.item.name,
+                        widget.item,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: AppTheme.black_text,

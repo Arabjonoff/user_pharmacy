@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -44,24 +43,8 @@ class _ItemSearchViewState extends State<ItemSearchView> {
             Expanded(
               child: Row(
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: 16,
-                      left: 16,
-                      right: 16,
-                      bottom: 16.5,
-                    ),
-                    height: 48,
-                    width: 48,
-                    child: Center(
-                      child: CachedNetworkImage(
-                        height: 48,
-                        width: 48,
-                        imageUrl: widget.item.image,
-                        placeholder: (context, url) => Icon(Icons.camera_alt),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      ),
-                    ),
+                  SizedBox(
+                    width: 19,
                   ),
                   Expanded(
                     child: Container(
