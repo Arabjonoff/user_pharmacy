@@ -8,6 +8,7 @@ import 'package:pharmacy/model/api/item_model.dart';
 import 'package:pharmacy/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/ui/view/item_search_history_view.dart';
 import 'package:pharmacy/ui/view/item_search_view.dart';
+import 'package:pharmacy/utils/api.dart';
 
 import '../../app_theme.dart';
 
@@ -16,9 +17,7 @@ class SearchScreen extends StatefulWidget {
   String name;
   int barcode;
 
-
   SearchScreen(this.name, this.barcode);
-
 
   @override
   State<StatefulWidget> createState() {
@@ -26,34 +25,21 @@ class SearchScreen extends StatefulWidget {
   }
 }
 
-final List<ItemResult> items = new List();
-
 class _SearchScreenState extends State<SearchScreen> {
   Size size;
   TextEditingController searchController = TextEditingController();
   bool isSearchText = false;
+  String obj = "";
 
   List<ItemResult> itemCard = new List();
+  List<ItemResult> items = new List();
+
   DatabaseHelper dataBase = new DatabaseHelper();
 
   @override
   void initState() {
     searchController.text = widget.name;
-    dataBase.getAllProducts().then((products) {
-      setState(() {
-        products.forEach((products) {
-          itemCard.add(ItemResult.fromMap(products));
-        });
-        for (var i = 0; i < items.length; i++) {
-          for (var j = 0; j < itemCard.length; j++) {
-            if (items[i].id == itemCard[j].id) {
-              items[i].cardCount = itemCard[j].cardCount;
-              items[i].favourite = itemCard[j].favourite;
-            }
-          }
-        }
-      });
-    });
+
     super.initState();
   }
 
@@ -61,10 +47,12 @@ class _SearchScreenState extends State<SearchScreen> {
     searchController.addListener(() {
       if (searchController.text.length > 0) {
         setState(() {
+          obj = searchController.text;
           isSearchText = true;
         });
       } else {
         setState(() {
+          obj = "";
           isSearchText = false;
         });
       }
@@ -169,38 +157,73 @@ class _SearchScreenState extends State<SearchScreen> {
           Container(
             width: size.width,
             child: isSearchText
-                ? items.length > 0
-                    ? ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount: items.length,
-                        itemBuilder: (context, index) {
-                          return ItemSearchView(items[index]);
-                        },
-                      )
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/images/empty.svg",
-                            height: 155,
-                            width: 155,
+                ? FutureBuilder<List<ItemResult>>(
+                    future: API.getSearchItems(obj),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return SizedBox(
+                          child: Text(
+                            "нет интернета",
+                            textAlign: TextAlign.center,
                           ),
-                          Container(
-                            width: 210,
-                            child: Text(
-                              translate("search.empty"),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
-                                fontSize: 17,
-                                fontWeight: FontWeight.normal,
-                                color: AppTheme.search_empty,
-                              ),
-                            ),
-                          )
-                        ],
-                      )
+                        );
+                      }
+                      if (snapshot.hasData) {
+                        items = snapshot.data;
+                        dataBase.getAllProducts().then((products) {
+                          setState(() {
+                            products.forEach((products) {
+                              itemCard.add(ItemResult.fromMap(products));
+                            });
+                            for (var i = 0; i < items.length; i++) {
+                              for (var j = 0; j < itemCard.length; j++) {
+                                if (items[i].id == itemCard[j].id) {
+                                  items[i].cardCount = itemCard[j].cardCount;
+                                  items[i].favourite = itemCard[j].favourite;
+                                }
+                              }
+                            }
+                          });
+                        });
+                      }
+                      return snapshot.hasData
+                          ? items.length > 0
+                              ? ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: items.length,
+                                  itemBuilder: (context, index) {
+                                    return ItemSearchView(items[index]);
+                                  },
+                                )
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                      "assets/images/empty.svg",
+                                      height: 155,
+                                      width: 155,
+                                    ),
+                                    Container(
+                                      width: 210,
+                                      child: Text(
+                                        translate("search.empty"),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRoboto,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.normal,
+                                          color: AppTheme.search_empty,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )
+                          : Center(
+                              child: CircularProgressIndicator(),
+                            );
+                    },
+                  )
                 : ListView(
                     children: [
                       Container(

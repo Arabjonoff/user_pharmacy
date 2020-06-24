@@ -76,4 +76,22 @@ class API {
 
     return saleModel.results;
   }
+
+  ///get search
+  static Future<List<ItemResult>> getSearchItems(String obj) async {
+    String url = Utils.BASE_URL + '/api/v1/drugs?search=' + obj;
+
+    HttpClient httpClient = new HttpClient();
+    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+    print(reply);
+    httpClient.close();
+    final Map parsed = json.decode(reply);
+    final saleModel = ItemModel.fromJson(parsed);
+
+    return saleModel.results;
+  }
 }
