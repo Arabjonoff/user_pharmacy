@@ -3,9 +3,8 @@ import 'dart:io';
 
 import 'package:pharmacy/model/api/category_model.dart';
 import 'package:pharmacy/model/api/item_model.dart';
+import 'package:pharmacy/model/api/sale_model.dart';
 import 'package:pharmacy/utils/utils.dart';
-
-import 'file:///D:/Flutter/ishxona/user_pharmacy/lib/model/api/sale_model.dart';
 
 class API {
   ///get Home

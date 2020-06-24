@@ -7,14 +7,13 @@ import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/api/item_model.dart';
+import 'package:pharmacy/model/api/sale_model.dart';
 import 'package:pharmacy/model/top_item_model.dart';
 import 'package:pharmacy/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 import 'package:pharmacy/utils/api.dart';
 import 'package:pharmacy/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
-
-import 'file:///D:/Flutter/ishxona/user_pharmacy/lib/model/api/sale_model.dart';
 
 import '../../../app_theme.dart';
 
