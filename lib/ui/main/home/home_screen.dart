@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 context,
                 PageTransition(
                   type: PageTransitionType.fade,
-                  child: SearchScreen(""),
+                  child: SearchScreen("", 0),
                 ),
               );
             },
@@ -142,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         context,
                         PageTransition(
                           type: PageTransitionType.fade,
-                          child: SearchScreen(value),
+                          child: SearchScreen(value, 1),
                         ),
                       ),
                     );

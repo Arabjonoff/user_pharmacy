@@ -14,8 +14,11 @@ import '../../app_theme.dart';
 // ignore: must_be_immutable
 class SearchScreen extends StatefulWidget {
   String name;
+  int barcode;
 
-  SearchScreen(this.name);
+
+  SearchScreen(this.name, this.barcode);
+
 
   @override
   State<StatefulWidget> createState() {

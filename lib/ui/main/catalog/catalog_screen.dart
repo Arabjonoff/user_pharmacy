@@ -25,7 +25,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   void initState() {
     var responce = API.getCategory();
-
     responce.then(
       (value) => {
         categoryModel = value,
@@ -151,7 +150,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           context,
                           PageTransition(
                             type: PageTransitionType.fade,
-                            child: SearchScreen(""),
+                            child: SearchScreen("", 0),
                           ),
                         );
                       },
@@ -194,7 +193,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         context,
                         PageTransition(
                           type: PageTransitionType.fade,
-                          child: SearchScreen(value),
+                          child: SearchScreen(value, 1),
                         ),
                       ),
                     );
