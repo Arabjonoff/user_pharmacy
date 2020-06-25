@@ -74,6 +74,14 @@
     "bonus_card": "Бонусная карта",
     "city": "Город",
     "address_apteka": "Адреса аптек",
-    "history": "История заказов"
+    "history": "История заказов",
+    "language": "Язык",
+    "about": "О приложении",
+    "message": "Напишите",
+    "message_about": "в чат",
+    "call": "Позвоните",
+    "call_about": "в горячую линию",
+    "faq": "FAQ",
+    "faq_about": "вопросы и ответы"
   }
 }
