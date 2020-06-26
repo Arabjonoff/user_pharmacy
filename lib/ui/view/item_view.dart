@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:intl/intl.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/api/item_model.dart';
+import 'package:pharmacy/ui/item/item_screen.dart';
 
 import '../../app_theme.dart';
 
@@ -29,14 +31,14 @@ class _ItemViewState extends State<ItemView> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-//        Navigator.push(
-//          context,
-//          PageTransition(
-//            type: PageTransitionType.fade,
-//            alignment: Alignment.bottomCenter,
-//            child: ItemScreen(widget.item),
-//          ),
-//        );
+        Navigator.push(
+          context,
+          PageTransition(
+            type: PageTransitionType.fade,
+            alignment: Alignment.bottomCenter,
+            child: ItemScreen(widget.item),
+          ),
+        );
       },
       child: Container(
         height: widget.item.sale ? 172 : 160,
