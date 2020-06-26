@@ -29,7 +29,7 @@ class _ItemSearchViewState extends State<ItemSearchView> {
         Navigator.push(
           context,
           PageTransition(
-            type: PageTransitionType.fade,
+            type: PageTransitionType.downToUp,
             alignment: Alignment.bottomCenter,
             child: ItemScreen(widget.item),
           ),

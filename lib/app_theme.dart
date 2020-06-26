@@ -31,6 +31,7 @@ class AppTheme {
   static const Color tab_transparent = Color(0xFFF2F3F5);
 
   static const Color search_empty = Color(0xFF818C99);
+  static const Color item_navigation = Color(0xFFA6A6A6);
 
   static const Color black_text = Color(0xFF1C1C1E);
   static const Color red_text_sale = Color(0xFFFF3347);

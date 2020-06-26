@@ -838,54 +838,93 @@ class _ItemScreenState extends State<ItemScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.white,
-      body: NestedScrollView(
-        controller: _scrollController,
-        headerSliverBuilder: (context, value) {
-          return [
-            SliverToBoxAdapter(child: _buildCarousel()),
-            SliverToBoxAdapter(
-              child: Container(
-                height: 40,
-                width: 350,
-                margin: EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                ),
-                padding: EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                    color: AppTheme.tab_transparent,
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: TabBar(
-                  controller: _tabController,
-                  labelColor: AppTheme.blue_app_color,
-                  unselectedLabelColor: AppTheme.search_empty,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  labelStyle: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontFamily: AppTheme.fontRoboto,
-                    fontSize: 13,
-                    color: AppTheme.blue_app_color,
+      backgroundColor: Colors.black,
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(30.0),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            elevation: 0.0,
+            backgroundColor: Colors.black,
+            brightness: Brightness.dark,
+            title: Container(
+              height: 30,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: AppTheme.item_navigation,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.0),
+                      topRight: Radius.circular(10.0),
+                    ),
                   ),
-                  indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: AppTheme.white,
-                  ),
-                  tabs: myTabs,
                 ),
               ),
             ),
-          ];
-        },
-        body: Container(
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              _description(),
-              _instruction(),
-            ],
-          ),
-        ),
+          )
+      ),
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: AppTheme.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(14.0),
+                topRight: Radius.circular(14.0),
+              ),
+            ),
+            padding: EdgeInsets.only(top: 14),
+            child: NestedScrollView(
+              controller: _scrollController,
+              headerSliverBuilder: (context, value) {
+                return [
+                  SliverToBoxAdapter(child: _buildCarousel()),
+                  SliverToBoxAdapter(
+                    child: Container(
+                      height: 40,
+                      width: 350,
+                      margin: EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                      ),
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                          color: AppTheme.tab_transparent,
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: TabBar(
+                        controller: _tabController,
+                        labelColor: AppTheme.blue_app_color,
+                        unselectedLabelColor: AppTheme.search_empty,
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        labelStyle: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontFamily: AppTheme.fontRoboto,
+                          fontSize: 13,
+                          color: AppTheme.blue_app_color,
+                        ),
+                        indicator: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: AppTheme.white,
+                        ),
+                        tabs: myTabs,
+                      ),
+                    ),
+                  ),
+                ];
+              },
+              body: Container(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    _description(),
+                    _instruction(),
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

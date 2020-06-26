@@ -9,6 +9,7 @@ import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/api/item_model.dart';
 import 'package:pharmacy/model/api/sale_model.dart';
 import 'package:pharmacy/model/top_item_model.dart';
+import 'package:pharmacy/ui/item/item_screen.dart';
 import 'package:pharmacy/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 import 'package:pharmacy/utils/api.dart';
@@ -392,230 +393,247 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       child: Transform(
                         transform: Matrix4.translationValues(
                             100 * (1.0 - animation.value), 0.0, 0.0),
-                        child: Container(
-                          width: 140,
-                          height: 250,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 140,
-                                height: 140,
-                                child: CachedNetworkImage(
-                                  imageUrl: items[index].getImageThumbnail,
-                                  placeholder: (context, url) =>
-                                      Icon(Icons.camera_alt),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                  fit: BoxFit.fitHeight,
-                                ),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.downToUp,
+                                alignment: Alignment.bottomCenter,
+                                child: ItemScreen(items[index]),
                               ),
-                              Container(
-                                margin: EdgeInsets.only(top: 10),
-                                child: Text(
-                                  items[index].name,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: AppTheme.black_text,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: AppTheme.fontRoboto,
-                                    fontSize: 13,
+                            );
+                          },
+                          child: Container(
+                            width: 140,
+                            height: 250,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 140,
+                                  height: 140,
+                                  child: CachedNetworkImage(
+                                    imageUrl: items[index].getImageThumbnail,
+                                    placeholder: (context, url) =>
+                                        Icon(Icons.camera_alt),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                    fit: BoxFit.fitHeight,
                                   ),
-                                  maxLines: 2,
                                 ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 3),
-                                child: Text(
-                                  items[index].manufacturer.name,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: AppTheme.black_transparent_text,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: AppTheme.fontRoboto,
-                                    fontSize: 12,
+                                Container(
+                                  margin: EdgeInsets.only(top: 10),
+                                  child: Text(
+                                    items[index].name,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: AppTheme.black_text,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontSize: 13,
+                                    ),
+                                    maxLines: 2,
                                   ),
-                                  maxLines: 1,
                                 ),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 120,
-                                margin: EdgeInsets.only(top: 11),
-                                child: items[index].cardCount > 0
-                                    ? Container(
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                          color: AppTheme.blue_transparent,
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                        width: 120,
-                                        child: Row(
-                                          children: <Widget>[
-                                            GestureDetector(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: AppTheme.blue,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                    10.0,
+                                Container(
+                                  margin: EdgeInsets.only(top: 3),
+                                  child: Text(
+                                    items[index].manufacturer.name,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: AppTheme.black_transparent_text,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontSize: 12,
+                                    ),
+                                    maxLines: 1,
+                                  ),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 120,
+                                  margin: EdgeInsets.only(top: 11),
+                                  child: items[index].cardCount > 0
+                                      ? Container(
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                            color: AppTheme.blue_transparent,
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          width: 120,
+                                          child: Row(
+                                            children: <Widget>[
+                                              GestureDetector(
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: AppTheme.blue,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      10.0,
+                                                    ),
+                                                  ),
+                                                  margin: EdgeInsets.all(2.0),
+                                                  height: 26,
+                                                  width: 26,
+                                                  child: Center(
+                                                    child: Icon(
+                                                      Icons.remove,
+                                                      color: AppTheme.white,
+                                                      size: 19,
+                                                    ),
                                                   ),
                                                 ),
-                                                margin: EdgeInsets.all(2.0),
-                                                height: 26,
-                                                width: 26,
+                                                onTap: () {
+                                                  if (items[index].cardCount >
+                                                      1) {
+                                                    setState(() {
+                                                      items[index].cardCount =
+                                                          items[index]
+                                                                  .cardCount -
+                                                              1;
+                                                      dataBase.updateProduct(
+                                                          items[index]);
+                                                    });
+                                                  } else if (items[index]
+                                                          .cardCount ==
+                                                      1) {
+                                                    setState(() {
+                                                      items[index].cardCount =
+                                                          items[index]
+                                                                  .cardCount -
+                                                              1;
+                                                      if (items[index]
+                                                          .favourite) {
+                                                        dataBase.updateProduct(
+                                                            items[index]);
+                                                      } else {
+                                                        dataBase.deleteProducts(
+                                                            items[index].id);
+                                                      }
+                                                    });
+                                                  }
+                                                },
+                                              ),
+                                              Container(
+                                                height: 30,
+                                                width: 60,
                                                 child: Center(
-                                                  child: Icon(
-                                                    Icons.remove,
-                                                    color: AppTheme.white,
-                                                    size: 19,
+                                                  child: Text(
+                                                    items[index]
+                                                            .cardCount
+                                                            .toString() +
+                                                        " " +
+                                                        translate("item.sht"),
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 15.0,
+                                                      color: AppTheme.blue,
+                                                      fontFamily:
+                                                          AppTheme.fontRoboto,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                              onTap: () {
-                                                if (items[index].cardCount >
-                                                    1) {
+                                              GestureDetector(
+                                                onTap: () {
                                                   setState(() {
                                                     items[index].cardCount =
-                                                        items[index].cardCount -
+                                                        items[index].cardCount +
                                                             1;
                                                     dataBase.updateProduct(
                                                         items[index]);
                                                   });
-                                                } else if (items[index]
-                                                        .cardCount ==
-                                                    1) {
-                                                  setState(() {
-                                                    items[index].cardCount =
-                                                        items[index].cardCount -
-                                                            1;
-                                                    if (items[index]
-                                                        .favourite) {
-                                                      dataBase.updateProduct(
-                                                          items[index]);
-                                                    } else {
-                                                      dataBase.deleteProducts(
-                                                          items[index].id);
-                                                    }
-                                                  });
-                                                }
-                                              },
-                                            ),
-                                            Container(
-                                              height: 30,
-                                              width: 60,
-                                              child: Center(
-                                                child: Text(
-                                                  items[index]
-                                                          .cardCount
-                                                          .toString() +
-                                                      " " +
-                                                      translate("item.sht"),
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 15.0,
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
                                                     color: AppTheme.blue,
-                                                    fontFamily:
-                                                        AppTheme.fontRoboto,
-                                                    fontWeight: FontWeight.w600,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      10.0,
+                                                    ),
+                                                  ),
+                                                  height: 26,
+                                                  width: 26,
+                                                  margin: EdgeInsets.all(2.0),
+                                                  child: Center(
+                                                    child: Icon(
+                                                      Icons.add,
+                                                      color: AppTheme.white,
+                                                      size: 19,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  items[index].cardCount =
-                                                      items[index].cardCount +
-                                                          1;
-                                                  dataBase.updateProduct(
-                                                      items[index]);
-                                                });
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: AppTheme.blue,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                    10.0,
-                                                  ),
-                                                ),
-                                                height: 26,
-                                                width: 26,
-                                                margin: EdgeInsets.all(2.0),
-                                                child: Center(
-                                                  child: Icon(
-                                                    Icons.add,
-                                                    color: AppTheme.white,
-                                                    size: 19,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            items[index].cardCount = 1;
-                                            if (items[index].favourite) {
-                                              dataBase
-                                                  .updateProduct(items[index]);
-                                            } else {
-                                              dataBase
-                                                  .saveProducts(items[index]);
-                                            }
-                                          });
-                                        },
-                                        child: Container(
-                                          height: 30,
-                                          width: 140,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0),
-                                            ),
-                                            color: AppTheme.blue,
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(
-                                                width: 12,
-                                              ),
-                                              Expanded(
-                                                child: Text(
-                                                  priceFormat.format(
-                                                          items[index].price) +
-                                                      translate("sum"),
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    color: AppTheme.white,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontFamily:
-                                                        AppTheme.fontRoboto,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                              ),
-                                              SvgPicture.asset(
-                                                "assets/images/card_icon.svg",
-                                              ),
-                                              SizedBox(
-                                                width: 8.11,
-                                              )
                                             ],
                                           ),
+                                        )
+                                      : GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              items[index].cardCount = 1;
+                                              if (items[index].favourite) {
+                                                dataBase.updateProduct(
+                                                    items[index]);
+                                              } else {
+                                                dataBase
+                                                    .saveProducts(items[index]);
+                                              }
+                                            });
+                                          },
+                                          child: Container(
+                                            height: 30,
+                                            width: 140,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0),
+                                              ),
+                                              color: AppTheme.blue,
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                SizedBox(
+                                                  width: 12,
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    priceFormat.format(
+                                                            items[index]
+                                                                .price) +
+                                                        translate("sum"),
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                      color: AppTheme.white,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontFamily:
+                                                          AppTheme.fontRoboto,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SvgPicture.asset(
+                                                  "assets/images/card_icon.svg",
+                                                ),
+                                                SizedBox(
+                                                  width: 8.11,
+                                                )
+                                              ],
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                              ),
-                            ],
-                          ),
-                          padding: EdgeInsets.only(
-                            right: 12,
+                                ),
+                              ],
+                            ),
+                            padding: EdgeInsets.only(
+                              right: 12,
+                            ),
                           ),
                         ),
                       ),
