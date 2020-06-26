@@ -30,46 +30,59 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
     size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppTheme.white,
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70.0),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            elevation: 0.0,
+            backgroundColor: AppTheme.white,
+            brightness: Brightness.light,
+            title: Container(
+              height: 70,
+              child: Row(
+                children: [
+                  Container(
+                    margin:EdgeInsets.only(top: 12),
+                    child: GestureDetector(
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        size: 24,
+                        color: AppTheme.blue_app_color,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      margin:EdgeInsets.only(top: 12),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            widget.name,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontCommons,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 17,
+                              color: AppTheme.black_text,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )),
       body: Stack(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(top: 24, left: 12, right: 12),
-            height: 70,
-            child: Row(
-              children: [
-                GestureDetector(
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                    size: 24,
-                    color: AppTheme.blue_app_color,
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.name,
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontCommons,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 17,
-                          color: AppTheme.black_text,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          Container(
             width: size.width,
-            margin: EdgeInsets.only(top: 108),
+            margin: EdgeInsets.only(top: 48),
             child: ListView.builder(
               itemCount: widget.list.length,
               itemBuilder: (context, position) {
@@ -133,16 +146,11 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
           ),
           Container(
             color: AppTheme.white,
-            height: 48,
+            height: 36,
             width: size.width,
             padding: EdgeInsets.only(
-              top: 6,
-              bottom: 6,
               left: 12,
               right: 18,
-            ),
-            margin: EdgeInsets.only(
-              top: 84,
             ),
             child: Row(
               children: <Widget>[
