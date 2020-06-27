@@ -96,155 +96,154 @@ class _CardScreenState extends State<CardScreen> {
           return data.length == 0
               ? CardEmptyScreen()
               : ListView(
-            children: [
-              ListView.builder(
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  return ItemView(data[index]);
-                },
-              ),
-              Container(
-                child: Text(
-                  translate("card.my_card"),
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: AppTheme.fontRoboto,
-                    fontWeight: FontWeight.w600,
-                    color: AppTheme.black_text,
-                  ),
-                ),
-                margin:
-                EdgeInsets.only(top: 24, left: 16, right: 16),
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  top: 23,
-                  left: 16,
-                  right: 16,
-                ),
-                child: Row(
                   children: [
-                    Text(
-                      translate("card.all_card"),
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontFamily: AppTheme.fontRoboto,
-                        fontWeight: FontWeight.normal,
-                        color: AppTheme.black_transparent_text,
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        return ItemView(data[index]);
+                      },
+                    ),
+                    Container(
+                      child: Text(
+                        translate("card.my_card"),
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: AppTheme.fontRoboto,
+                          fontWeight: FontWeight.w600,
+                          color: AppTheme.black_text,
+                        ),
+                      ),
+                      margin: EdgeInsets.only(top: 24, left: 16, right: 16),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 23,
+                        left: 16,
+                        right: 16,
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            translate("card.all_card"),
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.normal,
+                              color: AppTheme.black_transparent_text,
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(),
+                          ),
+                          Text(
+                            translate(allCount.toString()),
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.normal,
+                              color: AppTheme.black_transparent_text,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Expanded(
-                      child: Container(),
-                    ),
-                    Text(
-                      translate(allCount.toString()),
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontFamily: AppTheme.fontRoboto,
-                        fontWeight: FontWeight.normal,
-                        color: AppTheme.black_transparent_text,
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 18,
+                        left: 16,
+                        right: 16,
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            translate("card.tovar_sum"),
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.normal,
+                              color: AppTheme.black_transparent_text,
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(),
+                          ),
+                          Text(
+                            translate("50 000" + translate("sum")),
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.normal,
+                              color: AppTheme.black_transparent_text,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 26,
+                        left: 16,
+                        right: 16,
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            translate("card.all"),
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.black_text,
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(),
+                          ),
+                          Text(
+                            translate("50 000" + translate("sum")),
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.black_text,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: AppTheme.blue_app_color,
+                        ),
+                        height: 44,
+                        width: size.width,
+                        margin: EdgeInsets.only(
+                          top: 47,
+                          bottom: 47,
+                          left: 12,
+                          right: 12,
+                        ),
+                        child: Center(
+                          child: Text(
+                            translate("card.buy"),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: AppTheme.fontRoboto,
+                              fontSize: 17,
+                              color: AppTheme.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
                   ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  top: 18,
-                  left: 16,
-                  right: 16,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      translate("card.tovar_sum"),
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontFamily: AppTheme.fontRoboto,
-                        fontWeight: FontWeight.normal,
-                        color: AppTheme.black_transparent_text,
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(),
-                    ),
-                    Text(
-                      translate("50 000" + translate("sum")),
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontFamily: AppTheme.fontRoboto,
-                        fontWeight: FontWeight.normal,
-                        color: AppTheme.black_transparent_text,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  top: 26,
-                  left: 16,
-                  right: 16,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      translate("card.all"),
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: AppTheme.fontRoboto,
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.black_text,
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(),
-                    ),
-                    Text(
-                      translate("50 000" + translate("sum")),
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: AppTheme.fontRoboto,
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.black_text,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: AppTheme.blue_app_color,
-                  ),
-                  height: 44,
-                  width: size.width,
-                  margin: EdgeInsets.only(
-                    top: 47,
-                    bottom: 47,
-                    left: 12,
-                    right: 12,
-                  ),
-                  child: Center(
-                    child: Text(
-                      translate("card.buy"),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontFamily: AppTheme.fontRoboto,
-                        fontSize: 17,
-                        color: AppTheme.white,
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            ],
-          );
+                );
         },
       ),
     );

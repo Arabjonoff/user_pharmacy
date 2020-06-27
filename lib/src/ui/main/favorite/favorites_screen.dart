@@ -18,7 +18,6 @@ class FavoritesScreen extends StatefulWidget {
 class _FavoritesScreenState extends State<FavoritesScreen> {
   Size size;
   int count = 0;
-  int allCount = 0;
 
   DatabaseHelper dataBase = new DatabaseHelper();
 
@@ -79,7 +78,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       body: FutureBuilder<List<ItemResult>>(
         future: dataBase.getProdu(false),
         builder: (context, snapshot) {
-          allCount = 0;
           var data = snapshot.data;
           if (data == null) {
             return Container(
@@ -89,9 +87,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             );
           }
           count = data.length;
-          for (int i = 0; i < data.length; i++) {
-            allCount += data[i].cardCount;
-          }
           return data.length == 0
               ? FavoriteEmptyScreen()
               : ListView.builder(

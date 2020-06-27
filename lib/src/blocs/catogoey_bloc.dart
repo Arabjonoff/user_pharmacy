@@ -8,7 +8,7 @@ class CateforyBloc {
 
   Observable<CategoryModel> get allCategory => _categoryFetcher.stream;
 
-  fetchAllHome() async {
+  fetchAllCategory() async {
     CategoryModel saleModel = await _repository.fetchCategoryItem();
     _categoryFetcher.sink.add(saleModel);
   }

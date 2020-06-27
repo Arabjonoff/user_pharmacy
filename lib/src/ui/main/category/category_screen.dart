@@ -21,24 +21,10 @@ class CategoryScreen extends StatefulWidget {
 class _CategoryScreenState extends State<CategoryScreen> {
   Size size;
 
-//  List<CategoryResult> categoryModel = new List();
-//
-//  @override
-//  void initState() {
-//    var responce = API.getCategory();
-//    responce.then(
-//      (value) => {
-//        categoryModel = value,
-//      },
-//    );
-//
-//    super.initState();
-//  }
-
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    blocCategory.fetchAllHome();
+    blocCategory.fetchAllCategory();
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: PreferredSize(
