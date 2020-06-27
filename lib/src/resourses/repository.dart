@@ -18,5 +18,9 @@ class Repository {
 
   Future<CategoryModel> fetchCategoryItem() => moviesApiProvider.fetchCategoryList();
 
+  Future<CategoryModel> fetchSearchItem() => moviesApiProvider.fetchCategoryList();
+
   Future<List<ItemResult>> databaseItem() => databaseHelper.getProduct();
+
+
 }
