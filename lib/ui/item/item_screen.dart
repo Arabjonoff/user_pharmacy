@@ -5,15 +5,18 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/model/api/item_model.dart';
+import 'package:pharmacy/model/api/items_all_model.dart';
 import 'package:pharmacy/ui/main/home/home_screen.dart';
+import 'package:pharmacy/utils/api.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
 
 // ignore: must_be_immutable
 class ItemScreen extends StatefulWidget {
-  ItemResult item;
+  int id;
 
-  ItemScreen(this.item);
+  ItemScreen(this.id);
 
   @override
   State<StatefulWidget> createState() {
@@ -26,6 +29,8 @@ final List<ItemResult> items = new List();
 class _ItemScreenState extends State<ItemScreen>
     with SingleTickerProviderStateMixin {
   final bodyGlobalKey = GlobalKey();
+
+  ItemsAllModel data = new ItemsAllModel();
 
   final List<Widget> myTabs = [
     Tab(text: translate("item.description")),
@@ -57,7 +62,7 @@ class _ItemScreenState extends State<ItemScreen>
                     child: CachedNetworkImage(
                       height: 240,
                       width: 240,
-                      imageUrl: widget.item.image,
+                      imageUrl: data.image,
                       placeholder: (context, url) => Icon(Icons.camera_alt),
                       errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
@@ -73,7 +78,7 @@ class _ItemScreenState extends State<ItemScreen>
                 child: Row(
                   children: [
                     Text(
-                      widget.item.manufacturer.name,
+                      data.manufacturer.name,
                       style: TextStyle(
                         fontSize: 12,
                         fontFamily: AppTheme.fontRoboto,
@@ -85,7 +90,7 @@ class _ItemScreenState extends State<ItemScreen>
                       child: Container(),
                     ),
                     GestureDetector(
-                      child: widget.item.favourite
+                      child: false
                           ? Icon(
                               Icons.favorite,
                               size: 24,
@@ -122,7 +127,7 @@ class _ItemScreenState extends State<ItemScreen>
               Container(
                 margin: EdgeInsets.only(top: 8, left: 16),
                 child: Text(
-                  widget.item.name,
+                  data.name,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: AppTheme.black_text,
@@ -138,7 +143,7 @@ class _ItemScreenState extends State<ItemScreen>
                 child: Row(
                   children: [
                     Text(
-                      widget.item.price.toString(),
+                      data.price.toString(),
                       style: TextStyle(
                         color: AppTheme.black_text,
                         fontWeight: FontWeight.bold,
@@ -862,68 +867,158 @@ class _ItemScreenState extends State<ItemScreen>
                 ),
               ),
             ),
-          )
-      ),
+          )),
       body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color: AppTheme.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(14.0),
-                topRight: Radius.circular(14.0),
-              ),
-            ),
-            padding: EdgeInsets.only(top: 14),
-            child: NestedScrollView(
-              controller: _scrollController,
-              headerSliverBuilder: (context, value) {
-                return [
-                  SliverToBoxAdapter(child: _buildCarousel()),
-                  SliverToBoxAdapter(
-                    child: Container(
-                      height: 40,
-                      width: 350,
-                      margin: EdgeInsets.only(
-                        left: 16,
-                        right: 16,
-                      ),
-                      padding: EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                          color: AppTheme.tab_transparent,
-                          borderRadius: BorderRadius.circular(10.0)),
-                      child: TabBar(
-                        controller: _tabController,
-                        labelColor: AppTheme.blue_app_color,
-                        unselectedLabelColor: AppTheme.search_empty,
-                        indicatorSize: TabBarIndicatorSize.tab,
-                        labelStyle: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: AppTheme.fontRoboto,
-                          fontSize: 13,
-                          color: AppTheme.blue_app_color,
-                        ),
-                        indicator: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: AppTheme.white,
-                        ),
-                        tabs: myTabs,
+          FutureBuilder<ItemsAllModel>(
+            future: API.getItemsAllInfo(1),
+            // ignore: missing_return
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                print(snapshot.error);
+                return SizedBox(
+                  child: Text(
+                    "нет интернета",
+                    textAlign: TextAlign.center,
+                  ),
+                );
+              }
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: AppTheme.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(14.0),
+                        topRight: Radius.circular(14.0),
                       ),
                     ),
-                  ),
-                ];
-              },
-              body: Container(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    _description(),
-                    _instruction(),
-                  ],
-                ),
-              ),
-            ),
-          )
+                    padding: EdgeInsets.only(top: 14),
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey[300],
+                      highlightColor: Colors.grey[100],
+                      child: Container(
+                        height: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Center(
+                              child: Container(
+                                margin: EdgeInsets.only(top: 52),
+                                height: 240,
+                                width: 240,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 24.0),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 16, right: 16),
+                              height: 15,
+                              width: 250,
+                              color: Colors.white,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 8.0),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 16, right: 16),
+                              height: 22,
+                              width: double.infinity,
+                              color: Colors.white,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 24.0),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 16, right: 16),
+                              height: 22,
+                              width: 125,
+                              color: Colors.white,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 40.0),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              margin: EdgeInsets.only(left: 16, right: 16),
+                              height: 40,
+                              width: double.infinity,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                case ConnectionState.done:
+                  data = snapshot.data;
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: AppTheme.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(14.0),
+                        topRight: Radius.circular(14.0),
+                      ),
+                    ),
+                    padding: EdgeInsets.only(top: 14),
+                    child: NestedScrollView(
+                      controller: _scrollController,
+                      headerSliverBuilder: (context, value) {
+                        return [
+                          SliverToBoxAdapter(child: _buildCarousel()),
+                          SliverToBoxAdapter(
+                            child: Container(
+                              height: 40,
+                              width: 350,
+                              margin: EdgeInsets.only(
+                                left: 16,
+                                right: 16,
+                              ),
+                              padding: EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                  color: AppTheme.tab_transparent,
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              child: TabBar(
+                                controller: _tabController,
+                                labelColor: AppTheme.blue_app_color,
+                                unselectedLabelColor: AppTheme.search_empty,
+                                indicatorSize: TabBarIndicatorSize.tab,
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontSize: 13,
+                                  color: AppTheme.blue_app_color,
+                                ),
+                                indicator: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: AppTheme.white,
+                                ),
+                                tabs: myTabs,
+                              ),
+                            ),
+                          ),
+                        ];
+                      },
+                      body: Container(
+                        child: TabBarView(
+                          controller: _tabController,
+                          children: [
+                            _description(),
+                            _instruction(),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                default:
+              }
+            },
+          ),
         ],
       ),
     );

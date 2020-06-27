@@ -36,7 +36,7 @@ class _ItemViewState extends State<ItemView> {
           PageTransition(
             type: PageTransitionType.downToUp,
             alignment: Alignment.bottomCenter,
-            child: ItemScreen(widget.item),
+            child: ItemScreen(widget.item.id),
           ),
         );
       },

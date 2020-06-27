@@ -31,7 +31,7 @@ class _ItemSearchViewState extends State<ItemSearchView> {
           PageTransition(
             type: PageTransitionType.downToUp,
             alignment: Alignment.bottomCenter,
-            child: ItemScreen(widget.item),
+            child: ItemScreen(widget.item.id),
           ),
         );
       },

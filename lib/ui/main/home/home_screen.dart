@@ -400,7 +400,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               PageTransition(
                                 type: PageTransitionType.downToUp,
                                 alignment: Alignment.bottomCenter,
-                                child: ItemScreen(items[index]),
+                                child: ItemScreen(items[index].id),
                               ),
                             );
                           },

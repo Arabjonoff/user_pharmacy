@@ -95,14 +95,14 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           return data.length == 0
               ? FavoriteEmptyScreen()
               : ListView.builder(
-            shrinkWrap: true,
-            physics: ClampingScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            itemCount: data.length,
-            itemBuilder: (context, index) {
-              return ItemView(data[index]);
-            },
-          );
+                  shrinkWrap: true,
+                  physics: ClampingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return ItemView(data[index]);
+                  },
+                );
         },
       ),
     );
