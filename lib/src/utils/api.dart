@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
-import 'package:pharmacy/utils/utils.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 
 class API {
   ///get Home

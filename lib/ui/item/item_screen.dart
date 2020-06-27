@@ -7,7 +7,7 @@ import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/ui/main/home/home_screen.dart';
-import 'package:pharmacy/utils/api.dart';
+import 'package:pharmacy/src/utils/api.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';

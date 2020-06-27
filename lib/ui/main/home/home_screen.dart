@@ -13,7 +13,7 @@ import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/ui/item/item_screen.dart';
 import 'package:pharmacy/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
-import 'package:pharmacy/utils/utils.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../app_theme.dart';

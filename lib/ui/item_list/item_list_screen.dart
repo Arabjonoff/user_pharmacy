@@ -7,8 +7,8 @@ import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
 import 'package:pharmacy/ui/view/item_view.dart';
-import 'package:pharmacy/utils/api.dart';
-import 'package:pharmacy/utils/utils.dart';
+import 'package:pharmacy/src/utils/api.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 
 import '../../app_theme.dart';
 

@@ -5,8 +5,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/ui/main/catalog/sub_catalog_screen.dart';
 import 'package:pharmacy/ui/search/search_screen.dart';
-import 'package:pharmacy/utils/api.dart';
-import 'package:pharmacy/utils/utils.dart';
+import 'package:pharmacy/src/utils/api.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 
 import '../../../app_theme.dart';
 
