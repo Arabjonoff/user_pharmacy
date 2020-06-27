@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:pharmacy/database/database_helper.dart';
-import 'package:pharmacy/model/api/item_model.dart';
-import 'package:pharmacy/model/api/sale_model.dart';
+import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/api/sale_model.dart';
 
 import 'pharmacy_api_provider.dart';
 

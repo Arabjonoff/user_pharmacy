@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:path/path.dart';
-import 'package:pharmacy/model/api/item_model.dart';
+import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelperHistory {

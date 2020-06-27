@@ -1,5 +1,5 @@
-import 'package:pharmacy/model/api/item_model.dart';
-import 'package:pharmacy/model/api/sale_model.dart';
+import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:rxdart/rxdart.dart';
 

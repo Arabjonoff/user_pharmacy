@@ -5,7 +5,7 @@ import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/database/database_helper.dart';
 import 'package:pharmacy/database/database_helper_history.dart';
-import 'package:pharmacy/model/api/item_model.dart';
+import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/ui/view/item_search_history_view.dart';
 import 'package:pharmacy/ui/view/item_search_view.dart';

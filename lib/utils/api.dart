@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:pharmacy/model/api/category_model.dart';
-import 'package:pharmacy/model/api/item_model.dart';
-import 'package:pharmacy/model/api/items_all_model.dart';
-import 'package:pharmacy/model/api/sale_model.dart';
+import 'package:pharmacy/src/model/api/category_model.dart';
+import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/utils/utils.dart';
 
 class API {
@@ -24,7 +23,6 @@ class API {
 
     return saleModel.results;
   }
-
 
   ///get Category
   static Future<List<CategoryResult>> getCategory() async {
