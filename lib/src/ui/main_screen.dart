@@ -6,10 +6,8 @@ import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/favorite/favorites_screen.dart';
 import 'package:pharmacy/src/ui/main/menu_screen.dart';
 
-
-
 import '../app_theme.dart';
-import 'main/catalog/catalog_screen.dart';
+import 'main/category/category_screen.dart';
 import 'main/home/home_screen.dart';
 
 class MainScreen extends StatefulWidget {

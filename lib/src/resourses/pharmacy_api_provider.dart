@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -36,5 +37,20 @@ class PharmacyApiProvider {
 
     final Map parsed = json.decode(reply);
     return ItemModel.fromJson(parsed);
+  }
+
+  ///best items
+  Future<CategoryModel> fetchCategoryList() async {
+    String url = Utils.BASE_URL + '/api/v1/categories';
+
+    HttpClient httpClient = new HttpClient();
+    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+
+    final Map parsed = json.decode(reply);
+    return CategoryModel.fromJson(parsed);
   }
 }

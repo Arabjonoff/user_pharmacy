@@ -42,7 +42,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
               child: Row(
                 children: [
                   Container(
-                    margin:EdgeInsets.only(top: 12),
+                    margin: EdgeInsets.only(top: 12),
                     child: GestureDetector(
                       child: Icon(
                         Icons.arrow_back_ios,
@@ -56,7 +56,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                   ),
                   Expanded(
                     child: Container(
-                      margin:EdgeInsets.only(top: 12),
+                      margin: EdgeInsets.only(top: 12),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,

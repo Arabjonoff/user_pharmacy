@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/blocs/catogoey_bloc.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
-import 'package:pharmacy/src/ui/main/catalog/sub_catalog_screen.dart';
+import 'package:pharmacy/src/ui/main/category/sub_category_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
-import 'package:pharmacy/src/utils/api.dart';
 import 'package:pharmacy/src/utils/utils.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../app_theme.dart';
 
@@ -19,24 +20,25 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   Size size;
-  List<CategoryResult> categoryModel = new List();
-  bool load = false;
 
-  @override
-  void initState() {
-    var responce = API.getCategory();
-    responce.then(
-      (value) => {
-        categoryModel = value,
-      },
-    );
-
-    super.initState();
-  }
+//  List<CategoryResult> categoryModel = new List();
+//
+//  @override
+//  void initState() {
+//    var responce = API.getCategory();
+//    responce.then(
+//      (value) => {
+//        categoryModel = value,
+//      },
+//    );
+//
+//    super.initState();
+//  }
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
+    blocCategory.fetchAllHome();
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: PreferredSize(
@@ -53,7 +55,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    margin:EdgeInsets.only(top: 12),
+                    margin: EdgeInsets.only(top: 12),
                     child: Text(
                       translate("main.catalog"),
                       style: TextStyle(
@@ -73,61 +75,100 @@ class _CategoryScreenState extends State<CategoryScreen> {
           Container(
             width: size.width,
             margin: EdgeInsets.only(top: 48),
-            child: ListView.builder(
-              itemCount: categoryModel.length,
-              itemBuilder: (context, position) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                        type: PageTransitionType.fade,
-                        child: SubCategoryScreen(
-                          categoryModel[position].name,
-                          categoryModel[position].childs,
-                        ),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        color: AppTheme.white,
-                        child: Container(
-                          height: 48,
-                          padding: EdgeInsets.only(top: 6, bottom: 6),
-                          margin: EdgeInsets.only(left: 15, right: 15),
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Text(
-                                  categoryModel[position].name,
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.normal,
-                                    color: AppTheme.black_catalog,
-                                    fontFamily: AppTheme.fontRoboto,
-                                  ),
+            child: StreamBuilder(
+              stream: blocCategory.allCategory,
+              builder: (context, AsyncSnapshot<CategoryModel> snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    itemCount: snapshot.data.results.length,
+                    itemBuilder: (context, position) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.fade,
+                              child: SubCategoryScreen(
+                                snapshot.data.results[position].name,
+                                snapshot.data.results[position].childs,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              color: AppTheme.white,
+                              child: Container(
+                                height: 48,
+                                padding: EdgeInsets.only(top: 6, bottom: 6),
+                                margin: EdgeInsets.only(left: 15, right: 15),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Text(
+                                        snapshot.data.results[position].name,
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.normal,
+                                          color: AppTheme.black_catalog,
+                                          fontFamily: AppTheme.fontRoboto,
+                                        ),
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 16,
+                                      color: AppTheme.arrow_catalog,
+                                    )
+                                  ],
                                 ),
                               ),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16,
-                                color: AppTheme.arrow_catalog,
-                              )
-                            ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                left: 8,
+                                right: 8,
+                              ),
+                              height: 1,
+                              color: AppTheme.black_linear_category,
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                }
+                else if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                }
+                return Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.grey[100],
+                  child: ListView.builder(
+                    itemBuilder: (_, __) => Container(
+                      height: 48,
+                      padding: EdgeInsets.only(top: 6, bottom: 6),
+                      margin: EdgeInsets.only(left: 15, right: 15),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            height: 15,
+                            width: 250,
+                            color: AppTheme.white,
                           ),
-                        ),
+                          Expanded(
+                            child: Container(),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 16,
+                            color: AppTheme.arrow_catalog,
+                          )
+                        ],
                       ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          left: 8,
-                          right: 8,
-                        ),
-                        height: 1,
-                        color: AppTheme.black_linear_category,
-                      )
-                    ],
+                    ),
+                    itemCount: 20,
                   ),
                 );
               },

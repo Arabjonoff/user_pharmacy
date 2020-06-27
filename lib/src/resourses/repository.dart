@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 
@@ -14,6 +15,8 @@ class Repository {
   Future<SaleModel> fetchAllSales() => moviesApiProvider.fetchSaleList();
 
   Future<ItemModel> fetchBestItem() => moviesApiProvider.fetchBestItemList();
+
+  Future<CategoryModel> fetchCategoryItem() => moviesApiProvider.fetchCategoryList();
 
   Future<List<ItemResult>> databaseItem() => databaseHelper.getProduct();
 }
