@@ -76,6 +76,27 @@ class DatabaseHelper {
     return result.toList();
   }
 
+  Future<List<ItemResult>> getProduct() async {
+    var dbClient = await db;
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM $tableNote');
+    List<ItemResult> products = new List();
+    for (int i = 0; i < list.length; i++) {
+      var items = new ItemResult(
+        list[i][columnId],
+        list[i][columnName],
+        list[i][columnBarcode],
+        list[i][columnImage],
+        list[i][columnImageThumbnail],
+        list[i][columnPrice],
+        Manifacture(list[i][columnManufacturer]),
+        list[i][columnFav] == 1 ? true : false,
+        list[i][columnCount],
+      );
+      products.add(items);
+    }
+    return products;
+  }
+
   Future<List<ItemResult>> getProdu(bool card) async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM $tableNote');
