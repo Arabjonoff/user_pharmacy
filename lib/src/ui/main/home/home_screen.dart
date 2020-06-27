@@ -11,9 +11,9 @@ import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/top_item_model.dart';
 import 'package:pharmacy/src/utils/utils.dart';
-import 'package:pharmacy/ui/item/item_screen.dart';
-import 'package:pharmacy/ui/item_list/item_list_screen.dart';
-import 'package:pharmacy/ui/search/search_screen.dart';
+import 'package:pharmacy/src/ui/item/item_screen.dart';
+import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
+import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../app_theme.dart';

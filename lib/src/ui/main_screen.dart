@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
-import 'package:pharmacy/ui/main/card/card_screen.dart';
-import 'package:pharmacy/ui/main/favorite/favorites_screen.dart';
-import 'package:pharmacy/ui/main/menu_screen.dart';
+import 'package:pharmacy/src/ui/main/card/card_screen.dart';
+import 'package:pharmacy/src/ui/main/favorite/favorites_screen.dart';
+import 'package:pharmacy/src/ui/main/menu_screen.dart';
 
 
 

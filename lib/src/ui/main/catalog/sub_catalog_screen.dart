@@ -3,36 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
-import 'package:pharmacy/ui/main/catalog/sub_catalog_screen.dart';
-import 'package:pharmacy/ui/search/search_screen.dart';
-import 'package:pharmacy/src/utils/api.dart';
+import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
+import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 
 import '../../../app_theme.dart';
 
-class CategoryScreen extends StatefulWidget {
+// ignore: must_be_immutable
+class SubCategoryScreen extends StatefulWidget {
+  String name;
+  List<Child> list;
+
+  SubCategoryScreen(this.name, this.list);
+
   @override
   State<StatefulWidget> createState() {
-    return _CategoryScreenState();
+    return _SubCategoryScreenState();
   }
 }
 
-class _CategoryScreenState extends State<CategoryScreen> {
+class _SubCategoryScreenState extends State<SubCategoryScreen> {
   Size size;
-  List<CategoryResult> categoryModel = new List();
-  bool load = false;
-
-  @override
-  void initState() {
-    var responce = API.getCategory();
-    responce.then(
-      (value) => {
-        categoryModel = value,
-      },
-    );
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,21 +40,40 @@ class _CategoryScreenState extends State<CategoryScreen> {
             title: Container(
               height: 70,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
                     margin:EdgeInsets.only(top: 12),
-                    child: Text(
-                      translate("main.catalog"),
-                      style: TextStyle(
-                        fontFamily: AppTheme.fontCommons,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 17,
-                        color: AppTheme.black_text,
+                    child: GestureDetector(
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        size: 24,
+                        color: AppTheme.blue_app_color,
                       ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
                     ),
                   ),
+                  Expanded(
+                    child: Container(
+                      margin:EdgeInsets.only(top: 12),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            widget.name,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontCommons,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 17,
+                              color: AppTheme.black_text,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -74,7 +84,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             width: size.width,
             margin: EdgeInsets.only(top: 48),
             child: ListView.builder(
-              itemCount: categoryModel.length,
+              itemCount: widget.list.length,
               itemBuilder: (context, position) {
                 return GestureDetector(
                   onTap: () {
@@ -82,9 +92,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       context,
                       PageTransition(
                         type: PageTransitionType.fade,
-                        child: SubCategoryScreen(
-                          categoryModel[position].name,
-                          categoryModel[position].childs,
+                        child: ItemListScreen(
+                          widget.list[position].name,
+                          1,
+                          widget.list[position].id,
                         ),
                       ),
                     );
@@ -101,7 +112,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             children: <Widget>[
                               Expanded(
                                 child: Text(
-                                  categoryModel[position].name,
+                                  widget.list[position].name,
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.normal,
