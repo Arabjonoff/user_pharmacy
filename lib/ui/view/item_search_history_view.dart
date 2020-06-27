@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pharmacy/database/database_helper.dart';
+import 'package:pharmacy/src/database/database_helper.dart';
 
 import '../../app_theme.dart';
 
