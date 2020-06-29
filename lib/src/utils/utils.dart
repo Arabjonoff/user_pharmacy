@@ -3,6 +3,8 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_translate/global.dart';
 
 class Utils {
+
+
   static String BASE_URL = "http://185.183.243.77";
 
   static Future<String> scanBarcodeNormal() async {
