@@ -45,6 +45,8 @@ class AppTheme {
   static const Color menu_unselected = Color(0xFF99A2AD);
   static const Color background = Color(0xFFF2F3F8);
 
+  static const Color bottom_dialog = Color(0xFFE5E5EA);
+
   static const TextTheme textTheme = TextTheme(
     headline4: display1,
     headline5: headline,

@@ -56,6 +56,7 @@ class MyApp extends StatelessWidget {
         locale: localizationDelegate.currentLocale,
         theme: ThemeData(
           accentColor: Color(0xFF818C99),
+          canvasColor: Colors.transparent,
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
