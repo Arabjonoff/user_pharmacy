@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/app_theme.dart';
+import 'package:pharmacy/src/ui/shopping/order_card.dart';
 
 class BottomDialog {
   static void showDemoActionSheet({BuildContext context, Widget child}) {
@@ -69,7 +71,13 @@ class BottomDialog {
                     ),
                     GestureDetector(
                       onTap: () {
-//                        BottomDialog.createBottomSheetHistory(context);
+                        Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.downToUp,
+                            child: OrderCardScreen(),
+                          ),
+                        );
                       },
                       child: Container(
                         decoration: BoxDecoration(
