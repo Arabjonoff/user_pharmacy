@@ -871,7 +871,7 @@ class _ItemScreenState extends State<ItemScreen>
       body: Stack(
         children: [
           FutureBuilder<ItemsAllModel>(
-            future: API.getItemsAllInfo(1),
+            future: API.getItemsAllInfo(widget.id),
             // ignore: missing_return
             builder: (context, snapshot) {
               if (snapshot.hasError) {

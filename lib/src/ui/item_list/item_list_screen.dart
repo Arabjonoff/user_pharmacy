@@ -185,17 +185,43 @@ class _ItemListScreenState extends State<ItemListScreen> {
                           : blocItems.allItemsCategoty,
                   builder: (context, AsyncSnapshot<ItemModel> snapshot) {
                     if (snapshot.hasData) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        physics: ClampingScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        itemCount: snapshot.data.results.length,
-                        itemBuilder: (context, index) {
-                          return ItemView(
-                            snapshot.data.results[index],
-                          );
-                        },
-                      );
+                      return snapshot.data.results.length > 0
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              physics: ClampingScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              itemCount: snapshot.data.results.length,
+                              itemBuilder: (context, index) {
+                                return ItemView(
+                                  snapshot.data.results[index],
+                                );
+                              },
+                            )
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 150,),
+                                SvgPicture.asset(
+                                  "assets/images/empty.svg",
+                                  height: 155,
+                                  width: 155,
+                                ),
+                                Container(
+                                  width: 210,
+                                  child: Text(
+                                    translate("search.empty"),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.normal,
+                                      color: AppTheme.search_empty,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            );
                     } else if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
                     }

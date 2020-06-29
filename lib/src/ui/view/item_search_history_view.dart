@@ -18,7 +18,6 @@ class ItemSearchHistoryView extends StatefulWidget {
 }
 
 class _ItemSearchHistoryViewState extends State<ItemSearchHistoryView> {
-  DatabaseHelper dataBase = new DatabaseHelper();
 
   @override
   Widget build(BuildContext context) {

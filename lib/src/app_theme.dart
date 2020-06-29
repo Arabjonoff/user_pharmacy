@@ -35,6 +35,7 @@ class AppTheme {
 
   static const Color black_text = Color(0xFF1C1C1E);
   static const Color red_text_sale = Color(0xFFFF3347);
+  static const Color red_fav_color = Color(0xFFFF3347);
   static const Color black_transparent_text = Color(0xFF818C99);
   static const Color black_linear = Color(0x1F000000);
   static const Color black_linear_category = Color.fromRGBO(0, 0, 0, 0.08);

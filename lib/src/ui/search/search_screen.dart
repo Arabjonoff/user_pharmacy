@@ -6,6 +6,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_history.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/utils/api.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/view/item_search_history_view.dart';
@@ -32,11 +33,6 @@ class _SearchScreenState extends State<SearchScreen> {
   bool isSearchText = false;
   String obj = "";
 
-  List<ItemResult> itemCard = new List();
-
-  //List<ItemResult> items = new List();
-
-  DatabaseHelper dataBase = new DatabaseHelper();
   DatabaseHelperHistory dataHistory = new DatabaseHelperHistory();
 
   @override
@@ -67,6 +63,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -185,8 +182,8 @@ class _SearchScreenState extends State<SearchScreen> {
           Container(
             width: size.width,
             child: isSearchText
-                ? FutureBuilder<List<ItemResult>>(
-                    future: API.getSearchItems(obj),
+                ? FutureBuilder<ItemModel>(
+                    future: Repository().fetchSearchItemList(obj),
                     // ignore: missing_return
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
@@ -197,34 +194,18 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                         );
                       }
-
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
                           return Center(child: CircularProgressIndicator());
                         case ConnectionState.done:
                           {
-                            dataBase.getAllProducts().then((products) {
-                              products.forEach((products) {
-                                itemCard.add(ItemResult.fromMap(products));
-                              });
-                              for (var i = 0; i < snapshot.data.length; i++) {
-                                for (var j = 0; j < itemCard.length; j++) {
-                                  if (snapshot.data[i].id == itemCard[j].id) {
-                                    snapshot.data[i].cardCount =
-                                        itemCard[j].cardCount;
-                                    snapshot.data[i].favourite =
-                                        itemCard[j].favourite;
-                                  }
-                                }
-                              }
-                            });
-                            return snapshot.data.length > 0
+                            return snapshot.data.results.length > 0
                                 ? ListView.builder(
                                     scrollDirection: Axis.vertical,
-                                    itemCount: snapshot.data.length,
+                                    itemCount: snapshot.data.results.length,
                                     itemBuilder: (context, index) {
                                       return ItemSearchView(
-                                          snapshot.data[index]);
+                                          snapshot.data.results[index]);
                                     },
                                   )
                                 : Column(
@@ -316,8 +297,83 @@ class _SearchScreenState extends State<SearchScreen> {
                                       scrollDirection: Axis.vertical,
                                       itemCount: data.length,
                                       itemBuilder: (context, index) {
-                                        return ItemSearchHistoryView(
-                                          data[index],
+                                        return InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              searchController.text =
+                                                  data[index];
+                                            });
+                                          },
+                                          child: Container(
+                                            height: 48.5,
+                                            color: AppTheme.white,
+                                            child: Column(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                          left: 20,
+                                                          right: 14.25,
+                                                          top: 14.25,
+                                                          bottom: 14.75,
+                                                        ),
+                                                        height: 19.5,
+                                                        width: 19.5,
+                                                        child: SvgPicture.asset(
+                                                          "assets/images/clock.svg",
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Text(
+                                                            data[index],
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: TextStyle(
+                                                              color: AppTheme
+                                                                  .black_text,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontFamily: AppTheme
+                                                                  .fontRoboto,
+                                                              fontSize: 15,
+                                                            ),
+                                                            maxLines: 1,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 12,
+                                                            right: 20.41),
+                                                        child: Center(
+                                                          child: Icon(
+                                                            Icons
+                                                                .arrow_forward_ios,
+                                                            size: 19,
+                                                            color: AppTheme
+                                                                .arrow_catalog,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      left: 8, right: 8),
+                                                  height: 1,
+                                                  color: AppTheme.black_linear,
+                                                )
+                                              ],
+                                            ),
+                                          ),
                                         );
                                       },
                                     ),

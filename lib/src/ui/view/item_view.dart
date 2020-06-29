@@ -308,7 +308,7 @@ class _ItemViewState extends State<ItemView> {
                                       ? Icon(
                                           Icons.favorite,
                                           size: 24,
-                                          color: AppTheme.blue_app_color,
+                                          color: AppTheme.red_fav_color,
                                         )
                                       : Icon(
                                           Icons.favorite_border,
