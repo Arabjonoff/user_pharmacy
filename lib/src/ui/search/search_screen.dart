@@ -127,7 +127,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                     child: ItemListScreen(
                                       translate("search.result"),
                                       3,
-                                      0,
+                                      obj,
                                     ),
                                   ),
                                 );
@@ -305,22 +305,24 @@ class _SearchScreenState extends State<SearchScreen> {
                                 ),
                               );
                             }
-                            if (data.length > 0)
-                              return Container(
-                                width: size.width,
-                                height: size.height - 40,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: ClampingScrollPhysics(),
-                                  scrollDirection: Axis.vertical,
-                                  itemCount: data.length,
-                                  itemBuilder: (context, index) {
-                                    return ItemSearchHistoryView(
-                                      data[index],
-                                    );
-                                  },
-                                ),
-                              );
+
+                            return data.length > 0
+                                ? Container(
+                                    width: size.width,
+                                    height: size.height - 40,
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: ClampingScrollPhysics(),
+                                      scrollDirection: Axis.vertical,
+                                      itemCount: data.length,
+                                      itemBuilder: (context, index) {
+                                        return ItemSearchHistoryView(
+                                          data[index],
+                                        );
+                                      },
+                                    ),
+                                  )
+                                : Container();
                           },
                         ),
                       )

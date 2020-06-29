@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/blocs/items_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:pharmacy/src/ui/view/item_view.dart';
 import 'package:pharmacy/src/utils/api.dart';
 import 'package:pharmacy/src/utils/utils.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
 
@@ -16,7 +18,7 @@ import '../../app_theme.dart';
 class ItemListScreen extends StatefulWidget {
   String name;
   int type;
-  int id;
+  String id;
 
   ItemListScreen(this.name, this.type, this.id);
 
@@ -29,19 +31,17 @@ class ItemListScreen extends StatefulWidget {
 class _ItemListScreenState extends State<ItemListScreen> {
   Size size;
 
-  List<ItemResult> items = new List();
-  List<ItemResult> itemCard = new List();
-
   DatabaseHelper dataBase = new DatabaseHelper();
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  int itemSize = 0;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
+    widget.type == 2
+        ? blocItems.fetchAllItemCategoryBest()
+        : widget.type == 3
+            ? blocItems.fetchAllItemSearch(widget.id)
+            : blocItems.fetchAllItemCategory(widget.id);
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: PreferredSize(
@@ -85,9 +85,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                             ),
                           ),
                           Text(
-                            items.length.toString() +
-                                " " +
-                                translate("item.tovar"),
+                            itemSize.toString() + " " + translate("item.tovar"),
                             style: TextStyle(
                               fontFamily: AppTheme.fontRoboto,
                               fontWeight: FontWeight.normal,
@@ -179,56 +177,102 @@ class _ItemListScreenState extends State<ItemListScreen> {
                   height: 1,
                   color: AppTheme.black_linear,
                 ),
-                FutureBuilder<List<ItemResult>>(
-                  future: widget.type == 1
-                      ? API.getItems(widget.id)
-                      : widget.type == 2
-                          ? API.getHome()
-                          : API.getItems(widget.id),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return SizedBox(
-                        child: Text(
-                          "нет интернета",
-                          textAlign: TextAlign.center,
-                        ),
-                      );
-                    }
+                StreamBuilder(
+                  stream: widget.type == 2
+                      ? blocItems.getBestItem
+                      : widget.type == 3
+                          ? blocItems.getItemSearch
+                          : blocItems.allItemsCategoty,
+                  builder: (context, AsyncSnapshot<ItemModel> snapshot) {
                     if (snapshot.hasData) {
-                      items = snapshot.data;
-                      dataBase.getAllProducts().then((products) {
-                        setState(() {
-                          products.forEach((products) {
-                            itemCard.add(ItemResult.fromMap(products));
-                          });
-                          for (var i = 0; i < items.length; i++) {
-                            for (var j = 0; j < itemCard.length; j++) {
-                              if (items[i].id == itemCard[j].id) {
-                                items[i].cardCount = itemCard[j].cardCount;
-                                items[i].favourite = itemCard[j].favourite;
-                              }
-                            }
-                          }
-                        });
-                      });
-                    }
-                    return snapshot.hasData
-                        ? ListView.builder(
-                            shrinkWrap: true,
-                            physics: ClampingScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            itemCount: items.length,
-                            itemBuilder: (context, index) {
-                              return ItemView(
-                                items[index],
-                              );
-                            },
-                          )
-                        : Center(
-                            child: CircularProgressIndicator(),
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: ClampingScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        itemCount: snapshot.data.results.length,
+                        itemBuilder: (context, index) {
+                          return ItemView(
+                            snapshot.data.results[index],
                           );
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text(snapshot.error.toString());
+                    }
+                    return Shimmer.fromColors(
+                      baseColor: Colors.grey[300],
+                      highlightColor: Colors.grey[100],
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        physics: ClampingScrollPhysics(),
+                        itemCount: 10,
+                        itemBuilder: (_, __) => Container(
+                          height: 160,
+                          child: Column(
+                            children: <Widget>[
+                              Expanded(
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                        top: 16,
+                                        left: 15,
+                                        right: 14,
+                                        bottom: 22.5,
+                                      ),
+                                      height: 112,
+                                      width: 112,
+                                      color: AppTheme.white,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        margin: EdgeInsets.only(right: 17),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            SizedBox(
+                                              height: 18,
+                                            ),
+                                            Container(
+                                              height: 13,
+                                              width: double.infinity,
+                                              color: AppTheme.white,
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 3),
+                                              height: 11,
+                                              width: 120,
+                                              color: AppTheme.white,
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 25),
+                                              height: 13,
+                                              width: 120,
+                                              color: AppTheme.white,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 1,
+                                margin: EdgeInsets.only(left: 8, right: 8),
+                                color: AppTheme.black_linear,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
                   },
-                ),
+                )
               ],
             ),
           ),
@@ -250,13 +294,15 @@ class _ItemListScreenState extends State<ItemListScreen> {
                     ),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            child: SearchScreen("", 0),
-                          ),
-                        );
+                        widget.type == 3
+                            ? Navigator.pop(context)
+                            : Navigator.push(
+                                context,
+                                PageTransition(
+                                  type: PageTransitionType.fade,
+                                  child: SearchScreen("", 0),
+                                ),
+                              );
                       },
                       child: Row(
                         children: [
@@ -269,7 +315,9 @@ class _ItemListScreenState extends State<ItemListScreen> {
                           ),
                           Expanded(
                             child: Text(
-                              translate("search_hint"),
+                              widget.type == 3
+                                  ? widget.id
+                                  : translate("search_hint"),
                               style: TextStyle(
                                 color: AppTheme.notWhite,
                                 fontSize: 15,

@@ -68,4 +68,35 @@ class PharmacyApiProvider {
     final Map parsed = json.decode(reply);
     return ItemModel.fromJson(parsed);
   }
+
+  ///category's by item
+  Future<ItemModel> fetchCategoryItemsList(String id) async {
+    String url = Utils.BASE_URL + '/api/v1/drugs?category=' + id;
+
+    HttpClient httpClient = new HttpClient();
+    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+
+    final Map parsed = json.decode(reply);
+    return ItemModel.fromJson(parsed);
+  }
+
+  ///search's by item
+  Future<ItemModel> fetchSearchItemsList(String obj) async {
+    String url = Utils.BASE_URL + '/api/v1/drugs?search=' + obj;
+
+    HttpClient httpClient = new HttpClient();
+    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+
+    final Map parsed = json.decode(reply);
+    return ItemModel.fromJson(parsed);
+  }
+
 }

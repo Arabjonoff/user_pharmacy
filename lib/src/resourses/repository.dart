@@ -8,19 +8,25 @@ import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'pharmacy_api_provider.dart';
 
 class Repository {
-  final moviesApiProvider = PharmacyApiProvider();
+  final pharmacyApiProvider = PharmacyApiProvider();
 
   DatabaseHelper databaseHelper = new DatabaseHelper();
 
-  Future<SaleModel> fetchAllSales() => moviesApiProvider.fetchSaleList();
+  Future<SaleModel> fetchAllSales() => pharmacyApiProvider.fetchSaleList();
 
-  Future<ItemModel> fetchBestItem() => moviesApiProvider.fetchBestItemList();
+  Future<ItemModel> fetchBestItem() => pharmacyApiProvider.fetchBestItemList();
 
-  Future<CategoryModel> fetchCategoryItem() => moviesApiProvider.fetchCategoryList();
+  Future<CategoryModel> fetchCategoryItem() =>
+      pharmacyApiProvider.fetchCategoryList();
 
-  Future<CategoryModel> fetchSearchItem() => moviesApiProvider.fetchCategoryList();
+  Future<CategoryModel> fetchSearchItem() =>
+      pharmacyApiProvider.fetchCategoryList();
 
   Future<List<ItemResult>> databaseItem() => databaseHelper.getProduct();
 
+  Future<ItemModel> fetchCategryItemList(String id) =>
+      pharmacyApiProvider.fetchCategoryItemsList(id);
 
+  Future<ItemModel> fetchSearchItemList(String obj) =>
+      pharmacyApiProvider.fetchSearchItemsList(obj);
 }

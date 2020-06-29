@@ -35,7 +35,6 @@ class ItemResult {
   String imageThumbnail;
   double price;
   Manifacture manufacturer;
-
   bool favourite = false;
   int cardCount = 0;
   bool sale = false;

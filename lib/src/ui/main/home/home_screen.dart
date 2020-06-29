@@ -301,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         child: ItemListScreen(
                           translate("home.best"),
                           2,
-                          0,
+                          "0",
                         ),
                       ),
                     );
