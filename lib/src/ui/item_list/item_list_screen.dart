@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:pharmacy/src/blocs/items_block.dart';
+import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
@@ -38,10 +38,10 @@ class _ItemListScreenState extends State<ItemListScreen> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     widget.type == 2
-        ? blocItems.fetchAllItemCategoryBest()
+        ? blocItemsList.fetchAllItemCategoryBest()
         : widget.type == 3
-            ? blocItems.fetchAllItemSearch(widget.id)
-            : blocItems.fetchAllItemCategory(widget.id);
+            ? blocItemsList.fetchAllItemSearch(widget.id)
+            : blocItemsList.fetchAllItemCategory(widget.id);
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: PreferredSize(
@@ -179,10 +179,10 @@ class _ItemListScreenState extends State<ItemListScreen> {
                 ),
                 StreamBuilder(
                   stream: widget.type == 2
-                      ? blocItems.getBestItem
+                      ? blocItemsList.getBestItem
                       : widget.type == 3
-                          ? blocItems.getItemSearch
-                          : blocItems.allItemsCategoty,
+                          ? blocItemsList.getItemSearch
+                          : blocItemsList.allItemsCategoty,
                   builder: (context, AsyncSnapshot<ItemModel> snapshot) {
                     if (snapshot.hasData) {
                       return snapshot.data.results.length > 0

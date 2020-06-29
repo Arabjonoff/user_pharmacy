@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:pharmacy/src/blocs/items_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
@@ -53,11 +54,29 @@ class _ItemScreenState extends State<ItemScreen>
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    height: 24,
+                    width: 24,
+                    padding: EdgeInsets.all(7),
+                    decoration: BoxDecoration(
+                      color: AppTheme.arrow_back,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    margin: EdgeInsets.only(top: 14, bottom: 14, right: 16),
+                    child: SvgPicture.asset("assets/images/arrow_close.svg"),
+                  ),
+                ),
+              ),
               Center(
                 child: Container(
                   height: 240,
                   width: 240,
-                  margin: EdgeInsets.only(top: 52),
                   child: Center(
                     child: CachedNetworkImage(
                       height: 240,
@@ -90,11 +109,11 @@ class _ItemScreenState extends State<ItemScreen>
                       child: Container(),
                     ),
                     GestureDetector(
-                      child: false
+                      child: data.favourite
                           ? Icon(
                               Icons.favorite,
                               size: 24,
-                              color: AppTheme.blue_app_color,
+                              color: AppTheme.red_fav_color,
                             )
                           : Icon(
                               Icons.favorite_border,
@@ -102,23 +121,23 @@ class _ItemScreenState extends State<ItemScreen>
                               color: AppTheme.arrow_catalog,
                             ),
                       onTap: () {
-                        setState(() {
-//                      if (widget.item.favourite) {
-//                        widget.item.favourite = false;
-//                        if (widget.item.cardCount == 0) {
-//                          dataBase.deleteProducts(widget.item.id);
-//                        } else {
-//                          dataBase.updateProduct(widget.item);
-//                        }
-//                      } else {
-//                        widget.item.favourite = true;
-//                        if (widget.item.cardCount == 0) {
-//                          dataBase.saveProducts(widget.item);
-//                        } else {
-//                          dataBase.updateProduct(widget.item);
-//                        }
-//                      }
-                        });
+//                        setState(() {
+//                          if (data.favourite) {
+//                            data.favourite = false;
+//                            if (data.cardCount == 0) {
+//                              dataBase.deleteProducts(data.id);
+//                            } else {
+//                              dataBase.updateProduct(widget.item);
+//                            }
+//                          } else {
+//                            data.favourite = true;
+//                            if (data.cardCount == 0) {
+//                              dataBase.saveProducts(widget.item);
+//                            } else {
+//                              dataBase.updateProduct(widget.item);
+//                            }
+//                          }
+//                        });
                       },
                     ),
                   ],
@@ -202,13 +221,11 @@ class _ItemScreenState extends State<ItemScreen>
 
   _description() => Container(
         child: ListView(
-          physics: ClampingScrollPhysics(),
+          shrinkWrap: true,
+//          physics: ClampingScrollPhysics(),
           children: [
             Container(
-              margin: EdgeInsets.only(
-                left: 16,
-                right: 16,
-              ),
+              margin: EdgeInsets.only(left: 16, right: 16, top: 26),
               child: Text(
                 translate("item.drotaverine"),
                 style: TextStyle(
@@ -547,7 +564,8 @@ class _ItemScreenState extends State<ItemScreen>
 
   _instruction() => Container(
         child: ListView(
-          physics: const ClampingScrollPhysics(),
+          shrinkWrap: true,
+//          physics: ClampingScrollPhysics(),
           children: [
             EntryItem(
               Entry(
@@ -842,6 +860,7 @@ class _ItemScreenState extends State<ItemScreen>
 
   @override
   Widget build(BuildContext context) {
+    blocItem.fetchAllCategory(widget.id.toString());
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
@@ -870,153 +889,143 @@ class _ItemScreenState extends State<ItemScreen>
           )),
       body: Stack(
         children: [
-          FutureBuilder<ItemsAllModel>(
-            future: API.getItemsAllInfo(widget.id),
-            // ignore: missing_return
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                print(snapshot.error);
-                return SizedBox(
-                  child: Text(
-                    "нет интернета",
-                    textAlign: TextAlign.center,
+          StreamBuilder(
+            stream: blocItem.allItems,
+            builder: (context, AsyncSnapshot<ItemsAllModel> snapshot) {
+              if (snapshot.hasData) {
+                data = snapshot.data;
+                return Container(
+                  decoration: BoxDecoration(
+                    color: AppTheme.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(14.0),
+                      topRight: Radius.circular(14.0),
+                    ),
+                  ),
+                  padding: EdgeInsets.only(top: 14),
+                  child: NestedScrollView(
+                    controller: _scrollController,
+                    headerSliverBuilder: (context, value) {
+                      return [
+                        SliverToBoxAdapter(child: _buildCarousel()),
+                        SliverToBoxAdapter(
+                          child: Container(
+                            height: 40,
+                            width: 350,
+                            margin: EdgeInsets.only(
+                              left: 16,
+                              right: 16,
+                            ),
+                            padding: EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                                color: AppTheme.tab_transparent,
+                                borderRadius: BorderRadius.circular(10.0)),
+                            child: TabBar(
+                              controller: _tabController,
+                              labelColor: AppTheme.blue_app_color,
+                              unselectedLabelColor: AppTheme.search_empty,
+                              indicatorSize: TabBarIndicatorSize.tab,
+                              labelStyle: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontFamily: AppTheme.fontRoboto,
+                                fontSize: 13,
+                                color: AppTheme.blue_app_color,
+                              ),
+                              indicator: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: AppTheme.white,
+                              ),
+                              tabs: myTabs,
+                            ),
+                          ),
+                        ),
+                      ];
+                    },
+                    body: Container(
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: [
+                          _description(),
+                          _instruction(),
+                        ],
+                      ),
+                    ),
                   ),
                 );
               }
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: AppTheme.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(14.0),
-                        topRight: Radius.circular(14.0),
-                      ),
-                    ),
-                    padding: EdgeInsets.only(top: 14),
-                    child: Shimmer.fromColors(
-                      baseColor: Colors.grey[300],
-                      highlightColor: Colors.grey[100],
-                      child: Container(
-                        height: double.infinity,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Center(
-                              child: Container(
-                                margin: EdgeInsets.only(top: 52),
-                                height: 240,
-                                width: 240,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 24.0),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 16, right: 16),
-                              height: 15,
-                              width: 250,
-                              color: Colors.white,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 8.0),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 16, right: 16),
-                              height: 22,
-                              width: double.infinity,
-                              color: Colors.white,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 24.0),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 16, right: 16),
-                              height: 22,
-                              width: 125,
-                              color: Colors.white,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 40.0),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              margin: EdgeInsets.only(left: 16, right: 16),
-                              height: 40,
-                              width: double.infinity,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                case ConnectionState.done:
-                  data = snapshot.data;
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: AppTheme.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(14.0),
-                        topRight: Radius.circular(14.0),
-                      ),
-                    ),
-                    padding: EdgeInsets.only(top: 14),
-                    child: NestedScrollView(
-                      controller: _scrollController,
-                      headerSliverBuilder: (context, value) {
-                        return [
-                          SliverToBoxAdapter(child: _buildCarousel()),
-                          SliverToBoxAdapter(
-                            child: Container(
-                              height: 40,
-                              width: 350,
-                              margin: EdgeInsets.only(
-                                left: 16,
-                                right: 16,
-                              ),
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                  color: AppTheme.tab_transparent,
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              child: TabBar(
-                                controller: _tabController,
-                                labelColor: AppTheme.blue_app_color,
-                                unselectedLabelColor: AppTheme.search_empty,
-                                indicatorSize: TabBarIndicatorSize.tab,
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontSize: 13,
-                                  color: AppTheme.blue_app_color,
-                                ),
-                                indicator: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: AppTheme.white,
-                                ),
-                                tabs: myTabs,
-                              ),
-                            ),
-                          ),
-                        ];
-                      },
-                      body: Container(
-                        child: TabBarView(
-                          controller: _tabController,
-                          children: [
-                            _description(),
-                            _instruction(),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                default:
+              else if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
               }
+              return Container(
+                decoration: BoxDecoration(
+                  color: AppTheme.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(14.0),
+                    topRight: Radius.circular(14.0),
+                  ),
+                ),
+                padding: EdgeInsets.only(top: 14),
+                child: Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.grey[100],
+                  child: Container(
+                    height: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Container(
+                            margin: EdgeInsets.only(top: 52),
+                            height: 240,
+                            width: 240,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 24.0),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 16, right: 16),
+                          height: 15,
+                          width: 250,
+                          color: Colors.white,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 8.0),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 16, right: 16),
+                          height: 22,
+                          width: double.infinity,
+                          color: Colors.white,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 24.0),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 16, right: 16),
+                          height: 22,
+                          width: 125,
+                          color: Colors.white,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 40.0),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          margin: EdgeInsets.only(left: 16, right: 16),
+                          height: 40,
+                          width: double.infinity,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
             },
           ),
         ],

@@ -13,6 +13,8 @@ class AppTheme {
   static const Color black_catalog = Color(0xFF000000);
   static const Color arrow_catalog = Color(0xFFB8C1CC);
 
+  static const Color arrow_back = Color(0xFFF0F1F3);
+
   static const Color darkText = Color(0xFF253840);
   static const Color darkerText = Color(0xFF17262A);
   static const Color lightText = Color(0xFF4A6572);

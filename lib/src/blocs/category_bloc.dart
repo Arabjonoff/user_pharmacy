@@ -2,7 +2,7 @@ import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-class CateforyBloc {
+class CategoryBloc {
   final _repository = Repository();
   final _categoryFetcher = PublishSubject<CategoryModel>();
 
@@ -18,4 +18,4 @@ class CateforyBloc {
   }
 }
 
-final blocCategory = CateforyBloc();
+final blocCategory = CategoryBloc();

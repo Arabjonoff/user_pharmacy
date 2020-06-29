@@ -3,7 +3,7 @@ import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-class ItemsBloc {
+class ItemListBloc {
   final _repository = Repository();
   final _categoryItemsFetcher = PublishSubject<ItemModel>();
   final _bestItemFetcher = PublishSubject<ItemModel>();
@@ -65,4 +65,4 @@ class ItemsBloc {
   }
 }
 
-final blocItems = ItemsBloc();
+final blocItemsList = ItemListBloc();

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 
 import 'pharmacy_api_provider.dart';
@@ -29,4 +30,7 @@ class Repository {
 
   Future<ItemModel> fetchSearchItemList(String obj) =>
       pharmacyApiProvider.fetchSearchItemsList(obj);
+
+  Future<ItemsAllModel> fetchItems(String id) =>
+      pharmacyApiProvider.fetchItems(id);
 }

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:pharmacy/src/blocs/catogoey_bloc.dart';
+import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/ui/main/category/sub_category_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
