@@ -8,7 +8,6 @@ import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:pharmacy/src/ui/view/item_view.dart';
-import 'package:pharmacy/src/utils/api.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -201,7 +200,9 @@ class _ItemListScreenState extends State<ItemListScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SizedBox(height: 150,),
+                                SizedBox(
+                                  height: 150,
+                                ),
                                 SvgPicture.asset(
                                   "assets/images/empty.svg",
                                   height: 155,

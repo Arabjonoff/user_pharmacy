@@ -8,7 +8,6 @@ import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
-import 'package:pharmacy/src/utils/api.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
@@ -952,8 +951,7 @@ class _ItemScreenState extends State<ItemScreen>
                     ),
                   ),
                 );
-              }
-              else if (snapshot.hasError) {
+              } else if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               }
               return Container(
