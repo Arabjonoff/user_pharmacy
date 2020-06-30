@@ -68,3 +68,70 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+class ListViewPaginate extends StatefulWidget {
+  @override
+  ListViewPaginateState createState() {
+    return new ListViewPaginateState();
+  }
+}
+
+class ListViewPaginateState extends State<ListViewPaginate> {
+  static final List<int> _listData = List<int>.generate(200, (i) => i);
+  ScrollController _scrollController = ScrollController();
+
+  int _listOffset = 0;
+  int _listLimit = 10;
+  bool _isLoading = false;
+
+  List<int> _dataForListView = _listData.sublist(0, 30);
+
+  _scrollListener() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      setState(() {
+        _isLoading = true;
+        _listLimit += 20;
+        _listOffset = _listLimit + 1;
+        Future.delayed(Duration(seconds: 1)).then((_) {
+          _dataForListView
+            ..addAll(
+                List<int>.from(_listData.sublist(_listOffset, _listLimit)));
+        });
+        _isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppTheme.background,
+      appBar: AppBar(
+        title: Text('ListView Paginate Example'),
+      ),
+      body: ListView(
+          controller: _scrollController,
+          padding: EdgeInsets.all(8.0),
+          children: _dataForListView
+              .map((data) => ListTile(title: Text("Item $data")))
+              .toList()
+            ..add(ListTile(
+                title: _isLoading
+                    ? CircularProgressIndicator()
+                    : SizedBox()))),
+    );
+  }
+}
