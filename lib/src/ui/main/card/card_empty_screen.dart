@@ -27,7 +27,7 @@ class _CardEmptyScreenState extends State<CardEmptyScreen> {
             child: SvgPicture.asset("assets/images/card_empty.svg"),
           ),
           Container(
-            margin: EdgeInsets.only(top: 25),
+            margin: EdgeInsets.only(top: 25, left: 25, right: 25),
             alignment: Alignment.center,
             child: Text(
               translate("card.empty_name"),
@@ -40,7 +40,7 @@ class _CardEmptyScreenState extends State<CardEmptyScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 4),
+            margin: EdgeInsets.only(top: 4, left: 25, right: 25),
             child: Text(
               translate("card.empty_title"),
               style: TextStyle(

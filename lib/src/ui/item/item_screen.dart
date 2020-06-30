@@ -863,29 +863,30 @@ class _ItemScreenState extends State<ItemScreen>
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(30.0),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            elevation: 0.0,
-            backgroundColor: Colors.black,
-            brightness: Brightness.dark,
-            title: Container(
-              height: 30,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 10,
-                  decoration: BoxDecoration(
-                    color: AppTheme.item_navigation,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.0),
-                      topRight: Radius.circular(10.0),
-                    ),
+        preferredSize: Size.fromHeight(30.0),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 0.0,
+          backgroundColor: Colors.black,
+          brightness: Brightness.dark,
+          title: Container(
+            height: 30,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 10,
+                decoration: BoxDecoration(
+                  color: AppTheme.item_navigation,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.0),
+                    topRight: Radius.circular(10.0),
                   ),
                 ),
               ),
             ),
-          )),
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           StreamBuilder(
@@ -917,8 +918,9 @@ class _ItemScreenState extends State<ItemScreen>
                             ),
                             padding: EdgeInsets.all(4),
                             decoration: BoxDecoration(
-                                color: AppTheme.tab_transparent,
-                                borderRadius: BorderRadius.circular(10.0)),
+                              color: AppTheme.tab_transparent,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
                             child: TabBar(
                               controller: _tabController,
                               labelColor: AppTheme.blue_app_color,

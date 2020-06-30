@@ -31,7 +31,7 @@ class ItemListBloc {
   }
 
   fetchAllItemCategoryBest() async {
-    ItemModel itemModelResponse = await _repository.fetchBestItem();
+    ItemModel itemModelResponse = await _repository.fetchBestItem(1, 20);
     List<ItemResult> database = await _repository.databaseItem();
     for (var j = 0; j < database.length; j++) {
       for (var i = 0; i < itemModelResponse.results.length; i++) {

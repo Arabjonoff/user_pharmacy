@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:path/path.dart';
-import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelperHistory {
@@ -90,8 +89,8 @@ class DatabaseHelperHistory {
     var dbClient = await db;
     var map = new Map<String, dynamic>();
     map[columnName] = item;
-    return await dbClient.update(tableNote, map,
-        where: "$columnName = ?", whereArgs: [item]);
+    return await dbClient
+        .update(tableNote, map, where: "$columnName = ?", whereArgs: [item]);
   }
 
   Future close() async {

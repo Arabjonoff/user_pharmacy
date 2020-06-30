@@ -26,8 +26,9 @@ class PharmacyApiProvider {
   }
 
   ///best items
-  Future<ItemModel> fetchBestItemList() async {
-    String url = Utils.BASE_URL + '/api/v1/drugs?is_home=1';
+  Future<ItemModel> fetchBestItemList(int page, int per_page) async {
+    String url =
+        Utils.BASE_URL + '/api/v1/drugs?is_home=1&page=$page&per_page=$per_page';
 
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));

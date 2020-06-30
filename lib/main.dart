@@ -6,7 +6,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/localization_delegate.dart';
 import 'package:flutter_translate/localization_provider.dart';
 import 'package:flutter_translate/localized_app.dart';
+import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
 import 'package:pharmacy/src/ui/main_screen.dart';
+import 'package:pharmacy/src/ui/shopping/curer_address_card.dart';
 import 'package:pharmacy/src/ui/shopping/order_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
