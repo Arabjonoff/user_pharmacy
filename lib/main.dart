@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -6,10 +7,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/localization_delegate.dart';
 import 'package:flutter_translate/localization_provider.dart';
 import 'package:flutter_translate/localized_app.dart';
+import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/api/search_model.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
 import 'package:pharmacy/src/ui/main_screen.dart';
 import 'package:pharmacy/src/ui/shopping/curer_address_card.dart';
 import 'package:pharmacy/src/ui/shopping/order_card.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'src/app_theme.dart';
@@ -63,55 +67,39 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: MainScreen(),
+        home: Home(),
       ),
     );
   }
 }
 
-class ListViewPaginate extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
-  ListViewPaginateState createState() {
-    return new ListViewPaginateState();
+  State<StatefulWidget> createState() {
+    return HomeState();
   }
 }
 
-class ListViewPaginateState extends State<ListViewPaginate> {
-  static final List<int> _listData = List<int>.generate(200, (i) => i);
-  ScrollController _scrollController = ScrollController();
-
-  int _listOffset = 0;
-  int _listLimit = 10;
-  bool _isLoading = false;
-
-  List<int> _dataForListView = _listData.sublist(0, 30);
-
-  _scrollListener() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-      setState(() {
-        _isLoading = true;
-        _listLimit += 20;
-        _listOffset = _listLimit + 1;
-        Future.delayed(Duration(seconds: 1)).then((_) {
-          _dataForListView
-            ..addAll(
-                List<int>.from(_listData.sublist(_listOffset, _listLimit)));
-        });
-        _isLoading = false;
-      });
-    }
-  }
+class HomeState extends State<Home> {
+  static int page = 1;
+  ScrollController _sc = new ScrollController();
+  bool isLoading = false;
+  List<SearchResult> users = new List();
 
   @override
   void initState() {
+    this._getMoreData(page);
     super.initState();
-    _scrollController.addListener(_scrollListener);
+    _sc.addListener(() {
+      if (_sc.position.pixels == _sc.position.maxScrollExtent) {
+        _getMoreData(page);
+      }
+    });
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _sc.dispose();
     super.dispose();
   }
 
@@ -120,18 +108,78 @@ class ListViewPaginateState extends State<ListViewPaginate> {
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
-        title: Text('ListView Paginate Example'),
+        title: const Text("Lazy Load Large List"),
       ),
-      body: ListView(
-          controller: _scrollController,
-          padding: EdgeInsets.all(8.0),
-          children: _dataForListView
-              .map((data) => ListTile(title: Text("Item $data")))
-              .toList()
-            ..add(ListTile(
-                title: _isLoading
-                    ? CircularProgressIndicator()
-                    : SizedBox()))),
+      body: Container(
+        child: _buildList(),
+      ),
+      resizeToAvoidBottomPadding: false,
+    );
+  }
+
+  Widget _buildList() {
+    return ListView.builder(
+      itemCount: users.length + 1,
+      padding: EdgeInsets.symmetric(vertical: 8.0),
+      itemBuilder: (BuildContext context, int index) {
+        if (index == users.length) {
+          return _buildProgressIndicator();
+        } else {
+          return new ListTile(
+            title: Text(users[index].name.toString()),
+            subtitle: Text(users[index].name.toString()),
+          );
+        }
+      },
+      controller: _sc,
+    );
+  }
+
+  void _getMoreData(int index) async {
+    if (!isLoading) {
+      setState(() {
+        isLoading = true;
+      });
+      String url =
+          Utils.BASE_URL + '/api/v1/drugs?page=$index&per_page=12&search=А';
+
+      HttpClient httpClient = new HttpClient();
+      HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
+      request.headers.set('content-type', 'application/json');
+      HttpClientResponse response = await request.close();
+
+      String reply = await response.transform(utf8.decoder).join();
+
+      final Map parsed = json.decode(reply);
+
+      try {
+        var res = SearchModel.fromJson(parsed);
+        List<SearchResult> tList = new List();
+        for (int i = 0; i < res.results.length; i++) {
+          tList.add(res.results[i]);
+        }
+        setState(() {
+          isLoading = false;
+          users.addAll(tList);
+          page++;
+        });
+      } catch (_) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
+
+  Widget _buildProgressIndicator() {
+    return new Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: new Center(
+        child: new Opacity(
+          opacity: isLoading ? 1.0 : 00,
+          child: new CircularProgressIndicator(),
+        ),
+      ),
     );
   }
 }
