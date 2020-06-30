@@ -12,11 +12,12 @@ class HomeBloc {
 
   Observable<ItemModel> get getBestItem => _bestItemFetcher.stream;
 
-  fetchAllHome() async {
+  fetchAllHome(int page, int per_page) async {
     SaleModel saleModel = await _repository.fetchAllSales();
     _saleFetcher.sink.add(saleModel);
 
-    ItemModel itemModelResponse = await _repository.fetchBestItem();
+    ItemModel itemModelResponse =
+        await _repository.fetchBestItem(page, per_page);
     List<ItemResult> database = await _repository.databaseItem();
 
     for (var i = 0; i < itemModelResponse.results.length; i++) {

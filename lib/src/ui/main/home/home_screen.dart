@@ -32,11 +32,13 @@ final List<TopItemModel> topItems = TopItemModel.topTitle;
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Size size;
   DatabaseHelper dataBase = new DatabaseHelper();
+  int page = 1;
+  int per_page = 20;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    blocHome.fetchAllHome();
+    blocHome.fetchAllHome(page, per_page);
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
