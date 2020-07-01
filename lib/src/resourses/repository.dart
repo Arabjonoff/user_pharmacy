@@ -15,8 +15,8 @@ class Repository {
 
   Future<SaleModel> fetchAllSales() => pharmacyApiProvider.fetchSaleList();
 
-  Future<ItemModel> fetchBestItem(int page, int per_page) =>
-      pharmacyApiProvider.fetchBestItemList(page, per_page);
+  Future<ItemModel> fetchBestItem(int page) =>
+      pharmacyApiProvider.fetchBestItemList(page, 12);
 
   Future<CategoryModel> fetchCategoryItem() =>
       pharmacyApiProvider.fetchCategoryList();
@@ -26,11 +26,11 @@ class Repository {
 
   Future<List<ItemResult>> databaseItem() => databaseHelper.getProduct();
 
-  Future<ItemModel> fetchCategryItemList(String id) =>
-      pharmacyApiProvider.fetchCategoryItemsList(id);
+  Future<ItemModel> fetchCategryItemList(String id, int page) =>
+      pharmacyApiProvider.fetchCategoryItemsList(id, page, 12);
 
   Future<ItemModel> fetchSearchItemList(String obj, int page) =>
-      pharmacyApiProvider.fetchSearchItemsList(obj, page);
+      pharmacyApiProvider.fetchSearchItemsList(obj, page, 12);
 
   Future<ItemsAllModel> fetchItems(String id) =>
       pharmacyApiProvider.fetchItems(id);

@@ -33,12 +33,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Size size;
   DatabaseHelper dataBase = new DatabaseHelper();
   int page = 1;
-  int per_page = 20;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    blocHome.fetchAllHome(page, per_page);
+    blocHome.fetchAllHome(page);
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -322,7 +321,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           ),
           Container(
-            height: 250.0,
+            height: 240.0,
             margin: EdgeInsets.only(top: 16),
             child: StreamBuilder(
               stream: blocHome.getBestItem,
@@ -387,8 +386,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               Container(
                                 margin: EdgeInsets.only(top: 3),
                                 child: Text(
-                                  snapshot
-                                      .data.results[index].manufacturer.name,
+                                  snapshot.data.results[index].manufacturer ==
+                                          null
+                                      ? ""
+                                      : snapshot.data.results[index]
+                                          .manufacturer.name,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     color: AppTheme.black_transparent_text,
@@ -399,204 +401,210 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   maxLines: 1,
                                 ),
                               ),
-                              Container(
-                                height: 30,
-                                width: 120,
-                                margin: EdgeInsets.only(top: 11),
-                                child: snapshot.data.results[index].cardCount >
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Container(
+                                    height: 30,
+                                    width: 120,
+                                    margin: EdgeInsets.only(top: 11),
+                                    child: snapshot.data.results[index].cardCount >
                                         0
-                                    ? Container(
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                          color: AppTheme.blue_transparent,
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                        width: 120,
-                                        child: Row(
-                                          children: <Widget>[
-                                            GestureDetector(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: AppTheme.blue,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                    10.0,
-                                                  ),
-                                                ),
-                                                margin: EdgeInsets.all(2.0),
-                                                height: 26,
-                                                width: 26,
-                                                child: Center(
-                                                  child: Icon(
-                                                    Icons.remove,
-                                                    color: AppTheme.white,
-                                                    size: 19,
-                                                  ),
+                                        ? Container(
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.blue_transparent,
+                                        borderRadius:
+                                        BorderRadius.circular(10.0),
+                                      ),
+                                      width: 120,
+                                      child: Row(
+                                        children: <Widget>[
+                                          GestureDetector(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: AppTheme.blue,
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                  10.0,
                                                 ),
                                               ),
-                                              onTap: () {
-                                                if (snapshot.data.results[index]
-                                                        .cardCount >
-                                                    1) {
-                                                  setState(() {
-                                                    snapshot.data.results[index]
-                                                        .cardCount = snapshot
-                                                            .data
-                                                            .results[index]
-                                                            .cardCount -
-                                                        1;
-                                                    dataBase.updateProduct(
-                                                        snapshot.data
-                                                            .results[index]);
-                                                  });
-                                                } else if (snapshot
-                                                        .data
-                                                        .results[index]
-                                                        .cardCount ==
-                                                    1) {
-                                                  setState(() {
-                                                    snapshot.data.results[index]
-                                                        .cardCount = snapshot
-                                                            .data
-                                                            .results[index]
-                                                            .cardCount -
-                                                        1;
-                                                    if (snapshot
-                                                        .data
-                                                        .results[index]
-                                                        .favourite) {
-                                                      dataBase.updateProduct(
-                                                          snapshot.data
-                                                              .results[index]);
-                                                    } else {
-                                                      dataBase.deleteProducts(
-                                                          snapshot
-                                                              .data
-                                                              .results[index]
-                                                              .id);
-                                                    }
-                                                  });
-                                                }
-                                              },
-                                            ),
-                                            Container(
-                                              height: 30,
-                                              width: 60,
+                                              margin: EdgeInsets.all(2.0),
+                                              height: 26,
+                                              width: 26,
                                               child: Center(
-                                                child: Text(
-                                                  snapshot.data.results[index]
-                                                          .cardCount
-                                                          .toString() +
-                                                      " " +
-                                                      translate("item.sht"),
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 15.0,
-                                                    color: AppTheme.blue,
-                                                    fontFamily:
-                                                        AppTheme.fontRoboto,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
+                                                child: Icon(
+                                                  Icons.remove,
+                                                  color: AppTheme.white,
+                                                  size: 19,
                                                 ),
                                               ),
                                             ),
-                                            GestureDetector(
-                                              onTap: () {
+                                            onTap: () {
+                                              if (snapshot.data.results[index]
+                                                  .cardCount >
+                                                  1) {
                                                 setState(() {
                                                   snapshot.data.results[index]
                                                       .cardCount = snapshot
-                                                          .data
-                                                          .results[index]
-                                                          .cardCount +
+                                                      .data
+                                                      .results[index]
+                                                      .cardCount -
                                                       1;
                                                   dataBase.updateProduct(
-                                                      snapshot
-                                                          .data.results[index]);
+                                                      snapshot.data
+                                                          .results[index]);
                                                 });
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
+                                              } else if (snapshot
+                                                  .data
+                                                  .results[index]
+                                                  .cardCount ==
+                                                  1) {
+                                                setState(() {
+                                                  snapshot.data.results[index]
+                                                      .cardCount = snapshot
+                                                      .data
+                                                      .results[index]
+                                                      .cardCount -
+                                                      1;
+                                                  if (snapshot
+                                                      .data
+                                                      .results[index]
+                                                      .favourite) {
+                                                    dataBase.updateProduct(
+                                                        snapshot.data
+                                                            .results[index]);
+                                                  } else {
+                                                    dataBase.deleteProducts(
+                                                        snapshot
+                                                            .data
+                                                            .results[index]
+                                                            .id);
+                                                  }
+                                                });
+                                              }
+                                            },
+                                          ),
+                                          Container(
+                                            height: 30,
+                                            width: 60,
+                                            child: Center(
+                                              child: Text(
+                                                snapshot.data.results[index]
+                                                    .cardCount
+                                                    .toString() +
+                                                    " " +
+                                                    translate("item.sht"),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 15.0,
                                                   color: AppTheme.blue,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                    10.0,
-                                                  ),
-                                                ),
-                                                height: 26,
-                                                width: 26,
-                                                margin: EdgeInsets.all(2.0),
-                                                child: Center(
-                                                  child: Icon(
-                                                    Icons.add,
-                                                    color: AppTheme.white,
-                                                    size: 19,
-                                                  ),
+                                                  fontFamily:
+                                                  AppTheme.fontRoboto,
+                                                  fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                snapshot.data.results[index]
+                                                    .cardCount = snapshot
+                                                    .data
+                                                    .results[index]
+                                                    .cardCount +
+                                                    1;
+                                                dataBase.updateProduct(
+                                                    snapshot
+                                                        .data.results[index]);
+                                              });
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: AppTheme.blue,
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                  10.0,
+                                                ),
+                                              ),
+                                              height: 26,
+                                              width: 26,
+                                              margin: EdgeInsets.all(2.0),
+                                              child: Center(
+                                                child: Icon(
+                                                  Icons.add,
+                                                  color: AppTheme.white,
+                                                  size: 19,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                        : GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          snapshot.data.results[index]
+                                              .cardCount = 1;
+                                          if (snapshot.data.results[index]
+                                              .favourite) {
+                                            dataBase.updateProduct(
+                                                snapshot.data.results[index]);
+                                          } else {
+                                            dataBase.saveProducts(
+                                                snapshot.data.results[index]);
+                                          }
+                                        });
+                                      },
+                                      child: Container(
+                                        height: 30,
+                                        width: 140,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0),
+                                          ),
+                                          color: AppTheme.blue,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 12,
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                priceFormat.format(snapshot
+                                                    .data
+                                                    .results[index]
+                                                    .price) +
+                                                    translate("sum"),
+                                                maxLines: 1,
+                                                overflow:
+                                                TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  color: AppTheme.white,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily:
+                                                  AppTheme.fontRoboto,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ),
+                                            SvgPicture.asset(
+                                              "assets/images/card_icon.svg",
+                                            ),
+                                            SizedBox(
+                                              width: 8.11,
+                                            )
                                           ],
                                         ),
-                                      )
-                                    : GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            snapshot.data.results[index]
-                                                .cardCount = 1;
-                                            if (snapshot.data.results[index]
-                                                .favourite) {
-                                              dataBase.updateProduct(
-                                                  snapshot.data.results[index]);
-                                            } else {
-                                              dataBase.saveProducts(
-                                                  snapshot.data.results[index]);
-                                            }
-                                          });
-                                        },
-                                        child: Container(
-                                          height: 30,
-                                          width: 140,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0),
-                                            ),
-                                            color: AppTheme.blue,
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(
-                                                width: 12,
-                                              ),
-                                              Expanded(
-                                                child: Text(
-                                                  priceFormat.format(snapshot
-                                                          .data
-                                                          .results[index]
-                                                          .price) +
-                                                      translate("sum"),
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    color: AppTheme.white,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontFamily:
-                                                        AppTheme.fontRoboto,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                              ),
-                                              SvgPicture.asset(
-                                                "assets/images/card_icon.svg",
-                                              ),
-                                              SizedBox(
-                                                width: 8.11,
-                                              )
-                                            ],
-                                          ),
-                                        ),
                                       ),
-                              ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                              ,
                             ],
                           ),
                           padding: EdgeInsets.only(

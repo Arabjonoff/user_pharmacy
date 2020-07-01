@@ -93,7 +93,9 @@ class _ItemViewState extends State<ItemView> {
                           ),
                           SizedBox(height: 3),
                           Text(
-                            widget.item.manufacturer.name,
+                            widget.item.manufacturer == null
+                                ? ""
+                                : widget.item.manufacturer.name,
                             style: TextStyle(
                               color: AppTheme.black_transparent_text,
                               fontSize: 11,

@@ -5,18 +5,23 @@ import 'package:rxdart/rxdart.dart';
 
 class ItemListBloc {
   final _repository = Repository();
-  final _categoryItemsFetcher = PublishSubject<ItemModel>();
-  final _bestItemFetcher = PublishSubject<ItemModel>();
-  final _itemSearchFetcher = PublishSubject<ItemModel>();
+  final _categoryItemsFetcher = PublishSubject<List<ItemResult>>();
+  final _bestItemFetcher = PublishSubject<List<ItemResult>>();
+  final _itemSearchFetcher = PublishSubject<List<ItemResult>>();
 
-  Observable<ItemModel> get allItemsCategoty => _categoryItemsFetcher.stream;
+  List<ItemResult> users = new List();
+  List<ItemResult> usersCategory = new List();
+  List<ItemResult> usersBest = new List();
 
-  Observable<ItemModel> get getBestItem => _bestItemFetcher.stream;
+  Observable<List<ItemResult>> get allItemsCategoty =>
+      _categoryItemsFetcher.stream;
 
-  Observable<ItemModel> get getItemSearch => _itemSearchFetcher.stream;
+  Observable<List<ItemResult>> get getBestItem => _bestItemFetcher.stream;
 
-  fetchAllItemCategory(String id) async {
-    ItemModel itemCategory = await _repository.fetchCategryItemList(id);
+  Observable<List<ItemResult>> get getItemSearch => _itemSearchFetcher.stream;
+
+  fetchAllItemCategory(String id,int page) async {
+    ItemModel itemCategory = await _repository.fetchCategryItemList(id,page);
 
     List<ItemResult> database = await _repository.databaseItem();
     for (var j = 0; j < database.length; j++) {
@@ -27,11 +32,12 @@ class ItemListBloc {
         }
       }
     }
-    _categoryItemsFetcher.sink.add(itemCategory);
+    usersCategory.addAll(itemCategory.results);
+    _categoryItemsFetcher.sink.add(usersCategory);
   }
 
-  fetchAllItemCategoryBest() async {
-    ItemModel itemModelResponse = await _repository.fetchBestItem(1, 20);
+  fetchAllItemCategoryBest(int page) async {
+    ItemModel itemModelResponse = await _repository.fetchBestItem(page);
     List<ItemResult> database = await _repository.databaseItem();
     for (var j = 0; j < database.length; j++) {
       for (var i = 0; i < itemModelResponse.results.length; i++) {
@@ -41,11 +47,13 @@ class ItemListBloc {
         }
       }
     }
-    _bestItemFetcher.sink.add(itemModelResponse);
+    usersBest.addAll(itemModelResponse.results);
+    _bestItemFetcher.sink.add(usersBest);
   }
 
-  fetchAllItemSearch(String obj) async {
-    ItemModel itemModelResponse = await _repository.fetchSearchItemList(obj, 1);
+  fetchAllItemSearch(String obj, int page) async {
+    ItemModel itemModelResponse =
+        await _repository.fetchSearchItemList(obj, page);
     List<ItemResult> database = await _repository.databaseItem();
     for (var j = 0; j < database.length; j++) {
       for (var i = 0; i < itemModelResponse.results.length; i++) {
@@ -55,7 +63,8 @@ class ItemListBloc {
         }
       }
     }
-    _itemSearchFetcher.sink.add(itemModelResponse);
+    users.addAll(itemModelResponse.results);
+    _itemSearchFetcher.sink.add(users);
   }
 
   dispose() {

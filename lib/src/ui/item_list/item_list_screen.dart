@@ -33,14 +33,32 @@ class _ItemListScreenState extends State<ItemListScreen> {
   DatabaseHelper dataBase = new DatabaseHelper();
   int itemSize = 0;
 
+  static int page = 1;
+  ScrollController _sc = new ScrollController();
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    this._getMoreData(page);
+    super.initState();
+    _sc.addListener(() {
+      if (_sc.position.pixels == _sc.position.maxScrollExtent) {
+        _getMoreData(page);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    page = 1;
+    _sc.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    widget.type == 2
-        ? blocItemsList.fetchAllItemCategoryBest()
-        : widget.type == 3
-            ? blocItemsList.fetchAllItemSearch(widget.id)
-            : blocItemsList.fetchAllItemCategory(widget.id);
+
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: PreferredSize(
@@ -100,209 +118,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
               ),
             ),
           )),
-      body: Stack(
+      body: Column(
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 48),
-            child: ListView(
-              children: <Widget>[
-                Container(
-                  height: 56,
-                  margin: EdgeInsets.only(left: 15, right: 15),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              child: SvgPicture.asset(
-                                "assets/images/name_sort.svg",
-                              ),
-                            ),
-                            SizedBox(
-                              width: 19,
-                            ),
-                            Text(
-                              translate("item.sort"),
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
-                                fontSize: 15,
-                                color: AppTheme.black_text,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: 1,
-                        margin: EdgeInsets.only(top: 16, bottom: 8),
-                        height: 56,
-                        color: AppTheme.black_linear,
-                      ),
-                      Expanded(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              child: SvgPicture.asset(
-                                "assets/images/filter.svg",
-                              ),
-                              width: 19,
-                            ),
-                            SizedBox(
-                              width: 19,
-                            ),
-                            Text(
-                              translate("item.filter"),
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
-                                fontSize: 15,
-                                color: AppTheme.black_text,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: size.width,
-                  height: 1,
-                  color: AppTheme.black_linear,
-                ),
-                StreamBuilder(
-                  stream: widget.type == 2
-                      ? blocItemsList.getBestItem
-                      : widget.type == 3
-                          ? blocItemsList.getItemSearch
-                          : blocItemsList.allItemsCategoty,
-                  builder: (context, AsyncSnapshot<ItemModel> snapshot) {
-                    if (snapshot.hasData) {
-                      return snapshot.data.results.length > 0
-                          ? ListView.builder(
-                              shrinkWrap: true,
-                              physics: ClampingScrollPhysics(),
-                              scrollDirection: Axis.vertical,
-                              itemCount: snapshot.data.results.length,
-                              itemBuilder: (context, index) {
-                                return ItemView(
-                                  snapshot.data.results[index],
-                                );
-                              },
-                            )
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  height: 150,
-                                ),
-                                SvgPicture.asset(
-                                  "assets/images/empty.svg",
-                                  height: 155,
-                                  width: 155,
-                                ),
-                                Container(
-                                  width: 210,
-                                  child: Text(
-                                    translate("search.empty"),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.normal,
-                                      color: AppTheme.search_empty,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            );
-                    } else if (snapshot.hasError) {
-                      return Text(snapshot.error.toString());
-                    }
-                    return Shimmer.fromColors(
-                      baseColor: Colors.grey[300],
-                      highlightColor: Colors.grey[100],
-                      child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        physics: ClampingScrollPhysics(),
-                        itemCount: 10,
-                        itemBuilder: (_, __) => Container(
-                          height: 160,
-                          child: Column(
-                            children: <Widget>[
-                              Expanded(
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        top: 16,
-                                        left: 15,
-                                        right: 14,
-                                        bottom: 22.5,
-                                      ),
-                                      height: 112,
-                                      width: 112,
-                                      color: AppTheme.white,
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        margin: EdgeInsets.only(right: 17),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            SizedBox(
-                                              height: 18,
-                                            ),
-                                            Container(
-                                              height: 13,
-                                              width: double.infinity,
-                                              color: AppTheme.white,
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(top: 3),
-                                              height: 11,
-                                              width: 120,
-                                              color: AppTheme.white,
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(top: 25),
-                                              height: 13,
-                                              width: 120,
-                                              color: AppTheme.white,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                height: 1,
-                                margin: EdgeInsets.only(left: 8, right: 8),
-                                color: AppTheme.black_linear,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                )
-              ],
-            ),
-          ),
           Container(
             color: AppTheme.white,
             height: 36,
@@ -381,8 +198,232 @@ class _ItemListScreenState extends State<ItemListScreen> {
               ],
             ),
           ),
+          Container(
+            height: 56,
+            margin: EdgeInsets.only(left: 15, right: 15),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        child: SvgPicture.asset(
+                          "assets/images/name_sort.svg",
+                        ),
+                      ),
+                      SizedBox(
+                        width: 19,
+                      ),
+                      Text(
+                        translate("item.sort"),
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRoboto,
+                          fontSize: 15,
+                          color: AppTheme.black_text,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 1,
+                  margin: EdgeInsets.only(top: 16, bottom: 8),
+                  height: 56,
+                  color: AppTheme.black_linear,
+                ),
+                Expanded(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        child: SvgPicture.asset(
+                          "assets/images/filter.svg",
+                        ),
+                        width: 19,
+                      ),
+                      SizedBox(
+                        width: 19,
+                      ),
+                      Text(
+                        translate("item.filter"),
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRoboto,
+                          fontSize: 15,
+                          color: AppTheme.black_text,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: size.width,
+            height: 1,
+            color: AppTheme.black_linear,
+          ),
+          Expanded(
+            child: Container(
+              child: StreamBuilder(
+                stream: widget.type == 2
+                    ? blocItemsList.getBestItem
+                    : widget.type == 3
+                        ? blocItemsList.getItemSearch
+                        : blocItemsList.allItemsCategoty,
+                builder: (context, AsyncSnapshot<List<ItemResult>> snapshot) {
+                  if (snapshot.hasData) {
+                    isLoading = false;
+                    return snapshot.data.length > 0
+                        ? ListView.builder(
+                            controller: _sc,
+                            scrollDirection: Axis.vertical,
+                            itemCount: snapshot.data.length + 1,
+                            itemBuilder: (context, index) {
+                              if (index == snapshot.data.length) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: new Center(
+                                    child: new Opacity(
+                                      opacity: isLoading ? 1.0 : 1.0,
+                                      child: new CircularProgressIndicator(),
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                return ItemView(
+                                  snapshot.data[index],
+                                );
+                              }
+                            },
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 150,
+                              ),
+                              SvgPicture.asset(
+                                "assets/images/empty.svg",
+                                height: 155,
+                                width: 155,
+                              ),
+                              Container(
+                                width: 210,
+                                child: Text(
+                                  translate("search.empty"),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRoboto,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.normal,
+                                    color: AppTheme.search_empty,
+                                  ),
+                                ),
+                              )
+                            ],
+                          );
+                  } else if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  }
+                  return Shimmer.fromColors(
+                    baseColor: Colors.grey[300],
+                    highlightColor: Colors.grey[100],
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      itemCount: 10,
+                      itemBuilder: (_, __) => Container(
+                        height: 160,
+                        child: Column(
+                          children: <Widget>[
+                            Expanded(
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      top: 16,
+                                      left: 15,
+                                      right: 14,
+                                      bottom: 22.5,
+                                    ),
+                                    height: 112,
+                                    width: 112,
+                                    color: AppTheme.white,
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      margin: EdgeInsets.only(right: 17),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          SizedBox(
+                                            height: 18,
+                                          ),
+                                          Container(
+                                            height: 13,
+                                            width: double.infinity,
+                                            color: AppTheme.white,
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(top: 3),
+                                            height: 11,
+                                            width: 120,
+                                            color: AppTheme.white,
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(top: 25),
+                                            height: 13,
+                                            width: 120,
+                                            color: AppTheme.white,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: 1,
+                              margin: EdgeInsets.only(left: 8, right: 8),
+                              color: AppTheme.black_linear,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  void _getMoreData(int index) async {
+    if (!isLoading) {
+      setState(() {
+        widget.type == 2
+            ? blocItemsList.fetchAllItemCategoryBest(index)
+            : widget.type == 3
+                ? blocItemsList.fetchAllItemSearch(widget.id, index)
+                : blocItemsList.fetchAllItemCategory(widget.id, index);
+        isLoading = true;
+        page++;
+      });
+    }
   }
 }

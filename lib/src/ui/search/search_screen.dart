@@ -61,7 +61,6 @@ class _SearchScreenState extends State<SearchScreen> {
             page = 1;
             obj = searchController.text;
             isSearchText = true;
-            print(obj);
             this._getMoreData(page);
           });
         } else {
