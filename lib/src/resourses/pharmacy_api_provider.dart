@@ -27,8 +27,8 @@ class PharmacyApiProvider {
 
   ///best items
   Future<ItemModel> fetchBestItemList(int page, int per_page) async {
-    String url =
-        Utils.BASE_URL + '/api/v1/drugs?is_home=1&page=$page&per_page=$per_page';
+    String url = Utils.BASE_URL +
+        '/api/v1/drugs?is_home=1&page=$page&per_page=$per_page';
 
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
@@ -87,8 +87,9 @@ class PharmacyApiProvider {
   }
 
   ///search's by item
-  Future<ItemModel> fetchSearchItemsList(String obj) async {
-    String url = Utils.BASE_URL + '/api/v1/drugs?search=' + obj;
+  Future<ItemModel> fetchSearchItemsList(String obj, int page) async {
+    String url =
+        Utils.BASE_URL + '/api/v1/drugs?page=$page&per_page=12&search=' + obj;
 
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));

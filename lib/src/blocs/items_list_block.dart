@@ -45,7 +45,7 @@ class ItemListBloc {
   }
 
   fetchAllItemSearch(String obj) async {
-    ItemModel itemModelResponse = await _repository.fetchSearchItemList(obj);
+    ItemModel itemModelResponse = await _repository.fetchSearchItemList(obj, 1);
     List<ItemResult> database = await _repository.databaseItem();
     for (var j = 0; j < database.length; j++) {
       for (var i = 0; i < itemModelResponse.results.length; i++) {

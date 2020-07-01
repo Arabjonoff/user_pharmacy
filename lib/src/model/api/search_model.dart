@@ -29,25 +29,50 @@ class SearchModel {
 }
 
 class SearchResult {
+  int id;
+  String name;
+  Unit manufacturer;
+
   SearchResult({
     this.id,
     this.name,
-
+    this.manufacturer,
   });
 
+  SearchResult.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    manufacturer = json['manufacturer'] != null
+        ? new Unit.fromJson(json['manufacturer'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    if (this.manufacturer != null) {
+      data['manufacturer'] = this.manufacturer.toJson();
+    }
+    return data;
+  }
+}
+
+class Unit {
   int id;
   String name;
 
+  Unit({this.id, this.name});
 
-  factory SearchResult.fromJson(Map<String, dynamic> json) => SearchResult(
-        id: json["id"],
-        name: json["name"],
+  Unit.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
 
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    return data;
+  }
 }
-

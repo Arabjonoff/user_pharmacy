@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: Home(),
+        home: MainScreen(),
       ),
     );
   }
@@ -81,6 +81,7 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
+
   static int page = 1;
   ScrollController _sc = new ScrollController();
   bool isLoading = false;
@@ -126,7 +127,9 @@ class HomeState extends State<Home> {
           return _buildProgressIndicator();
         } else {
           return new ListTile(
-            title: Text(users[index].name.toString()),
+            title: Text(users[index].manufacturer == null
+                ? ""
+                : users[index].manufacturer.name.toString()),
             subtitle: Text(users[index].name.toString()),
           );
         }

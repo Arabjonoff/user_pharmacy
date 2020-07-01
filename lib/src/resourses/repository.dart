@@ -29,8 +29,8 @@ class Repository {
   Future<ItemModel> fetchCategryItemList(String id) =>
       pharmacyApiProvider.fetchCategoryItemsList(id);
 
-  Future<ItemModel> fetchSearchItemList(String obj) =>
-      pharmacyApiProvider.fetchSearchItemsList(obj);
+  Future<ItemModel> fetchSearchItemList(String obj, int page) =>
+      pharmacyApiProvider.fetchSearchItemsList(obj, page);
 
   Future<ItemsAllModel> fetchItems(String id) =>
       pharmacyApiProvider.fetchItems(id);

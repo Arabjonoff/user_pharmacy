@@ -10,8 +10,9 @@ import '../../app_theme.dart';
 // ignore: must_be_immutable
 class ItemSearchView extends StatefulWidget {
   ItemResult item;
+  int index;
 
-  ItemSearchView(this.item);
+  ItemSearchView(this.item, this.index);
 
   @override
   State<StatefulWidget> createState() {
@@ -65,7 +66,7 @@ class _ItemSearchViewState extends State<ItemSearchView> {
                           ),
                           SizedBox(height: 3),
                           Text(
-                            widget.item.name,
+                            widget.index.toString(),
                             style: TextStyle(
                               color: AppTheme.black_transparent_text,
                               fontSize: 13,

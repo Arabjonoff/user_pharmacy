@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,6 +11,7 @@ import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/view/item_search_view.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 
 import '../../app_theme.dart';
 
@@ -30,13 +34,22 @@ class _SearchScreenState extends State<SearchScreen> {
   bool isSearchText = false;
   String obj = "";
 
+  static int page = 1;
+  ScrollController _sc = new ScrollController();
+  bool isLoading = false;
+  List<ItemResult> users = new List();
+
   DatabaseHelperHistory dataHistory = new DatabaseHelperHistory();
 
   @override
   void initState() {
     searchController.text = widget.name;
-
     super.initState();
+    _sc.addListener(() {
+      if (_sc.position.pixels == _sc.position.maxScrollExtent) {
+        _getMoreData(page);
+      }
+    });
   }
 
   _SearchScreenState() {
@@ -44,17 +57,29 @@ class _SearchScreenState extends State<SearchScreen> {
       if (searchController.text != obj) {
         if (searchController.text.length > 0) {
           setState(() {
+            users = new List();
+            page = 1;
             obj = searchController.text;
             isSearchText = true;
+            print(obj);
+            this._getMoreData(page);
           });
         } else {
           setState(() {
+            users = new List();
+            page = 1;
             obj = "";
             isSearchText = false;
           });
         }
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _sc.dispose();
+    super.dispose();
   }
 
   @override
@@ -179,62 +204,42 @@ class _SearchScreenState extends State<SearchScreen> {
           Container(
             width: size.width,
             child: isSearchText
-                ? FutureBuilder<ItemModel>(
-                    future: Repository().fetchSearchItemList(obj),
-                    // ignore: missing_return
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return SizedBox(
-                          child: Text(
-                            "нет интернета",
-                            textAlign: TextAlign.center,
-                          ),
-                        );
-                      }
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.waiting:
-                          return Center(child: CircularProgressIndicator());
-                        case ConnectionState.done:
-                          {
-                            return snapshot.data.results.length > 0
-                                ? ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: snapshot.data.results.length,
-                                    itemBuilder: (context, index) {
-                                      return ItemSearchView(
-                                          snapshot.data.results[index]);
-                                    },
-                                  )
-                                : Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                        "assets/images/empty.svg",
-                                        height: 155,
-                                        width: 155,
-                                      ),
-                                      Container(
-                                        width: 210,
-                                        child: Text(
-                                          translate("search.empty"),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontFamily: AppTheme.fontRoboto,
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.normal,
-                                            color: AppTheme.search_empty,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  );
+                ? users.length > 0
+                    ? ListView.builder(
+                        itemCount: users.length + 1,
+                        controller: _sc,
+                        itemBuilder: (context, index) {
+                          if (index == users.length) {
+                            return _buildProgressIndicator();
+                          } else {
+                            return ItemSearchView(users[index], index);
                           }
-                        default:
-                      }
-                    },
-                  )
+                        },
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            "assets/images/empty.svg",
+                            height: 155,
+                            width: 155,
+                          ),
+                          Container(
+                            width: 210,
+                            child: Text(
+                              translate("search.empty"),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontSize: 17,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.search_empty,
+                              ),
+                            ),
+                          )
+                        ],
+                      )
                 : ListView(
                     children: [
                       Container(
@@ -383,6 +388,45 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _getMoreData(int index) async {
+    if (!isLoading) {
+      setState(() {
+        isLoading = true;
+      });
+
+      var response = Repository().fetchSearchItemList(obj, index);
+
+      try {
+        List<ItemResult> tList = new List();
+        response.then((value) => {
+              for (int i = 0; i < value.results.length; i++)
+                {tList.add(value.results[i])},
+              setState(() {
+                isLoading = false;
+                users.addAll(tList);
+                page++;
+              }),
+            });
+      } catch (_) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
+
+  Widget _buildProgressIndicator() {
+    return new Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: new Center(
+        child: new Opacity(
+          opacity: isLoading ? 1.0 : 00,
+          child: new CircularProgressIndicator(),
+        ),
       ),
     );
   }

@@ -78,7 +78,9 @@ class ItemResult {
     this.image = map["image"];
     this.imageThumbnail = map["image_thumbnail"];
     this.price = map["price"].toDouble();
-    this.manufacturer = Manifacture.fromMap(map["manufacturer"]);
+    this.manufacturer = map['manufacturer'] != null
+        ? new Manifacture.fromMap(map['manufacturer'])
+        : null;
     this.favourite = false;
     this.cardCount = 0;
   }
