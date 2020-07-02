@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/my_info_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,6 +21,8 @@ class _MenuScreenState extends State<MenuScreen> {
   Size size;
   String language = "";
   bool isLogin = false;
+
+  String fullName = "";
 
   @override
   void initState() {
@@ -112,68 +115,79 @@ class _MenuScreenState extends State<MenuScreen> {
                   ),
                 ),
           isLogin
-              ? Container(
-                  height: 60,
-                  margin: EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Container(),
-                                  ),
-                                  Text(
-                                    "Shahboz Turonov",
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      fontFamily: AppTheme.fontRoboto,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppTheme.black_text,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 2,
-                                  ),
-                                  Text(
-                                    translate("menu.all_info"),
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontFamily: AppTheme.fontRoboto,
-                                      fontWeight: FontWeight.normal,
-                                      color: AppTheme.black_transparent_text,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 19,
-                              color: AppTheme.arrow_catalog,
-                            ),
-                            SizedBox(width: 3),
-                          ],
-                        ),
-                        height: 48,
-                        color: AppTheme.white,
+              ? GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: MyInfoScreen(),
                       ),
-                      Container(
-                        height: 1,
-                        color: AppTheme.black_linear_category,
-                      )
-                    ],
+                    );
+                  },
+                  child: Container(
+                    height: 60,
+                    margin: EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Container(),
+                                    ),
+                                    Text(
+                                      fullName,
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                        fontFamily: AppTheme.fontRoboto,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppTheme.black_text,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      translate("menu.all_info"),
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontFamily: AppTheme.fontRoboto,
+                                        fontWeight: FontWeight.normal,
+                                        color: AppTheme.black_transparent_text,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 19,
+                                color: AppTheme.arrow_catalog,
+                              ),
+                              SizedBox(width: 3),
+                            ],
+                          ),
+                          height: 48,
+                          color: AppTheme.white,
+                        ),
+                        Container(
+                          height: 1,
+                          color: AppTheme.black_linear_category,
+                        )
+                      ],
+                    ),
                   ),
                 )
               : Container(),
@@ -652,5 +666,8 @@ class _MenuScreenState extends State<MenuScreen> {
     } else {
       language = translate("language.en");
     }
+    setState(() {
+      fullName = prefs.getString("name") + " " + prefs.getString("surname");
+    });
   }
 }
