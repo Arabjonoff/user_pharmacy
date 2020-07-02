@@ -1,9 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
-
+  static Future<void> saveData(String name, String surname, String birthday,
+      String gender, String token,String number) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('name', name);
+    prefs.setString('surname', surname);
+    prefs.setString('birthday', birthday);
+    prefs.setString('gender', gender);
+    prefs.setString('token', token);
+    prefs.setString('number', number);
+    prefs.commit();
+  }
 
   static String BASE_URL = "http://185.183.243.77";
 

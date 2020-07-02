@@ -21,6 +21,10 @@ class Repository {
   Future<VerfyModel> fetchVetfy(String login, String code) =>
       pharmacyApiProvider.fetchVerfy(login, code);
 
+  Future<LoginModel> fetchRegister(String name, String surname, String birthday,
+          String gender, String token) =>
+      pharmacyApiProvider.fetchRegister(name, surname, birthday, gender, token);
+
   Future<SaleModel> fetchAllSales() => pharmacyApiProvider.fetchSaleList();
 
   Future<ItemModel> fetchBestItem(int page) =>

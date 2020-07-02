@@ -45,6 +45,32 @@ class PharmacyApiProvider {
     return VerfyModel.fromJson(parsed);
   }
 
+  ///Register
+  Future<LoginModel> fetchRegister(String name, String surname, String birthday,
+      String gender, String token) async {
+    String url = Utils.BASE_URL + '/api/v1/register-profil';
+
+    final data = {
+      "first_name": name,
+      "last_name": surname,
+      "gender": gender,
+      "birth_date": birthday,
+    };
+
+    Map<String, String> headers = {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+    };
+
+    http.Response response = await http
+        .post(url, headers: headers, body: data)
+        .timeout(const Duration(seconds: 120));
+
+    final Map parsed = json.decode(response.body);
+    print(parsed);
+
+    return LoginModel.fromJson(parsed);
+  }
+
   ///Sale
   Future<SaleModel> fetchSaleList() async {
     String url = Utils.BASE_URL + '/api/v1/sales';

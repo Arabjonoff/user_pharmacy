@@ -10,6 +10,7 @@ import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/auth/register_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/shopping/order_card.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 
 import '../../app_theme.dart';
 
@@ -305,18 +306,23 @@ class _VerfyScreenState extends State<VerfyScreen> {
                     verfyController.text,
                   );
                   if (responce.status == 1) {
-                    setState(() {
-                      loading = false;
-                      error = false;
-                    });
                     if (responce.user.complete == 0) {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => RegisterScreen(responce.token),
+                          builder: (context) =>
+                              RegisterScreen(responce.token, widget.number),
                         ),
                       );
                     } else {
+                      Utils.saveData(
+                        responce.user.firstName,
+                        responce.user.lastName,
+                        responce.user.birthDate,
+                        responce.user.gender,
+                        responce.token,
+                        widget.number,
+                      );
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -324,6 +330,10 @@ class _VerfyScreenState extends State<VerfyScreen> {
                         ),
                       );
                     }
+                    setState(() {
+                      loading = false;
+                      error = false;
+                    });
                   } else {
                     setState(() {
                       loading = false;

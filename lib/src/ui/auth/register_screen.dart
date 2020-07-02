@@ -5,14 +5,18 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/shopping/order_card.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 
 import '../../app_theme.dart';
 
 class RegisterScreen extends StatefulWidget {
   String token;
+  String number;
 
-  RegisterScreen(this.token);
+  RegisterScreen(this.token, this.number);
 
   @override
   State<StatefulWidget> createState() {
@@ -21,7 +25,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  var click = false;
+  var loading = false;
 
   TextEditingController surNameController = TextEditingController();
   TextEditingController nameController = TextEditingController();
@@ -29,6 +33,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   String radioItemHolder = translate("auth.male");
   int id = 1;
+  String birthday = "";
 
   List<CheckboxList> nList = [
     CheckboxList(
@@ -243,13 +248,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         minTime: DateTime(1900, 2, 16),
                         maxTime: now,
                         onConfirm: (date) {
-                          int time = date.millisecondsSinceEpoch;
-                          String s = date.day.toString() +
-                              "." +
-                              date.month.toString() +
-                              "." +
-                              date.year.toString();
-                          birthdayController.text = s;
+                          var month = date.month < 10
+                              ? "0" + date.month.toString()
+                              : date.month.toString();
+                          var day = date.day < 10
+                              ? "0" + date.day.toString()
+                              : date.day.toString();
+                          birthdayController.text =
+                              day + "." + month + "." + date.year.toString();
+
+                          birthday =
+                              date.year.toString() + "-" + month + "-" + day;
                         },
                         currentTime: DateTime.now(),
                         locale: LocaleType.ru,
@@ -349,7 +358,48 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () async {
+                String jins = id == 1 ? "man" : "woman";
+                if (nameController.text.isNotEmpty &&
+                    surNameController.text.isNotEmpty &&
+                    birthday.isNotEmpty) {
+                  setState(() {
+                    loading = true;
+                  });
+                  var response = await Repository().fetchRegister(
+                    nameController.text.toString(),
+                    surNameController.text.toString(),
+                    birthday,
+                    jins,
+                    widget.token,
+                  );
+                  if (response.status == 1) {
+                    Utils.saveData(
+                      nameController.text.toString(),
+                      surNameController.text.toString(),
+                      birthday,
+                      jins,
+                      widget.token,
+                      widget.number,
+                    );
+                    if (response.status == 1) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MainScreen(),
+                        ),
+                      );
+                    }
+                    setState(() {
+                      loading = false;
+                    });
+                  } else {
+                    setState(() {
+                      loading = false;
+                    });
+                  }
+                }
+              },
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
@@ -364,16 +414,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   right: 16,
                 ),
                 child: Center(
-                  child: Text(
-                    translate("auth.save"),
-                    style: TextStyle(
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: AppTheme.fontRoboto,
-                      fontSize: 17,
-                      color: AppTheme.white,
-                    ),
-                  ),
+                  child: loading
+                      ? CircularProgressIndicator(
+                          value: null,
+                          strokeWidth: 3.0,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(AppTheme.white),
+                        )
+                      : Text(
+                          translate("auth.save"),
+                          style: TextStyle(
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: AppTheme.fontRoboto,
+                            fontSize: 17,
+                            color: AppTheme.white,
+                          ),
+                        ),
                 ),
               ),
             ),

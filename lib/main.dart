@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: VerfyScreen("998943293406"),
+        home: RegisterScreen("","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJ1c2VybmFtZSI6Ijk5ODk0MzI5MzQwNiIsImV4cCI6MTYyNTMwNTYzNCwiZW1haWwiOiIifQ.AiEKXx_z44Xgo5KQN_PXQsusmk7xT7Xbd1Ld14KSVgs"),
       ),
     );
   }
