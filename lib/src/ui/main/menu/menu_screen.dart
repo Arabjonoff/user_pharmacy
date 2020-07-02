@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/fav_apteka_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/my_info_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/region_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -295,7 +296,15 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
           ),
           GestureDetector(
-            onTap: () async {},
+            onTap: () async {
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: FavAptekaScreen(),
+                ),
+              );
+            },
             child: Container(
               margin: EdgeInsets.only(
                 left: 16,
@@ -545,7 +554,11 @@ class _MenuScreenState extends State<MenuScreen> {
       language = translate("language.en");
     }
     setState(() {
-      fullName = prefs.getString("name") + " " + prefs.getString("surname");
+      fullName = prefs.getString("name") == null
+          ? ""
+          : prefs.getString("name") + " " + prefs.getString("surname") == null
+              ? ""
+              : prefs.getString("surname");
     });
   }
 }
