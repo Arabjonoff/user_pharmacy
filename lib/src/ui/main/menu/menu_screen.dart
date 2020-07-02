@@ -5,6 +5,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/my_info_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/region_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -234,7 +235,15 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
           ),
           GestureDetector(
-            onTap: () async {},
+            onTap: () async {
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: RegionScreen(),
+                ),
+              );
+            },
             child: Container(
               margin: EdgeInsets.only(
                 left: 16,

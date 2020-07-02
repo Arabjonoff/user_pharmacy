@@ -18,6 +18,7 @@ import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/shopping/curer_address_card.dart';
 import 'package:pharmacy/src/ui/shopping/order_card.dart';
 import 'package:pharmacy/src/ui/sub_menu/my_info_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/region_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -72,7 +73,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: AddressAptekaScreen(),
+        home: MainScreen(),
       ),
     );
   }

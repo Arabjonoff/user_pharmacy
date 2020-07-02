@@ -71,7 +71,6 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   }
 
   _getLocation() async {
-    print("SHAHBOZ74");
     geolocator
         .getPositionStream(locationOptions)
         .listen((Position position) async {
@@ -135,7 +134,6 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
     }
 
     _getLocation();
-    print("SHAHBOZ");
 
     return Scaffold(
       body: Stack(

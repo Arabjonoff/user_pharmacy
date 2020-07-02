@@ -8,6 +8,7 @@ import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
+import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
@@ -198,7 +199,20 @@ class PharmacyApiProvider {
 
     String reply = await response.transform(utf8.decoder).join();
 
-
     return locationModelFromJson(reply);
+  }
+
+  ///regions
+  Future<List<RegionModel>> fetchRegions(String obj) async {
+    String url = Utils.BASE_URL + '/api/v1/regions?search=' + obj;
+
+    HttpClient httpClient = new HttpClient();
+    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+
+    return regionModelFromJson(reply);
   }
 }
