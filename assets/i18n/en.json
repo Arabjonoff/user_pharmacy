@@ -34,9 +34,7 @@
   "language": {
     "en": "English",
     "ru": "Русский",
-    "uz": "O'zbekcha",
-    "message": "Please select a language from the list",
-    "title": "Language Selection"
+    "uz": "O'zbekcha"
   },
   "item": {
     "buy": "Buy",

@@ -6,6 +6,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/fav_apteka_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/language_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/my_info_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/region_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -23,6 +24,7 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   Size size;
   String language = "";
+  String language_data = "";
   bool isLogin = false;
 
   String fullName = "";
@@ -37,6 +39,7 @@ class _MenuScreenState extends State<MenuScreen> {
   Widget build(BuildContext context) {
     Utils.isLogin().then((value) => isLogin = value);
     size = MediaQuery.of(context).size;
+    getLanguage();
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: PreferredSize(
@@ -449,8 +452,13 @@ class _MenuScreenState extends State<MenuScreen> {
               : Container(),
           GestureDetector(
             onTap: () async {
-              //BottomDialog.onActionSheetPress(context);
-              getLanguage();
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: LanguageScreen(language_data),
+                ),
+              );
             },
             child: Container(
               margin: EdgeInsets.only(
@@ -552,17 +560,22 @@ class _MenuScreenState extends State<MenuScreen> {
 
   Future<void> getLanguage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString('language') != null) {
-      if (prefs.getString('language') == "ru")
-        language = translate("language.ru");
-      else if (prefs.getString('language') == "uz")
-        language = translate("language.uz");
-      else if (prefs.getString('language') == "en_US")
-        language = translate("language.en");
-    } else {
-      language = translate("language.en");
-    }
+
     setState(() {
+      if (prefs.getString('language') != null) {
+        language_data = prefs.getString('language');
+        if (prefs.getString('language') == "ru")
+          language = translate("language.ru");
+        else if (prefs.getString('language') == "uz")
+          language = translate("language.uz");
+        else if (prefs.getString('language') == "en_US")
+          language = translate("language.en");
+      } else {
+        language_data = "en_US";
+        language = translate("language.en");
+      }
+
+
       fullName = prefs.getString("name") == null
           ? ""
           : prefs.getString("name") + " " + prefs.getString("surname") == null

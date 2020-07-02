@@ -31,11 +31,9 @@
     "show_all": "Все"
   },
   "language": {
-    "en": "Английский",
+    "en": "English",
     "ru": "Русский",
-    "uz": "Uzbek",
-    "message": "Please select a language from the list",
-    "title": "Language Selection"
+    "uz": "O'zbekcha"
   },
   "item": {
     "buy": "Купить",
