@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/ui/auth/verfy_screen.dart';
 import 'package:pharmacy/src/ui/shopping/order_card.dart';
 
 import '../../app_theme.dart';
@@ -142,8 +143,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     child: Padding(
-                      padding:
-                      EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 12),
+                      padding: EdgeInsets.only(
+                          top: 8, bottom: 8, left: 12, right: 12),
                       child: TextFormField(
                         keyboardType: TextInputType.phone,
                         style: TextStyle(
@@ -216,7 +217,15 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.fade,
+                    child: VerfyScreen("+998943293406"),
+                  ),
+                );
+              },
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
@@ -244,7 +253,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            Container(),
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -9,6 +10,10 @@ import 'package:pharmacy/src/ui/shopping/order_card.dart';
 import '../../app_theme.dart';
 
 class RegisterScreen extends StatefulWidget {
+  String token;
+
+  RegisterScreen(this.token);
+
   @override
   State<StatefulWidget> createState() {
     return _RegisterScreenState();
@@ -20,35 +25,53 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   TextEditingController surNameController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController birthdayController = TextEditingController();
+
+  String radioItemHolder = translate("auth.male");
+  int id = 1;
+
+  List<CheckboxList> nList = [
+    CheckboxList(
+      index: 1,
+      number: translate("auth.male"),
+    ),
+    CheckboxList(
+      index: 2,
+      number: translate("auth.female"),
+    ),
+  ];
+
+  DateTime now = new DateTime.now();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(30.0),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            elevation: 0.0,
-            backgroundColor: Colors.black,
-            brightness: Brightness.dark,
-            title: Container(
-              height: 30,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 10,
-                  decoration: BoxDecoration(
-                    color: AppTheme.item_navigation,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.0),
-                      topRight: Radius.circular(10.0),
-                    ),
+        preferredSize: Size.fromHeight(20.0),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 0.0,
+          backgroundColor: Colors.black,
+          brightness: Brightness.dark,
+          title: Container(
+            height: 20,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 10,
+                decoration: BoxDecoration(
+                  color: AppTheme.item_navigation,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.0),
+                    topRight: Radius.circular(10.0),
                   ),
                 ),
               ),
             ),
-          )),
+          ),
+        ),
+      ),
       body: Container(
         decoration: BoxDecoration(
           color: AppTheme.white,
@@ -65,6 +88,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
               width: double.infinity,
               child: Stack(
                 children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      translate("auth.data"),
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontCommons,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        fontStyle: FontStyle.normal,
+                        color: AppTheme.black_text,
+                      ),
+                    ),
+                  ),
                   Align(
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
@@ -88,38 +124,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ],
               ),
             ),
-            Container(
-              width: double.infinity,
-              margin: EdgeInsets.only(top: 46, left: 16, right: 16),
-              child: Text(
-                translate("auth.verfy_title"),
-                style: TextStyle(
-                  fontFamily: AppTheme.fontRoboto,
-                  fontSize: 13,
-                  fontWeight: FontWeight.normal,
-                  fontStyle: FontStyle.normal,
-                ),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              margin: EdgeInsets.only(top: 3, left: 16, right: 16),
-              child: Text(
-                translate("+998 94 *** ** 06"),
-                style: TextStyle(
-                  fontFamily: AppTheme.fontRoboto,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                ),
-              ),
-            ),
             Expanded(
               child: ListView(
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
                 children: [
                   Container(
                     height: 56,
-                    margin: EdgeInsets.only(top: 24, left: 16, right: 16),
+                    margin: EdgeInsets.only(top: 30, left: 16, right: 16),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       color: AppTheme.auth_login,
@@ -132,7 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       padding: EdgeInsets.only(
                           top: 8, bottom: 8, left: 12, right: 12),
                       child: TextFormField(
-                        keyboardType: TextInputType.phone,
+                        keyboardType: TextInputType.text,
                         style: TextStyle(
                           fontFamily: AppTheme.fontRoboto,
                           fontStyle: FontStyle.normal,
@@ -142,7 +154,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         controller: nameController,
                         decoration: InputDecoration(
-                          labelText: translate('auth.verfy'),
+                          labelText: translate('auth.name'),
                           labelStyle: TextStyle(
                             fontFamily: AppTheme.fontRoboto,
                             fontStyle: FontStyle.normal,
@@ -169,36 +181,171 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
+                  ),
+                  Container(
+                    height: 56,
+                    margin: EdgeInsets.only(top: 12, left: 16, right: 16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: AppTheme.auth_login,
+                      border: Border.all(
+                        color: AppTheme.auth_border,
+                        width: 1.0,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          top: 8, bottom: 8, left: 12, right: 12),
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRoboto,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.normal,
+                          color: AppTheme.black_text,
+                          fontSize: 15,
+                        ),
+                        controller: surNameController,
+                        decoration: InputDecoration(
+                          labelText: translate('auth.sur_name'),
+                          labelStyle: TextStyle(
+                            fontFamily: AppTheme.fontRoboto,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.normal,
+                            color: Color(0xFF6D7885),
+                            fontSize: 11,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: AppTheme.auth_login,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: AppTheme.auth_login,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      DatePicker.showDatePicker(
+                        context,
+                        showTitleActions: true,
+                        minTime: DateTime(1900, 2, 16),
+                        maxTime: now,
+                        onConfirm: (date) {
+                          int time = date.millisecondsSinceEpoch;
+                          String s = date.day.toString() +
+                              "." +
+                              date.month.toString() +
+                              "." +
+                              date.year.toString();
+                          birthdayController.text = s;
+                        },
+                        currentTime: DateTime.now(),
+                        locale: LocaleType.ru,
+                      );
+                    },
+                    child: Container(
+                      height: 56,
+                      margin: EdgeInsets.only(top: 12, left: 16, right: 16),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: AppTheme.auth_login,
+                        border: Border.all(
+                          color: AppTheme.auth_border,
+                          width: 1.0,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            top: 8, bottom: 8, left: 12, right: 12),
+                        child: IgnorePointer(
+                          child: TextFormField(
+                            readOnly: true,
+                            keyboardType: TextInputType.text,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.normal,
+                              color: AppTheme.black_text,
+                              fontSize: 15,
+                            ),
+                            controller: birthdayController,
+                            decoration: InputDecoration(
+                              labelText: translate('auth.birthday'),
+                              labelStyle: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.normal,
+                                color: Color(0xFF6D7885),
+                                fontSize: 11,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                  width: 1,
+                                  color: AppTheme.auth_login,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                borderSide: BorderSide(
+                                  width: 1,
+                                  color: AppTheme.auth_login,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 25),
+                    child: GridView(
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2),
+                      physics: ClampingScrollPhysics(),
+                      children: nList
+                          .map((data) => RadioListTile(
+                                title: Text(
+                                  "${data.number}",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: AppTheme.fontRoboto,
+                                    color: AppTheme.black_text,
+                                  ),
+                                ),
+                                activeColor: AppTheme.blue_app_color,
+                                groupValue: id,
+                                value: data.index,
+                                onChanged: (val) {
+                                  setState(() {
+                                    radioItemHolder = data.number;
+                                    id = data.index;
+                                  });
+                                },
+                              ))
+                          .toList(),
+                    ),
                   )
                 ],
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              child: Text(
-                translate("dialog.soglas"),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: AppTheme.black_transparent_text,
-                  fontFamily: AppTheme.fontRoboto,
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 11,
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 8),
-              child: Text(
-                translate("dialog.danniy"),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: AppTheme.blue_app_color,
-                  fontFamily: AppTheme.fontRoboto,
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 11,
-                ),
               ),
             ),
             GestureDetector(
@@ -218,7 +365,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 child: Center(
                   child: Text(
-                    translate("next"),
+                    translate("auth.save"),
                     style: TextStyle(
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w600,
@@ -230,7 +377,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
             ),
-            Container(),
           ],
         ),
       ),

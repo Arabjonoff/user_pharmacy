@@ -9,6 +9,10 @@ import 'package:pharmacy/src/ui/shopping/order_card.dart';
 import '../../app_theme.dart';
 
 class VerfyScreen extends StatefulWidget {
+  String number;
+
+  VerfyScreen(this.number);
+
   @override
   State<StatefulWidget> createState() {
     return _VerfyScreenState();
@@ -20,21 +24,21 @@ class _VerfyScreenState extends State<VerfyScreen> {
 
   TextEditingController loginController = TextEditingController();
   var maskFormatter = new MaskTextInputFormatter(
-      mask: '#####', filter: {"#": RegExp(r'[0-9]')});
+      mask: '######', filter: {"#": RegExp(r'[0-9]')});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(30.0),
+          preferredSize: Size.fromHeight(20.0),
           child: AppBar(
             automaticallyImplyLeading: false,
             elevation: 0.0,
             backgroundColor: Colors.black,
             brightness: Brightness.dark,
             title: Container(
-              height: 30,
+              height: 20,
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
@@ -117,6 +121,8 @@ class _VerfyScreenState extends State<VerfyScreen> {
             ),
             Expanded(
               child: ListView(
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
                 children: [
                   Container(
                     height: 56,
@@ -186,13 +192,13 @@ class _VerfyScreenState extends State<VerfyScreen> {
                 width: double.infinity,
                 margin: EdgeInsets.only(
                   top: 12,
-                  bottom: 12,
+                  bottom: 40,
                   left: 16,
                   right: 16,
                 ),
                 child: Center(
                   child: Text(
-                    translate("next"),
+                    translate("auth.verfy_btn"),
                     style: TextStyle(
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w600,
