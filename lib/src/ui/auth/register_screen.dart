@@ -383,12 +383,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       widget.number,
                     );
                     if (response.status == 1) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MainScreen(),
-                        ),
-                      );
+                      Navigator.pop(context);
                     }
                     setState(() {
                       loading = false;

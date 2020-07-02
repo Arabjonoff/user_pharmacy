@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app_theme.dart';
@@ -28,6 +29,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Utils.isLogin().then((value) => isLogin = value);
     size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppTheme.white,
@@ -114,7 +116,6 @@ class _MenuScreenState extends State<MenuScreen> {
                   height: 60,
                   margin: EdgeInsets.only(
                     left: 16,
-                    top: 24,
                     right: 16,
                   ),
                   child: Column(
@@ -195,7 +196,9 @@ class _MenuScreenState extends State<MenuScreen> {
                   SizedBox(width: 15),
                   Expanded(
                     child: Text(
-                      translate("menu.bonus_card"),
+                      isLogin
+                          ? translate("menu.bonus_card")
+                          : translate("menu.bonus_card_not"),
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
                         fontFamily: AppTheme.fontRoboto,
@@ -268,49 +271,6 @@ class _MenuScreenState extends State<MenuScreen> {
               color: AppTheme.white,
             ),
           ),
-//          GestureDetector(
-//            onTap: () async {},
-//            child: Container(
-//              margin: EdgeInsets.only(
-//                left: 16,
-//                right: 16,
-//              ),
-//              child: Row(
-//                children: <Widget>[
-//                  Container(
-//                    height: 25,
-//                    width: 25,
-//                    child: Center(
-//                      child: SvgPicture.asset("assets/images/address_apt.svg"),
-//                    ),
-//                  ),
-//                  SizedBox(width: 15),
-//                  Expanded(
-//                    child: Text(
-//                      translate("menu.address_apteka"),
-//                      style: TextStyle(
-//                        fontWeight: FontWeight.normal,
-//                        fontFamily: AppTheme.fontRoboto,
-//                        color: AppTheme.black_text,
-//                        fontSize: 15,
-//                      ),
-//                    ),
-//                  ),
-//                  SizedBox(
-//                    width: 15,
-//                  ),
-//                  Icon(
-//                    Icons.arrow_forward_ios,
-//                    size: 19,
-//                    color: AppTheme.arrow_catalog,
-//                  ),
-//                  SizedBox(width: 3),
-//                ],
-//              ),
-//              height: 48,
-//              color: AppTheme.white,
-//            ),
-//          ),
           GestureDetector(
             onTap: () async {},
             child: Container(
@@ -324,13 +284,13 @@ class _MenuScreenState extends State<MenuScreen> {
                     height: 25,
                     width: 25,
                     child: Center(
-                      child: SvgPicture.asset("assets/images/history.svg"),
+                      child: SvgPicture.asset("assets/images/address_apt.svg"),
                     ),
                   ),
                   SizedBox(width: 15),
                   Expanded(
                     child: Text(
-                      translate("menu.history"),
+                      translate("menu.address_apteka"),
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
                         fontFamily: AppTheme.fontRoboto,
@@ -354,6 +314,98 @@ class _MenuScreenState extends State<MenuScreen> {
               color: AppTheme.white,
             ),
           ),
+          isLogin
+              ? GestureDetector(
+                  onTap: () async {},
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          height: 25,
+                          width: 25,
+                          child: Center(
+                            child: SvgPicture.asset(
+                                "assets/images/payment_card.svg"),
+                          ),
+                        ),
+                        SizedBox(width: 15),
+                        Expanded(
+                          child: Text(
+                            translate("menu.payment_card"),
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: AppTheme.fontRoboto,
+                              color: AppTheme.black_text,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 19,
+                          color: AppTheme.arrow_catalog,
+                        ),
+                        SizedBox(width: 3),
+                      ],
+                    ),
+                    height: 48,
+                    color: AppTheme.white,
+                  ),
+                )
+              : Container(),
+          isLogin
+              ? GestureDetector(
+                  onTap: () async {},
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          height: 25,
+                          width: 25,
+                          child: Center(
+                            child:
+                                SvgPicture.asset("assets/images/history.svg"),
+                          ),
+                        ),
+                        SizedBox(width: 15),
+                        Expanded(
+                          child: Text(
+                            translate("menu.history"),
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: AppTheme.fontRoboto,
+                              color: AppTheme.black_text,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 19,
+                          color: AppTheme.arrow_catalog,
+                        ),
+                        SizedBox(width: 3),
+                      ],
+                    ),
+                    height: 48,
+                    color: AppTheme.white,
+                  ),
+                )
+              : Container(),
           GestureDetector(
             onTap: () async {
               //BottomDialog.onActionSheetPress(context);

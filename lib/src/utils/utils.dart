@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
   static Future<void> saveData(String name, String surname, String birthday,
-      String gender, String token,String number) async {
+      String gender, String token, String number) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('name', name);
     prefs.setString('surname', surname);
@@ -14,6 +14,15 @@ class Utils {
     prefs.setString('token', token);
     prefs.setString('number', number);
     prefs.commit();
+  }
+
+  static Future<bool> isLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString("token") != null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   static String BASE_URL = "http://185.183.243.77";

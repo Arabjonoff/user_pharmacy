@@ -322,12 +322,7 @@ class _VerfyScreenState extends State<VerfyScreen> {
                         responce.token,
                         widget.number,
                       );
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MainScreen(),
-                        ),
-                      );
+                      Navigator.pop(context);
                     }
                     setState(() {
                       loading = false;
