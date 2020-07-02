@@ -1,5 +1,5 @@
-class AuthModel {
-  AuthModel({
+class LoginModel {
+  LoginModel({
     this.status,
     this.msg,
   });
@@ -7,7 +7,7 @@ class AuthModel {
   int status;
   String msg;
 
-  factory AuthModel.fromJson(Map<String, dynamic> json) => AuthModel(
+  factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
         status: json["status"],
         msg: json["msg"],
       );

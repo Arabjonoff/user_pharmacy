@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/auth/verfy_screen.dart';
 import 'package:pharmacy/src/ui/shopping/order_card.dart';
 
@@ -17,11 +18,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  var click = false;
+  var loading = false;
 
   TextEditingController loginController = TextEditingController();
   var maskFormatter = new MaskTextInputFormatter(
-      mask: '(+998)## ### ## ##', filter: {"#": RegExp(r'[0-9]')});
+      mask: '(+998) ## ### ## ##', filter: {"#": RegExp(r'[0-9]')});
 
   @override
   Widget build(BuildContext context) {
@@ -217,14 +218,37 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  PageTransition(
-                    type: PageTransitionType.fade,
-                    child: VerfyScreen("+998943293406"),
-                  ),
-                );
+              onTap: () async {
+                if (loginController.text.isNotEmpty) {
+                  var number = loginController.text
+                      .replaceAll('(', '')
+                      .replaceAll(')', '')
+                      .replaceAll('+', '')
+                      .replaceAll(' ', '')
+                      .replaceAll('-', '');
+
+                  if (number.length == 12) {
+                    setState(() {
+                      loading = true;
+                    });
+                    var responce = await Repository().fetchLogin(number);
+                    if (responce.status == 1) {
+                      setState(() {
+                        loading = false;
+                      });
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VerfyScreen(number),
+                        ),
+                      );
+                    } else {
+                      setState(() {
+                        loading = false;
+                      });
+                    }
+                  }
+                }
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -240,16 +264,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   right: 16,
                 ),
                 child: Center(
-                  child: Text(
-                    translate("next"),
-                    style: TextStyle(
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: AppTheme.fontRoboto,
-                      fontSize: 17,
-                      color: AppTheme.white,
-                    ),
-                  ),
+                  child: loading
+                      ? CircularProgressIndicator(
+                          value: null,
+                          strokeWidth: 3.0,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(AppTheme.white),
+                        )
+                      : Text(
+                          translate("next"),
+                          style: TextStyle(
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: AppTheme.fontRoboto,
+                            fontSize: 17,
+                            color: AppTheme.white,
+                          ),
+                        ),
                 ),
               ),
             ),

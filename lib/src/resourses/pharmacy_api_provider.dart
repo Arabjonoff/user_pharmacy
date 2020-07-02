@@ -2,14 +2,32 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/utils/utils.dart';
+import 'package:http/http.dart' as http;
 
 class PharmacyApiProvider {
   HttpClient httpClient = new HttpClient();
+
+  ///Login
+  Future<LoginModel> fetchLogin(String login) async {
+    String url = Utils.BASE_URL + '/api/v1/register';
+
+    final data = {
+      "login": login,
+    };
+
+    http.Response response =
+        await http.post(url, body: data).timeout(const Duration(seconds: 120));
+
+    final Map parsed = json.decode(response.body);
+
+    return LoginModel.fromJson(parsed);
+  }
 
   ///Sale
   Future<SaleModel> fetchSaleList() async {

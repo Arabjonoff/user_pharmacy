@@ -22,12 +22,16 @@ class VerfyScreen extends StatefulWidget {
 class _VerfyScreenState extends State<VerfyScreen> {
   var click = false;
 
+  String number;
+
   TextEditingController loginController = TextEditingController();
   var maskFormatter = new MaskTextInputFormatter(
       mask: '######', filter: {"#": RegExp(r'[0-9]')});
 
   @override
   Widget build(BuildContext context) {
+    String kod = widget.number.substring(3, 4);
+    print(kod);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(

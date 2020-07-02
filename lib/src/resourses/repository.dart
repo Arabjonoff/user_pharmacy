@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
@@ -12,6 +13,9 @@ class Repository {
   final pharmacyApiProvider = PharmacyApiProvider();
 
   DatabaseHelper databaseHelper = new DatabaseHelper();
+
+  Future<LoginModel> fetchLogin(String login) =>
+      pharmacyApiProvider.fetchLogin(login);
 
   Future<SaleModel> fetchAllSales() => pharmacyApiProvider.fetchSaleList();
 

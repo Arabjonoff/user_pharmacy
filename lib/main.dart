@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: RegisterScreen("sdvlsmfcse"),
+        home: VerfyScreen("998943293406"),
       ),
     );
   }
@@ -83,7 +83,6 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-
   static int page = 1;
   ScrollController _sc = new ScrollController();
   bool isLoading = false;
