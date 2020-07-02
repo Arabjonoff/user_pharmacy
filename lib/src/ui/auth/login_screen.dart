@@ -226,7 +226,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: double.infinity,
                 margin: EdgeInsets.only(
                   top: 12,
-                  bottom: 12,
+                  bottom: 40,
                   left: 16,
                   right: 16,
                 ),

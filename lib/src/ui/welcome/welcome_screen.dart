@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'file:///D:/Flutter/ishxona/user_pharmacy/lib/src/app_theme.dart';
+import 'package:pharmacy/src/app_theme.dart';
 
 import '../main/main_screen.dart';
 

@@ -7,25 +7,49 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
+  - "geolocator (5.3.2+2)":
+    - Flutter
+  - "location_permissions (3.0.0+1)":
+    - Flutter
   - path_provider (0.0.1):
+    - Flutter
+  - permission_handler (3.3.0):
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
   - sqflite (0.0.1):
     - Flutter
     - FMDB (~> 2.7.2)
+  - yandex_mapkit (0.0.1):
+    - Flutter
+    - YandexMapKit (= 3.5.0)
+    - YandexMapKitSearch (= 3.5.0)
+    - YandexRuntime (= 3.5.0)
+  - YandexMapKit (3.5.0):
+    - YandexRuntime (= 3.5.0)
+  - YandexMapKitSearch (3.5.0):
+    - YandexMapKit (= 3.5.0)
+    - YandexRuntime (= 3.5.0)
+  - YandexRuntime (3.5.0)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_barcode_scanner (from `.symlinks/plugins/flutter_barcode_scanner/ios`)
   - flutter_device_locale (from `.symlinks/plugins/flutter_device_locale/ios`)
+  - geolocator (from `.symlinks/plugins/geolocator/ios`)
+  - location_permissions (from `.symlinks/plugins/location_permissions/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
+  - yandex_mapkit (from `.symlinks/plugins/yandex_mapkit/ios`)
 
 SPEC REPOS:
   trunk:
     - FMDB
+    - YandexMapKit
+    - YandexMapKitSearch
+    - YandexRuntime
 
 EXTERNAL SOURCES:
   Flutter:
@@ -34,21 +58,36 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_barcode_scanner/ios"
   flutter_device_locale:
     :path: ".symlinks/plugins/flutter_device_locale/ios"
+  geolocator:
+    :path: ".symlinks/plugins/geolocator/ios"
+  location_permissions:
+    :path: ".symlinks/plugins/location_permissions/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
+  permission_handler:
+    :path: ".symlinks/plugins/permission_handler/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
+  yandex_mapkit:
+    :path: ".symlinks/plugins/yandex_mapkit/ios"
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_barcode_scanner: 49cd22fac3304077a6c1672f63bee4a2572ffd85
   flutter_device_locale: 94fbcacb38980dc1a9e31eb4ee8ae6d1c3a73042
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  geolocator: f7622e0e7e2a24718285b73916d60c4a54b9f5b6
+  location_permissions: 7e0f9aa0f60deb8ff93ddf0e2a164c7e8197bc94
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
+  permission_handler: 67637977b227d62d46bfbf524f335f8568de5a73
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
+  yandex_mapkit: 808e1857438445c61e2789a9e4374b230a0a97ca
+  YandexMapKit: ecd4b78de34a35df63d066ac299e6fd0fe46d1ba
+  YandexMapKitSearch: b46ddd1c80e2e35d006cdfc4ab88070a50cebeda
+  YandexRuntime: 2d55244d06267106cf9b00c25a1e63f72a73b6fd
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 
