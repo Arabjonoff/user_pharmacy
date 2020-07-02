@@ -27,14 +27,14 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(30.0),
+          preferredSize: Size.fromHeight(20.0),
           child: AppBar(
             automaticallyImplyLeading: false,
             elevation: 0.0,
             backgroundColor: Colors.black,
             brightness: Brightness.dark,
             title: Container(
-              height: 30,
+              height: 20,
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
@@ -127,6 +127,8 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Expanded(
               child: ListView(
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
                 children: [
                   Container(
                     height: 56,

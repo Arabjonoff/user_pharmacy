@@ -277,10 +277,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
                         ? blocItemsList.getItemSearch
                         : blocItemsList.allItemsCategoty,
                 builder: (context, AsyncSnapshot<List<ItemResult>> snapshot) {
-                  print("Shahboz" + isLoading.toString());
                   if (snapshot.hasData) {
                     isLoading = false;
-                    print("Shahboz" + isLoading.toString());
                     return snapshot.data.length > 0
                         ? ListView.builder(
                             controller: _sc,
