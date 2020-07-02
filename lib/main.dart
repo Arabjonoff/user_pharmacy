@@ -13,6 +13,7 @@ import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/auth/register_screen.dart';
 import 'package:pharmacy/src/ui/auth/verfy_screen.dart';
+import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/shopping/curer_address_card.dart';
 import 'package:pharmacy/src/ui/shopping/order_card.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -69,7 +70,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: RegisterScreen("","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJ1c2VybmFtZSI6Ijk5ODk0MzI5MzQwNiIsImV4cCI6MTYyNTMwNTYzNCwiZW1haWwiOiIifQ.AiEKXx_z44Xgo5KQN_PXQsusmk7xT7Xbd1Ld14KSVgs"),
+        home: MainScreen(),
       ),
     );
   }

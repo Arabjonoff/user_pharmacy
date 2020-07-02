@@ -29,12 +29,11 @@ class _VerfyScreenState extends State<VerfyScreen> {
   var loading = false;
   var error = false;
   var timerLoad = true;
-  var timeCurrent = 120;
 
   String number;
 
   Timer _timer;
-  int _start = 5;
+  int _start = 120;
 
   TextEditingController verfyController = TextEditingController();
   var maskFormatter =

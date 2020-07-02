@@ -28,34 +28,35 @@ class _CategoryScreenState extends State<CategoryScreen> {
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70.0),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            elevation: 0.0,
-            backgroundColor: AppTheme.white,
-            brightness: Brightness.light,
-            title: Container(
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 12),
-                    child: Text(
-                      translate("main.catalog"),
-                      style: TextStyle(
-                        fontFamily: AppTheme.fontCommons,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 17,
-                        color: AppTheme.black_text,
-                      ),
+        preferredSize: Size.fromHeight(70.0),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 0.0,
+          backgroundColor: AppTheme.white,
+          brightness: Brightness.light,
+          title: Container(
+            height: 70,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 12),
+                  child: Text(
+                    translate("main.catalog"),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontCommons,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
+                      color: AppTheme.black_text,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          )),
+          ),
+        ),
+      ),
       body: Stack(
         children: <Widget>[
           Container(
@@ -124,8 +125,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       );
                     },
                   );
-                }
-                else if (snapshot.hasError) {
+                } else if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
                 }
                 return Shimmer.fromColors(

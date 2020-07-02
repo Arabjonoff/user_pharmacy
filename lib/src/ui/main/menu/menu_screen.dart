@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app_theme.dart';
@@ -29,6 +31,15 @@ class _MenuScreenState extends State<MenuScreen> {
     size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppTheme.white,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(15.0),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 0.0,
+          backgroundColor: AppTheme.white,
+          brightness: Brightness.light,
+        ),
+      ),
       body: ListView(
         children: <Widget>[
           isLogin
@@ -40,11 +51,62 @@ class _MenuScreenState extends State<MenuScreen> {
                   ),
                 )
               : Container(
-                  margin: EdgeInsets.only(top: 26, left: 12, right: 12,bottom: 30),
+                  margin: EdgeInsets.only(left: 12, right: 12, bottom: 30),
                   height: 146,
                   decoration: BoxDecoration(
                     color: AppTheme.blue_app_color,
                     borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 16, left: 24, right: 24),
+                        child: Text(
+                          translate("menu.menu_about_message"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRoboto,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 13,
+                            fontStyle: FontStyle.normal,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                        height: 51,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.downToUp,
+                              child: LoginScreen(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          height: 44,
+                          margin: EdgeInsets.only(left: 24, right: 24, top: 20),
+                          decoration: BoxDecoration(
+                            color: AppTheme.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Center(
+                            child: Text(
+                              translate("menu.enter"),
+                              style: TextStyle(
+                                color: AppTheme.blue_app_color,
+                                fontWeight: FontWeight.w600,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 15,
+                                fontFamily: AppTheme.fontRoboto,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
           isLogin
