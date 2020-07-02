@@ -1,3 +1,5 @@
+import 'package:pharmacy/src/utils/utils.dart';
+
 class SearchModel {
   SearchModel({
     this.count,
@@ -43,8 +45,8 @@ class SearchResult {
     id = json['id'];
     name = json['name'];
     manufacturer = json['manufacturer'] != null
-        ? new Unit.fromJson(json['manufacturer'])
-        : null;
+        ? Unit.fromJson(json['manufacturer'])
+        : Unit(id: 0, name: "");
   }
 
   Map<String, dynamic> toJson() {

@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../app_theme.dart';
+import '../../../app_theme.dart';
 
 class MenuScreen extends StatefulWidget {
   @override
@@ -16,6 +16,7 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   Size size;
   String language = "";
+  bool isLogin = false;
 
   @override
   void initState() {
@@ -30,78 +31,89 @@ class _MenuScreenState extends State<MenuScreen> {
       backgroundColor: AppTheme.white,
       body: ListView(
         children: <Widget>[
-          Container(
-            width: size.width,
-            child: Image.asset(
-              "assets/images/menu_image.png",
-              fit: BoxFit.fitWidth,
-            ),
-          ),
-          Container(
-            height: 60,
-            margin: EdgeInsets.only(
-              left: 16,
-              top: 24,
-              right: 16,
-            ),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  child: Row(
+          isLogin
+              ? Container(
+                  width: size.width,
+                  child: Image.asset(
+                    "assets/images/menu_image.png",
+                    fit: BoxFit.fitWidth,
+                  ),
+                )
+              : Container(
+                  margin: EdgeInsets.only(top: 26, left: 12, right: 12,bottom: 30),
+                  height: 146,
+                  decoration: BoxDecoration(
+                    color: AppTheme.blue_app_color,
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+          isLogin
+              ? Container(
+                  height: 60,
+                  margin: EdgeInsets.only(
+                    left: 16,
+                    top: 24,
+                    right: 16,
+                  ),
+                  child: Column(
                     children: <Widget>[
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
+                      Container(
+                        child: Row(
+                          children: <Widget>[
                             Expanded(
-                              child: Container(),
-                            ),
-                            Text(
-                              "Shahboz Turonov",
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontFamily: AppTheme.fontRoboto,
-                                fontWeight: FontWeight.w600,
-                                color: AppTheme.black_text,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Container(),
+                                  ),
+                                  Text(
+                                    "Shahboz Turonov",
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppTheme.black_text,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 2,
+                                  ),
+                                  Text(
+                                    translate("menu.all_info"),
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontWeight: FontWeight.normal,
+                                      color: AppTheme.black_transparent_text,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(),
+                                  ),
+                                ],
                               ),
                             ),
-                            SizedBox(
-                              height: 2,
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 19,
+                              color: AppTheme.arrow_catalog,
                             ),
-                            Text(
-                              translate("menu.all_info"),
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontFamily: AppTheme.fontRoboto,
-                                fontWeight: FontWeight.normal,
-                                color: AppTheme.black_transparent_text,
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(),
-                            ),
+                            SizedBox(width: 3),
                           ],
                         ),
+                        height: 48,
+                        color: AppTheme.white,
                       ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 19,
-                        color: AppTheme.arrow_catalog,
-                      ),
-                      SizedBox(width: 3),
+                      Container(
+                        height: 1,
+                        color: AppTheme.black_linear_category,
+                      )
                     ],
                   ),
-                  height: 48,
-                  color: AppTheme.white,
-                ),
-                Container(
-                  height: 1,
-                  color: AppTheme.black_linear_category,
                 )
-              ],
-            ),
-          ),
+              : Container(),
           GestureDetector(
             onTap: () async {},
             child: Container(
@@ -523,7 +535,7 @@ class _MenuScreenState extends State<MenuScreen> {
         language = translate("language.uz");
       else if (prefs.getString('language') == "en_US")
         language = translate("language.en");
-    }else{
+    } else {
       language = translate("language.en");
     }
   }

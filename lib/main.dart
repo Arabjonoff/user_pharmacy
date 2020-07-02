@@ -10,7 +10,10 @@ import 'package:flutter_translate/localized_app.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/search_model.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
-import 'package:pharmacy/src/ui/main_screen.dart';
+import 'package:pharmacy/src/ui/auth/login_screen.dart';
+import 'package:pharmacy/src/ui/auth/register_screen.dart';
+import 'package:pharmacy/src/ui/auth/verfy_screen.dart';
+import 'file:///D:/Flutter/ishxona/user_pharmacy/lib/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/shopping/curer_address_card.dart';
 import 'package:pharmacy/src/ui/shopping/order_card.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -67,7 +70,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: MainScreen(),
+        home: RegisterScreen(),
       ),
     );
   }

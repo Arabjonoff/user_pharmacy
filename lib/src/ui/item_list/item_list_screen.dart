@@ -277,8 +277,10 @@ class _ItemListScreenState extends State<ItemListScreen> {
                         ? blocItemsList.getItemSearch
                         : blocItemsList.allItemsCategoty,
                 builder: (context, AsyncSnapshot<List<ItemResult>> snapshot) {
+                  print("Shahboz" + isLoading.toString());
                   if (snapshot.hasData) {
                     isLoading = false;
+                    print("Shahboz" + isLoading.toString());
                     return snapshot.data.length > 0
                         ? ListView.builder(
                             controller: _sc,
@@ -290,7 +292,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: new Center(
                                     child: new Opacity(
-                                      opacity: isLoading ? 1.0 : 1.0,
+                                      opacity: isLoading ? 0.0 : 1.0,
                                       child: new CircularProgressIndicator(),
                                     ),
                                   ),

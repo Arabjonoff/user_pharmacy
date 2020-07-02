@@ -66,7 +66,9 @@ class _ItemSearchViewState extends State<ItemSearchView> {
                           ),
                           SizedBox(height: 3),
                           Text(
-                            widget.index.toString(),
+                            widget.item.manufacturer == null
+                                ? ""
+                                : widget.item.manufacturer.name,
                             style: TextStyle(
                               color: AppTheme.black_transparent_text,
                               fontSize: 13,

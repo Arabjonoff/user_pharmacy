@@ -47,6 +47,9 @@ class AppTheme {
 
   static const Color bottom_dialog = Color(0xFFE5E5EA);
 
+  static const Color auth_border = Color(0xFFD5D6D8);
+  static const Color auth_login = Color(0xFFF2F3F5);
+
   static const TextTheme textTheme = TextTheme(
     headline4: display1,
     headline5: headline,

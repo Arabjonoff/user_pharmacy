@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'file:///D:/Flutter/ishxona/user_pharmacy/lib/src/app_theme.dart';
 
-import '../main_screen.dart';
+import '../main/main_screen.dart';
 
 class WelcomePage extends StatefulWidget {
   @override

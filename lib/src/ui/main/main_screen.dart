@@ -4,11 +4,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/favorite/favorites_screen.dart';
-import 'package:pharmacy/src/ui/main/menu_screen.dart';
+import 'file:///D:/Flutter/ishxona/user_pharmacy/lib/src/ui/main/menu/menu_screen.dart';
 
-import '../app_theme.dart';
-import 'main/category/category_screen.dart';
-import 'main/home/home_screen.dart';
+import '../../app_theme.dart';
+import 'category/category_screen.dart';
+import 'home/home_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override

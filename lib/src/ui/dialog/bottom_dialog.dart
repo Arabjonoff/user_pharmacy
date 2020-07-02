@@ -147,7 +147,7 @@ class BottomDialog {
                           fontSize: 11,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
