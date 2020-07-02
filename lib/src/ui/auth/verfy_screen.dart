@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/auth/register_screen.dart';
+import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/shopping/order_card.dart';
 
 import '../../app_theme.dart';
@@ -20,18 +25,55 @@ class VerfyScreen extends StatefulWidget {
 }
 
 class _VerfyScreenState extends State<VerfyScreen> {
-  var click = false;
+  var loading = false;
+  var error = false;
+  var timerLoad = true;
+  var timeCurrent = 120;
 
   String number;
 
-  TextEditingController loginController = TextEditingController();
-  var maskFormatter = new MaskTextInputFormatter(
-      mask: '######', filter: {"#": RegExp(r'[0-9]')});
+  Timer _timer;
+  int _start = 5;
+
+  TextEditingController verfyController = TextEditingController();
+  var maskFormatter =
+      new MaskTextInputFormatter(mask: '####', filter: {"#": RegExp(r'[0-9]')});
+
+  void startTimer() {
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+      oneSec,
+      (Timer timer) => setState(
+        () {
+          print(_start);
+          if (_start < 1) {
+            timer.cancel();
+            timerLoad = false;
+          } else {
+            _start = _start - 1;
+          }
+        },
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    startTimer();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    String kod = widget.number.substring(3, 4);
-    print(kod);
+    String kod = widget.number.substring(3, 5);
+    String last = widget.number.substring(10, 12);
+    number = "+998 " + kod + " *** ** " + last;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
@@ -114,7 +156,7 @@ class _VerfyScreenState extends State<VerfyScreen> {
               width: double.infinity,
               margin: EdgeInsets.only(top: 3, left: 16, right: 16),
               child: Text(
-                translate("+998 94 *** ** 06"),
+                number,
                 style: TextStyle(
                   fontFamily: AppTheme.fontRoboto,
                   fontSize: 16,
@@ -142,51 +184,154 @@ class _VerfyScreenState extends State<VerfyScreen> {
                     child: Padding(
                       padding: EdgeInsets.only(
                           top: 8, bottom: 8, left: 12, right: 12),
-                      child: TextFormField(
-                        keyboardType: TextInputType.phone,
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.normal,
-                          color: AppTheme.black_text,
-                          fontSize: 15,
-                        ),
-                        controller: loginController,
-                        inputFormatters: [maskFormatter],
-                        decoration: InputDecoration(
-                          labelText: translate('auth.verfy'),
-                          labelStyle: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.normal,
-                            color: Color(0xFF6D7885),
-                            fontSize: 11,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: AppTheme.auth_login,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              keyboardType: TextInputType.phone,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.black_text,
+                                fontSize: 15,
+                              ),
+                              controller: verfyController,
+                              inputFormatters: [maskFormatter],
+                              decoration: InputDecoration(
+                                labelText: translate('auth.verfy'),
+                                labelStyle: TextStyle(
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.normal,
+                                  color: Color(0xFF6D7885),
+                                  fontSize: 11,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  borderSide: BorderSide(
+                                    width: 1,
+                                    color: AppTheme.auth_login,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                  borderSide: BorderSide(
+                                    width: 1,
+                                    color: AppTheme.auth_login,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: AppTheme.auth_login,
-                            ),
-                          ),
-                        ),
+                          timerLoad
+                              ? Container(
+                                  width: 32,
+                                  height: 16,
+                                  child: Text(
+                                    _start.toString(),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 15,
+                                      color: Color(0xFF6D7885),
+                                    ),
+                                  ),
+                                )
+                              : GestureDetector(
+                                  onTap: () async {
+                                    setState(() {
+                                      loading = true;
+                                    });
+                                    var responce = await Repository()
+                                        .fetchLogin(widget.number);
+                                    if (responce.status == 1) {
+                                      setState(() {
+                                        loading = false;
+                                        timerLoad = true;
+                                        _start = 120;
+                                        startTimer();
+                                      });
+                                    } else {
+                                      setState(() {
+                                        loading = false;
+                                      });
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 9),
+                                    child: SvgPicture.asset(
+                                        "assets/images/reply.svg"),
+                                  ),
+                                ),
+                        ],
                       ),
                     ),
-                  )
+                  ),
+                  error
+                      ? Container(
+                          margin: EdgeInsets.only(left: 16, right: 16, top: 9),
+                          width: double.infinity,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              translate("auth.error"),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontSize: 13,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.red_fav_color,
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
                 ],
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () async {
+                if (verfyController.text.isNotEmpty &&
+                    verfyController.text.length == 4) {
+                  setState(() {
+                    loading = true;
+                  });
+                  var responce = await Repository().fetchVetfy(
+                    widget.number,
+                    verfyController.text,
+                  );
+                  if (responce.status == 1) {
+                    setState(() {
+                      loading = false;
+                      error = false;
+                    });
+                    if (responce.user.complete == 0) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegisterScreen(responce.token),
+                        ),
+                      );
+                    } else {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MainScreen(),
+                        ),
+                      );
+                    }
+                  } else {
+                    setState(() {
+                      loading = false;
+                      error = true;
+                    });
+                  }
+                }
+              },
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
@@ -201,16 +346,23 @@ class _VerfyScreenState extends State<VerfyScreen> {
                   right: 16,
                 ),
                 child: Center(
-                  child: Text(
-                    translate("auth.verfy_btn"),
-                    style: TextStyle(
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: AppTheme.fontRoboto,
-                      fontSize: 17,
-                      color: AppTheme.white,
-                    ),
-                  ),
+                  child: loading
+                      ? CircularProgressIndicator(
+                          value: null,
+                          strokeWidth: 3.0,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(AppTheme.white),
+                        )
+                      : Text(
+                          translate("auth.verfy_btn"),
+                          style: TextStyle(
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: AppTheme.fontRoboto,
+                            fontSize: 17,
+                            color: AppTheme.white,
+                          ),
+                        ),
                 ),
               ),
             ),

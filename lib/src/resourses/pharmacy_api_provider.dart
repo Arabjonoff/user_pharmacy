@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
+import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
@@ -20,13 +21,28 @@ class PharmacyApiProvider {
     final data = {
       "login": login,
     };
-
     http.Response response =
         await http.post(url, body: data).timeout(const Duration(seconds: 120));
 
     final Map parsed = json.decode(response.body);
 
     return LoginModel.fromJson(parsed);
+  }
+
+  ///verfy
+  Future<VerfyModel> fetchVerfy(String login, String code) async {
+    String url = Utils.BASE_URL + '/api/v1/accept';
+
+    final data = {
+      "login": login,
+      "smscode": code,
+    };
+    http.Response response =
+        await http.post(url, body: data).timeout(const Duration(seconds: 120));
+
+    final Map parsed = json.decode(response.body);
+
+    return VerfyModel.fromJson(parsed);
   }
 
   ///Sale
