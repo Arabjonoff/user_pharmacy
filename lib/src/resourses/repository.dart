@@ -6,6 +6,7 @@ import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
+import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 
 import 'pharmacy_api_provider.dart';
@@ -46,4 +47,7 @@ class Repository {
 
   Future<ItemsAllModel> fetchItems(String id) =>
       pharmacyApiProvider.fetchItems(id);
+
+  Future<List<LocationModel>> fetchApteka() =>
+      pharmacyApiProvider.fetchApteka();
 }

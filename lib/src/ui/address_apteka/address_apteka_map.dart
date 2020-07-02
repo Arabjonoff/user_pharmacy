@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:pharmacy/src/model/api/location_model.dart';
+import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
+import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
 import '../../app_theme.dart';
 
 class AddressAptekaMapScreen extends StatefulWidget {
@@ -21,6 +25,9 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   var geolocator = Geolocator();
   var locationOptions =
       LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
+  final List<placemark.Placemark> placemarks = <placemark.Placemark>[];
+
+  var myLongitude, myLatitude;
 
   TextEditingController searchController = TextEditingController();
   bool isSearchText = false;
@@ -48,7 +55,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   void initState() {
     super.initState();
     _requestPermission();
-    _getLocation();
+
     _getPosition();
   }
 
@@ -64,17 +71,43 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   }
 
   _getLocation() async {
+    print("SHAHBOZ74");
     geolocator
         .getPositionStream(locationOptions)
         .listen((Position position) async {
       if (position != null) {
-//        myLatitude = position.latitude;
-//        myLongitude = position.longitude;
-//        _addMarkers(API.getLocation(myLatitude, myLongitude));
+        myLatitude = position.latitude;
+        myLongitude = position.longitude;
+        _addMarkers(Repository().fetchApteka());
       } else {
-//        _addMarkers(API.getLocation(41.316452, 69.245773));
+        _addMarkers(Repository().fetchApteka());
       }
     });
+  }
+
+  void _addMarkers(Future<List<LocationModel>> response) async {
+    if (placemarks != null)
+      for (int i = 0; i < placemarks.length; i++)
+        await mapController.removePlacemark(placemarks[i]);
+    response.then((somedata) {
+      _addMarkerData(somedata);
+    });
+  }
+
+  void _addMarkerData(List<LocationModel> data) {
+    for (int i = 0; i < data.length; i++) {
+      mapController.addPlacemark(placemark.Placemark(
+        point: Point(
+          latitude: data[i].location.coordinates[1],
+          longitude: data[i].location.coordinates[0],
+        ),
+        opacity: 0.95,
+        iconName: 'assets/map/user.png',
+        onTap: (double latitude, double longitude) => {
+          BottomDialog.mapBottom(data[i], context),
+        },
+      ));
+    }
   }
 
   Future<void> _getPosition() async {
@@ -100,6 +133,9 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
           accuracyCircleFillColor: Colors.blue.withOpacity(0.5));
       _getPosition();
     }
+
+    _getLocation();
+    print("SHAHBOZ");
 
     return Scaffold(
       body: Stack(

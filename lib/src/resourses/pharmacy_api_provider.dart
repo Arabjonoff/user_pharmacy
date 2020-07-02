@@ -7,6 +7,7 @@ import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
+import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
@@ -183,5 +184,21 @@ class PharmacyApiProvider {
 
     final Map parsed = json.decode(reply);
     return ItemsAllModel.fromJson(parsed);
+  }
+
+  ///items
+  Future<List<LocationModel>> fetchApteka() async {
+    String url = Utils.BASE_URL +
+        '/api/v1/stores?lat=69.33392286300659&lng=41.35453654564758';
+
+    HttpClient httpClient = new HttpClient();
+    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+
+
+    return locationModelFromJson(reply);
   }
 }
