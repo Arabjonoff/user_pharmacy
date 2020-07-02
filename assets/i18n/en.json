@@ -33,8 +33,8 @@
   },
   "language": {
     "en": "English",
-    "ru": "Russian",
-    "uz": "Uzbek",
+    "ru": "Русский",
+    "uz": "O'zbekcha",
     "message": "Please select a language from the list",
     "title": "Language Selection"
   },
@@ -131,6 +131,10 @@
     "save": "Сохранить",
     "verfy_btn": "Подтвердить номер",
     "error": "code error"
+  },
+  "menu_sub": {
+    "history_title": "Заказов пока нету",
+    "history_message": "Выберите необходимый товар из каталога или с помощью поиска"
   },
   "map": {
     "address": "Адрес",
