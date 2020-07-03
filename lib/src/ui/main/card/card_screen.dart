@@ -8,7 +8,9 @@ import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen.dart';
+import 'package:pharmacy/src/ui/shopping/order_card.dart';
 import 'package:pharmacy/src/ui/view/item_view.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:intl/intl.dart';
 
@@ -31,6 +33,7 @@ class _CardScreenState extends State<CardScreen> {
   int count = 0;
   int allCount = 0;
   double allPrice = 0;
+  bool isLogin;
 
   DatabaseHelper dataBase = new DatabaseHelper();
 
@@ -38,6 +41,7 @@ class _CardScreenState extends State<CardScreen> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     blocCard.fetchAllCard();
+    Utils.isLogin().then((value) => isLogin = value);
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: PreferredSize(
@@ -666,7 +670,17 @@ class _CardScreenState extends State<CardScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          BottomDialog.createBottomSheetHistory(context);
+                          if (isLogin) {
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.downToUp,
+                                child: OrderCardScreen(),
+                              ),
+                            );
+                          } else {
+                            BottomDialog.createBottomSheetHistory(context);
+                          }
                         },
                         child: Container(
                           decoration: BoxDecoration(

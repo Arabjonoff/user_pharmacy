@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
@@ -11,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
+import 'curer_address_card.dart';
 
 // ignore: must_be_immutable
 class OrderCardScreen extends StatefulWidget {
@@ -61,6 +63,7 @@ class _OrderCardScreenState extends State<OrderCardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    getInfo();
     blocCard.fetchAllCard();
     return Scaffold(
       backgroundColor: Colors.black,
@@ -735,7 +738,15 @@ class _OrderCardScreenState extends State<OrderCardScreen> {
               color: AppTheme.black_linear_category,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.downToUp,
+                    child: CurerAddressCardScreen(),
+                  ),
+                );
+              },
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),

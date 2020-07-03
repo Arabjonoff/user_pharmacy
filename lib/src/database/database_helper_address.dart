@@ -12,7 +12,7 @@ class DatabaseHelperAddress {
 
   final String tableNote = 'addressTable';
   final String columnId = 'id';
-  final String columnName = 'name';
+  final String columnStreet = 'street';
   final String columnFlat = 'flat';
   final String columnPadez = 'padez';
   final String columnEtaj = 'etaj';
@@ -41,7 +41,7 @@ class DatabaseHelperAddress {
   void _onCreate(Database db, int newVersion) async {
     await db.execute('CREATE TABLE $tableNote('
         '$columnId INTEGER PRIMARY KEY AUTOINCREMENT, '
-        '$columnName TEXT, '
+        '$columnStreet TEXT, '
         '$columnFlat TEXT, '
         '$columnPadez TEXT, '
         '$columnEtaj TEXT, '
@@ -58,7 +58,7 @@ class DatabaseHelperAddress {
     var dbClient = await db;
     var result = await dbClient.query(tableNote, columns: [
       columnId,
-      columnName,
+      columnStreet,
       columnFlat,
       columnPadez,
       columnEtaj,
@@ -75,7 +75,7 @@ class DatabaseHelperAddress {
     for (int i = 0; i < list.length; i++) {
       var items = new AddressModel(
         list[i][columnId],
-        list[i][columnName],
+        list[i][columnStreet],
         list[i][columnFlat],
         list[i][columnPadez],
         list[i][columnEtaj],
@@ -86,23 +86,6 @@ class DatabaseHelperAddress {
     return products;
   }
 
-  Future<List<AddressModel>> getProdu(bool card) async {
-    var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery('SELECT * FROM $tableNote');
-    List<AddressModel> products = new List();
-    for (int i = 0; i < list.length; i++) {
-      var items = new AddressModel(
-        list[i][columnId],
-        list[i][columnName],
-        list[i][columnFlat],
-        list[i][columnPadez],
-        list[i][columnEtaj],
-        list[i][columnKomment],
-      );
-      products.add(items);
-    }
-    return products;
-  }
 
   Future<int> getCount() async {
     var dbClient = await db;
@@ -115,7 +98,7 @@ class DatabaseHelperAddress {
     List<Map> result = await dbClient.query(tableNote,
         columns: [
           columnId,
-          columnName,
+          columnStreet,
           columnFlat,
           columnPadez,
           columnEtaj,

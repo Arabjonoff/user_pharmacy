@@ -4,6 +4,7 @@ import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
+import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/shopping/order_card.dart';
 
 class BottomDialog {
@@ -76,7 +77,7 @@ class BottomDialog {
                           context,
                           PageTransition(
                             type: PageTransitionType.downToUp,
-                            child: OrderCardScreen(),
+                            child: LoginScreen(),
                           ),
                         );
                       },

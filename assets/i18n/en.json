@@ -109,11 +109,19 @@
     "promocode_name": "Используйте только 1 промокод",
     "type": "Тип оплаты",
     "type_payment": "К оплате",
-    "edit_tovar": "Редактировать"
+    "edit_tovar": "Редактировать",
+    "new_address": "Добавить новый адрес",
+    "new_add_address": "Новый address доставки"
   },
   "address": {
     "title": "Курьерская доставка",
-    "delivery_address": "Адрес доставки"
+    "delivery_address": "Адрес доставки",
+    "dom": "Улица, дом*",
+    "ofis": "Квартира/офис",
+    "padez": "Подъзд",
+    "etaj": "Этаж",
+    "comment": "Комментарий",
+    "save_address": "Привезти сюда"
   },
   "auth": {
     "network": "Аптечная сеть",

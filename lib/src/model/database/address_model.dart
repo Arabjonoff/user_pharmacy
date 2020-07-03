@@ -32,7 +32,6 @@ class AddressModel {
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
-    map["id"] = id;
     map["street"] = street;
     map["flat"] = flat;
     map["padez"] = padez;
