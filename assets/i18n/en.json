@@ -108,7 +108,8 @@
     "promocode": "Промо код",
     "promocode_name": "Используйте только 1 промокод",
     "type": "Тип оплаты",
-    "type_payment": "К оплате"
+    "type_payment": "К оплате",
+    "edit_tovar": "Редактировать"
   },
   "address": {
     "title": "Курьерская доставка",
