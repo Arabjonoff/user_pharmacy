@@ -34,6 +34,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
     super.initState();
     _requestPermission();
     _getPosition();
+    //   _addMarkerData(widget.data);
   }
 
   Future<void> _requestPermission() async {
@@ -48,17 +49,28 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   }
 
   _getLocation() async {
+    _addMarkers(Repository().fetchApteka());
+
     geolocator
-        .getPositionStream(locationOptions)
-        .listen((Position position) async {
-      if (position != null) {
-        myLatitude = position.latitude;
-        myLongitude = position.longitude;
-        _addMarkers(Repository().fetchApteka());
-      } else {
-        _addMarkers(Repository().fetchApteka());
-      }
+        .getPositionStream(LocationOptions(
+            accuracy: LocationAccuracy.high, distanceFilter: 10))
+        .listen((Position p) {
+      print(p.latitude);
     });
+
+//    myLatitude != null
+//        ? _addMarkers(Repository().fetchApteka())
+//        : geolocator
+//            .getPositionStream(locationOptions)
+//            .listen((Position position) async {
+//            if (position != null) {
+//              myLatitude = position.latitude;
+//              myLongitude = position.longitude;
+//              _addMarkers(Repository().fetchApteka());
+//            } else {
+//              _addMarkers(Repository().fetchApteka());
+//            }
+//          });
   }
 
   void _addMarkers(Future<List<LocationModel>> response) async {
@@ -108,9 +120,8 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
           arrowName: 'assets/map/arrow.png',
           accuracyCircleFillColor: Colors.blue.withOpacity(0.5));
       _getPosition();
+      _getLocation();
     }
-
-    _getLocation();
 
     return Scaffold(
       body: Stack(

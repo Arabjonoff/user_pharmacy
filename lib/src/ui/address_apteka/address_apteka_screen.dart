@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:pharmacy/src/model/api/location_model.dart';
+import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 
 import '../../app_theme.dart';
@@ -51,32 +55,37 @@ class _AddressAptekaScreenState extends State<AddressAptekaScreen>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Аптеке",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            color: AppTheme.black_text,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: AppTheme.fontCommons,
-                            fontSize: 17,
+                    margin: EdgeInsets.only(top: 3.5),
+                    child: GestureDetector(
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        size: 24,
+                        color: AppTheme.blue_app_color,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.only(top: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Аптеке",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              color: AppTheme.black_text,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: AppTheme.fontCommons,
+                              fontSize: 17,
+                            ),
                           ),
-                        ),
-                        Text(
-                          translate("item.tovar"),
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            color: AppTheme.black_transparent_text,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: AppTheme.fontRoboto,
-                            fontSize: 13,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -91,10 +100,7 @@ class _AddressAptekaScreenState extends State<AddressAptekaScreen>
             Container(
               height: 40,
               width: 350,
-              margin: EdgeInsets.only(
-                left: 16,
-                right: 16,
-              ),
+              margin: EdgeInsets.only(left: 16, right: 16, bottom: 8),
               padding: EdgeInsets.all(4),
               decoration: BoxDecoration(
                 color: AppTheme.tab_transparent,
@@ -117,10 +123,10 @@ class _AddressAptekaScreenState extends State<AddressAptekaScreen>
                 ),
                 tabs: <Widget>[
                   new Tab(
-                    text: "На карте",
+                    text: translate("map.tab_one"),
                   ),
                   new Tab(
-                    text: "Список",
+                    text: translate("map.tab_two"),
                   ),
                 ],
               ),

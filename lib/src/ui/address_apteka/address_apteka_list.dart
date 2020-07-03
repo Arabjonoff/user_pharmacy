@@ -21,7 +21,6 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    db.getAllProducts().then((value) => print(value.length));
     blocApteka.fetchAllApteka();
     return Scaffold(
       backgroundColor: AppTheme.background,
