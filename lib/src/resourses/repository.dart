@@ -40,6 +40,8 @@ class Repository {
 
   Future<List<ItemResult>> databaseItem() => databaseHelper.getProduct();
 
+  Future<List<ItemResult>> databaseCardItem(bool isCard) => databaseHelper.getProdu(isCard);
+
   Future<ItemModel> fetchCategryItemList(String id, int page) =>
       pharmacyApiProvider.fetchCategoryItemsList(id, page, 12);
 
