@@ -9,6 +9,7 @@ import 'package:pharmacy/src/model/database/address_model.dart';
 import '../../app_theme.dart';
 import 'add_address_card.dart';
 import 'order_card.dart';
+import 'order_ready_card.dart';
 
 // ignore: must_be_immutable
 class CurerAddressCardScreen extends StatefulWidget {
@@ -32,6 +33,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
   int id = 1;
 
   List<CheckboxList> nList = new List();
+  List<AddressModel> data = new List();
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +78,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
               child: ListView(
                 children: [
                   Container(
-                    height: 26,
+                    height: 36,
                     width: double.infinity,
                     child: Stack(
                       children: [
@@ -93,9 +95,9 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                               );
                             },
                             child: Container(
-                              height: 24,
-                              width: 24,
-                              padding: EdgeInsets.all(3),
+                              height: 36,
+                              width: 36,
+                              padding: EdgeInsets.all(9),
                               margin: EdgeInsets.only(left: 16),
                               child: SvgPicture.asset(
                                   "assets/images/arrow_back.svg"),
@@ -122,16 +124,22 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                               Navigator.pop(context);
                             },
                             child: Container(
-                              height: 24,
-                              width: 24,
-                              padding: EdgeInsets.all(7),
-                              decoration: BoxDecoration(
-                                color: AppTheme.arrow_back,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
+                              height: 36,
+                              width: 36,
                               margin: EdgeInsets.only(right: 16),
-                              child: SvgPicture.asset(
-                                  "assets/images/arrow_close.svg"),
+                              child: Center(
+                                child: Container(
+                                  height: 24,
+                                  width: 24,
+                                  padding: EdgeInsets.all(7),
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.arrow_back,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: SvgPicture.asset(
+                                      "assets/images/arrow_close.svg"),
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -163,7 +171,9 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                         );
                       }
                       if (snapshot.data.length > 0) {
+                        this.data = new List();
                         nList = new List();
+                        this.data = snapshot.data;
                         radioItemHolder = snapshot.data[0].street;
                         for (int i = 0; i < snapshot.data.length; i++) {
                           nList.add(
@@ -177,46 +187,45 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                         shrinkWrap: true,
                         physics: ClampingScrollPhysics(),
                         children: nList
-                            .map(
-                              (data) => Container(
-                                height: 60,
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: RadioListTile(
-                                        title: Align(
-                                          child: Text(
-                                            "${data.number}",
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontStyle: FontStyle.normal,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: AppTheme.fontRoboto,
-                                              color: AppTheme.black_text,
+                            .map((data) => Container(
+                                  height: 60,
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        child: RadioListTile(
+                                          title: Align(
+                                            child: Text(
+                                              "${data.number}",
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontStyle: FontStyle.normal,
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: AppTheme.fontRoboto,
+                                                color: AppTheme.black_text,
+                                              ),
                                             ),
+                                            alignment: Alignment.centerLeft,
                                           ),
-                                          alignment: Alignment.centerLeft,
+                                          activeColor: AppTheme.blue_app_color,
+                                          groupValue: id,
+                                          value: data.index,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              radioItemHolder = data.number;
+                                              id = data.index;
+                                            });
+                                          },
                                         ),
-                                        activeColor: AppTheme.blue_app_color,
-                                        groupValue: id,
-                                        value: data.index,
-                                        onChanged: (val) {
-                                          setState(() {
-                                            radioItemHolder = data.number;
-                                            id = data.index;
-                                          });
-                                        },
                                       ),
-                                    ),
-                                    Container(
-                                      height: 1,
-                                      margin: EdgeInsets.only(left: 8,right: 8),
-                                      color: AppTheme.black_linear_category,
-                                    )
-                                  ],
-                                ),
-                              )
-                            )
+                                      Container(
+                                        height: 1,
+                                        margin:
+                                            EdgeInsets.only(left: 8, right: 8),
+                                        color: AppTheme.black_linear_category,
+                                      )
+                                    ],
+                                  ),
+                                ))
                             .toList(),
                       );
                     },
@@ -269,7 +278,15 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.downToUp,
+                    child: OrderReadyCardScreen(data[id-1]),
+                  ),
+                );
+              },
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),

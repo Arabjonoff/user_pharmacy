@@ -8,6 +8,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/auth/register_screen.dart';
+import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/shopping/order_card.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -314,6 +315,7 @@ class _VerfyScreenState extends State<VerfyScreen> {
                         ),
                       );
                     } else {
+                      isLogin = true;
                       Utils.saveData(
                         responce.user.firstName,
                         responce.user.lastName,

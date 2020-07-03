@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
+import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/fav_apteka_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/language_screen.dart';
@@ -25,15 +26,14 @@ class _MenuScreenState extends State<MenuScreen> {
   Size size;
   String language = "";
   String language_data = "";
-  bool isLogin = false;
 
   String fullName = "";
 
-  @override
-  void initState() {
-    getLanguage();
-    super.initState();
-  }
+//  @override
+//  void initState() {
+// //   getLanguage();
+//    super.initState();
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -575,12 +575,11 @@ class _MenuScreenState extends State<MenuScreen> {
         language = translate("language.en");
       }
 
-
-      fullName = prefs.getString("name") == null
-          ? ""
-          : prefs.getString("name") + " " + prefs.getString("surname") == null
-              ? ""
-              : prefs.getString("surname");
+      var name = prefs.getString("name");
+      var surName = prefs.getString("surname");
+      if (name != null && surName != null) {
+        fullName = name + " " + surName;
+      }
     });
   }
 }

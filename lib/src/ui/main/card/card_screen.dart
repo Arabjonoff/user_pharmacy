@@ -27,13 +27,13 @@ class CardScreen extends StatefulWidget {
 }
 
 int count = 0;
+bool isLogin;
 
 class _CardScreenState extends State<CardScreen> {
   Size size;
   int count = 0;
   int allCount = 0;
   double allPrice = 0;
-  bool isLogin;
 
   DatabaseHelper dataBase = new DatabaseHelper();
 
