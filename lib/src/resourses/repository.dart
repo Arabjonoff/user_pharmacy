@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/database/database_helper_apteka.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
@@ -9,6 +10,7 @@ import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
+import 'package:pharmacy/src/model/database/apteka_model.dart';
 
 import 'pharmacy_api_provider.dart';
 
@@ -16,6 +18,7 @@ class Repository {
   final pharmacyApiProvider = PharmacyApiProvider();
 
   DatabaseHelper databaseHelper = new DatabaseHelper();
+  DatabaseHelperApteka dbApteka = new DatabaseHelperApteka();
 
   Future<LoginModel> fetchLogin(String login) =>
       pharmacyApiProvider.fetchLogin(login);
@@ -39,6 +42,8 @@ class Repository {
       pharmacyApiProvider.fetchCategoryList();
 
   Future<List<ItemResult>> databaseItem() => databaseHelper.getProduct();
+
+  Future<List<AptekaModel>> dbAptekaItems() => dbApteka.getProduct();
 
   Future<List<ItemResult>> databaseCardItem(bool isCard) => databaseHelper.getProdu(isCard);
 

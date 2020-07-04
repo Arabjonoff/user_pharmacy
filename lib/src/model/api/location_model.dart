@@ -13,6 +13,8 @@ class LocationModel {
     this.name,
     this.image,
     this.address,
+    this.phone,
+    this.mode,
     this.location,
     this.distance,
   });
@@ -21,6 +23,8 @@ class LocationModel {
   String name;
   String image;
   String address;
+  String phone;
+  String mode;
   Location location;
   dynamic distance;
 
@@ -29,6 +33,8 @@ class LocationModel {
         name: json["name"],
         image: json["image"],
         address: json["address"],
+        phone: json["phone"],
+        mode: json["mode"],
         location: Location.fromJson(json["location"]),
         distance: json["distance"],
       );
@@ -38,6 +44,8 @@ class LocationModel {
         "name": name,
         "image": image,
         "address": address,
+        "phone": phone,
+        "mode": mode,
         "location": location.toJson(),
         "distance": distance,
       };

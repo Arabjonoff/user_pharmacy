@@ -7,7 +7,8 @@ class AptekaModel {
   double lon;
   bool fav = false;
 
-  AptekaModel(this.id, this.name, this.open, this.number, this.lat, this.lon);
+  AptekaModel(
+      this.id, this.name, this.open, this.number, this.lat, this.lon, this.fav);
 
   AptekaModel.fromMap(Map<String, dynamic> map) {
     this.id = map["id"];
@@ -16,7 +17,7 @@ class AptekaModel {
     this.number = map["number"];
     this.lat = map["lat"].toDouble();
     this.lon = map["lon"].toDouble();
-    this.fav = true;
+    this.fav = false;
   }
 
   Map<String, dynamic> toMap() {

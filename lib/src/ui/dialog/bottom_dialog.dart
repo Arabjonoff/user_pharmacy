@@ -256,7 +256,7 @@ class BottomDialog {
                       margin: EdgeInsets.only(left: 12, right: 12, top: 29),
                       width: double.infinity,
                       child: Text(
-                        locationItem.name,
+                        locationItem.mode,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontFamily: AppTheme.fontRoboto,
@@ -286,7 +286,7 @@ class BottomDialog {
                       margin: EdgeInsets.only(left: 12, right: 12, top: 29),
                       width: double.infinity,
                       child: Text(
-                        locationItem.name,
+                        locationItem.phone,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontFamily: AppTheme.fontRoboto,

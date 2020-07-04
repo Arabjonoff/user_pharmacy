@@ -79,6 +79,7 @@ class DatabaseHelperApteka {
         list[i][columnNumber],
         list[i][columnLat],
         list[i][columnLon],
+        true
       );
       products.add(items);
     }

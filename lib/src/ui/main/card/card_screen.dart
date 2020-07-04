@@ -28,7 +28,7 @@ class CardScreen extends StatefulWidget {
 }
 
 int count = 0;
-bool isLogin;
+bool isLogin = false;
 
 class _CardScreenState extends State<CardScreen> {
   Size size;
