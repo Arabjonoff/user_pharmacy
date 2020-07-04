@@ -5,7 +5,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
-import 'package:pharmacy/src/ui/shopping/order_card.dart';
 
 class BottomDialog {
   static void showDemoActionSheet({BuildContext context, Widget child}) {

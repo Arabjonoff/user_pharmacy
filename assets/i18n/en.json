@@ -47,7 +47,11 @@
     "instruction": "Инструкции",
     "drotaverine": "Дротаверин",
     "kapsule": "Капсулы",
-    "analog": "Аналоги"
+    "analog": "Аналоги",
+    "card_add": "В Корзину",
+    "substance": "Действующее вещество",
+    "release": "Форма выпуска",
+    "city": "Страна происхождения"
   },
   "search": {
     "cancel": "cancel",
@@ -115,7 +119,11 @@
     "new_address": "Добавить новый адрес",
     "new_add_address": "Новый address доставки",
     "change_address": "Измените адрес",
-    "address_choose": "Выберите адрес"
+    "address_choose": "Выберите адрес",
+    "edit_aptek_choose": "Выберите аптеку",
+    "edit_aptek": "Изменить  аптеку",
+    "now": "Сегодня",
+    "map_add_order": "Забрать отсюда"
   },
   "address": {
     "title": "Курьерская доставка",

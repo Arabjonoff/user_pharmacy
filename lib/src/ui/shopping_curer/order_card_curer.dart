@@ -8,22 +8,24 @@ import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
+import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
 import 'curer_address_card.dart';
+import '../shopping_pickup/order_card_pickup.dart';
 
 // ignore: must_be_immutable
-class OrderCardScreen extends StatefulWidget {
+class OrderCardCurerScreen extends StatefulWidget {
   AddressModel addressModel;
 
-  OrderCardScreen(this.addressModel);
+  OrderCardCurerScreen(this.addressModel);
 
   @override
   State<StatefulWidget> createState() {
-    return _OrderCardScreenState();
+    return _OrderCardCurerScreenState();
   }
 }
 
@@ -34,7 +36,7 @@ class CheckboxList {
   CheckboxList({this.number, this.index});
 }
 
-class _OrderCardScreenState extends State<OrderCardScreen> {
+class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
   String radioItemHolder = '8600 45** **** 3103';
   int id = 1;
   int allCount = 0;
@@ -181,7 +183,17 @@ class _OrderCardScreenState extends State<OrderCardScreen> {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            child: OrderCardPickupScreen(
+                              AptekaModel(-1, "", "", "", 0.0, 0.0, false),
+                            ),
+                          ),
+                        );
+                      },
                       child: Container(
                         padding: EdgeInsets.only(left: 16),
                         decoration: BoxDecoration(

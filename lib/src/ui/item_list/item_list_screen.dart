@@ -27,15 +27,17 @@ class ItemListScreen extends StatefulWidget {
   }
 }
 
+
+
 class _ItemListScreenState extends State<ItemListScreen> {
   Size size;
 
   DatabaseHelper dataBase = new DatabaseHelper();
   int itemSize = 0;
-
+  int lastPosition;
   static int page = 1;
-  ScrollController _sc = new ScrollController();
   bool isLoading = false;
+  ScrollController _sc = new ScrollController();
 
   @override
   void initState() {
@@ -278,7 +280,11 @@ class _ItemListScreenState extends State<ItemListScreen> {
                         : blocItemsList.allItemsCategoty,
                 builder: (context, AsyncSnapshot<List<ItemResult>> snapshot) {
                   if (snapshot.hasData) {
-                    isLoading = false;
+                    lastPosition == snapshot.data.length
+                        ? isLoading = true
+                        : isLoading = false;
+                    lastPosition = snapshot.data.length;
+
                     return snapshot.data.length > 0
                         ? ListView.builder(
                             controller: _sc,
@@ -421,7 +427,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
             : widget.type == 3
                 ? blocItemsList.fetchAllItemSearch(widget.id, index)
                 : blocItemsList.fetchAllItemCategory(widget.id, index);
-        isLoading = true;
+        isLoading = false;
         page++;
       });
     }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/shopping/curer_address_card.dart';
+import 'package:pharmacy/src/ui/shopping_curer/add_address_card.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

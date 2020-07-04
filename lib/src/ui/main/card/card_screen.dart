@@ -9,8 +9,7 @@ import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen.dart';
-import 'package:pharmacy/src/ui/shopping/order_card.dart';
-import 'package:pharmacy/src/ui/view/item_view.dart';
+import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:intl/intl.dart';
@@ -676,7 +675,7 @@ class _CardScreenState extends State<CardScreen> {
                               context,
                               PageTransition(
                                 type: PageTransitionType.downToUp,
-                                child: OrderCardScreen(AddressModel(-1,"","","","","")),
+                                child: OrderCardCurerScreen(AddressModel(-1,"","","","","")),
                               ),
                             );
                           } else {

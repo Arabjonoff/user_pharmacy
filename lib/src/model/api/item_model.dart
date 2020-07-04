@@ -12,7 +12,7 @@ class ItemModel {
   List<ItemResult> results;
 
   factory ItemModel.fromJson(Map<String, dynamic> json) => ItemModel(
-        count: json["count"],
+        count: int.parse(json["count"].toString()),
         next: json["next"],
         previous: json["previous"],
         results: List<ItemResult>.from(

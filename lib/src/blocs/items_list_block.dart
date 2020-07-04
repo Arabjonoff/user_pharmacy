@@ -1,6 +1,7 @@
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ItemListBloc {
@@ -47,11 +48,9 @@ class ItemListBloc {
         }
       }
     }
-    print("length" + itemModelResponse.results.length.toString());
-    if (itemModelResponse.results.length > 0) {
-      usersBest.addAll(itemModelResponse.results);
-      _bestItemFetcher.sink.add(usersBest);
-    }
+
+    usersBest.addAll(itemModelResponse.results);
+    _bestItemFetcher.sink.add(usersBest);
   }
 
   fetchAllItemSearch(String obj, int page) async {

@@ -6,7 +6,6 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/auth/verfy_screen.dart';
-import 'package:pharmacy/src/ui/shopping/order_card.dart';
 
 import '../../app_theme.dart';
 

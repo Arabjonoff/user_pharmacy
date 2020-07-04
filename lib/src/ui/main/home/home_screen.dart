@@ -11,6 +11,7 @@ import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/top_item_model.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
+import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:pharmacy/src/ui/item/item_screen.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
@@ -99,13 +100,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   onTap: () {
                     var response = Utils.scanBarcodeNormal();
                     response.then(
-                      (value) => Navigator.push(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.fade,
-                          child: SearchScreen(value, 1),
-                        ),
-                      ),
+                      (value) => {
+                        if (value != "-1")
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.fade,
+                              child: SearchScreen(value, 1),
+                            ),
+                          )
+                      },
                     );
                   },
                 ),
@@ -133,9 +137,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               scrollDirection: Axis.horizontal,
               children: [
                 GestureDetector(
-                  onTap: (){
-
-                  },
+                  onTap: () {},
                   child: Container(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
@@ -200,9 +202,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){
-
-                  },
+                  onTap: () {},
                   child: Container(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
@@ -267,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     Navigator.push(
                       context,
                       PageTransition(
@@ -340,9 +340,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){
-
-                  },
+                  onTap: () {},
                   child: Container(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
