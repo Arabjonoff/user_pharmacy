@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:pharmacy/src/model/eventBus/event_bus_index.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/favorite/favorites_screen.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
@@ -17,7 +18,7 @@ class MainScreen extends StatefulWidget {
   }
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen> implements EventBusIndex {
   int _selectedIndex = 0;
 
   List<GlobalKey<NavigatorState>> _navigatorKeys = [
@@ -33,7 +34,7 @@ class _MainScreenState extends State<MainScreen> {
     return WillPopScope(
       onWillPop: () async {
         final isFirstRouteInCurrentTab =
-            !await _navigatorKeys[_selectedIndex].currentState.maybePop();
+        !await _navigatorKeys[_selectedIndex].currentState.maybePop();
         return isFirstRouteInCurrentTab;
       },
       child: Scaffold(
@@ -174,5 +175,11 @@ class _MainScreenState extends State<MainScreen> {
         },
       ),
     );
+  }
+
+  @override
+  void intexItem(int index) {
+    print("182");
+    print(index);
   }
 }

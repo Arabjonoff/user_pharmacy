@@ -1,4 +1,7 @@
 class ItemsAllModel {
+
+
+
   ItemsAllModel({
     this.id,
     this.name,
@@ -14,7 +17,10 @@ class ItemsAllModel {
     this.unit,
     this.internationalName,
     this.manufacturer,
+    this.pharm_group,
     this.category,
+    this.analog,
+    this.recommendations,
   });
 
   int id;
@@ -26,12 +32,15 @@ class ItemsAllModel {
   String dose;
   bool status;
   double price;
-  DateTime expirationDate;
+  String expirationDate;
   bool isRecept;
   Category unit;
   InternationalName internationalName;
   Category manufacturer;
   Category category;
+  Category pharm_group;
+  List<ItemsAllModel> analog;
+  List<ItemsAllModel> recommendations;
   bool favourite = false;
   int cardCount = 0;
   bool sale = false;
@@ -46,13 +55,24 @@ class ItemsAllModel {
         dose: json["dose"],
         status: json["status"],
         price: json["price"].toDouble(),
-        expirationDate: DateTime.parse(json["expiration_date"]),
+        expirationDate: json["expiration_date"],
         isRecept: json["is_recept"],
-        unit: Category.fromJson(json["unit"]),
+        unit: Category.fromJson(json["unit"]) == null
+            ? Category(id: 0, name: "")
+            : Category.fromJson(json["unit"]),
         internationalName:
-            InternationalName.fromJson(json["international_name"]),
-        manufacturer: Category.fromJson(json["manufacturer"]),
-        category: Category.fromJson(json["category"]),
+            InternationalName.fromJson(json["international_name"]) == null
+                ? InternationalName(id: 0, name: "", nameRu: "")
+                : InternationalName.fromJson(json["international_name"]),
+        manufacturer: Category.fromJson(json["manufacturer"]) == null
+            ? Category(id: 0, name: "")
+            : Category.fromJson(json["manufacturer"]),
+        pharm_group: Category.fromJson(json["pharm_group"]) == null
+            ? Category(id: 0, name: "")
+            : Category.fromJson(json["pharm_group"]),
+        category: Category.fromJson(json["category"]) == null
+            ? Category(id: 0, name: "")
+            : Category.fromJson(json["category"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -65,13 +85,13 @@ class ItemsAllModel {
         "dose": dose,
         "status": status,
         "price": price,
-        "expiration_date":
-            "${expirationDate.year.toString().padLeft(4, '0')}-${expirationDate.month.toString().padLeft(2, '0')}-${expirationDate.day.toString().padLeft(2, '0')}",
+        "expiration_date": expirationDate,
         "is_recept": isRecept,
         "unit": unit.toJson(),
         "international_name": internationalName.toJson(),
         "manufacturer": manufacturer.toJson(),
         "category": category.toJson(),
+        "pharm_group": pharm_group.toJson(),
       };
 }
 

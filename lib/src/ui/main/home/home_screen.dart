@@ -9,8 +9,10 @@ import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
+import 'package:pharmacy/src/model/eventBus/event_bus_index.dart';
 import 'package:pharmacy/src/model/top_item_model.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
+import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:pharmacy/src/ui/item/item_screen.dart';
@@ -137,7 +139,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               scrollDirection: Axis.horizontal,
               children: [
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    EventBusIndex e = new EventBusIndex();
+                    e.intexItem(44);
+                  },
                   child: Container(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),

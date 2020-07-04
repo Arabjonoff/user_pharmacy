@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/src/blocs/items_bloc.dart';
+import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:shimmer/shimmer.dart';
@@ -23,6 +25,8 @@ class ItemScreenNotIstruction extends StatefulWidget {
 }
 
 class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
+  DatabaseHelper dataBase = new DatabaseHelper();
+
   @override
   Widget build(BuildContext context) {
     blocItem.fetchAllCategory(widget.id.toString());
@@ -142,23 +146,63 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                         color: AppTheme.arrow_catalog,
                                       ),
                                 onTap: () {
-//                        setState(() {
-//                          if (data.favourite) {
-//                            data.favourite = false;
-//                            if (data.cardCount == 0) {
-//                              dataBase.deleteProducts(data.id);
-//                            } else {
-//                              dataBase.updateProduct(widget.item);
-//                            }
-//                          } else {
-//                            data.favourite = true;
-//                            if (data.cardCount == 0) {
-//                              dataBase.saveProducts(widget.item);
-//                            } else {
-//                              dataBase.updateProduct(widget.item);
-//                            }
-//                          }
-//                        });
+                                  setState(() {
+                                    if (snapshot.data.favourite) {
+                                      snapshot.data.favourite = false;
+                                      if (snapshot.data.cardCount == 0) {
+                                        dataBase
+                                            .deleteProducts(snapshot.data.id);
+                                      } else {
+                                        dataBase.updateProduct(
+                                          ItemResult(
+                                            snapshot.data.id,
+                                            snapshot.data.name,
+                                            snapshot.data.barcode,
+                                            snapshot.data.image,
+                                            snapshot.data.imageThumbnail,
+                                            snapshot.data.price,
+                                            Manifacture(snapshot
+                                                .data.manufacturer.name),
+                                            snapshot.data.favourite,
+                                            snapshot.data.cardCount,
+                                          ),
+                                        );
+                                      }
+                                    } else {
+                                      snapshot.data.favourite = true;
+                                      if (snapshot.data.cardCount == 0) {
+                                        dataBase.saveProducts(
+                                          ItemResult(
+                                            snapshot.data.id,
+                                            snapshot.data.name,
+                                            snapshot.data.barcode,
+                                            snapshot.data.image,
+                                            snapshot.data.imageThumbnail,
+                                            snapshot.data.price,
+                                            Manifacture(snapshot
+                                                .data.manufacturer.name),
+                                            snapshot.data.favourite,
+                                            snapshot.data.cardCount,
+                                          ),
+                                        );
+                                      } else {
+                                        dataBase.updateProduct(
+                                          ItemResult(
+                                            snapshot.data.id,
+                                            snapshot.data.name,
+                                            snapshot.data.barcode,
+                                            snapshot.data.image,
+                                            snapshot.data.imageThumbnail,
+                                            snapshot.data.price,
+                                            Manifacture(snapshot
+                                                .data.manufacturer.name),
+                                            snapshot.data.favourite,
+                                            snapshot.data.cardCount,
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  });
                                 },
                               ),
                             ],
@@ -206,7 +250,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                         Container(
                           margin: EdgeInsets.only(left: 16, right: 16, top: 26),
                           child: Text(
-                            translate("item.drotaverine"),
+                            snapshot.data.internationalName.name,
                             style: TextStyle(
                               fontSize: 16,
                               fontFamily: AppTheme.fontRoboto,
@@ -238,7 +282,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                             right: 16,
                           ),
                           child: Text(
-                            translate("item.kapsule"),
+                            snapshot.data.unit.name,
                             style: TextStyle(
                               fontSize: 16,
                               fontFamily: AppTheme.fontRoboto,
@@ -270,7 +314,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                             right: 16,
                           ),
                           child: Text(
-                            "Франция",
+                            snapshot.data.category.name,
                             style: TextStyle(
                               fontSize: 16,
                               fontFamily: AppTheme.fontRoboto,
@@ -286,7 +330,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                             right: 16,
                           ),
                           child: Text(
-                            translate("item.city"),
+                            translate("item.category"),
                             style: TextStyle(
                               fontSize: 13,
                               fontFamily: AppTheme.fontRoboto,
@@ -314,52 +358,239 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                       ],
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () async {},
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: AppTheme.blue_app_color,
-                      ),
-                      padding: EdgeInsets.only(left: 24, right: 24),
-                      height: 44,
-                      width: double.infinity,
-                      margin: EdgeInsets.only(
-                        top: 12,
-                        bottom: 25,
-                        left: 16,
-                        right: 16,
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            translate("item.card_add"),
-                            style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: AppTheme.fontRoboto,
-                              fontSize: 17,
-                              color: AppTheme.white,
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(),
-                          ),
-                          Text(
-                            priceFormat.format(snapshot.data.price) +
-                                translate("sum"),
-                            style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: AppTheme.fontRoboto,
-                              fontSize: 17,
-                              color: AppTheme.white,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                  Container(
+                    height: 1,
+                    color: AppTheme.black_linear_category,
                   ),
+                  snapshot.data.cardCount > 0
+                      ? Container(
+                          height: 44,
+                          width: double.infinity,
+                          margin: EdgeInsets.only(
+                            top: 12,
+                            bottom: 25,
+                            left: 16,
+                            right: 16,
+                          ),
+                          child: Container(
+                            height: 36,
+                            decoration: BoxDecoration(
+                              color: AppTheme.blue_transparent,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                GestureDetector(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.blue,
+                                      borderRadius: BorderRadius.circular(
+                                        10.0,
+                                      ),
+                                    ),
+                                    margin: EdgeInsets.all(4.0),
+                                    height: 36,
+                                    width: 36,
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.remove,
+                                        color: AppTheme.white,
+                                        size: 19,
+                                      ),
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    if (snapshot.data.cardCount > 1) {
+                                      setState(() {
+                                        snapshot.data.cardCount =
+                                            snapshot.data.cardCount - 1;
+                                        dataBase.updateProduct(
+                                          ItemResult(
+                                            snapshot.data.id,
+                                            snapshot.data.name,
+                                            snapshot.data.barcode,
+                                            snapshot.data.image,
+                                            snapshot.data.imageThumbnail,
+                                            snapshot.data.price,
+                                            Manifacture(snapshot
+                                                .data.manufacturer.name),
+                                            snapshot.data.favourite,
+                                            snapshot.data.cardCount,
+                                          ),
+                                        );
+                                      });
+                                    } else if (snapshot.data.cardCount == 1) {
+                                      setState(() {
+                                        snapshot.data.cardCount =
+                                            snapshot.data.cardCount - 1;
+                                        if (snapshot.data.favourite) {
+                                          dataBase.updateProduct(
+                                            ItemResult(
+                                              snapshot.data.id,
+                                              snapshot.data.name,
+                                              snapshot.data.barcode,
+                                              snapshot.data.image,
+                                              snapshot.data.imageThumbnail,
+                                              snapshot.data.price,
+                                              Manifacture(snapshot
+                                                  .data.manufacturer.name),
+                                              snapshot.data.favourite,
+                                              snapshot.data.cardCount,
+                                            ),
+                                          );
+                                        } else {
+                                          dataBase
+                                              .deleteProducts(snapshot.data.id);
+                                        }
+                                      });
+                                    }
+                                  },
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    height: 30,
+                                    width: 60,
+                                    child: Center(
+                                      child: Text(
+                                        snapshot.data.cardCount.toString() +
+                                            " " +
+                                            translate("item.sht"),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 17.0,
+                                          color: AppTheme.blue,
+                                          fontFamily: AppTheme.fontRoboto,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      snapshot.data.cardCount =
+                                          snapshot.data.cardCount + 1;
+                                      dataBase.updateProduct(
+                                        ItemResult(
+                                          snapshot.data.id,
+                                          snapshot.data.name,
+                                          snapshot.data.barcode,
+                                          snapshot.data.image,
+                                          snapshot.data.imageThumbnail,
+                                          snapshot.data.price,
+                                          Manifacture(
+                                              snapshot.data.manufacturer.name),
+                                          snapshot.data.favourite,
+                                          snapshot.data.cardCount,
+                                        ),
+                                      );
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.blue,
+                                      borderRadius: BorderRadius.circular(
+                                        10.0,
+                                      ),
+                                    ),
+                                    height: 36,
+                                    width: 36,
+                                    margin: EdgeInsets.all(4.0),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.add,
+                                        color: AppTheme.white,
+                                        size: 19,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () async {
+                            setState(() {
+                              snapshot.data.cardCount = 1;
+                              if (snapshot.data.favourite) {
+                                dataBase.updateProduct(
+                                  ItemResult(
+                                    snapshot.data.id,
+                                    snapshot.data.name,
+                                    snapshot.data.barcode,
+                                    snapshot.data.image,
+                                    snapshot.data.imageThumbnail,
+                                    snapshot.data.price,
+                                    Manifacture(
+                                        snapshot.data.manufacturer.name),
+                                    snapshot.data.favourite,
+                                    snapshot.data.cardCount,
+                                  ),
+                                );
+                              } else {
+                                dataBase.saveProducts(
+                                  ItemResult(
+                                    snapshot.data.id,
+                                    snapshot.data.name,
+                                    snapshot.data.barcode,
+                                    snapshot.data.image,
+                                    snapshot.data.imageThumbnail,
+                                    snapshot.data.price,
+                                    Manifacture(
+                                        snapshot.data.manufacturer.name),
+                                    snapshot.data.favourite,
+                                    snapshot.data.cardCount,
+                                  ),
+                                );
+                              }
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: AppTheme.blue_app_color,
+                            ),
+                            padding: EdgeInsets.only(left: 24, right: 24),
+                            height: 44,
+                            width: double.infinity,
+                            margin: EdgeInsets.only(
+                              top: 12,
+                              bottom: 25,
+                              left: 16,
+                              right: 16,
+                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  translate("item.card_add"),
+                                  style: TextStyle(
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: AppTheme.fontRoboto,
+                                    fontSize: 17,
+                                    color: AppTheme.white,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(),
+                                ),
+                                Text(
+                                  priceFormat.format(snapshot.data.price) +
+                                      translate("sum"),
+                                  style: TextStyle(
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: AppTheme.fontRoboto,
+                                    fontSize: 17,
+                                    color: AppTheme.white,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                 ],
               );
             } else if (snapshot.hasError) {

@@ -51,7 +51,8 @@
     "card_add": "В Корзину",
     "substance": "Действующее вещество",
     "release": "Форма выпуска",
-    "city": "Страна происхождения"
+    "city": "Страна происхождения",
+    "category": "Category"
   },
   "search": {
     "cancel": "cancel",
