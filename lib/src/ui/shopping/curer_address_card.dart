@@ -9,7 +9,6 @@ import 'package:pharmacy/src/model/database/address_model.dart';
 import '../../app_theme.dart';
 import 'add_address_card.dart';
 import 'order_card.dart';
-import 'order_ready_card.dart';
 
 // ignore: must_be_immutable
 class CurerAddressCardScreen extends StatefulWidget {
@@ -90,7 +89,9 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                 context,
                                 PageTransition(
                                   type: PageTransitionType.downToUp,
-                                  child: OrderCardScreen(),
+                                  child: OrderCardScreen(
+                                    AddressModel(-1, "", "", "", "", ""),
+                                  ),
                                 ),
                               );
                             },
@@ -283,7 +284,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                   context,
                   PageTransition(
                     type: PageTransitionType.downToUp,
-                    child: OrderReadyCardScreen(data[id-1]),
+                    child: OrderCardScreen(data[id - 1]),
                   ),
                 );
               },

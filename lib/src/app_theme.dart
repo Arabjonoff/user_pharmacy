@@ -42,6 +42,7 @@ class AppTheme {
   static const Color black_linear = Color(0x1F000000);
   static const Color black_linear_category = Color.fromRGBO(0, 0, 0, 0.08);
   static const Color blue_app_color = Color(0xFF3F8AE0);
+  static const Color blue_app_color_transparent = Color(0xFFB6CFEB);
   static const Color menu_unselected = Color(0xFF99A2AD);
   static const Color background = Color(0xFFF2F3F8);
 

@@ -46,6 +46,7 @@
     "description": "Опасание",
     "instruction": "Инструкции",
     "drotaverine": "Дротаверин",
+    "kapsule": "Капсулы",
     "analog": "Аналоги"
   },
   "search": {
@@ -97,6 +98,7 @@
     "danniy": "Персональных данный и Условиями продажи"
   },
   "orders": {
+    "oplat": "Оплатить",
     "chechout": "Оформление заказа",
     "productMethod": "Способ получения",
     "pickup": "Самовызов",
@@ -112,7 +114,8 @@
     "edit_tovar": "Редактировать",
     "new_address": "Добавить новый адрес",
     "new_add_address": "Новый address доставки",
-    "change_address": "Измените адрес"
+    "change_address": "Измените адрес",
+    "address_choose": "Выберите адрес"
   },
   "address": {
     "title": "Курьерская доставка",
@@ -153,5 +156,15 @@
     "lov_apt_cat": "Выбирайте любимую аптека",
     "tab_one": "На карте",
     "tab_two": "Список"
+  },
+  "zakaz": {
+    "poluchatel": "Получатель",
+    "name": "Имя",
+    "number": "Номер телефона",
+    "oplat": "Оплата",
+    "oplachen": "Оплачен",
+    "kurer": "Курьером",
+    "sozdan": "Создан",
+    "address": "Адрес доставки"
   }
 }

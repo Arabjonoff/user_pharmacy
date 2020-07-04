@@ -7,6 +7,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
@@ -16,6 +17,10 @@ import 'curer_address_card.dart';
 
 // ignore: must_be_immutable
 class OrderCardScreen extends StatefulWidget {
+  AddressModel addressModel;
+
+  OrderCardScreen(this.addressModel);
+
   @override
   State<StatefulWidget> createState() {
     return _OrderCardScreenState();
@@ -241,7 +246,7 @@ class _OrderCardScreenState extends State<OrderCardScreen> {
               ),
             ),
             Container(
-              height: 150,
+              height: widget.addressModel.id == -1 ? 200 : 250,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
@@ -401,6 +406,75 @@ class _OrderCardScreenState extends State<OrderCardScreen> {
                                 );
                               },
                             ),
+                          ),
+                          widget.addressModel.id == -1
+                              ? Container()
+                              : Container(
+                                  margin: EdgeInsets.only(
+                                      top: 24, bottom: 3, left: 16, right: 16),
+                                  child: Text(
+                                    widget.addressModel.street +
+                                        ", " +
+                                        widget.addressModel.flat +
+                                        ", " +
+                                        widget.addressModel.etaj,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 13,
+                                      fontStyle: FontStyle.normal,
+                                      color: AppTheme.black_text,
+                                      fontFamily: AppTheme.fontRoboto,
+                                    ),
+                                  ),
+                                ),
+                          GestureDetector(
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  left: 16, right: 16, bottom: 16, top: 16),
+                              height: 30,
+                              width: 125,
+                              decoration: BoxDecoration(
+                                color: widget.addressModel.id == -1
+                                    ? AppTheme.blue_app_color
+                                    : AppTheme.white,
+                                borderRadius: BorderRadius.circular(10.0),
+                                border: widget.addressModel.id == -1
+                                    ? Border.all(
+                                        color: AppTheme.blue_app_color,
+                                        width: 0.0,
+                                      )
+                                    : Border.all(
+                                        color: AppTheme.blue_app_color,
+                                        width: 2.0,
+                                      ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  widget.addressModel.id == -1
+                                      ? translate("orders.address_choose")
+                                      : translate("orders.change_address"),
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRoboto,
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: widget.addressModel.id == -1
+                                        ? AppTheme.white
+                                        : AppTheme.blue_app_color,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                context,
+                                PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: CurerAddressCardScreen(),
+                                ),
+                              );
+                            },
                           )
                         ],
                       );
@@ -510,82 +584,6 @@ class _OrderCardScreenState extends State<OrderCardScreen> {
                     fontStyle: FontStyle.normal,
                     fontSize: 13,
                     color: AppTheme.black_transparent_text),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 35, left: 16, right: 16),
-              child: Text(
-                translate("orders.promocode"),
-                style: TextStyle(
-                    fontFamily: AppTheme.fontRoboto,
-                    fontWeight: FontWeight.w600,
-                    fontStyle: FontStyle.normal,
-                    fontSize: 20,
-                    color: AppTheme.black_catalog),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 24, left: 16, right: 16),
-              height: 60,
-              decoration: BoxDecoration(
-                color: Color(0xFFF2F3F5),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 10, left: 12),
-                          child: Text(
-                            translate("orders.promocode"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
-                              fontWeight: FontWeight.normal,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 16,
-                              color: AppTheme.black_catalog,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 3, left: 12),
-                          child: Text(
-                            translate("orders.promocode"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
-                              fontWeight: FontWeight.normal,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 13,
-                              color: AppTheme.black_transparent_text,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(12.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: AppTheme.white,
-                      border: Border.all(
-                        color: AppTheme.blue_app_color,
-                        width: 2.0,
-                      ),
-                    ),
-                    height: 36,
-                    width: 36,
-                    child: Icon(
-                      Icons.add,
-                      color: AppTheme.blue_app_color,
-                      size: 32,
-                    ),
-                  )
-                ],
               ),
             ),
             Container(
@@ -750,19 +748,13 @@ class _OrderCardScreenState extends State<OrderCardScreen> {
               color: AppTheme.black_linear_category,
             ),
             GestureDetector(
-              onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageTransition(
-                    type: PageTransitionType.downToUp,
-                    child: CurerAddressCardScreen(),
-                  ),
-                );
-              },
+              onTap: () {},
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  color: AppTheme.blue_app_color,
+                  color: widget.addressModel.id == -1
+                      ? AppTheme.blue_app_color_transparent
+                      : AppTheme.blue_app_color,
                 ),
                 height: 44,
                 width: double.infinity,
@@ -774,7 +766,7 @@ class _OrderCardScreenState extends State<OrderCardScreen> {
                 ),
                 child: Center(
                   child: Text(
-                    translate("card.buy"),
+                    translate("orders.oplat"),
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontFamily: AppTheme.fontRoboto,

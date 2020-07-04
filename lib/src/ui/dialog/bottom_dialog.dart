@@ -160,6 +160,42 @@ class BottomDialog {
     );
   }
 
+  static void createBottomSheetReadyOrder(BuildContext context) async {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              height: 420,
+              padding: EdgeInsets.only(bottom: 5, left: 5, right: 5),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: AppTheme.white,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(top: 12),
+                      height: 4,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        color: AppTheme.bottom_dialog,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   static void mapBottom(
       LocationModel locationItem, BuildContext context) async {
     showModalBottomSheet(
@@ -279,20 +315,18 @@ class BottomDialog {
                     Expanded(
                       child: Center(
                         child: GestureDetector(
-                          onTap: (){
-
-                          },
+                          onTap: () {},
                           child: Container(
                             width: double.infinity,
                             height: 44,
-                            margin: EdgeInsets.only(left: 16,right: 16),
+                            margin: EdgeInsets.only(left: 16, right: 16),
                             decoration: BoxDecoration(
                               color: AppTheme.blue_app_color,
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             child: Center(
                               child: Text(
-                                  translate("map.maps"),
+                                translate("map.maps"),
                                 style: TextStyle(
                                   fontSize: 17,
                                   color: AppTheme.white,
