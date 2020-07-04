@@ -178,5 +178,16 @@
     "kurer": "Курьером",
     "sozdan": "Создан",
     "address": "Адрес доставки"
+  },
+  "history": {
+    "date": "Дата доставки: ",
+    "price": "К оплате",
+    "somviz": "Самовызов",
+    "dostavka": "Доставка курьером",
+    "pending": "Pending",
+    "accept": "Accept",
+    "cancel": "Cancel",
+    "shipped": "Shipped",
+    "delivered": "Delivered"
   }
 }
