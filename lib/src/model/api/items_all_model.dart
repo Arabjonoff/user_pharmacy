@@ -1,6 +1,27 @@
+import 'item_model.dart';
+
 class ItemsAllModel {
-
-
+  int id;
+  String name;
+  String barcode;
+  String image;
+  String imageThumbnail;
+  String piece;
+  String dose;
+  bool status;
+  double price;
+  String expirationDate;
+  bool isRecept;
+  Category unit;
+  InternationalName internationalName;
+  Category manufacturer;
+  Category pharmGroup;
+  Category category;
+  List<ItemResult> analog;
+  List<ItemResult> recommendations;
+  bool favourite = false;
+  int cardCount = 0;
+  bool sale = false;
 
   ItemsAllModel({
     this.id,
@@ -17,125 +38,129 @@ class ItemsAllModel {
     this.unit,
     this.internationalName,
     this.manufacturer,
-    this.pharm_group,
+    this.pharmGroup,
     this.category,
     this.analog,
     this.recommendations,
   });
 
-  int id;
-  String name;
-  String barcode;
-  String image;
-  String imageThumbnail;
-  String piece;
-  String dose;
-  bool status;
-  double price;
-  String expirationDate;
-  bool isRecept;
-  Category unit;
-  InternationalName internationalName;
-  Category manufacturer;
-  Category category;
-  Category pharm_group;
-  List<ItemsAllModel> analog;
-  List<ItemsAllModel> recommendations;
-  bool favourite = false;
-  int cardCount = 0;
-  bool sale = false;
+  ItemsAllModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    barcode = json['barcode'];
+    image = json['image'];
+    imageThumbnail = json['image_thumbnail'];
+    piece = json['piece'];
+    dose = json['dose'];
+    status = json['status'];
+    price = json['price'];
+    expirationDate = json['expiration_date'];
+    isRecept = json['is_recept'];
+    unit = json['unit'] != null
+        ? new Category.fromJson(json['unit'])
+        : Category(id: 0, name: "");
+    internationalName = json['international_name'] != null
+        ? new InternationalName.fromJson(json['international_name'])
+        : InternationalName(id: 0, name: "", nameRu: "");
+    manufacturer = json['manufacturer'] != null
+        ? new Category.fromJson(json['manufacturer'])
+        : Category(id: 0, name: "");
+    pharmGroup = json['pharm_group'] != null
+        ? new Category.fromJson(json['pharm_group'])
+        : Category(id: 0, name: "");
+    category = json['category'] != null
+        ? new Category.fromJson(json['category'])
+        : Category(id: 0, name: "");
+    if (json['analog'] != null) {
+      analog = new List<ItemResult>();
+      json['analog'].forEach((v) {
+        analog.add(new ItemResult.fromJson(v));
+      });
+    }
+    if (json['recommendations'] != null) {
+      recommendations = new List<ItemResult>();
+      json['recommendations'].forEach((v) {
+        recommendations.add(new ItemResult.fromJson(v));
+      });
+    }
+  }
 
-  factory ItemsAllModel.fromJson(Map<String, dynamic> json) => ItemsAllModel(
-        id: json["id"],
-        name: json["name"],
-        barcode: json["barcode"],
-        image: json["image"],
-        imageThumbnail: json["image_thumbnail"],
-        piece: json["piece"],
-        dose: json["dose"],
-        status: json["status"],
-        price: json["price"].toDouble(),
-        expirationDate: json["expiration_date"],
-        isRecept: json["is_recept"],
-        unit: Category.fromJson(json["unit"]) == null
-            ? Category(id: 0, name: "")
-            : Category.fromJson(json["unit"]),
-        internationalName:
-            InternationalName.fromJson(json["international_name"]) == null
-                ? InternationalName(id: 0, name: "", nameRu: "")
-                : InternationalName.fromJson(json["international_name"]),
-        manufacturer: Category.fromJson(json["manufacturer"]) == null
-            ? Category(id: 0, name: "")
-            : Category.fromJson(json["manufacturer"]),
-        pharm_group: Category.fromJson(json["pharm_group"]) == null
-            ? Category(id: 0, name: "")
-            : Category.fromJson(json["pharm_group"]),
-        category: Category.fromJson(json["category"]) == null
-            ? Category(id: 0, name: "")
-            : Category.fromJson(json["category"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "barcode": barcode,
-        "image": image,
-        "image_thumbnail": imageThumbnail,
-        "piece": piece,
-        "dose": dose,
-        "status": status,
-        "price": price,
-        "expiration_date": expirationDate,
-        "is_recept": isRecept,
-        "unit": unit.toJson(),
-        "international_name": internationalName.toJson(),
-        "manufacturer": manufacturer.toJson(),
-        "category": category.toJson(),
-        "pharm_group": pharm_group.toJson(),
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['barcode'] = this.barcode;
+    data['image'] = this.image;
+    data['image_thumbnail'] = this.imageThumbnail;
+    data['piece'] = this.piece;
+    data['dose'] = this.dose;
+    data['status'] = this.status;
+    data['price'] = this.price;
+    data['expiration_date'] = this.expirationDate;
+    data['is_recept'] = this.isRecept;
+    if (this.unit != null) {
+      data['unit'] = this.unit.toJson();
+    }
+    if (this.internationalName != null) {
+      data['international_name'] = this.internationalName.toJson();
+    }
+    if (this.manufacturer != null) {
+      data['manufacturer'] = this.manufacturer.toJson();
+    }
+    if (this.pharmGroup != null) {
+      data['pharm_group'] = this.pharmGroup.toJson();
+    }
+    if (this.category != null) {
+      data['category'] = this.category.toJson();
+    }
+    if (this.analog != null) {
+      data['analog'] = this.analog.map((v) => v.toJson()).toList();
+    }
+    if (this.recommendations != null) {
+      data['recommendations'] =
+          this.recommendations.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
 class Category {
-  Category({
-    this.id,
-    this.name,
-  });
-
   int id;
   String name;
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
-        id: json["id"],
-        name: json["name"],
-      );
+  Category({this.id, this.name});
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-      };
+  Category.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    return data;
+  }
 }
 
 class InternationalName {
-  InternationalName({
-    this.id,
-    this.name,
-    this.nameRu,
-  });
-
   int id;
   String name;
   String nameRu;
 
-  factory InternationalName.fromJson(Map<String, dynamic> json) =>
-      InternationalName(
-        id: json["id"],
-        name: json["name"],
-        nameRu: json["name_ru"],
-      );
+  InternationalName({this.id, this.name, this.nameRu});
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "name_ru": nameRu,
-      };
+  InternationalName.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    nameRu = json['name_ru'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['name_ru'] = this.nameRu;
+    return data;
+  }
 }

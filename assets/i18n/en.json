@@ -52,7 +52,8 @@
     "substance": "Действующее вещество",
     "release": "Форма выпуска",
     "city": "Страна происхождения",
-    "category": "Category"
+    "category": "Category",
+    "recomendation": "Рекомендуется к этому товару"
   },
   "search": {
     "cancel": "cancel",

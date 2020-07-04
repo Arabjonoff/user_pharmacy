@@ -7,36 +7,40 @@ class ItemsAllModel {
   String piece;
   String dose;
   bool status;
-  int price;
+  double price;
   String expirationDate;
   bool isRecept;
-  Unit unit;
+  Category unit;
   InternationalName internationalName;
-  Unit manufacturer;
-  Unit pharmGroup;
-  Unit category;
+  Category manufacturer;
+  Category pharmGroup;
+  Category category;
   List<Analog> analog;
   List<Analog> recommendations;
+  bool favourite = false;
+  int cardCount = 0;
+  bool sale = false;
 
-  ItemsAllModel(
-      {this.id,
-      this.name,
-      this.barcode,
-      this.image,
-      this.imageThumbnail,
-      this.piece,
-      this.dose,
-      this.status,
-      this.price,
-      this.expirationDate,
-      this.isRecept,
-      this.unit,
-      this.internationalName,
-      this.manufacturer,
-      this.pharmGroup,
-      this.category,
-      this.analog,
-      this.recommendations});
+  ItemsAllModel({
+    this.id,
+    this.name,
+    this.barcode,
+    this.image,
+    this.imageThumbnail,
+    this.piece,
+    this.dose,
+    this.status,
+    this.price,
+    this.expirationDate,
+    this.isRecept,
+    this.unit,
+    this.internationalName,
+    this.manufacturer,
+    this.pharmGroup,
+    this.category,
+    this.analog,
+    this.recommendations,
+  });
 
   ItemsAllModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -50,18 +54,21 @@ class ItemsAllModel {
     price = json['price'];
     expirationDate = json['expiration_date'];
     isRecept = json['is_recept'];
-    unit = json['unit'] != null ? new Unit.fromJson(json['unit']) : null;
+    unit = json['unit'] != null
+        ? new Category.fromJson(json['unit'])
+        : Category(id: 0, name: "");
     internationalName = json['international_name'] != null
         ? new InternationalName.fromJson(json['international_name'])
-        : null;
+        : InternationalName(id: 0, name: "", nameRu: "");
     manufacturer = json['manufacturer'] != null
-        ? new Unit.fromJson(json['manufacturer'])
+        ? new Category.fromJson(json['manufacturer'])
         : null;
     pharmGroup = json['pharm_group'] != null
-        ? new Unit.fromJson(json['pharm_group'])
-        : null;
-    category =
-        json['category'] != null ? new Unit.fromJson(json['category']) : null;
+        ? new Category.fromJson(json['pharm_group'])
+        : Category(id: 0, name: "");
+    category = json['category'] != null
+        ? new Category.fromJson(json['category'])
+        : Category(id: 0, name: "");
     if (json['analog'] != null) {
       analog = new List<Analog>();
       json['analog'].forEach((v) {
@@ -115,13 +122,13 @@ class ItemsAllModel {
   }
 }
 
-class Unit {
+class Category {
   int id;
   String name;
 
-  Unit({this.id, this.name});
+  Category({this.id, this.name});
 
-  Unit.fromJson(Map<String, dynamic> json) {
+  Category.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
   }
@@ -165,14 +172,14 @@ class Analog {
   String piece;
   String dose;
   bool status;
-  int price;
+  double price;
   String expirationDate;
   bool isRecept;
-  Unit unit;
+  Category unit;
   InternationalName internationalName;
-  Unit manufacturer;
-  Unit pharmGroup;
-  Unit category;
+  Category manufacturer;
+  Category pharmGroup;
+  Category category;
 
   Analog(
       {this.id,
@@ -204,18 +211,21 @@ class Analog {
     price = json['price'];
     expirationDate = json['expiration_date'];
     isRecept = json['is_recept'];
-    unit = json['unit'] != null ? new Unit.fromJson(json['unit']) : null;
+    unit = json['unit'] != null
+        ? new Category.fromJson(json['unit'])
+        : Category(id: 0, name: "");
     internationalName = json['international_name'] != null
         ? new InternationalName.fromJson(json['international_name'])
-        : null;
+        : InternationalName(id: 0, name: "", nameRu: "");
     manufacturer = json['manufacturer'] != null
-        ? new Unit.fromJson(json['manufacturer'])
-        : null;
+        ? new Category.fromJson(json['manufacturer'])
+        : Category(id: 0, name: "");
     pharmGroup = json['pharm_group'] != null
-        ? new Unit.fromJson(json['pharm_group'])
-        : null;
-    category =
-        json['category'] != null ? new Unit.fromJson(json['category']) : null;
+        ? new Category.fromJson(json['pharm_group'])
+        : Category(id: 0, name: "");
+    category = json['category'] != null
+        ? new Category.fromJson(json['category'])
+        : Category(id: 0, name: "");
   }
 
   Map<String, dynamic> toJson() {

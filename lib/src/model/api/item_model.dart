@@ -80,7 +80,7 @@ class ItemResult {
     this.price = map["price"].toDouble();
     this.manufacturer = map['manufacturer'] != null
         ? new Manifacture.fromMap(map['manufacturer'])
-        : null;
+        : Manifacture("");
     this.favourite = false;
     this.cardCount = 0;
   }

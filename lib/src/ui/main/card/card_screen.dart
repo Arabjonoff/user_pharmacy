@@ -9,6 +9,7 @@ import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen.dart';
+import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
@@ -120,7 +121,7 @@ class _CardScreenState extends State<CardScreen> {
                                 PageTransition(
                                   type: PageTransitionType.downToUp,
                                   alignment: Alignment.bottomCenter,
-                                  child: ItemScreen(snapshot.data[index].id),
+                                  child: ItemScreenNotIstruction(snapshot.data[index].id),
                                 ),
                               );
                             },

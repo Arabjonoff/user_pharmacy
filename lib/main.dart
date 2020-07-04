@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: ItemScreenNotIstruction(64),
+        home: MainScreen(),
       ),
     );
   }

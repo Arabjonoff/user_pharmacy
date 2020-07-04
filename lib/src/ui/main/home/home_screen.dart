@@ -12,6 +12,7 @@ import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/eventBus/event_bus_index.dart';
 import 'package:pharmacy/src/model/top_item_model.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
+import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -560,8 +561,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             PageTransition(
                               type: PageTransitionType.downToUp,
                               alignment: Alignment.bottomCenter,
-                              child:
-                                  ItemScreen(snapshot.data.results[index].id),
+                              child: ItemScreenNotIstruction(
+                                  snapshot.data.results[index].id),
                             ),
                           );
                         },
