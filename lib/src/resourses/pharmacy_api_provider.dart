@@ -8,10 +8,13 @@ import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
+import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
+import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PharmacyApiProvider {
   HttpClient httpClient = new HttpClient();
@@ -68,7 +71,6 @@ class PharmacyApiProvider {
         .timeout(const Duration(seconds: 120));
 
     final Map parsed = json.decode(response.body);
-    print(parsed);
 
     return LoginModel.fromJson(parsed);
   }
@@ -214,5 +216,28 @@ class PharmacyApiProvider {
     String reply = await response.transform(utf8.decoder).join();
 
     return regionModelFromJson(reply);
+  }
+
+  ///add order
+  Future<OrderStatusModel> fetchAddOrder(AddOrderModel order) async {
+    String url = Utils.BASE_URL + '/api/v1/add-order';
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
+
+    Map<String, String> headers = {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+      'content-type': 'application/json'
+    };
+
+    print(order.toJson());
+
+    http.Response response = await http
+        .post(url, headers: headers, body: json.encode(order))
+        .timeout(const Duration(seconds: 120));
+
+    final Map parsed = json.decode(response.body);
+
+    return OrderStatusModel.fromJson(parsed);
   }
 }

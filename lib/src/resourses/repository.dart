@@ -8,9 +8,11 @@ import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
+import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
+import 'package:pharmacy/src/model/send/add_order_model.dart';
 
 import 'pharmacy_api_provider.dart';
 
@@ -45,7 +47,8 @@ class Repository {
 
   Future<List<AptekaModel>> dbAptekaItems() => dbApteka.getProduct();
 
-  Future<List<ItemResult>> databaseCardItem(bool isCard) => databaseHelper.getProdu(isCard);
+  Future<List<ItemResult>> databaseCardItem(bool isCard) =>
+      databaseHelper.getProdu(isCard);
 
   Future<ItemModel> fetchCategryItemList(String id, int page) =>
       pharmacyApiProvider.fetchCategoryItemsList(id, page, 12);
@@ -61,4 +64,7 @@ class Repository {
 
   Future<List<RegionModel>> fetchRegions(String obj) =>
       pharmacyApiProvider.fetchRegions(obj);
+
+  Future<OrderStatusModel> fetchRAddOrder(AddOrderModel order) =>
+      pharmacyApiProvider.fetchAddOrder(order);
 }

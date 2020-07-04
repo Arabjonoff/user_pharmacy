@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +11,14 @@ import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
+import 'package:pharmacy/src/model/send/add_order_model.dart';
+import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
+import '../shopping_web_screen.dart';
 import 'curer_address_card.dart';
 import '../shopping_pickup/order_card_pickup.dart';
 
@@ -37,28 +42,13 @@ class CheckboxList {
 }
 
 class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
-  String radioItemHolder = '8600 45** **** 3103';
-  int id = 1;
   int allCount = 0;
   double allPrice = 0;
 
   String fullName = "";
   String number = "";
 
-  List<CheckboxList> nList = [
-    CheckboxList(
-      index: 1,
-      number: "8600 45** **** 3103",
-    ),
-    CheckboxList(
-      index: 2,
-      number: "8600 57** **** 3285",
-    ),
-    CheckboxList(
-      index: 3,
-      number: "Добавить карту",
-    ),
-  ];
+  bool loading = false;
 
   DatabaseHelper dataBase = new DatabaseHelper();
 
@@ -599,49 +589,6 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 24, left: 16, right: 16),
-              child: Text(
-                translate("orders.type"),
-                style: TextStyle(
-                  fontFamily: AppTheme.fontRoboto,
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 20,
-                  color: AppTheme.black_catalog,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            ListView(
-              shrinkWrap: true,
-              physics: ClampingScrollPhysics(),
-              children: nList
-                  .map((data) => RadioListTile(
-                        title: Text(
-                          "${data.number}",
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: AppTheme.fontRoboto,
-                            color: AppTheme.black_text,
-                          ),
-                        ),
-                        activeColor: AppTheme.blue_app_color,
-                        groupValue: id,
-                        value: data.index,
-                        onChanged: (val) {
-                          setState(() {
-                            radioItemHolder = data.number;
-                            id = data.index;
-                          });
-                        },
-                      ))
-                  .toList(),
-            ),
-            Container(
               margin: EdgeInsets.only(
                 top: 24,
                 left: 16,
@@ -724,6 +671,38 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
             ),
             Container(
               margin: EdgeInsets.only(
+                top: 18,
+                left: 16,
+                right: 16,
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    translate("card.dostavka"),
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontFamily: AppTheme.fontRoboto,
+                      fontWeight: FontWeight.normal,
+                      color: AppTheme.black_transparent_text,
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(),
+                  ),
+                  Text(
+                    "0" + translate(translate("sum")),
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontFamily: AppTheme.fontRoboto,
+                      fontWeight: FontWeight.normal,
+                      color: AppTheme.black_transparent_text,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
                 top: 26,
                 left: 16,
                 right: 16,
@@ -760,7 +739,50 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
               color: AppTheme.black_linear_category,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                if (widget.addressModel.id != -1) {
+                  setState(() {
+                    loading = true;
+                  });
+                  AddOrderModel addModel = new AddOrderModel();
+                  List<Drugs> drugs = new List();
+                  dataBase.getProdu(true).then((value) => {
+                        for (int i = 0; i < value.length; i++)
+                          {
+                            drugs.add(Drugs(
+                                drug: value[i].id, qty: value[i].cardCount))
+                          },
+                        addModel = new AddOrderModel(
+                          address: "Tashkent",
+                          location: "46,59",
+                          shipdate: "2020-06-16",
+                          drugs: drugs,
+                        ),
+                        Repository().fetchRAddOrder(addModel).then((value) => {
+                              if (value.status == 1)
+                                {
+                                  setState(() {
+                                    loading = false;
+                                  }),
+                                  Navigator.pushReplacement(
+                                    context,
+                                    PageTransition(
+                                      type: PageTransitionType.fade,
+                                      child: ShoppingWebScreen(
+                                          value.data.octoPayUrl),
+                                    ),
+                                  )
+                                }
+                              else
+                                {
+                                  setState(() {
+                                    loading = false;
+                                  }),
+                                }
+                            }),
+                      });
+                }
+              },
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
@@ -777,15 +799,22 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                   right: 12,
                 ),
                 child: Center(
-                  child: Text(
-                    translate("orders.oplat"),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontFamily: AppTheme.fontRoboto,
-                      fontSize: 17,
-                      color: AppTheme.white,
-                    ),
-                  ),
+                  child: loading
+                      ? CircularProgressIndicator(
+                          value: null,
+                          strokeWidth: 3.0,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(AppTheme.white),
+                        )
+                      : Text(
+                          translate("orders.oplat"),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontFamily: AppTheme.fontRoboto,
+                            fontSize: 17,
+                            color: AppTheme.white,
+                          ),
+                        ),
                 ),
               ),
             )
