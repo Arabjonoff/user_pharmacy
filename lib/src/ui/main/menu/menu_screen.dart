@@ -28,6 +28,7 @@ class _MenuScreenState extends State<MenuScreen> {
   String language_data = "";
 
   String fullName = "";
+  String city = "";
 
 //  @override
 //  void initState() {
@@ -276,7 +277,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     ),
                   ),
                   Text(
-                    "Ташкент",
+                    city,
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
                       fontFamily: AppTheme.fontRoboto,
@@ -573,6 +574,9 @@ class _MenuScreenState extends State<MenuScreen> {
       } else {
         language_data = "en_US";
         language = translate("language.en");
+      }
+      if (prefs.getString("city") != null) {
+        city = prefs.getString("city");
       }
 
       var name = prefs.getString("name");

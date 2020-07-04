@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app_theme.dart';
 
@@ -70,27 +71,27 @@ class _RegionScreenState extends State<RegionScreen> {
                       },
                     ),
                   ),
-                 Expanded(
-                   child:  Container(
-                     margin: EdgeInsets.only(top: 3.5),
-                     child: Column(
-                       mainAxisAlignment: MainAxisAlignment.center,
-                       crossAxisAlignment: CrossAxisAlignment.center,
-                       children: [
-                         Text(
-                           translate("menu.city"),
-                           textAlign: TextAlign.start,
-                           style: TextStyle(
-                             color: AppTheme.black_text,
-                             fontWeight: FontWeight.w500,
-                             fontFamily: AppTheme.fontCommons,
-                             fontSize: 17,
-                           ),
-                         ),
-                       ],
-                     ),
-                   ),
-                 ),
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.only(top: 3.5),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            translate("menu.city"),
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              color: AppTheme.black_text,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: AppTheme.fontCommons,
+                              fontSize: 17,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -157,15 +158,23 @@ class _RegionScreenState extends State<RegionScreen> {
           Expanded(
             child: ListView.builder(
               itemCount: users.length,
+              scrollDirection: Axis.vertical,
               itemBuilder: (context, index) {
-                return GestureDetector(
-                  child: Container(
-                    height: 60,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
+                return Container(
+                  height: 60,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.setString("city", users[index].name);
+                          prefs.commit();
+                          Navigator.pop(context);
+                        },
+                        child: Container(
                           margin: EdgeInsets.only(
                               top: 9, bottom: 2, left: 12, right: 12),
                           child: Text(
@@ -179,7 +188,16 @@ class _RegionScreenState extends State<RegionScreen> {
                             ),
                           ),
                         ),
-                        Container(
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.setString("city", users[index].name);
+                          prefs.commit();
+                          Navigator.pop(context);
+                        },
+                        child: Container(
                           margin: EdgeInsets.only(left: 12, right: 12),
                           child: Text(
                             users[index].parentName,
@@ -192,15 +210,35 @@ class _RegionScreenState extends State<RegionScreen> {
                             ),
                           ),
                         ),
-                        Expanded(
-                          child: Container(),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () async {
+                            SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                            prefs.setString("city", users[index].name);
+                            prefs.commit();
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            child: Text(
+                              users[index].parentName,
+                              style: TextStyle(
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: AppTheme.fontRoboto,
+                                fontSize: 13,
+                                color: AppTheme.white,
+                              ),
+                            ),
+                          ),
                         ),
-                        Container(
-                          height: 1,
-                          color: AppTheme.black_linear_category,
-                        )
-                      ],
-                    ),
+                      ),
+                      Container(
+                        height: 1,
+                        color: AppTheme.black_linear_category,
+                      )
+                    ],
                   ),
                 );
               },

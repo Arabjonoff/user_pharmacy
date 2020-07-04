@@ -187,13 +187,16 @@ class _ItemListScreenState extends State<ItemListScreen> {
                   onTap: () {
                     var response = Utils.scanBarcodeNormal();
                     response.then(
-                      (value) => Navigator.push(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.fade,
-                          child: SearchScreen(value, 1),
-                        ),
-                      ),
+                          (value) => {
+                        if (value != "-1")
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.fade,
+                              child: SearchScreen(value, 1),
+                            ),
+                          )
+                      },
                     );
                   },
                 ),

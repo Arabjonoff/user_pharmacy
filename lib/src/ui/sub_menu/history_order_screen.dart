@@ -111,26 +111,26 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                 ),
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                border: Border.all(
-                  color: AppTheme.blue_app_color,
-                  width: 2.0,
-                ),
-              ),
-              padding: EdgeInsets.all(15.0),
-              margin: EdgeInsets.only(top: 30, left: 16, right: 16),
-              child: Text(
-                translate("favourite.all_catalog"),
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontFamily: AppTheme.fontSFProDisplay,
-                  fontSize: 15,
-                  color: AppTheme.blue_app_color,
-                ),
-              ),
-            ),
+//            Container(
+//              decoration: BoxDecoration(
+//                borderRadius: BorderRadius.circular(10.0),
+//                border: Border.all(
+//                  color: AppTheme.blue_app_color,
+//                  width: 2.0,
+//                ),
+//              ),
+//              padding: EdgeInsets.all(15.0),
+//              margin: EdgeInsets.only(top: 30, left: 16, right: 16),
+//              child: Text(
+//                translate("favourite.all_catalog"),
+//                style: TextStyle(
+//                  fontWeight: FontWeight.w500,
+//                  fontFamily: AppTheme.fontSFProDisplay,
+//                  fontSize: 15,
+//                  color: AppTheme.blue_app_color,
+//                ),
+//              ),
+//            ),
           ],
         ),
       ),
