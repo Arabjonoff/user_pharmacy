@@ -525,19 +525,19 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                   Expanded(
                     child: Container(),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(top: 5, bottom: 5),
-                    child: Text(
-                      translate("orders.edit"),
-                      style: TextStyle(
-                        fontFamily: AppTheme.fontRoboto,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 13,
-                        fontWeight: FontWeight.normal,
-                        color: AppTheme.blue_app_color,
-                      ),
-                    ),
-                  ),
+//                  Container(
+//                    padding: EdgeInsets.only(top: 5, bottom: 5),
+//                    child: Text(
+//                      translate("orders.edit"),
+//                      style: TextStyle(
+//                        fontFamily: AppTheme.fontRoboto,
+//                        fontStyle: FontStyle.normal,
+//                        fontSize: 13,
+//                        fontWeight: FontWeight.normal,
+//                        color: AppTheme.blue_app_color,
+//                      ),
+//                    ),
+//                  ),
                 ],
               ),
             ),

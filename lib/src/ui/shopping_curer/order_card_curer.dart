@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
@@ -56,6 +57,10 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
 
   String error_text = "";
 
+  TextEditingController loginController = TextEditingController();
+  var maskFormatter = new MaskTextInputFormatter(
+      mask: '+998 ## ### ## ##', filter: {"#": RegExp(r'[0-9]')});
+
   @override
   void initState() {
     getInfo();
@@ -64,7 +69,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    getInfo();
+//    getInfo();
     blocCard.fetchAllCard();
     return Scaffold(
       backgroundColor: Colors.black,
@@ -369,8 +374,8 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                             child: CachedNetworkImage(
                                               height: 56,
                                               width: 56,
-                                              imageUrl:
-                                                  snapshot.data[index].imageThumbnail,
+                                              imageUrl: snapshot
+                                                  .data[index].imageThumbnail,
                                               placeholder: (context, url) =>
                                                   Icon(Icons.camera_alt),
                                               errorWidget:
@@ -528,19 +533,19 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                   Expanded(
                     child: Container(),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(top: 5, bottom: 5),
-                    child: Text(
-                      translate("orders.edit"),
-                      style: TextStyle(
-                        fontFamily: AppTheme.fontRoboto,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 13,
-                        fontWeight: FontWeight.normal,
-                        color: AppTheme.blue_app_color,
-                      ),
-                    ),
-                  ),
+//                  Container(
+//                    padding: EdgeInsets.only(top: 5, bottom: 5),
+//                    child: Text(
+//                      translate("orders.edit"),
+//                      style: TextStyle(
+//                        fontFamily: AppTheme.fontRoboto,
+//                        fontStyle: FontStyle.normal,
+//                        fontSize: 13,
+//                        fontWeight: FontWeight.normal,
+//                        color: AppTheme.blue_app_color,
+//                      ),
+//                    ),
+//                  ),
                 ],
               ),
             ),
@@ -573,11 +578,12 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
               child: Text(
                 number,
                 style: TextStyle(
-                    fontFamily: AppTheme.fontRoboto,
-                    fontWeight: FontWeight.normal,
-                    fontStyle: FontStyle.normal,
-                    fontSize: 16,
-                    color: AppTheme.black_catalog),
+                  fontFamily: AppTheme.fontRoboto,
+                  fontWeight: FontWeight.normal,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 16,
+                  color: AppTheme.black_catalog,
+                ),
               ),
             ),
             Container(

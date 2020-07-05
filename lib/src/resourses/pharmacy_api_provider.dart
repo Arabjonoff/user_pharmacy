@@ -44,7 +44,6 @@ class PharmacyApiProvider {
       "smscode": code,
     };
 
-    print(json.encode(data));
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
