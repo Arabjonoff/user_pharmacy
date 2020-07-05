@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +11,15 @@ import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
-import 'package:pharmacy/src/model/eventBus/event_bus_index.dart';
 import 'package:pharmacy/src/model/top_item_model.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
+import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
+import 'package:pharmacy/src/ui/main/card/card_screen.dart';
+import 'package:pharmacy/src/ui/main/category/category_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:pharmacy/src/ui/item/item_screen.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
@@ -43,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     blocHome.fetchAllHome(page);
+    Utils.isLogin().then((value) => isLogin = value);
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -141,8 +147,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               children: [
                 GestureDetector(
                   onTap: () {
-                    EventBusIndex e = new EventBusIndex();
-                    e.intexItem(44);
+                    isLogin
+                        ? Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: HistoryOrderScreen(),
+                            ),
+                          )
+                        : BottomDialog.createBottomSheetHistory(context);
                   },
                   child: Container(
                     child: ClipRRect(
@@ -208,7 +221,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: CategoryScreen(true),
+                      ),
+                    );
+                  },
                   child: Container(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
@@ -430,33 +451,57 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     scrollDirection: Axis.horizontal,
                     itemCount: snapshot.data.results.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(16.0),
-                              child: Container(
-                                color: AppTheme.white,
-                                width: 311,
-                                height: 154,
-                                child: CachedNetworkImage(
-                                  imageUrl: snapshot.data.results[index].image,
-                                  placeholder: (context, url) =>
-                                      Icon(Icons.camera_alt),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                  fit: BoxFit.fitHeight,
+                      return GestureDetector(
+                        onTap: () {
+                          if (snapshot.data.results[index].drug != null) {
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.downToUp,
+                                alignment: Alignment.bottomCenter,
+                                child: ItemScreenNotIstruction(
+                                  snapshot.data.results[index].drug,
                                 ),
                               ),
+                            );
+                          } else if (snapshot.data.results[index].category !=
+                              null) {
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.fade,
+                                child: ItemListScreen(
+                                  translate("sale"),
+                                  1,
+                                  snapshot.data.results[index].category
+                                      .toString(),
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        child: Container(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16.0),
+                            child: Container(
+                              color: AppTheme.white,
+                              width: 311,
+                              height: 154,
+                              child: CachedNetworkImage(
+                                imageUrl: snapshot.data.results[index].image,
+                                placeholder: (context, url) =>
+                                    Icon(Icons.camera_alt),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                                fit: BoxFit.fitHeight,
+                              ),
                             ),
-                          ],
+                          ),
+                          padding: EdgeInsets.only(
+                            right: 12,
+                          ),
+                          height: 154,
                         ),
-                        padding: EdgeInsets.only(
-                          right: 12,
-                        ),
-                        height: 154,
                       );
                     },
                   );

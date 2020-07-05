@@ -93,6 +93,11 @@ class DatabaseHelperHistory {
         .update(tableNote, map, where: "$columnName = ?", whereArgs: [item]);
   }
 
+  Future<void> clear() async {
+    var dbClient = await db;
+    await dbClient.rawQuery('DELETE FROM $tableNote');
+  }
+
   Future close() async {
     var dbClient = await db;
     return dbClient.close();

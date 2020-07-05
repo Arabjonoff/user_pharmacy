@@ -12,6 +12,10 @@ import 'package:shimmer/shimmer.dart';
 import '../../../app_theme.dart';
 
 class CategoryScreen extends StatefulWidget {
+  bool isBack;
+
+  CategoryScreen(this.isBack);
+
   @override
   State<StatefulWidget> createState() {
     return _CategoryScreenState();
@@ -40,15 +44,34 @@ class _CategoryScreenState extends State<CategoryScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  margin: EdgeInsets.only(top: 12),
-                  child: Text(
-                    translate("main.catalog"),
-                    style: TextStyle(
-                      fontFamily: AppTheme.fontCommons,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 17,
-                      color: AppTheme.black_text,
+                widget.isBack
+                    ? Container(
+                        margin: EdgeInsets.only(top: 12),
+                        child: GestureDetector(
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            size: 24,
+                            color: AppTheme.blue_app_color,
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      )
+                    : Container(),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(top: 12),
+                    child: Center(
+                      child: Text(
+                        translate("main.catalog"),
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontCommons,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 17,
+                          color: AppTheme.black_text,
+                        ),
+                      ),
                     ),
                   ),
                 ),

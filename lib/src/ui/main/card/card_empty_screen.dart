@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/ui/main/category/category_screen.dart';
 
 import '../../../app_theme.dart';
 
@@ -51,23 +53,34 @@ class _CardEmptyScreenState extends State<CardEmptyScreen> {
               ),
             ),
           ),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(
-                color: AppTheme.blue_app_color,
-                width: 2.0,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.fade,
+                  child: CategoryScreen(true),
+                ),
+              );
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                border: Border.all(
+                  color: AppTheme.blue_app_color,
+                  width: 2.0,
+                ),
               ),
-            ),
-            padding: EdgeInsets.all(15.0),
-            margin: EdgeInsets.only(top: 30),
-            child: Text(
-              translate("card.all_catalog"),
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontFamily: AppTheme.fontSFProDisplay,
-                fontSize: 15,
-                color: AppTheme.blue_app_color,
+              padding: EdgeInsets.all(15.0),
+              margin: EdgeInsets.only(top: 30),
+              child: Text(
+                translate("card.all_catalog"),
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontFamily: AppTheme.fontSFProDisplay,
+                  fontSize: 15,
+                  color: AppTheme.blue_app_color,
+                ),
               ),
             ),
           ),

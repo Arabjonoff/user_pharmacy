@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../app_theme.dart';
@@ -80,7 +82,13 @@ class _ShoppingWebScreenState extends State<ShoppingWebScreen> {
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            child: HistoryOrderScreen(),
+                          ),
+                        );
                       },
                       child: Container(
                         height: 36,

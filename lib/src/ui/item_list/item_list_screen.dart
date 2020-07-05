@@ -27,8 +27,6 @@ class ItemListScreen extends StatefulWidget {
   }
 }
 
-
-
 class _ItemListScreenState extends State<ItemListScreen> {
   Size size;
 
@@ -103,15 +101,15 @@ class _ItemListScreenState extends State<ItemListScreen> {
                               color: AppTheme.black_text,
                             ),
                           ),
-                          Text(
-                            itemSize.toString() + " " + translate("item.tovar"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 13,
-                              color: AppTheme.black_transparent_text,
-                            ),
-                          ),
+//                          Text(
+//                            itemSize.toString() + " " + translate("item.tovar"),
+//                            style: TextStyle(
+//                              fontFamily: AppTheme.fontRoboto,
+//                              fontWeight: FontWeight.normal,
+//                              fontSize: 13,
+//                              color: AppTheme.black_transparent_text,
+//                            ),
+//                          ),
                         ],
                       ),
                     ),
@@ -187,7 +185,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                   onTap: () {
                     var response = Utils.scanBarcodeNormal();
                     response.then(
-                          (value) => {
+                      (value) => {
                         if (value != "-1")
                           Navigator.push(
                             context,

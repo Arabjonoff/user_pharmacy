@@ -807,19 +807,32 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                           ),
                           Repository()
                               .fetchRAddOrder(addModel)
-                              .then((value) => {
-                                    if (value.status == 1)
+                              .then((response) => {
+                                    if (response.status == 1)
                                       {
                                         setState(() {
                                           loading = false;
                                           error = false;
                                         }),
+                                        for (int i = 0; i < value.length; i++)
+                                          {
+                                            if (value[i].favourite)
+                                              {
+                                                value[i].cardCount = 0,
+                                                dataBase.updateProduct(value[i])
+                                              }
+                                            else
+                                              {
+                                                dataBase
+                                                    .deleteProducts(value[i].id)
+                                              }
+                                          },
                                         Navigator.pushReplacement(
                                           context,
                                           PageTransition(
                                             type: PageTransitionType.fade,
                                             child: ShoppingWebScreen(
-                                                value.data.octoPayUrl),
+                                                response.data.octoPayUrl),
                                           ),
                                         )
                                       }
@@ -828,7 +841,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                         setState(() {
                                           error = true;
                                           loading = false;
-                                          error_text = value.msg;
+                                          error_text = response.msg;
                                         }),
                                       }
                                   }),

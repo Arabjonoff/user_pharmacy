@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
-import 'package:pharmacy/src/model/eventBus/event_bus_index.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/favorite/favorites_screen.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
@@ -18,7 +17,7 @@ class MainScreen extends StatefulWidget {
   }
 }
 
-class _MainScreenState extends State<MainScreen> implements EventBusIndex {
+class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   List<GlobalKey<NavigatorState>> _navigatorKeys = [
@@ -34,7 +33,7 @@ class _MainScreenState extends State<MainScreen> implements EventBusIndex {
     return WillPopScope(
       onWillPop: () async {
         final isFirstRouteInCurrentTab =
-        !await _navigatorKeys[_selectedIndex].currentState.maybePop();
+            !await _navigatorKeys[_selectedIndex].currentState.maybePop();
         return isFirstRouteInCurrentTab;
       },
       child: Scaffold(
@@ -152,7 +151,7 @@ class _MainScreenState extends State<MainScreen> implements EventBusIndex {
       '/': (context) {
         return [
           HomeScreen(),
-          CategoryScreen(),
+          CategoryScreen(false),
           CardScreen(),
           FavoritesScreen(),
           MenuScreen(),

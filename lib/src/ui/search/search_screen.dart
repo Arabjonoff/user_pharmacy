@@ -264,7 +264,12 @@ class _SearchScreenState extends State<SearchScreen> {
                                   color: AppTheme.arrow_catalog,
                                 ),
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                setState(() {
+                                  dataHistory.clear();
+                                });
+
+                              },
                             )
                           ],
                         ),

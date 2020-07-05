@@ -52,8 +52,8 @@ class Result {
         image: json["image"],
         description: json["description"],
         status: json["status"],
-        drug: json["drug"],
-        category: json["category"],
+        drug: json["drug"] == null ? null : json["drug"],
+        category: json["category"] == null ? null : json["drug"],
       );
 
   Map<String, dynamic> toJson() => {
