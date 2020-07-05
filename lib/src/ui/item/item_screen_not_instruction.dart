@@ -360,7 +360,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                           height: snapshot.data.recommendations.length > 0
                               ? 240.0
                               : 0.0,
-                          margin: EdgeInsets.only(top: 16),
+                          margin: EdgeInsets.only(top: 16, bottom: 16),
                           child: ListView.builder(
                             padding: const EdgeInsets.only(
                               top: 0,
@@ -386,6 +386,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                 child: Container(
                                   width: 140,
                                   height: 250,
+                                  margin: EdgeInsets.only(right: 16),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -723,7 +724,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                         snapshot.data.analog.length > 0
                             ? Container(
                                 margin: EdgeInsets.only(
-                                    top: 32, left: 12, right: 12, bottom: 16),
+                                    top: 16, left: 12, right: 12, bottom: 16),
                                 child: Text(
                                   translate("item.analog"),
                                   style: TextStyle(
@@ -737,7 +738,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                             : Container(),
                         Container(
                           height: snapshot.data.analog.length > 0 ? 240.0 : 0.0,
-                          margin: EdgeInsets.only(top: 16),
+                          margin: EdgeInsets.only(top: 16, bottom: 16),
                           child: ListView.builder(
                             padding: const EdgeInsets.only(
                               top: 0,
@@ -763,6 +764,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                 child: Container(
                                   width: 140,
                                   height: 250,
+                                  margin: EdgeInsets.only(right: 16),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -817,7 +819,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                       ),
                                       Expanded(
                                         child: Align(
-                                          alignment: Alignment.centerLeft,
+                                          alignment: Alignment.bottomCenter,
                                           child: Container(
                                             height: 30,
                                             width: 120,

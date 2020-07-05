@@ -1,23 +1,13 @@
 {
-  "sum": " so'm",
+  "sum": " сум",
   "search_hint": "Поиск лекарств",
   "search_real": "Поиск",
   "next": "Далее",
-  "welcome": {
-    "skip": "Skip",
-    "one_title": "one title",
-    "one_content": "one content",
-    "two_title": "two title",
-    "two_content": "two content",
-    "three_title": "three title",
-    "three_content": "three content",
-    "login": "Login"
-  },
   "main": {
-    "home": "Home",
-    "catalog": "Catalog",
-    "card": "Card",
-    "favourite": "Favourite",
+    "home": "Главное",
+    "catalog": "Каталог",
+    "card": "Карта",
+    "favourite": "Избранное",
     "menu": "Меню"
   },
   "home": {
@@ -29,7 +19,7 @@
     "pharma": "аптек",
     "set": "Задать",
     "question": "Вопрос",
-    "show_all": "Все"
+    "show_all": "Показать все"
   },
   "language": {
     "en": "English",
@@ -37,20 +27,26 @@
     "uz": "O'zbekcha"
   },
   "item": {
-    "buy": "Купить",
+    "buy": "Оплатить",
     "sht": "шт.",
     "sort": "По названию",
     "filter": "Фильтр",
     "card": "В корзину",
     "tovar": "товаров",
-    "description": "Опасание",
+    "description": "Описание",
     "instruction": "Инструкции",
     "drotaverine": "Дротаверин",
     "kapsule": "Капсулы",
-    "analog": "Аналоги"
+    "analog": "Аналоги",
+    "card_add": "В Корзину",
+    "substance": "Действующее вещество",
+    "release": "Форма выпуска",
+    "city": "Страна происхождения",
+    "category": "Категория",
+    "recomendation": "Рекомендуется к этому товару"
   },
   "search": {
-    "cancel": "cancel",
+    "cancel": "Отменить",
     "history": "История запросов",
     "empty": "По вашему запросу ничего не удалось найти",
     "result": "Результат поиска"
@@ -64,7 +60,9 @@
     "buy": "Перейти к оформлению",
     "empty_name": "Ваша корзина пусто",
     "empty_title": "Выберите необходимый товар из каталога или с помощью поиска",
-    "all_catalog": "Перейти в каталог"
+    "all_catalog": "Перейти в каталог",
+    "dostavka": "Доставка",
+    "payment": "Оплата"
   },
   "favourite": {
     "empty_name": "В избранном пока пусто",
@@ -89,13 +87,13 @@
     "faq": "FAQ",
     "faq_about": "вопросы и ответы",
     "enter": "Вход",
-    "me_info": "Мой данный"
+    "me_info": "Мои данные"
   },
   "dialog": {
     "enter": "Войти",
     "register": "Зарегистрироваться",
     "soglas": "Продолжая вы соглашаетесь с политикой обработки",
-    "danniy": "Персональных данный и Условиями продажи"
+    "danniy": "Персональных данных и Условиями продажи"
   },
   "orders": {
     "oplat": "Оплатить",
@@ -107,22 +105,26 @@
     "edit": "Изменить",
     "name": "Имя",
     "number": "Номер телефона",
-    "promocode": "Промо код",
+    "promocode": "Промокод",
     "promocode_name": "Используйте только 1 промокод",
     "type": "Тип оплаты",
     "type_payment": "К оплате",
     "edit_tovar": "Редактировать",
     "new_address": "Добавить новый адрес",
-    "new_add_address": "Новый address доставки",
-    "change_address": "Измените адрес",
-    "address_choose": "Выберите адрес"
+    "new_add_address": "Новый адрес доставки",
+    "change_address": "Изменить адрес",
+    "address_choose": "Выберать адрес",
+    "edit_aptek_choose": "Выберать аптеку",
+    "edit_aptek": "Изменить аптеку",
+    "now": "Сегодня",
+    "map_add_order": "Забрать отсюда"
   },
   "address": {
     "title": "Курьерская доставка",
     "delivery_address": "Адрес доставки",
     "dom": "Улица, дом*",
     "ofis": "Квартира/офис",
-    "padez": "Подъзд",
+    "padez": "Подъезд",
     "etaj": "Этаж",
     "comment": "Комментарий",
     "save_address": "Привезти сюда"
@@ -135,16 +137,16 @@
     "data": "Ваши данные",
     "name": "Имя*",
     "sur_name": "Фамилия",
-    "birthday": "Дата рождение",
+    "birthday": "Дата рождения",
     "number_auth": "Телефон",
     "male": "Мужчина",
     "female": "Женщина",
     "save": "Сохранить",
     "verfy_btn": "Подтвердить номер",
-    "error": "code error"
+    "error": "Ошибка"
   },
   "menu_sub": {
-    "history_title": "Заказов пока нету",
+    "history_title": "Заказов пока нет",
     "history_message": "Выберите необходимый товар из каталога или с помощью поиска"
   },
   "map": {
@@ -152,8 +154,8 @@
     "work": "Режим работы",
     "maps": "Построить маршрут",
     "lov_apt_mes": "Любимых аптек пока нет",
-    "lov_apt_title": "Выберите аптеку, чтобы всегда найти его легко и быстро",
-    "lov_apt_cat": "Выбирайте любимую аптека",
+    "lov_apt_title": "Выберите аптеку, чтобы найти его легко и быстро",
+    "lov_apt_cat": "Выберите любимую аптека",
     "tab_one": "На карте",
     "tab_two": "Список"
   },
@@ -166,5 +168,16 @@
     "kurer": "Курьером",
     "sozdan": "Создан",
     "address": "Адрес доставки"
+  },
+  "history": {
+    "date": "Дата доставки: ",
+    "price": "К оплате",
+    "somviz": "Самовывоз",
+    "dostavka": "Доставка курьером",
+    "pending": "В ожидании",
+    "accept": "Принять",
+    "cancel": "Отменить",
+    "shipped": "Отправлено",
+    "delivered": "Доставлено"
   }
 }

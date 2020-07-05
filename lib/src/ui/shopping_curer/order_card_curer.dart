@@ -49,8 +49,12 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
   String number = "";
 
   bool loading = false;
+  bool error = false;
 
   DatabaseHelper dataBase = new DatabaseHelper();
+  DateTime date = new DateTime.now();
+
+  String error_text = "";
 
   @override
   void initState() {
@@ -733,6 +737,22 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                 ],
               ),
             ),
+            error
+                ? Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(top: 11, left: 16, right: 16),
+                    child: Text(
+                      error_text,
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontFamily: AppTheme.fontRoboto,
+                        fontSize: 13,
+                        color: AppTheme.red_fav_color,
+                      ),
+                    ),
+                  )
+                : Container(),
             Container(
               height: 1,
               margin: EdgeInsets.only(top: 35),
@@ -740,47 +760,74 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (widget.addressModel.id != -1) {
-                  setState(() {
-                    loading = true;
-                  });
-                  AddOrderModel addModel = new AddOrderModel();
-                  List<Drugs> drugs = new List();
-                  dataBase.getProdu(true).then((value) => {
-                        for (int i = 0; i < value.length; i++)
-                          {
-                            drugs.add(Drugs(
-                                drug: value[i].id, qty: value[i].cardCount))
-                          },
-                        addModel = new AddOrderModel(
-                          address: "Tashkent",
-                          location: "46,59",
-                          shipdate: "2020-06-16",
-                          drugs: drugs,
-                        ),
-                        Repository().fetchRAddOrder(addModel).then((value) => {
-                              if (value.status == 1)
-                                {
-                                  setState(() {
-                                    loading = false;
+                if (!loading) {
+                  if (widget.addressModel.id != -1) {
+                    var month = date.month < 10
+                        ? "0" + date.month.toString()
+                        : date.month.toString();
+                    var day = date.day < 10
+                        ? "0" + date.day.toString()
+                        : date.day.toString();
+
+                    setState(() {
+                      loading = true;
+                    });
+                    AddOrderModel addModel = new AddOrderModel();
+                    List<Drugs> drugs = new List();
+                    dataBase.getProdu(true).then((value) => {
+                          for (int i = 0; i < value.length; i++)
+                            {
+                              drugs.add(Drugs(
+                                  drug: value[i].id, qty: value[i].cardCount))
+                            },
+                          addModel = new AddOrderModel(
+                            address: widget.addressModel.street +
+                                "," +
+                                widget.addressModel.flat +
+                                "," +
+                                widget.addressModel.padez +
+                                "," +
+                                widget.addressModel.etaj +
+                                "," +
+                                widget.addressModel.komment,
+                            location: "0,0",
+                            shipdate:
+                                date.year.toString() + "-" + month + "-" + day,
+                            type: "shipping",
+                            full_name: fullName,
+                            phone: number,
+                            store_id: widget.addressModel.id,
+                            drugs: drugs,
+                          ),
+                          Repository()
+                              .fetchRAddOrder(addModel)
+                              .then((value) => {
+                                    if (value.status == 1)
+                                      {
+                                        setState(() {
+                                          loading = false;
+                                          error = false;
+                                        }),
+                                        Navigator.pushReplacement(
+                                          context,
+                                          PageTransition(
+                                            type: PageTransitionType.fade,
+                                            child: ShoppingWebScreen(
+                                                value.data.octoPayUrl),
+                                          ),
+                                        )
+                                      }
+                                    else
+                                      {
+                                        setState(() {
+                                          error = true;
+                                          loading = false;
+                                          error_text = value.msg;
+                                        }),
+                                      }
                                   }),
-                                  Navigator.pushReplacement(
-                                    context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      child: ShoppingWebScreen(
-                                          value.data.octoPayUrl),
-                                    ),
-                                  )
-                                }
-                              else
-                                {
-                                  setState(() {
-                                    loading = false;
-                                  }),
-                                }
-                            }),
-                      });
+                        });
+                  }
                 }
               },
               child: Container(
@@ -814,6 +861,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                             fontSize: 17,
                             color: AppTheme.white,
                           ),
+                          maxLines: 1,
                         ),
                 ),
               ),

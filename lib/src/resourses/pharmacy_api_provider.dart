@@ -226,12 +226,13 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
 
+
+
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json'
     };
 
-    print(order.toJson());
 
     http.Response response = await http
         .post(url, headers: headers, body: json.encode(order))
@@ -246,10 +247,8 @@ class PharmacyApiProvider {
   Future<HistoryModel> fetchOrderHistory() async {
     String url = Utils.BASE_URL + '/api/v1/orders';
 
-//    SharedPreferences prefs = await SharedPreferences.getInstance();
-//    String token = prefs.getString("token");
-    String token =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjIzOTE5MjI2LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.tnkGOg0HyxVUpDvsTd1YYmDQSd_9VgnSUqlRand09Xk";
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",

@@ -162,6 +162,7 @@ class _AddAddressCardScreenState extends State<AddAddressCardScreen> {
                           color: AppTheme.black_text,
                           fontSize: 15,
                         ),
+                        textCapitalization: TextCapitalization.sentences,
                         controller: homeController,
                         decoration: InputDecoration(
                           labelText: translate('address.dom'),
@@ -216,6 +217,7 @@ class _AddAddressCardScreenState extends State<AddAddressCardScreen> {
                           fontSize: 15,
                         ),
                         controller: ofisController,
+                        textCapitalization: TextCapitalization.sentences,
                         decoration: InputDecoration(
                           labelText: translate('address.ofis'),
                           labelStyle: TextStyle(
