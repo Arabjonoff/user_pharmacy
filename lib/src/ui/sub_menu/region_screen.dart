@@ -175,6 +175,7 @@ class _RegionScreenState extends State<RegionScreen> {
                           Navigator.pop(context);
                         },
                         child: Container(
+                          width: double.infinity,
                           margin: EdgeInsets.only(
                               top: 9, bottom: 2, left: 12, right: 12),
                           child: Text(
@@ -198,6 +199,7 @@ class _RegionScreenState extends State<RegionScreen> {
                           Navigator.pop(context);
                         },
                         child: Container(
+                          width: double.infinity,
                           margin: EdgeInsets.only(left: 12, right: 12),
                           child: Text(
                             users[index].parentName,
@@ -221,6 +223,7 @@ class _RegionScreenState extends State<RegionScreen> {
                             Navigator.pop(context);
                           },
                           child: Container(
+                            width: double.infinity,
                             child: Text(
                               users[index].parentName,
                               style: TextStyle(
