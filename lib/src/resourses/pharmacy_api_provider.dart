@@ -43,10 +43,17 @@ class PharmacyApiProvider {
       "login": login,
       "smscode": code,
     };
-    http.Response response =
-        await http.post(url, body: data).timeout(const Duration(seconds: 120));
 
-    final Map parsed = json.decode(response.body);
+    print(json.encode(data));
+    HttpClient httpClient = new HttpClient();
+    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    request.write(json.encode(data));
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+
+    final Map parsed = json.decode(reply);
 
     return VerfyModel.fromJson(parsed);
   }
@@ -226,13 +233,10 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
 
-
-
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json'
     };
-
 
     http.Response response = await http
         .post(url, headers: headers, body: json.encode(order))
@@ -260,7 +264,6 @@ class PharmacyApiProvider {
 
     final Map parsed = json.decode(response.body);
 
-    print(parsed);
     return HistoryModel.fromJson(parsed);
   }
 }

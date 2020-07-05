@@ -121,7 +121,8 @@ class _CardScreenState extends State<CardScreen> {
                                 PageTransition(
                                   type: PageTransitionType.downToUp,
                                   alignment: Alignment.bottomCenter,
-                                  child: ItemScreenNotIstruction(snapshot.data[index].id),
+                                  child: ItemScreenNotIstruction(
+                                      snapshot.data[index].id),
                                 ),
                               );
                             },
@@ -146,8 +147,8 @@ class _CardScreenState extends State<CardScreen> {
                                             child: CachedNetworkImage(
                                               height: 112,
                                               width: 112,
-                                              imageUrl:
-                                                  snapshot.data[index].image,
+                                              imageUrl: snapshot
+                                                  .data[index].imageThumbnail,
                                               placeholder: (context, url) =>
                                                   Icon(Icons.camera_alt),
                                               errorWidget:
@@ -676,7 +677,8 @@ class _CardScreenState extends State<CardScreen> {
                               context,
                               PageTransition(
                                 type: PageTransitionType.downToUp,
-                                child: OrderCardCurerScreen(AddressModel(-1,"","","","","")),
+                                child: OrderCardCurerScreen(
+                                    AddressModel(-1, "", "", "", "", "")),
                               ),
                             );
                           } else {

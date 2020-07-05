@@ -367,7 +367,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                               height: 56,
                                               width: 56,
                                               imageUrl:
-                                                  snapshot.data[index].image,
+                                                  snapshot.data[index].imageThumbnail,
                                               placeholder: (context, url) =>
                                                   Icon(Icons.camera_alt),
                                               errorWidget:

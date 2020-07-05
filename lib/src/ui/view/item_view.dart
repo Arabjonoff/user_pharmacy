@@ -62,7 +62,7 @@ class _ItemViewState extends State<ItemView> {
                       child: CachedNetworkImage(
                         height: 112,
                         width: 112,
-                        imageUrl: widget.item.image,
+                        imageUrl: widget.item.imageThumbnail,
                         placeholder: (context, url) => Icon(Icons.camera_alt),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                       ),

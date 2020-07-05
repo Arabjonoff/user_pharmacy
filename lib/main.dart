@@ -26,11 +26,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'src/app_theme.dart';
 
-String language = 'en_US';
+String language = 'ru';
 
 void main() async {
   var delegate = await LocalizationDelegate.create(
-      fallbackLocale: 'en_US', supportedLocales: ['en_US', 'ru', 'uz']);
+      fallbackLocale: 'ru', supportedLocales: ['en_US', 'ru', 'uz']);
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   if (prefs.getString('language') != null) {

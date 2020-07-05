@@ -370,7 +370,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                               height: 56,
                                               width: 56,
                                               imageUrl:
-                                                  snapshot.data[index].image,
+                                                  snapshot.data[index].imageThumbnail,
                                               placeholder: (context, url) =>
                                                   Icon(Icons.camera_alt),
                                               errorWidget:
