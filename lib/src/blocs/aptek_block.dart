@@ -18,7 +18,7 @@ class AptekaBloc {
     for (int i = 0; i < saleModel.length; i++) {
       aptekadata.add(AptekaModel(
         saleModel[i].id,
-        saleModel[i].name,
+        saleModel[i].address,
         saleModel[i].mode,
         saleModel[i].phone,
         saleModel[i].location.coordinates[1],

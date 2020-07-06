@@ -3,7 +3,8 @@
   "search_hint": "Search drugs",
   "search_real": "Search",
   "next": "Next",
-  "sale": "Sale",
+  "sale": "Discounts",
+  "not_product": "Not enough quantity",
   "main": {
     "home": "Home",
     "catalog": "Catalog",

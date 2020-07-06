@@ -107,10 +107,20 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                 height: 240,
                                 width: 240,
                                 imageUrl: snapshot.data.image,
-                                placeholder: (context, url) =>
-                                    Icon(Icons.camera_alt),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
+                                placeholder: (context, url) => Container(
+                                  padding: EdgeInsets.all(25),
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                        "assets/images/place_holder.svg"),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) => Container(
+                                  padding: EdgeInsets.all(25),
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                        "assets/images/place_holder.svg"),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -400,10 +410,20 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                               .data
                                               .recommendations[index]
                                               .getImageThumbnail,
-                                          placeholder: (context, url) =>
-                                              Icon(Icons.camera_alt),
-                                          errorWidget: (context, url, error) =>
-                                              Icon(Icons.error),
+                                          placeholder: (context, url) => Container(
+                                            padding: EdgeInsets.all(25),
+                                            child: Center(
+                                              child: SvgPicture.asset(
+                                                  "assets/images/place_holder.svg"),
+                                            ),
+                                          ),
+                                          errorWidget: (context, url, error) => Container(
+                                            padding: EdgeInsets.all(25),
+                                            child: Center(
+                                              child: SvgPicture.asset(
+                                                  "assets/images/place_holder.svg"),
+                                            ),
+                                          ),
                                           fit: BoxFit.fitHeight,
                                         ),
                                       ),
@@ -776,10 +796,20 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                         child: CachedNetworkImage(
                                           imageUrl: snapshot.data.analog[index]
                                               .getImageThumbnail,
-                                          placeholder: (context, url) =>
-                                              Icon(Icons.camera_alt),
-                                          errorWidget: (context, url, error) =>
-                                              Icon(Icons.error),
+                                          placeholder: (context, url) => Container(
+                                            padding: EdgeInsets.all(25),
+                                            child: Center(
+                                              child: SvgPicture.asset(
+                                                  "assets/images/place_holder.svg"),
+                                            ),
+                                          ),
+                                          errorWidget: (context, url, error) => Container(
+                                            padding: EdgeInsets.all(25),
+                                            child: Center(
+                                              child: SvgPicture.asset(
+                                                  "assets/images/place_holder.svg"),
+                                            ),
+                                          ),
                                           fit: BoxFit.fitHeight,
                                         ),
                                       ),

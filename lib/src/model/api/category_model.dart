@@ -1,72 +1,89 @@
 class CategoryModel {
-  CategoryModel({
-    this.count,
-    this.next,
-    this.previous,
-    this.results,
-  });
-
   int count;
-  dynamic next;
-  dynamic previous;
-  List<CategoryResult> results;
+  String next;
+  String previous;
+  List<Results> results;
 
-  factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
-        count: json["count"],
-        next: json["next"],
-        previous: json["previous"],
-        results:
-            List<CategoryResult>.from(json["results"].map((x) => CategoryResult.fromJson(x))),
-      );
+  CategoryModel({this.count, this.next, this.previous, this.results});
 
-  Map<String, dynamic> toJson() => {
-        "count": count,
-        "next": next,
-        "previous": previous,
-        "results": List<dynamic>.from(results.map((x) => x.toJson())),
-      };
+  CategoryModel.fromJson(Map<String, dynamic> json) {
+    count = json['count'];
+    next = json['next'];
+    previous = json['previous'];
+    if (json['results'] != null) {
+      results = new List<Results>();
+      json['results'].forEach((v) {
+        results.add(new Results.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['count'] = this.count;
+    data['next'] = this.next;
+    data['previous'] = this.previous;
+    if (this.results != null) {
+      data['results'] = this.results.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
-class CategoryResult {
-  CategoryResult({
-    this.id,
-    this.name,
-    this.childs,
-  });
-
+class Results {
   int id;
   String name;
-  List<Child> childs;
+  List<Childs> childs;
 
-  factory CategoryResult.fromJson(Map<String, dynamic> json) => CategoryResult(
-        id: json["id"],
-        name: json["name"],
-        childs: List<Child>.from(json["childs"].map((x) => Child.fromJson(x))),
-      );
+  Results({this.id, this.name, this.childs});
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "childs": List<dynamic>.from(childs.map((x) => x.toJson())),
-      };
+  Results.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    if (json['childs'] != null) {
+      childs = new List<Childs>();
+      json['childs'].forEach((v) {
+        childs.add(new Childs.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    if (this.childs != null) {
+      data['childs'] = this.childs.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
-class Child {
-  Child({
-    this.id,
-    this.name,
-  });
-
+class Childs {
   int id;
   String name;
+  List<Childs> childs;
 
-  factory Child.fromJson(Map<String, dynamic> json) => Child(
-        id: json["id"],
-        name: json["name"],
-      );
+  Childs({this.id, this.name, this.childs});
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-      };
+  Childs.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    if (json['childs'] != null) {
+      childs = new List<Childs>();
+      json['childs'].forEach((v) {
+        childs.add(new Childs.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    if (this.childs != null) {
+      data['childs'] = this.childs.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }

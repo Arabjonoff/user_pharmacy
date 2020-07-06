@@ -12,7 +12,7 @@ import '../../../app_theme.dart';
 // ignore: must_be_immutable
 class SubCategoryScreen extends StatefulWidget {
   String name;
-  List<Child> list;
+  List<Childs> list;
 
   SubCategoryScreen(this.name, this.list);
 
@@ -88,17 +88,42 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
               itemBuilder: (context, position) {
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                        type: PageTransitionType.fade,
-                        child: ItemListScreen(
-                          widget.list[position].name,
-                          1,
-                          widget.list[position].id.toString(),
+                    if (widget.list[position].childs.length > 0) {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.fade,
+                          child: SubCategoryScreen(
+                            widget.list[position].name,
+                            widget.list[position].childs,
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.fade,
+                          child: ItemListScreen(
+                            widget.list[position].name,
+                            1,
+                            widget.list[position].id.toString(),
+                          ),
+                        ),
+                      );
+                    }
+
+//                    Navigator.push(
+//                      context,
+//                      PageTransition(
+//                        type: PageTransitionType.fade,
+//                        child: ItemListScreen(
+//                          widget.list[position].name,
+//                          1,
+//                          widget.list[position].id.toString(),
+//                        ),
+//                      ),
+//                    );
                   },
                   child: Column(
                     children: <Widget>[
@@ -205,7 +230,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                   onTap: () {
                     var response = Utils.scanBarcodeNormal();
                     response.then(
-                          (value) => {
+                      (value) => {
                         if (value != "-1")
                           Navigator.push(
                             context,

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
@@ -63,8 +64,20 @@ class _ItemViewState extends State<ItemView> {
                         height: 112,
                         width: 112,
                         imageUrl: widget.item.imageThumbnail,
-                        placeholder: (context, url) => Icon(Icons.camera_alt),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        placeholder: (context, url) => Container(
+                          padding: EdgeInsets.all(25),
+                          child: Center(
+                            child: SvgPicture.asset(
+                                "assets/images/place_holder.svg"),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          padding: EdgeInsets.all(25),
+                          child: Center(
+                            child: SvgPicture.asset(
+                                "assets/images/place_holder.svg"),
+                          ),
+                        ),
                       ),
                     ),
                   ),

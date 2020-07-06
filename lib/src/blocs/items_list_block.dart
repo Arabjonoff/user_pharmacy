@@ -22,6 +22,10 @@ class ItemListBloc {
   Observable<List<ItemResult>> get getItemSearch => _itemSearchFetcher.stream;
 
   fetchAllItemCategory(String id, int page) async {
+    if (page == 1) {
+      usersCategory = new List();
+    }
+    print(usersCategory.length);
     ItemModel itemCategory = await _repository.fetchCategryItemList(id, page);
 
     List<ItemResult> database = await _repository.databaseItem();
@@ -38,6 +42,10 @@ class ItemListBloc {
   }
 
   fetchAllItemCategoryBest(int page) async {
+    if (page == 1) {
+      usersBest = new List();
+    }
+    print(usersBest.length);
     ItemModel itemModelResponse = await _repository.fetchBestItem(page);
     List<ItemResult> database = await _repository.databaseItem();
     for (var j = 0; j < database.length; j++) {
@@ -54,6 +62,10 @@ class ItemListBloc {
   }
 
   fetchAllItemSearch(String obj, int page) async {
+    if (page == 1) {
+      users = new List();
+    }
+    print(users.length);
     ItemModel itemModelResponse =
         await _repository.fetchSearchItemList(obj, page);
     List<ItemResult> database = await _repository.databaseItem();
@@ -70,6 +82,9 @@ class ItemListBloc {
   }
 
   dispose() {
+    users = new List();
+    usersCategory = new List();
+    usersBest = new List();
     _categoryItemsFetcher.close();
     _bestItemFetcher.close();
     _itemSearchFetcher.close();

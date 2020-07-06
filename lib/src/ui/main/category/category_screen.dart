@@ -4,6 +4,7 @@ import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
+import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/category/sub_category_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -94,16 +95,31 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     itemBuilder: (context, position) {
                       return GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              child: SubCategoryScreen(
-                                snapshot.data.results[position].name,
-                                snapshot.data.results[position].childs,
+                          if (snapshot.data.results[position].childs.length >
+                              0) {
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.fade,
+                                child: SubCategoryScreen(
+                                  snapshot.data.results[position].name,
+                                  snapshot.data.results[position].childs,
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                          } else {
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.fade,
+                                child: ItemListScreen(
+                                  snapshot.data.results[position].name,
+                                  1,
+                                  snapshot.data.results[position].id.toString(),
+                                ),
+                              ),
+                            );
+                          }
                         },
                         child: Column(
                           children: <Widget>[

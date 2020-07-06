@@ -15,6 +15,7 @@ import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
+import 'package:requests/requests.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PharmacyApiProvider {
@@ -27,10 +28,24 @@ class PharmacyApiProvider {
     final data = {
       "login": login,
     };
-    http.Response response =
-        await http.post(url, body: data).timeout(const Duration(seconds: 120));
 
-    final Map parsed = json.decode(response.body);
+    HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    request.write(json.encode(data));
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+
+//    http.Response response =
+//        await http.post(url, body: data).timeout(const Duration(seconds: 120));
+
+    print(reply);
+
+    final Map parsed = json.decode(reply);
 
     return LoginModel.fromJson(parsed);
   }
@@ -45,6 +60,9 @@ class PharmacyApiProvider {
     };
 
     HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
     HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
     request.write(json.encode(data));
@@ -73,6 +91,18 @@ class PharmacyApiProvider {
       HttpHeaders.authorizationHeader: "Bearer $token",
     };
 
+//    HttpClient httpClient = new HttpClient();
+//    httpClient
+//      ..badCertificateCallback =
+//          (X509Certificate cert, String host, int port) => true;
+//    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
+//    request.headers.set('content-type', 'application/json');
+//    request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
+//    request.write(json.encode(data));
+//    HttpClientResponse response = await request.close();
+//
+//    String reply = await response.transform(utf8.decoder).join();
+
     http.Response response = await http
         .post(url, headers: headers, body: data)
         .timeout(const Duration(seconds: 120));
@@ -87,11 +117,15 @@ class PharmacyApiProvider {
     String url = Utils.BASE_URL + '/api/v1/sales';
 
     HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
     HttpClientResponse response = await request.close();
 
     String reply = await response.transform(utf8.decoder).join();
+
     final Map parsed = json.decode(reply);
     return SaleModel.fromJson(parsed);
   }
@@ -102,6 +136,9 @@ class PharmacyApiProvider {
         '/api/v1/drugs?is_home=1&page=$page&per_page=$per_page';
 
     HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
     HttpClientResponse response = await request.close();
@@ -117,6 +154,9 @@ class PharmacyApiProvider {
     String url = Utils.BASE_URL + '/api/v1/categories';
 
     HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
     HttpClientResponse response = await request.close();
@@ -132,6 +172,9 @@ class PharmacyApiProvider {
     String url = Utils.BASE_URL + '/api/v1/drugs?search=' + obj;
 
     HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
     HttpClientResponse response = await request.close();
@@ -150,6 +193,9 @@ class PharmacyApiProvider {
         id;
 
     HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
     HttpClientResponse response = await request.close();
@@ -170,6 +216,9 @@ class PharmacyApiProvider {
     print(url);
 
     HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
     HttpClientResponse response = await request.close();
@@ -186,6 +235,9 @@ class PharmacyApiProvider {
     String url = Utils.BASE_URL + '/api/v1/drugs/' + id.toString();
 
     HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
     HttpClientResponse response = await request.close();
@@ -202,6 +254,9 @@ class PharmacyApiProvider {
         '/api/v1/stores?lat=69.33392286300659&lng=41.35453654564758';
 
     HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
     HttpClientResponse response = await request.close();
@@ -216,6 +271,9 @@ class PharmacyApiProvider {
     String url = Utils.BASE_URL + '/api/v1/regions?search=' + obj;
 
     HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
     HttpClientResponse response = await request.close();
@@ -237,6 +295,18 @@ class PharmacyApiProvider {
       'content-type': 'application/json'
     };
 
+//    HttpClient httpClient = new HttpClient();
+//    httpClient
+//      ..badCertificateCallback =
+//          (X509Certificate cert, String host, int port) => true;
+//    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
+//    request.headers.set('content-type', 'application/json');
+//    request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
+//    request.write(json.encode(order));
+//    HttpClientResponse response = await request.close();
+//
+//    String reply = await response.transform(utf8.decoder).join();
+
     http.Response response = await http
         .post(url, headers: headers, body: json.encode(order))
         .timeout(const Duration(seconds: 120));
@@ -257,11 +327,24 @@ class PharmacyApiProvider {
       HttpHeaders.authorizationHeader: "Bearer $token",
     };
 
-    http.Response response = await http
-        .get(url, headers: headers)
-        .timeout(const Duration(seconds: 120));
+    HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
+    HttpClientResponse response = await request.close();
 
-    final Map parsed = json.decode(response.body);
+    String reply = await response.transform(utf8.decoder).join();
+
+    print(reply);
+
+//    http.Response response = await http
+//        .get(url, headers: headers)
+//        .timeout(const Duration(seconds: 120));
+
+    final Map parsed = json.decode(reply);
 
     return HistoryModel.fromJson(parsed);
   }

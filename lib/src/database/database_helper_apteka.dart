@@ -12,6 +12,7 @@ class DatabaseHelperApteka {
   final String tableNote = 'aptekaTable';
   final String columnId = 'id';
   final String columnName = 'name';
+  final String columnAddress = 'address';
   final String columnOpen = 'open';
   final String columnNumber = 'number';
   final String columnLat = 'lat';
@@ -41,6 +42,7 @@ class DatabaseHelperApteka {
     await db.execute('CREATE TABLE $tableNote('
         '$columnId INTEGER PRIMARY KEY, '
         '$columnName TEXT, '
+        '$columnAddress TEXT, '
         '$columnOpen TEXT, '
         '$columnNumber TEXT, '
         '$columnLat REAL, '
@@ -58,6 +60,7 @@ class DatabaseHelperApteka {
     var result = await dbClient.query(tableNote, columns: [
       columnId,
       columnName,
+      columnAddress,
       columnOpen,
       columnNumber,
       columnLat,

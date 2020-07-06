@@ -366,13 +366,25 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                             child: CachedNetworkImage(
                                               height: 56,
                                               width: 56,
-                                              imageUrl:
-                                                  snapshot.data[index].imageThumbnail,
+                                              imageUrl: snapshot
+                                                  .data[index].imageThumbnail,
                                               placeholder: (context, url) =>
-                                                  Icon(Icons.camera_alt),
+                                                  Container(
+                                                padding: EdgeInsets.all(5),
+                                                child: Center(
+                                                  child: SvgPicture.asset(
+                                                      "assets/images/place_holder.svg"),
+                                                ),
+                                              ),
                                               errorWidget:
                                                   (context, url, error) =>
-                                                      Icon(Icons.error),
+                                                      Container(
+                                                padding: EdgeInsets.all(5),
+                                                child: Center(
+                                                  child: SvgPicture.asset(
+                                                      "assets/images/place_holder.svg"),
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -779,7 +791,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                         setState(() {
                                           error = true;
                                           loading = false;
-                                          error_text = value.msg;
+                                          error_text = translate("not_product");
                                         }),
                                       }
                                   }),

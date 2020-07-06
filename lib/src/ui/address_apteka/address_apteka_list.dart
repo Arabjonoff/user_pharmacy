@@ -32,7 +32,7 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
                 return Container(
-                  height: 124,
+                  height: 160,
                   margin: EdgeInsets.only(top: 16, left: 12, right: 12),
                   decoration: BoxDecoration(
                     color: AppTheme.white,
@@ -58,6 +58,7 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
                                   fontWeight: FontWeight.w600,
                                   color: AppTheme.black_text,
                                 ),
+                                maxLines: 2,
                               ),
                             ),
                             Container(

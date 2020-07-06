@@ -410,10 +410,20 @@ class _OrderNumberState extends State<OrderNumber> {
                                 width: 112,
                                 imageUrl:
                                     "http://185.183.243.77/media/drugs/7c6edcd0-c619-4bfa-8c46-a732200b0219.png",
-                                placeholder: (context, url) =>
-                                    Icon(Icons.camera_alt),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
+                                  placeholder: (context, url) => Container(
+                                    padding: EdgeInsets.all(25),
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                          "assets/images/place_holder.svg"),
+                                    ),
+                                  ),
+                                  errorWidget: (context, url, error) => Container(
+                                    padding: EdgeInsets.all(25),
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                          "assets/images/place_holder.svg"),
+                                    ),
+                                  ),
                               ),
                             ),
                             SizedBox(

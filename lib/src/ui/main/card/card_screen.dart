@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
@@ -149,11 +150,20 @@ class _CardScreenState extends State<CardScreen> {
                                               width: 112,
                                               imageUrl: snapshot
                                                   .data[index].imageThumbnail,
-                                              placeholder: (context, url) =>
-                                                  Icon(Icons.camera_alt),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Icon(Icons.error),
+                                                placeholder: (context, url) => Container(
+                                                  padding: EdgeInsets.all(25),
+                                                  child: Center(
+                                                    child: SvgPicture.asset(
+                                                        "assets/images/place_holder.svg"),
+                                                  ),
+                                                ),
+                                                errorWidget: (context, url, error) => Container(
+                                                  padding: EdgeInsets.all(25),
+                                                  child: Center(
+                                                    child: SvgPicture.asset(
+                                                        "assets/images/place_holder.svg"),
+                                                  ),
+                                                ),
                                             ),
                                           ),
                                         ),

@@ -36,7 +36,7 @@ class Repository {
   Future<SaleModel> fetchAllSales() => pharmacyApiProvider.fetchSaleList();
 
   Future<ItemModel> fetchBestItem(int page) =>
-      pharmacyApiProvider.fetchBestItemList(page, 12);
+      pharmacyApiProvider.fetchBestItemList(page, 20);
 
   Future<CategoryModel> fetchCategoryItem() =>
       pharmacyApiProvider.fetchCategoryList();
@@ -52,10 +52,10 @@ class Repository {
       databaseHelper.getProdu(isCard);
 
   Future<ItemModel> fetchCategryItemList(String id, int page) =>
-      pharmacyApiProvider.fetchCategoryItemsList(id, page, 12);
+      pharmacyApiProvider.fetchCategoryItemsList(id, page, 20);
 
   Future<ItemModel> fetchSearchItemList(String obj, int page) =>
-      pharmacyApiProvider.fetchSearchItemsList(obj, page, 12);
+      pharmacyApiProvider.fetchSearchItemsList(obj, page, 20);
 
   Future<ItemsAllModel> fetchItems(String id) =>
       pharmacyApiProvider.fetchItems(id);

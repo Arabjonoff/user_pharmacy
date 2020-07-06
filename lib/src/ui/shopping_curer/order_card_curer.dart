@@ -69,7 +69,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
 
   @override
   Widget build(BuildContext context) {
-//    getInfo();
+    //getInfo();
     blocCard.fetchAllCard();
     return Scaffold(
       backgroundColor: Colors.black,
@@ -188,7 +188,14 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                           PageTransition(
                             type: PageTransitionType.fade,
                             child: OrderCardPickupScreen(
-                              AptekaModel(-1, "", "", "", 0.0, 0.0, false),
+                              AptekaModel(
+                                  -1,
+                                  "",
+                                  "",
+                                  "",
+                                  0.0,
+                                  0.0,
+                                  false),
                             ),
                           ),
                         );
@@ -291,13 +298,6 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                   stream: blocCard.allCard,
                   builder: (context, AsyncSnapshot<List<ItemResult>> snapshot) {
                     if (snapshot.hasData) {
-                      allCount = 0;
-                      allPrice = 0.0;
-                      for (int i = 0; i < snapshot.data.length; i++) {
-                        allCount += snapshot.data[i].cardCount;
-                        allPrice += (snapshot.data[i].cardCount *
-                            snapshot.data[i].price);
-                      }
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -377,10 +377,23 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                               imageUrl: snapshot
                                                   .data[index].imageThumbnail,
                                               placeholder: (context, url) =>
-                                                  Icon(Icons.camera_alt),
+                                                  Container(
+                                                    padding: EdgeInsets.all(5),
+                                                    child: Center(
+                                                      child: SvgPicture.asset(
+                                                          "assets/images/place_holder.svg"),
+                                                    ),
+                                                  ),
                                               errorWidget:
                                                   (context, url, error) =>
-                                                      Icon(Icons.error),
+                                                  Container(
+                                                    padding: EdgeInsets.all(5),
+                                                    child: Center(
+                                                      child: SvgPicture.asset(
+                                                          "assets/images/place_holder.svg"),
+                                                    ),
+                                                  ),
+                                              fit: BoxFit.fitHeight,
                                             ),
                                           ),
                                         ),
@@ -393,7 +406,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                           width: 24,
                                           decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(18.0),
+                                            BorderRadius.circular(18.0),
                                             color: Color(0xFF99A2AD),
                                           ),
                                           child: Center(
@@ -421,24 +434,24 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                           widget.addressModel.id == -1
                               ? Container()
                               : Container(
-                                  margin: EdgeInsets.only(
-                                      top: 24, bottom: 3, left: 16, right: 16),
-                                  child: Text(
-                                    widget.addressModel.street +
-                                        ", " +
-                                        widget.addressModel.flat +
-                                        ", " +
-                                        widget.addressModel.etaj,
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 13,
-                                      fontStyle: FontStyle.normal,
-                                      color: AppTheme.black_text,
-                                      fontFamily: AppTheme.fontRoboto,
-                                    ),
-                                  ),
-                                ),
+                            margin: EdgeInsets.only(
+                                top: 24, bottom: 3, left: 16, right: 16),
+                            child: Text(
+                              widget.addressModel.street +
+                                  ", " +
+                                  widget.addressModel.flat +
+                                  ", " +
+                                  widget.addressModel.etaj,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 13,
+                                fontStyle: FontStyle.normal,
+                                color: AppTheme.black_text,
+                                fontFamily: AppTheme.fontRoboto,
+                              ),
+                            ),
+                          ),
                           GestureDetector(
                             child: Container(
                               margin: EdgeInsets.only(
@@ -452,13 +465,13 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                 borderRadius: BorderRadius.circular(10.0),
                                 border: widget.addressModel.id == -1
                                     ? Border.all(
-                                        color: AppTheme.blue_app_color,
-                                        width: 0.0,
-                                      )
+                                  color: AppTheme.blue_app_color,
+                                  width: 0.0,
+                                )
                                     : Border.all(
-                                        color: AppTheme.blue_app_color,
-                                        width: 2.0,
-                                      ),
+                                  color: AppTheme.blue_app_color,
+                                  width: 2.0,
+                                ),
                               ),
                               child: Center(
                                 child: Text(
@@ -500,11 +513,12 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                         shrinkWrap: true,
                         physics: ClampingScrollPhysics(),
                         itemCount: 10,
-                        itemBuilder: (_, __) => Container(
-                          height: 56,
-                          width: 56,
-                          color: AppTheme.white,
-                        ),
+                        itemBuilder: (_, __) =>
+                            Container(
+                              height: 56,
+                              width: 56,
+                              color: AppTheme.white,
+                            ),
                       ),
                     );
                   },
@@ -745,19 +759,19 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
             ),
             error
                 ? Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.only(top: 11, left: 16, right: 16),
-                    child: Text(
-                      error_text,
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontFamily: AppTheme.fontRoboto,
-                        fontSize: 13,
-                        color: AppTheme.red_fav_color,
-                      ),
-                    ),
-                  )
+              width: double.infinity,
+              margin: EdgeInsets.only(top: 11, left: 16, right: 16),
+              child: Text(
+                error_text,
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontFamily: AppTheme.fontRoboto,
+                  fontSize: 13,
+                  color: AppTheme.red_fav_color,
+                ),
+              ),
+            )
                 : Container(),
             Container(
               height: 1,
@@ -780,72 +794,74 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     });
                     AddOrderModel addModel = new AddOrderModel();
                     List<Drugs> drugs = new List();
-                    dataBase.getProdu(true).then((value) => {
-                          for (int i = 0; i < value.length; i++)
-                            {
-                              drugs.add(Drugs(
-                                  drug: value[i].id, qty: value[i].cardCount))
-                            },
-                          addModel = new AddOrderModel(
-                            address: widget.addressModel.street +
-                                "," +
-                                widget.addressModel.flat +
-                                "," +
-                                widget.addressModel.padez +
-                                "," +
-                                widget.addressModel.etaj +
-                                "," +
-                                widget.addressModel.komment,
-                            location: "0,0",
-                            shipdate:
-                                date.year.toString() + "-" + month + "-" + day,
-                            type: "shipping",
-                            full_name: fullName,
-                            phone: number,
-                            store_id: widget.addressModel.id,
-                            drugs: drugs,
-                          ),
-                          Repository()
-                              .fetchRAddOrder(addModel)
-                              .then((response) => {
-                                    if (response.status == 1)
-                                      {
-                                        setState(() {
-                                          loading = false;
-                                          error = false;
-                                        }),
-                                        for (int i = 0; i < value.length; i++)
-                                          {
-                                            if (value[i].favourite)
-                                              {
-                                                value[i].cardCount = 0,
-                                                dataBase.updateProduct(value[i])
-                                              }
-                                            else
-                                              {
-                                                dataBase
-                                                    .deleteProducts(value[i].id)
-                                              }
-                                          },
-                                        Navigator.pushReplacement(
-                                          context,
-                                          PageTransition(
-                                            type: PageTransitionType.fade,
-                                            child: ShoppingWebScreen(
-                                                response.data.octoPayUrl),
-                                          ),
-                                        )
-                                      }
-                                    else
-                                      {
-                                        setState(() {
-                                          error = true;
-                                          loading = false;
-                                          error_text = response.msg;
-                                        }),
-                                      }
-                                  }),
-                        });
+                    dataBase.getProdu(true).then((value) =>
+                    {
+                      for (int i = 0; i < value.length; i++)
+                        {
+                          drugs.add(Drugs(
+                              drug: value[i].id, qty: value[i].cardCount))
+                        },
+                      addModel = new AddOrderModel(
+                        address: widget.addressModel.street +
+                            "," +
+                            widget.addressModel.flat +
+                            "," +
+                            widget.addressModel.padez +
+                            "," +
+                            widget.addressModel.etaj +
+                            "," +
+                            widget.addressModel.komment,
+                        location: "0,0",
+                        shipdate:
+                        date.year.toString() + "-" + month + "-" + day,
+                        type: "shipping",
+                        full_name: fullName,
+                        phone: number,
+                        store_id: widget.addressModel.id,
+                        drugs: drugs,
+                      ),
+                      Repository()
+                          .fetchRAddOrder(addModel)
+                          .then((response) =>
+                      {
+                        if (response.status == 1)
+                          {
+                            setState(() {
+                              loading = false;
+                              error = false;
+                            }),
+                            for (int i = 0; i < value.length; i++)
+                              {
+                                if (value[i].favourite)
+                                  {
+                                    value[i].cardCount = 0,
+                                    dataBase.updateProduct(value[i])
+                                  }
+                                else
+                                  {
+                                    dataBase
+                                        .deleteProducts(value[i].id)
+                                  }
+                              },
+                            Navigator.pushReplacement(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.fade,
+                                child: ShoppingWebScreen(
+                                    response.data.octoPayUrl),
+                              ),
+                            )
+                          }
+                        else
+                          {
+                            setState(() {
+                              error = true;
+                              loading = false;
+                              error_text = translate("not_product");
+                            }),
+                          }
+                      }),
+                    });
                   }
                 }
               },
@@ -867,21 +883,21 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                 child: Center(
                   child: loading
                       ? CircularProgressIndicator(
-                          value: null,
-                          strokeWidth: 3.0,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(AppTheme.white),
-                        )
+                    value: null,
+                    strokeWidth: 3.0,
+                    valueColor:
+                    AlwaysStoppedAnimation<Color>(AppTheme.white),
+                  )
                       : Text(
-                          translate("orders.oplat"),
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontFamily: AppTheme.fontRoboto,
-                            fontSize: 17,
-                            color: AppTheme.white,
-                          ),
-                          maxLines: 1,
-                        ),
+                    translate("orders.oplat"),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontFamily: AppTheme.fontRoboto,
+                      fontSize: 17,
+                      color: AppTheme.white,
+                    ),
+                    maxLines: 1,
+                  ),
                 ),
               ),
             )
@@ -894,9 +910,26 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
   Future<void> getInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    dataBase.getProdu(true).then((value) =>
+    {
+      allCount = 0,
+      allPrice = 0.0,
+
+      setState(() {
+        for (int i = 0; i < value.length; i++) {
+          allCount += value[i].cardCount;
+          allPrice += (value[i].cardCount * value[i].price);
+        }
+      }),
+    });
+
+    print(allCount);
+
     setState(() {
       var num = "+";
-      for (int i = 0; i < prefs.getString("number").length; i++) {
+      for (int i = 0; i < prefs
+          .getString("number")
+          .length; i++) {
         if (i == 3 || i == 5 || i == 8 || i == 10) {
           num += " ";
         }

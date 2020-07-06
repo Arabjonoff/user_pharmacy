@@ -4,6 +4,10 @@ import 'package:flutter_translate/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
+
+  //static String BASE_URL = "http://185.183.243.77";
+  static String BASE_URL = "https://online.grandpharm.uz";
+
   static Future<void> saveData(String name, String surname, String birthday,
       String gender, String token, String number) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -25,7 +29,7 @@ class Utils {
     }
   }
 
-  static String BASE_URL = "http://185.183.243.77";
+
 
   static Future<String> scanBarcodeNormal() async {
     try {

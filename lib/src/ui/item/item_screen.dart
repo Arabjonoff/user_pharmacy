@@ -81,8 +81,20 @@ class _ItemScreenState extends State<ItemScreen>
                       height: 240,
                       width: 240,
                       imageUrl: data.image,
-                      placeholder: (context, url) => Icon(Icons.camera_alt),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
+                        placeholder: (context, url) => Container(
+                          padding: EdgeInsets.all(25),
+                          child: Center(
+                            child: SvgPicture.asset(
+                                "assets/images/place_holder.svg"),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          padding: EdgeInsets.all(25),
+                          child: Center(
+                            child: SvgPicture.asset(
+                                "assets/images/place_holder.svg"),
+                          ),
+                        ),
                     ),
                   ),
                 ),
@@ -356,10 +368,20 @@ class _ItemScreenState extends State<ItemScreen>
                           height: 140,
                           child: CachedNetworkImage(
                             imageUrl: items[index].image,
-                            placeholder: (context, url) =>
-                                Icon(Icons.camera_alt),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
+                            placeholder: (context, url) => Container(
+                              padding: EdgeInsets.all(25),
+                              child: Center(
+                                child: SvgPicture.asset(
+                                    "assets/images/place_holder.svg"),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              padding: EdgeInsets.all(25),
+                              child: Center(
+                                child: SvgPicture.asset(
+                                    "assets/images/place_holder.svg"),
+                              ),
+                            ),
                             fit: BoxFit.fitHeight,
                           ),
                         ),
@@ -652,10 +674,20 @@ class _ItemScreenState extends State<ItemScreen>
                           height: 140,
                           child: CachedNetworkImage(
                             imageUrl: items[index].image,
-                            placeholder: (context, url) =>
-                                Icon(Icons.camera_alt),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
+                            placeholder: (context, url) => Container(
+                              padding: EdgeInsets.all(25),
+                              child: Center(
+                                child: SvgPicture.asset(
+                                    "assets/images/place_holder.svg"),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              padding: EdgeInsets.all(25),
+                              child: Center(
+                                child: SvgPicture.asset(
+                                    "assets/images/place_holder.svg"),
+                              ),
+                            ),
                             fit: BoxFit.fitHeight,
                           ),
                         ),

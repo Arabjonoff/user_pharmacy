@@ -37,7 +37,7 @@ class HomeScreen extends StatefulWidget {
   }
 }
 
-final List<TopItemModel> topItems = TopItemModel.topTitle;
+//final List<TopItemModel> topItems = TopItemModel.topTitle;
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Size size;
@@ -162,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       borderRadius: BorderRadius.circular(10.0),
                       child: Stack(
                         children: [
-                          SvgPicture.asset(topItems[0].image),
+                          SvgPicture.asset("assets/images/card.svg"),
                           Container(
                             padding: EdgeInsets.only(left: 12),
                             width: 113,
@@ -183,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 SizedBox(
                                   height: 16,
                                   child: Text(
-                                    topItems[0].name,
+                                    translate("home.your"),
                                     style: TextStyle(
                                       color: AppTheme.white,
                                       fontSize: 13,
@@ -195,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 SizedBox(
                                   height: 22,
                                   child: Text(
-                                    topItems[0].title.toUpperCase(),
+                                    translate("home.karta").toUpperCase(),
                                     style: TextStyle(
                                       color: AppTheme.white,
                                       fontSize: 17,
@@ -235,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       borderRadius: BorderRadius.circular(10.0),
                       child: Stack(
                         children: [
-                          SvgPicture.asset(topItems[1].image),
+                          SvgPicture.asset("assets/images/card2.svg"),
                           Container(
                             padding: EdgeInsets.only(left: 12),
                             width: 113,
@@ -256,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 SizedBox(
                                   height: 16,
                                   child: Text(
-                                    topItems[1].name,
+                                    translate("home.look"),
                                     style: TextStyle(
                                       color: AppTheme.white,
                                       fontSize: 13,
@@ -268,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 SizedBox(
                                   height: 22,
                                   child: Text(
-                                    topItems[1].title.toUpperCase(),
+                                    translate("home.pharmacy").toUpperCase(),
                                     style: TextStyle(
                                       color: AppTheme.white,
                                       fontSize: 17,
@@ -308,7 +308,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       borderRadius: BorderRadius.circular(10.0),
                       child: Stack(
                         children: [
-                          SvgPicture.asset(topItems[2].image),
+                          SvgPicture.asset("assets/images/card3.svg"),
                           Container(
                             padding: EdgeInsets.only(left: 12),
                             width: 113,
@@ -329,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 SizedBox(
                                   height: 16,
                                   child: Text(
-                                    topItems[2].name,
+                                    translate("home.karta"),
                                     style: TextStyle(
                                       color: AppTheme.white,
                                       fontSize: 13,
@@ -341,7 +341,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 SizedBox(
                                   height: 22,
                                   child: Text(
-                                    topItems[2].title.toUpperCase(),
+                                    translate("home.pharma").toUpperCase(),
                                     style: TextStyle(
                                       color: AppTheme.white,
                                       fontSize: 17,
@@ -373,7 +373,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       borderRadius: BorderRadius.circular(10.0),
                       child: Stack(
                         children: [
-                          SvgPicture.asset(topItems[3].image),
+                          SvgPicture.asset("assets/images/card4.svg"),
                           Container(
                             padding: EdgeInsets.only(left: 12),
                             width: 113,
@@ -394,7 +394,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 SizedBox(
                                   height: 16,
                                   child: Text(
-                                    topItems[3].name,
+                                    translate("home.set"),
                                     style: TextStyle(
                                       color: AppTheme.white,
                                       fontSize: 13,
@@ -406,7 +406,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 SizedBox(
                                   height: 22,
                                   child: Text(
-                                    topItems[3].title.toUpperCase(),
+                                    translate("home.question").toUpperCase(),
                                     style: TextStyle(
                                       color: AppTheme.white,
                                       fontSize: 17,
@@ -489,10 +489,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               height: 154,
                               child: CachedNetworkImage(
                                 imageUrl: snapshot.data.results[index].image,
-                                placeholder: (context, url) =>
-                                    Icon(Icons.camera_alt),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
+                                placeholder: (context, url) => Container(
+                                  color: AppTheme.background,
+                                ),
+                                errorWidget: (context, url, error) => Container(
+                                  color: AppTheme.background,
+                                ),
                                 fit: BoxFit.fitHeight,
                               ),
                             ),
@@ -625,10 +627,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 child: CachedNetworkImage(
                                   imageUrl: snapshot
                                       .data.results[index].getImageThumbnail,
-                                  placeholder: (context, url) =>
-                                      Icon(Icons.camera_alt),
+                                  placeholder: (context, url) => Container(
+                                    padding: EdgeInsets.all(25),
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                          "assets/images/place_holder.svg"),
+                                    ),
+                                  ),
                                   errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
+                                      Container(
+                                    padding: EdgeInsets.all(25),
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                          "assets/images/place_holder.svg"),
+                                    ),
+                                  ),
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
