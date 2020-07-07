@@ -10,14 +10,15 @@ class AptekaBloc {
 
   Observable<List<AptekaModel>> get allApteka => _aptekaFetcher.stream;
 
-  fetchAllApteka() async {
-    List<LocationModel> saleModel = await _repository.fetchApteka();
+  fetchAllApteka(double lat, double lng) async {
+    List<LocationModel> saleModel = await _repository.fetchApteka(lat,lng);
     List<AptekaModel> aptekadatabase = await _repository.dbAptekaItems();
     List<AptekaModel> aptekadata = new List();
 
     for (int i = 0; i < saleModel.length; i++) {
       aptekadata.add(AptekaModel(
         saleModel[i].id,
+        saleModel[i].name,
         saleModel[i].address,
         saleModel[i].mode,
         saleModel[i].phone,

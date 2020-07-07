@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:pharmacy/src/blocs/aptek_block.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/database/database_helper_apteka.dart';
@@ -21,7 +22,8 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    blocApteka.fetchAllApteka();
+    getLocation();
+
     return Scaffold(
       backgroundColor: AppTheme.background,
       body: StreamBuilder(
@@ -32,7 +34,7 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
                 return Container(
-                  height: 160,
+                  height: 200,
                   margin: EdgeInsets.only(top: 16, left: 12, right: 12),
                   decoration: BoxDecoration(
                     color: AppTheme.white,
@@ -53,9 +55,36 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
                               child: Text(
                                 snapshot.data[index].name,
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   fontFamily: AppTheme.fontRoboto,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppTheme.black_text,
+                                ),
+                                maxLines: 2,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  top: 3, left: 14.5, right: 14.5),
+                              child: Text(
+                                translate("name"),
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontWeight: FontWeight.normal,
+                                  color: AppTheme.black_transparent_text,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  top: 10, left: 14.5, right: 14.5),
+                              child: Text(
+                                snapshot.data[index].address,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontWeight: FontWeight.w500,
                                   color: AppTheme.black_text,
                                 ),
                                 maxLines: 2,
@@ -92,9 +121,9 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
                                             child: Text(
                                               snapshot.data[index].open,
                                               style: TextStyle(
-                                                fontSize: 16,
+                                                fontSize: 14,
                                                 fontFamily: AppTheme.fontRoboto,
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w500,
                                                 color: AppTheme.black_text,
                                               ),
                                             ),
@@ -131,9 +160,9 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
                                             child: Text(
                                               snapshot.data[index].number,
                                               style: TextStyle(
-                                                fontSize: 16,
+                                                fontSize: 14,
                                                 fontFamily: AppTheme.fontRoboto,
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w500,
                                                 color: AppTheme.black_text,
                                               ),
                                             ),
@@ -206,7 +235,7 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
             highlightColor: Colors.grey[100],
             child: ListView.builder(
               itemBuilder: (_, __) => Container(
-                height: 124,
+                height: 200,
                 margin: EdgeInsets.only(top: 16, left: 12, right: 12),
                 decoration: BoxDecoration(
                   color: AppTheme.white,
@@ -219,5 +248,15 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
         },
       ),
     );
+  }
+
+  Future<void> getLocation() async {
+    Position position = await Geolocator().getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.bestForNavigation);
+    if (position.latitude != null && position.longitude != null)
+      blocApteka.fetchAllApteka(position.latitude, position.longitude);
+    else
+      blocApteka.fetchAllApteka(0.0, 0.0);
+    print(position.longitude);
   }
 }

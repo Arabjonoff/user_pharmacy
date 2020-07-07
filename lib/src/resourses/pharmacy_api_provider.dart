@@ -249,9 +249,9 @@ class PharmacyApiProvider {
   }
 
   ///items
-  Future<List<LocationModel>> fetchApteka() async {
+  Future<List<LocationModel>> fetchApteka(double lat, double lng) async {
     String url = Utils.BASE_URL +
-        '/api/v1/stores?lat=69.33392286300659&lng=41.35453654564758';
+        '/api/v1/stores?lat=$lat&lng=$lng';
 
     HttpClient httpClient = new HttpClient();
     httpClient

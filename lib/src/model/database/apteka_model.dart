@@ -9,8 +9,11 @@ class AptekaModel {
   bool fav = false;
 
 
-  AptekaModel(
-      this.id, this.name, this.open, this.number, this.lat, this.lon, this.fav);
+  AptekaModel(this.id, this.name, this.address, this.open, this.number,
+      this.lat, this.lon, this.fav);
+
+//  AptekaModel(
+//      this.id, this.name, this.open, this.number, this.lat, this.lon, this.fav);
 
   AptekaModel.fromMap(Map<String, dynamic> map) {
     this.id = map["id"];

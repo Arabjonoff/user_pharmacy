@@ -1,137 +1,147 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:flutter_translate/global.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-const String page1 = "Page 1";
-const String page2 = "Page 2";
-const String page3 = "Page 3";
-const String title = "BNB Demo";
+import '../app_theme.dart';
 
-class MyApppp extends StatelessWidget {
+// ignore: must_be_immutable
+class DeleteWebScreen extends StatefulWidget {
+  String url;
+
+  DeleteWebScreen(this.url);
+
   @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: title,
-      home: new MyHomePage(title: title),
-    );
+  State<StatefulWidget> createState() {
+    return _DeleteWebScreenState();
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
-
-  @override
-  _MyHomePageState createState() => new _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  List<Widget> _pages;
-  Widget _page1;
-  Widget _page2;
-  Widget _page3;
-
-  int _currentIndex;
-  Widget _currentPage;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _page1 = Page1();
-    _page2 = Page2();
-    _page3 = Page3();
-
-    _pages = [_page1, _page2, _page3];
-
-    _currentIndex = 0;
-    _currentPage = _page1;
-  }
-
-  void changeTab(int index) {
-    setState(() {
-      _currentIndex = index;
-      _currentPage = _pages[index];
-    });
-  }
-
+class _DeleteWebScreenState extends State<DeleteWebScreen> {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
-      ),
-      body: _currentPage,
-      bottomNavigationBar: BottomNavigationBar(
-          onTap: (index) => changeTab(index),
-          currentIndex: _currentIndex,
-          items: [
-            BottomNavigationBarItem(
-                title: Text(page1), icon: Icon(Icons.account_circle)),
-            BottomNavigationBarItem(
-                title: Text(page2), icon: Icon(Icons.account_circle)),
-            BottomNavigationBarItem(
-                title: Text(page3), icon: Icon(Icons.account_circle))
-          ]),
-      drawer: new Drawer(
-        child: new Container(
-          margin: EdgeInsets.only(top: 20.0),
-          child: new Column(
-            children: <Widget>[
-              navigationItemListTitle(page1, 0),
-              navigationItemListTitle(page2, 1),
-              navigationItemListTitle(page3, 2),
-            ],
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(30.0),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            elevation: 0.0,
+            backgroundColor: Colors.black,
+            brightness: Brightness.dark,
+            title: Container(
+              height: 30,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: AppTheme.item_navigation,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.0),
+                      topRight: Radius.circular(10.0),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )),
+      body: Container(
+        decoration: BoxDecoration(
+          color: Color(0xFF44337A),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(14.0),
+            topRight: Radius.circular(14.0),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget navigationItemListTitle(String title, int index) {
-    return new ListTile(
-      title: new Text(
-        title,
-        style: new TextStyle(color: Colors.blue[400], fontSize: 22.0),
-      ),
-      onTap: () {
-        Navigator.pop(context);
-        changeTab(index);
-      },
-    );
-  }
-}
-
-class Page1 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        height: 450,
-        child: FadeInImage(
-          fit: BoxFit.fitHeight,
-          image: NetworkImage(
-              "https://online.grandpharm.uz/media/sales/77130e2b-70a8-4aea-bf46-7d1f506ec70b.png"),
-          placeholder: AssetImage("assets/images/red.png"),
-
+        padding: EdgeInsets.only(top: 14),
+        child: Column(
+          children: [
+            Container(
+              height: 36,
+              width: double.infinity,
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      translate("card.payment"),
+                      style: TextStyle(
+                        fontStyle: FontStyle.normal,
+                        fontFamily: AppTheme.fontCommons,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: AppTheme.white,
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            child: HistoryOrderScreen(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 36,
+                        margin: EdgeInsets.only(right: 16),
+                        width: 36,
+                        child: Center(
+                          child: Container(
+                            height: 24,
+                            width: 24,
+                            padding: EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              color: AppTheme.arrow_back,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: SvgPicture.asset(
+                                "assets/images/arrow_close.svg"),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: WebView(
+                initialUrl: widget.url,
+                javascriptMode: JavascriptMode.unrestricted,
+                navigationDelegate: (NavigationRequest request) {
+                  if (request.url.startsWith('https://prep.uz/')) {
+                    print('blocking navigation to $request}');
+                    return NavigationDecision.prevent;
+                  }
+                  print('allowing navigation to $request');
+                  return NavigationDecision.navigate;
+                },
+                onWebViewCreated: (controller) => {
+                  controller.canGoBack().then((value) => print("Back"+value.toString())),
+                  controller.canGoForward().then((value) => print("canGoForward"+value.toString())),
+                  controller.currentUrl().then((value) => print("currentUrl"+value.toString())),
+                },
+                onPageStarted: (String url) {
+                  print('Page started loading: $url');
+                },
+                onPageFinished: (String url) {
+                  print('Page finished loading: $url');
+                },
+                gestureNavigationEnabled: true,
+              ),
+            )
+          ],
         ),
       ),
-    );
-  }
-}
-
-class Page2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(page2),
-    );
-  }
-}
-
-class Page3 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(page3),
     );
   }
 }

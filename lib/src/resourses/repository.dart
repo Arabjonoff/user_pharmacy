@@ -60,8 +60,8 @@ class Repository {
   Future<ItemsAllModel> fetchItems(String id) =>
       pharmacyApiProvider.fetchItems(id);
 
-  Future<List<LocationModel>> fetchApteka() =>
-      pharmacyApiProvider.fetchApteka();
+  Future<List<LocationModel>> fetchApteka(double lat, double lng) =>
+      pharmacyApiProvider.fetchApteka(lat,lng);
 
   Future<List<RegionModel>> fetchRegions(String obj) =>
       pharmacyApiProvider.fetchRegions(obj);

@@ -5,6 +5,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
+import 'package:pharmacy/src/ui/item/item_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BottomDialog {
   static void showDemoActionSheet({BuildContext context, Widget child}) {
@@ -208,7 +210,7 @@ class BottomDialog {
                   topLeft: Radius.circular(20.0),
                   topRight: Radius.circular(20.0)),
               child: Container(
-                height: 300,
+                height: 350,
                 color: AppTheme.white,
                 child: Column(
                   children: <Widget>[
@@ -225,6 +227,37 @@ class BottomDialog {
                       margin: EdgeInsets.only(left: 12, right: 12, top: 25),
                       width: double.infinity,
                       child: Text(
+                        locationItem.name,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRoboto,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 15,
+                          fontStyle: FontStyle.normal,
+                          color: AppTheme.black_text,
+                        ),
+                        maxLines: 1,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 12, right: 12, top: 2),
+                      width: double.infinity,
+                      child: Text(
+                        translate("name"),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRoboto,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 13,
+                          fontStyle: FontStyle.normal,
+                          color: AppTheme.black_transparent_text,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 12, right: 12, top: 25),
+                      width: double.infinity,
+                      child: Text(
                         locationItem.address,
                         textAlign: TextAlign.start,
                         style: TextStyle(
@@ -234,6 +267,7 @@ class BottomDialog {
                           fontStyle: FontStyle.normal,
                           color: AppTheme.black_text,
                         ),
+                        maxLines: 1,
                       ),
                     ),
                     Container(
@@ -264,6 +298,7 @@ class BottomDialog {
                           fontStyle: FontStyle.normal,
                           color: AppTheme.black_text,
                         ),
+                        maxLines: 1,
                       ),
                     ),
                     Container(
@@ -294,6 +329,7 @@ class BottomDialog {
                           fontStyle: FontStyle.normal,
                           color: AppTheme.black_text,
                         ),
+                        maxLines: 1,
                       ),
                     ),
                     Container(
@@ -314,7 +350,17 @@ class BottomDialog {
                     Expanded(
                       child: Center(
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () async {
+                            var lat = locationItem.location.coordinates[1];
+                            var lng = locationItem.location.coordinates[0];
+                            var url =
+                                'https://www.google.com/maps/search/?api=1&query=$lat,$lng';
+                            if (await canLaunch(url)) {
+                              await launch(url);
+                            } else {
+                              throw 'Could not launch $url';
+                            }
+                          },
                           child: Container(
                             width: double.infinity,
                             height: 44,

@@ -102,7 +102,8 @@ class _AddressAptekaScreenState extends State<AddressAptekaPickupScreen>
                             PageTransition(
                               type: PageTransitionType.fade,
                               child: OrderCardPickupScreen(
-                                AptekaModel(-1, "", "", "", 0.0, 0.0, false),
+                                AptekaModel(
+                                    -1, "", "", "", "", 0.0, 0.0, false),
                               ),
                             ),
                           );
@@ -143,7 +144,7 @@ class _AddressAptekaScreenState extends State<AddressAptekaPickupScreen>
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child:
-                        SvgPicture.asset("assets/images/arrow_close.svg"),
+                            SvgPicture.asset("assets/images/arrow_close.svg"),
                       ),
                     )
                   ],

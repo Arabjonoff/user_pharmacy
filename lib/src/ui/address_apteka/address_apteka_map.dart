@@ -49,7 +49,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   }
 
   _getLocation() async {
-    _addMarkers(Repository().fetchApteka());
+    _addMarkers(Repository().fetchApteka(0.0,0.0));
 
     geolocator
         .getPositionStream(LocationOptions(

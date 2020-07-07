@@ -426,13 +426,12 @@ class _AddAddressCardScreenState extends State<AddAddressCardScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (homeController.text.isNotEmpty &&
-                    ofisController.text.isNotEmpty) {
+                if (homeController.text.isNotEmpty) {
                   db.saveProducts(
                     AddressModel(
                       0,
                       homeController.text,
-                      ofisController.text,
+                      ofisController.text == null ? "" : ofisController.text,
                       padezController.text == null ? "" : padezController.text,
                       etajController.text == null ? "" : etajController.text,
                       commentController.text == null

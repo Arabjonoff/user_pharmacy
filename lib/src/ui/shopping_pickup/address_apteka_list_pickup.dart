@@ -24,7 +24,7 @@ class _AddressAptekaListPickupScreenState
 
   @override
   Widget build(BuildContext context) {
-    blocApteka.fetchAllApteka();
+    blocApteka.fetchAllApteka(0.0, 0.0);
     return Scaffold(
       backgroundColor: AppTheme.background,
       body: StreamBuilder(

@@ -5,10 +5,11 @@
   "next": "Keyingisi",
   "sale": "Chegirmalar",
   "not_product": "Soni yetarli emas",
+  "name": "Nomi",
   "main": {
     "home": "Asosiy",
     "catalog": "Katalog",
-    "card": "Karta",
+    "card": "Savatcha",
     "favourite": "Sevimli",
     "menu": "Menyu"
   },

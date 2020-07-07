@@ -78,6 +78,7 @@ class DatabaseHelperApteka {
       var items = new AptekaModel(
         list[i][columnId],
         list[i][columnName],
+        list[i][columnAddress],
         list[i][columnOpen],
         list[i][columnNumber],
         list[i][columnLat],
@@ -95,6 +96,7 @@ class DatabaseHelperApteka {
         columns: [
           columnId,
           columnName,
+          columnAddress,
           columnOpen,
           columnNumber,
           columnLat,

@@ -53,7 +53,7 @@ class _AddressAptekaMapPickupScreenState
   }
 
   _getLocation() async {
-    _addMarkers(Repository().fetchApteka());
+    _addMarkers(Repository().fetchApteka(0.0,0.0));
 
     geolocator
         .getPositionStream(LocationOptions(
@@ -212,7 +212,6 @@ class _AddressAptekaMapPickupScreenState
                             onTap: () {
                               Navigator.pop(context);
 
-
                               Navigator.pushReplacement(
                                 context,
                                 PageTransition(
@@ -221,6 +220,7 @@ class _AddressAptekaMapPickupScreenState
                                     AptekaModel(
                                       data[i].id,
                                       data[i].name,
+                                      data[i].address,
                                       data[i].mode,
                                       data[i].phone,
                                       data[i].location.coordinates[1],

@@ -193,6 +193,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                   "",
                                   "",
                                   "",
+                                  "",
                                   0.0,
                                   0.0,
                                   false),

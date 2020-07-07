@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: MainScreen(),
+        home: DeleteWebScreen("https://prep.uz/"),
       ),
     );
   }
