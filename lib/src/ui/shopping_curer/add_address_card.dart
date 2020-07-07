@@ -18,13 +18,6 @@ class AddAddressCardScreen extends StatefulWidget {
   }
 }
 
-class CheckboxList {
-  String number;
-  int index;
-
-  CheckboxList({this.number, this.index});
-}
-
 class _AddAddressCardScreenState extends State<AddAddressCardScreen> {
   TextEditingController homeController = TextEditingController();
   TextEditingController ofisController = TextEditingController();

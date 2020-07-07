@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/model/sort_radio_btn.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/add_address_card.dart';
@@ -35,14 +36,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   int id = 1;
   String birthday = "";
 
-  List<CheckboxList> nList = [
-    CheckboxList(
+  List<RadioGroup> nList = [
+    RadioGroup(
       index: 1,
-      number: translate("auth.male"),
+      name: translate("auth.male"),
     ),
-    CheckboxList(
+    RadioGroup(
       index: 2,
-      number: translate("auth.female"),
+      name: translate("auth.female"),
     ),
   ];
 
@@ -332,7 +333,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       children: nList
                           .map((data) => RadioListTile(
                                 title: Text(
-                                  "${data.number}",
+                                  "${data.name}",
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontStyle: FontStyle.normal,
@@ -346,7 +347,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 value: data.index,
                                 onChanged: (val) {
                                   setState(() {
-                                    radioItemHolder = data.number;
+                                    radioItemHolder = data.name;
                                     id = data.index;
                                   });
                                 },

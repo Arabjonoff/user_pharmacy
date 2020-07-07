@@ -781,8 +781,8 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                           context,
                                           PageTransition(
                                             type: PageTransitionType.fade,
-                                            child: ShoppingWebScreen(
-                                                value.data.octoPayUrl),
+                                            child:
+                                                ShoppingWebScreen(value.data),
                                           ),
                                         )
                                       }

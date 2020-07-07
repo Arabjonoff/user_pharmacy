@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:pharmacy/src/model/sort_radio_btn.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/shopping_curer/add_address_card.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -30,14 +31,14 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
   int id = 1;
   String birthday = "";
 
-  List<CheckboxList> nList = [
-    CheckboxList(
+  List<RadioGroup> nList = [
+    RadioGroup(
       index: 1,
-      number: translate("auth.male"),
+      name: translate("auth.male"),
     ),
-    CheckboxList(
+    RadioGroup(
       index: 2,
-      number: translate("auth.female"),
+      name: translate("auth.female"),
     ),
   ];
 
@@ -363,7 +364,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                     children: nList
                         .map((data) => RadioListTile(
                               title: Text(
-                                "${data.number}",
+                                "${data.name}",
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontStyle: FontStyle.normal,
@@ -377,7 +378,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                               value: data.index,
                               onChanged: (val) {
                                 setState(() {
-                                  radioItemHolder = data.number;
+                                  radioItemHolder = data.name;
                                   id = data.index;
                                 });
                               },
@@ -470,7 +471,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
     setState(() {
       token = prefs.getString("token");
       number = prefs.getString("number");
-      birthday =prefs.getString("birthday");
+      birthday = prefs.getString("birthday");
       var day = prefs.getString("birthday").split("-")[2];
       var month = prefs.getString("birthday").split("-")[1];
       var num = "+";

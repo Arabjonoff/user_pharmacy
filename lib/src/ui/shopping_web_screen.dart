@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,6 +25,8 @@ class ShoppingWebScreen extends StatefulWidget {
 class _ShoppingWebScreenState extends State<ShoppingWebScreen> {
   @override
   Widget build(BuildContext context) {
+    final String contentBase64 =
+        base64Encode(const Utf8Encoder().convert(widget.url));
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
@@ -51,7 +55,7 @@ class _ShoppingWebScreenState extends State<ShoppingWebScreen> {
           )),
       body: Container(
         decoration: BoxDecoration(
-          color: Color(0xFF44337A),
+          color: AppTheme.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(14.0),
             topRight: Radius.circular(14.0),
@@ -74,7 +78,7 @@ class _ShoppingWebScreenState extends State<ShoppingWebScreen> {
                         fontFamily: AppTheme.fontCommons,
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
-                        color: AppTheme.white,
+                        color: AppTheme.black_text,
                       ),
                     ),
                   ),
@@ -115,10 +119,10 @@ class _ShoppingWebScreenState extends State<ShoppingWebScreen> {
             ),
             Expanded(
               child: WebView(
-                initialUrl: widget.url,
+                initialUrl: 'data:text/html;base64,$contentBase64',
                 javascriptMode: JavascriptMode.unrestricted,
                 navigationDelegate: (NavigationRequest request) {
-                  if (request.url.startsWith('https://www.youtube.com/')) {
+                  if (request.url.startsWith('https://www.prep.uz/')) {
                     print('blocking navigation to $request}');
                     return NavigationDecision.prevent;
                   }

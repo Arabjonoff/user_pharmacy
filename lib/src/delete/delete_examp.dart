@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -33,6 +35,12 @@ void setData() {
 }
 
 class _DeleteWebScreenState extends State<DeleteWebScreen> {
+  String url =
+      "<form name=\"mf55796979\" id=\"mf55796979\" action=\"https://wi.ipakyulibank.uz/acquiring/hJaAGAA/Uz5QszX1kA9J6C6A7UtYScICvmVZ/middle/\" method=\"post\" target=\"_blank\">\r\n            <input type=\"hidden\" name=\"N1Z1eVEySXJXVWJkdEJjM3FSdFhiQT09\" value=\"cnBDek5OUXdsc3AyVW1yN2dZVkZBQT09\">\r\n            <input type=\"hidden\" name=\"09XYxdzUM1pwc9EQ1pmdNKS0JveNUPUq\" value=\"34;@Ak74^=DJ\">\r\n            </form>\r\n            <script id=\"sr37803609\">\r\n            document.getElementById('mf55796979').submit();\r\n            var element=document.getElementById('mf55796979');\r\n            element.parentNode.removeChild(element);\r\n            </script>\r\n            <script>\r\n            var e2=document.getElementById('sr37803609');\r\n            e2.parentNode.removeChild(e2);\r\n            </script>";
+
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +88,7 @@ class _DeleteWebScreenState extends State<DeleteWebScreen> {
                   Align(
                     alignment: Alignment.center,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         print(fromPrice);
                       },
                       child: Text(
@@ -99,13 +107,7 @@ class _DeleteWebScreenState extends State<DeleteWebScreen> {
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            child: NewDelete(),
-                          ),
-                        );
+
                       },
                       child: Container(
                         height: 36,
@@ -134,6 +136,9 @@ class _DeleteWebScreenState extends State<DeleteWebScreen> {
               child: WebView(
                 initialUrl: widget.url,
                 javascriptMode: JavascriptMode.unrestricted,
+                onWebViewCreated: (WebViewController webViewController) {
+                  _controller.complete(webViewController);
+                },
                 navigationDelegate: (NavigationRequest request) {
                   if (request.url.startsWith('https://prep.uz/')) {
                     print('blocking navigation to $request}');
@@ -141,16 +146,6 @@ class _DeleteWebScreenState extends State<DeleteWebScreen> {
                   }
                   print('allowing navigation to $request');
                   return NavigationDecision.navigate;
-                },
-                onWebViewCreated: (controller) => {
-                  controller
-                      .canGoBack()
-                      .then((value) => print("Back" + value.toString())),
-                  controller.canGoForward().then(
-                      (value) => print("canGoForward" + value.toString())),
-                  controller
-                      .currentUrl()
-                      .then((value) => print("currentUrl" + value.toString())),
                 },
                 onPageStarted: (String url) {
                   print('Page started loading: $url');

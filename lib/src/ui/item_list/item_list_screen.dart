@@ -7,6 +7,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/sort_radio_btn.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:pharmacy/src/ui/view/item_view.dart';
@@ -56,6 +57,28 @@ class _ItemListScreenState extends State<ItemListScreen> {
     _sc.dispose();
     super.dispose();
   }
+
+  String radioItem = 'По названиею (А-Я)';
+  int sort = 1;
+
+  List<RadioGroup> fList = [
+    RadioGroup(
+      index: 1,
+      name: "По названиею (А-Я)",
+    ),
+    RadioGroup(
+      index: 2,
+      name: "По названиею (Я-А)",
+    ),
+    RadioGroup(
+      index: 3,
+      name: "По цене (по возрастанию)",
+    ),
+    RadioGroup(
+      index: 4,
+      name: "По цене (по убыванию)",
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -209,28 +232,103 @@ class _ItemListScreenState extends State<ItemListScreen> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        child: SvgPicture.asset(
-                          "assets/images/name_sort.svg",
+                  child: GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (context) {
+                          return StatefulBuilder(
+                            builder:
+                                (BuildContext context, StateSetter setState) {
+                              return Container(
+                                height: 300,
+                                padding: EdgeInsets.only(
+                                    bottom: 5, left: 5, right: 5),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: AppTheme.white,
+                                  ),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            top: 12, bottom: 25),
+                                        height: 4,
+                                        width: 60,
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.bottom_dialog,
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          height: 150.0,
+                                          child: Column(
+                                            children: fList
+                                                .map((data) => RadioListTile(
+                                                      title: Text(
+                                                        "${data.name}",
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontFamily: AppTheme
+                                                              .fontRoboto,
+                                                          fontSize: 15,
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                      activeColor: AppTheme
+                                                          .blue_app_color,
+                                                      groupValue: sort,
+                                                      value: data.index,
+                                                      onChanged: (val) {
+                                                        setState(() {
+                                                          radioItem = data.name;
+                                                          sort = data.index;
+                                                        });
+                                                      },
+                                                    ))
+                                                .toList(),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      );
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          child: SvgPicture.asset(
+                            "assets/images/name_sort.svg",
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 19,
-                      ),
-                      Text(
-                        translate("item.sort"),
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
-                          fontSize: 15,
-                          color: AppTheme.black_text,
-                          fontWeight: FontWeight.w600,
+                        SizedBox(
+                          width: 19,
                         ),
-                      ),
-                    ],
+                        Text(
+                          translate("item.sort"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRoboto,
+                            fontSize: 15,
+                            color: AppTheme.black_text,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Container(
@@ -240,29 +338,34 @@ class _ItemListScreenState extends State<ItemListScreen> {
                   color: AppTheme.black_linear,
                 ),
                 Expanded(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        child: SvgPicture.asset(
-                          "assets/images/filter.svg",
+                  child: GestureDetector(
+                    onTap: () {
+                      print(sort);
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          child: SvgPicture.asset(
+                            "assets/images/filter.svg",
+                          ),
+                          width: 19,
                         ),
-                        width: 19,
-                      ),
-                      SizedBox(
-                        width: 19,
-                      ),
-                      Text(
-                        translate("item.filter"),
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
-                          fontSize: 15,
-                          color: AppTheme.black_text,
-                          fontWeight: FontWeight.w600,
+                        SizedBox(
+                          width: 19,
                         ),
-                      ),
-                    ],
+                        Text(
+                          translate("item.filter"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRoboto,
+                            fontSize: 15,
+                            color: AppTheme.black_text,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

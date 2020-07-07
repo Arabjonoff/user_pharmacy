@@ -4,10 +4,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_translate/global.dart';
 import 'package:flutter_translate/localization_delegate.dart';
 import 'package:flutter_translate/localization_provider.dart';
 import 'package:flutter_translate/localized_app.dart';
 import 'package:pharmacy/src/delete/delete_examp.dart';
+import 'package:pharmacy/src/delete/new_delete.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/search_model.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_list.dart';
@@ -16,6 +18,7 @@ import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/auth/register_screen.dart';
 import 'package:pharmacy/src/ui/auth/verfy_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
+import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
 import 'package:pharmacy/src/ui/shopping_web_screen.dart';
@@ -76,7 +79,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: DeleteWebScreen("https://prep.uz/"),
+        home: MainScreen(),
       ),
     );
   }
