@@ -804,13 +804,13 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                         },
                       addModel = new AddOrderModel(
                         address: widget.addressModel.street +
-                            "," +
+                            ", " +
                             widget.addressModel.flat +
-                            "," +
+                            ", " +
                             widget.addressModel.padez +
-                            "," +
+                            ", " +
                             widget.addressModel.etaj +
-                            "," +
+                            ", " +
                             widget.addressModel.komment,
                         location: "0,0",
                         shipdate:

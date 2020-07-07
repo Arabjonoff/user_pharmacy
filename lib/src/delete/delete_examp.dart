@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/delete/new_delete.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -18,6 +19,17 @@ class DeleteWebScreen extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _DeleteWebScreenState();
   }
+}
+
+List<int> fromRelease;
+List<int> manufacturers;
+List<int> country;
+List<int> activeSubstance;
+double fromPrice;
+double toPrice;
+
+void setData() {
+  fromPrice = 15.0;
 }
 
 class _DeleteWebScreenState extends State<DeleteWebScreen> {
@@ -67,14 +79,19 @@ class _DeleteWebScreenState extends State<DeleteWebScreen> {
                 children: [
                   Align(
                     alignment: Alignment.center,
-                    child: Text(
-                      translate("card.payment"),
-                      style: TextStyle(
-                        fontStyle: FontStyle.normal,
-                        fontFamily: AppTheme.fontCommons,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
-                        color: AppTheme.white,
+                    child: GestureDetector(
+                      onTap: (){
+                        print(fromPrice);
+                      },
+                      child: Text(
+                        translate("card.payment"),
+                        style: TextStyle(
+                          fontStyle: FontStyle.normal,
+                          fontFamily: AppTheme.fontCommons,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          color: AppTheme.white,
+                        ),
                       ),
                     ),
                   ),
@@ -82,11 +99,11 @@ class _DeleteWebScreenState extends State<DeleteWebScreen> {
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                           context,
                           PageTransition(
                             type: PageTransitionType.fade,
-                            child: HistoryOrderScreen(),
+                            child: NewDelete(),
                           ),
                         );
                       },
@@ -126,9 +143,14 @@ class _DeleteWebScreenState extends State<DeleteWebScreen> {
                   return NavigationDecision.navigate;
                 },
                 onWebViewCreated: (controller) => {
-                  controller.canGoBack().then((value) => print("Back"+value.toString())),
-                  controller.canGoForward().then((value) => print("canGoForward"+value.toString())),
-                  controller.currentUrl().then((value) => print("currentUrl"+value.toString())),
+                  controller
+                      .canGoBack()
+                      .then((value) => print("Back" + value.toString())),
+                  controller.canGoForward().then(
+                      (value) => print("canGoForward" + value.toString())),
+                  controller
+                      .currentUrl()
+                      .then((value) => print("currentUrl" + value.toString())),
                 },
                 onPageStarted: (String url) {
                   print('Page started loading: $url');
