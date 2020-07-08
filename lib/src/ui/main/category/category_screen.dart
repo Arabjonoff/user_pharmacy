@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/category_bloc.dart';
@@ -126,11 +128,37 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             Container(
                               color: AppTheme.white,
                               child: Container(
-                                height: 48,
+                                height: 64,
                                 padding: EdgeInsets.only(top: 6, bottom: 6),
                                 margin: EdgeInsets.only(left: 15, right: 15),
                                 child: Row(
                                   children: <Widget>[
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                          top: 11, bottom: 11, right: 12),
+                                      color: AppTheme.white,
+                                      width: 42,
+                                      height: 42,
+                                      child: CachedNetworkImage(
+                                        imageUrl: snapshot
+                                            .data.results[position].image,
+                                        placeholder: (context, url) =>
+                                            Container(
+                                          child: Center(
+                                            child: SvgPicture.asset(
+                                                "assets/images/place_holder.svg"),
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Container(
+                                          child: Center(
+                                            child: SvgPicture.asset(
+                                                "assets/images/place_holder.svg"),
+                                          ),
+                                        ),
+                                        fit: BoxFit.fitHeight,
+                                      ),
+                                    ),
                                     Expanded(
                                       child: Text(
                                         snapshot.data.results[position].name,
@@ -254,7 +282,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   child: Container(
                     margin: EdgeInsets.only(left: 17),
                     child: Center(
-                      child: Image.asset("assets/images/scanner.png"),
+                      child: SvgPicture.asset("assets/images/scanner.svg"),
                     ),
                   ),
                   onTap: () {

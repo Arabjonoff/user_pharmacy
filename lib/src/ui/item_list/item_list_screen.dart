@@ -15,6 +15,7 @@ import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
+import 'fliter_screen.dart';
 
 // ignore: must_be_immutable
 class ItemListScreen extends StatefulWidget {
@@ -204,7 +205,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                   child: Container(
                     margin: EdgeInsets.only(left: 17, right: 6),
                     child: Center(
-                      child: Image.asset("assets/images/scanner.png"),
+                      child: SvgPicture.asset("assets/images/scanner.svg"),
                     ),
                   ),
                   onTap: () {
@@ -290,6 +291,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                         setState(() {
                                                           radioItem = data.name;
                                                           sort = data.index;
+                                                          Navigator.pop(
+                                                              context);
                                                         });
                                                       },
                                                     ))
@@ -340,7 +343,13 @@ class _ItemListScreenState extends State<ItemListScreen> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      print(sort);
+//                      Navigator.push(
+//                        context,
+//                        PageTransition(
+//                          type: PageTransitionType.fade,
+//                          child: FilterScreen(),
+//                        ),
+//                      );
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,

@@ -6,6 +6,10 @@
   "sale": "Chegirmalar",
   "not_product": "Soni yetarli emas",
   "name": "Nomi",
+  "ot": "Dan",
+  "do": "Gacha",
+  "apply": "Применить",
+  "release": "Форма выпуска",
   "main": {
     "home": "Asosiy",
     "catalog": "Katalog",
@@ -30,6 +34,7 @@
     "uz": "O'zbekcha"
   },
   "item": {
+    "price": "Narxi",
     "buy": "To'lov qilish",
     "sht": "dona",
     "sort": "Nomi bo'yicha",

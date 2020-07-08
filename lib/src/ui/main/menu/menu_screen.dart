@@ -572,8 +572,8 @@ class _MenuScreenState extends State<MenuScreen> {
         else if (prefs.getString('language') == "en_US")
           language = translate("language.en");
       } else {
-        language_data = "en_US";
-        language = translate("language.en");
+        language_data = "ru";
+        language = translate("language.ru");
       }
       if (prefs.getString("city") != null) {
         city = prefs.getString("city");

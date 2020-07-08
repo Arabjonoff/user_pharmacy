@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
@@ -224,7 +225,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                   child: Container(
                     margin: EdgeInsets.only(left: 17),
                     child: Center(
-                      child: Image.asset("assets/images/scanner.png"),
+                      child: SvgPicture.asset("assets/images/scanner.svg"),
                     ),
                   ),
                   onTap: () {

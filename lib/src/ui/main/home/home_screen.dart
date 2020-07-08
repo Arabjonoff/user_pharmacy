@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: Container(
                     margin: EdgeInsets.only(left: 17),
                     child: Center(
-                      child: Image.asset("assets/images/scanner.png"),
+                      child: SvgPicture.asset("assets/images/scanner.svg"),
                     ),
                   ),
                   onTap: () {

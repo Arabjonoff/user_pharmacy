@@ -34,7 +34,7 @@ String language = 'ru';
 
 void main() async {
   var delegate = await LocalizationDelegate.create(
-      fallbackLocale: 'ru', supportedLocales: ['en_US', 'ru', 'uz']);
+      fallbackLocale: 'ru', supportedLocales: ['ru', 'en_US', 'uz']);
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   if (prefs.getString('language') != null) {
@@ -51,8 +51,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var localizationDelegate = LocalizedApp.of(context).delegate;
-    localizationDelegate.changeLocale(Locale(language));
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
@@ -62,6 +60,8 @@ class MyApp extends StatelessWidget {
       systemNavigationBarDividerColor: Colors.grey,
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
+    var localizationDelegate = LocalizedApp.of(context).delegate;
+    localizationDelegate.changeLocale(Locale(language));
     return LocalizationProvider(
       state: LocalizationProvider.of(context).state,
       child: MaterialApp(

@@ -33,13 +33,15 @@ class CategoryModel {
 class Results {
   int id;
   String name;
+  String image;
   List<Childs> childs;
 
-  Results({this.id, this.name, this.childs});
+  Results({this.id, this.name, this.image, this.childs});
 
   Results.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    image = json['image'];
     if (json['childs'] != null) {
       childs = new List<Childs>();
       json['childs'].forEach((v) {
@@ -52,6 +54,7 @@ class Results {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
+    data['image'] = this.image;
     if (this.childs != null) {
       data['childs'] = this.childs.map((v) => v.toJson()).toList();
     }

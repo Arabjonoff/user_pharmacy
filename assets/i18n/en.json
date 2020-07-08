@@ -6,6 +6,10 @@
   "sale": "Discounts",
   "not_product": "Not enough quantity",
   "name": "Name",
+  "ot": "From",
+  "do": "To",
+  "apply": "Apply",
+  "release": "Release form",
   "main": {
     "home": "Home",
     "catalog": "Catalog",
@@ -30,6 +34,7 @@
     "uz": "O'zbekcha"
   },
   "item": {
+    "price": "Price",
     "buy": "Pay",
     "sht": "pcs.",
     "sort": "By name",
