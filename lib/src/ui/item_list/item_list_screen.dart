@@ -7,6 +7,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/sort_radio_btn.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
@@ -30,6 +31,13 @@ class ItemListScreen extends StatefulWidget {
     return _ItemListScreenState();
   }
 }
+
+int sort = 1;
+List<FilterResults> internationalName = new List();
+List<FilterResults> manufacturer = new List();
+List<FilterResults> unit = new List();
+double fromPrice = 0.0;
+double toPrice = 0.0;
 
 class _ItemListScreenState extends State<ItemListScreen> {
   Size size;
@@ -60,7 +68,6 @@ class _ItemListScreenState extends State<ItemListScreen> {
   }
 
   String radioItem = 'По названиею (А-Я)';
-  int sort = 1;
 
   List<RadioGroup> fList = [
     RadioGroup(

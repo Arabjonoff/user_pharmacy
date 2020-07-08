@@ -177,10 +177,5 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
   }
-
-  @override
-  void intexItem(int index) {
-    print("182");
-    print(index);
-  }
 }
+

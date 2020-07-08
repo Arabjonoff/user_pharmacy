@@ -12,6 +12,7 @@ import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
+import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
@@ -250,8 +251,7 @@ class PharmacyApiProvider {
 
   ///items
   Future<List<LocationModel>> fetchApteka(double lat, double lng) async {
-    String url = Utils.BASE_URL +
-        '/api/v1/stores?lat=$lat&lng=$lng';
+    String url = Utils.BASE_URL + '/api/v1/stores?lat=$lat&lng=$lng';
 
     HttpClient httpClient = new HttpClient();
     httpClient
@@ -338,8 +338,6 @@ class PharmacyApiProvider {
 
     String reply = await response.transform(utf8.decoder).join();
 
-    print(reply);
-
 //    http.Response response = await http
 //        .get(url, headers: headers)
 //        .timeout(const Duration(seconds: 120));
@@ -347,5 +345,28 @@ class PharmacyApiProvider {
     final Map parsed = json.decode(reply);
 
     return HistoryModel.fromJson(parsed);
+  }
+
+  /// Filter parametrs
+  Future<FilterModel> fetchFilterParametrs(
+      int page, int per_page, int type) async {
+    String url = type == 1
+        ? Utils.BASE_URL + '/api/v1/units?page=$page&per_page=$per_page'
+        : type == 2
+            ? Utils.BASE_URL +
+                '/api/v1/manufacturers?page=$page&per_page=$per_page'
+            : Utils.BASE_URL +
+                '/api/v1/international-names?page=$page&per_page=$per_page';
+
+    HttpClient httpClient = new HttpClient();
+    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+
+    final Map parsed = json.decode(reply);
+
+    return FilterModel.fromJson(parsed);
   }
 }
