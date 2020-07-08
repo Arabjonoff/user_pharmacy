@@ -43,26 +43,30 @@ class _CategoryScreenState extends State<CategoryScreen> {
           brightness: Brightness.light,
           title: Container(
             height: 70,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: Stack(
               children: [
-                widget.isBack
-                    ? Container(
-                        margin: EdgeInsets.only(top: 12),
-                        child: GestureDetector(
-                          child: Icon(
-                            Icons.arrow_back_ios,
-                            size: 24,
-                            color: AppTheme.blue_app_color,
-                          ),
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      )
-                    : Container(),
-                Expanded(
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: widget.isBack
+                      ? GestureDetector(
+                    child: Container(
+                      height: 48,
+                      width: 48,
+                      color: AppTheme.arrow_examp_back,
+                      padding: EdgeInsets.all(13),
+                      margin: EdgeInsets.only(top: 12),
+                      child: SvgPicture.asset(
+                        "assets/images/arrow_back.svg",
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  )
+                      : Container(),
+                ),
+                Align(
+                  alignment: Alignment.center,
                   child: Container(
                     margin: EdgeInsets.only(top: 12),
                     child: Center(

@@ -70,7 +70,7 @@ class _AddAddressCardScreenState extends State<AddAddressCardScreen> {
               child: ListView(
                 children: [
                   Container(
-                    height: 26,
+                    height: 48,
                     width: double.infinity,
                     child: Stack(
                       children: [
@@ -87,12 +87,20 @@ class _AddAddressCardScreenState extends State<AddAddressCardScreen> {
                               );
                             },
                             child: Container(
-                              height: 24,
-                              width: 24,
-                              padding: EdgeInsets.all(3),
-                              margin: EdgeInsets.only(left: 16),
-                              child: SvgPicture.asset(
-                                  "assets/images/arrow_back.svg"),
+                              height: 48,
+                              width: 48,
+                              margin: EdgeInsets.only(left: 4),
+                              color: AppTheme.arrow_examp_back,
+                              child: Center(
+                                child: Container(
+                                  height: 24,
+                                  width: 24,
+                                  padding: EdgeInsets.all(3),
+
+                                  child: SvgPicture.asset(
+                                      "assets/images/arrow_back.svg"),
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -116,16 +124,24 @@ class _AddAddressCardScreenState extends State<AddAddressCardScreen> {
                               Navigator.pop(context);
                             },
                             child: Container(
-                              height: 24,
-                              width: 24,
-                              padding: EdgeInsets.all(7),
-                              decoration: BoxDecoration(
-                                color: AppTheme.arrow_back,
-                                borderRadius: BorderRadius.circular(12),
+                              height: 48,
+                              width: 48,
+                              margin: EdgeInsets.only(right: 4),
+                              color: AppTheme.arrow_examp_back,
+                              child: Center(
+                                child: Container(
+                                  height: 24,
+                                  width: 24,
+                                  padding: EdgeInsets.all(7),
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.arrow_back,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+
+                                  child: SvgPicture.asset(
+                                      "assets/images/arrow_close.svg"),
+                                ),
                               ),
-                              margin: EdgeInsets.only(right: 16),
-                              child: SvgPicture.asset(
-                                  "assets/images/arrow_close.svg"),
                             ),
                           ),
                         ),

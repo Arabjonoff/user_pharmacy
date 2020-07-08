@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/src/model/sort_radio_btn.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
@@ -63,24 +64,32 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
             brightness: Brightness.light,
             title: Container(
               height: 63,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+              child: Stack(
                 children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 3.5),
+                  Align(
+                    alignment: Alignment.centerLeft,
                     child: GestureDetector(
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        size: 24,
-                        color: AppTheme.blue_app_color,
-                      ),
                       onTap: () {
                         Navigator.pop(context);
                       },
+                      child: Container(
+                        height: 48,
+                        width: 48,
+                        color: AppTheme.arrow_examp_back,
+                        child: Center(
+                          child: Container(
+                            height: 24,
+                            width: 24,
+                            padding: EdgeInsets.all(3),
+                            child:
+                            SvgPicture.asset("assets/images/arrow_back.svg"),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                  Expanded(
+                  Align(
+                    alignment: Alignment.center,
                     child: Container(
                       margin: EdgeInsets.only(top: 3.5),
                       child: Column(

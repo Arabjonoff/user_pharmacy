@@ -77,7 +77,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
               child: ListView(
                 children: [
                   Container(
-                    height: 36,
+                    height: 48,
                     width: double.infinity,
                     child: Stack(
                       children: [
@@ -96,12 +96,14 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                               );
                             },
                             child: Container(
-                              height: 36,
-                              width: 36,
-                              padding: EdgeInsets.all(9),
+                              height: 48,
+                              width: 48,
+                              color: AppTheme.arrow_examp_back,
+                              padding: EdgeInsets.all(13),
                               margin: EdgeInsets.only(left: 16),
                               child: SvgPicture.asset(
-                                  "assets/images/arrow_back.svg"),
+                                "assets/images/arrow_back.svg",
+                              ),
                             ),
                           ),
                         ),
@@ -125,9 +127,10 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                               Navigator.pop(context);
                             },
                             child: Container(
-                              height: 36,
-                              width: 36,
-                              margin: EdgeInsets.only(right: 16),
+                              height: 48,
+                              width: 48,
+                              color: AppTheme.arrow_examp_back,
+                              margin: EdgeInsets.only(right: 4),
                               child: Center(
                                 child: Container(
                                   height: 24,

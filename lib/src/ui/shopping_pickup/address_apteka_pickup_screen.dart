@@ -82,20 +82,13 @@ class _AddressAptekaScreenState extends State<AddressAptekaPickupScreen>
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.only(left: 12, right: 16),
                 height: 56,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                child: Stack(
                   children: [
-                    Container(
-                      margin: EdgeInsets.only(top: 3.5),
+
+                    Align(
+                      alignment: Alignment.centerLeft,
                       child: GestureDetector(
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          size: 24,
-                          color: AppTheme.blue_app_color,
-                        ),
                         onTap: () {
                           Navigator.pushReplacement(
                             context,
@@ -108,9 +101,26 @@ class _AddressAptekaScreenState extends State<AddressAptekaPickupScreen>
                             ),
                           );
                         },
+                        child: Container(
+                          height: 48,
+                          width: 48,
+                          margin: EdgeInsets.only(left: 4),
+                          color: AppTheme.arrow_examp_back,
+                          child: Center(
+                            child: Container(
+                              height: 24,
+                              width: 24,
+                              padding: EdgeInsets.all(3),
+
+                              child: SvgPicture.asset(
+                                  "assets/images/arrow_back.svg"),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                    Expanded(
+                    Align(
+                      alignment: Alignment.center,
                       child: Container(
                         margin: EdgeInsets.only(top: 10),
                         child: Column(
@@ -131,22 +141,34 @@ class _AddressAptekaScreenState extends State<AddressAptekaPickupScreen>
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        height: 24,
-                        width: 24,
-                        padding: EdgeInsets.all(7),
-                        decoration: BoxDecoration(
-                          color: AppTheme.arrow_back,
-                          borderRadius: BorderRadius.circular(12),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          height: 48,
+                          width: 48,
+                          margin: EdgeInsets.only(right: 4),
+                          color: AppTheme.arrow_examp_back,
+                          child: Center(
+                            child: Container(
+                              height: 24,
+                              width: 24,
+                              padding: EdgeInsets.all(7),
+                              decoration: BoxDecoration(
+                                color: AppTheme.arrow_back,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+
+                              child: SvgPicture.asset(
+                                  "assets/images/arrow_close.svg"),
+                            ),
+                          ),
                         ),
-                        child:
-                            SvgPicture.asset("assets/images/arrow_close.svg"),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

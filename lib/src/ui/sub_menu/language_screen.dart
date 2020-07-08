@@ -60,17 +60,23 @@ class _LanguageScreenState extends State<LanguageScreen> {
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 3.5),
-                    child: GestureDetector(
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        size: 24,
-                        color: AppTheme.blue_app_color,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 48,
+                      width: 48,
+                      color: AppTheme.arrow_examp_back,
+                      child: Center(
+                        child: Container(
+                          height: 24,
+                          width: 24,
+                          padding: EdgeInsets.all(3),
+                          child:
+                          SvgPicture.asset("assets/images/arrow_back.svg"),
+                        ),
                       ),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
                     ),
                   ),
                 ),

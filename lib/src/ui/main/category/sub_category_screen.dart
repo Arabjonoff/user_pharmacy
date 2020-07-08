@@ -40,22 +40,29 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
             brightness: Brightness.light,
             title: Container(
               height: 70,
-              child: Row(
+              child: Stack(
                 children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 12),
-                    child: GestureDetector(
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        size: 24,
-                        color: AppTheme.blue_app_color,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      height: 48,
+                      width: 48,
+                      color: AppTheme.arrow_examp_back,
+                      margin: EdgeInsets.only(top: 12),
+                      child: GestureDetector(
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          size: 24,
+                          color: AppTheme.blue_app_color,
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
                       ),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
                     ),
                   ),
-                  Expanded(
+                  Align(
+                    alignment: Alignment.center,
                     child: Container(
                       margin: EdgeInsets.only(top: 12),
                       child: Column(

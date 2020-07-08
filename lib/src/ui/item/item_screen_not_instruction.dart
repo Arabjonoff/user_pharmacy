@@ -84,17 +84,25 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                               Navigator.pop(context);
                             },
                             child: Container(
-                              height: 24,
-                              width: 24,
-                              padding: EdgeInsets.all(7),
-                              decoration: BoxDecoration(
-                                color: AppTheme.arrow_back,
-                                borderRadius: BorderRadius.circular(12),
+                              height: 48,
+                              width: 48,
+                              margin: EdgeInsets.only(right: 4),
+                              color: AppTheme.arrow_examp_back,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  height: 24,
+                                  width: 24,
+                                  padding: EdgeInsets.all(7),
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.arrow_back,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+
+                                  child: SvgPicture.asset(
+                                      "assets/images/arrow_close.svg"),
+                                ),
                               ),
-                              margin: EdgeInsets.only(
-                                  top: 14, bottom: 14, right: 16),
-                              child: SvgPicture.asset(
-                                  "assets/images/arrow_close.svg"),
                             ),
                           ),
                         ),
@@ -410,14 +418,16 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                               .data
                                               .recommendations[index]
                                               .getImageThumbnail,
-                                          placeholder: (context, url) => Container(
+                                          placeholder: (context, url) =>
+                                              Container(
                                             padding: EdgeInsets.all(25),
                                             child: Center(
                                               child: SvgPicture.asset(
                                                   "assets/images/place_holder.svg"),
                                             ),
                                           ),
-                                          errorWidget: (context, url, error) => Container(
+                                          errorWidget: (context, url, error) =>
+                                              Container(
                                             padding: EdgeInsets.all(25),
                                             child: Center(
                                               child: SvgPicture.asset(
@@ -796,14 +806,16 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                         child: CachedNetworkImage(
                                           imageUrl: snapshot.data.analog[index]
                                               .getImageThumbnail,
-                                          placeholder: (context, url) => Container(
+                                          placeholder: (context, url) =>
+                                              Container(
                                             padding: EdgeInsets.all(25),
                                             child: Center(
                                               child: SvgPicture.asset(
                                                   "assets/images/place_holder.svg"),
                                             ),
                                           ),
-                                          errorWidget: (context, url, error) => Container(
+                                          errorWidget: (context, url, error) =>
+                                              Container(
                                             padding: EdgeInsets.all(25),
                                             child: Center(
                                               child: SvgPicture.asset(

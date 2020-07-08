@@ -10,6 +10,9 @@
   "do": "To",
   "apply": "Apply",
   "release": "Release form",
+  "manifac": "Manufacturers",
+  "country": "County",
+  "mnn": "Active substance",
   "main": {
     "home": "Home",
     "catalog": "Catalog",

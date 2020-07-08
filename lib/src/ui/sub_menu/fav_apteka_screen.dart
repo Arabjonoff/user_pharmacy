@@ -32,24 +32,32 @@ class _FavAptekaScreenState extends State<FavAptekaScreen> {
           brightness: Brightness.light,
           title: Container(
             height: 63,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: Stack(
               children: [
-                Container(
-                  margin: EdgeInsets.only(top: 3.5),
+                Align(
+                  alignment: Alignment.centerLeft,
                   child: GestureDetector(
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      size: 24,
-                      color: AppTheme.blue_app_color,
-                    ),
                     onTap: () {
                       Navigator.pop(context);
                     },
+                    child: Container(
+                      height: 48,
+                      width: 48,
+                      color: AppTheme.arrow_examp_back,
+                      child: Center(
+                        child: Container(
+                          height: 24,
+                          width: 24,
+                          padding: EdgeInsets.all(3),
+                          child:
+                              SvgPicture.asset("assets/images/arrow_back.svg"),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                Expanded(
+                Align(
+                  alignment: Alignment.center,
                   child: Container(
                     margin: EdgeInsets.only(top: 3.5),
                     child: Column(
@@ -230,9 +238,9 @@ class _FavAptekaScreenState extends State<FavAptekaScreen> {
                                         Expanded(
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                                MainAxisAlignment.start,
                                             children: [
                                               Container(
                                                 margin: EdgeInsets.only(
@@ -241,7 +249,8 @@ class _FavAptekaScreenState extends State<FavAptekaScreen> {
                                                   snapshot.data[index].open,
                                                   style: TextStyle(
                                                     fontSize: 14,
-                                                    fontFamily: AppTheme.fontRoboto,
+                                                    fontFamily:
+                                                        AppTheme.fontRoboto,
                                                     fontWeight: FontWeight.w500,
                                                     color: AppTheme.black_text,
                                                   ),
@@ -256,8 +265,10 @@ class _FavAptekaScreenState extends State<FavAptekaScreen> {
                                                   translate("map.work"),
                                                   style: TextStyle(
                                                     fontSize: 11,
-                                                    fontFamily: AppTheme.fontRoboto,
-                                                    fontWeight: FontWeight.normal,
+                                                    fontFamily:
+                                                        AppTheme.fontRoboto,
+                                                    fontWeight:
+                                                        FontWeight.normal,
                                                     color: AppTheme
                                                         .black_transparent_text,
                                                   ),
@@ -269,9 +280,9 @@ class _FavAptekaScreenState extends State<FavAptekaScreen> {
                                         Expanded(
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                                MainAxisAlignment.start,
                                             children: [
                                               Container(
                                                 margin: EdgeInsets.only(
@@ -280,7 +291,8 @@ class _FavAptekaScreenState extends State<FavAptekaScreen> {
                                                   snapshot.data[index].number,
                                                   style: TextStyle(
                                                     fontSize: 14,
-                                                    fontFamily: AppTheme.fontRoboto,
+                                                    fontFamily:
+                                                        AppTheme.fontRoboto,
                                                     fontWeight: FontWeight.w500,
                                                     color: AppTheme.black_text,
                                                   ),
@@ -295,8 +307,10 @@ class _FavAptekaScreenState extends State<FavAptekaScreen> {
                                                   translate("auth.number_auth"),
                                                   style: TextStyle(
                                                     fontSize: 11,
-                                                    fontFamily: AppTheme.fontRoboto,
-                                                    fontWeight: FontWeight.normal,
+                                                    fontFamily:
+                                                        AppTheme.fontRoboto,
+                                                    fontWeight:
+                                                        FontWeight.normal,
                                                     color: AppTheme
                                                         .black_transparent_text,
                                                   ),
@@ -314,18 +328,19 @@ class _FavAptekaScreenState extends State<FavAptekaScreen> {
                           ),
                           GestureDetector(
                             child: Container(
-                              margin: EdgeInsets.only(top: 27, right: 18, left: 18),
+                              margin:
+                                  EdgeInsets.only(top: 27, right: 18, left: 18),
                               child: snapshot.data[index].fav
                                   ? Icon(
-                                Icons.favorite,
-                                size: 24,
-                                color: AppTheme.red_fav_color,
-                              )
+                                      Icons.favorite,
+                                      size: 24,
+                                      color: AppTheme.red_fav_color,
+                                    )
                                   : Icon(
-                                Icons.favorite_border,
-                                size: 24,
-                                color: AppTheme.arrow_catalog,
-                              ),
+                                      Icons.favorite_border,
+                                      size: 24,
+                                      color: AppTheme.arrow_catalog,
+                                    ),
                             ),
                             onTap: () {
                               if (!snapshot.data[index].fav) {

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/ui/item_list/filter_item_screen.dart';
 
 import '../../app_theme.dart';
 
@@ -49,13 +51,12 @@ class _FilterScreenState extends State<FilterScreen> {
             topRight: Radius.circular(14.0),
           ),
         ),
-        padding: EdgeInsets.only(top: 14),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              height: 26,
+              height: 48,
               width: double.infinity,
               child: Stack(
                 children: [
@@ -78,17 +79,25 @@ class _FilterScreenState extends State<FilterScreen> {
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: Container(
-                        height: 24,
-                        width: 24,
-                        padding: EdgeInsets.all(7),
-                        decoration: BoxDecoration(
-                          color: AppTheme.arrow_back,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        margin: EdgeInsets.only(right: 16),
-                        child:
+                      child:Container(
+                        height: 36,
+                        width: 48,
+                        color: AppTheme.arrow_examp_back,
+                        margin: EdgeInsets.only(right: 5),
+                        child: Center(
+                          child:  Container(
+                            height: 24,
+                            width: 24,
+                            padding: EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              color: AppTheme.arrow_back,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+
+                            child:
                             SvgPicture.asset("assets/images/arrow_close.svg"),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -224,48 +233,223 @@ class _FilterScreenState extends State<FilterScreen> {
                 ],
               ),
             ),
-            Container(
-              height: 48,
-              child:  Column(
-                children: <Widget>[
-                  Container(
-                    color: AppTheme.white,
-                    child: Container(
-                      height: 48,
-                      padding: EdgeInsets.only(top: 6, bottom: 6),
-                      margin: EdgeInsets.only(left: 15, right: 15),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              translate("key"),
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                                color: AppTheme.black_catalog,
-                                fontFamily: AppTheme.fontRoboto,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: FilterItemScreen(1),
+                  ),
+                );
+              },
+              child: Container(
+                margin: EdgeInsets.only(top: 16),
+                height: 49,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      color: AppTheme.white,
+                      child: Container(
+                        height: 48,
+                        padding: EdgeInsets.only(top: 6, bottom: 6),
+                        margin: EdgeInsets.only(left: 15, right: 15),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Text(
+                                translate("release"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                  color: AppTheme.black_catalog,
+                                  fontFamily: AppTheme.fontRoboto,
+                                ),
                               ),
                             ),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: 16,
-                            color: AppTheme.arrow_catalog,
-                          )
-                        ],
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 16,
+                              color: AppTheme.arrow_catalog,
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: 8,
-                      right: 8,
-                    ),
-                    height: 1,
-                    color: AppTheme.black_linear_category,
-                  )
-                ],
+                    Container(
+                      margin: EdgeInsets.only(
+                        left: 8,
+                        right: 8,
+                      ),
+                      height: 1,
+                      color: AppTheme.black_linear_category,
+                    )
+                  ],
+                ),
               ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: FilterItemScreen(2),
+                  ),
+                );
+              },
+              child: Container(
+                height: 49,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      color: AppTheme.white,
+                      child: Container(
+                        height: 48,
+                        padding: EdgeInsets.only(top: 6, bottom: 6),
+                        margin: EdgeInsets.only(left: 15, right: 15),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Text(
+                                translate("manifac"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                  color: AppTheme.black_catalog,
+                                  fontFamily: AppTheme.fontRoboto,
+                                ),
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 16,
+                              color: AppTheme.arrow_catalog,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        left: 8,
+                        right: 8,
+                      ),
+                      height: 1,
+                      color: AppTheme.black_linear_category,
+                    )
+                  ],
+                ),
+              ),
+            ),
+//            GestureDetector(
+//              onTap: (){
+//
+//              },
+//              child: Container(
+//                height: 49,
+//                child:  Column(
+//                  children: <Widget>[
+//                    Container(
+//                      color: AppTheme.white,
+//                      child: Container(
+//                        height: 48,
+//                        padding: EdgeInsets.only(top: 6, bottom: 6),
+//                        margin: EdgeInsets.only(left: 15, right: 15),
+//                        child: Row(
+//                          children: <Widget>[
+//                            Expanded(
+//                              child: Text(
+//                                translate("country"),
+//                                style: TextStyle(
+//                                  fontSize: 15,
+//                                  fontWeight: FontWeight.normal,
+//                                  color: AppTheme.black_catalog,
+//                                  fontFamily: AppTheme.fontRoboto,
+//                                ),
+//                              ),
+//                            ),
+//                            Icon(
+//                              Icons.arrow_forward_ios,
+//                              size: 16,
+//                              color: AppTheme.arrow_catalog,
+//                            )
+//                          ],
+//                        ),
+//                      ),
+//                    ),
+//                    Container(
+//                      margin: EdgeInsets.only(
+//                        left: 8,
+//                        right: 8,
+//                      ),
+//                      height: 1,
+//                      color: AppTheme.black_linear_category,
+//                    )
+//                  ],
+//                ),
+//              ),
+//            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: FilterItemScreen(3),
+                  ),
+                );
+              },
+              child: Container(
+                height: 49,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      color: AppTheme.white,
+                      child: Container(
+                        height: 48,
+                        padding: EdgeInsets.only(top: 6, bottom: 6),
+                        margin: EdgeInsets.only(left: 15, right: 15),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Text(
+                                translate("mnn"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                  color: AppTheme.black_catalog,
+                                  fontFamily: AppTheme.fontRoboto,
+                                ),
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 16,
+                              color: AppTheme.arrow_catalog,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        left: 8,
+                        right: 8,
+                      ),
+                      height: 1,
+                      color: AppTheme.black_linear_category,
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: Container(),
+            ),
+            Container(
+              height: 1,
+              color: AppTheme.black_linear_category,
             ),
             GestureDetector(
               onTap: () {
@@ -280,7 +464,7 @@ class _FilterScreenState extends State<FilterScreen> {
                 width: double.infinity,
                 margin: EdgeInsets.only(
                   top: 12,
-                  bottom: 40,
+                  bottom: 33,
                   left: 16,
                   right: 16,
                 ),

@@ -102,7 +102,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
         child: ListView(
           children: [
             Container(
-              height: 36,
+              height: 48,
               width: double.infinity,
               child: Stack(
                 children: [
@@ -126,9 +126,10 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                         Navigator.pop(context);
                       },
                       child: Container(
-                        height: 36,
-                        margin: EdgeInsets.only(right: 16),
-                        width: 36,
+                        height: 48,
+                        margin: EdgeInsets.only(right: 4),
+                        width: 48,
+                        color: AppTheme.arrow_examp_back,
                         child: Center(
                           child: Container(
                             height: 24,

@@ -36,24 +36,29 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
             brightness: Brightness.light,
             title: Container(
               height: 63,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+              child: Stack(
                 children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 3.5),
-                    child: GestureDetector(
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        size: 24,
-                        color: AppTheme.blue_app_color,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      height: 48,
+                      width: 48,
+                      color: AppTheme.arrow_examp_back,
+                      margin: EdgeInsets.only(top: 3.5),
+                      child: GestureDetector(
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          size: 24,
+                          color: AppTheme.blue_app_color,
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
                       ),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
                     ),
                   ),
-                  Expanded(
+                  Align(
+                    alignment: Alignment.center,
                     child: Container(
                       margin: EdgeInsets.only(top: 3.5),
                       child: Column(
@@ -258,14 +263,17 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                                 .items[subindex]
                                                 .drug
                                                 .imageThumbnail,
-                                            placeholder: (context, url) => Container(
+                                            placeholder: (context, url) =>
+                                                Container(
                                               padding: EdgeInsets.all(5),
                                               child: Center(
                                                 child: SvgPicture.asset(
                                                     "assets/images/place_holder.svg"),
                                               ),
                                             ),
-                                            errorWidget: (context, url, error) => Container(
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Container(
                                               padding: EdgeInsets.all(5),
                                               child: Center(
                                                 child: SvgPicture.asset(

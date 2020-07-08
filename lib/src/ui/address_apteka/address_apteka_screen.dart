@@ -50,24 +50,29 @@ class _AddressAptekaScreenState extends State<AddressAptekaScreen>
             brightness: Brightness.light,
             title: Container(
               height: 56,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+              child: Stack(
                 children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 3.5),
-                    child: GestureDetector(
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        size: 24,
-                        color: AppTheme.blue_app_color,
+                  Align(
+                    child: Container(
+                      margin: EdgeInsets.only(top: 3.5),
+                      color: AppTheme.arrow_examp_back,
+                      child: GestureDetector(
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          size: 24,
+                          color: AppTheme.blue_app_color,
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
                       ),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
+                      height: 48,
+                      width: 48,
                     ),
+                    alignment: Alignment.centerLeft,
                   ),
-                  Expanded(
+                  Align(
+                    alignment: Alignment.center,
                     child: Container(
                       margin: EdgeInsets.only(top: 10),
                       child: Column(

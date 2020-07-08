@@ -51,6 +51,8 @@ class AppTheme {
   static const Color auth_border = Color(0xFFD5D6D8);
   static const Color auth_login = Color(0xFFF2F3F5);
 
+  static const Color arrow_examp_back = Colors.white;
+
   static const TextTheme textTheme = TextTheme(
     headline4: display1,
     headline5: headline,
