@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/ui/item_list/filter_item_screen.dart';
 
 import '../../app_theme.dart';
@@ -13,6 +14,10 @@ class FilterScreen extends StatefulWidget {
     return _FilterScreenState();
   }
 }
+
+List<FilterResults> internationalNameExamp = new List();
+List<FilterResults> manufacturerExamp = new List();
+List<FilterResults> unitExamp = new List();
 
 class _FilterScreenState extends State<FilterScreen> {
   @override
@@ -79,13 +84,13 @@ class _FilterScreenState extends State<FilterScreen> {
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child:Container(
+                      child: Container(
                         height: 36,
                         width: 48,
                         color: AppTheme.arrow_examp_back,
                         margin: EdgeInsets.only(right: 5),
                         child: Center(
-                          child:  Container(
+                          child: Container(
                             height: 24,
                             width: 24,
                             padding: EdgeInsets.all(7),
@@ -93,9 +98,8 @@ class _FilterScreenState extends State<FilterScreen> {
                               color: AppTheme.arrow_back,
                               borderRadius: BorderRadius.circular(12),
                             ),
-
-                            child:
-                            SvgPicture.asset("assets/images/arrow_close.svg"),
+                            child: SvgPicture.asset(
+                                "assets/images/arrow_close.svg"),
                           ),
                         ),
                       ),
@@ -235,7 +239,7 @@ class _FilterScreenState extends State<FilterScreen> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   PageTransition(
                     type: PageTransitionType.rightToLeft,
@@ -245,26 +249,48 @@ class _FilterScreenState extends State<FilterScreen> {
               },
               child: Container(
                 margin: EdgeInsets.only(top: 16),
-                height: 49,
+                height: 56,
                 child: Column(
                   children: <Widget>[
                     Container(
                       color: AppTheme.white,
                       child: Container(
-                        height: 48,
+                        height: 55,
                         padding: EdgeInsets.only(top: 6, bottom: 6),
                         margin: EdgeInsets.only(left: 15, right: 15),
                         child: Row(
                           children: <Widget>[
+
                             Expanded(
-                              child: Text(
-                                translate("release"),
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.normal,
-                                  color: AppTheme.black_catalog,
-                                  fontFamily: AppTheme.fontRoboto,
-                                ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Container(),
+                                  ),
+                                  Text(
+                                    translate("release"),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.normal,
+                                      color: AppTheme.black_catalog,
+                                      fontFamily: AppTheme.fontRoboto,
+                                    ),
+                                  ),
+                                  Text(
+                                    unitExamp.length.toString(),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.normal,
+                                      color: AppTheme.black_catalog,
+                                      fontFamily: AppTheme.fontRoboto,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(),
+                                  ),
+                                ],
                               ),
                             ),
                             Icon(
@@ -290,7 +316,7 @@ class _FilterScreenState extends State<FilterScreen> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   PageTransition(
                     type: PageTransitionType.rightToLeft,
@@ -299,26 +325,47 @@ class _FilterScreenState extends State<FilterScreen> {
                 );
               },
               child: Container(
-                height: 49,
+                height: 56,
                 child: Column(
                   children: <Widget>[
                     Container(
                       color: AppTheme.white,
                       child: Container(
-                        height: 48,
+                        height: 55,
                         padding: EdgeInsets.only(top: 6, bottom: 6),
                         margin: EdgeInsets.only(left: 15, right: 15),
                         child: Row(
                           children: <Widget>[
                             Expanded(
-                              child: Text(
-                                translate("manifac"),
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.normal,
-                                  color: AppTheme.black_catalog,
-                                  fontFamily: AppTheme.fontRoboto,
-                                ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Container(),
+                                  ),
+                                  Text(
+                                    translate("manifac"),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.normal,
+                                      color: AppTheme.black_catalog,
+                                      fontFamily: AppTheme.fontRoboto,
+                                    ),
+                                  ),
+                                  Text(
+                                    manufacturerExamp.length.toString(),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.normal,
+                                      color: AppTheme.black_catalog,
+                                      fontFamily: AppTheme.fontRoboto,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(),
+                                  ),
+                                ],
                               ),
                             ),
                             Icon(
@@ -392,7 +439,7 @@ class _FilterScreenState extends State<FilterScreen> {
 //            ),
             GestureDetector(
               onTap: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   PageTransition(
                     type: PageTransitionType.rightToLeft,
@@ -401,26 +448,47 @@ class _FilterScreenState extends State<FilterScreen> {
                 );
               },
               child: Container(
-                height: 49,
+                height: 56,
                 child: Column(
                   children: <Widget>[
                     Container(
                       color: AppTheme.white,
                       child: Container(
-                        height: 48,
+                        height: 55,
                         padding: EdgeInsets.only(top: 6, bottom: 6),
                         margin: EdgeInsets.only(left: 15, right: 15),
                         child: Row(
                           children: <Widget>[
                             Expanded(
-                              child: Text(
-                                translate("mnn"),
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.normal,
-                                  color: AppTheme.black_catalog,
-                                  fontFamily: AppTheme.fontRoboto,
-                                ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Container(),
+                                  ),
+                                  Text(
+                                    translate("mnn"),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.normal,
+                                      color: AppTheme.black_catalog,
+                                      fontFamily: AppTheme.fontRoboto,
+                                    ),
+                                  ),
+                                  Text(
+                                    internationalNameExamp.length.toString(),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.normal,
+                                      color: AppTheme.black_catalog,
+                                      fontFamily: AppTheme.fontRoboto,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(),
+                                  ),
+                                ],
                               ),
                             ),
                             Icon(

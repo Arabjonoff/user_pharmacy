@@ -74,5 +74,5 @@ class Repository {
       pharmacyApiProvider.fetchOrderHistory();
 
   Future<FilterModel> fetchFilterParametrs(int page, int type) =>
-      pharmacyApiProvider.fetchFilterParametrs(page, 20, type);
+      pharmacyApiProvider.fetchFilterParametrs(page, 50, type);
 }

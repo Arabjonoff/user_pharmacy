@@ -2,9 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/filter_block.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
+import 'package:pharmacy/src/ui/item_list/fliter_screen.dart';
+import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
@@ -25,6 +28,7 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
   ScrollController _sc = new ScrollController();
   bool isLoading = false;
   int lastPosition = 0;
+  List<FilterResults> data = new List();
 
   @override
   void initState() {
@@ -111,7 +115,14 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                     alignment: Alignment.centerLeft,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.leftToRight,
+                            child: FilterScreen(),
+                          ),
+                        );
+//                        Navigator.pop(context);
                       },
                       child: Container(
                         height: 36,
@@ -137,7 +148,10 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                           ? isLoading = true
                           : isLoading = false;
                       lastPosition = snapshot.data.length;
-
+                      if (snapshot.data.length > 0) {
+                        data = new List();
+                        data.addAll(snapshot.data);
+                      }
                       return snapshot.data.length > 0
                           ? ListView.builder(
                               controller: _sc,
@@ -156,21 +170,41 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                                   );
                                 } else {
                                   return Container(
-                                    height: 90,
                                     color: AppTheme.white,
                                     child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: <Widget>[
-                                        Expanded(
-                                          child: Container(
-                                            child: Text("${index}" +
-                                                snapshot.data[index].name),
+                                        CheckboxListTile(
+                                          checkColor: Colors.white,
+                                          activeColor: Colors.blue,
+                                          title: Text(
+                                            snapshot.data[index].name,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontRoboto,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 15,
+                                              fontStyle: FontStyle.normal,
+                                              color: AppTheme.black_text,
+                                            ),
+                                            maxLines: 1,
                                           ),
+                                          value: snapshot.data[index].isClick,
+                                          onChanged: (bool value) {
+                                            setState(() {
+                                              snapshot.data[index].isClick =
+                                                  !snapshot.data[index].isClick;
+                                            });
+                                          },
                                         ),
                                         Container(
                                           height: 1,
                                           margin: EdgeInsets.only(
                                               left: 8, right: 8),
-                                          color: AppTheme.black_linear,
+                                          color: AppTheme.black_linear_category,
                                         )
                                       ],
                                     ),
@@ -245,6 +279,70 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                 ),
               ),
             ),
+            Container(
+              height: 1,
+              color: AppTheme.black_linear_category,
+            ),
+            GestureDetector(
+              onTap: () {
+                if (widget.type == 1) {
+                  unitExamp = new List();
+                  for (int i = 0; i < data.length; i++) {
+                    if (data[i].isClick) {
+                      unitExamp.add(data[i]);
+                    }
+                  }
+                } else if (widget.type == 2) {
+                  manufacturerExamp = new List();
+                  for (int i = 0; i < data.length; i++) {
+                    if (data[i].isClick) {
+                      manufacturerExamp.add(data[i]);
+                    }
+                  }
+                } else {
+                  internationalNameExamp = new List();
+                  for (int i = 0; i < data.length; i++) {
+                    if (data[i].isClick) {
+                      internationalNameExamp.add(data[i]);
+                    }
+                  }
+                }
+                Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.leftToRight,
+                    child: FilterScreen(),
+                  ),
+                );
+//                Navigator.pop(context);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: AppTheme.blue_app_color,
+                ),
+                height: 44,
+                width: double.infinity,
+                margin: EdgeInsets.only(
+                  top: 12,
+                  bottom: 33,
+                  left: 16,
+                  right: 16,
+                ),
+                child: Center(
+                  child: Text(
+                    translate("save"),
+                    style: TextStyle(
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: AppTheme.fontRoboto,
+                      fontSize: 17,
+                      color: AppTheme.white,
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),

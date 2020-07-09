@@ -33,6 +33,7 @@ class FilterModel {
 class FilterResults {
   int id;
   String name;
+  bool isClick = false;
 
   FilterResults({this.id, this.name});
 

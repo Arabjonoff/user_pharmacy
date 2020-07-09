@@ -33,9 +33,9 @@ class ItemListScreen extends StatefulWidget {
 }
 
 int sort = 1;
-List<FilterResults> internationalName = new List();
-List<FilterResults> manufacturer = new List();
-List<FilterResults> unit = new List();
+//List<FilterResults> internationalName = new List();
+//List<FilterResults> manufacturer = new List();
+//List<FilterResults> unit = new List();
 double fromPrice = 0.0;
 double toPrice = 0.0;
 
@@ -360,7 +360,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                       Navigator.push(
                         context,
                         PageTransition(
-                          type: PageTransitionType.fade,
+                          type: PageTransitionType.downToUp,
                           child: FilterScreen(),
                         ),
                       );
