@@ -34,7 +34,7 @@ String language = 'ru';
 
 void main() async {
   var delegate = await LocalizationDelegate.create(
-      fallbackLocale: 'ru', supportedLocales: ['ru', 'en_US', 'uz']);
+      fallbackLocale: 'ru', supportedLocales: ['ru', 'en', 'uz']);
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   if (prefs.getString('language') != null) {
@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: WebViewExample(),
+        home: MainScreen(),
       ),
     );
   }

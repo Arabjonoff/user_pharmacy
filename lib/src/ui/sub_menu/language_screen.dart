@@ -133,10 +133,10 @@ class _LanguageScreenState extends State<LanguageScreen> {
                           prefs.commit();
                           Navigator.pop(context, 'ru');
                         } else {
-                          localizationDelegate.changeLocale(Locale("en_US"));
-                          prefs.setString("language", "en_US");
+                          localizationDelegate.changeLocale(Locale("en"));
+                          prefs.setString("language", "en");
                           prefs.commit();
-                          Navigator.pop(context, 'en_US');
+                          Navigator.pop(context, 'en');
                         }
                       },
                     ),
