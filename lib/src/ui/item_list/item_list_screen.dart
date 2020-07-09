@@ -33,8 +33,13 @@ class ItemListScreen extends StatefulWidget {
 }
 
 int sort = 1;
-String sortFilter = "name";
 int page = 1;
+String sortFilter = "";
+String international_name_ids = "";
+String manufacturer_ids = "";
+String price_max = "";
+String price_min = "";
+String unit_ids = "";
 
 class _ItemListScreenState extends State<ItemListScreen> {
   Size size;
@@ -60,6 +65,13 @@ class _ItemListScreenState extends State<ItemListScreen> {
   @override
   void dispose() {
     page = 1;
+    sort = 1;
+    sortFilter = "";
+    international_name_ids = "";
+    manufacturer_ids = "";
+    price_max = "";
+    price_min = "";
+    unit_ids = "";
     _sc.dispose();
     super.dispose();
   }
@@ -1010,10 +1022,36 @@ class _ItemListScreenState extends State<ItemListScreen> {
     if (!isLoading) {
       setState(() {
         widget.type == 2
-            ? blocItemsList.fetchAllItemCategoryBest(index, sortFilter)
+            ? blocItemsList.fetchAllItemCategoryBest(
+                index,
+                international_name_ids,
+                manufacturer_ids,
+                sortFilter,
+                price_max,
+                price_min,
+                unit_ids,
+              )
             : widget.type == 3
-                ? blocItemsList.fetchAllItemSearch(widget.id, index)
-                : blocItemsList.fetchAllItemCategory(widget.id, index);
+                ? blocItemsList.fetchAllItemSearch(
+                    widget.id,
+                    index,
+                    international_name_ids,
+                    manufacturer_ids,
+                    sortFilter,
+                    price_max,
+                    price_min,
+                    unit_ids,
+                  )
+                : blocItemsList.fetchAllItemCategory(
+                    widget.id,
+                    index,
+                    international_name_ids,
+                    manufacturer_ids,
+                    sortFilter,
+                    price_max,
+                    price_min,
+                    unit_ids,
+                  );
         isLoading = false;
         page++;
       });

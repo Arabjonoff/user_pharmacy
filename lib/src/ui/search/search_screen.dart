@@ -268,7 +268,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                 setState(() {
                                   dataHistory.clear();
                                 });
-
                               },
                             )
                           ],
@@ -402,7 +401,16 @@ class _SearchScreenState extends State<SearchScreen> {
         isLoading = true;
       });
 
-      var response = Repository().fetchSearchItemList(obj, index);
+      var response = Repository().fetchSearchItemList(
+        obj,
+        index,
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+      );
 
       try {
         List<ItemResult> tList = new List();

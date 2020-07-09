@@ -21,11 +21,29 @@ class ItemListBloc {
 
   Observable<List<ItemResult>> get getItemSearch => _itemSearchFetcher.stream;
 
-  fetchAllItemCategory(String id, int page) async {
+  fetchAllItemCategory(
+    String id,
+    int page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) async {
     if (page == 1) {
       usersCategory = new List();
     }
-    ItemModel itemCategory = await _repository.fetchCategryItemList(id, page);
+    ItemModel itemCategory = await _repository.fetchCategryItemList(
+      id,
+      page,
+      international_name_ids,
+      manufacturer_ids,
+      ordering,
+      price_max,
+      price_min,
+      unit_ids,
+    );
 
     List<ItemResult> database = await _repository.databaseItem();
     for (var j = 0; j < database.length; j++) {
@@ -40,12 +58,27 @@ class ItemListBloc {
     _categoryItemsFetcher.sink.add(usersCategory);
   }
 
-  fetchAllItemCategoryBest(int page, String ordering) async {
+  fetchAllItemCategoryBest(
+    int page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) async {
     if (page == 1) {
       usersBest = new List();
     }
-    ItemModel itemModelResponse =
-        await _repository.fetchBestItem(page, ordering);
+    ItemModel itemModelResponse = await _repository.fetchBestItem(
+      page,
+      international_name_ids,
+      manufacturer_ids,
+      ordering,
+      price_max,
+      price_min,
+      unit_ids,
+    );
     List<ItemResult> database = await _repository.databaseItem();
     for (var j = 0; j < database.length; j++) {
       for (var i = 0; i < itemModelResponse.results.length; i++) {
@@ -60,12 +93,29 @@ class ItemListBloc {
     _bestItemFetcher.sink.add(usersBest);
   }
 
-  fetchAllItemSearch(String obj, int page) async {
+  fetchAllItemSearch(
+    String obj,
+    int page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) async {
     if (page == 1) {
       users = new List();
     }
-    ItemModel itemModelResponse =
-        await _repository.fetchSearchItemList(obj, page);
+    ItemModel itemModelResponse = await _repository.fetchSearchItemList(
+      obj,
+      page,
+      international_name_ids,
+      manufacturer_ids,
+      ordering,
+      price_max,
+      price_min,
+      unit_ids,
+    );
     List<ItemResult> database = await _repository.databaseItem();
     for (var j = 0; j < database.length; j++) {
       for (var i = 0; i < itemModelResponse.results.length; i++) {

@@ -92,18 +92,6 @@ class PharmacyApiProvider {
       HttpHeaders.authorizationHeader: "Bearer $token",
     };
 
-//    HttpClient httpClient = new HttpClient();
-//    httpClient
-//      ..badCertificateCallback =
-//          (X509Certificate cert, String host, int port) => true;
-//    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
-//    request.headers.set('content-type', 'application/json');
-//    request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
-//    request.write(json.encode(data));
-//    HttpClientResponse response = await request.close();
-//
-//    String reply = await response.transform(utf8.decoder).join();
-
     http.Response response = await http
         .post(url, headers: headers, body: data)
         .timeout(const Duration(seconds: 120));
@@ -133,10 +121,26 @@ class PharmacyApiProvider {
 
   ///best items
   Future<ItemModel> fetchBestItemList(
-      int page, int per_page, String ordering) async {
+    int page,
+    int per_page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) async {
     String url = Utils.BASE_URL +
-        '/api/v1/drugs?is_home=1&page=$page&per_page=$per_page&ordering=$ordering';
-
+        '/api/v1/drugs?'
+            'is_home=1&'
+            'page=$page&'
+            'per_page=$per_page&'
+            'international_name_ids=$international_name_ids&'
+            'manufacturer_ids=$manufacturer_ids&'
+            'ordering=$ordering&'
+            'price_max=$price_max&'
+            'price_min=$price_min&'
+            'unit_ids=$unit_ids';
 
     HttpClient httpClient = new HttpClient();
     httpClient
@@ -190,10 +194,27 @@ class PharmacyApiProvider {
 
   ///category's by item
   Future<ItemModel> fetchCategoryItemsList(
-      String id, int page, int per_page) async {
+    String id,
+    int page,
+    int per_page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) async {
     String url = Utils.BASE_URL +
-        '/api/v1/drugs?page=$page&per_page=$per_page&category=' +
-        id;
+        '/api/v1/drugs?'
+            'page=$page&'
+            'per_page=$per_page&'
+            'category=$id&'
+            'international_name_ids=$international_name_ids&'
+            'manufacturer_ids=$manufacturer_ids&'
+            'ordering=$ordering&'
+            'price_max=$price_max&'
+            'price_min=$price_min&'
+            'unit_ids=$unit_ids';
 
     HttpClient httpClient = new HttpClient();
     httpClient
@@ -211,12 +232,27 @@ class PharmacyApiProvider {
 
   ///search's by item
   Future<ItemModel> fetchSearchItemsList(
-      String obj, int page, int per_page) async {
+    String obj,
+    int page,
+    int per_page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) async {
     String url = Utils.BASE_URL +
-        '/api/v1/drugs?page=$page&per_page=$per_page&search=' +
-        obj;
-
-    print(url);
+        '/api/v1/drugs?'
+            'page=$page&'
+            'per_page=$per_page&'
+            'search=$obj&'
+            'international_name_ids=$international_name_ids&'
+            'manufacturer_ids=$manufacturer_ids&'
+            'ordering=$ordering&'
+            'price_max=$price_max&'
+            'price_min=$price_min&'
+            'unit_ids=$unit_ids';
 
     HttpClient httpClient = new HttpClient();
     httpClient

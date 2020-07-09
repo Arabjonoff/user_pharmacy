@@ -47,7 +47,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    blocHome.fetchAllHome(page);
+    blocHome.fetchAllHome(
+      page,
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+    );
     Utils.isLogin().then((value) => isLogin = value);
     return Scaffold(
       appBar: AppBar(

@@ -183,6 +183,7 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                                           title: Text(
                                             snapshot.data[index].name,
                                             overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
                                             style: TextStyle(
                                               fontFamily: AppTheme.fontRoboto,
                                               fontWeight: FontWeight.normal,
@@ -190,7 +191,7 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                                               fontStyle: FontStyle.normal,
                                               color: AppTheme.black_text,
                                             ),
-                                            maxLines: 1,
+
                                           ),
                                           value: snapshot.data[index].isClick,
                                           onChanged: (bool value) {

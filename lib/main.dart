@@ -79,11 +79,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: ItemListScreen(
-          translate("home.best"),
-          2,
-          "0",
-        ),
+        home: MainScreen(),
       ),
     );
   }

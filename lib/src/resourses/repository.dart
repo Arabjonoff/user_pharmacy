@@ -36,8 +36,25 @@ class Repository {
 
   Future<SaleModel> fetchAllSales() => pharmacyApiProvider.fetchSaleList();
 
-  Future<ItemModel> fetchBestItem(int page, String ordering) =>
-      pharmacyApiProvider.fetchBestItemList(page, 20, ordering);
+  Future<ItemModel> fetchBestItem(
+    int page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) =>
+      pharmacyApiProvider.fetchBestItemList(
+        page,
+        20,
+        international_name_ids,
+        manufacturer_ids,
+        ordering,
+        price_max,
+        price_min,
+        unit_ids,
+      );
 
   Future<CategoryModel> fetchCategoryItem() =>
       pharmacyApiProvider.fetchCategoryList();
@@ -52,11 +69,49 @@ class Repository {
   Future<List<ItemResult>> databaseCardItem(bool isCard) =>
       databaseHelper.getProdu(isCard);
 
-  Future<ItemModel> fetchCategryItemList(String id, int page) =>
-      pharmacyApiProvider.fetchCategoryItemsList(id, page, 20);
+  Future<ItemModel> fetchCategryItemList(
+    String id,
+    int page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) =>
+      pharmacyApiProvider.fetchCategoryItemsList(
+        id,
+        page,
+        20,
+        international_name_ids,
+        manufacturer_ids,
+        ordering,
+        price_max,
+        price_min,
+        unit_ids,
+      );
 
-  Future<ItemModel> fetchSearchItemList(String obj, int page) =>
-      pharmacyApiProvider.fetchSearchItemsList(obj, page, 20);
+  Future<ItemModel> fetchSearchItemList(
+    String obj,
+    int page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) =>
+      pharmacyApiProvider.fetchSearchItemsList(
+        obj,
+        page,
+        20,
+        international_name_ids,
+        manufacturer_ids,
+        ordering,
+        price_max,
+        price_min,
+        unit_ids,
+      );
 
   Future<ItemsAllModel> fetchItems(String id) =>
       pharmacyApiProvider.fetchItems(id);
