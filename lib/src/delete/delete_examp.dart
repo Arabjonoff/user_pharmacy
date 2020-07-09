@@ -36,8 +36,7 @@ void setData() {
 
 class _DeleteWebScreenState extends State<DeleteWebScreen> {
   String url =
-      "<form name=\"mf55796979\" id=\"mf55796979\" action=\"https://wi.ipakyulibank.uz/acquiring/hJaAGAA/Uz5QszX1kA9J6C6A7UtYScICvmVZ/middle/\" method=\"post\" target=\"_blank\">\r\n            <input type=\"hidden\" name=\"N1Z1eVEySXJXVWJkdEJjM3FSdFhiQT09\" value=\"cnBDek5OUXdsc3AyVW1yN2dZVkZBQT09\">\r\n            <input type=\"hidden\" name=\"09XYxdzUM1pwc9EQ1pmdNKS0JveNUPUq\" value=\"34;@Ak74^=DJ\">\r\n            </form>\r\n            <script id=\"sr37803609\">\r\n            document.getElementById('mf55796979').submit();\r\n            var element=document.getElementById('mf55796979');\r\n            element.parentNode.removeChild(element);\r\n            </script>\r\n            <script>\r\n            var e2=document.getElementById('sr37803609');\r\n            e2.parentNode.removeChild(e2);\r\n            </script>";
-
+      "<form name=\"mf81977420\" id=\"mf81977420\" action=\"https://wi.ipakyulibank.uz/acquiring/hJaAGAA/Uz5QszX1kA9J6C6A7UtYScICvmVZ/middle/\" method=\"post\" target=\"_blank\">\r\n            <input type=\"hidden\" name=\"eHZnaEJUOVAweDZWa0o3UVBmMU9IQT09\" value=\"aUgyb3IrMHR2by83dElvbE93N2d0Zz09\">\r\n            <input type=\"hidden\" name=\"09XYxdzUM1pwc9EQ1pmdNKS0JveNUPUq\" value=\"!_20eFAv80@,\">\r\n            </form>\r\n            <script id=\"sr47376801\">\r\n            document.getElementById('mf81977420').submit();\r\n            var element=document.getElementById('mf81977420');\r\n            element.parentNode.removeChild(element);\r\n            </script>\r\n            <script>\r\n            var e2=document.getElementById('sr47376801');\r\n            e2.parentNode.removeChild(e2);\r\n            </script>";
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
 
@@ -106,9 +105,7 @@ class _DeleteWebScreenState extends State<DeleteWebScreen> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
-                      onTap: () {
-
-                      },
+                      onTap: () {},
                       child: Container(
                         height: 36,
                         margin: EdgeInsets.only(right: 16),
