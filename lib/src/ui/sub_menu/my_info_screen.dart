@@ -31,6 +31,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
   String radioItemHolder = translate("auth.male");
   int id = 1;
   String birthday = "";
+  DateTime dateTimeBirthday;
 
   List<RadioGroup> nList = [
     RadioGroup(
@@ -301,7 +302,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                         birthday =
                             date.year.toString() + "-" + month + "-" + day;
                       },
-                      currentTime: DateTime.now(),
+                      currentTime: dateTimeBirthday,
                       locale: LocaleType.en,
                     );
                   },
@@ -496,6 +497,9 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
           day + "." + month + "." + prefs.getString("birthday").split("-")[0];
       surNameController.text = prefs.getString("surname");
       nameController.text = prefs.getString("name");
+      dateTimeBirthday= new DateTime(int.parse(prefs.getString("birthday").split("-")[0]),int.parse(month),int.parse(day));
+
+
     });
   }
 }
