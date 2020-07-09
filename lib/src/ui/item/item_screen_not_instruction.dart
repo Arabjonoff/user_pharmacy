@@ -98,7 +98,6 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                     color: AppTheme.arrow_back,
                                     borderRadius: BorderRadius.circular(12),
                                   ),
-
                                   child: SvgPicture.asset(
                                       "assets/images/arrow_close.svg"),
                                 ),
@@ -376,7 +375,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                             : Container(),
                         Container(
                           height: snapshot.data.recommendations.length > 0
-                              ? 240.0
+                              ? 250.0
                               : 0.0,
                           margin: EdgeInsets.only(top: 16, bottom: 16),
                           child: ListView.builder(
@@ -767,7 +766,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                               )
                             : Container(),
                         Container(
-                          height: snapshot.data.analog.length > 0 ? 240.0 : 0.0,
+                          height: snapshot.data.analog.length > 0 ? 250.0 : 0.0,
                           margin: EdgeInsets.only(top: 16, bottom: 16),
                           child: ListView.builder(
                             padding: const EdgeInsets.only(

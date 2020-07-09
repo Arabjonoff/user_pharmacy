@@ -593,7 +593,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           ),
           Container(
-            height: 240.0,
+            height: 250.0,
             margin: EdgeInsets.only(top: 16),
             child: StreamBuilder(
               stream: blocHome.getBestItem,
