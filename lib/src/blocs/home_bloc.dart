@@ -16,7 +16,7 @@ class HomeBloc {
     SaleModel saleModel = await _repository.fetchAllSales();
     _saleFetcher.sink.add(saleModel);
 
-    ItemModel itemModelResponse = await _repository.fetchBestItem(page);
+    ItemModel itemModelResponse = await _repository.fetchBestItem(page, "name");
     List<ItemResult> database = await _repository.databaseItem();
 
     for (var i = 0; i < itemModelResponse.results.length; i++) {

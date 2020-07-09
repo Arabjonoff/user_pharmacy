@@ -132,9 +132,11 @@ class PharmacyApiProvider {
   }
 
   ///best items
-  Future<ItemModel> fetchBestItemList(int page, int per_page) async {
+  Future<ItemModel> fetchBestItemList(
+      int page, int per_page, String ordering) async {
     String url = Utils.BASE_URL +
-        '/api/v1/drugs?is_home=1&page=$page&per_page=$per_page';
+        '/api/v1/drugs?is_home=1&page=$page&per_page=$per_page&ordering=$ordering';
+
 
     HttpClient httpClient = new HttpClient();
     httpClient

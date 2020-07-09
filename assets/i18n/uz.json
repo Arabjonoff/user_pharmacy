@@ -25,8 +25,8 @@
     "your": "Sizning",
     "karta": "Karta",
     "look": "Ko'rish",
-    "pharmacy": "aptekada",
-    "pharma": "aptekalar",
+    "pharmacy": "dorixonada",
+    "pharma": "dorixonalar",
     "set": "Savol",
     "question": "so'rash",
     "show_all": "To'liq ko'rish"
@@ -43,18 +43,18 @@
     "sort": "Nomi bo'yicha",
     "filter": "Filtr",
     "card": "Savatga qo'shish",
-    "tovar": "tovarlar",
+    "tovar": "mahsulot",
     "description": "Tarif",
     "instruction": "Qo'llanma",
     "drotaverine": "Drotaverin",
     "kapsule": "kapsulalar",
     "analog": "O'xshash dorilar",
     "card_add": "Savatga qo'shish",
-    "substance": "Amaldagi modda",
+    "substance": "Tarkibi",
     "release": "Mahsulot shakli",
     "city": "Ishlab chiqarilgan davlat",
     "category": "Kategoriya",
-    "recomendation": "Ushbu tovarga tavsiya qilinadi"
+    "recomendation": "Ushbu mahsulotga tavsiya qilinadi"
   },
   "search": {
     "cancel": "Bekor qilish",
@@ -65,24 +65,24 @@
   "card": {
     "name": "Savatcha",
     "my_card": "Savatchangiz",
-    "all_card": "Tovarlar soni, dona",
-    "tovar_sum": "Tovarlar narxi",
+    "all_card": "Mahsulotlar soni, dona",
+    "tovar_sum": "Umumiy narxi",
     "all": "Jami",
     "buy": "Buyurtma berish",
     "empty_name": "Sizning savatchangiz bo'sh",
-    "empty_title": "O'zingizga kerakli tovarlarni katalogdan yoki izlash orqali tanlang",
+    "empty_title": "O'zingizga kerakli mahsulotlarni katalogdan yoki izlash orqali tanlang",
     "all_catalog": "Katalogga o'tish",
     "dostavka": "Yetkazib berish",
     "payment": "To'lov"
   },
   "favourite": {
     "empty_name": "Hech narsa tanlanmagan",
-    "empty_title": "Bu yerda siz tanlagan tovarlar joylashadi",
+    "empty_title": "Bu yerda siz tanlagan mahsulotlar joylashadi",
     "all_catalog": "Katalogga o'tish"
   },
   "menu": {
     "menu_about_message": "Buyurtma berish, bonuslarga ega bo'lish va GrandPharm kartasiga ega bo'lish uchun profilingizga kiring yoki ro'yxatdan o'ting",
-    "all_info": "Mening ma'lumotlarim",
+    "all_info": "Ma'lumotlaringiz",
     "bonus_card": "Bonusli karta",
     "bonus_card_not": "Bonuslar dasturi haqida",
     "city": "Shahar",
@@ -93,12 +93,12 @@
     "about": "Ilova haqida",
     "message": "Biz bilan bog'laning",
     "message_about": "Xabar orqali",
-    "call": "Qo'ngiroq qilish",
-    "call_about": "call-sentrga",
+    "call": "Qo'ng'iroq qilish",
+    "call_about": "call-markaziga",
     "faq": "Savol va javoblar",
     "faq_about": "Savol va javoblar",
     "enter": "Kirish",
-    "me_info": "Mening ma'lumotlarim"
+    "me_info": "Ma'lumotlaringiz"
   },
   "dialog": {
     "enter": "Kirish",
@@ -111,8 +111,8 @@
     "chechout": "Buyurtma berish",
     "productMethod": "Qabul qilib olish shakli",
     "pickup": "Olib ketish",
-    "courier": "Kuryer tomonidan",
-    "your_data": "Sizning ma'lumotlaringiz",
+    "courier": "Yetkazib beruvchi tomonidan",
+    "your_data": "Siz haqingizda",
     "edit": "O'zgartirish",
     "name": "Ism",
     "number": "Telefon raqam",
@@ -131,14 +131,14 @@
     "map_add_order": "Shu joydan olib ketish"
   },
   "address": {
-    "title": "Kuryerlik xizmati",
+    "title": "Yetkazib berish xizmati",
     "delivery_address": "Yetkazish uchun manzil",
     "dom": "Ko'cha, uy*",
     "ofis": "Xonadon/ofis",
     "padez": "Pod'yezd",
     "etaj": "Qavat",
     "comment": "Sharh",
-    "save_address": "Shu yerga yetkazish"
+    "save_address": "Shu manzilga yetkazish"
   },
   "auth": {
     "network": "Dorixonalar tarmog'i",
@@ -158,14 +158,14 @@
   },
   "menu_sub": {
     "history_title": "Buyurtmalar hozircha yo'q",
-    "history_message": "O'zingizga kerakli mahsulotni katalogdan yoki izlash orqali tanlang"
+    "history_message": "O'zingizga kerakli mahsulotni katalogdan yoki izlash orqali toping"
   },
   "map": {
     "address": "Manzil",
     "work": "Ish vaqti",
     "maps": "Marshrut yaratish",
     "lov_apt_mes": "Sevimli dorixonalar hozircha ko'rsatilmagan",
-    "lov_apt_title": "Tez va qulay topish uchun dorixona tanlang",
+    "lov_apt_title": "Tez va qulay topish uchun dorixonani tanlang",
     "lov_apt_cat": "Sevimli dorixonangizni tanlang",
     "tab_one": "Kartadan",
     "tab_two": "Ro'yxatdan"
@@ -176,7 +176,7 @@
     "number": "Telefon raqam",
     "oplat": "To'lov",
     "oplachen": "To'lov qilingan",
-    "kurer": "Kuryer xizmati orqali",
+    "kurer": "Yetkazib berish xizmati orqali",
     "sozdan": "Yaratildi",
     "address": "Yetkazib berish manzili"
   },

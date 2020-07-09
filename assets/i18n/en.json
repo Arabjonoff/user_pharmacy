@@ -1,6 +1,6 @@
 {
   "sum": " UZS",
-  "search_hint": "Search drugs",
+  "search_hint": "Search for drugs",
   "search_real": "Search",
   "next": "Next",
   "sale": "Discounts",
@@ -16,20 +16,20 @@
   "main": {
     "home": "Home",
     "catalog": "Catalog",
-    "card": "Card",
+    "card": "Cart",
     "favourite": "Favorite",
     "menu": "Menu"
   },
   "home": {
     "best": "Best offers",
     "your": "Your",
-    "karta": "Card",
-    "look": "See",
-    "pharmacy": "in pharmacy",
+    "karta": "Location",
+    "look": "Look for",
+    "pharmacy": "in pharm",
     "pharma": "pharmacy",
     "set": "Ask",
     "question": "Question",
-    "show_all": "See all"
+    "show_all": "See more"
   },
   "language": {
     "en": "English",
@@ -42,7 +42,7 @@
     "sht": "pcs.",
     "sort": "By name",
     "filter": "Filter",
-    "card": "Add to card",
+    "card": "Add to cart",
     "tovar": "products",
     "description": "Description",
     "instruction": "Instructions",
@@ -50,7 +50,7 @@
     "kapsule": "Capsules",
     "analog": "Alternatives",
     "card_add": "Cart",
-    "substance": "Active substance",
+    "substance": "Substance",
     "release": "Form",
     "city": "Made in",
     "category": "Categories",
@@ -76,13 +76,13 @@
     "payment": "Payment"
   },
   "favourite": {
-    "empty_name": "No favorites are chosen",
-    "empty_title": "Here you have your favorites products",
+    "empty_name": "No favorites are chosen yet",
+    "empty_title": "Here you can have your favorites products",
     "all_catalog": "Go to catalog"
   },
   "menu": {
-    "menu_about_message": "To order products, collect bonuses and have an access to loyalty card sign in or sing up",
-    "all_info": "My info",
+    "menu_about_message": "To order products, collect bonuses and have an access to bonus card sign in or sign up",
+    "all_info": "Your info",
     "bonus_card": "Bonus card",
     "bonus_card_not": "About card program",
     "city": "City",
@@ -98,7 +98,7 @@
     "faq": "FAQ",
     "faq_about": "questions and answers",
     "enter": "Sign in",
-    "me_info": "My info"
+    "me_info": "Your info"
   },
   "dialog": {
     "enter": "Sign in",
@@ -107,8 +107,8 @@
     "danniy": "Personal data and sales conditions"
   },
   "orders": {
-    "oplat": "Buy",
-    "chechout": "Checkout",
+    "oplat": "Checkout",
+    "chechout": "Go to Checkout",
     "productMethod": "Receipt method",
     "pickup": "Pickup",
     "courier": "Delivery",
@@ -117,7 +117,7 @@
     "name": "Name",
     "number": "Phone number",
     "promocode": "Promocode",
-    "promocode_name": "You can use only 1 promo code",
+    "promocode_name": "You can use only 1 promocode",
     "type": "Payment method",
     "type_payment": "Payment",
     "edit_tovar": "Edit",
@@ -137,8 +137,8 @@
     "ofis": "Apartment/office",
     "padez": "Porch",
     "etaj": "Floor",
-    "comment": "Comment",
-    "save_address": "Deliver to here"
+    "comment": "Additional comment",
+    "save_address": "Add new address"
   },
   "auth": {
     "network": "Pharmacy chain",

@@ -33,11 +33,8 @@ class ItemListScreen extends StatefulWidget {
 }
 
 int sort = 1;
-//List<FilterResults> internationalName = new List();
-//List<FilterResults> manufacturer = new List();
-//List<FilterResults> unit = new List();
-double fromPrice = 0.0;
-double toPrice = 0.0;
+String sortFilter = "name";
+int page = 1;
 
 class _ItemListScreenState extends State<ItemListScreen> {
   Size size;
@@ -45,13 +42,13 @@ class _ItemListScreenState extends State<ItemListScreen> {
   DatabaseHelper dataBase = new DatabaseHelper();
   int itemSize = 0;
   int lastPosition;
-  static int page = 1;
+
   bool isLoading = false;
   ScrollController _sc = new ScrollController();
 
   @override
   void initState() {
-    this._getMoreData(page);
+    _getMoreData(page);
     super.initState();
     _sc.addListener(() {
       if (_sc.position.pixels == _sc.position.maxScrollExtent) {
@@ -305,6 +302,35 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                         setState(() {
                                                           radioItem = data.name;
                                                           sort = data.index;
+                                                          switch (data.index) {
+                                                            case 1:
+                                                              {
+                                                                sortFilter =
+                                                                    "name";
+                                                                break;
+                                                              }
+                                                            case 2:
+                                                              {
+                                                                sortFilter =
+                                                                    "-name";
+                                                                break;
+                                                              }
+                                                            case 3:
+                                                              {
+                                                                sortFilter =
+                                                                    "price";
+                                                                break;
+                                                              }
+                                                            case 4:
+                                                              {
+                                                                sortFilter =
+                                                                    "-price";
+                                                                break;
+                                                              }
+                                                          }
+                                                          isLoading = false;
+                                                          page = 1;
+                                                          _getMoreData(page);
                                                           Navigator.pop(
                                                               context);
                                                         });
@@ -323,28 +349,31 @@ class _ItemListScreenState extends State<ItemListScreen> {
                         },
                       );
                     },
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          child: SvgPicture.asset(
-                            "assets/images/name_sort.svg",
+                    child: Container(
+                      color: AppTheme.white,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            child: SvgPicture.asset(
+                              "assets/images/name_sort.svg",
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 19,
-                        ),
-                        Text(
-                          translate("item.sort"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
-                            fontSize: 15,
-                            color: AppTheme.black_text,
-                            fontWeight: FontWeight.w600,
+                          SizedBox(
+                            width: 19,
                           ),
-                        ),
-                      ],
+                          Text(
+                            translate("item.sort"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontSize: 15,
+                              color: AppTheme.black_text,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -365,29 +394,32 @@ class _ItemListScreenState extends State<ItemListScreen> {
                         ),
                       );
                     },
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          child: SvgPicture.asset(
-                            "assets/images/filter.svg",
+                    child: Container(
+                      color: AppTheme.white,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            child: SvgPicture.asset(
+                              "assets/images/filter.svg",
+                            ),
+                            width: 19,
                           ),
-                          width: 19,
-                        ),
-                        SizedBox(
-                          width: 19,
-                        ),
-                        Text(
-                          translate("item.filter"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
-                            fontSize: 15,
-                            color: AppTheme.black_text,
-                            fontWeight: FontWeight.w600,
+                          SizedBox(
+                            width: 19,
                           ),
-                        ),
-                      ],
+                          Text(
+                            translate("item.filter"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontSize: 15,
+                              color: AppTheme.black_text,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -978,7 +1010,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
     if (!isLoading) {
       setState(() {
         widget.type == 2
-            ? blocItemsList.fetchAllItemCategoryBest(index)
+            ? blocItemsList.fetchAllItemCategoryBest(index, sortFilter)
             : widget.type == 3
                 ? blocItemsList.fetchAllItemSearch(widget.id, index)
                 : blocItemsList.fetchAllItemCategory(widget.id, index);

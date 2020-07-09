@@ -25,7 +25,6 @@ class ItemListBloc {
     if (page == 1) {
       usersCategory = new List();
     }
-    print(usersCategory.length);
     ItemModel itemCategory = await _repository.fetchCategryItemList(id, page);
 
     List<ItemResult> database = await _repository.databaseItem();
@@ -41,12 +40,12 @@ class ItemListBloc {
     _categoryItemsFetcher.sink.add(usersCategory);
   }
 
-  fetchAllItemCategoryBest(int page) async {
+  fetchAllItemCategoryBest(int page, String ordering) async {
     if (page == 1) {
       usersBest = new List();
     }
-    print(usersBest.length);
-    ItemModel itemModelResponse = await _repository.fetchBestItem(page);
+    ItemModel itemModelResponse =
+        await _repository.fetchBestItem(page, ordering);
     List<ItemResult> database = await _repository.databaseItem();
     for (var j = 0; j < database.length; j++) {
       for (var i = 0; i < itemModelResponse.results.length; i++) {
@@ -65,7 +64,6 @@ class ItemListBloc {
     if (page == 1) {
       users = new List();
     }
-    print(users.length);
     ItemModel itemModelResponse =
         await _repository.fetchSearchItemList(obj, page);
     List<ItemResult> database = await _repository.databaseItem();

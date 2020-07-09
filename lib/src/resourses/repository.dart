@@ -36,8 +36,8 @@ class Repository {
 
   Future<SaleModel> fetchAllSales() => pharmacyApiProvider.fetchSaleList();
 
-  Future<ItemModel> fetchBestItem(int page) =>
-      pharmacyApiProvider.fetchBestItemList(page, 20);
+  Future<ItemModel> fetchBestItem(int page, String ordering) =>
+      pharmacyApiProvider.fetchBestItemList(page, 20, ordering);
 
   Future<CategoryModel> fetchCategoryItem() =>
       pharmacyApiProvider.fetchCategoryList();

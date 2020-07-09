@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/ui/item_list/filter_item_screen.dart';
 
@@ -18,6 +19,8 @@ class FilterScreen extends StatefulWidget {
 List<FilterResults> internationalNameExamp = new List();
 List<FilterResults> manufacturerExamp = new List();
 List<FilterResults> unitExamp = new List();
+double fromPrice;
+double toPrice;
 
 class _FilterScreenState extends State<FilterScreen> {
   @override
@@ -260,7 +263,6 @@ class _FilterScreenState extends State<FilterScreen> {
                         margin: EdgeInsets.only(left: 15, right: 15),
                         child: Row(
                           children: <Widget>[
-
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -522,6 +524,7 @@ class _FilterScreenState extends State<FilterScreen> {
             GestureDetector(
               onTap: () {
                 Navigator.pop(context);
+                blocItemsList.fetchAllItemCategoryBest(1,"-name");
               },
               child: Container(
                 decoration: BoxDecoration(
