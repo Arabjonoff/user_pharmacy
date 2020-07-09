@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/src/model/sort_radio_btn.dart';
@@ -282,27 +283,27 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-//                    DatePicker.showDatePicker(
-//                      context,
-//                      showTitleActions: true,
-//                      minTime: DateTime(1900, 2, 16),
-//                      maxTime: now,
-//                      onConfirm: (date) {
-//                        var month = date.month < 10
-//                            ? "0" + date.month.toString()
-//                            : date.month.toString();
-//                        var day = date.day < 10
-//                            ? "0" + date.day.toString()
-//                            : date.day.toString();
-//                        birthdayController.text =
-//                            day + "." + month + "." + date.year.toString();
-//
-//                        birthday =
-//                            date.year.toString() + "-" + month + "-" + day;
-//                      },
-//                      currentTime: DateTime.now(),
-//                      locale: LocaleType.ru,
-//                    );
+                    DatePicker.showDatePicker(
+                      context,
+                      showTitleActions: true,
+                      minTime: DateTime(1900, 2, 16),
+                      maxTime: now,
+                      onConfirm: (date) {
+                        var month = date.month < 10
+                            ? "0" + date.month.toString()
+                            : date.month.toString();
+                        var day = date.day < 10
+                            ? "0" + date.day.toString()
+                            : date.day.toString();
+                        birthdayController.text =
+                            day + "." + month + "." + date.year.toString();
+
+                        birthday =
+                            date.year.toString() + "-" + month + "-" + day;
+                      },
+                      currentTime: DateTime.now(),
+                      locale: LocaleType.en,
+                    );
                   },
                   child: Container(
                     height: 56,
