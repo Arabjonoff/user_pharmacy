@@ -16,7 +16,6 @@ import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
-import 'package:requests/requests.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PharmacyApiProvider {

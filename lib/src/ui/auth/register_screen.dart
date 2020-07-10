@@ -7,6 +7,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/model/sort_radio_btn.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/add_address_card.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -375,6 +376,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     widget.token,
                   );
                   if (response.status == 1) {
+                    isLogin = true;
                     Utils.saveData(
                       nameController.text.toString(),
                       surNameController.text.toString(),
