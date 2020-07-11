@@ -49,7 +49,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   }
 
   _getLocation() async {
-    _addMarkers(Repository().fetchApteka(0.0,0.0));
+    _addMarkers(Repository().fetchApteka(0.0, 0.0));
 
     geolocator
         .getPositionStream(LocationOptions(
@@ -84,17 +84,19 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
 
   void _addMarkerData(List<LocationModel> data) {
     for (int i = 0; i < data.length; i++) {
-      mapController.addPlacemark(placemark.Placemark(
-        point: Point(
-          latitude: data[i].location.coordinates[1],
-          longitude: data[i].location.coordinates[0],
+      mapController.addPlacemark(
+        placemark.Placemark(
+          point: Point(
+            latitude: data[i].location.coordinates[1],
+            longitude: data[i].location.coordinates[0],
+          ),
+          opacity: 0.95,
+          iconName: 'assets/map/user.png',
+          onTap: (double latitude, double longitude) => {
+            BottomDialog.mapBottom(data[i], context),
+          },
         ),
-        opacity: 0.95,
-        iconName: 'assets/map/user.png',
-        onTap: (double latitude, double longitude) => {
-          BottomDialog.mapBottom(data[i], context),
-        },
-      ));
+      );
     }
   }
 
