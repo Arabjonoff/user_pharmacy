@@ -1,5 +1,6 @@
 {
   "sum": " UZS",
+  "sum_km": "UZS/km",
   "search_hint": "Search for drugs",
   "search_real": "Search",
   "next": "Next",
@@ -128,7 +129,8 @@
     "edit_aptek_choose": "Choose pharmacy",
     "edit_aptek": "Change pharmacy",
     "now": "Today",
-    "map_add_order": "Pickup from this place"
+    "map_add_order": "Pickup from this place",
+    "payment_type": "Payment type"
   },
   "address": {
     "title": "Delivery service",
@@ -138,7 +140,10 @@
     "padez": "Porch",
     "etaj": "Floor",
     "comment": "Additional comment",
-    "save_address": "Add new address"
+    "save_address": "Add new address",
+    "choose_address": "Choose address",
+    "choose_time": "Choose time",
+    "free": "Free"
   },
   "auth": {
     "network": "Pharmacy chain",
@@ -190,5 +195,10 @@
     "cancel": "Cancel",
     "shipped": "Shipped",
     "delivered": "Delivered"
+  },
+  "voice": {
+    "voice_search": "Голосовой поиск",
+    "title": "Произнесите название препарата, действующего вещества или симптом",
+    "cancel": "Отмена"
   }
 }

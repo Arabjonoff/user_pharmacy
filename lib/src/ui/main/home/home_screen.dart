@@ -25,10 +25,17 @@ import 'package:pharmacy/src/ui/item/item_screen.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 import '../../../app_theme.dart';
 
 final priceFormat = new NumberFormat("#,##0", "ru");
+
+double level = 0.0;
+double minSoundLevel = 50000;
+double maxSoundLevel = -50000;
+final SpeechToText speech = SpeechToText();
+String lastError = "";
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -37,12 +44,29 @@ class HomeScreen extends StatefulWidget {
   }
 }
 
-//final List<TopItemModel> topItems = TopItemModel.topTitle;
-
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Size size;
   DatabaseHelper dataBase = new DatabaseHelper();
   int page = 1;
+
+  @override
+  void initState() {
+    initSpeechState();
+    super.initState();
+  }
+
+  Future<void> initSpeechState() async {
+    bool hasSpeech = await speech.initialize(
+      onError: (errorNotification) => {
+        setState(() {
+          lastError =
+              "${errorNotification.errorMsg} - ${errorNotification.permanent}";
+        }),
+      },
+    );
+    print(hasSpeech);
+    if (!mounted) return;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +127,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ),
                           ),
                         ),
+                        GestureDetector(
+                          onTap: () {
+                            BottomDialog.createBottomVoiceAssistant(context);
+                          },
+                          child: Container(
+                            height: 36,
+                            width: 36,
+                            padding: EdgeInsets.all(7),
+                            child: SvgPicture.asset("assets/images/voice.svg"),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -204,9 +239,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   height: 22,
                                   child: Text(
                                     translate("home.karta").toUpperCase(),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
                                     style: TextStyle(
                                       color: AppTheme.white,
-                                      fontSize: 17,
+                                      fontSize: 15,
                                       fontFamily: AppTheme.fontRoboto,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -277,9 +314,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   height: 22,
                                   child: Text(
                                     translate("home.pharmacy").toUpperCase(),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
                                     style: TextStyle(
                                       color: AppTheme.white,
-                                      fontSize: 17,
+                                      fontSize: 15,
                                       fontFamily: AppTheme.fontRoboto,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -350,9 +389,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   height: 22,
                                   child: Text(
                                     translate("home.pharma").toUpperCase(),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
                                     style: TextStyle(
                                       color: AppTheme.white,
-                                      fontSize: 17,
+                                      fontSize: 15,
                                       fontFamily: AppTheme.fontRoboto,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -415,9 +456,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   height: 22,
                                   child: Text(
                                     translate("home.question").toUpperCase(),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
                                     style: TextStyle(
                                       color: AppTheme.white,
-                                      fontSize: 17,
+                                      fontSize: 15,
                                       fontFamily: AppTheme.fontRoboto,
                                       fontWeight: FontWeight.w600,
                                     ),

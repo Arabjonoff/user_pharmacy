@@ -5,16 +5,19 @@ import 'package:pharmacy/src/database/database_helper_apteka.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
+import 'package:pharmacy/src/model/api/check_order_responce.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
+import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
+import 'package:pharmacy/src/model/send/check_order.dart';
 
 import 'pharmacy_api_provider.dart';
 
@@ -125,9 +128,15 @@ class Repository {
   Future<OrderStatusModel> fetchRAddOrder(AddOrderModel order) =>
       pharmacyApiProvider.fetchAddOrder(order);
 
+  Future<CheckOrderResponceModel> fetchCheckOrder(CheckOrderModel order) =>
+      pharmacyApiProvider.fetchCheckOrder(order);
+
   Future<HistoryModel> fetchHistory() =>
       pharmacyApiProvider.fetchOrderHistory();
 
   Future<FilterModel> fetchFilterParametrs(int page, int type) =>
       pharmacyApiProvider.fetchFilterParametrs(page, 50, type);
+
+  Future<OrderOptionsModel> fetchOrderOptions(String lan) =>
+      pharmacyApiProvider.fetchOrderOptions(lan);
 }

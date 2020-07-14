@@ -12,8 +12,10 @@ import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
+import 'package:pharmacy/src/ui/shopping_curer/map_address_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -43,6 +45,7 @@ class CheckboxList {
 class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
   int allCount = 0;
   double allPrice = 0;
+  int paymentType;
 
   String fullName = "";
   String number = "";
@@ -149,108 +152,107 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                 ],
               ),
             ),
+//            Container(
+//              margin: EdgeInsets.only(
+//                top: 30,
+//                left: 16,
+//              ),
+//              child: Text(
+//                translate("orders.productMethod"),
+//                style: TextStyle(
+//                  fontWeight: FontWeight.w600,
+//                  fontSize: 20,
+//                  fontFamily: AppTheme.fontRoboto,
+//                  fontStyle: FontStyle.normal,
+//                  color: AppTheme.black_text,
+//                ),
+//              ),
+//            ),
+//            Container(
+//              height: 36,
+//              margin: EdgeInsets.only(
+//                right: 16,
+//                top: 24,
+//                left: 16,
+//              ),
+//              child: Row(
+//                children: [
+//                  Expanded(
+//                    child: GestureDetector(
+//                      onTap: () {},
+//                      child: Container(
+//                        padding: EdgeInsets.only(left: 16),
+//                        decoration: BoxDecoration(
+//                          borderRadius: BorderRadius.circular(10.0),
+//                          color: AppTheme.white,
+//                          border: Border.all(
+//                            color: AppTheme.blue_app_color,
+//                            width: 2.0,
+//                          ),
+//                        ),
+//                        height: 36,
+//                        child: Align(
+//                          alignment: Alignment.centerLeft,
+//                          child: Text(
+//                            translate("orders.pickup"),
+//                            style: TextStyle(
+//                              fontFamily: AppTheme.fontRoboto,
+//                              fontWeight: FontWeight.w600,
+//                              fontSize: 13,
+//                              color: AppTheme.black_text,
+//                              fontStyle: FontStyle.normal,
+//                            ),
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ),
+//                  SizedBox(
+//                    width: 15,
+//                  ),
+//                  Expanded(
+//                    child: GestureDetector(
+//                      onTap: () {
+////                        Navigator.pushReplacement(
+////                          context,
+////                          PageTransition(
+////                            type: PageTransitionType.fade,
+////                            child: OrderCardCurerScreen(
+////                                AddressModel(-1, "", "", "", "", "")),
+////                          ),
+////                        );
+//                      },
+//                      child: Container(
+//                        padding: EdgeInsets.only(left: 16),
+//                        decoration: BoxDecoration(
+//                          borderRadius: BorderRadius.circular(10.0),
+//                          color: AppTheme.white,
+//                          border: Border.all(
+//                            color: AppTheme.arrow_catalog,
+//                            width: 2.0,
+//                          ),
+//                        ),
+//                        height: 36,
+//                        child: Align(
+//                          alignment: Alignment.centerLeft,
+//                          child: Text(
+//                            translate("orders.courier"),
+//                            style: TextStyle(
+//                              fontFamily: AppTheme.fontRoboto,
+//                              fontWeight: FontWeight.w600,
+//                              fontSize: 13,
+//                              color: AppTheme.black_text,
+//                              fontStyle: FontStyle.normal,
+//                            ),
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ),
+//                ],
+//              ),
+//            ),
             Container(
-              margin: EdgeInsets.only(
-                top: 30,
-                left: 16,
-              ),
-              child: Text(
-                translate("orders.productMethod"),
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                  fontFamily: AppTheme.fontRoboto,
-                  fontStyle: FontStyle.normal,
-                  color: AppTheme.black_text,
-                ),
-              ),
-            ),
-            Container(
-              height: 36,
-              margin: EdgeInsets.only(
-                right: 16,
-                top: 24,
-                left: 16,
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        padding: EdgeInsets.only(left: 16),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: AppTheme.white,
-                          border: Border.all(
-                            color: AppTheme.blue_app_color,
-                            width: 2.0,
-                          ),
-                        ),
-                        height: 36,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            translate("orders.pickup"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                              color: AppTheme.black_text,
-                              fontStyle: FontStyle.normal,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            child: OrderCardCurerScreen(
-                                AddressModel(-1, "", "", "", "", "")),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        padding: EdgeInsets.only(left: 16),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: AppTheme.white,
-                          border: Border.all(
-                            color: AppTheme.arrow_catalog,
-                            width: 2.0,
-                          ),
-                        ),
-                        height: 36,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            translate("orders.courier"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                              color: AppTheme.black_text,
-                              fontStyle: FontStyle.normal,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: widget.aptekaModel.id == -1 ? 200 : 250,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
@@ -347,7 +349,8 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                             margin: EdgeInsets.only(
                                 left: 16, right: 16, bottom: 16),
                           ),
-                          Expanded(
+                          Container(
+                            height: 66,
                             child: ListView.builder(
                               padding: EdgeInsets.only(left: 16, right: 16),
                               scrollDirection: Axis.horizontal,
@@ -448,8 +451,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                             child: Container(
                               margin: EdgeInsets.only(
                                   left: 16, right: 16, bottom: 16, top: 16),
-                              height: 30,
-                              width: 125,
+                              width: 250,
                               decoration: BoxDecoration(
                                 color: widget.aptekaModel.id == -1
                                     ? AppTheme.blue_app_color
@@ -481,6 +483,8 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                   ),
                                 ),
                               ),
+                              padding: EdgeInsets.only(
+                                  left: 12, right: 12, top: 8, bottom: 8),
                             ),
                             onTap: () {
                               Navigator.pushReplacement(
@@ -497,21 +501,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                     } else if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
                     }
-                    return Shimmer.fromColors(
-                      baseColor: Colors.grey[300],
-                      highlightColor: Colors.grey[100],
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        physics: ClampingScrollPhysics(),
-                        itemCount: 10,
-                        itemBuilder: (_, __) => Container(
-                          height: 56,
-                          width: 56,
-                          color: AppTheme.white,
-                        ),
-                      ),
-                    );
+                    return Container();
                   },
                 ),
               ),
@@ -602,6 +592,55 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                     color: AppTheme.black_transparent_text),
               ),
             ),
+
+            Container(
+              margin: EdgeInsets.only(top: 24, left: 16, right: 16, bottom: 16),
+              child: Text(
+                translate("orders.payment_type"),
+                style: TextStyle(
+                  fontFamily: AppTheme.fontRoboto,
+                  fontWeight: FontWeight.w600,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 20,
+                  color: AppTheme.black_catalog,
+                ),
+              ),
+            ),
+            (paymentTypes != null && paymentTypes.length > 0)
+                ? Column(
+                    children: paymentTypes
+                        .map((data) => RadioListTile(
+                              title: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      "${data.name}",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: AppTheme.fontRoboto,
+                                        fontSize: 15,
+                                        fontStyle: FontStyle.normal,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              activeColor: AppTheme.blue_app_color,
+                              groupValue: paymentType,
+                              value: data.id,
+                              onChanged: (val) {
+                                setState(() {
+                                  paymentType = data.id;
+                                });
+                              },
+                            ))
+                        .toList(),
+                  )
+                : Container(),
+
             Container(
               margin: EdgeInsets.only(
                 top: 24,
@@ -739,14 +778,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
             GestureDetector(
               onTap: () {
                 if (!loading) {
-                  if (widget.aptekaModel.id != -1) {
-                    var month = date.month < 10
-                        ? "0" + date.month.toString()
-                        : date.month.toString();
-                    var day = date.day < 10
-                        ? "0" + date.day.toString()
-                        : date.day.toString();
-
+                  if (widget.aptekaModel.id != -1 && paymentType != null) {
                     setState(() {
                       loading = true;
                     });
@@ -759,33 +791,56 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                   drug: value[i].id, qty: value[i].cardCount))
                             },
                           addModel = new AddOrderModel(
-                            address: widget.aptekaModel.name,
-                            location: "0,0",
-                            shipdate:
-                                date.year.toString() + "-" + month + "-" + day,
                             type: "self",
                             full_name: fullName,
                             phone: number,
                             store_id: widget.aptekaModel.id,
+                            payment_type: paymentType,
                             drugs: drugs,
                           ),
                           Repository()
                               .fetchRAddOrder(addModel)
-                              .then((value) => {
-                                    if (value.status == 1)
+                              .then((response) => {
+                                    if (response.status == 1)
                                       {
                                         setState(() {
                                           loading = false;
                                           error = false;
                                         }),
-                                        Navigator.pushReplacement(
-                                          context,
-                                          PageTransition(
-                                            type: PageTransitionType.fade,
-                                            child:
-                                                ShoppingWebScreen(value.data),
-                                          ),
-                                        )
+                                        for (int i = 0; i < value.length; i++)
+                                          {
+                                            if (value[i].favourite)
+                                              {
+                                                value[i].cardCount = 0,
+                                                dataBase.updateProduct(value[i])
+                                              }
+                                            else
+                                              {
+                                                dataBase
+                                                    .deleteProducts(value[i].id)
+                                              }
+                                          },
+                                        if (response.data != "")
+                                          {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              PageTransition(
+                                                type: PageTransitionType.fade,
+                                                child: ShoppingWebScreen(
+                                                    response.data),
+                                              ),
+                                            )
+                                          }
+                                        else
+                                          {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              PageTransition(
+                                                type: PageTransitionType.fade,
+                                                child: HistoryOrderScreen(),
+                                              ),
+                                            )
+                                          }
                                       }
                                     else
                                       {
@@ -795,6 +850,29 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                           error_text = translate("not_product");
                                         }),
                                       }
+//                                    if (value.status == 1)
+//                                      {
+//                                        setState(() {
+//                                          loading = false;
+//                                          error = false;
+//                                        }),
+//                                        Navigator.pushReplacement(
+//                                          context,
+//                                          PageTransition(
+//                                            type: PageTransitionType.fade,
+//                                            child:
+//                                                ShoppingWebScreen(value.data),
+//                                          ),
+//                                        )
+//                                      }
+//                                    else
+//                                      {
+//                                        setState(() {
+//                                          error = true;
+//                                          loading = false;
+//                                          error_text = translate("not_product");
+//                                        }),
+//                                      }
                                   }),
                         });
                   }
@@ -803,7 +881,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  color: widget.aptekaModel.id == -1
+                  color: (widget.aptekaModel.id == -1 || paymentType == null)
                       ? AppTheme.blue_app_color_transparent
                       : AppTheme.blue_app_color,
                 ),

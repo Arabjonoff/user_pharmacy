@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
@@ -11,6 +13,8 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
 import '../../app_theme.dart';
 
+var lat, lng;
+
 class AddressAptekaMapScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -23,8 +27,8 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   Point _point;
   PermissionStatus _permissionStatus = PermissionStatus.unknown;
   var geolocator = Geolocator();
-  var locationOptions =
-      LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
+  var geolocatornew = Geolocator();
+  static StreamSubscription _getPosSub;
   final List<placemark.Placemark> placemarks = <placemark.Placemark>[];
 
   var myLongitude, myLatitude;
@@ -33,8 +37,14 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   void initState() {
     super.initState();
     _requestPermission();
-    _getPosition();
-    //   _addMarkerData(widget.data);
+  }
+
+  @override
+  void dispose() {
+    print("dispose");
+    mapController.dispose();
+    _getPosSub?.cancel();
+    super.dispose();
   }
 
   Future<void> _requestPermission() async {
@@ -46,31 +56,6 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
     setState(() {
       _permissionStatus = permissionRequestResult[PermissionGroup.location];
     });
-  }
-
-  _getLocation() async {
-    _addMarkers(Repository().fetchApteka(0.0, 0.0));
-
-    geolocator
-        .getPositionStream(LocationOptions(
-            accuracy: LocationAccuracy.high, distanceFilter: 10))
-        .listen((Position p) {
-      print(p.latitude);
-    });
-
-//    myLatitude != null
-//        ? _addMarkers(Repository().fetchApteka())
-//        : geolocator
-//            .getPositionStream(locationOptions)
-//            .listen((Position position) async {
-//            if (position != null) {
-//              myLatitude = position.latitude;
-//              myLongitude = position.longitude;
-//              _addMarkers(Repository().fetchApteka());
-//            } else {
-//              _addMarkers(Repository().fetchApteka());
-//            }
-//          });
   }
 
   void _addMarkers(Future<List<LocationModel>> response) async {
@@ -101,28 +86,43 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   }
 
   Future<void> _getPosition() async {
-    geolocator.getPositionStream(locationOptions).listen((Position position) {
-      if (position != null) {
-        _point = new Point(
-            latitude: position.latitude, longitude: position.longitude);
-        mapController.move(
-          point: _point,
-          zoom: 12,
-          animation: const MapAnimation(smooth: true, duration: 0.5),
-        );
-      }
-    });
+    if (lat == null && lng == null) {
+      _getPosSub = geolocator
+          .getPositionStream(LocationOptions(
+              accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 10))
+          .listen((Position position) {
+        if (position != null) {
+          lat = position.latitude;
+          lng = position.longitude;
+          _addMarkers(Repository().fetchApteka(lat, lng));
+          _point = new Point(
+              latitude: position.latitude, longitude: position.longitude);
+          mapController.move(
+            point: _point,
+            zoom: 12,
+            animation: const MapAnimation(smooth: true, duration: 0.5),
+          );
+        }
+      });
+    } else {
+      _point = new Point(latitude: lat, longitude: lng);
+      _addMarkers(Repository().fetchApteka(lat, lng));
+      mapController.move(
+        point: _point,
+        zoom: 12,
+        animation: const MapAnimation(smooth: true, duration: 0.5),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     if (_permissionStatus == PermissionStatus.granted) {
+      _getPosition();
       mapController.showUserLayer(
           iconName: 'assets/map/user.png',
           arrowName: 'assets/map/arrow.png',
           accuracyCircleFillColor: Colors.blue.withOpacity(0.5));
-      _getPosition();
-      _getLocation();
     }
 
     return Scaffold(

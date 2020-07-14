@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
+import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -223,6 +224,18 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                               ),
                             ),
                           ),
+                          GestureDetector(
+                            onTap: () {
+                              BottomDialog.createBottomVoiceAssistant(context);
+                            },
+                            child: Container(
+                              height: 36,
+                              width: 36,
+                              padding: EdgeInsets.all(7),
+                              child:
+                              SvgPicture.asset("assets/images/voice.svg"),
+                            ),
+                          )
                         ],
                       ),
                     ),

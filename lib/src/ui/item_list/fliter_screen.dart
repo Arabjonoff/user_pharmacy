@@ -612,15 +612,37 @@ class _FilterScreenState extends State<FilterScreen> {
             GestureDetector(
               onTap: () {
                 page = 2;
-                blocItemsList.fetchAllItemCategoryBest(
-                  1,
-                  interIds,
-                  manufacIds,
-                  sortFilter,
-                  price_max,
-                  price_min,
-                  unitIds,
-                );
+                type == 2
+                    ? blocItemsList.fetchAllItemCategoryBest(
+                        1,
+                        interIds,
+                        manufacIds,
+                        sortFilter,
+                        price_max,
+                        price_min,
+                        unitIds,
+                      )
+                    : type == 3
+                        ? blocItemsList.fetchAllItemSearch(
+                            id,
+                            1,
+                            interIds,
+                            manufacIds,
+                            sortFilter,
+                            price_max,
+                            price_min,
+                            unitIds,
+                          )
+                        : blocItemsList.fetchAllItemCategory(
+                            id,
+                            1,
+                            interIds,
+                            manufacIds,
+                            sortFilter,
+                            price_max,
+                            price_min,
+                            unitIds,
+                          );
                 Navigator.pop(context);
               },
               child: Container(

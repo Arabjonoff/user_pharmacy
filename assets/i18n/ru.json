@@ -1,5 +1,6 @@
 {
   "sum": " сум",
+  "sum_km": "UZS/km",
   "search_hint": "Поиск лекарств",
   "search_real": "Поиск",
   "next": "Далее",
@@ -128,7 +129,8 @@
     "edit_aptek_choose": "Выбрать аптеку",
     "edit_aptek": "Изменить аптеку",
     "now": "Сегодня",
-    "map_add_order": "Забрать отсюда"
+    "map_add_order": "Забрать отсюда",
+    "payment_type": "Payment type"
   },
   "address": {
     "title": "Курьерская доставка",
@@ -138,7 +140,10 @@
     "padez": "Подъезд",
     "etaj": "Этаж",
     "comment": "Дополнительные комментарии",
-    "save_address": "Привезти сюда"
+    "save_address": "Привезти сюда",
+    "choose_address": "Choose address",
+    "choose_time": "Choose time",
+    "free": "Free"
   },
   "auth": {
     "network": "Аптечная сеть",
@@ -190,5 +195,10 @@
     "cancel": "Отменить",
     "shipped": "Отправлено",
     "delivered": "Доставлено"
+  },
+  "voice": {
+    "voice_search": "Голосовой поиск",
+    "title": "Произнесите название препарата, действующего вещества или симптом",
+    "cancel": "Отмена"
   }
 }

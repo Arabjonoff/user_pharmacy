@@ -6,6 +6,7 @@ import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
+import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/category/sub_category_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
@@ -49,20 +50,20 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   alignment: Alignment.centerLeft,
                   child: widget.isBack
                       ? GestureDetector(
-                    child: Container(
-                      height: 48,
-                      width: 48,
-                      color: AppTheme.arrow_examp_back,
-                      padding: EdgeInsets.all(13),
-                      margin: EdgeInsets.only(top: 12),
-                      child: SvgPicture.asset(
-                        "assets/images/arrow_back.svg",
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  )
+                          child: Container(
+                            height: 48,
+                            width: 48,
+                            color: AppTheme.arrow_examp_back,
+                            padding: EdgeInsets.all(13),
+                            margin: EdgeInsets.only(top: 12),
+                            child: SvgPicture.asset(
+                              "assets/images/arrow_back.svg",
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        )
                       : Container(),
                 ),
                 Align(
@@ -277,6 +278,18 @@ class _CategoryScreenState extends State<CategoryScreen> {
                               ),
                             ),
                           ),
+                          GestureDetector(
+                            onTap: () {
+                              BottomDialog.createBottomVoiceAssistant(context);
+                            },
+                            child: Container(
+                              height: 36,
+                              width: 36,
+                              padding: EdgeInsets.all(7),
+                              child:
+                                  SvgPicture.asset("assets/images/voice.svg"),
+                            ),
+                          )
                         ],
                       ),
                     ),

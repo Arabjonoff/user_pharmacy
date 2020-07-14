@@ -6,6 +6,7 @@ import 'package:pharmacy/src/blocs/aptek_block.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/database/database_helper_apteka.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
+import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
@@ -251,12 +252,16 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
   }
 
   Future<void> getLocation() async {
-    Position position = await Geolocator().getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.bestForNavigation);
-    if (position.latitude != null && position.longitude != null)
-      blocApteka.fetchAllApteka(position.latitude, position.longitude);
-    else
-      blocApteka.fetchAllApteka(0.0, 0.0);
-    print(position.longitude);
+    if (lat == null && lng == null) {
+      Position position = await Geolocator().getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.bestForNavigation);
+      if (position.latitude != null && position.longitude != null) {
+        lat = position.latitude;
+        lng = position.longitude;
+        blocApteka.fetchAllApteka(position.latitude, position.longitude);
+      }
+    } else {
+      blocApteka.fetchAllApteka(lat, lng);
+    }
   }
 }

@@ -1,34 +1,15 @@
-class AddOrderModel {
-  String address;
+class CheckOrderModel {
   String location;
   String type;
-  String full_name;
-  String phone;
   int shipping_time;
-  int payment_type;
-  int store_id;
   List<Drugs> drugs;
 
-  AddOrderModel(
-      {this.address,
-      this.location,
-      this.type,
-      this.full_name,
-      this.phone,
-      this.shipping_time,
-      this.payment_type,
-      this.store_id,
-      this.drugs});
+  CheckOrderModel({this.location, this.type, this.shipping_time, this.drugs});
 
-  AddOrderModel.fromJson(Map<String, dynamic> json) {
-    address = json['address'];
+  CheckOrderModel.fromJson(Map<String, dynamic> json) {
     location = json['location'];
     type = json['type'];
-    full_name = json['full_name'];
-    phone = json['phone'];
     shipping_time = json['shipping_time'];
-    payment_type = json['payment_type'];
-    store_id = json['store_id'];
     if (json['drugs'] != null) {
       drugs = new List<Drugs>();
       json['drugs'].forEach((v) {
@@ -39,13 +20,8 @@ class AddOrderModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['address'] = this.address;
     data['location'] = this.location;
     data['type'] = this.type;
-    data['full_name'] = this.full_name;
-    data['phone'] = this.phone;
-    data['store_id'] = this.store_id;
-    data['payment_type'] = this.payment_type;
     data['shipping_time'] = this.shipping_time;
     data['drugs'] = this.drugs.map((v) => v.toJson()).toList();
 

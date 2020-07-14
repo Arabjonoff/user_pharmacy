@@ -9,6 +9,7 @@ import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/sort_radio_btn.dart';
+import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:pharmacy/src/ui/view/item_view.dart';
@@ -40,6 +41,8 @@ String manufacturer_ids = "";
 String price_max = "";
 String price_min = "";
 String unit_ids = "";
+int type;
+String id;
 
 class _ItemListScreenState extends State<ItemListScreen> {
   Size size;
@@ -100,6 +103,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
+    type = widget.type;
+    id = widget.id;
 
     return Scaffold(
       backgroundColor: AppTheme.white,
@@ -219,6 +224,18 @@ class _ItemListScreenState extends State<ItemListScreen> {
                               ),
                             ),
                           ),
+                          GestureDetector(
+                            onTap: () {
+                              BottomDialog.createBottomVoiceAssistant(context);
+                            },
+                            child: Container(
+                              height: 36,
+                              width: 36,
+                              padding: EdgeInsets.all(7),
+                              child:
+                                  SvgPicture.asset("assets/images/voice.svg"),
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -373,13 +390,15 @@ class _ItemListScreenState extends State<ItemListScreen> {
                             ),
                           ),
                           SizedBox(
-                            width: 19,
+                            width: 9,
                           ),
                           Text(
-                            translate("item.sort"),
+                            radioItem,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontFamily: AppTheme.fontRoboto,
-                              fontSize: 15,
+                              fontSize: 11,
                               color: AppTheme.black_text,
                               fontWeight: FontWeight.w600,
                             ),
@@ -453,9 +472,13 @@ class _ItemListScreenState extends State<ItemListScreen> {
                         : blocItemsList.allItemsCategoty,
                 builder: (context, AsyncSnapshot<List<ItemResult>> snapshot) {
                   if (snapshot.hasData) {
-                    lastPosition == snapshot.data.length
-                        ? isLoading = true
-                        : page == 2 ? isLoading = true : isLoading = false;
+                    if (snapshot.data.length < 20) {
+                      isLoading = true;
+                    } else {
+                      lastPosition == snapshot.data.length
+                          ? isLoading = true
+                          : isLoading = false;
+                    }
                     lastPosition = snapshot.data.length;
 
                     return snapshot.data.length > 0
@@ -911,9 +934,6 @@ class _ItemListScreenState extends State<ItemListScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SizedBox(
-                                height: 150,
-                              ),
                               SvgPicture.asset(
                                 "assets/images/empty.svg",
                                 height: 155,
@@ -931,7 +951,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                     color: AppTheme.search_empty,
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           );
                   } else if (snapshot.hasError) {

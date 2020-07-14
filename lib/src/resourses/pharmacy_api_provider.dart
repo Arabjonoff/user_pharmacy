@@ -5,15 +5,18 @@ import 'dart:io';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
+import 'package:pharmacy/src/model/api/check_order_responce.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
+import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
+import 'package:pharmacy/src/model/send/check_order.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -87,6 +90,9 @@ class PharmacyApiProvider {
       "birth_date": birthday,
     };
 
+    print(url);
+    print(data);
+
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
     };
@@ -96,6 +102,8 @@ class PharmacyApiProvider {
         .timeout(const Duration(seconds: 120));
 
     final Map parsed = json.decode(response.body);
+
+    print(parsed);
 
     return LoginModel.fromJson(parsed);
   }
@@ -215,6 +223,8 @@ class PharmacyApiProvider {
             'price_min=$price_min&'
             'unit_ids=$unit_ids';
 
+    print(url);
+
     HttpClient httpClient = new HttpClient();
     httpClient
       ..badCertificateCallback =
@@ -224,6 +234,8 @@ class PharmacyApiProvider {
     HttpClientResponse response = await request.close();
 
     String reply = await response.transform(utf8.decoder).join();
+
+    print(reply);
 
     final Map parsed = json.decode(reply);
     return ItemModel.fromJson(parsed);
@@ -332,6 +344,8 @@ class PharmacyApiProvider {
       'content-type': 'application/json'
     };
 
+    print(json.encode(order));
+
 //    HttpClient httpClient = new HttpClient();
 //    httpClient
 //      ..badCertificateCallback =
@@ -349,6 +363,8 @@ class PharmacyApiProvider {
         .timeout(const Duration(seconds: 120));
 
     final Map parsed = json.decode(response.body);
+
+    print(parsed);
 
     return OrderStatusModel.fromJson(parsed);
   }
@@ -405,5 +421,52 @@ class PharmacyApiProvider {
     final Map parsed = json.decode(reply);
 
     return FilterModel.fromJson(parsed);
+  }
+
+  /// Filter parametrs
+  Future<OrderOptionsModel> fetchOrderOptions(String lan) async {
+    String url = Utils.BASE_URL + '/api/v1/order-options?lan=$lan';
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
+
+    HttpClient httpClient = new HttpClient();
+    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+
+    final Map parsed = json.decode(reply);
+
+    return OrderOptionsModel.fromJson(parsed);
+  }
+
+  /// Check order
+  Future<CheckOrderResponceModel> fetchCheckOrder(CheckOrderModel order) async {
+    String url = Utils.BASE_URL + '/api/v1/check-order';
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
+
+    print(json.encode(order));
+
+    HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
+    request.write(json.encode(order));
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+
+    final Map parsed = json.decode(reply);
+    print(reply);
+
+    return CheckOrderResponceModel.fromJson(parsed);
   }
 }

@@ -8,8 +8,8 @@ class HistoryModel {
 
   HistoryModel.fromJson(Map<String, dynamic> json) {
     count = json['count'];
-    next = json['next'];
-    previous = json['previous'];
+    next = json['next'] == null ? "" : json['next'];
+    previous = json['previous'] == null ? "" : json['previous'];
     if (json['results'] != null) {
       results = new List<Results>();
       json['results'].forEach((v) {
@@ -33,34 +33,55 @@ class HistoryModel {
 class Results {
   int id;
   String address;
-  String location;
-  String shipdate;
-  String type;
+  Location location;
+  String endShiptime;
+  double deliveryTotal;
+  PaymentType paymentType;
+  String createdAt;
   double total;
   double realTotal;
   String status;
+  String type;
+  String fullName;
+  String phone;
   List<Items> items;
 
   Results(
       {this.id,
       this.address,
       this.location,
-      this.shipdate,
+      this.endShiptime,
+      this.deliveryTotal,
+      this.paymentType,
+      this.createdAt,
       this.total,
       this.realTotal,
-      this.type,
       this.status,
+      this.type,
+      this.fullName,
+      this.phone,
       this.items});
 
   Results.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    address = json['address'];
-    location = json['location'];
-    shipdate = json['shipdate'];
+    address = json['address'] == null ? "" : json['address'];
+    location = json['location'] != null
+        ? new Location.fromJson(json['location'])
+        : Location(type: "", coordinates: [0.0, 0.0]);
+    endShiptime = json['end_shiptime'] == null ? "" : json['end_shiptime'];
+    deliveryTotal = json['delivery_total'] == null
+        ? 0.0
+        : json['delivery_total'].toDouble();
+    paymentType = json['payment_type'] != null
+        ? new PaymentType.fromJson(json['payment_type'])
+        : null;
+    createdAt = json['created_at'];
     total = json['total'];
-    type = json['type'];
     realTotal = json['real_total'];
     status = json['status'];
+    type = json['type'];
+    fullName = json['full_name'];
+    phone = json['phone'];
     if (json['items'] != null) {
       items = new List<Items>();
       json['items'].forEach((v) {
@@ -73,15 +94,65 @@ class Results {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['address'] = this.address;
-    data['location'] = this.location;
-    data['shipdate'] = this.shipdate;
+    if (this.location != null) {
+      data['location'] = this.location.toJson();
+    }
+    data['end_shiptime'] = this.endShiptime;
+    data['delivery_total'] = this.deliveryTotal;
+    if (this.paymentType != null) {
+      data['payment_type'] = this.paymentType.toJson();
+    }
+    data['created_at'] = this.createdAt;
     data['total'] = this.total;
-    data['type'] = this.type;
     data['real_total'] = this.realTotal;
     data['status'] = this.status;
+    data['type'] = this.type;
+    data['full_name'] = this.fullName;
+    data['phone'] = this.phone;
     if (this.items != null) {
       data['items'] = this.items.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class Location {
+  String type;
+  List<double> coordinates;
+
+  Location({this.type, this.coordinates});
+
+  Location.fromJson(Map<String, dynamic> json) {
+    type = json['type'];
+    coordinates = json['coordinates'].cast<double>();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['type'] = this.type;
+    data['coordinates'] = this.coordinates;
+    return data;
+  }
+}
+
+class PaymentType {
+  int id;
+  String name;
+  String type;
+
+  PaymentType({this.id, this.name, this.type});
+
+  PaymentType.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    type = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['type'] = this.type;
     return data;
   }
 }
@@ -125,17 +196,14 @@ class Drug {
   String barcode;
   String image;
   String imageThumbnail;
-  String piece;
-  String dose;
 
-  Drug(
-      {this.id,
-      this.name,
-      this.barcode,
-      this.image,
-      this.imageThumbnail,
-      this.piece,
-      this.dose});
+  Drug({
+    this.id,
+    this.name,
+    this.barcode,
+    this.image,
+    this.imageThumbnail,
+  });
 
   Drug.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -143,8 +211,6 @@ class Drug {
     barcode = json['barcode'];
     image = json['image'];
     imageThumbnail = json['image_thumbnail'];
-    piece = json['piece'];
-    dose = json['dose'];
   }
 
   Map<String, dynamic> toJson() {
@@ -154,8 +220,6 @@ class Drug {
     data['barcode'] = this.barcode;
     data['image'] = this.image;
     data['image_thumbnail'] = this.imageThumbnail;
-    data['piece'] = this.piece;
-    data['dose'] = this.dose;
     return data;
   }
 }

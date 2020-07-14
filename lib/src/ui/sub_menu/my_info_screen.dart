@@ -82,8 +82,8 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                             height: 24,
                             width: 24,
                             padding: EdgeInsets.all(3),
-                            child:
-                            SvgPicture.asset("assets/images/arrow_back.svg"),
+                            child: SvgPicture.asset(
+                                "assets/images/arrow_back.svg"),
                           ),
                         ),
                       ),
@@ -123,7 +123,6 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
               physics: ClampingScrollPhysics(),
               children: [
                 Container(
-                  height: 56,
                   margin: EdgeInsets.only(top: 16, left: 16, right: 16),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
@@ -134,8 +133,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                     ),
                   ),
                   child: Padding(
-                    padding:
-                        EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 12),
+                    padding: EdgeInsets.only(top: 8, left: 12, right: 12),
                     child: TextFormField(
                       keyboardType: TextInputType.text,
                       style: TextStyle(
@@ -176,7 +174,6 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                   ),
                 ),
                 Container(
-                  height: 56,
                   margin: EdgeInsets.only(top: 12, left: 16, right: 16),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
@@ -187,8 +184,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                     ),
                   ),
                   child: Padding(
-                    padding:
-                        EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 12),
+                    padding: EdgeInsets.only(top: 8, left: 12, right: 12),
                     child: TextFormField(
                       keyboardType: TextInputType.text,
                       style: TextStyle(
@@ -229,7 +225,6 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                   ),
                 ),
                 Container(
-                  height: 56,
                   margin: EdgeInsets.only(top: 12, left: 16, right: 16),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
@@ -240,8 +235,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                     ),
                   ),
                   child: Padding(
-                    padding:
-                        EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 12),
+                    padding: EdgeInsets.only(top: 8, left: 12, right: 12),
                     child: TextFormField(
                       readOnly: true,
                       keyboardType: TextInputType.text,
@@ -307,7 +301,6 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                     );
                   },
                   child: Container(
-                    height: 56,
                     margin: EdgeInsets.only(top: 12, left: 16, right: 16),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
@@ -318,8 +311,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                       ),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.only(
-                          top: 8, bottom: 8, left: 12, right: 12),
+                      padding: EdgeInsets.only(top: 8, left: 12, right: 12),
                       child: IgnorePointer(
                         child: TextFormField(
                           readOnly: true,
@@ -497,9 +489,10 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
           day + "." + month + "." + prefs.getString("birthday").split("-")[0];
       surNameController.text = prefs.getString("surname");
       nameController.text = prefs.getString("name");
-      dateTimeBirthday= new DateTime(int.parse(prefs.getString("birthday").split("-")[0]),int.parse(month),int.parse(day));
-
-
+      dateTimeBirthday = new DateTime(
+          int.parse(prefs.getString("birthday").split("-")[0]),
+          int.parse(month),
+          int.parse(day));
     });
   }
 }

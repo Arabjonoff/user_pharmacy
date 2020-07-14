@@ -135,7 +135,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                 margin: EdgeInsets.only(
                                     left: 16, right: 16, top: 2),
                                 child: Text(
-                                  snapshot.data.results[index].shipdate,
+                                  snapshot.data.results[index].endShiptime,
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontRoboto,
                                     fontWeight: FontWeight.normal,
@@ -201,21 +201,24 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                   ],
                                 ),
                               ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: 16, right: 16, top: 16),
-                                child: Text(
-                                  translate("history.date") +
-                                      snapshot.data.results[index].shipdate,
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontRoboto,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 13,
-                                    fontStyle: FontStyle.normal,
-                                    color: AppTheme.black_text,
-                                  ),
-                                ),
-                              ),
+                              snapshot.data.results[index].endShiptime != ""
+                                  ? Container(
+                                      margin: EdgeInsets.only(
+                                          left: 16, right: 16, top: 16),
+                                      child: Text(
+                                        translate("history.date") +
+                                            snapshot.data.results[index]
+                                                .endShiptime,
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRoboto,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 13,
+                                          fontStyle: FontStyle.normal,
+                                          color: AppTheme.black_text,
+                                        ),
+                                      ),
+                                    )
+                                  : Container(),
                               Container(
                                 margin: EdgeInsets.only(
                                     left: 16, right: 16, top: 4),

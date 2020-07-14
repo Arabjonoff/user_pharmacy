@@ -20,6 +20,7 @@ import 'package:pharmacy/src/ui/auth/verfy_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
+import 'package:pharmacy/src/ui/shopping_curer/map_address_screen.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
 import 'package:pharmacy/src/ui/shopping_web_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/fav_apteka_screen.dart';

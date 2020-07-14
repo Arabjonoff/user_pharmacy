@@ -11,6 +11,7 @@ import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
+import 'package:pharmacy/src/ui/shopping_curer/map_address_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
@@ -150,20 +151,23 @@ class _CardScreenState extends State<CardScreen> {
                                               width: 112,
                                               imageUrl: snapshot
                                                   .data[index].imageThumbnail,
-                                                placeholder: (context, url) => Container(
-                                                  padding: EdgeInsets.all(25),
-                                                  child: Center(
-                                                    child: SvgPicture.asset(
-                                                        "assets/images/place_holder.svg"),
-                                                  ),
+                                              placeholder: (context, url) =>
+                                                  Container(
+                                                padding: EdgeInsets.all(25),
+                                                child: Center(
+                                                  child: SvgPicture.asset(
+                                                      "assets/images/place_holder.svg"),
                                                 ),
-                                                errorWidget: (context, url, error) => Container(
-                                                  padding: EdgeInsets.all(25),
-                                                  child: Center(
-                                                    child: SvgPicture.asset(
-                                                        "assets/images/place_holder.svg"),
-                                                  ),
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Container(
+                                                padding: EdgeInsets.all(25),
+                                                child: Center(
+                                                  child: SvgPicture.asset(
+                                                      "assets/images/place_holder.svg"),
                                                 ),
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -687,8 +691,7 @@ class _CardScreenState extends State<CardScreen> {
                               context,
                               PageTransition(
                                 type: PageTransitionType.downToUp,
-                                child: OrderCardCurerScreen(
-                                    AddressModel(-1, "", "", "", "", "")),
+                                child: MapAddressScreen(),
                               ),
                             );
                           } else {

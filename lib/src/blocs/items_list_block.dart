@@ -54,6 +54,7 @@ class ItemListBloc {
         }
       }
     }
+
     usersCategory.addAll(itemCategory.results);
     _categoryItemsFetcher.sink.add(usersCategory);
   }
@@ -70,6 +71,7 @@ class ItemListBloc {
     if (page == 1) {
       usersBest = new List();
     }
+
     ItemModel itemModelResponse = await _repository.fetchBestItem(
       page,
       international_name_ids,
@@ -88,6 +90,8 @@ class ItemListBloc {
         }
       }
     }
+
+    print(itemModelResponse.results.length);
 
     usersBest.addAll(itemModelResponse.results);
     _bestItemFetcher.sink.add(usersBest);

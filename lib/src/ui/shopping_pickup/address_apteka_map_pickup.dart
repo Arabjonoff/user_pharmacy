@@ -7,6 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
@@ -37,7 +38,7 @@ class _AddressAptekaMapPickupScreenState
   void initState() {
     super.initState();
     _requestPermission();
-    _getPosition();
+    //_getPosition();
     //   _addMarkerData(widget.data);
   }
 
@@ -53,7 +54,7 @@ class _AddressAptekaMapPickupScreenState
   }
 
   _getLocation() async {
-    _addMarkers(Repository().fetchApteka(0.0,0.0));
+    _addMarkers(Repository().fetchApteka(0.0, 0.0));
 
     geolocator
         .getPositionStream(LocationOptions(
@@ -267,17 +268,31 @@ class _AddressAptekaMapPickupScreenState
   }
 
   Future<void> _getPosition() async {
-    geolocator.getPositionStream(locationOptions).listen((Position position) {
-      if (position != null) {
-        _point = new Point(
-            latitude: position.latitude, longitude: position.longitude);
-        mapController.move(
-          point: _point,
-          zoom: 12,
-          animation: const MapAnimation(smooth: true, duration: 0.5),
-        );
-      }
-    });
+    if (lat == null && lng == null) {
+      geolocator.getPositionStream(locationOptions).listen((Position position) {
+        if (position != null) {
+          lat = position.latitude;
+          lng = position.longitude;
+          _addMarkers(
+              Repository().fetchApteka(position.latitude, position.longitude));
+          _point = new Point(
+              latitude: position.latitude, longitude: position.longitude);
+          mapController.move(
+            point: _point,
+            zoom: 12,
+            animation: const MapAnimation(smooth: true, duration: 0.5),
+          );
+        }
+      });
+    } else {
+      _addMarkers(Repository().fetchApteka(lat, lng));
+      _point = new Point(latitude: lat, longitude: lng);
+      mapController.move(
+        point: _point,
+        zoom: 12,
+        animation: const MapAnimation(smooth: true, duration: 0.5),
+      );
+    }
   }
 
   @override
@@ -288,7 +303,7 @@ class _AddressAptekaMapPickupScreenState
           arrowName: 'assets/map/arrow.png',
           accuracyCircleFillColor: Colors.blue.withOpacity(0.5));
       _getPosition();
-      _getLocation();
+//      _getLocation();
     }
 
     return Scaffold(

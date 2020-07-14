@@ -1,5 +1,6 @@
 {
   "sum": " so'm",
+  "sum_km": " UZS/km",
   "search_hint": "Dori izlash",
   "search_real": "Izlash",
   "next": "Keyingisi",
@@ -128,7 +129,8 @@
     "edit_aptek_choose": "Dorixonani tanlash",
     "edit_aptek": "Dorixonani o'zgartirish",
     "now": "Bugun",
-    "map_add_order": "Shu joydan olib ketish"
+    "map_add_order": "Shu joydan olib ketish",
+    "payment_type": "Payment type"
   },
   "address": {
     "title": "Yetkazib berish xizmati",
@@ -138,7 +140,10 @@
     "padez": "Pod'yezd",
     "etaj": "Qavat",
     "comment": "Sharh",
-    "save_address": "Shu manzilga yetkazish"
+    "save_address": "Shu manzilga yetkazish",
+    "choose_address": "Choose address",
+    "choose_time": "Choose time",
+    "free": "Free"
   },
   "auth": {
     "network": "Dorixonalar tarmog'i",
@@ -190,5 +195,10 @@
     "cancel": "Bekor qilish",
     "shipped": "Jo'natildi",
     "delivered": "Yetkazildi"
+  },
+  "voice": {
+    "voice_search": "Голосовой поиск",
+    "title": "Произнесите название препарата, действующего вещества или симптом",
+    "cancel": "Отмена"
   }
 }

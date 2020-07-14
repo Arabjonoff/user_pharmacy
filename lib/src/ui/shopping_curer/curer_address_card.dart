@@ -85,15 +85,15 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                           alignment: Alignment.centerLeft,
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.pushReplacement(
-                                context,
-                                PageTransition(
-                                  type: PageTransitionType.downToUp,
-                                  child: OrderCardCurerScreen(
-                                    AddressModel(-1, "", "", "", "", ""),
-                                  ),
-                                ),
-                              );
+//                              Navigator.pushReplacement(
+//                                context,
+//                                PageTransition(
+//                                  type: PageTransitionType.downToUp,
+//                                  child: OrderCardCurerScreen(
+//                                    AddressModel(-1, "", "", "", "", ""),
+//                                  ),
+//                                ),
+//                              );
                             },
                             child: Container(
                               height: 48,
@@ -283,13 +283,13 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageTransition(
-                    type: PageTransitionType.downToUp,
-                    child: OrderCardCurerScreen(data[id - 1]),
-                  ),
-                );
+//                Navigator.pushReplacement(
+//                  context,
+//                  PageTransition(
+//                    type: PageTransitionType.downToUp,
+//                    child: OrderCardCurerScreen(data[id - 1]),
+//                  ),
+//                );
               },
               child: Container(
                 decoration: BoxDecoration(

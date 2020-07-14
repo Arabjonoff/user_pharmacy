@@ -448,24 +448,24 @@ class _AddAddressCardScreenState extends State<AddAddressCardScreen> {
                           : commentController.text,
                     ),
                   );
-                  Navigator.pushReplacement(
-                    context,
-                    PageTransition(
-                      type: PageTransitionType.downToUp,
-                      child: OrderCardCurerScreen(AddressModel(
-                        1,
-                        homeController.text,
-                        ofisController.text,
-                        padezController.text == null
-                            ? ""
-                            : padezController.text,
-                        etajController.text == null ? "" : etajController.text,
-                        commentController.text == null
-                            ? ""
-                            : commentController.text,
-                      )),
-                    ),
-                  );
+//                  Navigator.pushReplacement(
+//                    context,
+//                    PageTransition(
+//                      type: PageTransitionType.downToUp,
+//                      child: OrderCardCurerScreen(AddressModel(
+//                        1,
+//                        homeController.text,
+//                        ofisController.text,
+//                        padezController.text == null
+//                            ? ""
+//                            : padezController.text,
+//                        etajController.text == null ? "" : etajController.text,
+//                        commentController.text == null
+//                            ? ""
+//                            : commentController.text,
+//                      )),
+//                    ),
+//                  );
                 }
               },
               child: Container(
