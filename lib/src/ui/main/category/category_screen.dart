@@ -42,30 +42,45 @@ class _CategoryScreenState extends State<CategoryScreen> {
           elevation: 0.0,
           backgroundColor: AppTheme.white,
           brightness: Brightness.light,
+          leading: widget.isBack
+              ? Container(
+                  height: 56,
+                  width: 48,
+                  color: AppTheme.arrow_examp_back,
+                  padding:
+                      EdgeInsets.only(top: 21, left: 9, right: 9, bottom: 9),
+                  child: GestureDetector(
+                    child: SvgPicture.asset("assets/images/arrow_back.svg"),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                )
+              : Container(),
           title: Container(
             height: 70,
             child: Stack(
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: widget.isBack
-                      ? GestureDetector(
-                          child: Container(
-                            height: 48,
-                            width: 48,
-                            color: AppTheme.arrow_examp_back,
-                            padding: EdgeInsets.all(13),
-                            margin: EdgeInsets.only(top: 12),
-                            child: SvgPicture.asset(
-                              "assets/images/arrow_back.svg",
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        )
-                      : Container(),
-                ),
+//                Align(
+//                  alignment: Alignment.centerLeft,
+//                  child: widget.isBack
+//                      ? GestureDetector(
+//                          child: Container(
+//                            height: 48,
+//                            width: 48,
+//                            color: AppTheme.arrow_examp_back,
+//                            padding: EdgeInsets.all(13),
+//                            margin: EdgeInsets.only(top: 12),
+//                            child: SvgPicture.asset(
+//                              "assets/images/arrow_back.svg",
+//                            ),
+//                          ),
+//                          onTap: () {
+//                            Navigator.pop(context);
+//                          },
+//                        )
+//                      : Container(),
+//                ),
                 Align(
                   alignment: Alignment.center,
                   child: Container(
@@ -151,14 +166,16 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                             Container(
                                           child: Center(
                                             child: SvgPicture.asset(
-                                                "assets/images/place_holder.svg"),
+                                              "assets/images/place_holder.svg",
+                                            ),
                                           ),
                                         ),
                                         errorWidget: (context, url, error) =>
                                             Container(
                                           child: Center(
                                             child: SvgPicture.asset(
-                                                "assets/images/place_holder.svg"),
+                                              "assets/images/place_holder.svg",
+                                            ),
                                           ),
                                         ),
                                         fit: BoxFit.fitHeight,
@@ -184,14 +201,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                 ),
                               ),
                             ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                left: 8,
-                                right: 8,
-                              ),
-                              height: 1,
-                              color: AppTheme.black_linear_category,
-                            )
                           ],
                         ),
                       );

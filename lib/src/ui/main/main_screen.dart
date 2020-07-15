@@ -58,6 +58,7 @@ class _MainScreenState extends State<MainScreen> {
                 _selectedIndex = index;
               });
             },
+            type: BottomNavigationBarType.fixed,
             unselectedItemColor: AppTheme.menu_unselected,
             selectedItemColor: AppTheme.blue_app_color,
             currentIndex: _selectedIndex,
@@ -70,7 +71,9 @@ class _MainScreenState extends State<MainScreen> {
                   translate('main.home'),
                   maxLines: 1,
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: 10,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.normal,
                     fontFamily: AppTheme.fontRoboto,
                   ),
                 ),
@@ -83,7 +86,9 @@ class _MainScreenState extends State<MainScreen> {
                   translate('main.catalog'),
                   maxLines: 1,
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: 10,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.normal,
                     fontFamily: AppTheme.fontRoboto,
                   ),
                 ),
@@ -110,7 +115,9 @@ class _MainScreenState extends State<MainScreen> {
                   translate('main.card'),
                   maxLines: 1,
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: 10,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.normal,
                     fontFamily: AppTheme.fontRoboto,
                   ),
                 ),
@@ -123,7 +130,9 @@ class _MainScreenState extends State<MainScreen> {
                   translate('main.favourite'),
                   maxLines: 1,
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: 10,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.normal,
                     fontFamily: AppTheme.fontRoboto,
                   ),
                 ),
@@ -136,7 +145,9 @@ class _MainScreenState extends State<MainScreen> {
                   translate('main.menu'),
                   maxLines: 1,
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: 10,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.normal,
                     fontFamily: AppTheme.fontRoboto,
                   ),
                 ),
@@ -178,4 +189,3 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
-

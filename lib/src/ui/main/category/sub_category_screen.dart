@@ -33,60 +33,54 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70.0),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            elevation: 0.0,
-            backgroundColor: AppTheme.white,
-            brightness: Brightness.light,
-            title: Container(
-              height: 70,
-              child: Stack(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      height: 48,
-                      width: 48,
-                      color: AppTheme.arrow_examp_back,
-                      margin: EdgeInsets.only(top: 12),
-                      child: GestureDetector(
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          size: 24,
-                          color: AppTheme.blue_app_color,
+        preferredSize: Size.fromHeight(70.0),
+        child: AppBar(
+          leading: Container(
+            height: 56,
+            width: 48,
+            color: AppTheme.arrow_examp_back,
+            padding: EdgeInsets.only(top: 21, left: 9, right: 9, bottom: 9),
+            child: GestureDetector(
+              child: SvgPicture.asset("assets/images/arrow_back.svg"),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+          automaticallyImplyLeading: false,
+          elevation: 0.0,
+          backgroundColor: AppTheme.white,
+          brightness: Brightness.light,
+          title: Container(
+            height: 70,
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 12),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.name,
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontCommons,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17,
+                            color: AppTheme.black_text,
+                          ),
                         ),
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
+                      ],
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      margin: EdgeInsets.only(top: 12),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            widget.name,
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontCommons,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 17,
-                              color: AppTheme.black_text,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
+                )
+              ],
             ),
-          )),
+          ),
+        ),
+      ),
       body: Stack(
         children: <Widget>[
           Container(
@@ -233,7 +227,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                               width: 36,
                               padding: EdgeInsets.all(7),
                               child:
-                              SvgPicture.asset("assets/images/voice.svg"),
+                                  SvgPicture.asset("assets/images/voice.svg"),
                             ),
                           )
                         ],

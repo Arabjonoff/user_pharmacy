@@ -115,29 +115,42 @@ class _ItemListScreenState extends State<ItemListScreen> {
             elevation: 0.0,
             backgroundColor: AppTheme.white,
             brightness: Brightness.light,
+            leading: Container(
+              height: 56,
+              width: 48,
+              color: AppTheme.arrow_examp_back,
+              padding:
+              EdgeInsets.only(top: 21, left: 9, right: 9, bottom: 9),
+              child: GestureDetector(
+                child: SvgPicture.asset("assets/images/arrow_back.svg"),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
             title: Container(
               height: 70,
               child: Stack(
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      height: 48,
-                      width: 48,
-                      color: AppTheme.arrow_examp_back,
-                      margin: EdgeInsets.only(top: 12),
-                      child: GestureDetector(
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          size: 24,
-                          color: AppTheme.blue_app_color,
-                        ),
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                  ),
+//                  Align(
+//                    alignment: Alignment.centerLeft,
+//                    child: Container(
+//                      height: 48,
+//                      width: 48,
+//                      color: AppTheme.arrow_examp_back,
+//                      margin: EdgeInsets.only(top: 12),
+//                      child: GestureDetector(
+//                        child: Icon(
+//                          Icons.arrow_back_ios,
+//                          size: 24,
+//                          color: AppTheme.blue_app_color,
+//                        ),
+//                        onTap: () {
+//                          Navigator.pop(context);
+//                        },
+//                      ),
+//                    ),
+//                  ),
                   Align(
                     alignment: Alignment.center,
                     child: Container(
