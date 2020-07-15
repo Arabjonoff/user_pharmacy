@@ -67,14 +67,15 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
 
   bool loading = false;
   bool error = false;
-  bool edit = false;
+  bool edit = true;
 
   DatabaseHelper dataBase = new DatabaseHelper();
   DateTime date = new DateTime.now();
 
   String error_text = "";
 
-  TextEditingController loginController = TextEditingController();
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController numberController = TextEditingController();
   var maskFormatter = new MaskTextInputFormatter(
       mask: '+998 ## ### ## ##', filter: {"#": RegExp(r'[0-9]')});
 
@@ -228,10 +229,11 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                   ),
 //                  !edit
 //                      ?
-                  GestureDetector(
+                  edit
+                      ? GestureDetector(
                           onTap: () {
                             setState(() {
-                              edit = true;
+                              edit = false;
                             });
                           },
                           child: Text(
@@ -244,24 +246,54 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                 color: AppTheme.blue_app_color),
                           ),
                         )
-                     // : Container()
+                      : Container(),
+                  // : Container()
                 ],
               ),
             ),
+            edit
+                ? Container(
+                    margin: EdgeInsets.only(top: 26, left: 16, right: 16),
+                    child: Text(
+                      fullName,
+                      style: TextStyle(
+                          fontFamily: AppTheme.fontRoboto,
+                          fontWeight: FontWeight.normal,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 16,
+                          color: AppTheme.black_catalog),
+                    ),
+                  )
+                : Container(
+                    margin: EdgeInsets.only(top: 26, left: 3, right: 3),
+                    child: TextFormField(
+                      keyboardType: TextInputType.text,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontRoboto,
+                        fontWeight: FontWeight.normal,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 16,
+                        color: AppTheme.black_catalog,
+                      ),
+                      controller: fullNameController,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
             Container(
-              margin: EdgeInsets.only(top: 26, left: 16, right: 16),
-              child: Text(
-                fullName,
-                style: TextStyle(
-                    fontFamily: AppTheme.fontRoboto,
-                    fontWeight: FontWeight.normal,
-                    fontStyle: FontStyle.normal,
-                    fontSize: 16,
-                    color: AppTheme.black_catalog),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 3, left: 16, right: 16),
+              margin: EdgeInsets.only(left: 16, right: 16),
               child: Text(
                 translate("orders.name"),
                 style: TextStyle(
@@ -272,19 +304,47 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     color: AppTheme.black_transparent_text),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 21, left: 16, right: 16),
-              child: Text(
-                number,
-                style: TextStyle(
-                  fontFamily: AppTheme.fontRoboto,
-                  fontWeight: FontWeight.normal,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 16,
-                  color: AppTheme.black_catalog,
-                ),
-              ),
-            ),
+            edit
+                ? Container(
+                    margin: EdgeInsets.only(top: 26, left: 16, right: 16),
+                    child: Text(
+                      number,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontRoboto,
+                        fontWeight: FontWeight.normal,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 16,
+                        color: AppTheme.black_catalog,
+                      ),
+                    ),
+                  )
+                : TextFormField(
+                    keyboardType: TextInputType.phone,
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRoboto,
+                      fontWeight: FontWeight.normal,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16,
+                      color: AppTheme.black_catalog,
+                    ),
+                    controller: numberController,
+                    inputFormatters: [maskFormatter],
+                    decoration: InputDecoration(
+                      hintText: translate("orders.number"),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: AppTheme.white,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: AppTheme.white,
+                        ),
+                      ),
+                    ),
+                  ),
             Container(
               margin: EdgeInsets.only(top: 3, left: 16, right: 16),
               child: Text(
@@ -496,6 +556,17 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     setState(() {
                       loading = true;
                     });
+
+                    if (fullNameController.text.isNotEmpty) {
+                      fullName = fullNameController.text;
+                    }
+                    var num = numberController.text
+                        .replaceAll('+', '')
+                        .replaceAll(' ', '');
+                    if (num.length == 12) {
+                      number = numberController.text;
+                    }
+
                     AddOrderModel addModel = new AddOrderModel();
                     List<Drugs> drugs = new List();
                     dataBase.getProdu(true).then((value) => {
@@ -652,6 +723,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
       var surName = prefs.getString("surname");
 
       fullName = name + " " + surName;
+      fullNameController.text = name + " " + surName;
     });
   }
 }

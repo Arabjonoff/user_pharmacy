@@ -525,7 +525,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                             PageTransition(
                                               type: PageTransitionType.fade,
                                               child: OrderCardCurerScreen(
-                                                address: response.data.address,
+                                                address: myAddress,
                                                 price: response.data.total,
                                                 deliveryPrice:
                                                     response.data.deliverySum,
