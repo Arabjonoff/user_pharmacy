@@ -213,13 +213,13 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.downToUp,
-                            child: OrderCardCurerScreen(),
-                          ),
-                        );
+//                        Navigator.pushReplacement(
+//                          context,
+//                          PageTransition(
+//                            type: PageTransitionType.downToUp,
+//                            child: OrderCardCurerScreen(),
+//                          ),
+//                        );
                       },
                       child: Container(
                         padding: EdgeInsets.only(left: 16),

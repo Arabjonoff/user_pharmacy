@@ -13,10 +13,8 @@ class DatabaseHelperAddress {
   final String tableNote = 'addressTable';
   final String columnId = 'id';
   final String columnStreet = 'street';
-  final String columnFlat = 'flat';
-  final String columnPadez = 'padez';
-  final String columnEtaj = 'etaj';
-  final String columnKomment = 'komment';
+  final String columnLat = 'lat';
+  final String columnLng = 'lng';
 
   static Database _db;
 
@@ -42,10 +40,8 @@ class DatabaseHelperAddress {
     await db.execute('CREATE TABLE $tableNote('
         '$columnId INTEGER PRIMARY KEY AUTOINCREMENT, '
         '$columnStreet TEXT, '
-        '$columnFlat TEXT, '
-        '$columnPadez TEXT, '
-        '$columnEtaj TEXT, '
-        '$columnKomment TEXT)');
+        '$columnLat TEXT, '
+        '$columnLng TEXT)');
   }
 
   Future<int> saveProducts(AddressModel item) async {
@@ -56,14 +52,8 @@ class DatabaseHelperAddress {
 
   Future<List> getAllProducts() async {
     var dbClient = await db;
-    var result = await dbClient.query(tableNote, columns: [
-      columnId,
-      columnStreet,
-      columnFlat,
-      columnPadez,
-      columnEtaj,
-      columnKomment,
-    ]);
+    var result = await dbClient.query(tableNote,
+        columns: [columnId, columnStreet, columnLat, columnLng]);
 
     return result.toList();
   }
@@ -74,18 +64,15 @@ class DatabaseHelperAddress {
     List<AddressModel> products = new List();
     for (int i = 0; i < list.length; i++) {
       var items = new AddressModel(
-        list[i][columnId],
-        list[i][columnStreet],
-        list[i][columnFlat],
-        list[i][columnPadez],
-        list[i][columnEtaj],
-        list[i][columnKomment],
+        id: list[i][columnId],
+        street: list[i][columnStreet],
+        lat: list[i][columnLat],
+        lng: list[i][columnLng],
       );
       products.add(items);
     }
     return products;
   }
-
 
   Future<int> getCount() async {
     var dbClient = await db;
@@ -99,10 +86,8 @@ class DatabaseHelperAddress {
         columns: [
           columnId,
           columnStreet,
-          columnFlat,
-          columnPadez,
-          columnEtaj,
-          columnKomment,
+          columnLat,
+          columnLng,
         ],
         where: '$columnId = ?',
         whereArgs: [id]);

@@ -27,18 +27,29 @@ import '../shopping_pickup/order_card_pickup.dart';
 import 'map_address_screen.dart';
 
 class OrderCardCurerScreen extends StatefulWidget {
+  String address;
+  double price;
+  double deliveryPrice;
+  double lat;
+  double lng;
+  int shippingTime;
+
+  OrderCardCurerScreen({
+    this.address,
+    this.price,
+    this.deliveryPrice,
+    this.lat,
+    this.lng,
+    this.shippingTime,
+  });
+
   @override
   State<StatefulWidget> createState() {
     return _OrderCardCurerScreenState();
   }
 }
 
-String address;
 List<PaymentTypes> paymentTypes = new List();
-int shippedId;
-
-double price = 0.0;
-double deliveryPrice = 0.0;
 
 class CheckboxList {
   String number;
@@ -56,6 +67,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
 
   bool loading = false;
   bool error = false;
+  bool edit = false;
 
   DatabaseHelper dataBase = new DatabaseHelper();
   DateTime date = new DateTime.now();
@@ -120,35 +132,35 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
               width: double.infinity,
               child: Stack(
                 children: [
-//                  Align(
-//                    alignment: Alignment.centerLeft,
-//                    child: GestureDetector(
-//                      onTap: () {
-//                        Navigator.pushReplacement(
-//                          context,
-//                          PageTransition(
-//                            type: PageTransitionType.downToUp,
-//                            child: MapAddressScreen(),
-//                          ),
-//                        );
-//                      },
-//                      child: Container(
-//                        height: 48,
-//                        width: 48,
-//                        margin: EdgeInsets.only(left: 4),
-//                        color: AppTheme.arrow_examp_back,
-//                        child: Center(
-//                          child: Container(
-//                            height: 24,
-//                            width: 24,
-//                            padding: EdgeInsets.all(3),
-//                            child: SvgPicture.asset(
-//                                "assets/images/arrow_back.svg"),
-//                          ),
-//                        ),
-//                      ),
-//                    ),
-//                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            child: CurerAddressCardScreen(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 48,
+                        width: 48,
+                        margin: EdgeInsets.only(left: 4),
+                        color: AppTheme.arrow_examp_back,
+                        child: Center(
+                          child: Container(
+                            height: 24,
+                            width: 24,
+                            padding: EdgeInsets.all(3),
+                            child: SvgPicture.asset(
+                                "assets/images/arrow_back.svg"),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   Align(
                     alignment: Alignment.center,
                     child: Text(
@@ -193,352 +205,6 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(
-                top: 25,
-                left: 16,
-              ),
-              child: Text(
-                translate("orders.productMethod"),
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                  fontFamily: AppTheme.fontRoboto,
-                  fontStyle: FontStyle.normal,
-                  color: AppTheme.black_text,
-                ),
-              ),
-            ),
-            Container(
-              height: 36,
-              margin: EdgeInsets.only(
-                right: 16,
-                top: 24,
-                left: 16,
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            child: OrderCardPickupScreen(
-                              AptekaModel(-1, "", "", "", "", 0.0, 0.0, false),
-                            ),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        padding: EdgeInsets.only(left: 16),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: AppTheme.white,
-                          border: Border.all(
-                            color: AppTheme.arrow_catalog,
-                            width: 2.0,
-                          ),
-                        ),
-                        height: 36,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            translate("orders.pickup"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                              color: AppTheme.black_text,
-                              fontStyle: FontStyle.normal,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        padding: EdgeInsets.only(left: 16),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: AppTheme.white,
-                          border: Border.all(
-                            color: AppTheme.blue_app_color,
-                            width: 2.0,
-                          ),
-                        ),
-                        height: 36,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            translate("orders.courier"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                              color: AppTheme.black_text,
-                              fontStyle: FontStyle.normal,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              margin: EdgeInsets.only(
-                right: 16,
-                top: 24,
-                left: 16,
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10)),
-                  color: AppTheme.white,
-                ),
-                child: StreamBuilder(
-                  stream: blocCard.allCard,
-                  builder: (context, AsyncSnapshot<List<ItemResult>> snapshot) {
-                    if (snapshot.hasData) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            child: Text(
-                              translate("orders.courier"),
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
-                                fontWeight: FontWeight.w600,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 17,
-                                color: AppTheme.black_text,
-                              ),
-                            ),
-                            margin: EdgeInsets.only(
-                                left: 16, right: 16, top: 16, bottom: 2),
-                          ),
-                          Container(
-                            child: Row(
-                              children: [
-                                Text(
-                                  allCount.toString() +
-                                      " " +
-                                      translate("item.tovar"),
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontRoboto,
-                                    fontWeight: FontWeight.normal,
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 13,
-                                    color: AppTheme.black_transparent_text,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(),
-                                ),
-                                GestureDetector(
-                                  child: Text(
-                                    translate("orders.edit_tovar"),
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
-                                      fontWeight: FontWeight.normal,
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 13,
-                                      color: AppTheme.blue_app_color,
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
-                            ),
-                            margin: EdgeInsets.only(
-                                left: 16, right: 16, bottom: 16),
-                          ),
-                          Container(
-                            height: 66,
-                            child: ListView.builder(
-                              padding: EdgeInsets.only(left: 16, right: 16),
-                              scrollDirection: Axis.horizontal,
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  height: 66,
-                                  width: 66,
-                                  margin: EdgeInsets.only(bottom: 16),
-                                  child: Stack(
-                                    children: [
-                                      Align(
-                                        child: Container(
-                                          height: 56,
-                                          width: 56,
-                                          child: Center(
-                                            child: CachedNetworkImage(
-                                              height: 56,
-                                              width: 56,
-                                              imageUrl: snapshot
-                                                  .data[index].imageThumbnail,
-                                              placeholder: (context, url) =>
-                                                  Container(
-                                                padding: EdgeInsets.all(5),
-                                                child: Center(
-                                                  child: SvgPicture.asset(
-                                                      "assets/images/place_holder.svg"),
-                                                ),
-                                              ),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Container(
-                                                padding: EdgeInsets.all(5),
-                                                child: Center(
-                                                  child: SvgPicture.asset(
-                                                      "assets/images/place_holder.svg"),
-                                                ),
-                                              ),
-                                              fit: BoxFit.fitHeight,
-                                            ),
-                                          ),
-                                        ),
-                                        alignment: Alignment.bottomCenter,
-                                      ),
-                                      Align(
-                                        alignment: Alignment.topRight,
-                                        child: Container(
-                                          height: 24,
-                                          width: 24,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(18.0),
-                                            color: Color(0xFF99A2AD),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              "x" +
-                                                  snapshot.data[index].cardCount
-                                                      .toString(),
-                                              style: TextStyle(
-                                                fontFamily: AppTheme.fontRoboto,
-                                                fontSize: 12,
-                                                color: AppTheme.white,
-                                                fontWeight: FontWeight.normal,
-                                                fontStyle: FontStyle.normal,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                          address == ""
-                              ? Container()
-                              : Container(
-                                  margin: EdgeInsets.only(
-                                      top: 24, bottom: 3, left: 16, right: 16),
-                                  child: Text(
-                                    address,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 13,
-                                      fontStyle: FontStyle.normal,
-                                      color: AppTheme.black_text,
-                                      fontFamily: AppTheme.fontRoboto,
-                                    ),
-                                  ),
-                                ),
-                          GestureDetector(
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                  left: 16, right: 16, bottom: 16, top: 16),
-                              width: 150,
-                              decoration: BoxDecoration(
-                                color: address == ""
-                                    ? AppTheme.blue_app_color
-                                    : AppTheme.white,
-                                borderRadius: BorderRadius.circular(10.0),
-                                border: address == ""
-                                    ? Border.all(
-                                        color: AppTheme.blue_app_color,
-                                        width: 0.0,
-                                      )
-                                    : Border.all(
-                                        color: AppTheme.blue_app_color,
-                                        width: 2.0,
-                                      ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  address == ""
-                                      ? translate("orders.address_choose")
-                                      : translate("orders.change_address"),
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontRoboto,
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    color: address == ""
-                                        ? AppTheme.white
-                                        : AppTheme.blue_app_color,
-                                  ),
-                                ),
-                              ),
-                              padding: EdgeInsets.only(
-                                  left: 12, right: 12, top: 8, bottom: 8),
-                            ),
-                            onTap: () {
-                              Navigator.pushReplacement(
-                                context,
-                                PageTransition(
-                                  type: PageTransitionType.fade,
-                                  child: CurerAddressCardScreen(),
-                                ),
-                              );
-                            },
-                          )
-                        ],
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text(snapshot.error.toString());
-                    }
-                    return Container();
-                  },
-                ),
-              ),
-            ),
-            Container(
               height: 24,
               margin: EdgeInsets.only(
                 left: 16,
@@ -560,6 +226,25 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                   Expanded(
                     child: Container(),
                   ),
+//                  !edit
+//                      ?
+                  GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              edit = true;
+                            });
+                          },
+                          child: Text(
+                            translate("orders.edit"),
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: AppTheme.fontRoboto,
+                                color: AppTheme.blue_app_color),
+                          ),
+                        )
+                     // : Container()
                 ],
               ),
             ),
@@ -705,8 +390,8 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     child: Container(),
                   ),
                   Text(
-//                    priceFormat.format(price) +
-                    translate(translate("sum")),
+                    priceFormat.format(widget.price) +
+                        translate(translate("sum")),
                     style: TextStyle(
                       fontSize: 13,
                       fontFamily: AppTheme.fontRoboto,
@@ -738,8 +423,8 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     child: Container(),
                   ),
                   Text(
-//                    priceFormat.format(deliveryPrice) +
-                    translate(translate("sum")),
+                    priceFormat.format(widget.deliveryPrice) +
+                        translate(translate("sum")),
                     style: TextStyle(
                       fontSize: 13,
                       fontFamily: AppTheme.fontRoboto,
@@ -771,8 +456,8 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     child: Container(),
                   ),
                   Text(
-//                    priceFormat.format(price + deliveryPrice) +
-                    translate(translate("sum")),
+                    priceFormat.format(widget.price + widget.deliveryPrice) +
+                        translate(translate("sum")),
                     style: TextStyle(
                       fontSize: 15,
                       fontFamily: AppTheme.fontRoboto,
@@ -808,13 +493,6 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
               onTap: () {
                 if (!loading) {
                   if (paymentType != null) {
-                    var month = date.month < 10
-                        ? "0" + date.month.toString()
-                        : date.month.toString();
-                    var day = date.day < 10
-                        ? "0" + date.day.toString()
-                        : date.day.toString();
-
                     setState(() {
                       loading = true;
                     });
@@ -827,14 +505,14 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                   drug: value[i].id, qty: value[i].cardCount))
                             },
                           addModel = new AddOrderModel(
-                            address: address,
-                            location: chooseLat.toString() +
+                            address: widget.address,
+                            location: widget.lat.toString() +
                                 "," +
-                                chooseLng.toString(),
+                                widget.lng.toString(),
                             type: "shipping",
                             full_name: fullName,
                             phone: number,
-                            shipping_time: 1,
+                            shipping_time: widget.shippingTime,
                             payment_type: paymentType,
                             drugs: drugs,
                           ),

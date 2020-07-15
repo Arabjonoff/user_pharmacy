@@ -1,42 +1,31 @@
 class AddressModel {
   int id;
   String street;
-  String flat;
-  String padez;
-  String etaj;
-  String komment;
+  String lat;
+  String lng;
 
-  AddressModel(
-      this.id, this.street, this.flat, this.padez, this.etaj, this.komment);
+  AddressModel({this.id, this.street, this.lat, this.lng});
 
   int get getId => id;
 
   String get getStreet => street;
 
-  String get getFlat => flat;
+  String get getLat => lat;
 
-  String get getPadez => padez;
-
-  String get getEtaj => etaj;
-
-  String get getKomment => komment;
+  String get getLng => lng;
 
   AddressModel.fromMap(Map<String, dynamic> map) {
     this.id = map["id"];
     this.street = map["street"];
-    this.flat = map["flat"];
-    this.padez = map["padez"];
-    this.etaj = map["etaj"];
-    this.komment = map["komment"];
+    this.lat = map["lat"];
+    this.lng = map["lng"];
   }
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
     map["street"] = street;
-    map["flat"] = flat;
-    map["padez"] = padez;
-    map["etaj"] = etaj;
-    map["komment"] = komment;
+    map["lat"] = lat;
+    map["lng"] = lng;
     return map;
   }
 }

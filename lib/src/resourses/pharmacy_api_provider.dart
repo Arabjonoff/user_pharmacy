@@ -450,7 +450,6 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
 
-    print(json.encode(order));
 
     HttpClient httpClient = new HttpClient();
     httpClient
@@ -465,7 +464,6 @@ class PharmacyApiProvider {
     String reply = await response.transform(utf8.decoder).join();
 
     final Map parsed = json.decode(reply);
-    print(reply);
 
     return CheckOrderResponceModel.fromJson(parsed);
   }

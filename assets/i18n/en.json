@@ -14,6 +14,8 @@
   "manifac": "Manufacturers",
   "country": "County",
   "mnn": "Active substance",
+  "not_address": "Address tanlanmagan",
+  "not_time": "Dastavka voqti kiritilmagan",
   "main": {
     "home": "Home",
     "catalog": "Catalog",
@@ -113,7 +115,7 @@
     "productMethod": "Receipt method",
     "pickup": "Pickup",
     "courier": "Delivery",
-    "your_data": "Your info",
+    "your_data": "To whom they deliver",
     "edit": "Edit",
     "name": "Name",
     "number": "Phone number",

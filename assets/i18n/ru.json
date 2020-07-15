@@ -14,6 +14,8 @@
   "manifac": "Производители",
   "country": "Страна",
   "mnn": "Действующее вещество",
+  "not_address": "Address tanlanmagan",
+  "not_time": "Dastavka voqti kiritilmagan",
   "main": {
     "home": "Главное",
     "catalog": "Каталог",
@@ -113,7 +115,7 @@
     "productMethod": "Способ получения",
     "pickup": "Самовывоз",
     "courier": "Курьером",
-    "your_data": "Ваши данные",
+    "your_data": "Кому доставляют",
     "edit": "Изменить",
     "name": "Имя",
     "number": "Номер телефона",
@@ -130,7 +132,8 @@
     "edit_aptek": "Изменить аптеку",
     "now": "Сегодня",
     "map_add_order": "Забрать отсюда",
-    "payment_type": "Payment type"
+    "payment_type": "Payment type",
+    "add_new_card": "Добавить карту"
   },
   "address": {
     "title": "Курьерская доставка",

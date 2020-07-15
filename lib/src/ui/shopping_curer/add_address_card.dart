@@ -25,7 +25,6 @@ class _AddAddressCardScreenState extends State<AddAddressCardScreen> {
   TextEditingController etajController = TextEditingController();
   TextEditingController commentController = TextEditingController();
 
-  DatabaseHelperAddress db = new DatabaseHelperAddress();
 
   @override
   Widget build(BuildContext context) {
@@ -436,18 +435,18 @@ class _AddAddressCardScreenState extends State<AddAddressCardScreen> {
             GestureDetector(
               onTap: () {
                 if (homeController.text.isNotEmpty) {
-                  db.saveProducts(
-                    AddressModel(
-                      0,
-                      homeController.text,
-                      ofisController.text == null ? "" : ofisController.text,
-                      padezController.text == null ? "" : padezController.text,
-                      etajController.text == null ? "" : etajController.text,
-                      commentController.text == null
-                          ? ""
-                          : commentController.text,
-                    ),
-                  );
+//                  db.saveProducts(
+//                    AddressModel(
+//                      0,
+//                      homeController.text,
+//                      ofisController.text == null ? "" : ofisController.text,
+//                      padezController.text == null ? "" : padezController.text,
+//                      etajController.text == null ? "" : etajController.text,
+//                      commentController.text == null
+//                          ? ""
+//                          : commentController.text,
+//                    ),
+//                  );
 //                  Navigator.pushReplacement(
 //                    context,
 //                    PageTransition(

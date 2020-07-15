@@ -4,10 +4,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/order_options_bloc.dart';
+import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
+import 'package:pharmacy/src/model/send/check_order.dart';
+import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/map_address_screen.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
@@ -33,16 +36,18 @@ class CheckboxList {
   CheckboxList({this.number, this.index});
 }
 
-double chooseLat,chooseLng;
-
 class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
   DatabaseHelperAddress db = new DatabaseHelperAddress();
-
+  double chooseLat = 0.0, chooseLng = 0.0;
   int shippingId;
-  int id = 1;
+  int id;
+  String myAddress;
 
-  List<CheckboxList> nList = new List();
-  List<AddressModel> data = new List();
+  bool error = false;
+  bool loading = false;
+  String error_text = "";
+
+  DatabaseHelper dataBase = new DatabaseHelper();
 
   @override
   void initState() {
@@ -252,64 +257,64 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                           ),
                         );
                       }
-                      if (snapshot.data.length > 0) {
-                        this.data = new List();
-                        nList = new List();
-                        this.data = snapshot.data;
-                        address = snapshot.data[0].street;
-                        for (int i = 0; i < snapshot.data.length; i++) {
-                          nList.add(
-                            CheckboxList(
-                                index: snapshot.data[i].id,
-                                number: snapshot.data[i].street),
-                          );
-                        }
-                      }
-                      return ListView(
-                        shrinkWrap: true,
-                        physics: ClampingScrollPhysics(),
-                        children: nList
-                            .map((data) => Container(
-                                  height: 60,
-                                  child: Column(
-                                    children: [
-                                      Expanded(
-                                        child: RadioListTile(
-                                          title: Align(
-                                            child: Text(
-                                              "${data.number}",
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                fontStyle: FontStyle.normal,
-                                                fontWeight: FontWeight.normal,
-                                                fontFamily: AppTheme.fontRoboto,
-                                                color: AppTheme.black_text,
+                      return snapshot.data.length > 0
+                          ? ListView(
+                              shrinkWrap: true,
+                              physics: ClampingScrollPhysics(),
+                              children: snapshot.data
+                                  .map((data) => Container(
+                                        height: 60,
+                                        child: Column(
+                                          children: [
+                                            Expanded(
+                                              child: RadioListTile(
+                                                title: Align(
+                                                  child: Text(
+                                                    "${data.street}",
+                                                    style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontFamily:
+                                                          AppTheme.fontRoboto,
+                                                      color:
+                                                          AppTheme.black_text,
+                                                    ),
+                                                  ),
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                ),
+                                                activeColor:
+                                                    AppTheme.blue_app_color,
+                                                groupValue: id,
+                                                value: data.id,
+                                                onChanged: (val) {
+                                                  setState(() {
+                                                    myAddress = data.street;
+                                                    chooseLat =
+                                                        double.parse(data.lat);
+                                                    chooseLng =
+                                                        double.parse(data.lng);
+                                                    id = data.id;
+                                                  });
+                                                },
                                               ),
                                             ),
-                                            alignment: Alignment.centerLeft,
-                                          ),
-                                          activeColor: AppTheme.blue_app_color,
-                                          groupValue: id,
-                                          value: data.index,
-                                          onChanged: (val) {
-                                            setState(() {
-                                              address = data.number;
-                                              id = data.index;
-                                            });
-                                          },
+                                            Container(
+                                              height: 1,
+                                              margin: EdgeInsets.only(
+                                                  left: 8, right: 8),
+                                              color: AppTheme
+                                                  .black_linear_category,
+                                            )
+                                          ],
                                         ),
-                                      ),
-                                      Container(
-                                        height: 1,
-                                        margin:
-                                            EdgeInsets.only(left: 8, right: 8),
-                                        color: AppTheme.black_linear_category,
-                                      )
-                                    ],
-                                  ),
-                                ))
-                            .toList(),
-                      );
+                                      ))
+                                  .toList(),
+                            )
+                          : Container();
                     },
                   ),
                   Container(
@@ -460,24 +465,101 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                         ),
                       );
                     },
-                  )
+                  ),
+                  error
+                      ? Container(
+                          width: double.infinity,
+                          margin: EdgeInsets.only(top: 11, left: 16, right: 16),
+                          child: Text(
+                            error_text,
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: AppTheme.fontRoboto,
+                              fontSize: 13,
+                              color: AppTheme.red_fav_color,
+                            ),
+                          ),
+                        )
+                      : Container(),
                 ],
               ),
             ),
             GestureDetector(
               onTap: () {
-                print(address);
-                shippedId = shippingId;
-                print(shippedId);
-                print(paymentTypes.length);
-
-//                Navigator.pushReplacement(
-//                  context,
-//                  PageTransition(
-//                    type: PageTransitionType.downToUp,
-//                    child: OrderCardCurerScreen(data[id - 1]),
-//                  ),
-//                );
+                if (!loading) {
+                  if (myAddress != null) {
+                    if (shippingId != null) {
+                      setState(() {
+                        loading = true;
+                      });
+                      CheckOrderModel orderModel;
+                      List<Drugs> drugs = new List();
+                      dataBase.getProdu(true).then((dataBase) => {
+                            for (int i = 0; i < dataBase.length; i++)
+                              {
+                                drugs.add(Drugs(
+                                  drug: dataBase[i].id,
+                                  qty: dataBase[i].cardCount,
+                                ))
+                              },
+                            orderModel = new CheckOrderModel(
+                              location: chooseLat.toString() +
+                                  "," +
+                                  chooseLng.toString(),
+                              type: "shipping",
+                              shipping_time: shippingId,
+                              drugs: drugs,
+                            ),
+                            Repository()
+                                .fetchCheckOrder(orderModel)
+                                .then((response) => {
+                                      if (response.status == 1)
+                                        {
+                                          setState(() {
+                                            loading = false;
+                                            error = false;
+                                          }),
+                                          Navigator.pushReplacement(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType.fade,
+                                              child: OrderCardCurerScreen(
+                                                address: response.data.address,
+                                                price: response.data.total,
+                                                deliveryPrice:
+                                                    response.data.deliverySum,
+                                                lat: chooseLat,
+                                                lng: chooseLng,
+                                                shippingTime: shippingId,
+                                              ),
+                                            ),
+                                          ),
+                                        }
+                                      else
+                                        {
+                                          setState(() {
+                                            error = true;
+                                            loading = false;
+                                            error_text =
+                                                translate("not_product");
+                                          }),
+                                        }
+                                    }),
+                          });
+                    } else {
+                      setState(() {
+                        error = true;
+                        error_text = translate("not_time");
+                      });
+                    }
+                  } else {
+                    setState(() {
+                      error = true;
+                      error_text = translate("not_address");
+                    });
+                  }
+                }
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -493,15 +575,22 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                   right: 12,
                 ),
                 child: Center(
-                  child: Text(
-                    translate("next"),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontFamily: AppTheme.fontRoboto,
-                      fontSize: 17,
-                      color: AppTheme.white,
-                    ),
-                  ),
+                  child: loading
+                      ? CircularProgressIndicator(
+                          value: null,
+                          strokeWidth: 3.0,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(AppTheme.white),
+                        )
+                      : Text(
+                          translate("next"),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontFamily: AppTheme.fontRoboto,
+                            fontSize: 17,
+                            color: AppTheme.white,
+                          ),
+                        ),
                 ),
               ),
             )

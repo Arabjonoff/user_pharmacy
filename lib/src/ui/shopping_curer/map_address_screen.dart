@@ -185,7 +185,13 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                     alignment: Alignment.centerLeft,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.downToUp,
+                            child: CurerAddressCardScreen(),
+                          ),
+                        );
                       },
                       child: Container(
                         height: 48,
@@ -286,9 +292,22 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
             ),
             GestureDetector(
               onTap: () async {
-                chooseLat = lastPlaceMark.point.latitude;
-                chooseLng = lastPlaceMark.point.longitude;
-                print(chooseLat);
+                if (homeController.text.isNotEmpty) {
+                  db.saveProducts(
+                    AddressModel(
+                      street: homeController.text,
+                      lat: lastPlaceMark.point.latitude.toString(),
+                      lng: lastPlaceMark.point.longitude.toString(),
+                    ),
+                  );
+                  Navigator.pushReplacement(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.downToUp,
+                      child: CurerAddressCardScreen(),
+                    ),
+                  );
+                }
               },
               child: Container(
                 decoration: BoxDecoration(

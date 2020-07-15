@@ -14,6 +14,8 @@
   "manifac": "Ishlab chiqaruvchilar",
   "country": "Mamlakat",
   "mnn": "Moddasi",
+  "not_address": "Address tanlanmagan",
+  "not_time": "Dastavka voqti kiritilmagan",
   "main": {
     "home": "Asosiy",
     "catalog": "Katalog",
@@ -113,7 +115,7 @@
     "productMethod": "Qabul qilib olish shakli",
     "pickup": "Olib ketish",
     "courier": "Yetkazib beruvchi tomonidan",
-    "your_data": "Siz haqingizda",
+    "your_data": "Kimga topshiradilar",
     "edit": "O'zgartirish",
     "name": "Ism",
     "number": "Telefon raqam",
@@ -130,7 +132,8 @@
     "edit_aptek": "Dorixonani o'zgartirish",
     "now": "Bugun",
     "map_add_order": "Shu joydan olib ketish",
-    "payment_type": "Payment type"
+    "payment_type": "Payment type",
+    "add_new_card": "Добавить карту"
   },
   "address": {
     "title": "Yetkazib berish xizmati",
