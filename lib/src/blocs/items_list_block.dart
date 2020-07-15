@@ -91,8 +91,6 @@ class ItemListBloc {
       }
     }
 
-    print(itemModelResponse.results.length);
-
     usersBest.addAll(itemModelResponse.results);
     _bestItemFetcher.sink.add(usersBest);
   }

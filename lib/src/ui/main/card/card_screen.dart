@@ -11,6 +11,7 @@ import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
+import 'package:pharmacy/src/ui/shopping_curer/curer_address_card.dart';
 import 'package:pharmacy/src/ui/shopping_curer/map_address_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -690,8 +691,8 @@ class _CardScreenState extends State<CardScreen> {
                             Navigator.push(
                               context,
                               PageTransition(
-                                type: PageTransitionType.downToUp,
-                                child: MapAddressScreen(),
+                                type: PageTransitionType.fade,
+                                child: CurerAddressCardScreen(),
                               ),
                             );
                           } else {

@@ -8,6 +8,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/blocs/order_options_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
@@ -23,6 +24,7 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
 
 import '../../app_theme.dart';
+import 'curer_address_card.dart';
 import 'order_card_curer.dart';
 
 class MapAddressScreen extends StatefulWidget {
@@ -32,13 +34,7 @@ class MapAddressScreen extends StatefulWidget {
   }
 }
 
-var myLongitude, myLatitude;
-List<PaymentTypes> paymentTypes;
-int realShippingId;
-
 class _MapAddressScreenState extends State<MapAddressScreen> {
-  bool loading = false;
-  int shippingId;
   YandexMapController controller;
   placemark.Placemark lastPlaceMark;
   Point _point;
@@ -47,13 +43,14 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
   var locationOptions =
       LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
 
-  DatabaseHelper dataBase = new DatabaseHelper();
+  TextEditingController homeController = TextEditingController();
+
+  DatabaseHelperAddress db = new DatabaseHelperAddress();
 
   @override
   void initState() {
     super.initState();
     _requestPermission();
-    _getLanguage();
   }
 
   Future<void> _requestPermission() async {
@@ -206,102 +203,16 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                       ),
                     ),
                   ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 16, right: 16),
-              child: Text(
-                translate("orders.productMethod"),
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                  fontFamily: AppTheme.fontRoboto,
-                  fontStyle: FontStyle.normal,
-                  color: AppTheme.black_text,
-                ),
-              ),
-            ),
-            Container(
-              height: 36,
-              margin: EdgeInsets.only(
-                right: 16,
-                bottom: 24,
-                top: 16,
-                left: 16,
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        padding: EdgeInsets.only(left: 16),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: AppTheme.white,
-                          border: Border.all(
-                            color: AppTheme.blue_app_color,
-                            width: 2.0,
-                          ),
-                        ),
-                        height: 36,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            translate("orders.courier"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                              color: AppTheme.black_text,
-                              fontStyle: FontStyle.normal,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            child: OrderCardPickupScreen(
-                              AptekaModel(-1, "", "", "", "", 0.0, 0.0, false),
-                            ),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        padding: EdgeInsets.only(left: 16),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: AppTheme.white,
-                          border: Border.all(
-                            color: AppTheme.arrow_catalog,
-                            width: 2.0,
-                          ),
-                        ),
-                        height: 36,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            translate("orders.pickup"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                              color: AppTheme.black_text,
-                              fontStyle: FontStyle.normal,
-                            ),
-                          ),
-                        ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      translate("orders.new_add_address"),
+                      style: TextStyle(
+                        fontStyle: FontStyle.normal,
+                        fontFamily: AppTheme.fontCommons,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: AppTheme.black_text,
                       ),
                     ),
                   ),
@@ -309,115 +220,56 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 12, right: 12, bottom: 4),
-              child: Text(
-                translate("address.choose_time"),
-                style: TextStyle(
-                  fontFamily: AppTheme.fontRoboto,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                  fontStyle: FontStyle.normal,
-                  color: AppTheme.black_text,
+              height: 56,
+              margin: EdgeInsets.only(left: 16, right: 16, bottom: 12),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: AppTheme.auth_login,
+                border: Border.all(
+                  color: AppTheme.auth_border,
+                  width: 1.0,
                 ),
               ),
-            ),
-            Expanded(
-              child: StreamBuilder(
-                stream: blocOrderOptions.orderOptions,
-                builder: (context, AsyncSnapshot<OrderOptionsModel> snapshot) {
-                  if (snapshot.hasData) {
-                    paymentTypes = new List();
-                    paymentTypes.addAll(snapshot.data.paymentTypes);
-                    return Column(
-                      children: snapshot.data.shippingTimes
-                          .map((data) => RadioListTile(
-                                title: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        "${data.name}",
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: AppTheme.fontRoboto,
-                                          fontSize: 15,
-                                          fontStyle: FontStyle.normal,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 9,
-                                    ),
-                                    Text(
-                                      data.isUserPay
-                                          ? priceFormat.format(data.price) +
-                                              translate("sum_km")
-                                          : translate("address.free"),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: AppTheme.fontRoboto,
-                                        fontSize: 15,
-                                        fontStyle: FontStyle.normal,
-                                        color: Colors.black,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                activeColor: AppTheme.blue_app_color,
-                                groupValue: shippingId,
-                                value: data.id,
-                                onChanged: (val) {
-                                  setState(() {
-                                    shippingId = data.id;
-                                  });
-                                },
-                              ))
-                          .toList(),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text(snapshot.error.toString());
-                  }
-                  return Shimmer.fromColors(
-                    baseColor: Colors.grey[300],
-                    highlightColor: Colors.grey[100],
-                    child: ListView.builder(
-                      itemBuilder: (_, __) => Container(
-                        height: 48,
-                        padding: EdgeInsets.only(top: 6, bottom: 6),
-                        margin: EdgeInsets.only(left: 15, right: 15),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              height: 15,
-                              width: 250,
-                              color: AppTheme.white,
-                            ),
-                            Expanded(
-                              child: Container(),
-                            ),
-                          ],
-                        ),
-                      ),
-                      itemCount: 20,
+              child: Padding(
+                padding:
+                    EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 12),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  style: TextStyle(
+                    fontFamily: AppTheme.fontRoboto,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.normal,
+                    color: AppTheme.black_text,
+                    fontSize: 15,
+                  ),
+                  textCapitalization: TextCapitalization.sentences,
+                  controller: homeController,
+                  decoration: InputDecoration(
+                    labelText: translate('address.dom'),
+                    labelStyle: TextStyle(
+                      fontFamily: AppTheme.fontRoboto,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.normal,
+                      color: Color(0xFF6D7885),
+                      fontSize: 11,
                     ),
-                  );
-                },
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 12, right: 12, bottom: 4, top: 16),
-              child: Text(
-                translate("address.choose_address"),
-                style: TextStyle(
-                  fontFamily: AppTheme.fontRoboto,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                  fontStyle: FontStyle.normal,
-                  color: AppTheme.black_text,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 1,
+                        color: AppTheme.auth_login,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      borderSide: BorderSide(
+                        width: 1,
+                        color: AppTheme.auth_login,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -434,66 +286,14 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
             ),
             GestureDetector(
               onTap: () async {
-                if (shippingId != null) {
-                  realShippingId = shippingId;
-                  myLatitude = lastPlaceMark.point.latitude;
-                  myLongitude = lastPlaceMark.point.longitude;
-
-                  setState(() {
-                    loading = true;
-                  });
-
-                  CheckOrderModel check = new CheckOrderModel();
-                  List<Drugs> drugs = new List();
-
-                  dataBase.getProdu(true).then((value) => {
-                        for (int i = 0; i < value.length; i++)
-                          {
-                            drugs.add(Drugs(
-                                drug: value[i].id, qty: value[i].cardCount))
-                          },
-                        check = new CheckOrderModel(
-                          location: myLatitude.toString() +
-                              "," +
-                              myLongitude.toString(),
-                          type: "shipping",
-                          shipping_time: realShippingId,
-                          drugs: drugs,
-                        ),
-                        Repository().fetchCheckOrder(check).then((response) => {
-                              if (response.status == 1)
-                                {
-                                  setState(() {
-                                    loading = false;
-                                  }),
-                                  Navigator.pushReplacement(
-                                    context,
-                                    PageTransition(
-                                      type: PageTransitionType.downToUp,
-                                      child: OrderCardCurerScreen(
-                                        response.data.address,
-                                        response.data.total,
-                                        response.data.deliverySum,
-                                      ),
-                                    ),
-                                  ),
-                                }
-                              else
-                                {
-                                  setState(() {
-                                    loading = false;
-                                  }),
-                                }
-                            }),
-                      });
-                }
+                chooseLat = lastPlaceMark.point.latitude;
+                chooseLng = lastPlaceMark.point.longitude;
+                print(chooseLat);
               },
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  color: shippingId == null
-                      ? AppTheme.blue_app_color_transparent
-                      : AppTheme.blue_app_color,
+                  color: AppTheme.blue_app_color,
                 ),
                 height: 44,
                 width: double.infinity,
@@ -504,23 +304,16 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                   right: 16,
                 ),
                 child: Center(
-                  child: loading
-                      ? CircularProgressIndicator(
-                          value: null,
-                          strokeWidth: 3.0,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(AppTheme.white),
-                        )
-                      : Text(
-                          translate("next"),
-                          style: TextStyle(
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: AppTheme.fontRoboto,
-                            fontSize: 17,
-                            color: AppTheme.white,
-                          ),
-                        ),
+                  child: Text(
+                    translate("address.save_address"),
+                    style: TextStyle(
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: AppTheme.fontRoboto,
+                      fontSize: 17,
+                      color: AppTheme.white,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -528,16 +321,5 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> _getLanguage() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var language_data;
-    if (prefs.getString('language') != null) {
-      language_data = prefs.getString('language');
-    } else {
-      language_data = "ru";
-    }
-    blocOrderOptions.fetchOrderOptions(language_data);
   }
 }

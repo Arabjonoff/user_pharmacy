@@ -152,106 +152,105 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                 ],
               ),
             ),
-//            Container(
-//              margin: EdgeInsets.only(
-//                top: 30,
-//                left: 16,
-//              ),
-//              child: Text(
-//                translate("orders.productMethod"),
-//                style: TextStyle(
-//                  fontWeight: FontWeight.w600,
-//                  fontSize: 20,
-//                  fontFamily: AppTheme.fontRoboto,
-//                  fontStyle: FontStyle.normal,
-//                  color: AppTheme.black_text,
-//                ),
-//              ),
-//            ),
-//            Container(
-//              height: 36,
-//              margin: EdgeInsets.only(
-//                right: 16,
-//                top: 24,
-//                left: 16,
-//              ),
-//              child: Row(
-//                children: [
-//                  Expanded(
-//                    child: GestureDetector(
-//                      onTap: () {},
-//                      child: Container(
-//                        padding: EdgeInsets.only(left: 16),
-//                        decoration: BoxDecoration(
-//                          borderRadius: BorderRadius.circular(10.0),
-//                          color: AppTheme.white,
-//                          border: Border.all(
-//                            color: AppTheme.blue_app_color,
-//                            width: 2.0,
-//                          ),
-//                        ),
-//                        height: 36,
-//                        child: Align(
-//                          alignment: Alignment.centerLeft,
-//                          child: Text(
-//                            translate("orders.pickup"),
-//                            style: TextStyle(
-//                              fontFamily: AppTheme.fontRoboto,
-//                              fontWeight: FontWeight.w600,
-//                              fontSize: 13,
-//                              color: AppTheme.black_text,
-//                              fontStyle: FontStyle.normal,
-//                            ),
-//                          ),
-//                        ),
-//                      ),
-//                    ),
-//                  ),
-//                  SizedBox(
-//                    width: 15,
-//                  ),
-//                  Expanded(
-//                    child: GestureDetector(
-//                      onTap: () {
-////                        Navigator.pushReplacement(
-////                          context,
-////                          PageTransition(
-////                            type: PageTransitionType.fade,
-////                            child: OrderCardCurerScreen(
-////                                AddressModel(-1, "", "", "", "", "")),
-////                          ),
-////                        );
-//                      },
-//                      child: Container(
-//                        padding: EdgeInsets.only(left: 16),
-//                        decoration: BoxDecoration(
-//                          borderRadius: BorderRadius.circular(10.0),
-//                          color: AppTheme.white,
-//                          border: Border.all(
-//                            color: AppTheme.arrow_catalog,
-//                            width: 2.0,
-//                          ),
-//                        ),
-//                        height: 36,
-//                        child: Align(
-//                          alignment: Alignment.centerLeft,
-//                          child: Text(
-//                            translate("orders.courier"),
-//                            style: TextStyle(
-//                              fontFamily: AppTheme.fontRoboto,
-//                              fontWeight: FontWeight.w600,
-//                              fontSize: 13,
-//                              color: AppTheme.black_text,
-//                              fontStyle: FontStyle.normal,
-//                            ),
-//                          ),
-//                        ),
-//                      ),
-//                    ),
-//                  ),
-//                ],
-//              ),
-//            ),
+            Container(
+              margin: EdgeInsets.only(
+                top: 25,
+                left: 16,
+              ),
+              child: Text(
+                translate("orders.productMethod"),
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                  fontFamily: AppTheme.fontRoboto,
+                  fontStyle: FontStyle.normal,
+                  color: AppTheme.black_text,
+                ),
+              ),
+            ),
+            Container(
+              height: 36,
+              margin: EdgeInsets.only(
+                right: 16,
+                top: 24,
+                left: 16,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        padding: EdgeInsets.only(left: 16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: AppTheme.white,
+                          border: Border.all(
+                            color: AppTheme.blue_app_color,
+                            width: 2.0,
+                          ),
+                        ),
+                        height: 36,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            translate("orders.pickup"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                              color: AppTheme.black_text,
+                              fontStyle: FontStyle.normal,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.downToUp,
+                            child: OrderCardCurerScreen(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(left: 16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: AppTheme.white,
+                          border: Border.all(
+                            color: AppTheme.arrow_catalog,
+                            width: 2.0,
+                          ),
+                        ),
+                        height: 36,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            translate("orders.courier"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                              color: AppTheme.black_text,
+                              fontStyle: FontStyle.normal,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -451,7 +450,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                             child: Container(
                               margin: EdgeInsets.only(
                                   left: 16, right: 16, bottom: 16, top: 16),
-                              width: 250,
+                              width: 150,
                               decoration: BoxDecoration(
                                 color: widget.aptekaModel.id == -1
                                     ? AppTheme.blue_app_color
@@ -606,40 +605,40 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                 ),
               ),
             ),
-            (paymentTypes != null && paymentTypes.length > 0)
-                ? Column(
-                    children: paymentTypes
-                        .map((data) => RadioListTile(
-                              title: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      "${data.name}",
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: AppTheme.fontRoboto,
-                                        fontSize: 15,
-                                        fontStyle: FontStyle.normal,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              activeColor: AppTheme.blue_app_color,
-                              groupValue: paymentType,
-                              value: data.id,
-                              onChanged: (val) {
-                                setState(() {
-                                  paymentType = data.id;
-                                });
-                              },
-                            ))
-                        .toList(),
-                  )
-                : Container(),
+//            (paymentTypes != null && paymentTypes.length > 0)
+//                ? Column(
+//                    children: paymentTypes
+//                        .map((data) => RadioListTile(
+//                              title: Row(
+//                                children: [
+//                                  Expanded(
+//                                    child: Text(
+//                                      "${data.name}",
+//                                      overflow: TextOverflow.ellipsis,
+//                                      maxLines: 2,
+//                                      style: TextStyle(
+//                                        fontWeight: FontWeight.normal,
+//                                        fontFamily: AppTheme.fontRoboto,
+//                                        fontSize: 15,
+//                                        fontStyle: FontStyle.normal,
+//                                        color: Colors.black,
+//                                      ),
+//                                    ),
+//                                  ),
+//                                ],
+//                              ),
+//                              activeColor: AppTheme.blue_app_color,
+//                              groupValue: paymentType,
+//                              value: data.id,
+//                              onChanged: (val) {
+//                                setState(() {
+//                                  paymentType = data.id;
+//                                });
+//                              },
+//                            ))
+//                        .toList(),
+//                  )
+//                : Container(),
 
             Container(
               margin: EdgeInsets.only(

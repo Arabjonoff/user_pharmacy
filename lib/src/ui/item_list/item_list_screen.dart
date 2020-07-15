@@ -56,7 +56,6 @@ class _ItemListScreenState extends State<ItemListScreen> {
 
   @override
   void initState() {
-    _getMoreData(page);
     super.initState();
     _sc.addListener(() {
       if (_sc.position.pixels == _sc.position.maxScrollExtent) {
@@ -106,6 +105,9 @@ class _ItemListScreenState extends State<ItemListScreen> {
     type = widget.type;
     id = widget.id;
 
+
+    _getMoreData(1);
+
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: PreferredSize(
@@ -119,8 +121,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
               height: 56,
               width: 48,
               color: AppTheme.arrow_examp_back,
-              padding:
-              EdgeInsets.only(top: 21, left: 9, right: 9, bottom: 9),
+              padding: EdgeInsets.only(top: 21, left: 9, right: 9, bottom: 9),
               child: GestureDetector(
                 child: SvgPicture.asset("assets/images/arrow_back.svg"),
                 onTap: () {
@@ -1052,42 +1053,42 @@ class _ItemListScreenState extends State<ItemListScreen> {
   }
 
   void _getMoreData(int index) async {
-    if (!isLoading) {
-      setState(() {
-        widget.type == 2
-            ? blocItemsList.fetchAllItemCategoryBest(
-                index,
-                international_name_ids,
-                manufacturer_ids,
-                sortFilter,
-                price_max,
-                price_min,
-                unit_ids,
-              )
-            : widget.type == 3
-                ? blocItemsList.fetchAllItemSearch(
-                    widget.id,
-                    index,
-                    international_name_ids,
-                    manufacturer_ids,
-                    sortFilter,
-                    price_max,
-                    price_min,
-                    unit_ids,
-                  )
-                : blocItemsList.fetchAllItemCategory(
-                    widget.id,
-                    index,
-                    international_name_ids,
-                    manufacturer_ids,
-                    sortFilter,
-                    price_max,
-                    price_min,
-                    unit_ids,
-                  );
-        isLoading = false;
-        page++;
-      });
-    }
+    //if (!isLoading) {
+    setState(() {
+      widget.type == 2
+          ? blocItemsList.fetchAllItemCategoryBest(
+              index,
+              international_name_ids,
+              manufacturer_ids,
+              sortFilter,
+              price_max,
+              price_min,
+              unit_ids,
+            )
+          : widget.type == 3
+              ? blocItemsList.fetchAllItemSearch(
+                  widget.id,
+                  index,
+                  international_name_ids,
+                  manufacturer_ids,
+                  sortFilter,
+                  price_max,
+                  price_min,
+                  unit_ids,
+                )
+              : blocItemsList.fetchAllItemCategory(
+                  widget.id,
+                  index,
+                  international_name_ids,
+                  manufacturer_ids,
+                  sortFilter,
+                  price_max,
+                  price_min,
+                  unit_ids,
+                );
+      isLoading = false;
+      page++;
+    });
+    // }
   }
 }
