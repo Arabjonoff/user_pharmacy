@@ -1,6 +1,6 @@
 {
   "sum": " сум",
-  "sum_km": "UZS/km",
+  "sum_km": " UZS/km",
   "search_hint": "Поиск лекарств",
   "search_real": "Поиск",
   "next": "Далее",
@@ -114,8 +114,9 @@
     "chechout": "Оформление заказа",
     "productMethod": "Способ получения",
     "pickup": "Самовывоз",
-    "courier": "Курьером",
+    "courier": "Доставка",
     "your_data": "Кому доставляют",
+    "to_picup": "Oткуда заберет",
     "edit": "Изменить",
     "name": "Имя",
     "number": "Номер телефона",

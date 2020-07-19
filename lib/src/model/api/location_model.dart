@@ -26,7 +26,7 @@ class LocationModel {
   String phone;
   String mode;
   Location location;
-  dynamic distance;
+  double distance;
 
   factory LocationModel.fromJson(Map<String, dynamic> json) => LocationModel(
         id: json["id"],
@@ -36,7 +36,7 @@ class LocationModel {
         phone: json["phone"],
         mode: json["mode"],
         location: Location.fromJson(json["location"]),
-        distance: json["distance"],
+        distance: json["distance"] == null ? 0.0 : json["distance"],
       );
 
   Map<String, dynamic> toJson() => {

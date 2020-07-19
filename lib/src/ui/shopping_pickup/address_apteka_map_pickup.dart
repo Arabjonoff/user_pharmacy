@@ -4,8 +4,10 @@ import 'package:flutter_translate/global.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
+import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
@@ -31,6 +33,7 @@ class _AddressAptekaMapPickupScreenState
   var locationOptions =
       LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
   final List<placemark.Placemark> placemarks = <placemark.Placemark>[];
+  DatabaseHelper dataBase = new DatabaseHelper();
 
   var myLongitude, myLatitude;
 
@@ -53,29 +56,6 @@ class _AddressAptekaMapPickupScreenState
     });
   }
 
-  _getLocation() async {
-    _addMarkers(Repository().fetchApteka(0.0, 0.0));
-
-    geolocator
-        .getPositionStream(LocationOptions(
-            accuracy: LocationAccuracy.high, distanceFilter: 10))
-        .listen((Position p) {});
-
-//    myLatitude != null
-//        ? _addMarkers(Repository().fetchApteka())
-//        : geolocator
-//            .getPositionStream(locationOptions)
-//            .listen((Position position) async {
-//            if (position != null) {
-//              myLatitude = position.latitude;
-//              myLongitude = position.longitude;
-//              _addMarkers(Repository().fetchApteka());
-//            } else {
-//              _addMarkers(Repository().fetchApteka());
-//            }
-//          });
-  }
-
   void _addMarkers(Future<List<LocationModel>> response) async {
     if (placemarks != null)
       for (int i = 0; i < placemarks.length; i++)
@@ -92,8 +72,8 @@ class _AddressAptekaMapPickupScreenState
           latitude: data[i].location.coordinates[1],
           longitude: data[i].location.coordinates[0],
         ),
-        opacity: 0.95,
-        iconName: 'assets/map/user.png',
+        opacity: 1,
+        iconName: 'assets/map/selected_order.png',
         onTap: (double latitude, double longitude) => {
           //BottomDialog.mapBottom(data[i], context),
           showModalBottomSheet(
@@ -104,7 +84,7 @@ class _AddressAptekaMapPickupScreenState
                     topLeft: Radius.circular(20.0),
                     topRight: Radius.circular(20.0)),
                 child: Container(
-                  height: 300,
+                  height: 240,
                   color: AppTheme.white,
                   child: Column(
                     children: <Widget>[
@@ -119,10 +99,49 @@ class _AddressAptekaMapPickupScreenState
                       ),
                       Container(
                         margin: EdgeInsets.only(left: 12, right: 12, top: 25),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                data[i].name,
+                                textAlign: TextAlign.start,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.normal,
+                                  color: AppTheme.black_text,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 7,
+                            ),
+                            Text(
+                              data[i].distance.toString() + " m",
+                              textAlign: TextAlign.start,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 11,
+                                fontStyle: FontStyle.normal,
+                                color: AppTheme.black_transparent_text,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 12, right: 12, top: 8),
                         width: double.infinity,
                         child: Text(
                           data[i].address,
                           textAlign: TextAlign.start,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontFamily: AppTheme.fontRoboto,
                             fontWeight: FontWeight.normal,
@@ -133,102 +152,99 @@ class _AddressAptekaMapPickupScreenState
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: 12, right: 12, top: 2),
-                        width: double.infinity,
-                        child: Text(
-                          translate("map.address"),
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 13,
-                            fontStyle: FontStyle.normal,
-                            color: AppTheme.black_transparent_text,
-                          ),
+                        margin: EdgeInsets.only(left: 12, right: 12, top: 17),
+                        child: Row(
+                          children: [
+                            Text(
+                              translate("map.work") + " : ",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12,
+                                fontStyle: FontStyle.normal,
+                                color: AppTheme.black_transparent_text,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 7,
+                            ),
+                            Expanded(
+                              child: Text(
+                                data[i].mode,
+                                textAlign: TextAlign.start,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.normal,
+                                  color: AppTheme.black_text,
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: 12, right: 12, top: 29),
-                        width: double.infinity,
-                        child: Text(
-                          data[i].mode,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 15,
-                            fontStyle: FontStyle.normal,
-                            color: AppTheme.black_text,
-                          ),
+                        margin: EdgeInsets.only(left: 12, right: 12, top: 12),
+                        child: Row(
+                          children: [
+                            Text(
+                              translate("auth.number_auth") + " : ",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12,
+                                fontStyle: FontStyle.normal,
+                                color: AppTheme.black_transparent_text,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 7,
+                            ),
+                            Expanded(
+                              child: Text(
+                                data[i].phone,
+                                textAlign: TextAlign.start,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.normal,
+                                  color: AppTheme.blue_app_color,
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(left: 12, right: 12, top: 2),
-                        width: double.infinity,
-                        child: Text(
-                          translate("map.work"),
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 13,
-                            fontStyle: FontStyle.normal,
-                            color: AppTheme.black_transparent_text,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 12, right: 12, top: 29),
-                        width: double.infinity,
-                        child: Text(
-                          data[i].phone,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 15,
-                            fontStyle: FontStyle.normal,
-                            color: AppTheme.black_text,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 12, right: 12, top: 2),
-                        width: double.infinity,
-                        child: Text(
-                          translate("auth.number_auth"),
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 13,
-                            fontStyle: FontStyle.normal,
-                            color: AppTheme.black_transparent_text,
-                          ),
-                        ),
-                      ),
+                      SizedBox(height: 24),
                       Expanded(
-                        child: Center(
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
                           child: GestureDetector(
                             onTap: () {
                               Navigator.pop(context);
-
+                              aptekaModel = AptekaModel(
+                                data[i].id,
+                                data[i].name,
+                                data[i].address,
+                                data[i].mode,
+                                data[i].phone,
+                                data[i].location.coordinates[1],
+                                data[i].location.coordinates[0],
+                                false,
+                              );
                               Navigator.pushReplacement(
                                 context,
                                 PageTransition(
                                   type: PageTransitionType.fade,
-                                  child: OrderCardPickupScreen(
-                                    AptekaModel(
-                                      data[i].id,
-                                      data[i].name,
-                                      data[i].address,
-                                      data[i].mode,
-                                      data[i].phone,
-                                      data[i].location.coordinates[1],
-                                      data[i].location.coordinates[0],
-                                      false,
-                                    ),
-                                  ),
+                                  child: OrderCardPickupScreen(),
                                 ),
                               );
                             },
@@ -268,13 +284,23 @@ class _AddressAptekaMapPickupScreenState
   }
 
   Future<void> _getPosition() async {
+    AccessStore addModel = new AccessStore();
+    List<ProductsStore> drugs = new List();
+    dataBase.getProdu(true).then((value) => {
+          for (int i = 0; i < value.length; i++)
+            {
+              drugs.add(
+                  ProductsStore(drugId: value[i].id, qty: value[i].cardCount))
+            },
+        });
+
     if (lat == null && lng == null) {
       geolocator.getPositionStream(locationOptions).listen((Position position) {
         if (position != null) {
           lat = position.latitude;
           lng = position.longitude;
-          _addMarkers(
-              Repository().fetchApteka(position.latitude, position.longitude));
+          addModel = new AccessStore(lat: lat, lng: lng, products: drugs);
+          _addMarkers(Repository().fetchAccessApteka(addModel));
           _point = new Point(
               latitude: position.latitude, longitude: position.longitude);
           mapController.move(
@@ -285,7 +311,8 @@ class _AddressAptekaMapPickupScreenState
         }
       });
     } else {
-      _addMarkers(Repository().fetchApteka(lat, lng));
+      addModel = new AccessStore(lat: lat, lng: lng, products: drugs);
+      _addMarkers(Repository().fetchAccessApteka(addModel));
       _point = new Point(latitude: lat, longitude: lng);
       mapController.move(
         point: _point,

@@ -329,7 +329,7 @@ class BottomDialog {
                                     ],
                                     color: Colors.white,
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(50)),
+                                        BorderRadius.all(Radius.circular(50)),
                                   ),
                                   child: Center(
                                     child: SvgPicture.asset(
@@ -398,7 +398,7 @@ class BottomDialog {
                   topLeft: Radius.circular(20.0),
                   topRight: Radius.circular(20.0)),
               child: Container(
-                height: 350,
+                height: 240,
                 color: AppTheme.white,
                 child: Column(
                   children: <Widget>[
@@ -413,41 +413,49 @@ class BottomDialog {
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 12, right: 12, top: 25),
-                      width: double.infinity,
-                      child: Text(
-                        locationItem.name,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 15,
-                          fontStyle: FontStyle.normal,
-                          color: AppTheme.black_text,
-                        ),
-                        maxLines: 1,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              locationItem.name,
+                              textAlign: TextAlign.start,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                fontStyle: FontStyle.normal,
+                                color: AppTheme.black_text,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 7,
+                          ),
+                          Text(
+                            locationItem.distance.toString() + " m",
+                            textAlign: TextAlign.start,
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 11,
+                              fontStyle: FontStyle.normal,
+                              color: AppTheme.black_transparent_text,
+                            ),
+                          )
+                        ],
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 12, right: 12, top: 2),
-                      width: double.infinity,
-                      child: Text(
-                        translate("name"),
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 13,
-                          fontStyle: FontStyle.normal,
-                          color: AppTheme.black_transparent_text,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 12, right: 12, top: 25),
+                      margin: EdgeInsets.only(left: 12, right: 12, top: 8),
                       width: double.infinity,
                       child: Text(
                         locationItem.address,
                         textAlign: TextAlign.start,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontFamily: AppTheme.fontRoboto,
                           fontWeight: FontWeight.normal,
@@ -455,88 +463,84 @@ class BottomDialog {
                           fontStyle: FontStyle.normal,
                           color: AppTheme.black_text,
                         ),
-                        maxLines: 1,
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 12, right: 12, top: 2),
-                      width: double.infinity,
-                      child: Text(
-                        translate("map.address"),
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 13,
-                          fontStyle: FontStyle.normal,
-                          color: AppTheme.black_transparent_text,
-                        ),
+                      margin: EdgeInsets.only(left: 12, right: 12, top: 17),
+                      child: Row(
+                        children: [
+                          Text(
+                            translate("map.work") + " : ",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 12,
+                              fontStyle: FontStyle.normal,
+                              color: AppTheme.black_transparent_text,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 7,
+                          ),
+                          Expanded(
+                            child: Text(
+                              locationItem.mode,
+                              textAlign: TextAlign.start,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 15,
+                                fontStyle: FontStyle.normal,
+                                color: AppTheme.black_text,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 12, right: 12, top: 29),
-                      width: double.infinity,
-                      child: Text(
-                        locationItem.mode,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 15,
-                          fontStyle: FontStyle.normal,
-                          color: AppTheme.black_text,
-                        ),
-                        maxLines: 1,
+                      margin: EdgeInsets.only(left: 12, right: 12, top: 12),
+                      child: Row(
+                        children: [
+                          Text(
+                            translate("auth.number_auth") + " : ",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 12,
+                              fontStyle: FontStyle.normal,
+                              color: AppTheme.black_transparent_text,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 7,
+                          ),
+                          Expanded(
+                            child: Text(
+                              locationItem.phone,
+                              textAlign: TextAlign.start,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 15,
+                                fontStyle: FontStyle.normal,
+                                color: AppTheme.blue_app_color,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 12, right: 12, top: 2),
-                      width: double.infinity,
-                      child: Text(
-                        translate("map.work"),
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 13,
-                          fontStyle: FontStyle.normal,
-                          color: AppTheme.black_transparent_text,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 12, right: 12, top: 29),
-                      width: double.infinity,
-                      child: Text(
-                        locationItem.phone,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 15,
-                          fontStyle: FontStyle.normal,
-                          color: AppTheme.black_text,
-                        ),
-                        maxLines: 1,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 12, right: 12, top: 2),
-                      width: double.infinity,
-                      child: Text(
-                        translate("auth.number_auth"),
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 13,
-                          fontStyle: FontStyle.normal,
-                          color: AppTheme.black_transparent_text,
-                        ),
-                      ),
-                    ),
+                    SizedBox(height: 24),
                     Expanded(
-                      child: Center(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
                         child: GestureDetector(
                           onTap: () async {
                             var lat = locationItem.location.coordinates[1];

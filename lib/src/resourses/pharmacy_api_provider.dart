@@ -15,6 +15,7 @@ import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
+import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/model/send/check_order.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -450,7 +451,6 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
 
-
     HttpClient httpClient = new HttpClient();
     httpClient
       ..badCertificateCallback =
@@ -466,5 +466,28 @@ class PharmacyApiProvider {
     final Map parsed = json.decode(reply);
 
     return CheckOrderResponceModel.fromJson(parsed);
+  }
+
+  ///items
+  Future<List<LocationModel>> fetchAccessApteka(AccessStore accessStore) async {
+    String url = Utils.BASE_URL + '/api/v1/exists-stores';
+
+    print(url);
+    print(json.encode(accessStore));
+
+    HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
+    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    request.write(json.encode(accessStore));
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+
+    print(reply);
+
+    return locationModelFromJson(reply);
   }
 }

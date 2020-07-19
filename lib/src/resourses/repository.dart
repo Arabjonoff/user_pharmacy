@@ -16,6 +16,7 @@ import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
+import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/model/send/check_order.dart';
 
@@ -121,6 +122,9 @@ class Repository {
 
   Future<List<LocationModel>> fetchApteka(double lat, double lng) =>
       pharmacyApiProvider.fetchApteka(lat, lng);
+
+  Future<List<LocationModel>> fetchAccessApteka(AccessStore accessStore) =>
+      pharmacyApiProvider.fetchAccessApteka(accessStore);
 
   Future<List<RegionModel>> fetchRegions(String obj) =>
       pharmacyApiProvider.fetchRegions(obj);

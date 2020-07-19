@@ -1,6 +1,6 @@
 {
   "sum": " UZS",
-  "sum_km": "UZS/km",
+  "sum_km": " UZS/km",
   "search_hint": "Search for drugs",
   "search_real": "Search",
   "next": "Next",
@@ -116,6 +116,7 @@
     "pickup": "Pickup",
     "courier": "Delivery",
     "your_data": "To whom they deliver",
+    "to_picup": "Oткуда заберет",
     "edit": "Edit",
     "name": "Name",
     "number": "Phone number",

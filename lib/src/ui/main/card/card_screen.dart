@@ -587,71 +587,71 @@ class _CardScreenState extends State<CardScreen> {
                         ),
                         margin: EdgeInsets.only(top: 24, left: 16, right: 16),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: 23,
-                          left: 16,
-                          right: 16,
-                        ),
-                        child: Row(
-                          children: [
-                            Text(
-                              translate("card.all_card"),
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontFamily: AppTheme.fontRoboto,
-                                fontWeight: FontWeight.normal,
-                                color: AppTheme.black_transparent_text,
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(),
-                            ),
-                            Text(
-                              translate(allCount.toString()),
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontFamily: AppTheme.fontRoboto,
-                                fontWeight: FontWeight.normal,
-                                color: AppTheme.black_transparent_text,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: 18,
-                          left: 16,
-                          right: 16,
-                        ),
-                        child: Row(
-                          children: [
-                            Text(
-                              translate("card.tovar_sum"),
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontFamily: AppTheme.fontRoboto,
-                                fontWeight: FontWeight.normal,
-                                color: AppTheme.black_transparent_text,
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(),
-                            ),
-                            Text(
-                              priceFormat.format(allPrice) +
-                                  translate(translate("sum")),
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontFamily: AppTheme.fontRoboto,
-                                fontWeight: FontWeight.normal,
-                                color: AppTheme.black_transparent_text,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+//                      Container(
+//                        margin: EdgeInsets.only(
+//                          top: 23,
+//                          left: 16,
+//                          right: 16,
+//                        ),
+//                        child: Row(
+//                          children: [
+//                            Text(
+//                              translate("card.all_card"),
+//                              style: TextStyle(
+//                                fontSize: 13,
+//                                fontFamily: AppTheme.fontRoboto,
+//                                fontWeight: FontWeight.normal,
+//                                color: AppTheme.black_transparent_text,
+//                              ),
+//                            ),
+//                            Expanded(
+//                              child: Container(),
+//                            ),
+//                            Text(
+//                              translate(allCount.toString()),
+//                              style: TextStyle(
+//                                fontSize: 13,
+//                                fontFamily: AppTheme.fontRoboto,
+//                                fontWeight: FontWeight.normal,
+//                                color: AppTheme.black_transparent_text,
+//                              ),
+//                            ),
+//                          ],
+//                        ),
+//                      ),
+//                      Container(
+//                        margin: EdgeInsets.only(
+//                          top: 18,
+//                          left: 16,
+//                          right: 16,
+//                        ),
+//                        child: Row(
+//                          children: [
+//                            Text(
+//                              translate("card.tovar_sum"),
+//                              style: TextStyle(
+//                                fontSize: 13,
+//                                fontFamily: AppTheme.fontRoboto,
+//                                fontWeight: FontWeight.normal,
+//                                color: AppTheme.black_transparent_text,
+//                              ),
+//                            ),
+//                            Expanded(
+//                              child: Container(),
+//                            ),
+//                            Text(
+//                              priceFormat.format(allPrice) +
+//                                  translate(translate("sum")),
+//                              style: TextStyle(
+//                                fontSize: 13,
+//                                fontFamily: AppTheme.fontRoboto,
+//                                fontWeight: FontWeight.normal,
+//                                color: AppTheme.black_transparent_text,
+//                              ),
+//                            ),
+//                          ],
+//                        ),
+//                      ),
                       Container(
                         margin: EdgeInsets.only(
                           top: 26,

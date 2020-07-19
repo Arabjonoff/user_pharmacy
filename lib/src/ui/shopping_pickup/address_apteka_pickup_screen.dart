@@ -85,7 +85,6 @@ class _AddressAptekaScreenState extends State<AddressAptekaPickupScreen>
                 height: 56,
                 child: Stack(
                   children: [
-
                     Align(
                       alignment: Alignment.centerLeft,
                       child: GestureDetector(
@@ -94,10 +93,7 @@ class _AddressAptekaScreenState extends State<AddressAptekaPickupScreen>
                             context,
                             PageTransition(
                               type: PageTransitionType.fade,
-                              child: OrderCardPickupScreen(
-                                AptekaModel(
-                                    -1, "", "", "", "", 0.0, 0.0, false),
-                              ),
+                              child: OrderCardPickupScreen(),
                             ),
                           );
                         },
@@ -111,7 +107,6 @@ class _AddressAptekaScreenState extends State<AddressAptekaPickupScreen>
                               height: 24,
                               width: 24,
                               padding: EdgeInsets.all(3),
-
                               child: SvgPicture.asset(
                                   "assets/images/arrow_back.svg"),
                             ),
@@ -161,7 +156,6 @@ class _AddressAptekaScreenState extends State<AddressAptekaPickupScreen>
                                 color: AppTheme.arrow_back,
                                 borderRadius: BorderRadius.circular(12),
                               ),
-
                               child: SvgPicture.asset(
                                   "assets/images/arrow_close.svg"),
                             ),

@@ -18,13 +18,13 @@ class CardBloc {
     List<ItemResult> result = await _repository.databaseCardItem(true);
     _cardFetcher.sink.add(result);
   }
-
-  fetchPaymentType(String lan) async {
-    OrderOptionsModel orderOptions = await _repository.fetchOrderOptions(lan);
-    orderOptions.paymentTypes
-        .add(PaymentTypes(id: -1, name: translate("orders.add_new_card")));
-    _paymentTypeFetcher.sink.add(orderOptions);
-  }
+//
+//  fetchPaymentType(String lan) async {
+//    OrderOptionsModel orderOptions = await _repository.fetchOrderOptions(lan);
+//    orderOptions.paymentTypes
+//        .add(PaymentTypes(id: -1, name: translate("orders.add_new_card")));
+//    _paymentTypeFetcher.sink.add(orderOptions);
+//  }
 
   dispose() {
     _cardFetcher.close();

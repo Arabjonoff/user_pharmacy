@@ -19,6 +19,8 @@ import 'package:shimmer/shimmer.dart';
 import '../../app_theme.dart';
 import 'fliter_screen.dart';
 
+bool isOpen = false;
+
 // ignore: must_be_immutable
 class ItemListScreen extends StatefulWidget {
   String name;
@@ -75,6 +77,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
     price_min = "";
     unit_ids = "";
     _sc.dispose();
+    isOpen = false;
     super.dispose();
   }
 

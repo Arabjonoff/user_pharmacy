@@ -75,8 +75,8 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
             latitude: data[i].location.coordinates[1],
             longitude: data[i].location.coordinates[0],
           ),
-          opacity: 0.95,
-          iconName: 'assets/map/user.png',
+          opacity: 1.0,
+          iconName: 'assets/map/selected_order.png',
           onTap: (double latitude, double longitude) => {
             BottomDialog.mapBottom(data[i], context),
           },
@@ -133,55 +133,55 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
               mapController = yandexMapController;
             },
           ),
-//          Align(
-//            alignment: Alignment.bottomRight,
-//            child: Container(
-//              margin: EdgeInsets.only(right: 16, bottom: 32),
-//              width: 48,
-//              height: 200,
-//              child: Column(
-//                children: <Widget>[
-//                  IconButton(
-//                    icon: Icon(
-//                      Icons.add_circle_outline,
-//                      color: Color.fromRGBO(59, 62, 77, 1.0),
-//                      size: 36.0,
-//                    ),
-//                    onPressed: () {
-//                      mapController.zoomIn();
-//                    },
-//                  ),
-//                  IconButton(
-//                    icon: Icon(
-//                      Icons.remove_circle_outline,
-//                      color: Color.fromRGBO(59, 62, 77, 1.0),
-//                      size: 36.0,
-//                    ),
-//                    onPressed: () {
-//                      mapController.zoomOut();
-//                    },
-//                  ),
-//                  SizedBox(
-//                    height: 36,
-//                  ),
-//                  IconButton(
-//                    icon: Icon(
-//                      Icons.my_location,
-//                      color: Color.fromRGBO(59, 62, 77, 1.0),
-//                      size: 36.0,
-//                    ),
-//                    onPressed: () {
-//                      mapController.move(
-//                        point: _point,
-//                        animation:
-//                            const MapAnimation(smooth: true, duration: 0.5),
-//                      );
-//                    },
-//                  )
-//                ],
-//              ),
-//            ),
-//          )
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              margin: EdgeInsets.only(right: 16, bottom: 64),
+              width: 48,
+              height: 200,
+              child: Column(
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(
+                      Icons.add_circle_outline,
+                      color: Color.fromRGBO(59, 62, 77, 1.0),
+                      size: 36.0,
+                    ),
+                    onPressed: () {
+                      mapController.zoomIn();
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.remove_circle_outline,
+                      color: Color.fromRGBO(59, 62, 77, 1.0),
+                      size: 36.0,
+                    ),
+                    onPressed: () {
+                      mapController.zoomOut();
+                    },
+                  ),
+                  SizedBox(
+                    height: 36,
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.my_location,
+                      color: Color.fromRGBO(59, 62, 77, 1.0),
+                      size: 36.0,
+                    ),
+                    onPressed: () {
+                      mapController.move(
+                        point: _point,
+                        animation:
+                            const MapAnimation(smooth: true, duration: 0.5),
+                      );
+                    },
+                  )
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );

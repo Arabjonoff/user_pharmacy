@@ -196,10 +196,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                 context,
                                 PageTransition(
                                   type: PageTransitionType.fade,
-                                  child: OrderCardPickupScreen(
-                                    AptekaModel(
-                                        -1, "", "", "", "", 0.0, 0.0, false),
-                                  ),
+                                  child: OrderCardPickupScreen(),
                                 ),
                               );
                             },

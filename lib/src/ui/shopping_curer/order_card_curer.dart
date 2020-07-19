@@ -89,7 +89,6 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
   @override
   Widget build(BuildContext context) {
     //getInfo();
-    _getLanguage();
     blocCard.fetchAllCard();
     return Scaffold(
       backgroundColor: Colors.black,
@@ -370,47 +369,80 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                 ),
               ),
             ),
-            StreamBuilder(
-              stream: blocCard.orderTypeOptions,
-              builder: (context, AsyncSnapshot<OrderOptionsModel> snapshot) {
-                if (snapshot.hasData) {
-                  return Column(
-                    children: snapshot.data.paymentTypes
-                        .map((data) => RadioListTile(
-                              title: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      "${data.name}",
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: AppTheme.fontRoboto,
-                                        fontSize: 15,
-                                        fontStyle: FontStyle.normal,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+//            StreamBuilder(
+//              stream: blocCard.orderTypeOptions,
+//              builder: (context, AsyncSnapshot<OrderOptionsModel> snapshot) {
+//                if (snapshot.hasData) {
+//                  return Column(
+//                    children: paymentTypes
+//                        .map((data) => RadioListTile(
+//                              title: Row(
+//                                children: [
+//                                  Expanded(
+//                                    child: Text(
+//                                      "${data.name}",
+//                                      overflow: TextOverflow.ellipsis,
+//                                      maxLines: 2,
+//                                      style: TextStyle(
+//                                        fontWeight: FontWeight.normal,
+//                                        fontFamily: AppTheme.fontRoboto,
+//                                        fontSize: 15,
+//                                        fontStyle: FontStyle.normal,
+//                                        color: Colors.black,
+//                                      ),
+//                                    ),
+//                                  ),
+//                                ],
+//                              ),
+//                              activeColor: AppTheme.blue_app_color,
+//                              groupValue: paymentType,
+//                              value: data.id,
+//                              onChanged: (val) {
+//                                setState(() {
+//                                  paymentType = data.id;
+//                                });
+//                              },
+//                            ))
+//                        .toList(),
+//                  );
+//                } else if (snapshot.hasError) {
+//                  return Text(snapshot.error.toString());
+//                }
+//                return Container();
+//              },
+//            ),
+
+            Column(
+              children: paymentTypes
+                  .map((data) => RadioListTile(
+                        title: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                "${data.name}",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.normal,
+                                  color: Colors.black,
+                                ),
                               ),
-                              activeColor: AppTheme.blue_app_color,
-                              groupValue: paymentType,
-                              value: data.id,
-                              onChanged: (val) {
-                                setState(() {
-                                  paymentType = data.id;
-                                });
-                              },
-                            ))
-                        .toList(),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                }
-                return Container();
-              },
+                            ),
+                          ],
+                        ),
+                        activeColor: AppTheme.blue_app_color,
+                        groupValue: paymentType,
+                        value: data.id,
+                        onChanged: (val) {
+                          setState(() {
+                            paymentType = data.id;
+                          });
+                        },
+                      ))
+                  .toList(),
             ),
             Container(
               margin: EdgeInsets.only(
@@ -684,17 +716,6 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> _getLanguage() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var language_data;
-    if (prefs.getString('language') != null) {
-      language_data = prefs.getString('language');
-    } else {
-      language_data = "ru";
-    }
-    blocCard.fetchPaymentType(language_data);
   }
 
   Future<void> getInfo() async {
