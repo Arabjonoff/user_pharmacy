@@ -930,29 +930,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                           error_text = translate("not_product");
                                         }),
                                       }
-//                                    if (value.status == 1)
-//                                      {
-//                                        setState(() {
-//                                          loading = false;
-//                                          error = false;
-//                                        }),
-//                                        Navigator.pushReplacement(
-//                                          context,
-//                                          PageTransition(
-//                                            type: PageTransitionType.fade,
-//                                            child:
-//                                                ShoppingWebScreen(value.data),
-//                                          ),
-//                                        )
-//                                      }
-//                                    else
-//                                      {
-//                                        setState(() {
-//                                          error = true;
-//                                          loading = false;
-//                                          error_text = translate("not_product");
-//                                        }),
-//                                      }
                                   }),
                         });
                   }

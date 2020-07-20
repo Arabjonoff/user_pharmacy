@@ -62,7 +62,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
   void initState() {
     super.initState();
     isOpen = true;
-    registerBus();
+   // registerBus();
     _sc.addListener(() {
       if (_sc.position.pixels == _sc.position.maxScrollExtent) {
         _getMoreData(page);
@@ -97,7 +97,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
     unit_ids = "";
     _sc.dispose();
     isOpen = false;
-    RxBus.destroy();
+   // RxBus.destroy();
     super.dispose();
   }
 

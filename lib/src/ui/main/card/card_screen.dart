@@ -45,6 +45,9 @@ class _CardScreenState extends State<CardScreen> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     blocCard.fetchAllCard();
+
+    print("Card");
+
     Utils.isLogin().then((value) => isLogin = value);
     return Scaffold(
       backgroundColor: AppTheme.white,
