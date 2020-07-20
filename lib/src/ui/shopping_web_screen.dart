@@ -25,8 +25,6 @@ class ShoppingWebScreen extends StatefulWidget {
 class _ShoppingWebScreenState extends State<ShoppingWebScreen> {
   @override
   Widget build(BuildContext context) {
-    final String contentBase64 =
-        base64Encode(const Utf8Encoder().convert(widget.url));
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
@@ -119,11 +117,18 @@ class _ShoppingWebScreenState extends State<ShoppingWebScreen> {
             ),
             Expanded(
               child: WebView(
-                initialUrl: 'data:text/html;base64,$contentBase64',
+                initialUrl: widget.url,
                 javascriptMode: JavascriptMode.unrestricted,
                 navigationDelegate: (NavigationRequest request) {
-                  if (request.url.startsWith('https://www.prep.uz/')) {
-                    print('blocking navigation to $request}');
+                  if (request.url.startsWith('https://online.grandpharm.uz/')) {
+                    print('blocking navigation to ${request.url}');
+                    Navigator.pushReplacement(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.fade,
+                        child: HistoryOrderScreen(),
+                      ),
+                    );
                     return NavigationDecision.prevent;
                   }
                   print('allowing navigation to $request');

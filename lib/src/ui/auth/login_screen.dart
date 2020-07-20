@@ -59,31 +59,38 @@ class _LoginScreenState extends State<LoginScreen> {
             topRight: Radius.circular(14.0),
           ),
         ),
-        padding: EdgeInsets.only(top: 14),
+        padding: EdgeInsets.only(top: 8),
         child: Column(
           children: [
             Container(
-              height: 26,
+              height: 36,
               width: double.infinity,
               child: Stack(
                 children: [
                   Align(
                     alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        height: 24,
-                        width: 24,
-                        padding: EdgeInsets.all(7),
-                        decoration: BoxDecoration(
-                          color: AppTheme.arrow_back,
-                          borderRadius: BorderRadius.circular(12),
+                    child: Container(
+                      height: 36,
+                      width: 36,
+                      margin: EdgeInsets.only(right: 6),
+                      color: AppTheme.arrow_examp_back,
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            height: 24,
+                            width: 24,
+                            padding: EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              color: AppTheme.arrow_back,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: SvgPicture.asset(
+                                "assets/images/arrow_close.svg"),
+                          ),
                         ),
-                        margin: EdgeInsets.only(right: 16),
-                        child:
-                            SvgPicture.asset("assets/images/arrow_close.svg"),
                       ),
                     ),
                   ),
@@ -120,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(
                     fontFamily: AppTheme.fontRoboto,
                     fontSize: 13,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w300,
                     fontStyle: FontStyle.normal,
                   ),
                 ),
