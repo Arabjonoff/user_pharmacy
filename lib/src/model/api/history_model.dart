@@ -2,7 +2,7 @@ class HistoryModel {
   int count;
   String next;
   String previous;
-  List<Results> results;
+  List<HistoryResults> results;
 
   HistoryModel({this.count, this.next, this.previous, this.results});
 
@@ -11,9 +11,9 @@ class HistoryModel {
     next = json['next'] == null ? "" : json['next'];
     previous = json['previous'] == null ? "" : json['previous'];
     if (json['results'] != null) {
-      results = new List<Results>();
+      results = new List<HistoryResults>();
       json['results'].forEach((v) {
-        results.add(new Results.fromJson(v));
+        results.add(new HistoryResults.fromJson(v));
       });
     }
   }
@@ -30,7 +30,7 @@ class HistoryModel {
   }
 }
 
-class Results {
+class HistoryResults {
   int id;
   String address;
   Location location;
@@ -46,7 +46,7 @@ class Results {
   String phone;
   List<Items> items;
 
-  Results(
+  HistoryResults(
       {this.id,
       this.address,
       this.location,
@@ -62,7 +62,7 @@ class Results {
       this.phone,
       this.items});
 
-  Results.fromJson(Map<String, dynamic> json) {
+  HistoryResults.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     address = json['address'] == null ? "" : json['address'];
     location = json['location'] != null

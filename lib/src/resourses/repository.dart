@@ -143,4 +143,7 @@ class Repository {
 
   Future<OrderOptionsModel> fetchOrderOptions(String lan) =>
       pharmacyApiProvider.fetchOrderOptions(lan);
+
+  Future<OrderStatusModel> fetchOrderPayment(String id) =>
+      pharmacyApiProvider.fetchOrderPayment(id);
 }

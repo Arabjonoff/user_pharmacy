@@ -97,7 +97,7 @@ class BottomDialog {
                         height: 44,
                         width: double.infinity,
                         margin: EdgeInsets.only(
-                          top: 35,
+                          top: 16,
                           bottom: 30,
                           left: 16,
                           right: 16,
@@ -115,18 +115,29 @@ class BottomDialog {
                         ),
                       ),
                     ),
-//                    Container(
-//                      child: Text(
-//                        translate("dialog.register"),
-//                        style: TextStyle(
-//                          fontFamily: AppTheme.fontRoboto,
-//                          fontSize: 13,
-//                          fontWeight: FontWeight.normal,
-//                          fontStyle: FontStyle.normal,
-//                          color: AppTheme.blue_app_color,
-//                        ),
-//                      ),
-//                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.downToUp,
+                            child: LoginScreen(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        child: Text(
+                          translate("dialog.register"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRoboto,
+                            fontSize: 13,
+                            fontWeight: FontWeight.normal,
+                            fontStyle: FontStyle.normal,
+                            color: AppTheme.blue_app_color,
+                          ),
+                        ),
+                      ),
+                    ),
                     Expanded(
                       child: Container(),
                     ),
@@ -150,7 +161,7 @@ class BottomDialog {
                         translate("dialog.danniy"),
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: AppTheme.black_text,
+                          color: AppTheme.blue_app_color,
                           fontFamily: AppTheme.fontRoboto,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.normal,

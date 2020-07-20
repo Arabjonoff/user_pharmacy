@@ -185,9 +185,12 @@
     "number": "Phone number",
     "oplat": "Payment",
     "oplachen": "Paid",
+    "not_paymment": "Оплата не прошла",
     "kurer": "Delivery",
     "sozdan": "Created",
-    "address": "Delivery address"
+    "address": "Delivery address",
+    "order": "Order address",
+    "reload_pay": "Повторить оплату"
   },
   "history": {
     "date": "Date of delivery: ",

@@ -607,7 +607,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   translate("home.best"),
                   style: TextStyle(
                     color: AppTheme.black_text,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                     fontFamily: AppTheme.fontRoboto,
                     fontSize: 20,
                   ),

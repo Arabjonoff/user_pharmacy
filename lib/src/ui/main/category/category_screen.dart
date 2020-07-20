@@ -18,10 +18,6 @@ import 'package:shimmer/shimmer.dart';
 import '../../../app_theme.dart';
 
 class CategoryScreen extends StatefulWidget {
-  bool isBack;
-
-  CategoryScreen(this.isBack);
-
   @override
   State<StatefulWidget> createState() {
     return _CategoryScreenState();
@@ -46,45 +42,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
           elevation: 0.0,
           backgroundColor: AppTheme.white,
           brightness: Brightness.light,
-//          leading: widget.isBack
-//              ? Container(
-//                  height: 56,
-//                  width: 48,
-//                  color: AppTheme.arrow_examp_back,
-//                  padding:
-//                      EdgeInsets.only(top: 21, left: 9, right: 9, bottom: 9),
-//                  child: GestureDetector(
-//                    child: SvgPicture.asset("assets/images/arrow_back.svg"),
-//                    onTap: () {
-//                      Navigator.pop(context);
-//                    },
-//                  ),
-//                )
-//              : Container(),
           title: Container(
             height: 70,
             child: Stack(
               children: [
-//                Align(
-//                  alignment: Alignment.centerLeft,
-//                  child: widget.isBack
-//                      ? GestureDetector(
-//                          child: Container(
-//                            height: 48,
-//                            width: 48,
-//                            color: AppTheme.arrow_examp_back,
-//                            padding: EdgeInsets.all(13),
-//                            margin: EdgeInsets.only(top: 12),
-//                            child: SvgPicture.asset(
-//                              "assets/images/arrow_back.svg",
-//                            ),
-//                          ),
-//                          onTap: () {
-//                            Navigator.pop(context);
-//                          },
-//                        )
-//                      : Container(),
-//                ),
                 Align(
                   alignment: Alignment.center,
                   child: Container(
@@ -153,8 +114,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                               color: AppTheme.white,
                               child: Container(
                                 height: 64,
-                                padding: EdgeInsets.only(top: 6, bottom: 6),
-                                margin: EdgeInsets.only(left: 15, right: 15),
+                                margin: EdgeInsets.only(left: 12, right: 12),
                                 child: Row(
                                   children: <Widget>[
                                     Container(
@@ -196,11 +156,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                         ),
                                       ),
                                     ),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      size: 16,
-                                      color: AppTheme.arrow_catalog,
-                                    )
                                   ],
                                 ),
                               ),

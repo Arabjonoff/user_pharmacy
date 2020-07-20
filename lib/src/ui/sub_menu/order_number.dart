@@ -3,10 +3,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/model/api/history_model.dart';
+import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 
 import '../../app_theme.dart';
+import '../shopping_web_screen.dart';
 
 class OrderNumber extends StatefulWidget {
+  HistoryResults item;
+
+  OrderNumber(this.item);
+
   @override
   State<StatefulWidget> createState() {
     return _OrderNumberState();
@@ -14,6 +23,8 @@ class OrderNumber extends StatefulWidget {
 }
 
 class _OrderNumberState extends State<OrderNumber> {
+  bool itemClick = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,23 +63,13 @@ class _OrderNumberState extends State<OrderNumber> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          "Заказ №000004595",
+                          "Заказ №" + widget.item.id.toString(),
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             color: AppTheme.black_text,
                             fontWeight: FontWeight.w500,
                             fontFamily: AppTheme.fontCommons,
                             fontSize: 17,
-                          ),
-                        ),
-                        Text(
-                          "от 26 июня",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            color: AppTheme.black_transparent_text,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: AppTheme.fontRoboto,
-                            fontSize: 13,
                           ),
                         ),
                       ],
@@ -99,7 +100,7 @@ class _OrderNumberState extends State<OrderNumber> {
             margin:
                 EdgeInsets.only(left: 16.0, right: 16.0, top: 10, bottom: 2),
             child: Text(
-              "Shahboz Turonov",
+              widget.item.fullName,
               style: TextStyle(
                 fontFamily: AppTheme.fontRoboto,
                 fontStyle: FontStyle.normal,
@@ -126,7 +127,7 @@ class _OrderNumberState extends State<OrderNumber> {
             margin:
                 EdgeInsets.only(left: 16.0, right: 16.0, top: 21, bottom: 2),
             child: Text(
-              "+998 94 329 34 06",
+              widget.item.phone,
               style: TextStyle(
                 fontFamily: AppTheme.fontRoboto,
                 fontStyle: FontStyle.normal,
@@ -167,12 +168,16 @@ class _OrderNumberState extends State<OrderNumber> {
                 Expanded(
                   child: Container(),
                 ),
-                SvgPicture.asset("assets/images/check.svg"),
+                widget.item.status == "pending"
+                    ? SvgPicture.asset("assets/images/check_error.svg")
+                    : SvgPicture.asset("assets/images/check.svg"),
                 SizedBox(
                   width: 8,
                 ),
                 Text(
-                  translate("zakaz.oplachen"),
+                  widget.item.status == "pending"
+                      ? translate("zakaz.not_paymment")
+                      : translate("zakaz.oplachen"),
                   style: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 13,
@@ -184,70 +189,69 @@ class _OrderNumberState extends State<OrderNumber> {
               ],
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(
-              top: 23,
-              left: 16,
-              right: 16,
-            ),
-            child: Row(
-              children: [
-                Text(
-                  translate("card.all_card"),
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontFamily: AppTheme.fontRoboto,
-                    fontWeight: FontWeight.normal,
-                    color: AppTheme.black_transparent_text,
+          widget.item.status == "pending"
+              ? GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      itemClick = true;
+                    });
+
+                    Repository()
+                        .fetchOrderPayment(widget.item.id.toString())
+                        .then((value) => {
+                              if (value.data.length > 0)
+                                {
+                                  Navigator.pop(context),
+                                  Navigator.pop(context),
+                                  Navigator.push(
+                                    context,
+                                    PageTransition(
+                                      type: PageTransitionType.fade,
+                                      child: ShoppingWebScreen(value.data),
+                                    ),
+                                  )
+                                }
+                              else
+                                {
+                                  setState(() {
+                                    itemClick = false;
+                                  }),
+                                }
+                            });
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      top: 21,
+                      left: 16,
+                      right: 16,
+                    ),
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: AppTheme.blue_app_color,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Center(
+                      child: itemClick
+                          ? CircularProgressIndicator(
+                              value: null,
+                              strokeWidth: 3.0,
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(AppTheme.white),
+                            )
+                          : Text(
+                              translate("zakaz.reload_pay"),
+                              style: TextStyle(
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: AppTheme.fontRoboto,
+                                fontSize: 17,
+                                color: AppTheme.white,
+                              ),
+                            ),
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: Container(),
-                ),
-                Text(
-                  translate("5"),
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontFamily: AppTheme.fontRoboto,
-                    fontWeight: FontWeight.normal,
-                    color: AppTheme.black_transparent_text,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(
-              top: 18,
-              left: 16,
-              right: 16,
-            ),
-            child: Row(
-              children: [
-                Text(
-                  translate("card.tovar_sum"),
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontFamily: AppTheme.fontRoboto,
-                    fontWeight: FontWeight.normal,
-                    color: AppTheme.black_transparent_text,
-                  ),
-                ),
-                Expanded(
-                  child: Container(),
-                ),
-                Text(
-                  "20 000" + translate(translate("sum")),
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontFamily: AppTheme.fontRoboto,
-                    fontWeight: FontWeight.normal,
-                    color: AppTheme.black_transparent_text,
-                  ),
-                ),
-              ],
-            ),
-          ),
+                )
+              : Container(),
           Container(
             margin: EdgeInsets.only(
               top: 26,
@@ -269,7 +273,8 @@ class _OrderNumberState extends State<OrderNumber> {
                   child: Container(),
                 ),
                 Text(
-                  "35 000" + translate(translate("sum")),
+                  priceFormat.format(widget.item.total) +
+                      translate(translate("sum")),
                   style: TextStyle(
                     fontSize: 15,
                     fontFamily: AppTheme.fontRoboto,
@@ -320,7 +325,9 @@ class _OrderNumberState extends State<OrderNumber> {
                     child: Row(
                       children: [
                         Text(
-                          translate("zakaz.kurer"),
+                          widget.item.type == "self"
+                              ? translate("history.somviz")
+                              : translate("history.dostavka"),
                           style: TextStyle(
                             fontFamily: AppTheme.fontRoboto,
                             fontStyle: FontStyle.normal,
@@ -358,7 +365,9 @@ class _OrderNumberState extends State<OrderNumber> {
                   Container(
                     margin: EdgeInsets.only(left: 16, right: 16),
                     child: Text(
-                      translate("zakaz.address"),
+                      widget.item.type != "self"
+                          ? translate("zakaz.address")
+                          : translate("zakaz.order"),
                       style: TextStyle(
                         fontStyle: FontStyle.normal,
                         fontSize: 15,
@@ -371,8 +380,8 @@ class _OrderNumberState extends State<OrderNumber> {
                   Container(
                     margin: EdgeInsets.only(left: 16, right: 16, top: 2),
                     child: Text(
-                      translate(
-                          "Ташкент, ул.Ахмад Даниш, 24, кв. 48, \nэт. 3, подъезд 2"),
+                      widget.item.address,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontStyle: FontStyle.normal,
                         fontSize: 13,
@@ -393,7 +402,7 @@ class _OrderNumberState extends State<OrderNumber> {
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
                     scrollDirection: Axis.vertical,
-                    itemCount: 15,
+                    itemCount: widget.item.items.length,
                     itemBuilder: (context, index) {
                       return Container(
                         height: 68,
@@ -408,22 +417,22 @@ class _OrderNumberState extends State<OrderNumber> {
                               child: CachedNetworkImage(
                                 height: 112,
                                 width: 112,
-                                imageUrl:
-                                    "http://185.183.243.77/media/drugs/7c6edcd0-c619-4bfa-8c46-a732200b0219.png",
-                                  placeholder: (context, url) => Container(
-                                    padding: EdgeInsets.all(25),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                          "assets/images/place_holder.svg"),
-                                    ),
+                                imageUrl: widget
+                                    .item.items[index].drug.imageThumbnail,
+                                placeholder: (context, url) => Container(
+                                  padding: EdgeInsets.all(25),
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                        "assets/images/place_holder.svg"),
                                   ),
-                                  errorWidget: (context, url, error) => Container(
-                                    padding: EdgeInsets.all(25),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                          "assets/images/place_holder.svg"),
-                                    ),
+                                ),
+                                errorWidget: (context, url, error) => Container(
+                                  padding: EdgeInsets.all(25),
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                        "assets/images/place_holder.svg"),
                                   ),
+                                ),
                               ),
                             ),
                             SizedBox(
@@ -431,14 +440,16 @@ class _OrderNumberState extends State<OrderNumber> {
                             ),
                             Expanded(
                               child: Container(
-                                margin: EdgeInsets.only(top: 7,bottom: 7),
+                                margin: EdgeInsets.only(top: 7, bottom: 7),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        "АЙФЛОКС каплиглазные 0,3% 5 мл №30 \nблистер",
+                                        widget.item.items[index].drug.name,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           fontFamily: AppTheme.fontRoboto,
                                           fontWeight: FontWeight.normal,
@@ -448,15 +459,38 @@ class _OrderNumberState extends State<OrderNumber> {
                                         ),
                                       ),
                                     ),
-                                    Text(
-                                      "39 000"+translate("sum"),
-                                      style: TextStyle(
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: AppTheme.fontRoboto,
-                                        color: AppTheme.black_text,
-                                      ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          priceFormat.format(widget
+                                                  .item.items[index].price) +
+                                              translate("sum"),
+                                          style: TextStyle(
+                                            fontStyle: FontStyle.normal,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: AppTheme.fontRoboto,
+                                            color: AppTheme.black_text,
+                                          ),
+                                        ),
+                                        Text(
+                                          " x " +
+                                              priceFormat.format(
+                                                  widget.item.items[index].qty),
+                                          style: TextStyle(
+                                            fontStyle: FontStyle.normal,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: AppTheme.fontRoboto,
+                                            color:
+                                                AppTheme.black_transparent_text,
+                                          ),
+                                        )
+                                      ],
                                     )
                                   ],
                                 ),

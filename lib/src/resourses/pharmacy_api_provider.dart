@@ -47,8 +47,6 @@ class PharmacyApiProvider {
 //    http.Response response =
 //        await http.post(url, body: data).timeout(const Duration(seconds: 120));
 
-
-
     final Map parsed = json.decode(reply);
 
     return LoginModel.fromJson(parsed);
@@ -100,7 +98,6 @@ class PharmacyApiProvider {
         .timeout(const Duration(seconds: 120));
 
     final Map parsed = json.decode(response.body);
-
 
     return LoginModel.fromJson(parsed);
   }
@@ -220,7 +217,6 @@ class PharmacyApiProvider {
             'price_min=$price_min&'
             'unit_ids=$unit_ids';
 
-
     HttpClient httpClient = new HttpClient();
     httpClient
       ..badCertificateCallback =
@@ -230,7 +226,6 @@ class PharmacyApiProvider {
     HttpClientResponse response = await request.close();
 
     String reply = await response.transform(utf8.decoder).join();
-
 
     final Map parsed = json.decode(reply);
     return ItemModel.fromJson(parsed);
@@ -339,7 +334,6 @@ class PharmacyApiProvider {
       'content-type': 'application/json'
     };
 
-
 //    HttpClient httpClient = new HttpClient();
 //    httpClient
 //      ..badCertificateCallback =
@@ -357,7 +351,6 @@ class PharmacyApiProvider {
         .timeout(const Duration(seconds: 120));
 
     final Map parsed = json.decode(response.body);
-
 
     return OrderStatusModel.fromJson(parsed);
   }
@@ -475,7 +468,30 @@ class PharmacyApiProvider {
 
     String reply = await response.transform(utf8.decoder).join();
 
-
     return locationModelFromJson(reply);
+  }
+
+  ///reload payment
+  Future<OrderStatusModel> fetchOrderPayment(String id) async {
+    String url = Utils.BASE_URL + '/api/v1/order-payment';
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
+
+    Map<String, String> headers = {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+    };
+
+    final data = {"order_id": id};
+
+    http.Response response = await http
+        .post(url, headers: headers, body: data)
+        .timeout(const Duration(seconds: 120));
+
+    print(response);
+
+    final Map parsed = json.decode(response.body);
+
+    return OrderStatusModel.fromJson(parsed);
   }
 }

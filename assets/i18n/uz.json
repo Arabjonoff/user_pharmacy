@@ -185,9 +185,12 @@
     "number": "Telefon raqam",
     "oplat": "To'lov",
     "oplachen": "To'lov qilingan",
+    "not_paymment": "Оплата не прошла",
     "kurer": "Yetkazib berish xizmati orqali",
     "sozdan": "Yaratildi",
-    "address": "Yetkazib berish manzili"
+    "address": "Yetkazib berish manzili",
+    "order": "Order address",
+    "reload_pay": "Повторить оплату"
   },
   "history": {
     "date": "Yetkazish vaqti: ",
