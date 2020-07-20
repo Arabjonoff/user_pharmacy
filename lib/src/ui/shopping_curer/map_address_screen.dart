@@ -95,7 +95,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
     final Point currentTarget = await controller.enableCameraTracking(
       placemark.Placemark(
         point: const Point(latitude: 0, longitude: 0),
-        iconName: 'assets/map/user.png',
+        iconName: 'assets/map/location_red.png',
         opacity: 0.9,
       ),
       cameraPositionChanged,
@@ -104,6 +104,9 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
   }
 
   Future<void> cameraPositionChanged(dynamic arguments) async {
+    if (lastPlaceMark != null) {
+      controller.removePlacemark(lastPlaceMark);
+    }
     final bool bFinal = arguments['final'];
     if (bFinal) {
       await addUserPlacemark(Point(
@@ -117,7 +120,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
     }
     lastPlaceMark = placemark.Placemark(
       point: point,
-      iconName: 'assets/map/place.png',
+      iconName: 'assets/map/location_red.png',
       opacity: 0.9,
     );
     await controller.addPlacemark(
