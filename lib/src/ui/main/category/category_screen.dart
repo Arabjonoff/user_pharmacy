@@ -6,11 +6,13 @@ import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
+import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/category/sub_category_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
+import 'package:rxbus/rxbus.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../app_theme.dart';
@@ -32,6 +34,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
+    if (isOpen)
+      RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_CATEGORY");
     blocCategory.fetchAllCategory();
     return Scaffold(
       backgroundColor: AppTheme.white,
@@ -42,21 +46,21 @@ class _CategoryScreenState extends State<CategoryScreen> {
           elevation: 0.0,
           backgroundColor: AppTheme.white,
           brightness: Brightness.light,
-          leading: widget.isBack
-              ? Container(
-                  height: 56,
-                  width: 48,
-                  color: AppTheme.arrow_examp_back,
-                  padding:
-                      EdgeInsets.only(top: 21, left: 9, right: 9, bottom: 9),
-                  child: GestureDetector(
-                    child: SvgPicture.asset("assets/images/arrow_back.svg"),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                )
-              : Container(),
+//          leading: widget.isBack
+//              ? Container(
+//                  height: 56,
+//                  width: 48,
+//                  color: AppTheme.arrow_examp_back,
+//                  padding:
+//                      EdgeInsets.only(top: 21, left: 9, right: 9, bottom: 9),
+//                  child: GestureDetector(
+//                    child: SvgPicture.asset("assets/images/arrow_back.svg"),
+//                    onTap: () {
+//                      Navigator.pop(context);
+//                    },
+//                  ),
+//                )
+//              : Container(),
           title: Container(
             height: 70,
             child: Stack(

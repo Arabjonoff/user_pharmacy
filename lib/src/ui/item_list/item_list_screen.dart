@@ -7,6 +7,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/sort_radio_btn.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
@@ -14,6 +15,7 @@ import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:pharmacy/src/ui/view/item_view.dart';
 import 'package:pharmacy/src/utils/utils.dart';
+import 'package:rxbus/rxbus.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
@@ -59,11 +61,28 @@ class _ItemListScreenState extends State<ItemListScreen> {
   @override
   void initState() {
     super.initState();
+    isOpen = true;
+    registerBus();
     _sc.addListener(() {
       if (_sc.position.pixels == _sc.position.maxScrollExtent) {
         _getMoreData(page);
       }
     });
+  }
+
+  bool title = false;
+
+  void registerBus() {
+    RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST")
+        .listen((event) => setState(() {
+              title = event.title;
+            }));
+    RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_CATEGORY")
+        .listen((event) => setState(() {
+              if (event.title) {
+                title = event.title;
+              }
+            }));
   }
 
   @override
@@ -78,6 +97,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
     unit_ids = "";
     _sc.dispose();
     isOpen = false;
+    RxBus.destroy();
     super.dispose();
   }
 
@@ -107,7 +127,6 @@ class _ItemListScreenState extends State<ItemListScreen> {
     size = MediaQuery.of(context).size;
     type = widget.type;
     id = widget.id;
-
 
     _getMoreData(1);
 
@@ -1056,6 +1075,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
   }
 
   void _getMoreData(int index) async {
+    print("SHAH");
     //if (!isLoading) {
     setState(() {
       widget.type == 2

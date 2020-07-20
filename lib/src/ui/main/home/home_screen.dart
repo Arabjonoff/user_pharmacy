@@ -11,6 +11,8 @@ import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
+import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/top_item_model.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
@@ -24,6 +26,7 @@ import 'package:pharmacy/src/utils/utils.dart';
 import 'package:pharmacy/src/ui/item/item_screen.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
+import 'package:rxbus/rxbus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -71,6 +74,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
+
+    if (isOpen) RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST");
+
     blocHome.fetchAllHome(
       page,
       "",
@@ -267,13 +273,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child: CategoryScreen(true),
-                      ),
-                    );
+                    RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW");
+//                    Navigator.push(
+//                      context,
+//                      PageTransition(
+//                        type: PageTransitionType.rightToLeft,
+//                        child: CategoryScreen(true),
+//                      ),
+//                    );
                   },
                   child: Container(
                     child: ClipRRect(

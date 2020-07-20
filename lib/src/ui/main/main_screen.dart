@@ -4,9 +4,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/favorite/favorites_screen.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
+import 'package:rxbus/rxbus.dart';
 
 import '../../app_theme.dart';
 import 'category/category_screen.dart';
@@ -29,6 +31,19 @@ class _MainScreenState extends State<MainScreen> {
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>()
   ];
+
+  @override
+  void initState() {
+    registerBus();
+    super.initState();
+  }
+
+  void registerBus() {
+    RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_VIEW")
+        .listen((event) => setState(() {
+              _selectedIndex = event.position;
+            }));
+  }
 
   @override
   Widget build(BuildContext context) {
