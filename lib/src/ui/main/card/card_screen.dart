@@ -8,6 +8,8 @@ import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
+import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
@@ -15,6 +17,7 @@ import 'package:pharmacy/src/ui/shopping_curer/curer_address_card.dart';
 import 'package:pharmacy/src/ui/shopping_curer/map_address_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
 import 'package:pharmacy/src/utils/utils.dart';
+import 'package:rxbus/rxbus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:intl/intl.dart';
 
@@ -42,11 +45,27 @@ class _CardScreenState extends State<CardScreen> {
   DatabaseHelper dataBase = new DatabaseHelper();
 
   @override
+  void initState() {
+    registerBus();
+    super.initState();
+  }
+
+  void registerBus() {
+    RxBus.register<CardItemChangeModel>(tag: "EVENT_CARD")
+        .listen((event) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    RxBus.destroy();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     blocCard.fetchAllCard();
 
-    print("Card");
 
     Utils.isLogin().then((value) => isLogin = value);
     return Scaffold(

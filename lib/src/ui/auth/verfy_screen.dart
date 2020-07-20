@@ -43,7 +43,6 @@ class _VerfyScreenState extends State<VerfyScreen> {
       oneSec,
       (Timer timer) => setState(
         () {
-          print(_start);
           if (_start < 1) {
             timer.cancel();
             timerLoad = false;

@@ -1075,7 +1075,6 @@ class _ItemListScreenState extends State<ItemListScreen> {
   }
 
   void _getMoreData(int index) async {
-    print("SHAH");
     //if (!isLoading) {
     setState(() {
       widget.type == 2

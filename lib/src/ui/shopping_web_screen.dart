@@ -53,7 +53,7 @@ class _ShoppingWebScreenState extends State<ShoppingWebScreen> {
           )),
       body: Container(
         decoration: BoxDecoration(
-          color: AppTheme.white,
+          color: Color(0xFF433278),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(14.0),
             topRight: Radius.circular(14.0),
@@ -121,7 +121,7 @@ class _ShoppingWebScreenState extends State<ShoppingWebScreen> {
                 javascriptMode: JavascriptMode.unrestricted,
                 navigationDelegate: (NavigationRequest request) {
                   if (request.url.startsWith('https://online.grandpharm.uz/')) {
-                    print('blocking navigation to ${request.url}');
+//                    print('blocking navigation to ${request.url}');
                     Navigator.pushReplacement(
                       context,
                       PageTransition(
@@ -131,14 +131,13 @@ class _ShoppingWebScreenState extends State<ShoppingWebScreen> {
                     );
                     return NavigationDecision.prevent;
                   }
-                  print('allowing navigation to $request');
                   return NavigationDecision.navigate;
                 },
                 onPageStarted: (String url) {
-                  print('Page started loading: $url');
+//                  print('Page started loading: $url');
                 },
                 onPageFinished: (String url) {
-                  print('Page finished loading: $url');
+//                  print('Page finished loading: $url');
                 },
                 gestureNavigationEnabled: true,
               ),

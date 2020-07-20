@@ -47,7 +47,7 @@ class PharmacyApiProvider {
 //    http.Response response =
 //        await http.post(url, body: data).timeout(const Duration(seconds: 120));
 
-    print(reply);
+
 
     final Map parsed = json.decode(reply);
 
@@ -91,9 +91,6 @@ class PharmacyApiProvider {
       "birth_date": birthday,
     };
 
-    print(url);
-    print(data);
-
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
     };
@@ -104,7 +101,6 @@ class PharmacyApiProvider {
 
     final Map parsed = json.decode(response.body);
 
-    print(parsed);
 
     return LoginModel.fromJson(parsed);
   }
@@ -224,7 +220,6 @@ class PharmacyApiProvider {
             'price_min=$price_min&'
             'unit_ids=$unit_ids';
 
-    print(url);
 
     HttpClient httpClient = new HttpClient();
     httpClient
@@ -236,7 +231,6 @@ class PharmacyApiProvider {
 
     String reply = await response.transform(utf8.decoder).join();
 
-    print(reply);
 
     final Map parsed = json.decode(reply);
     return ItemModel.fromJson(parsed);
@@ -345,7 +339,6 @@ class PharmacyApiProvider {
       'content-type': 'application/json'
     };
 
-    print(json.encode(order));
 
 //    HttpClient httpClient = new HttpClient();
 //    httpClient
@@ -365,7 +358,6 @@ class PharmacyApiProvider {
 
     final Map parsed = json.decode(response.body);
 
-    print(parsed);
 
     return OrderStatusModel.fromJson(parsed);
   }
@@ -472,9 +464,6 @@ class PharmacyApiProvider {
   Future<List<LocationModel>> fetchAccessApteka(AccessStore accessStore) async {
     String url = Utils.BASE_URL + '/api/v1/exists-stores';
 
-    print(url);
-    print(json.encode(accessStore));
-
     HttpClient httpClient = new HttpClient();
     httpClient
       ..badCertificateCallback =
@@ -486,7 +475,6 @@ class PharmacyApiProvider {
 
     String reply = await response.transform(utf8.decoder).join();
 
-    print(reply);
 
     return locationModelFromJson(reply);
   }

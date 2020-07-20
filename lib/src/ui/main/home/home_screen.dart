@@ -67,7 +67,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         }),
       },
     );
-    print(hasSpeech);
     if (!mounted) return;
   }
 
@@ -94,6 +93,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         brightness: Brightness.light,
         title: Container(
           height: 36,
+          margin: EdgeInsets.only(top: 11),
           width: double.infinity,
           child: GestureDetector(
             onTap: () {
@@ -180,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       body: ListView(
         children: <Widget>[
           SizedBox(
-            height: 10,
+            height: 11,
           ),
           Container(
             height: 113.0,
@@ -607,7 +607,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   translate("home.best"),
                   style: TextStyle(
                     color: AppTheme.black_text,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontFamily: AppTheme.fontRoboto,
                     fontSize: 20,
                   ),

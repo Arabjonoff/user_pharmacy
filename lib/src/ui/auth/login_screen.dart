@@ -19,9 +19,17 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   var loading = false;
 
-  TextEditingController loginController = TextEditingController();
+  TextEditingController loginController = TextEditingController(text: "+998");
   var maskFormatter = new MaskTextInputFormatter(
-      mask: '(+998) ## ### ## ##', filter: {"#": RegExp(r'[0-9]')});
+      mask: '+998 ## ### ## ##', filter: {"#": RegExp(r'[0-9]')});
+
+  _LoginScreenState() {
+    loginController.addListener(() {
+      if (loginController.text.length <= 4) {
+        loginController.text = "+998";
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,6 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           top: 8, bottom: 8, left: 12, right: 12),
                       child: TextFormField(
                         keyboardType: TextInputType.phone,
+                        cursorColor:  AppTheme.auth_login,
                         style: TextStyle(
                           fontFamily: AppTheme.fontRoboto,
                           fontStyle: FontStyle.normal,

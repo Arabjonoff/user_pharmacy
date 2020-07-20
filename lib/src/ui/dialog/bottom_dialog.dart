@@ -223,7 +223,6 @@ class BottomDialog {
                           });
                           Navigator.pop(context);
                           lastWords = "${result.recognizedWords}";
-                          print(lastWords);
                           Navigator.push(
                             context,
                             PageTransition(

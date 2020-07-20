@@ -10,6 +10,7 @@ import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
+import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
@@ -17,6 +18,7 @@ import 'package:pharmacy/src/ui/shopping_curer/map_address_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
+import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -900,6 +902,8 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                                     .deleteProducts(value[i].id)
                                               }
                                           },
+                                        RxBus.post(CardItemChangeModel(true),
+                                            tag: "EVENT_CARD"),
                                         if (response.data != "")
                                           {
                                             Navigator.pushReplacement(

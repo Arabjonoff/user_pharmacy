@@ -41,7 +41,6 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
 
   @override
   void dispose() {
-    print("dispose");
     mapController.dispose();
     _getPosSub?.cancel();
     super.dispose();
