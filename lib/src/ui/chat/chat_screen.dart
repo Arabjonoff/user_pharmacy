@@ -491,7 +491,6 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<void> socket(String value) async {
     //var url = "wss://online.grandpharm.uz/ws/notifications?token=$value";
     var url = "wss://online.grandpharm.uz/ws/notifications?token=$value";
-    print(url);
 
 //    var channel = await IOWebSocketChannel.connect(
 //        url);

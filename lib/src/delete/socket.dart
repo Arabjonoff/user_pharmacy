@@ -43,12 +43,12 @@ class _MyAppState extends State<MyAppSocket> {
   }
 
   Future<void> socket() async {
-    print("SOCKET");
+
     var channel = await IOWebSocketChannel.connect(
         "wss://online.grandpharm.uz/ws/notifications?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjI1MTM5NjgxLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9.BOkmuH4XiAcxW7eNiFT2XBgiTnWk32ttwuEqysLJlJA");
     channel.stream.listen((message) {
       //channel.sink.add("received!");
-      print(message);
+     // print(message);
     });
   }
 }

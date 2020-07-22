@@ -512,18 +512,6 @@ class _ItemListScreenState extends State<ItemListScreen> {
                         ? isLoading = true
                         : isLoading = false;
 
-//                    if (snapshot.data.results.length < 20) {
-//                      isLoading = true;
-//                    } else {
-//                      lastPosition == snapshot.data.results.length
-//                          ? isLoading = true
-//                          : isLoading = false;
-//                    }
-//                    lastPosition = snapshot.data.results.length;
-
-                    print(snapshot.data.next.toString() + "SSS");
-                    print(isLoading);
-
                     return snapshot.data.results.length > 0
                         ? ListView.builder(
                             controller: _sc,

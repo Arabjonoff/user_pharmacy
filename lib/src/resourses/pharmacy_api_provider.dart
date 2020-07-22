@@ -489,7 +489,6 @@ class PharmacyApiProvider {
         .post(url, headers: headers, body: data)
         .timeout(const Duration(seconds: 120));
 
-    print(response);
 
     final Map parsed = json.decode(response.body);
 
@@ -500,8 +499,6 @@ class PharmacyApiProvider {
   Future<ChatApiModel> fetchGetAppMessage(int page, int per_page) async {
     String url =
         Utils.BASE_URL + '/api/v1/chat/messages?page=$page&per_page=$per_page';
-
-    print(url);
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
