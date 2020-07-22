@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
@@ -62,7 +63,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
   void initState() {
     super.initState();
     isOpen = true;
-   // registerBus();
+    _getMoreData(1);
+    // registerBus();
     _sc.addListener(() {
       if (_sc.position.pixels == _sc.position.maxScrollExtent) {
         _getMoreData(page);
@@ -97,7 +99,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
     unit_ids = "";
     _sc.dispose();
     isOpen = false;
-   // RxBus.destroy();
+    // RxBus.destroy();
     super.dispose();
   }
 
@@ -127,8 +129,6 @@ class _ItemListScreenState extends State<ItemListScreen> {
     size = MediaQuery.of(context).size;
     type = widget.type;
     id = widget.id;
-
-    _getMoreData(1);
 
     return Scaffold(
       backgroundColor: AppTheme.white,
@@ -506,30 +506,41 @@ class _ItemListScreenState extends State<ItemListScreen> {
                     : widget.type == 3
                         ? blocItemsList.getItemSearch
                         : blocItemsList.allItemsCategoty,
-                builder: (context, AsyncSnapshot<List<ItemResult>> snapshot) {
+                builder: (context, AsyncSnapshot<ItemModel> snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data.length < 20) {
-                      isLoading = true;
-                    } else {
-                      lastPosition == snapshot.data.length
-                          ? isLoading = true
-                          : isLoading = false;
-                    }
-                    lastPosition = snapshot.data.length;
+                    snapshot.data.next == null
+                        ? isLoading = true
+                        : isLoading = false;
 
-                    return snapshot.data.length > 0
+//                    if (snapshot.data.results.length < 20) {
+//                      isLoading = true;
+//                    } else {
+//                      lastPosition == snapshot.data.results.length
+//                          ? isLoading = true
+//                          : isLoading = false;
+//                    }
+//                    lastPosition = snapshot.data.results.length;
+
+                    print(snapshot.data.next.toString() + "SSS");
+                    print(isLoading);
+
+                    return snapshot.data.results.length > 0
                         ? ListView.builder(
                             controller: _sc,
                             scrollDirection: Axis.vertical,
-                            itemCount: snapshot.data.length + 1,
+                            itemCount: snapshot.data.results.length + 1,
                             itemBuilder: (context, index) {
-                              if (index == snapshot.data.length) {
+                              if (index == snapshot.data.results.length) {
                                 return Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: new Center(
                                     child: new Opacity(
                                       opacity: isLoading ? 0.0 : 1.0,
-                                      child: new CircularProgressIndicator(),
+                                      child: Container(
+                                        height: 72,
+                                        child: Lottie.asset(
+                                            'assets/anim/item_load_animation.json'),
+                                      ),
                                     ),
                                   ),
                                 );
@@ -542,13 +553,14 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                         type: PageTransitionType.downToUp,
                                         alignment: Alignment.bottomCenter,
                                         child: ItemScreenNotIstruction(
-                                            snapshot.data[index].id),
+                                            snapshot.data.results[index].id),
                                       ),
                                     );
                                   },
                                   child: Container(
-                                    height:
-                                        snapshot.data[index].sale ? 172 : 160,
+                                    height: snapshot.data.results[index].sale
+                                        ? 172
+                                        : 160,
                                     color: AppTheme.white,
                                     child: Column(
                                       children: <Widget>[
@@ -569,7 +581,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                     height: 112,
                                                     width: 112,
                                                     imageUrl: snapshot
-                                                        .data[index]
+                                                        .data
+                                                        .results[index]
                                                         .imageThumbnail,
                                                     placeholder:
                                                         (context, url) =>
@@ -610,7 +623,9 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                       ),
                                                       Text(
                                                         snapshot
-                                                            .data[index].name,
+                                                            .data
+                                                            .results[index]
+                                                            .name,
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         style: TextStyle(
@@ -629,12 +644,16 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                       ),
                                                       SizedBox(height: 3),
                                                       Text(
-                                                        snapshot.data[index]
+                                                        snapshot
+                                                                    .data
+                                                                    .results[
+                                                                        index]
                                                                     .manufacturer ==
                                                                 null
                                                             ? ""
                                                             : snapshot
-                                                                .data[index]
+                                                                .data
+                                                                .results[index]
                                                                 .manufacturer
                                                                 .name,
                                                         style: TextStyle(
@@ -656,12 +675,16 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            snapshot.data[index]
+                                                            snapshot
+                                                                    .data
+                                                                    .results[
+                                                                        index]
                                                                     .sale
                                                                 ? StrikeThroughWidget(
                                                                     child: Text(
                                                                       priceFormat.format(snapshot
-                                                                              .data[index]
+                                                                              .data
+                                                                              .results[index]
                                                                               .price) +
                                                                           translate("sum"),
                                                                       style:
@@ -679,16 +702,17 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                   )
                                                                 : Container(),
                                                             Text(
-                                                              priceFormat.format(
-                                                                      snapshot
-                                                                          .data[
-                                                                              index]
-                                                                          .price) +
+                                                              priceFormat.format(snapshot
+                                                                      .data
+                                                                      .results[
+                                                                          index]
+                                                                      .price) +
                                                                   translate(
                                                                       "sum"),
                                                               style: TextStyle(
                                                                 color: snapshot
-                                                                        .data[
+                                                                        .data
+                                                                        .results[
                                                                             index]
                                                                         .sale
                                                                     ? AppTheme
@@ -718,7 +742,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                             Container(
                                                               height: 30,
                                                               child: snapshot
-                                                                          .data[
+                                                                          .data
+                                                                          .results[
                                                                               index]
                                                                           .cardCount >
                                                                       0
@@ -760,18 +785,18 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                             ),
                                                                             onTap:
                                                                                 () {
-                                                                              if (snapshot.data[index].cardCount > 1) {
+                                                                              if (snapshot.data.results[index].cardCount > 1) {
                                                                                 setState(() {
-                                                                                  snapshot.data[index].cardCount = snapshot.data[index].cardCount - 1;
-                                                                                  dataBase.updateProduct(snapshot.data[index]);
+                                                                                  snapshot.data.results[index].cardCount = snapshot.data.results[index].cardCount - 1;
+                                                                                  dataBase.updateProduct(snapshot.data.results[index]);
                                                                                 });
-                                                                              } else if (snapshot.data[index].cardCount == 1) {
+                                                                              } else if (snapshot.data.results[index].cardCount == 1) {
                                                                                 setState(() {
-                                                                                  snapshot.data[index].cardCount = snapshot.data[index].cardCount - 1;
-                                                                                  if (snapshot.data[index].favourite) {
-                                                                                    dataBase.updateProduct(snapshot.data[index]);
+                                                                                  snapshot.data.results[index].cardCount = snapshot.data.results[index].cardCount - 1;
+                                                                                  if (snapshot.data.results[index].favourite) {
+                                                                                    dataBase.updateProduct(snapshot.data.results[index]);
                                                                                   } else {
-                                                                                    dataBase.deleteProducts(snapshot.data[index].id);
+                                                                                    dataBase.deleteProducts(snapshot.data.results[index].id);
                                                                                   }
                                                                                 });
                                                                               }
@@ -785,7 +810,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                             child:
                                                                                 Center(
                                                                               child: Text(
-                                                                                snapshot.data[index].cardCount.toString() + " " + translate("item.sht"),
+                                                                                snapshot.data.results[index].cardCount.toString() + " " + translate("item.sht"),
                                                                                 textAlign: TextAlign.center,
                                                                                 style: TextStyle(
                                                                                   fontSize: 15.0,
@@ -800,8 +825,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                             onTap:
                                                                                 () {
                                                                               setState(() {
-                                                                                snapshot.data[index].cardCount = snapshot.data[index].cardCount + 1;
-                                                                                dataBase.updateProduct(snapshot.data[index]);
+                                                                                snapshot.data.results[index].cardCount = snapshot.data.results[index].cardCount + 1;
+                                                                                dataBase.updateProduct(snapshot.data.results[index]);
                                                                               });
                                                                             },
                                                                             child:
@@ -833,14 +858,16 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                         setState(
                                                                             () {
                                                                           snapshot
-                                                                              .data[index]
+                                                                              .data
+                                                                              .results[index]
                                                                               .cardCount = 1;
                                                                           if (snapshot
-                                                                              .data[index]
+                                                                              .data
+                                                                              .results[index]
                                                                               .favourite) {
-                                                                            dataBase.updateProduct(snapshot.data[index]);
+                                                                            dataBase.updateProduct(snapshot.data.results[index]);
                                                                           } else {
-                                                                            dataBase.saveProducts(snapshot.data[index]);
+                                                                            dataBase.saveProducts(snapshot.data.results[index]);
                                                                           }
                                                                         });
                                                                       },
@@ -882,7 +909,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                             ),
                                                             GestureDetector(
                                                               child: snapshot
-                                                                      .data[
+                                                                      .data
+                                                                      .results[
                                                                           index]
                                                                       .favourite
                                                                   ? Icon(
@@ -902,42 +930,48 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                               onTap: () {
                                                                 setState(() {
                                                                   if (snapshot
-                                                                      .data[
+                                                                      .data
+                                                                      .results[
                                                                           index]
                                                                       .favourite) {
                                                                     snapshot
-                                                                        .data[
+                                                                        .data
+                                                                        .results[
                                                                             index]
                                                                         .favourite = false;
                                                                     if (snapshot
-                                                                            .data[index]
+                                                                            .data
+                                                                            .results[index]
                                                                             .cardCount ==
                                                                         0) {
                                                                       dataBase.deleteProducts(snapshot
-                                                                          .data[
+                                                                          .data
+                                                                          .results[
                                                                               index]
                                                                           .id);
                                                                     } else {
-                                                                      dataBase.updateProduct(
-                                                                          snapshot
-                                                                              .data[index]);
+                                                                      dataBase.updateProduct(snapshot
+                                                                          .data
+                                                                          .results[index]);
                                                                     }
                                                                   } else {
                                                                     snapshot
-                                                                        .data[
+                                                                        .data
+                                                                        .results[
                                                                             index]
                                                                         .favourite = true;
                                                                     if (snapshot
-                                                                            .data[index]
+                                                                            .data
+                                                                            .results[index]
                                                                             .cardCount ==
                                                                         0) {
-                                                                      dataBase.saveProducts(
-                                                                          snapshot
-                                                                              .data[index]);
+                                                                      dataBase.saveProducts(snapshot
+                                                                          .data
+                                                                          .results[index]);
                                                                     } else {
-                                                                      dataBase.updateProduct(
-                                                                          snapshot
-                                                                              .data[index]);
+                                                                      dataBase.updateProduct(snapshot
+                                                                          .data
+                                                                          .results[index]);
                                                                     }
                                                                   }
                                                                 });
@@ -1075,42 +1109,42 @@ class _ItemListScreenState extends State<ItemListScreen> {
   }
 
   void _getMoreData(int index) async {
-    //if (!isLoading) {
-    setState(() {
-      widget.type == 2
-          ? blocItemsList.fetchAllItemCategoryBest(
-              index,
-              international_name_ids,
-              manufacturer_ids,
-              sortFilter,
-              price_max,
-              price_min,
-              unit_ids,
-            )
-          : widget.type == 3
-              ? blocItemsList.fetchAllItemSearch(
-                  widget.id,
-                  index,
-                  international_name_ids,
-                  manufacturer_ids,
-                  sortFilter,
-                  price_max,
-                  price_min,
-                  unit_ids,
-                )
-              : blocItemsList.fetchAllItemCategory(
-                  widget.id,
-                  index,
-                  international_name_ids,
-                  manufacturer_ids,
-                  sortFilter,
-                  price_max,
-                  price_min,
-                  unit_ids,
-                );
-      isLoading = false;
-      page++;
-    });
-    // }
+    if (!isLoading) {
+      setState(() {
+        widget.type == 2
+            ? blocItemsList.fetchAllItemCategoryBest(
+                index,
+                international_name_ids,
+                manufacturer_ids,
+                sortFilter,
+                price_max,
+                price_min,
+                unit_ids,
+              )
+            : widget.type == 3
+                ? blocItemsList.fetchAllItemSearch(
+                    widget.id,
+                    index,
+                    international_name_ids,
+                    manufacturer_ids,
+                    sortFilter,
+                    price_max,
+                    price_min,
+                    unit_ids,
+                  )
+                : blocItemsList.fetchAllItemCategory(
+                    widget.id,
+                    index,
+                    international_name_ids,
+                    manufacturer_ids,
+                    sortFilter,
+                    price_max,
+                    price_min,
+                    unit_ids,
+                  );
+        isLoading = false;
+        page++;
+      });
+    }
   }
 }

@@ -6,20 +6,24 @@ import 'package:rxdart/rxdart.dart';
 
 class ItemListBloc {
   final _repository = Repository();
-  final _categoryItemsFetcher = PublishSubject<List<ItemResult>>();
-  final _bestItemFetcher = PublishSubject<List<ItemResult>>();
-  final _itemSearchFetcher = PublishSubject<List<ItemResult>>();
+  final _categoryItemsFetcher = PublishSubject<ItemModel>();
+  final _bestItemFetcher = PublishSubject<ItemModel>();
+  final _itemSearchFetcher = PublishSubject<ItemModel>();
 
-  List<ItemResult> users = new List();
   List<ItemResult> usersCategory = new List();
+  ItemModel itemCategoryData;
+
+  List<ItemResult> usersSearch = new List();
+  ItemModel itemSearchData;
+
   List<ItemResult> usersBest = new List();
+  ItemModel itemBestData;
 
-  Observable<List<ItemResult>> get allItemsCategoty =>
-      _categoryItemsFetcher.stream;
+  Observable<ItemModel> get allItemsCategoty => _categoryItemsFetcher.stream;
 
-  Observable<List<ItemResult>> get getBestItem => _bestItemFetcher.stream;
+  Observable<ItemModel> get getBestItem => _bestItemFetcher.stream;
 
-  Observable<List<ItemResult>> get getItemSearch => _itemSearchFetcher.stream;
+  Observable<ItemModel> get getItemSearch => _itemSearchFetcher.stream;
 
   fetchAllItemCategory(
     String id,
@@ -56,7 +60,14 @@ class ItemListBloc {
     }
 
     usersCategory.addAll(itemCategory.results);
-    _categoryItemsFetcher.sink.add(usersCategory);
+
+    itemCategoryData = new ItemModel(
+      count: itemCategory.count,
+      next: itemCategory.next,
+      previous: itemCategory.previous,
+      results: usersCategory,
+    );
+    _categoryItemsFetcher.sink.add(itemCategoryData);
   }
 
   fetchAllItemCategoryBest(
@@ -72,7 +83,7 @@ class ItemListBloc {
       usersBest = new List();
     }
 
-    ItemModel itemModelResponse = await _repository.fetchBestItem(
+    ItemModel itemModelBest = await _repository.fetchBestItem(
       page,
       international_name_ids,
       manufacturer_ids,
@@ -83,16 +94,23 @@ class ItemListBloc {
     );
     List<ItemResult> database = await _repository.databaseItem();
     for (var j = 0; j < database.length; j++) {
-      for (var i = 0; i < itemModelResponse.results.length; i++) {
-        if (itemModelResponse.results[i].id == database[j].id) {
-          itemModelResponse.results[i].cardCount = database[j].cardCount;
-          itemModelResponse.results[i].favourite = database[j].favourite;
+      for (var i = 0; i < itemModelBest.results.length; i++) {
+        if (itemModelBest.results[i].id == database[j].id) {
+          itemModelBest.results[i].cardCount = database[j].cardCount;
+          itemModelBest.results[i].favourite = database[j].favourite;
         }
       }
     }
 
-    usersBest.addAll(itemModelResponse.results);
-    _bestItemFetcher.sink.add(usersBest);
+    usersBest.addAll(itemModelBest.results);
+
+    itemBestData = new ItemModel(
+      count: itemModelBest.count,
+      next: itemModelBest.next,
+      previous: itemModelBest.previous,
+      results: usersBest,
+    );
+    _bestItemFetcher.sink.add(itemBestData);
   }
 
   fetchAllItemSearch(
@@ -106,9 +124,9 @@ class ItemListBloc {
     String unit_ids,
   ) async {
     if (page == 1) {
-      users = new List();
+      usersSearch = new List();
     }
-    ItemModel itemModelResponse = await _repository.fetchSearchItemList(
+    ItemModel itemModelSearch = await _repository.fetchSearchItemList(
       obj,
       page,
       international_name_ids,
@@ -120,21 +138,27 @@ class ItemListBloc {
     );
     List<ItemResult> database = await _repository.databaseItem();
     for (var j = 0; j < database.length; j++) {
-      for (var i = 0; i < itemModelResponse.results.length; i++) {
-        if (itemModelResponse.results[i].id == database[j].id) {
-          itemModelResponse.results[i].cardCount = database[j].cardCount;
-          itemModelResponse.results[i].favourite = database[j].favourite;
+      for (var i = 0; i < itemModelSearch.results.length; i++) {
+        if (itemModelSearch.results[i].id == database[j].id) {
+          itemModelSearch.results[i].cardCount = database[j].cardCount;
+          itemModelSearch.results[i].favourite = database[j].favourite;
         }
       }
     }
-    users.addAll(itemModelResponse.results);
-    _itemSearchFetcher.sink.add(users);
+
+    usersSearch.addAll(itemModelSearch.results);
+
+    itemSearchData = new ItemModel(
+      count: itemModelSearch.count,
+      next: itemModelSearch.next,
+      previous: itemModelSearch.previous,
+      results: usersSearch,
+    );
+
+    _itemSearchFetcher.sink.add(itemSearchData);
   }
 
   dispose() {
-    users = new List();
-    usersCategory = new List();
-    usersBest = new List();
     _categoryItemsFetcher.close();
     _bestItemFetcher.close();
     _itemSearchFetcher.close();
