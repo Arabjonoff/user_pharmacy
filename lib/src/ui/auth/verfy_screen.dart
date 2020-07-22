@@ -306,13 +306,14 @@ class _VerfyScreenState extends State<VerfyScreen> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              RegisterScreen(responce.token, widget.number),
+                          builder: (context) => RegisterScreen(
+                              responce.user.id, responce.token, widget.number),
                         ),
                       );
                     } else {
                       isLogin = true;
                       Utils.saveData(
+                        responce.user.id,
                         responce.user.firstName,
                         responce.user.lastName,
                         responce.user.birthDate,

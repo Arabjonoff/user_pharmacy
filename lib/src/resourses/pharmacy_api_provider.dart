@@ -14,6 +14,7 @@ import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
+import 'package:pharmacy/src/model/chat/chat_api_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
@@ -493,5 +494,51 @@ class PharmacyApiProvider {
     final Map parsed = json.decode(response.body);
 
     return OrderStatusModel.fromJson(parsed);
+  }
+
+  ///get all message
+  Future<ChatApiModel> fetchGetAppMessage(int page, int per_page) async {
+    String url =
+        Utils.BASE_URL + '/api/v1/chat/messages?page=$page&per_page=$per_page';
+
+    print(url);
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
+
+    HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+    final Map parsed = json.decode(reply);
+
+    return ChatApiModel.fromJson(parsed);
+  }
+
+  ///sent message
+  Future<LoginModel> fetchSentMessage(String message) async {
+    String url = Utils.BASE_URL + '/api/v1/chat/send-message';
+
+    final data = {"message": message};
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
+
+    Map<String, String> headers = {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+    };
+
+    http.Response response = await http
+        .post(url, headers: headers, body: data)
+        .timeout(const Duration(seconds: 120));
+
+    final Map parsed = json.decode(response.body);
+
+    return LoginModel.fromJson(parsed);
   }
 }

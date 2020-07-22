@@ -9,12 +9,14 @@ import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/top_item_model.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
+import 'package:pharmacy/src/ui/chat/chat_screen.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
@@ -423,7 +425,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+
+                    RxBus.post(LoginModel(status: 1,msg: "Yes"), tag: "EVENT_CHAT_SCREEN");
+
+
+                  },
                   child: Container(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),

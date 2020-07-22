@@ -1,16 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
-
   //static String BASE_URL = "http://185.183.243.77";
   static String BASE_URL = "https://online.grandpharm.uz";
 
-  static Future<void> saveData(String name, String surname, String birthday,
-      String gender, String token, String number) async {
+  static Future<void> saveData(int userId, String name, String surname,
+      String birthday, String gender, String token, String number) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setInt('userId', userId);
     prefs.setString('name', name);
     prefs.setString('surname', surname);
     prefs.setString('birthday', birthday);
@@ -18,6 +20,17 @@ class Utils {
     prefs.setString('token', token);
     prefs.setString('number', number);
     prefs.commit();
+  }
+
+  static Future<int> getId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.getInt("userId");
+  }
+
+  static Future<String> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("token");
   }
 
   static Future<bool> isLogin() async {
@@ -28,8 +41,6 @@ class Utils {
       return false;
     }
   }
-
-
 
   static Future<String> scanBarcodeNormal() async {
     try {

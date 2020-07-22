@@ -14,6 +14,7 @@ import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
+import 'package:pharmacy/src/model/chat/chat_api_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
@@ -146,4 +147,10 @@ class Repository {
 
   Future<OrderStatusModel> fetchOrderPayment(String id) =>
       pharmacyApiProvider.fetchOrderPayment(id);
+
+  Future<ChatApiModel> fetchGetAppMessage(int page) =>
+      pharmacyApiProvider.fetchGetAppMessage(page, 20);
+
+  Future<LoginModel> fetchSentMessage(String message) =>
+      pharmacyApiProvider.fetchSentMessage(message);
 }

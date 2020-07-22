@@ -31,6 +31,8 @@ dependencies:
   speech_to_text: ^2.3.0
   rxbus: ^0.0.2
   cupertino_icons: ^0.1.2
+  web_socket_channel: ^1.1.0
+  lottie: ^0.4.1
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +48,7 @@ flutter:
     - assets/images/
     - assets/menu/
     - assets/map/
+    - assets/anim/
 
 
   fonts:

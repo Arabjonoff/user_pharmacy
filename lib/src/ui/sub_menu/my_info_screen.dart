@@ -27,6 +27,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
   TextEditingController numberController = TextEditingController();
   String token;
   String number;
+  int userId = 0;
 
   String radioItemHolder = translate("auth.male");
   int id = 1;
@@ -48,6 +49,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
 
   @override
   void initState() {
+    Utils.getId().then((value) => userId = value);
     getInfo();
     super.initState();
   }
@@ -409,6 +411,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                 );
                 if (response.status == 1) {
                   Utils.saveData(
+                    userId,
                     nameController.text.toString(),
                     surNameController.text.toString(),
                     birthday,

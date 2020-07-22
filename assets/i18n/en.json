@@ -207,5 +207,24 @@
     "voice_search": "Голосовой поиск",
     "title": "Произнесите название препарата, действующего вещества или симптом",
     "cancel": "Отмена"
+  },
+  "chat": {
+    "online": "Online",
+    "app_name": "Grand Pharm",
+    "sent_hint": "Type your message..."
+  },
+  "month": {
+    "january": "jan",
+    "february": "feb",
+    "march": "march",
+    "april": "apr",
+    "may": "may",
+    "june": "june",
+    "july": "july",
+    "august": "aug",
+    "september": "sep",
+    "october": "oct",
+    "november": "nov",
+    "december": "dec"
   }
 }
