@@ -66,58 +66,31 @@ class _CardScreenState extends State<CardScreen> {
     size = MediaQuery.of(context).size;
     blocCard.fetchAllCard();
 
-
     Utils.isLogin().then((value) => isLogin = value);
     return Scaffold(
       backgroundColor: AppTheme.white,
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(63.0),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            elevation: 1.0,
-            backgroundColor: AppTheme.white,
-            brightness: Brightness.light,
-            title: Container(
-              height: 63,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 3.5),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          translate("card.name"),
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            color: AppTheme.black_text,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: AppTheme.fontCommons,
-                            fontSize: 17,
-                          ),
-                        ),
-                        Text(
-                          translate(
-                            count.toString() + " " + translate("item.tovar"),
-                          ),
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            color: AppTheme.black_transparent_text,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: AppTheme.fontRoboto,
-                            fontSize: 13,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 1.0,
+        backgroundColor: AppTheme.white,
+        brightness: Brightness.light,
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              translate("card.name"),
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                color: AppTheme.black_text,
+                fontWeight: FontWeight.w500,
+                fontFamily: AppTheme.fontCommons,
+                fontSize: 17,
               ),
             ),
-          )),
+          ],
+        ),
+      ),
       body: StreamBuilder(
         stream: blocCard.allCard,
         builder: (context, AsyncSnapshot<List<ItemResult>> snapshot) {

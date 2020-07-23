@@ -32,53 +32,37 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
     size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppTheme.white,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70.0),
-        child: AppBar(
-          leading: Container(
+      appBar: AppBar(
+        leading: GestureDetector(
+          child: Container(
             height: 56,
-            width: 48,
+            width: 56,
             color: AppTheme.arrow_examp_back,
-            padding: EdgeInsets.only(top: 21, left: 9, right: 9, bottom: 9),
-            child: GestureDetector(
-              child: SvgPicture.asset("assets/images/arrow_back.svg"),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
+            padding: EdgeInsets.all(13),
+            child: SvgPicture.asset("assets/images/arrow_back.svg"),
           ),
-          automaticallyImplyLeading: false,
-          elevation: 0.0,
-          backgroundColor: AppTheme.white,
-          brightness: Brightness.light,
-          title: Container(
-            height: 70,
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 12),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          widget.name,
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontCommons,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 17,
-                            color: AppTheme.black_text,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        automaticallyImplyLeading: false,
+        elevation: 0.0,
+        backgroundColor: AppTheme.white,
+        brightness: Brightness.light,
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              widget.name,
+              style: TextStyle(
+                fontFamily: AppTheme.fontCommons,
+                fontWeight: FontWeight.w500,
+                fontSize: 17,
+                color: AppTheme.black_text,
+              ),
             ),
-          ),
+          ],
         ),
       ),
       body: Stack(

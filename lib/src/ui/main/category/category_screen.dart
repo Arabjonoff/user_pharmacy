@@ -35,37 +35,25 @@ class _CategoryScreenState extends State<CategoryScreen> {
     blocCategory.fetchAllCategory();
     return Scaffold(
       backgroundColor: AppTheme.white,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70.0),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          elevation: 0.0,
-          backgroundColor: AppTheme.white,
-          brightness: Brightness.light,
-          title: Container(
-            height: 70,
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 12),
-                    child: Center(
-                      child: Text(
-                        translate("main.catalog"),
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontCommons,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 17,
-                          color: AppTheme.black_text,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 0.0,
+        backgroundColor: AppTheme.white,
+        brightness: Brightness.light,
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              translate("main.catalog"),
+              style: TextStyle(
+                fontFamily: AppTheme.fontCommons,
+                fontWeight: FontWeight.w500,
+                fontSize: 17,
+                color: AppTheme.black_text,
+              ),
             ),
-          ),
+          ],
         ),
       ),
       body: Stack(

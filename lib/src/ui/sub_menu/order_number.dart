@@ -29,56 +29,38 @@ class _OrderNumberState extends State<OrderNumber> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.white,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(63.0),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          elevation: 1.0,
-          backgroundColor: AppTheme.white,
-          brightness: Brightness.light,
-          title: Container(
-            height: 63,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 3.5),
-                  child: GestureDetector(
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      size: 24,
-                      color: AppTheme.blue_app_color,
-                    ),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 3.5),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Заказ №" + widget.item.id.toString(),
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            color: AppTheme.black_text,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: AppTheme.fontCommons,
-                            fontSize: 17,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 1.0,
+        backgroundColor: AppTheme.white,
+        brightness: Brightness.light,
+        leading: GestureDetector(
+          child: Container(
+            height: 56,
+            width: 56,
+            color: AppTheme.arrow_examp_back,
+            padding: EdgeInsets.all(13),
+            child: SvgPicture.asset("assets/images/arrow_back.svg"),
           ),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "Заказ №" + widget.item.id.toString(),
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                color: AppTheme.black_text,
+                fontWeight: FontWeight.w500,
+                fontFamily: AppTheme.fontCommons,
+                fontSize: 17,
+              ),
+            ),
+          ],
         ),
       ),
       body: ListView(

@@ -47,104 +47,77 @@ class _LanguageScreenState extends State<LanguageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.white,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(63.0),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          elevation: 1.0,
-          backgroundColor: AppTheme.white,
-          brightness: Brightness.light,
-          title: Container(
-            height: 63,
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 48,
-                      width: 48,
-                      color: AppTheme.arrow_examp_back,
-                      child: Center(
-                        child: Container(
-                          height: 24,
-                          width: 24,
-                          padding: EdgeInsets.all(3),
-                          child:
-                          SvgPicture.asset("assets/images/arrow_back.svg"),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 3.5),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          translate("menu.language"),
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            color: AppTheme.black_text,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: AppTheme.fontCommons,
-                            fontSize: 17,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 3.5),
-                    child: GestureDetector(
-                      child: Text(
-                        translate("auth.save"),
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
-                          fontWeight: FontWeight.normal,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 15,
-                          color: AppTheme.blue_app_color,
-                        ),
-                      ),
-                      onTap: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        var localizationDelegate =
-                            LocalizedApp.of(context).delegate;
-                        if (one) {
-                          prefs.setString("language", "uz");
-                          prefs.commit();
-                          localizationDelegate.changeLocale(Locale("uz"));
-                          Navigator.pop(context, 'uz');
-                        } else if (two) {
-                          localizationDelegate.changeLocale(Locale("ru"));
-                          prefs.setString("language", "ru");
-                          prefs.commit();
-                          Navigator.pop(context, 'ru');
-                        } else {
-                          localizationDelegate.changeLocale(Locale("en"));
-                          prefs.setString("language", "en");
-                          prefs.commit();
-                          Navigator.pop(context, 'en');
-                        }
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 1.0,
+        backgroundColor: AppTheme.white,
+        brightness: Brightness.light,
+        leading: GestureDetector(
+          child: Container(
+            height: 56,
+            width: 56,
+            color: AppTheme.arrow_examp_back,
+            padding: EdgeInsets.all(13),
+            child: SvgPicture.asset("assets/images/arrow_back.svg"),
           ),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        actions: [
+          Center(
+            child: GestureDetector(
+              child: Container(
+                margin: EdgeInsets.only(right: 16),
+                child: Text(
+                  translate("auth.save"),
+                  style: TextStyle(
+                    fontFamily: AppTheme.fontRoboto,
+                    fontWeight: FontWeight.normal,
+                    fontStyle: FontStyle.normal,
+                    fontSize: 15,
+                    color: AppTheme.blue_app_color,
+                  ),
+                ),
+              ),
+              onTap: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                var localizationDelegate = LocalizedApp.of(context).delegate;
+                if (one) {
+                  prefs.setString("language", "uz");
+                  prefs.commit();
+                  localizationDelegate.changeLocale(Locale("uz"));
+                  Navigator.pop(context, 'uz');
+                } else if (two) {
+                  localizationDelegate.changeLocale(Locale("ru"));
+                  prefs.setString("language", "ru");
+                  prefs.commit();
+                  Navigator.pop(context, 'ru');
+                } else {
+                  localizationDelegate.changeLocale(Locale("en"));
+                  prefs.setString("language", "en");
+                  prefs.commit();
+                  Navigator.pop(context, 'en');
+                }
+              },
+            ),
+          )
+        ],
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              translate("menu.language"),
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                color: AppTheme.black_text,
+                fontWeight: FontWeight.w500,
+                fontFamily: AppTheme.fontCommons,
+                fontSize: 17,
+              ),
+            ),
+          ],
         ),
       ),
       body: Column(

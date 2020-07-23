@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -41,61 +42,38 @@ class _AddressAptekaScreenState extends State<AddressAptekaScreen>
       length: 2,
       child: new Scaffold(
         backgroundColor: AppTheme.white,
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(76.0),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            elevation: 0.0,
-            backgroundColor: AppTheme.white,
-            brightness: Brightness.light,
-            title: Container(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 0.0,
+          backgroundColor: AppTheme.white,
+          brightness: Brightness.light,
+          leading: GestureDetector(
+            child: Container(
               height: 56,
-              child: Stack(
-                children: [
-                  Align(
-                    child: Container(
-                      margin: EdgeInsets.only(top: 3.5),
-                      color: AppTheme.arrow_examp_back,
-                      child: GestureDetector(
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          size: 24,
-                          color: AppTheme.blue_app_color,
-                        ),
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      height: 48,
-                      width: 48,
-                    ),
-                    alignment: Alignment.centerLeft,
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Аптеке",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              color: AppTheme.black_text,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: AppTheme.fontCommons,
-                              fontSize: 17,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              width: 56,
+              color: AppTheme.arrow_examp_back,
+              padding: EdgeInsets.all(13),
+              child: SvgPicture.asset("assets/images/arrow_back.svg"),
             ),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Аптеке",
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  color: AppTheme.black_text,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: AppTheme.fontCommons,
+                  fontSize: 17,
+                ),
+              ),
+            ],
           ),
         ),
         body: ListView(
