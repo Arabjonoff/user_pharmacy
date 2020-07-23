@@ -1,3 +1,27 @@
+class Message {
+  Message({
+    this.type,
+    this.event,
+    this.message,
+  });
+
+  String type;
+  String event;
+  ChatResults message;
+
+  factory Message.fromJson(Map<String, dynamic> json) => Message(
+        type: json["type"],
+        event: json["event"],
+        message: ChatResults.fromJson(json["message"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "type": type,
+        "event": event,
+        "message": message.toJson(),
+      };
+}
+
 class ChatApiModel {
   int count;
   String next;
@@ -38,6 +62,7 @@ class ChatResults {
   int month;
   int day;
   String time;
+  bool isLoad;
 
   ChatResults({
     this.id,
@@ -47,6 +72,7 @@ class ChatResults {
     this.month,
     this.day,
     this.time,
+    this.isLoad,
   });
 
   ChatResults.fromJson(Map<String, dynamic> json) {
@@ -65,6 +91,7 @@ class ChatResults {
         "-" +
         int.parse(json['created_at'].toString().split("T")[0].split("-")[2])
             .toString();
+    isLoad = false;
   }
 
   Map<String, dynamic> toJson() {

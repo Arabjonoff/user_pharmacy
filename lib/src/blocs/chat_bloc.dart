@@ -9,14 +9,17 @@ class ChatBloc {
 
   Observable<ChatApiModel> get allChat => _chatFetcher.stream;
 
-
+  ChatApiModel model;
 
   fetchAllChat(int page) async {
-
     ChatApiModel saleModel = await _repository.fetchGetAppMessage(page);
+    model = new ChatApiModel(
+        count: page,
+        next: saleModel.next,
+        previous: saleModel.previous,
+        results: saleModel.results);
 
-
-    _chatFetcher.sink.add(saleModel);
+    _chatFetcher.sink.add(model);
   }
 
   dispose() {

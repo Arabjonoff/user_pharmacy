@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -31,6 +32,7 @@ class _ChatScreenState extends State<ChatScreen> {
   int page = 1;
 
   List<ChatResults> chatModel = new List();
+  ChatResults results;
 
   @override
   void initState() {
@@ -113,10 +115,18 @@ class _ChatScreenState extends State<ChatScreen> {
                   snapshot.data.next == null
                       ? isLoading = true
                       : isLoading = false;
-                  if (!addItem) {
+
+                  print(snapshot.data.count);
+
+//                  chatModel = new List();
+//                  chatModel.addAll(snapshot.data.results);
+//                  if (results != null) {
+//                    chatModel.insert(0, results);
+//                    results = new ChatResults();
+//                  }
+                  if (!addItem || page == snapshot.data.count) {
                     chatModel.addAll(snapshot.data.results);
-                  } else {
-                    addItem = false;
+                    addItem = true;
                   }
 
                   return ListView.builder(
@@ -385,6 +395,20 @@ class _ChatScreenState extends State<ChatScreen> {
                     if (chatController.text != "") {
                       setState(() {
                         addItem = true;
+//                        results = ChatResults(
+//                            id: 0,
+//                            body: chatController.text,
+//                            userId: userId,
+//                            month: now.month,
+//                            day: now.day,
+//                            time: now.hour.toString() +
+//                                ":" +
+//                                now.minute.toString(),
+//                            year: now.year.toString() +
+//                                "-" +
+//                                now.month.toString() +
+//                                "-" +
+//                                now.day.toString());
                         chatModel.insert(
                             0,
                             ChatResults(
@@ -440,6 +464,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void _getMoreData(int index) async {
     if (!isLoading) {
       setState(() {
+        addItem = false;
         blocChat.fetchAllChat(index);
         isLoading = false;
         page++;
@@ -489,14 +514,20 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> socket(String value) async {
-    //var url = "wss://online.grandpharm.uz/ws/notifications?token=$value";
-    var url = "wss://online.grandpharm.uz/ws/notifications?token=$value";
+    var url = "wss://online.grandpharm.uz/ws/messages?token=$value";
 
-//    var channel = await IOWebSocketChannel.connect(
-//        url);
-//    channel.stream.listen((message) {
-//      //channel.sink.add("received!");
-//      print(message);
-//    });
+    var channel = await IOWebSocketChannel.connect(url);
+    channel.stream.listen((message) {
+      //channel.sink.add("received!");
+
+      final Map parsed = json.decode(message);
+
+      var k = Message.fromJson(parsed);
+
+      setState(() {
+        addItem = true;
+        chatModel.insert(0, k.message);
+      });
+    });
   }
 }
