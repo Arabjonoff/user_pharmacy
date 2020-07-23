@@ -46,11 +46,11 @@ class _ChatScreenState extends State<ChatScreen> {
             socket(value);
           })
         });
-    _getMoreData(page);
+    _getMoreData();
     listScrollController.addListener(() {
       if (listScrollController.position.pixels ==
           listScrollController.position.maxScrollExtent) {
-        _getMoreData(page);
+        _getMoreData();
       }
     });
     super.initState();
@@ -66,17 +66,17 @@ class _ChatScreenState extends State<ChatScreen> {
         elevation: 0.0,
         backgroundColor: AppTheme.white,
         brightness: Brightness.light,
-        leading: Container(
-          height: 56,
-          width: 56,
-          color: AppTheme.arrow_examp_back,
-          padding: EdgeInsets.only(top: 21, left: 9, right: 9, bottom: 9),
-          child: GestureDetector(
+        leading: GestureDetector(
+          child: Container(
+            height: 56,
+            width: 56,
+            color: AppTheme.arrow_examp_back,
+            padding: EdgeInsets.all(13),
             child: SvgPicture.asset("assets/images/arrow_back.svg"),
-            onTap: () {
-              Navigator.pop(context);
-            },
           ),
+          onTap: () {
+            Navigator.pop(context);
+          },
         ),
         title: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -115,18 +115,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   snapshot.data.next == null
                       ? isLoading = true
                       : isLoading = false;
-
-                  print(snapshot.data.count);
-
-//                  chatModel = new List();
-//                  chatModel.addAll(snapshot.data.results);
-//                  if (results != null) {
-//                    chatModel.insert(0, results);
-//                    results = new ChatResults();
-//                  }
-                  if (!addItem || page == snapshot.data.count) {
+                  if (!addItem) {
                     chatModel.addAll(snapshot.data.results);
-                    addItem = true;
                   }
 
                   return ListView.builder(
@@ -355,37 +345,38 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           Container(
             margin: EdgeInsets.only(left: 12, right: 12, top: 3, bottom: 12),
-            height: 40,
+            height: 48,
             child: Row(
               children: [
                 Flexible(
                   child: Container(
                     width: double.infinity,
-                    padding:
-                        EdgeInsets.only(bottom: 11, top: 11, left: 7, right: 7),
+                    padding: EdgeInsets.only(left: 7, right: 7),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
                         color: Colors.white),
-                    child: TextField(
-                      style: TextStyle(
-                        color: AppTheme.black_text,
-                        fontWeight: FontWeight.w500,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 16,
-                        fontFamily: AppTheme.fontRoboto,
-                      ),
-                      controller: chatController,
-                      decoration: InputDecoration.collapsed(
-                        hintText: translate("chat.sent_hint"),
-                        hintStyle: TextStyle(
-                          fontWeight: FontWeight.normal,
+                    child: Center(
+                      child: TextField(
+                        style: TextStyle(
+                          color: AppTheme.black_text,
+                          fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,
-                          fontSize: 15,
+                          fontSize: 16,
                           fontFamily: AppTheme.fontRoboto,
-                          color: AppTheme.black_transparent_text,
                         ),
+                        controller: chatController,
+                        decoration: InputDecoration.collapsed(
+                          hintText: translate("chat.sent_hint"),
+                          hintStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontStyle: FontStyle.normal,
+                            fontSize: 15,
+                            fontFamily: AppTheme.fontRoboto,
+                            color: AppTheme.black_transparent_text,
+                          ),
+                        ),
+                        focusNode: focusNode,
                       ),
-                      focusNode: focusNode,
                     ),
                   ),
                 ),
@@ -439,8 +430,8 @@ class _ChatScreenState extends State<ChatScreen> {
                     }
                   },
                   child: Container(
-                    height: 40,
-                    width: 40,
+                    height: 48,
+                    width: 48,
                     margin: EdgeInsets.only(left: 12),
                     decoration: BoxDecoration(
                         color: AppTheme.blue_app_color,
@@ -461,14 +452,11 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  void _getMoreData(int index) async {
+  void _getMoreData() async {
     if (!isLoading) {
-      setState(() {
-        addItem = false;
-        blocChat.fetchAllChat(index);
-        isLoading = false;
-        page++;
-      });
+      addItem = false;
+      blocChat.fetchAllChat(page);
+      page++;
     }
   }
 
