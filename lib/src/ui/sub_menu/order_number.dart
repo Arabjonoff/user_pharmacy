@@ -181,7 +181,7 @@ class _OrderNumberState extends State<OrderNumber> {
                     Repository()
                         .fetchOrderPayment(widget.item.id.toString())
                         .then((value) => {
-                              if (value.data.length > 0)
+                              if (value.data.return_url.length > 0)
                                 {
                                   Navigator.pop(context),
                                   Navigator.pop(context),
@@ -189,7 +189,8 @@ class _OrderNumberState extends State<OrderNumber> {
                                     context,
                                     PageTransition(
                                       type: PageTransitionType.fade,
-                                      child: ShoppingWebScreen(value.data),
+                                      child: ShoppingWebScreen(
+                                          value.data.return_url),
                                     ),
                                   )
                                 }

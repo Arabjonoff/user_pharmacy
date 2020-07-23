@@ -904,14 +904,14 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                           },
                                         RxBus.post(CardItemChangeModel(true),
                                             tag: "EVENT_CARD"),
-                                        if (response.data != "")
+                                        if (response.data.return_url != "")
                                           {
                                             Navigator.pushReplacement(
                                               context,
                                               PageTransition(
                                                 type: PageTransitionType.fade,
                                                 child: ShoppingWebScreen(
-                                                    response.data),
+                                                    response.data.return_url),
                                               ),
                                             )
                                           }
