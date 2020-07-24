@@ -16,6 +16,9 @@
   "mnn": "Moddasi",
   "not_address": "Address tanlanmagan",
   "not_time": "Dastavka voqti kiritilmagan",
+  "cardNumber": "Card Number",
+  "cardDate": "Card date",
+  "saveCard": "are you save card?",
   "main": {
     "home": "Asosiy",
     "catalog": "Katalog",

@@ -378,7 +378,19 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                         (context, AsyncSnapshot<OrderOptionsModel> snapshot) {
                       if (snapshot.hasData) {
                         paymentTypes = new List();
-                        paymentTypes.addAll(snapshot.data.paymentTypes);
+
+                        for (int i = 0;
+                            i < snapshot.data.paymentTypes.length;
+                            i++) {
+                          paymentTypes.add(PaymentTypesCheckBox(
+                            id: i,
+                            payment_id: snapshot.data.paymentTypes[i].id,
+                            card_id: snapshot.data.paymentTypes[i].card_id,
+                            name: snapshot.data.paymentTypes[i].name,
+                            pan: snapshot.data.paymentTypes[i].pan,
+                            type: snapshot.data.paymentTypes[i].type,
+                          ));
+                        }
                         return Column(
                           children: snapshot.data.shippingTimes
                               .map((data) => RadioListTile(

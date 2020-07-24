@@ -7,6 +7,10 @@ class AddOrderModel {
   int shipping_time;
   int payment_type;
   int store_id;
+  String card_pan;
+  String card_exp;
+  int card_save;
+  int card_id;
   List<Drugs> drugs;
 
   AddOrderModel(
@@ -18,7 +22,11 @@ class AddOrderModel {
       this.shipping_time,
       this.payment_type,
       this.store_id,
-      this.drugs});
+      this.drugs,
+      this.card_pan,
+      this.card_exp,
+      this.card_save,
+      this.card_id});
 
   AddOrderModel.fromJson(Map<String, dynamic> json) {
     address = json['address'];
@@ -29,6 +37,10 @@ class AddOrderModel {
     shipping_time = json['shipping_time'];
     payment_type = json['payment_type'];
     store_id = json['store_id'];
+    card_pan = json['card_pan'];
+    card_exp = json['card_exp'];
+    card_save = json['card_save'];
+    card_id = json['card_id'];
     if (json['drugs'] != null) {
       drugs = new List<Drugs>();
       json['drugs'].forEach((v) {
@@ -47,6 +59,10 @@ class AddOrderModel {
     data['store_id'] = this.store_id;
     data['payment_type'] = this.payment_type;
     data['shipping_time'] = this.shipping_time;
+    data['card_pan'] = this.card_pan;
+    data['card_exp'] = this.card_exp;
+    data['card_save'] = this.card_save;
+    data['card_id'] = this.card_id;
     data['drugs'] = this.drugs.map((v) => v.toJson()).toList();
 
     return data;

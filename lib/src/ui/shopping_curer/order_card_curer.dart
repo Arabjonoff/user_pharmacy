@@ -51,14 +51,7 @@ class OrderCardCurerScreen extends StatefulWidget {
   }
 }
 
-List<PaymentTypes> paymentTypes = new List();
-
-class CheckboxList {
-  String number;
-  int index;
-
-  CheckboxList({this.number, this.index});
-}
+List<PaymentTypesCheckBox> paymentTypes = new List();
 
 class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
   int allCount = 0;

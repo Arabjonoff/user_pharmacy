@@ -330,6 +330,8 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
 
+    print(json.encode(order));
+
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json'
@@ -352,6 +354,7 @@ class PharmacyApiProvider {
         .timeout(const Duration(seconds: 120));
 
     final Map parsed = json.decode(response.body);
+    print(response.body);
 
     return OrderStatusModel.fromJson(parsed);
   }
