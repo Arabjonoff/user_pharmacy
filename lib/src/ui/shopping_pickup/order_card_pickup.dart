@@ -41,15 +41,15 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
   int paymentType;
   int clickType;
   bool checkBox = false;
+  bool isEnd = false;
+  int cardId = 0;
 
   String fullName = "";
-  String number = "";
 
+  String number = "";
   bool loading = false;
   bool error = false;
   bool edit = true;
-  bool isEnd = false;
-  int cardId = 0;
 
   String error_text = "";
 
@@ -292,129 +292,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                       bottomRight: Radius.circular(10)),
                   color: AppTheme.white,
                 ),
-//                child: StreamBuilder(
-//                  stream: blocCard.allCard,
-//                  builder: (context, AsyncSnapshot<List<ItemResult>> snapshot) {
-//                    if (snapshot.hasData) {
-////                      allPrice = 0.0;
-////                      for (int i = 0; i < snapshot.data.length; i++) {
-////                        allPrice += (snapshot.data[i].cardCount *
-////                            snapshot.data[i].price);
-////                      }
-////                      print(allPrice);
-//                      return Column(
-//                        mainAxisAlignment: MainAxisAlignment.start,
-//                        crossAxisAlignment: CrossAxisAlignment.start,
-//                        children: [
-//                          aptekaModel == null
-//                              ? Container(
-//                                  margin: EdgeInsets.only(
-//                                      top: 16, bottom: 3, left: 16, right: 16),
-//                                  child: Text(
-//                                    translate("orders.to_picup"),
-//                                    maxLines: 1,
-//                                    style: TextStyle(
-//                                      fontWeight: FontWeight.w600,
-//                                      fontSize: 16,
-//                                      fontStyle: FontStyle.normal,
-//                                      color: AppTheme.black_text,
-//                                      fontFamily: AppTheme.fontRoboto,
-//                                    ),
-//                                  ),
-//                                )
-//                              : Container(
-//                                  margin: EdgeInsets.only(
-//                                      top: 24, left: 16, right: 16),
-//                                  child: Text(
-//                                    aptekaModel.address,
-//                                    overflow: TextOverflow.ellipsis,
-//                                    maxLines: 2,
-//                                    style: TextStyle(
-//                                      fontWeight: FontWeight.normal,
-//                                      fontSize: 13,
-//                                      fontStyle: FontStyle.normal,
-//                                      color: AppTheme.black_text,
-//                                      fontFamily: AppTheme.fontRoboto,
-//                                    ),
-//                                  ),
-//                                ),
-//                          aptekaModel == null
-//                              ? Container()
-//                              : Container(
-//                                  margin: EdgeInsets.only(
-//                                      bottom: 3, left: 16, right: 16),
-//                                  child: Text(
-//                                    translate("orders.now") +
-//                                        ", " +
-//                                        aptekaModel.open,
-//                                    overflow: TextOverflow.ellipsis,
-//                                    maxLines: 1,
-//                                    style: TextStyle(
-//                                      fontWeight: FontWeight.normal,
-//                                      fontSize: 13,
-//                                      fontStyle: FontStyle.normal,
-//                                      color: AppTheme.black_text,
-//                                      fontFamily: AppTheme.fontRoboto,
-//                                    ),
-//                                  ),
-//                                ),
-//                          GestureDetector(
-//                            child: Container(
-//                              margin: EdgeInsets.only(
-//                                  left: 16, right: 16, bottom: 16, top: 16),
-//                              width: 150,
-//                              decoration: BoxDecoration(
-//                                color: aptekaModel == null
-//                                    ? AppTheme.blue_app_color
-//                                    : AppTheme.white,
-//                                borderRadius: BorderRadius.circular(10.0),
-//                                border: aptekaModel == null
-//                                    ? Border.all(
-//                                        color: AppTheme.blue_app_color,
-//                                        width: 0.0,
-//                                      )
-//                                    : Border.all(
-//                                        color: AppTheme.blue_app_color,
-//                                        width: 2.0,
-//                                      ),
-//                              ),
-//                              child: Center(
-//                                child: Text(
-//                                  aptekaModel == null
-//                                      ? translate("orders.edit_aptek_choose")
-//                                      : translate("orders.edit_aptek"),
-//                                  style: TextStyle(
-//                                    fontFamily: AppTheme.fontRoboto,
-//                                    fontStyle: FontStyle.normal,
-//                                    fontSize: 12,
-//                                    fontWeight: FontWeight.w600,
-//                                    color: aptekaModel == null
-//                                        ? AppTheme.white
-//                                        : AppTheme.blue_app_color,
-//                                  ),
-//                                ),
-//                              ),
-//                              padding: EdgeInsets.only(
-//                                  left: 12, right: 12, top: 8, bottom: 8),
-//                            ),
-//                            onTap: () {
-//                              Navigator.pushReplacement(
-//                                context,
-//                                PageTransition(
-//                                  type: PageTransitionType.rightToLeft,
-//                                  child: AddressAptekaPickupScreen(),
-//                                ),
-//                              );
-//                            },
-//                          )
-//                        ],
-//                      );
-//                    } else if (snapshot.hasError) {
-//                      return Text(snapshot.error.toString());
-//                    }
-//                    return Container();
-//                  },
-//                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -955,19 +832,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
               onTap: () {
                 if (!loading) {
                   if (aptekaModel != null && clickType != null) {
-                    setState(() {
-                      loading = true;
-                    });
-
-                    if (fullNameController.text.isNotEmpty) {
-                      fullName = fullNameController.text;
-                    }
-                    var num = numberController.text
-                        .replaceAll('+', '')
-                        .replaceAll(' ', '');
-                    if (num.length == 12) {
-                      number = numberController.text;
-                    }
                     var cardNum = cardNumberController.text.replaceAll(' ', '');
                     var cardDate = cardDateController.text
                         .replaceAll(' ', '')
@@ -975,6 +839,20 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
 
                     if (!isEnd ||
                         (cardNum.length == 16 && cardDate.length == 4)) {
+                      setState(() {
+                        loading = true;
+                      });
+
+                      if (fullNameController.text.isNotEmpty) {
+                        fullName = fullNameController.text;
+                      }
+                      var num = numberController.text
+                          .replaceAll('+', '')
+                          .replaceAll(' ', '');
+                      if (num.length == 12) {
+                        number = numberController.text;
+                      }
+
                       AddOrderModel addModel = new AddOrderModel();
                       List<Drugs> drugs = new List();
                       dataBase.getProdu(true).then((value) => {
@@ -994,7 +872,8 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                     drugs: drugs,
                                     card_pan: cardNum,
                                     card_exp: cardDate,
-                                    card_save: 1)
+                                    card_save: checkBox ? 1 : 0,
+                                  )
                                 : addModel = new AddOrderModel(
                                     type: "self",
                                     full_name: fullName,
@@ -1066,8 +945,19 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                               setState(() {
                                                 error = true;
                                                 loading = false;
+                                                if (response.data.error == 22) {
+                                                  checkBox = false;
+                                                }
                                                 error_text =
-                                                    response.data.error_msg;
+                                                    response.data.error == 2
+                                                        ? translate(
+                                                            "cardNumberError")
+                                                        : response.data.error ==
+                                                                22
+                                                            ? translate(
+                                                                "notSaveCard")
+                                                            : response
+                                                                .data.error_msg;
                                               }),
                                             }
                                         }

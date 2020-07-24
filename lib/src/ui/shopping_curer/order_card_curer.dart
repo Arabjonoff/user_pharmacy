@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,10 +6,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
-import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
-import 'package:pharmacy/src/model/database/address_model.dart';
-import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
@@ -20,13 +14,10 @@ import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
 import '../shopping_web_screen.dart';
 import 'curer_address_card.dart';
-import '../shopping_pickup/order_card_pickup.dart';
-import 'map_address_screen.dart';
 
 class OrderCardCurerScreen extends StatefulWidget {
   String address;
@@ -56,6 +47,10 @@ List<PaymentTypesCheckBox> paymentTypes = new List();
 class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
   int allCount = 0;
   int paymentType;
+  int clickType;
+  bool checkBox = false;
+  bool isEnd = false;
+  int cardId = 0;
 
   String fullName = "";
   String number = "";
@@ -71,8 +66,17 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
 
   TextEditingController fullNameController = TextEditingController();
   TextEditingController numberController = TextEditingController();
+
+  TextEditingController cardNumberController = TextEditingController();
+  TextEditingController cardDateController = TextEditingController();
+
   var maskFormatter = new MaskTextInputFormatter(
       mask: '+998 ## ### ## ##', filter: {"#": RegExp(r'[0-9]')});
+
+  var maskCardNumberFormatter = new MaskTextInputFormatter(
+      mask: '#### #### #### ####', filter: {"#": RegExp(r'[0-9]')});
+  var maskCardDateFormatter = new MaskTextInputFormatter(
+      mask: '##/##', filter: {"#": RegExp(r'[0-9]')});
 
   @override
   void initState() {
@@ -364,49 +368,6 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                 ),
               ),
             ),
-//            StreamBuilder(
-//              stream: blocCard.orderTypeOptions,
-//              builder: (context, AsyncSnapshot<OrderOptionsModel> snapshot) {
-//                if (snapshot.hasData) {
-//                  return Column(
-//                    children: paymentTypes
-//                        .map((data) => RadioListTile(
-//                              title: Row(
-//                                children: [
-//                                  Expanded(
-//                                    child: Text(
-//                                      "${data.name}",
-//                                      overflow: TextOverflow.ellipsis,
-//                                      maxLines: 2,
-//                                      style: TextStyle(
-//                                        fontWeight: FontWeight.normal,
-//                                        fontFamily: AppTheme.fontRoboto,
-//                                        fontSize: 15,
-//                                        fontStyle: FontStyle.normal,
-//                                        color: Colors.black,
-//                                      ),
-//                                    ),
-//                                  ),
-//                                ],
-//                              ),
-//                              activeColor: AppTheme.blue_app_color,
-//                              groupValue: paymentType,
-//                              value: data.id,
-//                              onChanged: (val) {
-//                                setState(() {
-//                                  paymentType = data.id;
-//                                });
-//                              },
-//                            ))
-//                        .toList(),
-//                  );
-//                } else if (snapshot.hasError) {
-//                  return Text(snapshot.error.toString());
-//                }
-//                return Container();
-//              },
-//            ),
-
             Column(
               children: paymentTypes
                   .map((data) => RadioListTile(
@@ -414,7 +375,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                           children: [
                             Expanded(
                               child: Text(
-                                "${data.name}",
+                                "${data.pan}",
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 style: TextStyle(
@@ -429,16 +390,181 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                           ],
                         ),
                         activeColor: AppTheme.blue_app_color,
-                        groupValue: paymentType,
+                        groupValue: clickType,
                         value: data.id,
                         onChanged: (val) {
-                          setState(() {
-                            paymentType = data.id;
-                          });
+                          if (data.id == paymentTypes.length - 1) {
+                            setState(() {
+                              clickType = data.id;
+                              paymentType = data.payment_id;
+                              isEnd = true;
+                              cardId = data.card_id;
+                            });
+                          } else {
+                            setState(() {
+                              clickType = data.id;
+                              paymentType = data.payment_id;
+                              isEnd = false;
+                              cardId = data.card_id;
+                            });
+                          }
                         },
                       ))
                   .toList(),
             ),
+            isEnd
+                ? Container(
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 56,
+                          margin: EdgeInsets.only(top: 12, left: 16, right: 16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: AppTheme.auth_login,
+                            border: Border.all(
+                              color: AppTheme.auth_border,
+                              width: 1.0,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 8, bottom: 8, left: 12, right: 12),
+                            child: TextFormField(
+                              keyboardType: TextInputType.phone,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.black_text,
+                                fontSize: 15,
+                              ),
+                              controller: cardNumberController,
+                              inputFormatters: [maskCardNumberFormatter],
+                              decoration: InputDecoration(
+                                labelText: translate('cardNumber'),
+                                labelStyle: TextStyle(
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.normal,
+                                  color: Color(0xFF6D7885),
+                                  fontSize: 11,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  borderSide: BorderSide(
+                                    width: 1,
+                                    color: AppTheme.auth_login,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                  borderSide: BorderSide(
+                                    width: 1,
+                                    color: AppTheme.auth_login,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 56,
+                          margin: EdgeInsets.only(top: 12, left: 16, right: 16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: AppTheme.auth_login,
+                            border: Border.all(
+                              color: AppTheme.auth_border,
+                              width: 1.0,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 8, bottom: 8, left: 12, right: 12),
+                            child: TextFormField(
+                              keyboardType: TextInputType.phone,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.black_text,
+                                fontSize: 15,
+                              ),
+                              controller: cardDateController,
+                              inputFormatters: [maskCardDateFormatter],
+                              decoration: InputDecoration(
+                                labelText: translate('cardDate'),
+                                labelStyle: TextStyle(
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.normal,
+                                  color: Color(0xFF6D7885),
+                                  fontSize: 11,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  borderSide: BorderSide(
+                                    width: 1,
+                                    color: AppTheme.auth_login,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                  borderSide: BorderSide(
+                                    width: 1,
+                                    color: AppTheme.auth_login,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 12, left: 16, right: 16),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                checkBox = !checkBox;
+                              });
+                            },
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  translate("saveCard"),
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: AppTheme.fontRoboto,
+                                    color: AppTheme.black_text,
+                                  ),
+                                ),
+                                Checkbox(
+                                  activeColor: AppTheme.blue_app_color,
+                                  value: checkBox,
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      checkBox = value;
+                                    });
+                                  },
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                : Container(),
             Container(
               margin: EdgeInsets.only(
                 top: 24,
@@ -580,96 +706,154 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
               onTap: () {
                 if (!loading) {
                   if (paymentType != null) {
-                    setState(() {
-                      loading = true;
-                    });
+                    var cardNum = cardNumberController.text.replaceAll(' ', '');
+                    var cardDate = cardDateController.text
+                        .replaceAll(' ', '')
+                        .replaceAll('/', '');
 
-                    if (fullNameController.text.isNotEmpty) {
-                      fullName = fullNameController.text;
-                    }
-                    var num = numberController.text
-                        .replaceAll('+', '')
-                        .replaceAll(' ', '');
-                    if (num.length == 12) {
-                      number = numberController.text;
-                    }
+                    if (!isEnd ||
+                        (cardNum.length == 16 && cardDate.length == 4)) {
+                      setState(() {
+                        loading = true;
+                      });
 
-                    AddOrderModel addModel = new AddOrderModel();
-                    List<Drugs> drugs = new List();
-                    dataBase.getProdu(true).then((value) => {
-                          for (int i = 0; i < value.length; i++)
-                            {
-                              drugs.add(Drugs(
-                                  drug: value[i].id, qty: value[i].cardCount))
-                            },
-                          addModel = new AddOrderModel(
-                            address: widget.address,
-                            location: widget.lat.toString() +
-                                "," +
-                                widget.lng.toString(),
-                            type: "shipping",
-                            full_name: fullName,
-                            phone: number,
-                            shipping_time: widget.shippingTime,
-                            payment_type: paymentType,
-                            drugs: drugs,
-                          ),
-                          Repository()
-                              .fetchRAddOrder(addModel)
-                              .then((response) => {
-                                    if (response.status == 1)
-                                      {
-                                        setState(() {
-                                          loading = false;
-                                          error = false;
-                                        }),
-                                        for (int i = 0; i < value.length; i++)
-                                          {
-                                            if (value[i].favourite)
-                                              {
-                                                value[i].cardCount = 0,
-                                                dataBase.updateProduct(value[i])
-                                              }
-                                            else
-                                              {
-                                                dataBase
-                                                    .deleteProducts(value[i].id)
-                                              }
-                                          },
-                                        RxBus.post(CardItemChangeModel(true),
-                                            tag: "EVENT_CARD"),
-                                        if (response.data.return_url != "")
-                                          {
-                                            Navigator.pushReplacement(
-                                              context,
-                                              PageTransition(
-                                                type: PageTransitionType.fade,
-                                                child: ShoppingWebScreen(
-                                                    response.data.return_url),
-                                              ),
-                                            )
-                                          }
-                                        else
-                                          {
-                                            Navigator.pushReplacement(
-                                              context,
-                                              PageTransition(
-                                                type: PageTransitionType.fade,
-                                                child: HistoryOrderScreen(),
-                                              ),
-                                            )
-                                          }
-                                      }
-                                    else
-                                      {
-                                        setState(() {
-                                          error = true;
-                                          loading = false;
-                                          error_text = translate("not_product");
-                                        }),
-                                      }
-                                  }),
-                        });
+                      if (fullNameController.text.isNotEmpty) {
+                        fullName = fullNameController.text;
+                      }
+                      var num = numberController.text
+                          .replaceAll('+', '')
+                          .replaceAll(' ', '');
+                      if (num.length == 12) {
+                        number = numberController.text;
+                      }
+
+                      AddOrderModel addModel = new AddOrderModel();
+                      List<Drugs> drugs = new List();
+                      dataBase.getProdu(true).then((value) => {
+                            for (int i = 0; i < value.length; i++)
+                              {
+                                drugs.add(Drugs(
+                                    drug: value[i].id, qty: value[i].cardCount))
+                              },
+                            isEnd
+                                ? addModel = new AddOrderModel(
+                                    address: widget.address,
+                                    location: widget.lat.toString() +
+                                        "," +
+                                        widget.lng.toString(),
+                                    type: "shipping",
+                                    full_name: fullName,
+                                    phone: number,
+                                    shipping_time: widget.shippingTime,
+                                    payment_type: paymentType,
+                                    card_id: cardId,
+                                    drugs: drugs,
+                                    card_pan: cardNum,
+                                    card_exp: cardDate,
+                                    card_save: checkBox ? 1 : 0,
+                                  )
+                                : addModel = new AddOrderModel(
+                                    address: widget.address,
+                                    location: widget.lat.toString() +
+                                        "," +
+                                        widget.lng.toString(),
+                                    type: "shipping",
+                                    full_name: fullName,
+                                    phone: number,
+                                    shipping_time: widget.shippingTime,
+                                    payment_type: paymentType,
+                                    card_id: cardId,
+                                    drugs: drugs,
+                                  ),
+                            Repository()
+                                .fetchRAddOrder(addModel)
+                                .then((response) => {
+                                      if (response.status == 1)
+                                        {
+                                          if (response.data.error == 0)
+                                            {
+                                              setState(() {
+                                                loading = false;
+                                                error = false;
+                                              }),
+                                              for (int i = 0;
+                                                  i < value.length;
+                                                  i++)
+                                                {
+                                                  if (value[i].favourite)
+                                                    {
+                                                      value[i].cardCount = 0,
+                                                      dataBase.updateProduct(
+                                                          value[i])
+                                                    }
+                                                  else
+                                                    {
+                                                      dataBase.deleteProducts(
+                                                          value[i].id)
+                                                    }
+                                                },
+                                              RxBus.post(
+                                                  CardItemChangeModel(true),
+                                                  tag: "EVENT_CARD"),
+                                              if (response.data.return_url !=
+                                                  "")
+                                                {
+                                                  Navigator.pushReplacement(
+                                                    context,
+                                                    PageTransition(
+                                                      type: PageTransitionType
+                                                          .fade,
+                                                      child: ShoppingWebScreen(
+                                                          response
+                                                              .data.return_url),
+                                                    ),
+                                                  )
+                                                }
+                                              else
+                                                {
+                                                  Navigator.pushReplacement(
+                                                    context,
+                                                    PageTransition(
+                                                      type: PageTransitionType
+                                                          .fade,
+                                                      child:
+                                                          HistoryOrderScreen(),
+                                                    ),
+                                                  )
+                                                }
+                                            }
+                                          else
+                                            {
+                                              setState(() {
+                                                error = true;
+                                                loading = false;
+                                                if(response.data.error == 22){
+                                                  checkBox = false;
+                                                }
+                                                error_text = response
+                                                            .data.error ==
+                                                        2
+                                                    ? translate("cardNumberError")
+                                                    : response.data.error == 22
+                                                        ? translate(
+                                                            "notSaveCard")
+                                                        : response
+                                                            .data.error_msg;
+                                              }),
+                                            }
+                                        }
+                                      else
+                                        {
+                                          setState(() {
+                                            error = true;
+                                            loading = false;
+                                            error_text =
+                                                translate("not_product");
+                                          }),
+                                        }
+                                    }),
+                          });
+                    }
                   }
                 }
               },
