@@ -156,8 +156,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           color: AppTheme.black_text,
                           fontSize: 15,
                         ),
+                        maxLength: 50,
                         controller: nameController,
                         decoration: InputDecoration(
+                          counterText: "",
                           labelText: translate('auth.name'),
                           labelStyle: TextStyle(
                             fontFamily: AppTheme.fontRoboto,
@@ -209,8 +211,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           color: AppTheme.black_text,
                           fontSize: 15,
                         ),
+                        maxLength: 50,
                         controller: surNameController,
                         decoration: InputDecoration(
+                          counterText: "",
                           labelText: translate('auth.sur_name'),
                           labelStyle: TextStyle(
                             fontFamily: AppTheme.fontRoboto,

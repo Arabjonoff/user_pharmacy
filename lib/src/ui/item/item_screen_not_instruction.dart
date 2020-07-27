@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/items_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
@@ -81,6 +82,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                           alignment: Alignment.topRight,
                           child: GestureDetector(
                             onTap: () {
+                              blocCard.fetchAllCard();
                               Navigator.pop(context);
                             },
                             child: Container(

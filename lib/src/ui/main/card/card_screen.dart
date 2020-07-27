@@ -66,6 +66,8 @@ class _CardScreenState extends State<CardScreen> {
     size = MediaQuery.of(context).size;
     blocCard.fetchAllCard();
 
+    print("Card");
+
     Utils.isLogin().then((value) => isLogin = value);
     return Scaffold(
       backgroundColor: AppTheme.white,

@@ -21,7 +21,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>GrandPharm</string>
+	<string>GoPharm</string>
+	<key>CFBundleIdentifier</key>
+    <string>uz.go.pharm</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

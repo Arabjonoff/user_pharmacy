@@ -426,10 +426,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
                 GestureDetector(
                   onTap: () {
-
-                    RxBus.post(LoginModel(status: 1,msg: "Yes"), tag: "EVENT_CHAT_SCREEN");
-
-
+                    isLogin
+                        ? RxBus.post(LoginModel(status: 1, msg: "Yes"),
+                            tag: "EVENT_CHAT_SCREEN")
+                        : BottomDialog.createBottomSheetHistory(context);
                   },
                   child: Container(
                     child: ClipRRect(

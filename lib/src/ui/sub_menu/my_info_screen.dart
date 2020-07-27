@@ -120,9 +120,11 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                         color: AppTheme.black_text,
                         fontSize: 15,
                       ),
+                      maxLength: 50,
                       controller: nameController,
                       decoration: InputDecoration(
                         labelText: translate('auth.name'),
+                        counterText: "",
                         labelStyle: TextStyle(
                           fontFamily: AppTheme.fontRoboto,
                           fontStyle: FontStyle.normal,
@@ -171,8 +173,10 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                         color: AppTheme.black_text,
                         fontSize: 15,
                       ),
+                      maxLength: 50,
                       controller: surNameController,
                       decoration: InputDecoration(
+                        counterText: "",
                         labelText: translate('auth.sur_name'),
                         labelStyle: TextStyle(
                           fontFamily: AppTheme.fontRoboto,
