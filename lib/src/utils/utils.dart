@@ -22,6 +22,12 @@ class Utils {
     prefs.commit();
   }
 
+  static Future<void> clearData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    prefs.commit();
+  }
+
   static Future<int> getId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

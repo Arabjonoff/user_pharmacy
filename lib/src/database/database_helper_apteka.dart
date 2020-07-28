@@ -5,7 +5,8 @@ import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelperApteka {
-  static final DatabaseHelperApteka _instance = new DatabaseHelperApteka.internal();
+  static final DatabaseHelperApteka _instance =
+      new DatabaseHelperApteka.internal();
 
   factory DatabaseHelperApteka() => _instance;
 
@@ -76,15 +77,14 @@ class DatabaseHelperApteka {
     List<AptekaModel> products = new List();
     for (int i = 0; i < list.length; i++) {
       var items = new AptekaModel(
-        list[i][columnId],
-        list[i][columnName],
-        list[i][columnAddress],
-        list[i][columnOpen],
-        list[i][columnNumber],
-        list[i][columnLat],
-        list[i][columnLon],
-        true
-      );
+          list[i][columnId],
+          list[i][columnName],
+          list[i][columnAddress],
+          list[i][columnOpen],
+          list[i][columnNumber],
+          list[i][columnLat],
+          list[i][columnLon],
+          true);
       products.add(items);
     }
     return products;
@@ -127,5 +127,10 @@ class DatabaseHelperApteka {
   Future close() async {
     var dbClient = await db;
     return dbClient.close();
+  }
+
+  Future<void> clear() async {
+    var dbClient = await db;
+    await dbClient.rawQuery('DELETE FROM $tableNote');
   }
 }

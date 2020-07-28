@@ -30,7 +30,8 @@
   },
   "home": {
     "best": "Best offers",
-    "your": "Your",
+    "your": "Order",
+    "history": "history",
     "karta": "Location",
     "look": "Look for",
     "pharmacy": "in pharm",
@@ -106,7 +107,12 @@
     "faq": "FAQ",
     "faq_about": "questions and answers",
     "enter": "Sign in",
-    "me_info": "Your info"
+    "me_info": "Your info",
+    "logout": "Logout",
+    "exit_title": "Exit",
+    "exit_message": "Are you exit now?",
+    "exit_yes": "Yes",
+    "exit_no": "No"
   },
   "dialog": {
     "enter": "Sign in",

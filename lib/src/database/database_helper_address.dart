@@ -115,4 +115,9 @@ class DatabaseHelperAddress {
     var dbClient = await db;
     return dbClient.close();
   }
+
+  Future<void> clear() async {
+    var dbClient = await db;
+    await dbClient.rawQuery('DELETE FROM $tableNote');
+  }
 }

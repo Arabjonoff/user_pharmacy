@@ -32,8 +32,8 @@ class Repository {
   Future<LoginModel> fetchLogin(String login) =>
       pharmacyApiProvider.fetchLogin(login);
 
-  Future<VerfyModel> fetchVetfy(String login, String code) =>
-      pharmacyApiProvider.fetchVerfy(login, code);
+  Future<VerfyModel> fetchVetfy(String login, String code, String token) =>
+      pharmacyApiProvider.fetchVerfy(login, code,token);
 
   Future<LoginModel> fetchRegister(String name, String surname, String birthday,
           String gender, String token) =>

@@ -30,7 +30,8 @@
   },
   "home": {
     "best": "Eng yaxshi takliflar",
-    "your": "Sizning",
+    "your": "Buyurtmalar",
+    "history": "tarixi",
     "karta": "Karta",
     "look": "Ko'rish",
     "pharmacy": "dorixonada",
@@ -106,7 +107,12 @@
     "faq": "Savol va javoblar",
     "faq_about": "Savol va javoblar",
     "enter": "Kirish",
-    "me_info": "Ma'lumotlaringiz"
+    "me_info": "Ma'lumotlaringiz",
+    "logout": "Chiqish",
+    "exit_title": "Exit",
+    "exit_message": "Are you exit now?",
+    "exit_yes": "Yes",
+    "exit_no": "No"
   },
   "dialog": {
     "enter": "Kirish",

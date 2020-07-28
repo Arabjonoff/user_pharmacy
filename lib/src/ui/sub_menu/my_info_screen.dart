@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:pharmacy/src/database/database_helper_address.dart';
+import 'package:pharmacy/src/database/database_helper_apteka.dart';
+import 'package:pharmacy/src/database/database_helper_history.dart';
 import 'package:pharmacy/src/model/sort_radio_btn.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/shopping_curer/add_address_card.dart';
@@ -28,6 +32,10 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
   String token;
   String number;
   int userId = 0;
+
+  DatabaseHelperHistory dbHistory = new DatabaseHelperHistory();
+  DatabaseHelperAddress dbAddress = new DatabaseHelperAddress();
+  DatabaseHelperApteka dbApteka = new DatabaseHelperApteka();
 
   String radioItemHolder = translate("auth.male");
   int id = 1;
@@ -63,6 +71,98 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
         elevation: 1.0,
         backgroundColor: AppTheme.white,
         brightness: Brightness.light,
+        actions: [
+          Center(
+            child: GestureDetector(
+              child: Container(
+                margin: EdgeInsets.only(right: 16),
+                child: Text(
+                  translate("menu.logout"),
+                  style: TextStyle(
+                    fontFamily: AppTheme.fontRoboto,
+                    fontWeight: FontWeight.normal,
+                    fontStyle: FontStyle.normal,
+                    fontSize: 15,
+                    color: AppTheme.blue_app_color,
+                  ),
+                ),
+              ),
+              onTap: () async {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    // return object of type Dialog
+                    return AlertDialog(
+                      title: Text(
+                        translate("menu.exit_title"),
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRoboto,
+                          fontWeight: FontWeight.w600,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 19,
+                          color: AppTheme.black_text,
+                        ),
+                      ),
+                      content: Text(
+                        translate("menu.exit_message"),
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRoboto,
+                          fontWeight: FontWeight.normal,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 16,
+                          color: AppTheme.black_text,
+                        ),
+                      ),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text(
+                            translate("menu.exit_no"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.w600,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 19,
+                              color: AppTheme.black_text,
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        FlatButton(
+                          child: Text(
+                            translate("menu.exit_yes"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.w600,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 19,
+                              color: AppTheme.black_text,
+                            ),
+                          ),
+                          onPressed: () {
+                            // Navigator.of(context).pop();
+
+                            dbApteka.clear();
+                            dbAddress.clear();
+                            dbHistory.clear();
+                            Utils.clearData();
+                            Navigator.pop(context);
+                            if (Navigator.canPop(context)) {
+                              Navigator.pop(context);
+                            } else {
+                              SystemNavigator.pop();
+                            }
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          )
+        ],
         leading: GestureDetector(
           child: Container(
             height: 56,

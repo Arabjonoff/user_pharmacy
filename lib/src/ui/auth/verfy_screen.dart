@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -28,6 +29,8 @@ class _VerfyScreenState extends State<VerfyScreen> {
   var error = false;
   var timerLoad = true;
 
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  String deviceToken = "";
   String number;
 
   Timer _timer;
@@ -71,6 +74,7 @@ class _VerfyScreenState extends State<VerfyScreen> {
     String kod = widget.number.substring(3, 5);
     String last = widget.number.substring(10, 12);
     number = "+998 " + kod + " *** ** " + last;
+    _firebaseMessaging.getToken().then((value) => deviceToken = value);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
@@ -298,9 +302,7 @@ class _VerfyScreenState extends State<VerfyScreen> {
                     loading = true;
                   });
                   var responce = await Repository().fetchVetfy(
-                    widget.number,
-                    verfyController.text,
-                  );
+                      widget.number, verfyController.text, deviceToken);
                   if (responce.status == 1) {
                     if (responce.user.complete == 0) {
                       Navigator.pushReplacement(

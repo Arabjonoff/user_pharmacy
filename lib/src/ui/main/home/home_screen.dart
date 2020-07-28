@@ -246,7 +246,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 SizedBox(
                                   height: 22,
                                   child: Text(
-                                    translate("home.karta").toUpperCase(),
+                                    translate("home.history").toUpperCase(),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     style: TextStyle(

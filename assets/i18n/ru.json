@@ -30,7 +30,8 @@
   },
   "home": {
     "best": "Лучшие предложения",
-    "your": "Ваша",
+    "your": "История",
+    "history": "заказов",
     "karta": "Карта",
     "look": "Посмотреть",
     "pharmacy": "в аптеке",
@@ -106,7 +107,12 @@
     "faq": "FAQ",
     "faq_about": "вопросы и ответы",
     "enter": "Войти",
-    "me_info": "Ваши данные"
+    "me_info": "Ваши данные",
+    "logout": "Logout",
+    "exit_title": "Exit",
+    "exit_message": "Are you exit now?",
+    "exit_yes": "Yes",
+    "exit_no": "No"
   },
   "dialog": {
     "enter": "Войти",

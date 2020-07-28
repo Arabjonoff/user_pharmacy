@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -66,7 +67,7 @@ class _CardScreenState extends State<CardScreen> {
     size = MediaQuery.of(context).size;
     blocCard.fetchAllCard();
 
-    print("Card");
+
 
     Utils.isLogin().then((value) => isLogin = value);
     return Scaffold(

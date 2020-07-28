@@ -87,6 +87,7 @@ class _FavAptekaScreenState extends State<FavAptekaScreen> {
                         alignment: Alignment.center,
                         child: Text(
                           translate("map.lov_apt_mes"),
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: AppTheme.fontRoboto,
                             fontSize: 20,
@@ -99,6 +100,7 @@ class _FavAptekaScreenState extends State<FavAptekaScreen> {
                         margin: EdgeInsets.only(top: 4, left: 16, right: 16),
                         child: Text(
                           translate("map.lov_apt_title"),
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: AppTheme.fontRoboto,
                             fontSize: 15,

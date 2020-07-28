@@ -54,13 +54,15 @@ class PharmacyApiProvider {
   }
 
   ///verfy
-  Future<VerfyModel> fetchVerfy(String login, String code) async {
+  Future<VerfyModel> fetchVerfy(String login, String code, String token) async {
     String url = Utils.BASE_URL + '/api/v1/accept';
 
     final data = {
       "login": login,
       "smscode": code,
+      "device_token": token,
     };
+
 
     HttpClient httpClient = new HttpClient();
     httpClient
@@ -491,7 +493,6 @@ class PharmacyApiProvider {
     http.Response response = await http
         .post(url, headers: headers, body: data)
         .timeout(const Duration(seconds: 120));
-
 
     final Map parsed = json.decode(response.body);
 
