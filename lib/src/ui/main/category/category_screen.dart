@@ -30,7 +30,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    if (isOpen)
+    if (isOpenCategory)
       RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_CATEGORY");
     blocCategory.fetchAllCategory();
     return Scaffold(

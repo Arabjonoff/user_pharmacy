@@ -11,6 +11,8 @@ import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
+import 'package:pharmacy/src/model/send/access_store.dart';
+import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
@@ -42,6 +44,9 @@ class _CardScreenState extends State<CardScreen> {
   int count = 0;
   int allCount = 0;
   double allPrice = 0;
+  var loading = false;
+  var error = false;
+  String error_text = "";
 
   DatabaseHelper dataBase = new DatabaseHelper();
 
@@ -66,8 +71,6 @@ class _CardScreenState extends State<CardScreen> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     blocCard.fetchAllCard();
-
-
 
     Utils.isLogin().then((value) => isLogin = value);
     return Scaffold(
@@ -683,16 +686,70 @@ class _CardScreenState extends State<CardScreen> {
                           ],
                         ),
                       ),
+                      error
+                          ? Container(
+                              width: double.infinity,
+                              margin:
+                                  EdgeInsets.only(top: 11, left: 16, right: 16),
+                              child: Text(
+                                error_text,
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontSize: 13,
+                                  color: AppTheme.red_fav_color,
+                                ),
+                              ),
+                            )
+                          : Container(),
                       GestureDetector(
                         onTap: () {
                           if (isLogin) {
-                            Navigator.push(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.fade,
-                                child: CurerAddressCardScreen(),
-                              ),
-                            );
+                            setState(() {
+                              loading = true;
+                            });
+                            AccessStore addModel = new AccessStore();
+                            List<ProductsStore> drugs = new List();
+                            dataBase.getProdu(true).then((database) => {
+                                  for (int i = 0; i < database.length; i++)
+                                    {
+                                      drugs.add(ProductsStore(
+                                          drugId: database[i].id,
+                                          qty: database[i].cardCount))
+                                    },
+                                  addModel = new AccessStore(
+                                      lat: 0.0, lng: 0.0, products: drugs),
+                                  Repository()
+                                      .fetchAccessApteka(addModel)
+                                      .then((value) => {
+                                            if (value.length > 0)
+                                              {
+                                                Navigator.push(
+                                                  context,
+                                                  PageTransition(
+                                                    type:
+                                                        PageTransitionType.fade,
+                                                    child:
+                                                        CurerAddressCardScreen(),
+                                                  ),
+                                                ),
+                                                setState(() {
+                                                  loading = false;
+                                                  error = false;
+                                                }),
+                                              }
+                                            else
+                                              {
+                                                setState(() {
+                                                  error = true;
+                                                  loading = false;
+                                                  error_text =
+                                                      translate("not_product");
+                                                }),
+                                              }
+                                          })
+                                });
                           } else {
                             BottomDialog.createBottomSheetHistory(context);
                           }
@@ -711,15 +768,22 @@ class _CardScreenState extends State<CardScreen> {
                             right: 12,
                           ),
                           child: Center(
-                            child: Text(
-                              translate("card.buy"),
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontFamily: AppTheme.fontRoboto,
-                                fontSize: 17,
-                                color: AppTheme.white,
-                              ),
-                            ),
+                            child: loading
+                                ? CircularProgressIndicator(
+                                    value: null,
+                                    strokeWidth: 3.0,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        AppTheme.white),
+                                  )
+                                : Text(
+                                    translate("card.buy"),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontSize: 17,
+                                      color: AppTheme.white,
+                                    ),
+                                  ),
                           ),
                         ),
                       )

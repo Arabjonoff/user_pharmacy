@@ -22,7 +22,9 @@ import 'package:shimmer/shimmer.dart';
 import '../../app_theme.dart';
 import 'fliter_screen.dart';
 
-bool isOpen = false;
+bool isOpenBest = false;
+bool isOpenCategory = false;
+bool isOpenSearch = false;
 
 // ignore: must_be_immutable
 class ItemListScreen extends StatefulWidget {
@@ -62,9 +64,12 @@ class _ItemListScreenState extends State<ItemListScreen> {
   @override
   void initState() {
     super.initState();
-    isOpen = true;
+    widget.type == 2
+        ? isOpenBest = true
+        : widget.type == 3 ? isOpenSearch = true : isOpenCategory = true;
+
     _getMoreData(1);
-    // registerBus();
+    registerBus();
     _sc.addListener(() {
       if (_sc.position.pixels == _sc.position.maxScrollExtent) {
         _getMoreData(page);
@@ -77,12 +82,49 @@ class _ItemListScreenState extends State<ItemListScreen> {
   void registerBus() {
     RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST")
         .listen((event) => setState(() {
-              title = event.title;
+              if (event.title) {
+                blocItemsList.fetchAllItemCategoryBest(
+                  1,
+                  international_name_ids,
+                  manufacturer_ids,
+                  sortFilter,
+                  price_max,
+                  price_min,
+                  unit_ids,
+                );
+                page = 2;
+              }
+            }));
+    RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_SEARCH")
+        .listen((event) => setState(() {
+              if (event.title) {
+                blocItemsList.fetchAllItemSearch(
+                  widget.id,
+                  1,
+                  international_name_ids,
+                  manufacturer_ids,
+                  sortFilter,
+                  price_max,
+                  price_min,
+                  unit_ids,
+                );
+                page = 2;
+              }
             }));
     RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_CATEGORY")
         .listen((event) => setState(() {
               if (event.title) {
-                title = event.title;
+                blocItemsList.fetchAllItemCategory(
+                  widget.id,
+                  1,
+                  international_name_ids,
+                  manufacturer_ids,
+                  sortFilter,
+                  price_max,
+                  price_min,
+                  unit_ids,
+                );
+                page = 2;
               }
             }));
   }
@@ -98,8 +140,10 @@ class _ItemListScreenState extends State<ItemListScreen> {
     price_min = "";
     unit_ids = "";
     _sc.dispose();
-    isOpen = false;
-    // RxBus.destroy();
+    isOpenBest = false;
+    isOpenCategory = false;
+    isOpenSearch = false;
+    RxBus.destroy();
     super.dispose();
   }
 
@@ -1087,7 +1131,6 @@ class _ItemListScreenState extends State<ItemListScreen> {
                     price_min,
                     unit_ids,
                   );
-        isLoading = false;
         page++;
       });
     }

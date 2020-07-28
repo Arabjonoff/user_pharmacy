@@ -76,7 +76,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
 
-    if (isOpen) RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST");
+    if (isOpenBest) RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST");
+    if (isOpenSearch) RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_SEARCH");
 
     blocHome.fetchAllHome(
       page,

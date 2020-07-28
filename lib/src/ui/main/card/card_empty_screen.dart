@@ -35,6 +35,7 @@ class _CardEmptyScreenState extends State<CardEmptyScreen> {
             alignment: Alignment.center,
             child: Text(
               translate("card.empty_name"),
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: AppTheme.fontRoboto,
                 fontSize: 20,
@@ -47,6 +48,7 @@ class _CardEmptyScreenState extends State<CardEmptyScreen> {
             margin: EdgeInsets.only(top: 4, left: 25, right: 25),
             child: Text(
               translate("card.empty_title"),
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: AppTheme.fontRoboto,
                 fontSize: 15,

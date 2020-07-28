@@ -34,6 +34,7 @@ class _FavoriteEmptyScreenState extends State<FavoriteEmptyScreen> {
             alignment: Alignment.center,
             child: Text(
               translate("favourite.empty_name"),
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: AppTheme.fontRoboto,
                 fontSize: 20,
@@ -46,6 +47,7 @@ class _FavoriteEmptyScreenState extends State<FavoriteEmptyScreen> {
             margin: EdgeInsets.only(top: 4),
             child: Text(
               translate("favourite.empty_title"),
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: AppTheme.fontRoboto,
                 fontSize: 15,
