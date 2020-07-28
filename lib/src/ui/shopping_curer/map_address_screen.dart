@@ -295,7 +295,8 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
             ),
             GestureDetector(
               onTap: () async {
-                if (homeController.text.isNotEmpty) {
+                if (homeController.text.isNotEmpty &&
+                    homeController.text.replaceAll(" ", "").length > 0) {
                   db.saveProducts(
                     AddressModel(
                       street: homeController.text,
