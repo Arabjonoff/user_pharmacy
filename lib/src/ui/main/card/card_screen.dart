@@ -16,6 +16,7 @@ import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
+import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/curer_address_card.dart';
 import 'package:pharmacy/src/ui/shopping_curer/map_address_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
@@ -47,11 +48,15 @@ class _CardScreenState extends State<CardScreen> {
   var loading = false;
   var error = false;
   String error_text = "";
+  bool isNext = false;
+
+  int minSum = 0;
 
   DatabaseHelper dataBase = new DatabaseHelper();
 
   @override
   void initState() {
+    Repository().fetchMinSum().then((value) => minSum = value);
     registerBus();
     super.initState();
   }
@@ -73,6 +78,7 @@ class _CardScreenState extends State<CardScreen> {
     blocCard.fetchAllCard();
 
     Utils.isLogin().then((value) => isLogin = value);
+
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: AppBar(
@@ -108,6 +114,9 @@ class _CardScreenState extends State<CardScreen> {
               allCount += snapshot.data[i].cardCount;
               allPrice += (snapshot.data[i].cardCount * snapshot.data[i].price);
             }
+
+            allPrice.toInt() > minSum ? isNext = true : isNext = false;
+
             return snapshot.data.length == 0
                 ? CardEmptyScreen()
                 : ListView(
@@ -706,50 +715,52 @@ class _CardScreenState extends State<CardScreen> {
                       GestureDetector(
                         onTap: () {
                           if (isLogin) {
-                            setState(() {
-                              loading = true;
-                            });
-                            AccessStore addModel = new AccessStore();
-                            List<ProductsStore> drugs = new List();
-                            dataBase.getProdu(true).then((database) => {
-                                  for (int i = 0; i < database.length; i++)
-                                    {
-                                      drugs.add(ProductsStore(
-                                          drugId: database[i].id,
-                                          qty: database[i].cardCount))
-                                    },
-                                  addModel = new AccessStore(
-                                      lat: 0.0, lng: 0.0, products: drugs),
-                                  Repository()
-                                      .fetchAccessApteka(addModel)
-                                      .then((value) => {
-                                            if (value.length > 0)
-                                              {
-                                                Navigator.push(
-                                                  context,
-                                                  PageTransition(
-                                                    type:
-                                                        PageTransitionType.fade,
-                                                    child:
-                                                        CurerAddressCardScreen(),
+                            if (isNext) {
+                              setState(() {
+                                loading = true;
+                              });
+                              AccessStore addModel = new AccessStore();
+                              List<ProductsStore> drugs = new List();
+                              dataBase.getProdu(true).then((database) => {
+                                    for (int i = 0; i < database.length; i++)
+                                      {
+                                        drugs.add(ProductsStore(
+                                            drugId: database[i].id,
+                                            qty: database[i].cardCount))
+                                      },
+                                    addModel = new AccessStore(
+                                        lat: 0.0, lng: 0.0, products: drugs),
+                                    Repository()
+                                        .fetchCheckError(
+                                            addModel, language_data)
+                                        .then((value) => {
+                                              if (value.error == 0)
+                                                {
+                                                  Navigator.push(
+                                                    context,
+                                                    PageTransition(
+                                                      type: PageTransitionType
+                                                          .fade,
+                                                      child:
+                                                          CurerAddressCardScreen(),
+                                                    ),
                                                   ),
-                                                ),
-                                                setState(() {
-                                                  loading = false;
-                                                  error = false;
-                                                }),
-                                              }
-                                            else
-                                              {
-                                                setState(() {
-                                                  error = true;
-                                                  loading = false;
-                                                  error_text =
-                                                      translate("not_product");
-                                                }),
-                                              }
-                                          })
-                                });
+                                                  setState(() {
+                                                    loading = false;
+                                                    error = false;
+                                                  }),
+                                                }
+                                              else
+                                                {
+                                                  setState(() {
+                                                    error = true;
+                                                    loading = false;
+                                                    error_text = value.msg;
+                                                  }),
+                                                }
+                                            })
+                                  });
+                            }
                           } else {
                             BottomDialog.createBottomSheetHistory(context);
                           }
@@ -757,7 +768,9 @@ class _CardScreenState extends State<CardScreen> {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
-                            color: AppTheme.blue_app_color,
+                            color: isNext
+                                ? AppTheme.blue_app_color
+                                : AppTheme.blue_app_color_transparent,
                           ),
                           height: 44,
                           width: size.width,

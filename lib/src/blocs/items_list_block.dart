@@ -4,20 +4,29 @@ import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
+List<ItemResult> usersCategory;
+ItemModel itemCategoryData;
+int itemCategoryCount;
+dynamic itemCategoryNext;
+dynamic itemCategoryPrevious;
+
+List<ItemResult> usersSearch;
+ItemModel itemSearchData;
+int itemModelSearchCount;
+dynamic itemModelSearchNext;
+dynamic itemModelSearchPrevious;
+
+List<ItemResult> usersBest;
+ItemModel itemBestData;
+int itemModelBestCount;
+dynamic itemModelBestNext;
+dynamic itemModelBestPrevious;
+
 class ItemListBloc {
   final _repository = Repository();
   final _categoryItemsFetcher = PublishSubject<ItemModel>();
   final _bestItemFetcher = PublishSubject<ItemModel>();
   final _itemSearchFetcher = PublishSubject<ItemModel>();
-
-  List<ItemResult> usersCategory = new List();
-  ItemModel itemCategoryData;
-
-  List<ItemResult> usersSearch = new List();
-  ItemModel itemSearchData;
-
-  List<ItemResult> usersBest = new List();
-  ItemModel itemBestData;
 
   Observable<ItemModel> get allItemsCategoty => _categoryItemsFetcher.stream;
 
@@ -61,6 +70,10 @@ class ItemListBloc {
 
     usersCategory.addAll(itemCategory.results);
 
+    itemCategoryCount = itemCategory.count;
+    itemCategoryNext = itemCategory.next;
+    itemCategoryPrevious = itemCategory.previous;
+
     itemCategoryData = new ItemModel(
       count: itemCategory.count,
       next: itemCategory.next,
@@ -103,6 +116,10 @@ class ItemListBloc {
     }
 
     usersBest.addAll(itemModelBest.results);
+
+    itemModelBestCount = itemModelBest.count;
+    itemModelBestNext = itemModelBest.next;
+    itemModelBestPrevious = itemModelBest.previous;
 
     itemBestData = new ItemModel(
       count: itemModelBest.count,
@@ -148,6 +165,10 @@ class ItemListBloc {
 
     usersSearch.addAll(itemModelSearch.results);
 
+    itemModelSearchCount = itemModelSearch.count;
+    itemModelSearchNext = itemModelSearch.next;
+    itemModelSearchPrevious = itemModelSearch.previous;
+
     itemSearchData = new ItemModel(
       count: itemModelSearch.count,
       next: itemModelSearch.next,
@@ -156,6 +177,72 @@ class ItemListBloc {
     );
 
     _itemSearchFetcher.sink.add(itemSearchData);
+  }
+
+  updateBest() async {
+    List<ItemResult> database = await _repository.databaseItem();
+
+    ///best
+    for (var j = 0; j < database.length; j++) {
+      for (var i = 0; i < usersBest.length; i++) {
+        if (usersBest[i].id == database[j].id) {
+          usersBest[i].cardCount = database[j].cardCount;
+          usersBest[i].favourite = database[j].favourite;
+        }
+      }
+    }
+
+    _bestItemFetcher.sink.add(
+      ItemModel(
+        count: itemModelBestCount,
+        next: itemModelBestNext,
+        previous: itemModelBestPrevious,
+        results: usersBest,
+      ),
+    );
+  }
+
+  updateSearch() async {
+    List<ItemResult> database = await _repository.databaseItem();
+
+    ///search
+    for (var j = 0; j < database.length; j++) {
+      for (var i = 0; i < usersSearch.length; i++) {
+        if (usersSearch[i].id == database[j].id) {
+          usersSearch[i].cardCount = database[j].cardCount;
+          usersSearch[i].favourite = database[j].favourite;
+        }
+      }
+    }
+    itemSearchData = new ItemModel(
+      count: itemModelSearchCount,
+      next: itemModelSearchNext,
+      previous: itemModelSearchPrevious,
+      results: usersSearch,
+    );
+    _itemSearchFetcher.sink.add(itemSearchData);
+  }
+
+  updateCategory() async {
+    List<ItemResult> database = await _repository.databaseItem();
+
+    ///category
+    for (var j = 0; j < database.length; j++) {
+      for (var i = 0; i < usersCategory.length; i++) {
+        if (usersCategory[i].id == database[j].id) {
+          usersCategory[i].cardCount = database[j].cardCount;
+          usersCategory[i].favourite = database[j].favourite;
+        }
+      }
+    }
+
+    itemCategoryData = new ItemModel(
+      count: itemCategoryCount,
+      next: itemCategoryNext,
+      previous: itemCategoryPrevious,
+      results: usersCategory,
+    );
+    _categoryItemsFetcher.sink.add(itemCategoryData);
   }
 
   dispose() {

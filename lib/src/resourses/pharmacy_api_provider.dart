@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:pharmacy/src/model/api/chech_error.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
@@ -10,6 +11,7 @@ import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
+import 'package:pharmacy/src/model/api/min_sum.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
@@ -62,7 +64,6 @@ class PharmacyApiProvider {
       "smscode": code,
       "device_token": token,
     };
-
 
     HttpClient httpClient = new HttpClient();
     httpClient
@@ -541,5 +542,47 @@ class PharmacyApiProvider {
     final Map parsed = json.decode(response.body);
 
     return LoginModel.fromJson(parsed);
+  }
+
+  ///Min sum
+  Future<int> fetchMinSum() async {
+    String url = Utils.BASE_URL + '/api/v1/order-minimum';
+
+    HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+    final Map parsed = json.decode(reply);
+
+    return MinSum.fromJson(parsed).min;
+  }
+
+  ///items
+  Future<CheckError> fetchCheckError(
+      AccessStore accessStore, String language) async {
+    String url = Utils.BASE_URL + '/api/v1/check-error?lang=$language';
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
+
+    HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
+    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
+    request.write(json.encode(accessStore));
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+    final Map parsed = json.decode(reply);
+
+    return CheckError.fromJson(parsed);
   }
 }

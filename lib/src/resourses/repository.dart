@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_apteka.dart';
+import 'package:pharmacy/src/model/api/chech_error.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
@@ -10,6 +11,7 @@ import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
+import 'package:pharmacy/src/model/api/min_sum.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
@@ -33,7 +35,7 @@ class Repository {
       pharmacyApiProvider.fetchLogin(login);
 
   Future<VerfyModel> fetchVetfy(String login, String code, String token) =>
-      pharmacyApiProvider.fetchVerfy(login, code,token);
+      pharmacyApiProvider.fetchVerfy(login, code, token);
 
   Future<LoginModel> fetchRegister(String name, String surname, String birthday,
           String gender, String token) =>
@@ -153,4 +155,10 @@ class Repository {
 
   Future<LoginModel> fetchSentMessage(String message) =>
       pharmacyApiProvider.fetchSentMessage(message);
+
+  Future<CheckError> fetchCheckError(
+          AccessStore accessStore, String language) =>
+      pharmacyApiProvider.fetchCheckError(accessStore, language);
+
+  Future<int> fetchMinSum() => pharmacyApiProvider.fetchMinSum();
 }

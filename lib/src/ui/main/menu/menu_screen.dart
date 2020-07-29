@@ -23,10 +23,11 @@ class MenuScreen extends StatefulWidget {
   }
 }
 
+String language = "";
+String language_data = "";
+
 class _MenuScreenState extends State<MenuScreen> {
   Size size;
-  String language = "";
-  String language_data = "";
 
   String fullName = "";
   String city = "";
