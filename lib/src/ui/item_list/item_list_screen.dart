@@ -80,58 +80,56 @@ class _ItemListScreenState extends State<ItemListScreen> {
   bool title = false;
 
   void registerBus() {
-    RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST")
-        .listen((event) => setState(() {
-              if (event.title) {
-                ItemListBloc().updateBest();
-//                blocItemsList.fetchAllItemCategoryBest(
-//                  1,
-//                  international_name_ids,
-//                  manufacturer_ids,
-//                  sortFilter,
-//                  price_max,
-//                  price_min,
-//                  unit_ids,
-//                );
-//                page = 2;
-
-              }
-            }));
+    RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST").listen((event) {
+      if (event.title) {
+        //  ItemListBloc().updateBest();
+        blocItemsList.fetchAllItemCategoryBest(
+          1,
+          international_name_ids,
+          manufacturer_ids,
+          sortFilter,
+          price_max,
+          price_min,
+          unit_ids,
+        );
+        page = 2;
+      }
+    });
     RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_SEARCH")
-        .listen((event) => setState(() {
-              if (event.title) {
-                ItemListBloc().updateSearch();
-//                blocItemsList.fetchAllItemSearch(
-//                  widget.id,
-//                  1,
-//                  international_name_ids,
-//                  manufacturer_ids,
-//                  sortFilter,
-//                  price_max,
-//                  price_min,
-//                  unit_ids,
-//                );
-//                page = 2;
-              }
-            }));
-    RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_CATEGORY")
-        .listen((event) => setState(() {
-              if (event.title) {
-                ItemListBloc().updateCategory();
+        .listen((event) {
+      if (event.title) {
+        //  ItemListBloc().updateSearch();
+        blocItemsList.fetchAllItemSearch(
+          widget.id,
+          1,
+          international_name_ids,
+          manufacturer_ids,
+          sortFilter,
+          price_max,
+          price_min,
+          unit_ids,
+        );
+        page = 2;
+      }
+    });
 
-//                blocItemsList.fetchAllItemCategory(
-//                  widget.id,
-//                  1,
-//                  international_name_ids,
-//                  manufacturer_ids,
-//                  sortFilter,
-//                  price_max,
-//                  price_min,
-//                  unit_ids,
-//                );
-//                page = 2;
-              }
-            }));
+    RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_CATEGORY")
+        .listen((event) {
+      if (event.title) {
+        // ItemListBloc().updateCategory();
+        blocItemsList.fetchAllItemCategory(
+          widget.id,
+          1,
+          international_name_ids,
+          manufacturer_ids,
+          sortFilter,
+          price_max,
+          price_min,
+          unit_ids,
+        );
+        page = 2;
+      }
+    });
   }
 
   @override

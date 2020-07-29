@@ -68,7 +68,12 @@ class ItemListBloc {
       }
     }
 
-    usersCategory.addAll(itemCategory.results);
+    if (page == 1) {
+      usersCategory = new List();
+      usersCategory = itemCategory.results;
+    } else {
+      usersCategory.addAll(itemCategory.results);
+    }
 
     itemCategoryCount = itemCategory.count;
     itemCategoryNext = itemCategory.next;
@@ -115,7 +120,12 @@ class ItemListBloc {
       }
     }
 
-    usersBest.addAll(itemModelBest.results);
+    if (page == 1) {
+      usersBest = new List();
+      usersBest = itemModelBest.results;
+    } else {
+      usersBest.addAll(itemModelBest.results);
+    }
 
     itemModelBestCount = itemModelBest.count;
     itemModelBestNext = itemModelBest.next;
@@ -163,7 +173,12 @@ class ItemListBloc {
       }
     }
 
-    usersSearch.addAll(itemModelSearch.results);
+    if (page == 1) {
+      usersSearch = new List();
+      usersSearch = itemModelSearch.results;
+    } else {
+      usersSearch.addAll(itemModelSearch.results);
+    }
 
     itemModelSearchCount = itemModelSearch.count;
     itemModelSearchNext = itemModelSearch.next;
