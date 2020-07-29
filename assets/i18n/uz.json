@@ -21,6 +21,7 @@
   "saveCard": "are you save card?",
   "cardNumberError": "Card number wrong",
   "notSaveCard": "Bu cartani saqlash mumkin emas",
+  "fast": "Tezda",
   "main": {
     "home": "Asosiy",
     "catalog": "Katalog",

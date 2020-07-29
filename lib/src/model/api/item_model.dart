@@ -35,6 +35,8 @@ class ItemResult {
   String imageThumbnail;
   double price;
   Manifacture manufacturer;
+  int max_count;
+  bool is_coming;
   bool favourite = false;
   int cardCount = 0;
   bool sale = false;
@@ -77,6 +79,8 @@ class ItemResult {
     this.barcode = map["barcode"];
     this.image = map["image"];
     this.imageThumbnail = map["image_thumbnail"];
+    this.max_count = map["max_count"];
+    this.is_coming = map["is_coming"];
     this.price = map["price"].toDouble();
     this.manufacturer = map['manufacturer'] != null
         ? new Manifacture.fromMap(map['manufacturer'])
@@ -116,6 +120,8 @@ class ItemResult {
         "name": name,
         "barcode": barcode,
         "image": image,
+        "max_count": max_count,
+        "is_coming": is_coming,
         "image_thumbnail": imageThumbnail,
         "price": price,
         "manufacturer": manufacturer.toJson(),

@@ -19,6 +19,8 @@ class ItemsAllModel {
   Category category;
   List<ItemResult> analog;
   List<ItemResult> recommendations;
+  int max_count;
+  bool is_coming;
   bool favourite = false;
   int cardCount = 0;
   bool sale = false;
@@ -53,6 +55,8 @@ class ItemsAllModel {
     piece = json['piece'];
     dose = json['dose'];
     status = json['status'];
+    max_count = json["max_count"];
+    is_coming = json["is_coming"];
     price = json['price'];
     expirationDate = json['expiration_date'];
     isRecept = json['is_recept'];
@@ -97,6 +101,8 @@ class ItemsAllModel {
     data['status'] = this.status;
     data['price'] = this.price;
     data['expiration_date'] = this.expirationDate;
+    data['max_count'] = this.max_count;
+    data['is_coming'] = this.is_coming;
     data['is_recept'] = this.isRecept;
     if (this.unit != null) {
       data['unit'] = this.unit.toJson();
