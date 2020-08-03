@@ -7,6 +7,7 @@ import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/check_order_responce.dart';
+import 'package:pharmacy/src/model/api/check_version.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
@@ -166,4 +167,7 @@ class Repository {
       pharmacyApiProvider.fetchVerfyPaymentModel(verfy);
 
   Future<int> fetchMinSum() => pharmacyApiProvider.fetchMinSum();
+
+  Future<CheckVersion> fetchCheckVersion(String version) =>
+      pharmacyApiProvider.fetchCheckVersion(version);
 }

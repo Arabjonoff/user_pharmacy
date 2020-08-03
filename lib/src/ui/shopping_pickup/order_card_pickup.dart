@@ -943,10 +943,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                           else
                                             {
                                               setState(() {
-                                                var s = utf8.encode(
-                                                    response.data.error_note);
-                                                print(s);
-
                                                 error = true;
                                                 loading = false;
                                                 if (response.data.error_code ==

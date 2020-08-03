@@ -11,11 +11,14 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
+import 'package:pharmacy/src/model/api/check_version.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
+import 'package:pharmacy/src/model/eventBus/check_version.dart';
 import 'package:pharmacy/src/model/top_item_model.dart';
+import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
 import 'package:pharmacy/src/ui/chat/chat_screen.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
@@ -55,12 +58,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Size size;
   DatabaseHelper dataBase = new DatabaseHelper();
   int page = 1;
-  PackageInfo _packageInfo = PackageInfo(
-    appName: '',
-    packageName: '',
-    version: '',
-    buildNumber: '',
-  );
 
   @override
   void initState() {
@@ -71,9 +68,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Future<void> _initPackageInfo() async {
     final PackageInfo info = await PackageInfo.fromPlatform();
-    setState(() {
-      _packageInfo = info;
-    });
+    if (info.buildNumber != null) {
+      Repository().fetchCheckVersion(info.buildNumber).then((value) => {
+            if (value.status != 0)
+              {RxBus.post(CheckVersionModel(title: true,packageName: info.packageName), tag: "EVENT_ITEM_CHECK")}
+          });
+    }
   }
 
   Future<void> initSpeechState() async {
@@ -106,7 +106,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       "",
     );
     Utils.isLogin().then((value) => isLogin = value);
-    print(_packageInfo.buildNumber);
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,

@@ -7,6 +7,7 @@ import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/check_order_responce.dart';
+import 'package:pharmacy/src/model/api/check_version.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
@@ -335,9 +336,6 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
 
-    print(json.encode(order));
-    print(token);
-
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json'
@@ -347,10 +345,7 @@ class PharmacyApiProvider {
         .post(url, headers: headers, body: json.encode(order))
         .timeout(const Duration(seconds: 120));
 
-//    final Map parsed = json.decode(response.body);
-
     final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-    print(responseJson);
 
     return OrderStatusModel.fromJson(responseJson);
   }
@@ -594,9 +589,28 @@ class PharmacyApiProvider {
 
     String reply = await response.transform(utf8.decoder).join();
     final Map parsed = json.decode(reply);
-
-    print(reply);
-
     return PaymentVerfy.fromJson(parsed);
+  }
+
+  ///items
+  Future<CheckVersion> fetchCheckVersion(String version) async {
+    String url = Utils.BASE_URL + '/api/v1/check-version';
+
+    final data = {"version": version};
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
+
+    Map<String, String> headers = {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+    };
+
+    http.Response response = await http
+        .post(url, headers: headers, body: data)
+        .timeout(const Duration(seconds: 120));
+
+    final Map parsed = json.decode(response.body);
+
+    return CheckVersion.fromJson(parsed);
   }
 }

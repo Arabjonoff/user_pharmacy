@@ -1,20 +1,19 @@
-
 class PaymentVerfy {
   PaymentVerfy({
-    this.error,
+    this.error_code,
     this.errorNote,
   });
 
-  int error;
+  int error_code;
   String errorNote;
 
   factory PaymentVerfy.fromJson(Map<String, dynamic> json) => PaymentVerfy(
-    error: json["error"],
-    errorNote: json["error_note"],
-  );
+        error_code: json["error_code"],
+        errorNote: json["error_note"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "error": error,
-    "error_note": errorNote,
-  };
+        "error_code": error_code,
+        "error_note": errorNote,
+      };
 }

@@ -17,7 +17,6 @@ import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app_theme.dart';
-import '../shopping_web_screen.dart';
 import 'curer_address_card.dart';
 
 class OrderCardCurerScreen extends StatefulWidget {

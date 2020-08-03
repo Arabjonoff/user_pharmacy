@@ -288,19 +288,26 @@ class _VerfyPaymentScreenState extends State<VerfyPaymentScreen> {
                   var responce =
                       await Repository().fetchVerfyPaymentModel(verfy);
 
-                  print(responce);
-                  if (responce.error == 0) {
-                    setState(() {
-                      loading = false;
-                      error = false;
-                    });
-                    Navigator.pushReplacement(
-                      context,
-                      PageTransition(
-                        type: PageTransitionType.fade,
-                        child: HistoryOrderScreen(),
-                      ),
-                    );
+                  if (responce.error_code != null) {
+                    if (responce.error_code == 0) {
+                      setState(() {
+                        loading = false;
+                        error = false;
+                      });
+                      Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.fade,
+                          child: HistoryOrderScreen(),
+                        ),
+                      );
+                    } else {
+                      setState(() {
+                        errorText = responce.errorNote;
+                        loading = false;
+                        error = true;
+                      });
+                    }
                   } else {
                     setState(() {
                       errorText = responce.errorNote;

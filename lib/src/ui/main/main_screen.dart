@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,6 +9,7 @@ import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
+import 'package:pharmacy/src/model/eventBus/check_version.dart';
 import 'package:pharmacy/src/ui/chat/chat_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/favorite/favorites_screen.dart';
@@ -55,6 +58,8 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
         });
+    RxBus.register<CheckVersionModel>(tag: "EVENT_ITEM_CHECK")
+        .listen((event) => {});
   }
 
   @override
