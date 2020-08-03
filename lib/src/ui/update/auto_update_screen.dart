@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
 
@@ -48,14 +51,57 @@ class _AutoUpdateScreenState extends State<AutoUpdateScreen> {
           )),
       body: Container(
         decoration: BoxDecoration(
-          color: Color(0xFF433278),
+          color: AppTheme.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(14.0),
             topRight: Radius.circular(14.0),
           ),
         ),
         padding: EdgeInsets.only(top: 14),
-        child: Container(),
+        child: Container(
+          child: Center(
+            child: GestureDetector(
+              onTap: () async {
+                if (Platform.isAndroid) {
+                  var url = 'https://play.google.com/store/apps/details?id=' +
+                      widget.package;
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  } else {
+                    throw 'Could not launch $url';
+                  }
+                } else if (Platform.isIOS) {
+                  var url = 'market://details?id=' + widget.package;
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  } else {
+                    throw 'Could not launch $url';
+                  }
+                }
+              },
+              child: Container(
+                height: 56,
+                margin: EdgeInsets.only(left: 35, right: 35),
+                decoration: BoxDecoration(
+                  color: AppTheme.blue_app_color,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Center(
+                  child: Text(
+                    translate("update"),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: AppTheme.fontRoboto,
+                      color: AppTheme.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

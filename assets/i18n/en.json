@@ -22,6 +22,7 @@
   "cardNumberError": "Card number wrong",
   "notSaveCard": "Bu cartani saqlash mumkin emas",
   "fast": "Tezda",
+  "update": "Update",
   "main": {
     "home": "Home",
     "catalog": "Catalog",

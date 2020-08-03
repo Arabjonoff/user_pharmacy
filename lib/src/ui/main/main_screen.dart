@@ -64,7 +64,7 @@ class _MainScreenState extends State<MainScreen> {
               Navigator.pushReplacement(
                 context,
                 PageTransition(
-                  type: PageTransitionType.rightToLeft,
+                  type: PageTransitionType.downToUp,
                   child: AutoUpdateScreen(event.packageName),
                 ),
               )
