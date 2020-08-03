@@ -8,8 +8,8 @@ class HistoryModel {
 
   HistoryModel.fromJson(Map<String, dynamic> json) {
     count = json['count'];
-    next = json['next'] == null ? "" : json['next'];
-    previous = json['previous'] == null ? "" : json['previous'];
+    next = json['next'];
+    previous = json['previous'];
     if (json['results'] != null) {
       results = new List<HistoryResults>();
       json['results'].forEach((v) {

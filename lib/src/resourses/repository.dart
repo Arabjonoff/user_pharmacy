@@ -141,8 +141,8 @@ class Repository {
   Future<CheckOrderResponceModel> fetchCheckOrder(CheckOrderModel order) =>
       pharmacyApiProvider.fetchCheckOrder(order);
 
-  Future<HistoryModel> fetchHistory() =>
-      pharmacyApiProvider.fetchOrderHistory();
+  Future<HistoryModel> fetchHistory(int page) =>
+      pharmacyApiProvider.fetchOrderHistory(page, 20);
 
   Future<FilterModel> fetchFilterParametrs(int page, int type) =>
       pharmacyApiProvider.fetchFilterParametrs(page, 50, type);

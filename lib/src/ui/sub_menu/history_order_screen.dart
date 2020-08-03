@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/history_bloc.dart';
 import 'package:pharmacy/src/database/database_helper_apteka.dart';
@@ -24,9 +25,23 @@ class HistoryOrderScreen extends StatefulWidget {
 }
 
 class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
+  bool isLoading = false;
+  int page = 1;
+  ScrollController _sc = new ScrollController();
+
+  @override
+  void initState() {
+    _getMoreData(1);
+    _sc.addListener(() {
+      if (_sc.position.pixels == _sc.position.maxScrollExtent) {
+        _getMoreData(page);
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    blocHistory.fetchAllHistory();
     return Scaffold(
         backgroundColor: AppTheme.white,
         appBar: AppBar(
@@ -67,226 +82,247 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
           stream: blocHistory.allHistory,
           builder: (context, AsyncSnapshot<HistoryModel> snapshot) {
             if (snapshot.hasData) {
+              snapshot.data.next == null ? isLoading = true : isLoading = false;
+
               return snapshot.data.results.length > 0
                   ? ListView.builder(
-                      itemCount: snapshot.data.results.length,
+                      controller: _sc,
+                      itemCount: snapshot.data.results.length + 1,
                       itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.fade,
-                                child:
-                                    OrderNumber(snapshot.data.results[index]),
+                        if (index == snapshot.data.results.length) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: new Center(
+                              child: new Opacity(
+                                opacity: isLoading ? 0.0 : 1.0,
+                                child: Container(
+                                  height: 72,
+                                  child: Lottie.asset(
+                                      'assets/anim/item_load_animation.json'),
+                                ),
                               ),
-                            );
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: AppTheme.white,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10),
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.2),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: Offset(0, 3),
-                                ),
-                              ],
                             ),
-                            margin:
-                                EdgeInsets.only(top: 16, left: 16, right: 16),
-                            height: 260,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 16, right: 16, top: 16),
-                                  child: Text(
-                                    "№" +
-                                        snapshot.data.results[index].id
-                                            .toString(),
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 17,
-                                      fontStyle: FontStyle.normal,
-                                      color: AppTheme.black_text,
+                          );
+                        } else {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  type: PageTransitionType.fade,
+                                  child:
+                                      OrderNumber(snapshot.data.results[index]),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: AppTheme.white,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    topRight: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.2),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              margin:
+                                  EdgeInsets.only(top: 16, left: 16, right: 16),
+                              height: 260,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        left: 16, right: 16, top: 16),
+                                    child: Text(
+                                      "№" +
+                                          snapshot.data.results[index].id
+                                              .toString(),
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontRoboto,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 17,
+                                        fontStyle: FontStyle.normal,
+                                        color: AppTheme.black_text,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 16, right: 16, top: 2),
-                                  child: Text(
-                                    snapshot.data.results[index].endShiptime,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 13,
-                                      fontStyle: FontStyle.normal,
-                                      color: AppTheme.black_transparent_text,
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        left: 16, right: 16, top: 2),
+                                    child: Text(
+                                      snapshot.data.results[index].endShiptime,
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontRoboto,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 13,
+                                        fontStyle: FontStyle.normal,
+                                        color: AppTheme.black_transparent_text,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  height: 1,
-                                  color: AppTheme.black_linear_category,
-                                  margin: EdgeInsets.only(
-                                      left: 16, right: 16, top: 17),
-                                ),
-                                Container(
-                                  height: 25,
-                                  margin: EdgeInsets.only(
-                                      top: 16, left: 16, right: 16),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        snapshot.data.results[index].type ==
-                                                "self"
-                                            ? translate("history.somviz")
-                                            : translate("history.dostavka"),
-                                        style: TextStyle(
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: AppTheme.fontRoboto,
-                                          color: AppTheme.black_text,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(),
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                            color: snapshot.data.results[index]
-                                                        .status ==
-                                                    "pending"
-                                                ? Color(0xFF792EC0)
-                                                : Color(0xFFA3ADB8)),
-                                        height: 24,
-                                        width: 85,
-                                        child: Center(
-                                          child: Text(
-                                            translate(
-                                                "history.${snapshot.data.results[index].status}"),
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontRoboto,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 11,
-                                              color: AppTheme.white,
-                                              fontStyle: FontStyle.normal,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                                  Container(
+                                    height: 1,
+                                    color: AppTheme.black_linear_category,
+                                    margin: EdgeInsets.only(
+                                        left: 16, right: 16, top: 17),
                                   ),
-                                ),
-                                snapshot.data.results[index].endShiptime != ""
-                                    ? Container(
-                                        margin: EdgeInsets.only(
-                                            left: 16, right: 16, top: 16),
-                                        child: Text(
-                                          translate("history.date") +
-                                              snapshot.data.results[index]
-                                                  .endShiptime,
+                                  Container(
+                                    height: 25,
+                                    margin: EdgeInsets.only(
+                                        top: 16, left: 16, right: 16),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          snapshot.data.results[index].type ==
+                                                  "self"
+                                              ? translate("history.somviz")
+                                              : translate("history.dostavka"),
                                           style: TextStyle(
-                                            fontFamily: AppTheme.fontRoboto,
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 13,
                                             fontStyle: FontStyle.normal,
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: AppTheme.fontRoboto,
                                             color: AppTheme.black_text,
                                           ),
                                         ),
-                                      )
-                                    : Container(),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 16, right: 16, top: 4),
-                                  child: Text(
-                                    translate("history.price") +
-                                        " " +
-                                        priceFormat.format(snapshot
-                                            .data.results[index].total) +
-                                        translate("sum"),
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 13,
-                                      fontStyle: FontStyle.normal,
-                                      color: AppTheme.black_transparent_text,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    margin:
-                                        EdgeInsets.only(top: 16, bottom: 16),
-                                    child: ListView.builder(
-                                      padding: const EdgeInsets.only(
-                                        top: 0,
-                                        bottom: 0,
-                                        right: 16,
-                                        left: 16,
-                                      ),
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: snapshot
-                                          .data.results[index].items.length,
-                                      itemBuilder:
-                                          (BuildContext context, int subindex) {
-                                        return Container(
-                                          width: 56,
-                                          height: 56,
-                                          margin: EdgeInsets.only(right: 16),
-                                          child: Container(
-                                            width: 56,
-                                            height: 56,
-                                            child: CachedNetworkImage(
-                                              imageUrl: snapshot
-                                                  .data
-                                                  .results[index]
-                                                  .items[subindex]
-                                                  .drug
-                                                  .imageThumbnail,
-                                              placeholder: (context, url) =>
-                                                  Container(
-                                                padding: EdgeInsets.all(5),
-                                                child: Center(
-                                                  child: SvgPicture.asset(
-                                                      "assets/images/place_holder.svg"),
-                                                ),
+                                        Expanded(
+                                          child: Container(),
+                                        ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(4.0),
+                                              color: snapshot
+                                                          .data
+                                                          .results[index]
+                                                          .status ==
+                                                      "pending"
+                                                  ? Color(0xFF792EC0)
+                                                  : Color(0xFFA3ADB8)),
+                                          height: 24,
+                                          width: 85,
+                                          child: Center(
+                                            child: Text(
+                                              translate(
+                                                  "history.${snapshot.data.results[index].status}"),
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRoboto,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 11,
+                                                color: AppTheme.white,
+                                                fontStyle: FontStyle.normal,
                                               ),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Container(
-                                                padding: EdgeInsets.all(5),
-                                                child: Center(
-                                                  child: SvgPicture.asset(
-                                                      "assets/images/place_holder.svg"),
-                                                ),
-                                              ),
-                                              fit: BoxFit.fitHeight,
                                             ),
                                           ),
-                                        );
-                                      },
+                                        )
+                                      ],
                                     ),
                                   ),
-                                )
-                              ],
+                                  snapshot.data.results[index].endShiptime != ""
+                                      ? Container(
+                                          margin: EdgeInsets.only(
+                                              left: 16, right: 16, top: 16),
+                                          child: Text(
+                                            translate("history.date") +
+                                                snapshot.data.results[index]
+                                                    .endShiptime,
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontRoboto,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 13,
+                                              fontStyle: FontStyle.normal,
+                                              color: AppTheme.black_text,
+                                            ),
+                                          ),
+                                        )
+                                      : Container(),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        left: 16, right: 16, top: 4),
+                                    child: Text(
+                                      translate("history.price") +
+                                          " " +
+                                          priceFormat.format(snapshot
+                                              .data.results[index].total) +
+                                          translate("sum"),
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontRoboto,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 13,
+                                        fontStyle: FontStyle.normal,
+                                        color: AppTheme.black_transparent_text,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      margin:
+                                          EdgeInsets.only(top: 16, bottom: 16),
+                                      child: ListView.builder(
+                                        padding: const EdgeInsets.only(
+                                          top: 0,
+                                          bottom: 0,
+                                          right: 16,
+                                          left: 16,
+                                        ),
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: snapshot
+                                            .data.results[index].items.length,
+                                        itemBuilder: (BuildContext context,
+                                            int subindex) {
+                                          return Container(
+                                            width: 56,
+                                            height: 56,
+                                            margin: EdgeInsets.only(right: 16),
+                                            child: Container(
+                                              width: 56,
+                                              height: 56,
+                                              child: CachedNetworkImage(
+                                                imageUrl: snapshot
+                                                    .data
+                                                    .results[index]
+                                                    .items[subindex]
+                                                    .drug
+                                                    .imageThumbnail,
+                                                placeholder: (context, url) =>
+                                                    Container(
+                                                  padding: EdgeInsets.all(5),
+                                                  child: Center(
+                                                    child: SvgPicture.asset(
+                                                        "assets/images/place_holder.svg"),
+                                                  ),
+                                                ),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Container(
+                                                  padding: EdgeInsets.all(5),
+                                                  child: Center(
+                                                    child: SvgPicture.asset(
+                                                        "assets/images/place_holder.svg"),
+                                                  ),
+                                                ),
+                                                fit: BoxFit.fitHeight,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }
                       },
                     )
                   : Column(
@@ -361,5 +397,14 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
             );
           },
         ));
+  }
+
+  void _getMoreData(int index) async {
+    if (!isLoading) {
+      setState(() {
+        blocHistory.fetchAllHistory(index);
+        page++;
+      });
+    }
   }
 }

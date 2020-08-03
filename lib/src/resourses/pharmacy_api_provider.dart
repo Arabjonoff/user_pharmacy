@@ -351,15 +351,12 @@ class PharmacyApiProvider {
   }
 
   ///add order
-  Future<HistoryModel> fetchOrderHistory() async {
-    String url = Utils.BASE_URL + '/api/v1/orders';
+  Future<HistoryModel> fetchOrderHistory(int page, int per_page) async {
+    String url =
+        Utils.BASE_URL + '/api/v1/orders?page=$page&per_page=$per_page';
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
-
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
-    };
 
     HttpClient httpClient = new HttpClient();
     httpClient

@@ -170,70 +170,70 @@ class _OrderNumberState extends State<OrderNumber> {
               ],
             ),
           ),
-          widget.item.status == "pending"
-              ? GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      itemClick = true;
-                    });
-
-                    Repository()
-                        .fetchOrderPayment(widget.item.id.toString())
-                        .then((value) => {
-                              if (value.data.card_token.length > 0)
-                                {
-                                  Navigator.pop(context),
-                                  Navigator.pop(context),
-//                                  Navigator.push(
-//                                    context,
-//                                    PageTransition(
-//                                      type: PageTransitionType.fade,
-//                                      child: ShoppingWebScreen(
-//                                          value.data.return_url),
-//                                    ),
-//                                  )
-                                }
-                              else
-                                {
-                                  setState(() {
-                                    itemClick = false;
-                                  }),
-                                }
-                            });
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      top: 21,
-                      left: 16,
-                      right: 16,
-                    ),
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: AppTheme.blue_app_color,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Center(
-                      child: itemClick
-                          ? CircularProgressIndicator(
-                              value: null,
-                              strokeWidth: 3.0,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(AppTheme.white),
-                            )
-                          : Text(
-                              translate("zakaz.reload_pay"),
-                              style: TextStyle(
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: AppTheme.fontRoboto,
-                                fontSize: 17,
-                                color: AppTheme.white,
-                              ),
-                            ),
-                    ),
-                  ),
-                )
-              : Container(),
+//          widget.item.status == "pending"
+//              ? GestureDetector(
+//                  onTap: () {
+//                    setState(() {
+//                      itemClick = true;
+//                    });
+//
+//                    Repository()
+//                        .fetchOrderPayment(widget.item.id.toString())
+//                        .then((value) => {
+//                              if (value.data.card_token.length > 0)
+//                                {
+//                                  Navigator.pop(context),
+//                                  Navigator.pop(context),
+////                                  Navigator.push(
+////                                    context,
+////                                    PageTransition(
+////                                      type: PageTransitionType.fade,
+////                                      child: ShoppingWebScreen(
+////                                          value.data.return_url),
+////                                    ),
+////                                  )
+//                                }
+//                              else
+//                                {
+//                                  setState(() {
+//                                    itemClick = false;
+//                                  }),
+//                                }
+//                            });
+//                  },
+//                  child: Container(
+//                    margin: EdgeInsets.only(
+//                      top: 21,
+//                      left: 16,
+//                      right: 16,
+//                    ),
+//                    height: 44,
+//                    decoration: BoxDecoration(
+//                      color: AppTheme.blue_app_color,
+//                      borderRadius: BorderRadius.circular(10.0),
+//                    ),
+//                    child: Center(
+//                      child: itemClick
+//                          ? CircularProgressIndicator(
+//                              value: null,
+//                              strokeWidth: 3.0,
+//                              valueColor:
+//                                  AlwaysStoppedAnimation<Color>(AppTheme.white),
+//                            )
+//                          : Text(
+//                              translate("zakaz.reload_pay"),
+//                              style: TextStyle(
+//                                fontStyle: FontStyle.normal,
+//                                fontWeight: FontWeight.w600,
+//                                fontFamily: AppTheme.fontRoboto,
+//                                fontSize: 17,
+//                                color: AppTheme.white,
+//                              ),
+//                            ),
+//                    ),
+//                  ),
+//                )
+//              : Container(),
           Container(
             margin: EdgeInsets.only(
               top: 26,

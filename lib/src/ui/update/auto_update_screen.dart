@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../app_theme.dart';
+import '../../app_theme.dart';
 
 // ignore: must_be_immutable
 class AutoUpdateScreen extends StatefulWidget {

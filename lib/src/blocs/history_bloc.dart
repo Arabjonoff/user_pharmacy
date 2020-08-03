@@ -6,12 +6,26 @@ import 'package:rxdart/rxdart.dart';
 class HistoryBloc {
   final _repository = Repository();
   final _historyFetcher = PublishSubject<HistoryModel>();
+  List<HistoryResults> results = new List();
+  HistoryModel model = new HistoryModel();
 
   Observable<HistoryModel> get allHistory => _historyFetcher.stream;
 
-  fetchAllHistory() async {
-    HistoryModel historyModel = await _repository.fetchHistory();
-    _historyFetcher.sink.add(historyModel);
+  fetchAllHistory(int page) async {
+    if (page == 1) {
+      results = new List();
+    }
+    HistoryModel historyModel = await _repository.fetchHistory(page);
+    if (historyModel.results != null) results.addAll(historyModel.results);
+
+    model = new HistoryModel(
+      count: historyModel.count,
+      next: historyModel.next,
+      previous: historyModel.previous,
+      results: results,
+    );
+
+    _historyFetcher.sink.add(model);
   }
 
   dispose() {

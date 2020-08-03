@@ -12,7 +12,7 @@ import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
-import 'package:pharmacy/src/ui/verfy_payment_screen.dart';
+import 'file:///D:/Flutter/ishxona/user_pharmacy/lib/src/ui/payment/verfy_payment_screen.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

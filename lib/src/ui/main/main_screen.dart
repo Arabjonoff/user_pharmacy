@@ -17,7 +17,7 @@ import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
 import 'package:rxbus/rxbus.dart';
 
 import '../../app_theme.dart';
-import '../auto_update_screen.dart';
+import '../update/auto_update_screen.dart';
 import 'category/category_screen.dart';
 import 'home/home_screen.dart';
 

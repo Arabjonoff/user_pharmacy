@@ -9,6 +9,7 @@ import 'package:flutter_translate/localization_delegate.dart';
 import 'package:flutter_translate/localization_provider.dart';
 import 'package:flutter_translate/localized_app.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
+import 'package:pharmacy/src/ui/payment/replase_payment_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'src/app_theme.dart';
