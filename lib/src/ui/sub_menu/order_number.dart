@@ -181,18 +181,18 @@ class _OrderNumberState extends State<OrderNumber> {
                     Repository()
                         .fetchOrderPayment(widget.item.id.toString())
                         .then((value) => {
-                              if (value.data.return_url.length > 0)
+                              if (value.data.card_token.length > 0)
                                 {
                                   Navigator.pop(context),
                                   Navigator.pop(context),
-                                  Navigator.push(
-                                    context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      child: ShoppingWebScreen(
-                                          value.data.return_url),
-                                    ),
-                                  )
+//                                  Navigator.push(
+//                                    context,
+//                                    PageTransition(
+//                                      type: PageTransitionType.fade,
+//                                      child: ShoppingWebScreen(
+//                                          value.data.return_url),
+//                                    ),
+//                                  )
                                 }
                               else
                                 {

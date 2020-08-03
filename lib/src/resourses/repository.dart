@@ -19,9 +19,11 @@ import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/chat/chat_api_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
+import 'package:pharmacy/src/model/payment_verfy.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/model/send/check_order.dart';
+import 'package:pharmacy/src/model/send/verfy_payment_model.dart';
 
 import 'pharmacy_api_provider.dart';
 
@@ -159,6 +161,9 @@ class Repository {
   Future<CheckError> fetchCheckError(
           AccessStore accessStore, String language) =>
       pharmacyApiProvider.fetchCheckError(accessStore, language);
+
+  Future<PaymentVerfy> fetchVerfyPaymentModel(VerdyPaymentModel verfy) =>
+      pharmacyApiProvider.fetchVerfyPaymentModel(verfy);
 
   Future<int> fetchMinSum() => pharmacyApiProvider.fetchMinSum();
 }

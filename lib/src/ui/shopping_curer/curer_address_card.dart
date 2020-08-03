@@ -385,6 +385,8 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                             id: i,
                             payment_id: snapshot.data.paymentTypes[i].id,
                             card_id: snapshot.data.paymentTypes[i].card_id,
+                            card_token:
+                                snapshot.data.paymentTypes[i].card_token,
                             name: snapshot.data.paymentTypes[i].name,
                             pan: snapshot.data.paymentTypes[i].pan,
                             type: snapshot.data.paymentTypes[i].type,

@@ -1,30 +1,26 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
-import 'package:pharmacy/src/model/api/item_model.dart';
-import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
-import 'package:pharmacy/src/ui/shopping_curer/map_address_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
+import 'package:pharmacy/src/ui/verfy_payment_screen.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
 import '../shopping_curer/curer_address_card.dart';
-import '../shopping_web_screen.dart';
 
 // ignore: must_be_immutable
 class OrderCardPickupScreen extends StatefulWidget {
@@ -42,7 +38,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
   int clickType;
   bool checkBox = false;
   bool isEnd = false;
-  int cardId = 0;
+  String cardToken = "";
 
   String fullName = "";
 
@@ -591,14 +587,14 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                               clickType = data.id;
                               paymentType = data.payment_id;
                               isEnd = true;
-                              cardId = data.card_id;
+                              cardToken = data.card_token;
                             });
                           } else {
                             setState(() {
                               clickType = data.id;
                               paymentType = data.payment_id;
                               isEnd = false;
-                              cardId = data.card_id;
+                              cardToken = data.card_token;
                             });
                           }
                         },
@@ -868,7 +864,8 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                     phone: number,
                                     store_id: aptekaModel.id,
                                     payment_type: paymentType,
-                                    card_id: cardId,
+                                    card_token:
+                                        cardToken == "" ? null : cardToken,
                                     drugs: drugs,
                                     card_pan: cardNum,
                                     card_exp: cardDate,
@@ -880,7 +877,8 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                     phone: number,
                                     store_id: aptekaModel.id,
                                     payment_type: paymentType,
-                                    card_id: cardId,
+                                    card_token:
+                                        cardToken == "" ? null : cardToken,
                                     drugs: drugs,
                                   ),
                             Repository()
@@ -888,7 +886,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                 .then((response) => {
                                       if (response.status == 1)
                                         {
-                                          if (response.data.error == 0)
+                                          if (response.data.error_code == 0)
                                             {
                                               setState(() {
                                                 loading = false;
@@ -913,7 +911,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                               RxBus.post(
                                                   CardItemChangeModel(true),
                                                   tag: "EVENT_CARD"),
-                                              if (response.data.return_url !=
+                                              if (response.data.card_token !=
                                                   "")
                                                 {
                                                   Navigator.pushReplacement(
@@ -921,9 +919,11 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                                     PageTransition(
                                                       type: PageTransitionType
                                                           .fade,
-                                                      child: ShoppingWebScreen(
+                                                      child: VerfyPaymentScreen(
+                                                          response.data
+                                                              .phone_number,
                                                           response
-                                                              .data.return_url),
+                                                              .data.card_token),
                                                     ),
                                                   )
                                                 }
@@ -943,21 +943,35 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                           else
                                             {
                                               setState(() {
+                                                var s = utf8.encode(
+                                                    response.data.error_note);
+                                                print(s);
+
                                                 error = true;
                                                 loading = false;
-                                                if (response.data.error == 22) {
-                                                  checkBox = false;
+                                                if (response.data.error_code ==
+                                                    -21) {
+                                                  error_text =
+                                                      "Карта неактивна";
+                                                } else {
+                                                  if (response
+                                                          .data.error_code ==
+                                                      22) {
+                                                    checkBox = false;
+                                                  }
+                                                  error_text = response.data
+                                                              .error_code ==
+                                                          2
+                                                      ? translate(
+                                                          "cardNumberError")
+                                                      : response.data
+                                                                  .error_code ==
+                                                              22
+                                                          ? translate(
+                                                              "notSaveCard")
+                                                          : response
+                                                              .data.error_note;
                                                 }
-                                                error_text =
-                                                    response.data.error == 2
-                                                        ? translate(
-                                                            "cardNumberError")
-                                                        : response.data.error ==
-                                                                22
-                                                            ? translate(
-                                                                "notSaveCard")
-                                                            : response
-                                                                .data.error_msg;
                                               }),
                                             }
                                         }

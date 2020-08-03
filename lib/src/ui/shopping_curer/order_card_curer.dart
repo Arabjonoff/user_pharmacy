@@ -12,6 +12,7 @@ import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
+import 'package:pharmacy/src/ui/verfy_payment_screen.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -50,7 +51,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
   int clickType;
   bool checkBox = false;
   bool isEnd = false;
-  int cardId = 0;
+  String cardToken = "";
 
   String fullName = "";
   String number = "";
@@ -398,14 +399,14 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                               clickType = data.id;
                               paymentType = data.payment_id;
                               isEnd = true;
-                              cardId = data.card_id;
+                              cardToken = data.card_token;
                             });
                           } else {
                             setState(() {
                               clickType = data.id;
                               paymentType = data.payment_id;
                               isEnd = false;
-                              cardId = data.card_id;
+                              cardToken = data.card_token;
                             });
                           }
                         },
@@ -746,7 +747,8 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                     phone: number,
                                     shipping_time: widget.shippingTime,
                                     payment_type: paymentType,
-                                    card_id: cardId,
+                                    card_token:
+                                        cardToken == "" ? null : cardToken,
                                     drugs: drugs,
                                     card_pan: cardNum,
                                     card_exp: cardDate,
@@ -762,7 +764,8 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                     phone: number,
                                     shipping_time: widget.shippingTime,
                                     payment_type: paymentType,
-                                    card_id: cardId,
+                                    card_token:
+                                        cardToken == "" ? null : cardToken,
                                     drugs: drugs,
                                   ),
                             Repository()
@@ -770,7 +773,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                 .then((response) => {
                                       if (response.status == 1)
                                         {
-                                          if (response.data.error == 0)
+                                          if (response.data.error_code == 0)
                                             {
                                               setState(() {
                                                 loading = false;
@@ -795,7 +798,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                               RxBus.post(
                                                   CardItemChangeModel(true),
                                                   tag: "EVENT_CARD"),
-                                              if (response.data.return_url !=
+                                              if (response.data.card_token !=
                                                   "")
                                                 {
                                                   Navigator.pushReplacement(
@@ -803,9 +806,11 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                                     PageTransition(
                                                       type: PageTransitionType
                                                           .fade,
-                                                      child: ShoppingWebScreen(
+                                                      child: VerfyPaymentScreen(
+                                                          response.data
+                                                              .phone_number,
                                                           response
-                                                              .data.return_url),
+                                                              .data.card_token),
                                                     ),
                                                   )
                                                 }
@@ -827,18 +832,32 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                               setState(() {
                                                 error = true;
                                                 loading = false;
-                                                if(response.data.error == 22){
-                                                  checkBox = false;
+                                                error_text =
+                                                    response.data.error_note;
+
+                                                if (response.data.error_code ==
+                                                    -21) {
+                                                  error_text =
+                                                      "Карта неактивна";
+                                                } else {
+                                                  if (response
+                                                          .data.error_code ==
+                                                      22) {
+                                                    checkBox = false;
+                                                  }
+                                                  error_text = response.data
+                                                              .error_code ==
+                                                          2
+                                                      ? translate(
+                                                          "cardNumberError")
+                                                      : response.data
+                                                                  .error_code ==
+                                                              22
+                                                          ? translate(
+                                                              "notSaveCard")
+                                                          : response
+                                                              .data.error_note;
                                                 }
-                                                error_text = response
-                                                            .data.error ==
-                                                        2
-                                                    ? translate("cardNumberError")
-                                                    : response.data.error == 22
-                                                        ? translate(
-                                                            "notSaveCard")
-                                                        : response
-                                                            .data.error_msg;
                                               }),
                                             }
                                         }

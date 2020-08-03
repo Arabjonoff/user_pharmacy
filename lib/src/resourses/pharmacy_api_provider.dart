@@ -18,9 +18,11 @@ import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/chat/chat_api_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
+import 'package:pharmacy/src/model/payment_verfy.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/model/send/check_order.dart';
+import 'package:pharmacy/src/model/send/verfy_payment_model.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -334,32 +336,23 @@ class PharmacyApiProvider {
     String token = prefs.getString("token");
 
     print(json.encode(order));
+    print(token);
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json'
     };
 
-//    HttpClient httpClient = new HttpClient();
-//    httpClient
-//      ..badCertificateCallback =
-//          (X509Certificate cert, String host, int port) => true;
-//    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
-//    request.headers.set('content-type', 'application/json');
-//    request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
-//    request.write(json.encode(order));
-//    HttpClientResponse response = await request.close();
-//
-//    String reply = await response.transform(utf8.decoder).join();
-
     http.Response response = await http
         .post(url, headers: headers, body: json.encode(order))
         .timeout(const Duration(seconds: 120));
 
-    final Map parsed = json.decode(response.body);
-    print(response.body);
+//    final Map parsed = json.decode(response.body);
 
-    return OrderStatusModel.fromJson(parsed);
+    final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+    print(responseJson);
+
+    return OrderStatusModel.fromJson(responseJson);
   }
 
   ///add order
@@ -383,10 +376,6 @@ class PharmacyApiProvider {
     HttpClientResponse response = await request.close();
 
     String reply = await response.transform(utf8.decoder).join();
-
-//    http.Response response = await http
-//        .get(url, headers: headers)
-//        .timeout(const Duration(seconds: 120));
 
     final Map parsed = json.decode(reply);
 
@@ -584,5 +573,30 @@ class PharmacyApiProvider {
     final Map parsed = json.decode(reply);
 
     return CheckError.fromJson(parsed);
+  }
+
+  ///items
+  Future<PaymentVerfy> fetchVerfyPaymentModel(VerdyPaymentModel verfy) async {
+    String url = Utils.BASE_URL + '/api/v1/verify-token';
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
+
+    HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
+    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
+    request.write(json.encode(verfy));
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+    final Map parsed = json.decode(reply);
+
+    print(reply);
+
+    return PaymentVerfy.fromJson(parsed);
   }
 }

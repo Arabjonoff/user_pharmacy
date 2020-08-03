@@ -64,14 +64,16 @@ class PaymentTypes {
   int id;
   int card_id;
   String name;
+  String card_token;
   String pan;
   String type;
 
-  PaymentTypes({this.id, this.card_id, this.name, this.pan, this.type});
+  PaymentTypes({this.id, this.card_id, this.card_token,this.name, this.pan, this.type});
 
   PaymentTypes.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     card_id = json['card_id'];
+    card_token = json['card_token'];
     name = json['name'];
     pan = json['pan'];
     type = json['type'];
@@ -81,6 +83,7 @@ class PaymentTypes {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['card_id'] = this.card_id;
+    data['card_token'] = this.card_token;
     data['name'] = this.name;
     data['pan'] = this.pan;
     data['type'] = this.type;
@@ -93,9 +96,16 @@ class PaymentTypesCheckBox {
   int payment_id;
   int card_id;
   String name;
+  String card_token;
   String pan;
   String type;
 
   PaymentTypesCheckBox(
-      {this.id, this.payment_id, this.card_id, this.name, this.pan, this.type});
+      {this.id,
+      this.payment_id,
+      this.card_token,
+      this.card_id,
+      this.name,
+      this.pan,
+      this.type});
 }

@@ -11,9 +11,10 @@ class OrderStatusModel {
     data = json['data'] != null
         ? new Data.fromJson(json['data'])
         : Data(
-            return_url: "",
-            error: 1,
-            error_msg: "",
+            error_note: "",
+            error_code: 1,
+            phone_number: "",
+            card_token: "",
           );
   }
 
@@ -29,23 +30,26 @@ class OrderStatusModel {
 }
 
 class Data {
-  String return_url;
-  int error;
-  String error_msg;
+  int error_code;
+  String error_note;
+  String card_token;
+  String phone_number;
 
-  Data({this.return_url, this.error, this.error_msg});
+  Data({this.error_code, this.error_note, this.card_token, this.phone_number});
 
   Data.fromJson(Map<String, dynamic> json) {
-    return_url = json['return_url'];
-    error = json['error'];
-    error_msg = json['error_msg'];
+    error_code = json['error_code'];
+    error_note = json['error_note'];
+    card_token = json['card_token'];
+    phone_number = json['phone_number'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['return_url'] = this.return_url;
-    data['error'] = this.error;
-    data['error_msg'] = this.error_msg;
+    data['error_code'] = this.error_code;
+    data['error_note'] = this.error_note;
+    data['card_token'] = this.card_token;
+    data['phone_number'] = this.phone_number;
     return data;
   }
 }
