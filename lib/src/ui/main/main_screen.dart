@@ -17,6 +17,7 @@ import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
 import 'package:rxbus/rxbus.dart';
 
 import '../../app_theme.dart';
+import '../auto_update_screen.dart';
 import 'category/category_screen.dart';
 import 'home/home_screen.dart';
 
@@ -59,7 +60,15 @@ class _MainScreenState extends State<MainScreen> {
           ),
         });
     RxBus.register<CheckVersionModel>(tag: "EVENT_ITEM_CHECK")
-        .listen((event) => {});
+        .listen((event) => {
+              Navigator.pushReplacement(
+                context,
+                PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: AutoUpdateScreen(event.packageName),
+                ),
+              )
+            });
   }
 
   @override
