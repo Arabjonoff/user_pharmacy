@@ -32,6 +32,7 @@ class OrderStatusModel {
 class Data {
   int error_code;
   String error_note;
+  int invoice_id;
   String card_token;
   String phone_number;
 
@@ -40,7 +41,8 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     error_code = json['error_code'];
     error_note = json['error_note'];
-    card_token = json['card_token'];
+    invoice_id = json['invoice_id'];
+    card_token = json['card_token'] == null ? "" : json['card_token'];
     phone_number = json['phone_number'];
   }
 
@@ -48,6 +50,7 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['error_code'] = this.error_code;
     data['error_note'] = this.error_note;
+    data['invoice_id'] = this.invoice_id;
     data['card_token'] = this.card_token;
     data['phone_number'] = this.phone_number;
     return data;

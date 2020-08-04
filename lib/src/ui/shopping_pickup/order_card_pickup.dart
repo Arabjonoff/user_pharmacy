@@ -57,6 +57,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
 
   TextEditingController cardNumberController = TextEditingController();
   TextEditingController cardDateController = TextEditingController();
+  TextEditingController loginController = TextEditingController(text: "+998");
 
   var maskFormatter = new MaskTextInputFormatter(
       mask: '+998 ## ### ## ##', filter: {"#": RegExp(r'[0-9]')});
@@ -749,6 +750,97 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                               ],
                             ),
                           ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 16, right: 16),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  height: 1,
+                                  color: AppTheme.black_transparent_text,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 7,
+                              ),
+                              Text(
+                                translate("or"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontSize: 13,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.normal,
+                                  color: AppTheme.black_transparent_text,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 7,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  height: 1,
+                                  color: AppTheme.black_transparent_text,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: 56,
+                          margin: EdgeInsets.only(top: 24, left: 16, right: 16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: AppTheme.auth_login,
+                            border: Border.all(
+                              color: AppTheme.auth_border,
+                              width: 1.0,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 8, bottom: 8, left: 12, right: 12),
+                            child: TextFormField(
+                              keyboardType: TextInputType.phone,
+//                        cursorColor:  AppTheme.auth_login,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.black_text,
+                                fontSize: 15,
+                              ),
+                              controller: loginController,
+                              inputFormatters: [maskFormatter],
+                              decoration: InputDecoration(
+                                labelText: translate('auth.number'),
+                                labelStyle: TextStyle(
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.normal,
+                                  color: Color(0xFF6D7885),
+                                  fontSize: 11,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  borderSide: BorderSide(
+                                    width: 1,
+                                    color: AppTheme.auth_login,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                  borderSide: BorderSide(
+                                    width: 1,
+                                    color: AppTheme.auth_login,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         )
                       ],
                     ),
@@ -832,9 +924,16 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                     var cardDate = cardDateController.text
                         .replaceAll(' ', '')
                         .replaceAll('/', '');
+                    var num = loginController.text
+                        .replaceAll('(', '')
+                        .replaceAll(')', '')
+                        .replaceAll('+', '')
+                        .replaceAll(' ', '')
+                        .replaceAll('-', '');
 
                     if (!isEnd ||
-                        (cardNum.length == 16 && cardDate.length == 4)) {
+                        (cardNum.length == 16 && cardDate.length == 4) ||
+                        num.length == 12) {
                       setState(() {
                         loading = true;
                       });
@@ -842,10 +941,10 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                       if (fullNameController.text.isNotEmpty) {
                         fullName = fullNameController.text;
                       }
-                      var num = numberController.text
+                      var number = numberController.text
                           .replaceAll('+', '')
                           .replaceAll(' ', '');
-                      if (num.length == 12) {
+                      if (number.length == 12) {
                         number = numberController.text;
                       }
 
@@ -858,19 +957,27 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                     drug: value[i].id, qty: value[i].cardCount))
                               },
                             isEnd
-                                ? addModel = new AddOrderModel(
-                                    type: "self",
-                                    full_name: fullName,
-                                    phone: number,
-                                    store_id: aptekaModel.id,
-                                    payment_type: paymentType,
-                                    card_token:
-                                        cardToken == "" ? null : cardToken,
-                                    drugs: drugs,
-                                    card_pan: cardNum,
-                                    card_exp: cardDate,
-                                    card_save: checkBox ? 1 : 0,
-                                  )
+                                ? num.length == 12
+                                    ? addModel = new AddOrderModel(
+                                        type: "self",
+                                        full_name: fullName,
+                                        phone: number,
+                                        store_id: aptekaModel.id,
+                                        payment_type: paymentType,
+                                        drugs: drugs,
+                                        phone_number: num,
+                                      )
+                                    : addModel = new AddOrderModel(
+                                        type: "self",
+                                        full_name: fullName,
+                                        phone: number,
+                                        store_id: aptekaModel.id,
+                                        payment_type: paymentType,
+                                        drugs: drugs,
+                                        card_pan: cardNum,
+                                        card_exp: cardDate,
+                                        card_save: checkBox ? 1 : 0,
+                                      )
                                 : addModel = new AddOrderModel(
                                     type: "self",
                                     full_name: fullName,
@@ -945,29 +1052,33 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                               setState(() {
                                                 error = true;
                                                 loading = false;
-                                                if (response.data.error_code ==
-                                                    -21) {
-                                                  error_text =
-                                                      "Карта неактивна";
-                                                } else {
-                                                  if (response
-                                                          .data.error_code ==
-                                                      22) {
-                                                    checkBox = false;
-                                                  }
-                                                  error_text = response.data
-                                                              .error_code ==
-                                                          2
-                                                      ? translate(
-                                                          "cardNumberError")
-                                                      : response.data
-                                                                  .error_code ==
-                                                              22
-                                                          ? translate(
-                                                              "notSaveCard")
-                                                          : response
-                                                              .data.error_note;
-                                                }
+                                                error_text =
+                                                    response.data.error_note;
+
+//
+//                                                if (response.data.error_code ==
+//                                                    -21) {
+//                                                  error_text =
+//                                                      "Карта неактивна";
+//                                                } else {
+//                                                  if (response
+//                                                          .data.error_code ==
+//                                                      22) {
+//                                                    checkBox = false;
+//                                                  }
+//                                                  error_text = response.data
+//                                                              .error_code ==
+//                                                          2
+//                                                      ? translate(
+//                                                          "cardNumberError")
+//                                                      : response.data
+//                                                                  .error_code ==
+//                                                              22
+//                                                          ? translate(
+//                                                              "notSaveCard")
+//                                                          : response
+//                                                              .data.error_note;
+//                                                }
                                               }),
                                             }
                                         }
