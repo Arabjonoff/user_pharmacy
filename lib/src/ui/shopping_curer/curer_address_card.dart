@@ -395,41 +395,17 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                         return Column(
                           children: snapshot.data.shippingTimes
                               .map((data) => RadioListTile(
-                                    title: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            "${data.name}",
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: AppTheme.fontRoboto,
-                                              fontSize: 15,
-                                              fontStyle: FontStyle.normal,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 9,
-                                        ),
-                                        Text(
-                                          data.isUserPay
-                                              ? priceFormat.format(data.price) +
-                                                  translate("sum_km")
-                                              : translate("address.free"),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: AppTheme.fontRoboto,
-                                            fontSize: 15,
-                                            fontStyle: FontStyle.normal,
-                                            color: Colors.black,
-                                          ),
-                                        )
-                                      ],
+                                    title: Text(
+                                      "${data.name}",
+//                                            overflow: TextOverflow.ellipsis,
+//                                            maxLines: 2,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: AppTheme.fontRoboto,
+                                        fontSize: 15,
+                                        fontStyle: FontStyle.normal,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                     activeColor: AppTheme.blue_app_color,
                                     groupValue: shippingId,
