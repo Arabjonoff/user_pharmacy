@@ -50,9 +50,6 @@ class PharmacyApiProvider {
 
     String reply = await response.transform(utf8.decoder).join();
 
-//    http.Response response =
-//        await http.post(url, body: data).timeout(const Duration(seconds: 120));
-
     final Map parsed = json.decode(reply);
 
     return LoginModel.fromJson(parsed);
@@ -114,9 +111,9 @@ class PharmacyApiProvider {
     String url = Utils.BASE_URL + '/api/v1/sales';
 
     HttpClient httpClient = new HttpClient();
-    httpClient
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+//    httpClient
+//      ..badCertificateCallback =
+//          (X509Certificate cert, String host, int port) => true;
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
     HttpClientResponse response = await request.close();
@@ -151,9 +148,9 @@ class PharmacyApiProvider {
             'unit_ids=$unit_ids';
 
     HttpClient httpClient = new HttpClient();
-    httpClient
-      ..badCertificateCallback =
-          ((X509Certificate cert, String host, int port) => true);
+//    httpClient
+//      ..badCertificateCallback =
+//          ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
     HttpClientResponse response = await request.close();

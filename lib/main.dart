@@ -18,9 +18,20 @@ import 'src/app_theme.dart';
 
 String language = 'ru';
 
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 void main() async {
   var delegate = await LocalizationDelegate.create(
       fallbackLocale: 'ru', supportedLocales: ['ru', 'en', 'uz']);
+
+  HttpOverrides.global = new MyHttpOverrides();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   if (prefs.getString('language') != null) {
