@@ -71,10 +71,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       Repository().fetchCheckVersion(info.buildNumber).then((value) => {
             if (value.status != 0)
               {
-                RxBus.post(
-                    CheckVersionModel(
-                        title: true, packageName: info.packageName),
-                    tag: "EVENT_ITEM_CHECK")
+//                RxBus.post(
+//                    CheckVersionModel(
+//                        title: true, packageName: info.packageName),
+//                    tag: "EVENT_ITEM_CHECK")
               }
           });
     }

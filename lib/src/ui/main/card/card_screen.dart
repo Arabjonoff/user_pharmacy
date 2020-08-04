@@ -116,7 +116,7 @@ class _CardScreenState extends State<CardScreen> {
             }
 
             isNext = true;
-//            allPrice.toInt() > minSum ? isNext = true : isNext = false;
+          //  allPrice.toInt() > minSum ? isNext = true : isNext = false;
 
             return snapshot.data.length == 0
                 ? CardEmptyScreen()
