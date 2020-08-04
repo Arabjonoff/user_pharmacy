@@ -155,20 +155,42 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       ),
                                     ),
                                   ),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        left: 16, right: 16, top: 2),
-                                    child: Text(
-                                      snapshot.data.results[index].endShiptime,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontRoboto,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 13,
-                                        fontStyle: FontStyle.normal,
-                                        color: AppTheme.black_transparent_text,
-                                      ),
-                                    ),
-                                  ),
+                                  snapshot.data.results[index].endShiptime !=
+                                          null
+                                      ? Container(
+                                          margin: EdgeInsets.only(
+                                              left: 16, right: 16, top: 2),
+                                          child: Text(
+                                            snapshot.data.results[index]
+                                                    .endShiptime.year
+                                                    .toString() +
+                                                "-" +
+                                                snapshot.data.results[index]
+                                                    .endShiptime.month
+                                                    .toString() +
+                                                "-" +
+                                                snapshot.data.results[index]
+                                                    .endShiptime.day
+                                                    .toString() +
+                                                " " +
+                                                snapshot.data.results[index]
+                                                    .endShiptime.hour
+                                                    .toString() +
+                                                ":" +
+                                                snapshot.data.results[index]
+                                                    .endShiptime.minute
+                                                    .toString(),
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontRoboto,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 13,
+                                              fontStyle: FontStyle.normal,
+                                              color: AppTheme
+                                                  .black_transparent_text,
+                                            ),
+                                          ),
+                                        )
+                                      : Container(),
                                   Container(
                                     height: 1,
                                     color: AppTheme.black_linear_category,
@@ -227,14 +249,32 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       ],
                                     ),
                                   ),
-                                  snapshot.data.results[index].endShiptime != ""
+                                  snapshot.data.results[index].endShiptime !=
+                                          null
                                       ? Container(
                                           margin: EdgeInsets.only(
                                               left: 16, right: 16, top: 16),
                                           child: Text(
                                             translate("history.date") +
                                                 snapshot.data.results[index]
-                                                    .endShiptime,
+                                                    .endShiptime.year
+                                                    .toString() +
+                                                "-" +
+                                                snapshot.data.results[index]
+                                                    .endShiptime.month
+                                                    .toString() +
+                                                "-" +
+                                                snapshot.data.results[index]
+                                                    .endShiptime.day
+                                                    .toString() +
+                                                " " +
+                                                snapshot.data.results[index]
+                                                    .endShiptime.hour
+                                                    .toString() +
+                                                ":" +
+                                                snapshot.data.results[index]
+                                                    .endShiptime.minute
+                                                    .toString(),
                                             style: TextStyle(
                                               fontFamily: AppTheme.fontRoboto,
                                               fontWeight: FontWeight.normal,

@@ -58,13 +58,30 @@ class _AutoUpdateScreenState extends State<AutoUpdateScreen> {
           ),
         ),
         padding: EdgeInsets.only(top: 14),
-        child: Container(
-          child: Center(
-            child: GestureDetector(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+
+            Container(
+              margin: EdgeInsets.only(bottom: 45, left: 16, right: 16),
+              child: Text(
+                translate("auto_update.title"),
+                style: TextStyle(
+                  fontSize: 25,
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: AppTheme.fontRoboto,
+                  color: AppTheme.black_text,
+                ),
+              ),
+            ),
+            GestureDetector(
               onTap: () async {
                 if (Platform.isAndroid) {
-                  var url = 'https://play.google.com/store/apps/details?id=' +
-                      widget.package;
+                  var url =
+                      'https://play.google.com/store/apps/details?id=' +
+                          widget.package;
                   if (await canLaunch(url)) {
                     await launch(url);
                   } else {
@@ -88,7 +105,7 @@ class _AutoUpdateScreenState extends State<AutoUpdateScreen> {
                 ),
                 child: Center(
                   child: Text(
-                    translate("update"),
+                    translate("auto_update.button"),
                     style: TextStyle(
                       fontSize: 16,
                       fontStyle: FontStyle.normal,
@@ -100,7 +117,7 @@ class _AutoUpdateScreenState extends State<AutoUpdateScreen> {
                 ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );

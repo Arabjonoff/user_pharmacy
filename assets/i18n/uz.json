@@ -240,5 +240,9 @@
     "october": "oct",
     "november": "nov",
     "december": "dec"
+  },
+  "auto_update": {
+    "title": "Yangilanishlar mavjud",
+    "button": "Yangilang"
   }
 }

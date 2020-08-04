@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
   //static String BASE_URL = "http://185.183.243.77";
-  static String BASE_URL = "https://online.grandpharm.uz";
+  static String BASE_URL = "https://api.gopharm.uz";
 
   static Future<void> saveData(int userId, String name, String surname,
       String birthday, String gender, String token, String number) async {

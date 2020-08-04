@@ -34,7 +34,7 @@ class HistoryResults {
   int id;
   String address;
   Location location;
-  String endShiptime;
+  DateTime endShiptime;
   double deliveryTotal;
   PaymentType paymentType;
   String createdAt;
@@ -68,7 +68,14 @@ class HistoryResults {
     location = json['location'] != null
         ? new Location.fromJson(json['location'])
         : Location(type: "", coordinates: [0.0, 0.0]);
-    endShiptime = json['end_shiptime'] == null ? "" : json['end_shiptime'];
+    endShiptime = json["end_shiptime"] == null
+        ? null
+        : DateTime.parse(json["end_shiptime"]);
+//    endShiptime = json['end_shiptime'] == null
+//        ? ""
+//        : json['end_shiptime'].toString().split("T")[0] +
+//            " " +
+//            json['end_shiptime'].toString().split("T")[1].split("+")[0];
     deliveryTotal = json['delivery_total'] == null
         ? 0.0
         : json['delivery_total'].toDouble();
@@ -97,7 +104,8 @@ class HistoryResults {
     if (this.location != null) {
       data['location'] = this.location.toJson();
     }
-    data['end_shiptime'] = this.endShiptime;
+    data['end_shiptime'] =
+        this.endShiptime == null ? null : this.endShiptime.toIso8601String();
     data['delivery_total'] = this.deliveryTotal;
     if (this.paymentType != null) {
       data['payment_type'] = this.paymentType.toJson();

@@ -11,6 +11,7 @@ import 'package:flutter_translate/localized_app.dart';
 import 'package:pharmacy/src/delete/delete_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/payment/replase_payment_screen.dart';
+import 'package:pharmacy/src/ui/update/auto_update_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'src/app_theme.dart';
