@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:flutter_translate/localized_app.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
@@ -15,6 +16,7 @@ import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/favorite/favorites_screen.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
 import 'package:rxbus/rxbus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app_theme.dart';
 import '../update/auto_update_screen.dart';
@@ -42,7 +44,19 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     registerBus();
+    _setLanguage();
     super.initState();
+  }
+
+  Future<void> _setLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('language') != null) {
+      setState(() {
+        var localizationDelegate = LocalizedApp.of(context).delegate;
+        localizationDelegate.changeLocale(Locale(prefs.getString('language')));
+      });
+
+    }
   }
 
   void registerBus() {

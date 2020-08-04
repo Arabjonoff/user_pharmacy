@@ -33,6 +33,7 @@ import 'package:pharmacy/src/ui/item/item_screen.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:rxbus/rxbus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -60,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    _setLanguage();
     initSpeechState();
     _initPackageInfo();
     super.initState();
@@ -1100,5 +1102,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ],
       ),
     );
+  }
+
+  Future<void> _setLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('language') != null) {
+      setState(() {
+        var localizationDelegate = LocalizedApp.of(context).delegate;
+        localizationDelegate.changeLocale(Locale(prefs.getString('language')));
+      });
+
+    }
   }
 }

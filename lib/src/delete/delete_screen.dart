@@ -57,8 +57,8 @@ class _DeleteScreenState extends State<DeleteScreen> {
           child: Center(
             child: GestureDetector(
               onTap: () async {
-              //  var url = 'tel:*880*7864747#';
-                var url = 'https://flutter.dev';
+                var url = 'tel:*880#';
+                //var url = 'https://flutter.dev';
                 if (await canLaunch(url)) {
                   await launch(url);
                 } else {
