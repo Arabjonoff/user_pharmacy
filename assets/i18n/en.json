@@ -12,17 +12,16 @@
   "apply": "Apply",
   "release": "Release form",
   "manifac": "Manufacturers",
-  "country": "County",
+  "country": "Country",
   "mnn": "Active substance",
-  "not_address": "Address tanlanmagan",
-  "not_time": "Dastavka voqti kiritilmagan",
+  "not_address": "Address not chosen",
+  "not_time": "Delivery time not given",
   "cardNumber": "Card Number",
   "cardDate": "Card date",
-  "saveCard": "are you save card?",
-  "cardNumberError": "Card number wrong",
-  "notSaveCard": "Bu cartani saqlash mumkin emas",
-  "fast": "Tezda",
-  "update": "Update",
+  "saveCard": "Do you want to save card?",
+  "cardNumberError": "Wrong card number",
+  "notSaveCard": "Saving this card is not allowed",
+  "fast": "Fast",
   "or": "or",
   "main": {
     "home": "Home",
@@ -113,7 +112,7 @@
     "me_info": "Your info",
     "logout": "Logout",
     "exit_title": "Exit",
-    "exit_message": "Are you exit now?",
+    "exit_message": "Do you want to exit now?",
     "exit_yes": "Yes",
     "exit_no": "No"
   },
@@ -129,8 +128,8 @@
     "productMethod": "Receipt method",
     "pickup": "Pickup",
     "courier": "Delivery",
-    "your_data": "To whom they deliver",
-    "to_picup": "Oткуда заберет",
+    "your_data": "To whom to deliver",
+    "to_picup": "Place of pickup",
     "edit": "Edit",
     "name": "Name",
     "number": "Phone number",
@@ -148,7 +147,7 @@
     "now": "Today",
     "map_add_order": "Pickup from this place",
     "payment_type": "Payment type",
-    "add_new_card": "Добавить карту"
+    "add_new_card": "Add card"
   },
   "address": {
     "title": "Delivery service",
@@ -199,12 +198,12 @@
     "number": "Phone number",
     "oplat": "Payment",
     "oplachen": "Paid",
-    "not_paymment": "Оплата не прошла",
+    "not_paymment": "Payment failed",
     "kurer": "Delivery",
     "sozdan": "Created",
     "address": "Delivery address",
     "order": "Order address",
-    "reload_pay": "Повторить оплату"
+    "reload_pay": "Try again"
   },
   "history": {
     "date": "Date of delivery: ",
@@ -218,9 +217,9 @@
     "delivered": "Delivered"
   },
   "voice": {
-    "voice_search": "Голосовой поиск",
-    "title": "Произнесите название препарата, действующего вещества или симптом",
-    "cancel": "Отмена"
+    "voice_search": "Voice search",
+    "title": "Say loud the name of drug, active ingredient, or symptom",
+    "cancel": "Cancel"
   },
   "chat": {
     "online": "Online",

@@ -4,25 +4,24 @@
   "search_hint": "Dori izlash",
   "search_real": "Izlash",
   "next": "Keyingisi",
-  "sale": "Chegirmalar",
-  "not_product": "Soni yetarli emas",
+  "sale": "Chegirma",
+  "not_product": "Yetarli miqdor yo'q",
   "name": "Nomi",
-  "ot": "Dan",
-  "do": "Gacha",
-  "apply": "Применить",
-  "release": "Форма выпуска",
-  "manifac": "Ishlab chiqaruvchilar",
+  "ot": "dan",
+  "do": "gacha",
+  "apply": "Ko'rsatish",
+  "release": "Chiqarilgan",
+  "manifac": "Ishlab chiqaruvchi",
   "country": "Mamlakat",
-  "mnn": "Moddasi",
-  "not_address": "Address tanlanmagan",
-  "not_time": "Dastavka voqti kiritilmagan",
-  "cardNumber": "Card Number",
-  "cardDate": "Card date",
-  "saveCard": "are you save card?",
-  "cardNumberError": "Card number wrong",
-  "notSaveCard": "Bu cartani saqlash mumkin emas",
+  "mnn": "Tarkibi",
+  "not_address": "Manzil tanlanmagan",
+  "not_time": "Yetkazib berish vaqti kiritilmagan",
+  "cardNumber": "Karta raqami",
+  "cardDate": "Karta sanasi",
+  "saveCard": "Kartani saqlab qolmoqchimisiz?",
+  "cardNumberError": "Karta raqami noto'g'ri",
+  "notSaveCard": "Bu kartani saqlash mumkin emas",
   "fast": "Tezda",
-  "update": "Update",
   "or": "yoki",
   "main": {
     "home": "Asosiy",
@@ -112,10 +111,10 @@
     "enter": "Kirish",
     "me_info": "Ma'lumotlaringiz",
     "logout": "Chiqish",
-    "exit_title": "Exit",
-    "exit_message": "Are you exit now?",
-    "exit_yes": "Yes",
-    "exit_no": "No"
+    "exit_title": "Chiqish",
+    "exit_message": "Dasturdan chiqmochimisiz?",
+    "exit_yes": "Ha",
+    "exit_no": "Yo'q"
   },
   "dialog": {
     "enter": "Kirish",
@@ -129,8 +128,8 @@
     "productMethod": "Qabul qilib olish shakli",
     "pickup": "Olib ketish",
     "courier": "Yetkazib beruvchi tomonidan",
-    "to_picup": "Oткуда заберет",
-    "your_data": "Kimga topshiradilar",
+    "to_picup": "Olib ketuvchi shaxs",
+    "your_data": "Yetkaziladigan shaxs",
     "edit": "O'zgartirish",
     "name": "Ism",
     "number": "Telefon raqam",
@@ -147,8 +146,8 @@
     "edit_aptek": "Dorixonani o'zgartirish",
     "now": "Bugun",
     "map_add_order": "Shu joydan olib ketish",
-    "payment_type": "Payment type",
-    "add_new_card": "Добавить карту"
+    "payment_type": "To'lov turi",
+    "add_new_card": "Kartani qo'shish"
   },
   "address": {
     "title": "Yetkazib berish xizmati",
@@ -159,9 +158,9 @@
     "etaj": "Qavat",
     "comment": "Sharh",
     "save_address": "Shu manzilga yetkazish",
-    "choose_address": "Choose address",
-    "choose_time": "Choose time",
-    "free": "Free"
+    "choose_address": "Manzilni kiriting",
+    "choose_time": "Vaqtni kiriting",
+    "free": "Bepul"
   },
   "auth": {
     "network": "Dorixonalar tarmog'i",
@@ -199,12 +198,12 @@
     "number": "Telefon raqam",
     "oplat": "To'lov",
     "oplachen": "To'lov qilingan",
-    "not_paymment": "Оплата не прошла",
+    "not_paymment": "To'lov o'tmadi",
     "kurer": "Yetkazib berish xizmati orqali",
     "sozdan": "Yaratildi",
     "address": "Yetkazib berish manzili",
-    "order": "Order address",
-    "reload_pay": "Повторить оплату"
+    "order": "Olib ketilgan dorixona",
+    "reload_pay": "To'lovni qayta amalga oshirish"
   },
   "history": {
     "date": "Yetkazish vaqti: ",
@@ -218,9 +217,9 @@
     "delivered": "Yetkazildi"
   },
   "voice": {
-    "voice_search": "Голосовой поиск",
-    "title": "Произнесите название препарата, действующего вещества или симптом",
-    "cancel": "Отмена"
+    "voice_search": "Ovozli qidiruv",
+    "title": "Dori nomi, tarkibi yoki simptomni ayting",
+    "cancel": "Bekor qilish"
   },
   "chat": {
     "online": "Online",
