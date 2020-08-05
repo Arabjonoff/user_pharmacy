@@ -75,38 +75,39 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
             if (snapshot.hasData) {
               return Column(
                 children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: GestureDetector(
+                      onTap: () {
+                        blocCard.fetchAllCard();
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 48,
+                        width: 48,
+                        margin: EdgeInsets.only(right: 4),
+                        color: AppTheme.arrow_examp_back,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            height: 24,
+                            width: 24,
+                            padding: EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              color: AppTheme.arrow_back,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: SvgPicture.asset(
+                                "assets/images/arrow_close.svg"),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   Expanded(
                     child: ListView(
                       children: [
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: GestureDetector(
-                            onTap: () {
-                              blocCard.fetchAllCard();
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              height: 48,
-                              width: 48,
-                              margin: EdgeInsets.only(right: 4),
-                              color: AppTheme.arrow_examp_back,
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Container(
-                                  height: 24,
-                                  width: 24,
-                                  padding: EdgeInsets.all(7),
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.arrow_back,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: SvgPicture.asset(
-                                      "assets/images/arrow_close.svg"),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+
                         Center(
                           child: Container(
                             height: 240,

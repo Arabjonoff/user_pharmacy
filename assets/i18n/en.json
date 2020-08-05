@@ -9,7 +9,7 @@
   "name": "Name",
   "ot": "From",
   "do": "To",
-  "apply": "Apply",
+  "apply": "Show",
   "release": "Release form",
   "manifac": "Manufacturers",
   "country": "Country",
@@ -23,6 +23,7 @@
   "notSaveCard": "Saving this card is not allowed",
   "fast": "Fast",
   "or": "or",
+  "save": "save",
   "main": {
     "home": "Home",
     "catalog": "Catalog",

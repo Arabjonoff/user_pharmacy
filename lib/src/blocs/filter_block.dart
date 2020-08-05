@@ -24,13 +24,13 @@ class FilterBloc {
     filterItems.addAll(itemModelResponse.results);
 
     if (type == 1) {
-      for (int i = 0; i < filterItems.length; i++) {
-        for (int j = 0; j < unitExamp.length; j++) {
-          if (filterItems[i].id == unitExamp[j].id) {
-            filterItems[i].isClick = true;
-          }
-        }
-      }
+//      for (int i = 0; i < filterItems.length; i++) {
+//        for (int j = 0; j < unitExamp.length; j++) {
+//          if (filterItems[i].id == unitExamp[j].id) {
+//            filterItems[i].isClick = true;
+//          }
+//        }
+//      }
     } else if (type == 2) {
       for (int i = 0; i < filterItems.length; i++) {
         for (int j = 0; j < manufacturerExamp.length; j++) {

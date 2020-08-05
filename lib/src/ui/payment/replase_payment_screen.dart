@@ -97,44 +97,44 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
         padding: EdgeInsets.only(top: 14),
         child: Column(
           children: [
+            Container(
+              height: 48,
+              width: double.infinity,
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 48,
+                        width: 48,
+                        color: AppTheme.arrow_examp_back,
+                        margin: EdgeInsets.only(right: 4),
+                        child: Center(
+                          child: Container(
+                            height: 24,
+                            width: 24,
+                            padding: EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              color: AppTheme.arrow_back,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: SvgPicture.asset(
+                                "assets/images/arrow_close.svg"),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: ListView(
                 children: [
-                  Container(
-                    height: 48,
-                    width: double.infinity,
-                    child: Stack(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              height: 48,
-                              width: 48,
-                              color: AppTheme.arrow_examp_back,
-                              margin: EdgeInsets.only(right: 4),
-                              child: Center(
-                                child: Container(
-                                  height: 24,
-                                  width: 24,
-                                  padding: EdgeInsets.all(7),
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.arrow_back,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: SvgPicture.asset(
-                                      "assets/images/arrow_close.svg"),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   Container(
                     margin: EdgeInsets.only(
                         top: 24, left: 16, right: 16, bottom: 16),

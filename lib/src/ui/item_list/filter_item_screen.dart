@@ -287,12 +287,12 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
             GestureDetector(
               onTap: () {
                 if (widget.type == 1) {
-                  unitExamp = new List();
-                  for (int i = 0; i < data.length; i++) {
-                    if (data[i].isClick) {
-                      unitExamp.add(data[i]);
-                    }
-                  }
+//                  unitExamp = new List();
+//                  for (int i = 0; i < data.length; i++) {
+//                    if (data[i].isClick) {
+//                      unitExamp.add(data[i]);
+//                    }
+//                  }
                 } else if (widget.type == 2) {
                   manufacturerExamp = new List();
                   for (int i = 0; i < data.length; i++) {

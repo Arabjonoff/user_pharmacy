@@ -19,7 +19,7 @@ class FilterScreen extends StatefulWidget {
 
 List<FilterResults> internationalNameExamp = new List();
 List<FilterResults> manufacturerExamp = new List();
-List<FilterResults> unitExamp = new List();
+//List<FilterResults> unitExamp = new List();
 double fromPrice;
 double toPrice;
 
@@ -29,19 +29,21 @@ class _FilterScreenState extends State<FilterScreen> {
 
   String interName = "";
   String manufacName = "";
-  String unitName = "";
+
+  //String unitName = "";
   String interIds = "";
   String manufacIds = "";
-  String unitIds = "";
+
+//  String unitIds = "";
 
   @override
   void initState() {
     interName = "";
     manufacName = "";
-    unitName = "";
+    // unitName = "";
     interIds = "";
     manufacIds = "";
-    unitIds = "";
+    // unitIds = "";
     minController.text = price_min;
     maxController.text = price_max;
     for (int i = 0; i < internationalNameExamp.length; i++) {
@@ -62,15 +64,15 @@ class _FilterScreenState extends State<FilterScreen> {
         manufacIds += manufacturerExamp[i].id.toString();
       }
     }
-    for (int i = 0; i < unitExamp.length; i++) {
-      if (i < unitExamp.length - 1) {
-        unitName += unitExamp[i].name + ", ";
-        unitIds += unitExamp[i].id.toString() + ",";
-      } else {
-        unitName += unitExamp[i].name;
-        unitIds += unitExamp[i].id.toString();
-      }
-    }
+//    for (int i = 0; i < unitExamp.length; i++) {
+//      if (i < unitExamp.length - 1) {
+//        unitName += unitExamp[i].name + ", ";
+//        unitIds += unitExamp[i].id.toString() + ",";
+//      } else {
+//        unitName += unitExamp[i].name;
+//        unitIds += unitExamp[i].id.toString();
+//      }
+//    }
 
     super.initState();
   }
@@ -124,57 +126,57 @@ class _FilterScreenState extends State<FilterScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            Container(
+              height: 48,
+              width: double.infinity,
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      translate("item.filter"),
+                      style: TextStyle(
+                        color: AppTheme.black_text,
+                        fontFamily: AppTheme.fontRoboto,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 17,
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 36,
+                        width: 48,
+                        color: AppTheme.arrow_examp_back,
+                        margin: EdgeInsets.only(right: 5),
+                        child: Center(
+                          child: Container(
+                            height: 24,
+                            width: 24,
+                            padding: EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              color: AppTheme.arrow_back,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: SvgPicture.asset(
+                                "assets/images/arrow_close.svg"),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: ListView(
                 children: [
-                  Container(
-                    height: 48,
-                    width: double.infinity,
-                    child: Stack(
-                      children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            translate("item.filter"),
-                            style: TextStyle(
-                              color: AppTheme.black_text,
-                              fontFamily: AppTheme.fontRoboto,
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 17,
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              height: 36,
-                              width: 48,
-                              color: AppTheme.arrow_examp_back,
-                              margin: EdgeInsets.only(right: 5),
-                              child: Center(
-                                child: Container(
-                                  height: 24,
-                                  width: 24,
-                                  padding: EdgeInsets.all(7),
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.arrow_back,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: SvgPicture.asset(
-                                      "assets/images/arrow_close.svg"),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   Container(
                     margin: EdgeInsets.only(left: 16, right: 16, top: 30),
                     child: Text(
@@ -189,6 +191,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     ),
                   ),
                   Container(
+                    margin: EdgeInsets.only(bottom: 25),
                     child: Row(
                       children: [
                         Expanded(
@@ -307,89 +310,89 @@ class _FilterScreenState extends State<FilterScreen> {
                       ],
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: FilterItemScreen(1),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(top: 16),
-                      height: 56,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            color: AppTheme.white,
-                            child: Container(
-                              height: 55,
-                              padding: EdgeInsets.only(top: 6, bottom: 6),
-                              margin: EdgeInsets.only(left: 15, right: 15),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          child: Container(),
-                                        ),
-                                        Text(
-                                          translate("release"),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.normal,
-                                            color: AppTheme.black_text,
-                                            fontFamily: AppTheme.fontRoboto,
-                                          ),
-                                        ),
-                                        Text(
-                                          unitName,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.normal,
-                                            color:
-                                                AppTheme.black_transparent_text,
-                                            fontFamily: AppTheme.fontRoboto,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 16,
-                                    color: AppTheme.arrow_catalog,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(
-                              left: 8,
-                              right: 8,
-                            ),
-                            height: 1,
-                            color: AppTheme.black_linear_category,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+//                  GestureDetector(
+//                    onTap: () {
+//                      Navigator.pushReplacement(
+//                        context,
+//                        PageTransition(
+//                          type: PageTransitionType.rightToLeft,
+//                          child: FilterItemScreen(1),
+//                        ),
+//                      );
+//                    },
+//                    child: Container(
+//                      margin: EdgeInsets.only(top: 16),
+//                      height: 56,
+//                      child: Column(
+//                        children: <Widget>[
+//                          Container(
+//                            color: AppTheme.white,
+//                            child: Container(
+//                              height: 55,
+//                              padding: EdgeInsets.only(top: 6, bottom: 6),
+//                              margin: EdgeInsets.only(left: 15, right: 15),
+//                              child: Row(
+//                                children: <Widget>[
+//                                  Expanded(
+//                                    child: Column(
+//                                      crossAxisAlignment:
+//                                          CrossAxisAlignment.start,
+//                                      mainAxisAlignment:
+//                                          MainAxisAlignment.start,
+//                                      children: [
+//                                        Expanded(
+//                                          child: Container(),
+//                                        ),
+//                                        Text(
+//                                          translate("release"),
+//                                          overflow: TextOverflow.ellipsis,
+//                                          maxLines: 1,
+//                                          style: TextStyle(
+//                                            fontSize: 15,
+//                                            fontWeight: FontWeight.normal,
+//                                            color: AppTheme.black_text,
+//                                            fontFamily: AppTheme.fontRoboto,
+//                                          ),
+//                                        ),
+//                                        Text(
+//                                          unitName,
+//                                          overflow: TextOverflow.ellipsis,
+//                                          maxLines: 1,
+//                                          style: TextStyle(
+//                                            fontSize: 13,
+//                                            fontWeight: FontWeight.normal,
+//                                            color:
+//                                                AppTheme.black_transparent_text,
+//                                            fontFamily: AppTheme.fontRoboto,
+//                                          ),
+//                                        ),
+//                                        Expanded(
+//                                          child: Container(),
+//                                        ),
+//                                      ],
+//                                    ),
+//                                  ),
+//                                  Icon(
+//                                    Icons.arrow_forward_ios,
+//                                    size: 16,
+//                                    color: AppTheme.arrow_catalog,
+//                                  )
+//                                ],
+//                              ),
+//                            ),
+//                          ),
+//                          Container(
+//                            margin: EdgeInsets.only(
+//                              left: 8,
+//                              right: 8,
+//                            ),
+//                            height: 1,
+//                            color: AppTheme.black_linear_category,
+//                          )
+//                        ],
+//                      ),
+//                    ),
+//                  ),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacement(
@@ -472,54 +475,6 @@ class _FilterScreenState extends State<FilterScreen> {
                       ),
                     ),
                   ),
-//            GestureDetector(
-//              onTap: (){
-//
-//              },
-//              child: Container(
-//                height: 49,
-//                child:  Column(
-//                  children: <Widget>[
-//                    Container(
-//                      color: AppTheme.white,
-//                      child: Container(
-//                        height: 48,
-//                        padding: EdgeInsets.only(top: 6, bottom: 6),
-//                        margin: EdgeInsets.only(left: 15, right: 15),
-//                        child: Row(
-//                          children: <Widget>[
-//                            Expanded(
-//                              child: Text(
-//                                translate("country"),
-//                                style: TextStyle(
-//                                  fontSize: 15,
-//                                  fontWeight: FontWeight.normal,
-//                                  color: AppTheme.black_catalog,
-//                                  fontFamily: AppTheme.fontRoboto,
-//                                ),
-//                              ),
-//                            ),
-//                            Icon(
-//                              Icons.arrow_forward_ios,
-//                              size: 16,
-//                              color: AppTheme.arrow_catalog,
-//                            )
-//                          ],
-//                        ),
-//                      ),
-//                    ),
-//                    Container(
-//                      margin: EdgeInsets.only(
-//                        left: 8,
-//                        right: 8,
-//                      ),
-//                      height: 1,
-//                      color: AppTheme.black_linear_category,
-//                    )
-//                  ],
-//                ),
-//              ),
-//            ),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacement(
@@ -620,7 +575,7 @@ class _FilterScreenState extends State<FilterScreen> {
                         sortFilter,
                         price_max,
                         price_min,
-                        unitIds,
+                        "",
                       )
                     : type == 3
                         ? blocItemsList.fetchAllItemSearch(
@@ -631,7 +586,7 @@ class _FilterScreenState extends State<FilterScreen> {
                             sortFilter,
                             price_max,
                             price_min,
-                            unitIds,
+                            "",
                           )
                         : blocItemsList.fetchAllItemCategory(
                             id,
@@ -641,7 +596,7 @@ class _FilterScreenState extends State<FilterScreen> {
                             sortFilter,
                             price_max,
                             price_min,
-                            unitIds,
+                            "",
                           );
                 Navigator.pop(context);
               },
