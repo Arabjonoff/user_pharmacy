@@ -38,7 +38,7 @@
     "karta": "Карта",
     "look": "Посмотреть",
     "pharmacy": "в аптеке",
-    "pharma": "аптеке",
+    "pharma": "аптек",
     "set": "Задать",
     "question": "Вопрос",
     "show_all": "Показать все"
@@ -81,7 +81,7 @@
     "tovar_sum": "Товары на сумму",
     "all": "Итого",
     "buy": "Перейти к оформлению",
-    "empty_name": "Ваша корзина пусто",
+    "empty_name": "Ваша корзина пуста",
     "empty_title": "Выберите необходимый товар из каталога или с помощью поиска",
     "all_catalog": "Перейти в каталог",
     "dostavka": "Доставка",
@@ -223,9 +223,9 @@
     "cancel": "Отмена"
   },
   "chat": {
-    "online": "Online",
-    "app_name": "Grand Pharm",
-    "sent_hint": "Type your message..."
+    "online": "В сети",
+    "app_name": "GoPharm",
+    "sent_hint": "Введите ваше сообщение ..."
   },
   "month": {
     "january": "jan",

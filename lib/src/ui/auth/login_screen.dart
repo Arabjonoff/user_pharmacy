@@ -23,7 +23,6 @@ class _LoginScreenState extends State<LoginScreen> {
   var maskFormatter = new MaskTextInputFormatter(
       mask: '+998 ## ### ## ##', filter: {"#": RegExp(r'[0-9]')});
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,23 +114,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               child: Center(
                 child: SvgPicture.asset("assets/images/grandpharm.svg"),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              margin: EdgeInsets.only(
-                top: 15,
-              ),
-              child: Center(
-                child: Text(
-                  translate("auth.network"),
-                  style: TextStyle(
-                    fontFamily: AppTheme.fontRoboto,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w300,
-                    fontStyle: FontStyle.normal,
-                  ),
-                ),
               ),
             ),
             Expanded(

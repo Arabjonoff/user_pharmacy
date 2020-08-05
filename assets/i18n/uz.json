@@ -223,9 +223,9 @@
     "cancel": "Bekor qilish"
   },
   "chat": {
-    "online": "Online",
-    "app_name": "Grand Pharm",
-    "sent_hint": "Type your message..."
+    "online": "Onlayn",
+    "app_name": "GoPharm",
+    "sent_hint": "Xabaringizni kiriting ..."
   },
   "month": {
     "january": "jan",
