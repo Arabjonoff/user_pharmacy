@@ -1112,37 +1112,50 @@ class _ItemListScreenState extends State<ItemListScreen> {
   void _getMoreData(int index) async {
     if (!isLoading) {
       setState(() {
-        widget.type == 2
-            ? blocItemsList.fetchAllItemCategoryBest(
-                index,
-                international_name_ids,
-                manufacturer_ids,
-                sortFilter,
-                price_max,
-                price_min,
-                unit_ids,
-              )
-            : widget.type == 3
-                ? blocItemsList.fetchAllItemSearch(
-                    widget.id,
-                    index,
-                    international_name_ids,
-                    manufacturer_ids,
-                    sortFilter,
-                    price_max,
-                    price_min,
-                    unit_ids,
-                  )
-                : blocItemsList.fetchAllItemCategory(
-                    widget.id,
-                    index,
-                    international_name_ids,
-                    manufacturer_ids,
-                    sortFilter,
-                    price_max,
-                    price_min,
-                    unit_ids,
-                  );
+        if (widget.type == 4) {
+          blocItemsList.fetchIdsItemsList(
+            widget.id,
+            index,
+            international_name_ids,
+            manufacturer_ids,
+            sortFilter,
+            price_max,
+            price_min,
+            unit_ids,
+          );
+        } else {
+          widget.type == 2
+              ? blocItemsList.fetchAllItemCategoryBest(
+                  index,
+                  international_name_ids,
+                  manufacturer_ids,
+                  sortFilter,
+                  price_max,
+                  price_min,
+                  unit_ids,
+                )
+              : widget.type == 3
+                  ? blocItemsList.fetchAllItemSearch(
+                      widget.id,
+                      index,
+                      international_name_ids,
+                      manufacturer_ids,
+                      sortFilter,
+                      price_max,
+                      price_min,
+                      unit_ids,
+                    )
+                  : blocItemsList.fetchAllItemCategory(
+                      widget.id,
+                      index,
+                      international_name_ids,
+                      manufacturer_ids,
+                      sortFilter,
+                      price_max,
+                      price_min,
+                      unit_ids,
+                    );
+        }
         page++;
       });
     }

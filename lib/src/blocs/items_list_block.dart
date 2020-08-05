@@ -10,6 +10,12 @@ int itemCategoryCount;
 dynamic itemCategoryNext;
 dynamic itemCategoryPrevious;
 
+List<ItemResult> usersIds;
+ItemModel itemIdsData;
+int itemIdsCount;
+dynamic itemIdsNext;
+dynamic itemIdsPrevious;
+
 List<ItemResult> usersSearch;
 ItemModel itemSearchData;
 int itemModelSearchCount;
@@ -86,6 +92,60 @@ class ItemListBloc {
       results: usersCategory,
     );
     _categoryItemsFetcher.sink.add(itemCategoryData);
+  }
+
+  fetchIdsItemsList(
+    String id,
+    int page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) async {
+    if (page == 1) {
+      usersIds = new List();
+    }
+    ItemModel itemCategory = await _repository.fetchIdsItemsList(
+      id,
+      page,
+      international_name_ids,
+      manufacturer_ids,
+      ordering,
+      price_max,
+      price_min,
+      unit_ids,
+    );
+
+    List<ItemResult> database = await _repository.databaseItem();
+    for (var j = 0; j < database.length; j++) {
+      for (var i = 0; i < itemCategory.results.length; i++) {
+        if (itemCategory.results[i].id == database[j].id) {
+          itemCategory.results[i].cardCount = database[j].cardCount;
+          itemCategory.results[i].favourite = database[j].favourite;
+        }
+      }
+    }
+
+    if (page == 1) {
+      usersIds = new List();
+      usersIds = itemCategory.results;
+    } else {
+      usersIds.addAll(itemCategory.results);
+    }
+
+    itemIdsCount = itemCategory.count;
+    itemIdsNext = itemCategory.next;
+    itemIdsPrevious = itemCategory.previous;
+
+    itemIdsData = new ItemModel(
+      count: itemCategory.count,
+      next: itemCategory.next,
+      previous: itemCategory.previous,
+      results: usersIds,
+    );
+    _categoryItemsFetcher.sink.add(itemIdsData);
   }
 
   fetchAllItemCategoryBest(

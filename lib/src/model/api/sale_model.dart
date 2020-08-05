@@ -36,6 +36,7 @@ class Result {
     this.status,
     this.drug,
     this.category,
+    this.drugs,
   });
 
   int id;
@@ -45,6 +46,7 @@ class Result {
   bool status;
   int drug;
   int category;
+  List<int> drugs;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json["id"],
@@ -54,6 +56,7 @@ class Result {
         status: json["status"],
         drug: json["drug"] == null ? null : json["drug"],
         category: json["category"] == null ? null : json["drug"],
+        drugs: List<int>.from(json["drugs"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -64,5 +67,6 @@ class Result {
         "status": status,
         "drug": drug,
         "category": category,
+        "drugs": List<dynamic>.from(drugs.map((x) => x)),
       };
 }

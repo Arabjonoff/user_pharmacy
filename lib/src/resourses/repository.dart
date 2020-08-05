@@ -100,6 +100,27 @@ class Repository {
         price_min,
         unit_ids,
       );
+  Future<ItemModel> fetchIdsItemsList(
+    String id,
+    int page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) =>
+      pharmacyApiProvider.fetchIdsItemsList(
+        id,
+        page,
+        20,
+        international_name_ids,
+        manufacturer_ids,
+        ordering,
+        price_max,
+        price_min,
+        unit_ids,
+      );
 
   Future<ItemModel> fetchSearchItemList(
     String obj,

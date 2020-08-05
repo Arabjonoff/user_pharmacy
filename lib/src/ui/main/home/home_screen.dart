@@ -542,7 +542,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                         onTap: () {
-                          if (snapshot.data.results[index].drug != null) {
+                          if (snapshot.data.results[index].drugs.length > 0) {
+                            print(snapshot.data.results[index].drugs
+                                .toString()
+                                .replaceAll('[', '')
+                                .replaceAll(']', '')
+                                .replaceAll(' ', ''));
+
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.fade,
+                                child: ItemListScreen(
+                                  translate("sale"),
+                                  4,
+                                  snapshot.data.results[index].drugs
+                                      .toString()
+                                      .replaceAll('[', '')
+                                      .replaceAll(']', '')
+                                      .replaceAll(' ', ''),
+                                ),
+                              ),
+                            );
+                          } else if (snapshot.data.results[index].drug !=
+                              null) {
                             Navigator.push(
                               context,
                               PageTransition(
@@ -1111,8 +1134,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         var localizationDelegate = LocalizedApp.of(context).delegate;
         localizationDelegate.changeLocale(Locale(prefs.getString('language')));
       });
-
-    }else{
+    } else {
       setState(() {
         var localizationDelegate = LocalizedApp.of(context).delegate;
         localizationDelegate.changeLocale(Locale('ru'));

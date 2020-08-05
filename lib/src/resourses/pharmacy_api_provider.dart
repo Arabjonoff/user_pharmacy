@@ -235,6 +235,44 @@ class PharmacyApiProvider {
     return ItemModel.fromJson(parsed);
   }
 
+  ///category's by item
+  Future<ItemModel> fetchIdsItemsList(
+      String id,
+      int page,
+      int per_page,
+      String international_name_ids,
+      String manufacturer_ids,
+      String ordering,
+      String price_max,
+      String price_min,
+      String unit_ids,
+      ) async {
+    String url = Utils.BASE_URL +
+        '/api/v1/drugs?'
+            'page=$page&'
+            'per_page=$per_page&'
+            'ids=$id&'
+            'international_name_ids=$international_name_ids&'
+            'manufacturer_ids=$manufacturer_ids&'
+            'ordering=$ordering&'
+            'price_max=$price_max&'
+            'price_min=$price_min&'
+            'unit_ids=$unit_ids';
+
+    HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+      ((X509Certificate cert, String host, int port) => true);
+    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+
+    final Map parsed = json.decode(reply);
+    return ItemModel.fromJson(parsed);
+  }
+
   ///search's by item
   Future<ItemModel> fetchSearchItemsList(
     String obj,
