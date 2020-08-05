@@ -65,17 +65,20 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
   String error_text = "";
 
   TextEditingController fullNameController = TextEditingController();
-  TextEditingController numberController = TextEditingController();
+  TextEditingController numberController = TextEditingController(text: "+998");
 
-  TextEditingController cardNumberController = TextEditingController();
+  TextEditingController cardNumberController =
+      TextEditingController(text: "8600");
   TextEditingController cardDateController = TextEditingController();
   TextEditingController loginController = TextEditingController(text: "+998");
 
   var maskFormatter = new MaskTextInputFormatter(
       mask: '+998 ## ### ## ##', filter: {"#": RegExp(r'[0-9]')});
+  var maskFormatterNumber = new MaskTextInputFormatter(
+      mask: '+998 ## ### ## ##', filter: {"#": RegExp(r'[0-9]')});
 
   var maskCardNumberFormatter = new MaskTextInputFormatter(
-      mask: '#### #### #### ####', filter: {"#": RegExp(r'[0-9]')});
+      mask: '8600 #### #### ####', filter: {"#": RegExp(r'[0-9]')});
   var maskCardDateFormatter = new MaskTextInputFormatter(
       mask: '##/##', filter: {"#": RegExp(r'[0-9]')});
 
@@ -622,7 +625,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                 fontSize: 15,
                               ),
                               controller: loginController,
-                              inputFormatters: [maskFormatter],
+                              inputFormatters: [maskFormatterNumber],
                               decoration: InputDecoration(
                                 labelText: translate('auth.number'),
                                 labelStyle: TextStyle(
@@ -819,10 +822,10 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                       if (fullNameController.text.isNotEmpty) {
                         fullName = fullNameController.text;
                       }
-                      var number = numberController.text
+                      var numbe = numberController.text
                           .replaceAll('+', '')
                           .replaceAll(' ', '');
-                      if (number.length == 12) {
+                      if (numbe.length == 12) {
                         number = numberController.text;
                       }
 
@@ -843,7 +846,9 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                             widget.lng.toString(),
                                         type: "shipping",
                                         full_name: fullName,
-                                        phone: number,
+                                        phone: number
+                                            .replaceAll('+', '')
+                                            .replaceAll(' ', ''),
                                         shipping_time: widget.shippingTime,
                                         payment_type: paymentType,
                                         drugs: drugs,
@@ -856,7 +861,9 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                             widget.lng.toString(),
                                         type: "shipping",
                                         full_name: fullName,
-                                        phone: number,
+                                        phone: number
+                                            .replaceAll('+', '')
+                                            .replaceAll(' ', ''),
                                         shipping_time: widget.shippingTime,
                                         payment_type: paymentType,
                                         card_token:
@@ -873,7 +880,9 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                         widget.lng.toString(),
                                     type: "shipping",
                                     full_name: fullName,
-                                    phone: number,
+                                    phone: number
+                                        .replaceAll('+', '')
+                                        .replaceAll(' ', ''),
                                     shipping_time: widget.shippingTime,
                                     payment_type: paymentType,
                                     card_token:
