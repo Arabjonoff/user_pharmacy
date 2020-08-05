@@ -1112,6 +1112,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         localizationDelegate.changeLocale(Locale(prefs.getString('language')));
       });
 
+    }else{
+      setState(() {
+        var localizationDelegate = LocalizedApp.of(context).delegate;
+        localizationDelegate.changeLocale(Locale('ru'));
+      });
     }
   }
 }
