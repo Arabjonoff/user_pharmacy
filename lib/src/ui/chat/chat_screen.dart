@@ -166,10 +166,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                               borderRadius:
                                                   BorderRadius.circular(10)),
                                           child: Text(
-                                            chatModel[index].day.toString() +
-                                                "-" +
-                                                getTimeFormat(
-                                                    chatModel[index].month),
+                                            getTimeFormat(
+                                                    chatModel[index].month) +
+                                                " " +
+                                                chatModel[index].day.toString(),
                                           ),
                                         ),
                                       ),
@@ -193,12 +193,12 @@ class _ChatScreenState extends State<ChatScreen> {
                                                       BorderRadius.circular(
                                                           10)),
                                               child: Text(
-                                                chatModel[index]
+                                                getTimeFormat(chatModel[index]
+                                                        .month) +
+                                                    " " +
+                                                    chatModel[index]
                                                         .day
-                                                        .toString() +
-                                                    "-" +
-                                                    getTimeFormat(
-                                                        chatModel[index].month),
+                                                        .toString(),
                                               ),
                                             ),
                                           ),

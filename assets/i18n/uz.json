@@ -228,18 +228,18 @@
     "sent_hint": "Xabaringizni kiriting ..."
   },
   "month": {
-    "january": "jan",
-    "february": "feb",
-    "march": "march",
-    "april": "apr",
+    "january": "yanvar",
+    "february": "fevral",
+    "march": "mart",
+    "april": "aprel",
     "may": "may",
-    "june": "june",
-    "july": "july",
-    "august": "aug",
-    "september": "sep",
-    "october": "oct",
-    "november": "nov",
-    "december": "dec"
+    "june": "iyun",
+    "july": "iyul",
+    "august": "avgust",
+    "september": "sentyabr",
+    "october": "oktyabr",
+    "november": "noyabr",
+    "december": "dekabr"
   },
   "auto_update": {
     "title": "Yangilanishlar mavjud",

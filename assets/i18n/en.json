@@ -228,18 +228,18 @@
     "sent_hint": "Type your message..."
   },
   "month": {
-    "january": "jan",
-    "february": "feb",
-    "march": "march",
-    "april": "apr",
-    "may": "may",
-    "june": "june",
-    "july": "july",
-    "august": "aug",
-    "september": "sep",
-    "october": "oct",
-    "november": "nov",
-    "december": "dec"
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December"
   },
   "auto_update": {
     "title": "Updates available",
