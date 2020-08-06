@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:vibrate/vibrate.dart';
 
 // ignore: must_be_immutable
 class DeleteScreen extends StatefulWidget {
@@ -16,78 +17,132 @@ class DeleteScreen extends StatefulWidget {
 }
 
 class _DeleteScreenState extends State<DeleteScreen> {
+  bool _canVibrate = true;
+  final Iterable<Duration> pauses = [
+    const Duration(milliseconds: 500),
+    const Duration(milliseconds: 1000),
+    const Duration(milliseconds: 500),
+  ];
+
+  @override
+  initState() {
+    super.initState();
+    init();
+  }
+
+  init() async {
+    bool canVibrate = await Vibrate.canVibrate;
+    setState(() {
+      _canVibrate = canVibrate;
+      _canVibrate
+          ? print("This device can vibrate")
+          : print("This device cannot vibrate");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(30.0),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            elevation: 0.0,
-            backgroundColor: Colors.black,
-            brightness: Brightness.dark,
-            title: Container(
-              height: 30,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 10,
-                  decoration: BoxDecoration(
-                    color: AppTheme.item_navigation,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.0),
-                      topRight: Radius.circular(10.0),
-                    ),
-                  ),
-                ),
-              ),
+    return new MaterialApp(
+      home: new Scaffold(
+        appBar: new AppBar(title: new Text('Haptic Feedback Example')),
+        body: new Center(
+          child: new Column(children: <Widget>[
+            new ListTile(
+              title: new Text("Vibrate"),
+              leading: new Icon(Icons.vibration, color: Colors.teal),
+              onTap: !_canVibrate
+                  ? null
+                  : () {
+                      Vibrate.vibrate();
+                    },
             ),
-          )),
-      body: Container(
-        decoration: BoxDecoration(
-          color: AppTheme.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(14.0),
-            topRight: Radius.circular(14.0),
-          ),
-        ),
-        padding: EdgeInsets.only(top: 14),
-        child: Container(
-          child: Center(
-            child: GestureDetector(
-              onTap: () async {
-                var url = 'tel:*880#';
-                //var url = 'https://flutter.dev';
-                if (await canLaunch(url)) {
-                  await launch(url);
-                } else {
-                  print("Could not launch $url");
-                  throw 'Could not launch $url';
-                }
-              },
-              child: Container(
-                height: 56,
-                margin: EdgeInsets.only(left: 35, right: 35),
-                decoration: BoxDecoration(
-                  color: AppTheme.blue_app_color,
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Center(
-                  child: Text(
-                    translate("update"),
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: AppTheme.fontRoboto,
-                      color: AppTheme.white,
-                    ),
-                  ),
-                ),
-              ),
+            new ListTile(
+              title: new Text("Vibrate with Pauses"),
+              leading: new Icon(Icons.vibration, color: Colors.brown),
+              onTap: !_canVibrate
+                  ? null
+                  : () {
+                      Vibrate.vibrateWithPauses(pauses);
+                    },
             ),
-          ),
+            new Divider(height: 1.0),
+            new ListTile(
+              title: new Text("Impact"),
+              leading: new Icon(Icons.tap_and_play, color: Colors.orange),
+              onTap: !_canVibrate
+                  ? null
+                  : () {
+                      Vibrate.feedback(FeedbackType.impact);
+                    },
+            ),
+            new ListTile(
+              title: new Text("Selection"),
+              leading: new Icon(Icons.select_all, color: Colors.blue),
+              onTap: !_canVibrate
+                  ? null
+                  : () {
+                      Vibrate.feedback(FeedbackType.selection);
+                    },
+            ),
+            new ListTile(
+              title: new Text("Success"),
+              leading: new Icon(Icons.check, color: Colors.green),
+              onTap: !_canVibrate
+                  ? null
+                  : () {
+                      Vibrate.feedback(FeedbackType.success);
+                    },
+            ),
+            new ListTile(
+              title: new Text("Warning"),
+              leading: new Icon(Icons.warning, color: Colors.red),
+              onTap: !_canVibrate
+                  ? null
+                  : () {
+                      Vibrate.feedback(FeedbackType.warning);
+                    },
+            ),
+            new ListTile(
+              title: new Text("Error"),
+              leading: new Icon(Icons.error, color: Colors.red),
+              onTap: !_canVibrate
+                  ? null
+                  : () {
+                      Vibrate.feedback(FeedbackType.error);
+                    },
+            ),
+            new Divider(height: 1.0),
+            new ListTile(
+              title: new Text("Heavy"),
+              leading:
+                  new Icon(Icons.notification_important, color: Colors.red),
+              onTap: !_canVibrate
+                  ? null
+                  : () {
+                      Vibrate.feedback(FeedbackType.heavy);
+                    },
+            ),
+            new ListTile(
+              title: new Text("Medium"),
+              leading:
+                  new Icon(Icons.notification_important, color: Colors.green),
+              onTap: !_canVibrate
+                  ? null
+                  : () {
+                      Vibrate.feedback(FeedbackType.medium);
+                    },
+            ),
+            new ListTile(
+              title: new Text("Light"),
+              leading: new Icon(Icons.notification_important,
+                  color: Colors.yellow[700]),
+              onTap: !_canVibrate
+                  ? null
+                  : () {
+                      Vibrate.feedback(FeedbackType.light);
+                    },
+            ),
+          ]),
         ),
       ),
     );
