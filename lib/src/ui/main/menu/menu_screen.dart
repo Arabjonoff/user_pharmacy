@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/fav_apteka_screen.dart';
@@ -12,6 +13,7 @@ import 'package:pharmacy/src/ui/sub_menu/language_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/my_info_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/region_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
+import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app_theme.dart';
@@ -32,11 +34,27 @@ class _MenuScreenState extends State<MenuScreen> {
   String fullName = "";
   String city = "";
 
-//  @override
-//  void initState() {
-// //   getLanguage();
-//    super.initState();
-//  }
+
+  @override
+  void initState() {
+    registerBus();
+    super.initState();
+  }
+
+  void registerBus() {
+    RxBus.register<BottomView>(tag: "MENU_VIEW").listen((event) {
+      if (event.title) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    RxBus.destroy();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -355,7 +373,9 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
           isLogin
               ? GestureDetector(
-                  onTap: () async {},
+                  onTap: () async {
+
+                  },
                   child: Container(
                     margin: EdgeInsets.only(
                       left: 16,

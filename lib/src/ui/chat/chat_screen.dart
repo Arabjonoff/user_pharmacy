@@ -502,7 +502,9 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> socket(String value) async {
-    var url = "wss://online.grandpharm.uz/ws/messages?token=$value";
+    var url = Utils.BASE_URL_SOCET + "messages?token=$value";
+
+    print(url);
 
     var channel = await IOWebSocketChannel.connect(url);
     channel.stream.listen((message) {

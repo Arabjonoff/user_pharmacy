@@ -43,14 +43,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
             child: SvgPicture.asset("assets/images/arrow_back.svg"),
           ),
           onTap: () {
-//            Navigator.pushAndRemoveUntil(
-//              context,
-//              MaterialPageRoute(
-//                builder: (BuildContext context) => CategoryScreen(),
-//              ),
-//              (route) => false,
-//            );
-             Navigator.pop(context);
+            Navigator.pop(context);
           },
         ),
         automaticallyImplyLeading: false,

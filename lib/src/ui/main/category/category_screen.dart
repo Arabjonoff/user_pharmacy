@@ -8,6 +8,7 @@ import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/category/sub_category_screen.dart';
@@ -27,6 +28,26 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   Size size;
+
+  @override
+  void initState() {
+    registerBus();
+    super.initState();
+  }
+
+  void registerBus() {
+    RxBus.register<BottomView>(tag: "CATEGORY_VIEW").listen((event) {
+      if (event.title) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    RxBus.destroy();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

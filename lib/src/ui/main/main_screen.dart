@@ -9,6 +9,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/check_version.dart';
 import 'package:pharmacy/src/ui/chat/chat_screen.dart';
@@ -119,6 +121,35 @@ class _MainScreenState extends State<MainScreen> {
           ),
           child: BottomNavigationBar(
             onTap: (index) {
+              if (index == _selectedIndex) {
+                switch (index) {
+                  case 0:
+                    {
+                      RxBus.post(BottomView(true), tag: "HOME_VIEW");
+                      break;
+                    }
+                  case 1:
+                    {
+                      RxBus.post(BottomView(true), tag: "CATEGORY_VIEW");
+                      break;
+                    }
+                  case 2:
+                    {
+                      RxBus.post(BottomView(true), tag: "CARD_VIEW");
+                      break;
+                    }
+                  case 3:
+                    {
+                      RxBus.post(BottomView(true), tag: "FAVOURITES_VIEW");
+                      break;
+                    }
+                  case 4:
+                    {
+                      RxBus.post(BottomView(true), tag: "MENU_VIEW");
+                      break;
+                    }
+                }
+              }
               setState(() {
                 _selectedIndex = index;
               });
@@ -225,6 +256,18 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Map<String, WidgetBuilder> _routeBuilders(BuildContext context, int index) {
+//    switch (index) {
+//      case 0:
+//        return {'/home': (context) => HomeScreen()};
+//      case 1:
+//        return {'/category': (context) => CategoryScreen()};
+//      case 2:
+//        return {'/card': (context) => CardScreen()};
+//      case 3:
+//        return {'/favorites': (context) => FavoritesScreen()};
+//      case 4:
+//        return {'/menu': (context) => MenuScreen()};
+//    }
     return {
       '/': (context) {
         return [

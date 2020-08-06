@@ -15,6 +15,7 @@ import 'package:pharmacy/src/model/api/check_version.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/check_version.dart';
 import 'package:pharmacy/src/model/top_item_model.dart';
@@ -64,7 +65,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _setLanguage();
     initSpeechState();
     _initPackageInfo();
+    registerBus();
     super.initState();
+  }
+
+  void registerBus() {
+    RxBus.register<BottomView>(tag: "HOME_VIEW").listen((event) {
+      if (event.title) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    RxBus.destroy();
+    super.dispose();
   }
 
   Future<void> _initPackageInfo() async {

@@ -9,6 +9,7 @@ import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
@@ -64,6 +65,12 @@ class _CardScreenState extends State<CardScreen> {
   void registerBus() {
     RxBus.register<CardItemChangeModel>(tag: "EVENT_CARD")
         .listen((event) => setState(() {}));
+
+    RxBus.register<BottomView>(tag: "CARD_VIEW").listen((event) {
+      if (event.title) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
+    });
   }
 
   @override
@@ -116,7 +123,7 @@ class _CardScreenState extends State<CardScreen> {
             }
 
             isNext = true;
-          //  allPrice.toInt() > minSum ? isNext = true : isNext = false;
+            //  allPrice.toInt() > minSum ? isNext = true : isNext = false;
 
             return snapshot.data.length == 0
                 ? CardEmptyScreen()

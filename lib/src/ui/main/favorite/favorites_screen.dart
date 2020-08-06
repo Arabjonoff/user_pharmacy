@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/ui/main/favorite/favorite_empty_screen.dart';
 import 'package:pharmacy/src/ui/view/item_view.dart';
+import 'package:rxbus/rxbus.dart';
 
 import '../../../app_theme.dart';
 
@@ -20,6 +22,26 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   int count = 0;
 
   DatabaseHelper dataBase = new DatabaseHelper();
+
+  @override
+  void initState() {
+    registerBus();
+    super.initState();
+  }
+
+  void registerBus() {
+    RxBus.register<BottomView>(tag: "FAVOURITES_VIEW").listen((event) {
+      if (event.title) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    RxBus.destroy();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
