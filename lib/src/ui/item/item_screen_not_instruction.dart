@@ -10,8 +10,11 @@ import 'package:pharmacy/src/blocs/items_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
+import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/ui/item/item_screen.dart';
+import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
+import 'package:rxbus/rxbus.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
@@ -79,6 +82,18 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                     alignment: Alignment.topRight,
                     child: GestureDetector(
                       onTap: () {
+                        if (isOpenBest)
+                          RxBus.post(AllItemIsOpen(true),
+                              tag: "EVENT_ITEM_LIST");
+                        if (isOpenIds)
+                          RxBus.post(AllItemIsOpen(true),
+                              tag: "EVENT_ITEM_LIST_IDS");
+                        if (isOpenSearch)
+                          RxBus.post(AllItemIsOpen(true),
+                              tag: "EVENT_ITEM_LIST_SEARCH");
+                        if (isOpenCategory)
+                          RxBus.post(AllItemIsOpen(true),
+                              tag: "EVENT_ITEM_LIST_CATEGORY");
                         blocCard.fetchAllCard();
                         Navigator.pop(context);
                       },
@@ -107,7 +122,6 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                   Expanded(
                     child: ListView(
                       children: [
-
                         Center(
                           child: Container(
                             height: 240,

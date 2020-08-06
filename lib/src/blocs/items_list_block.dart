@@ -30,11 +30,15 @@ dynamic itemModelBestPrevious;
 
 class ItemListBloc {
   final _repository = Repository();
+
   final _categoryItemsFetcher = PublishSubject<ItemModel>();
   final _bestItemFetcher = PublishSubject<ItemModel>();
+  final _idsItemsFetcher = PublishSubject<ItemModel>();
   final _itemSearchFetcher = PublishSubject<ItemModel>();
 
   Observable<ItemModel> get allItemsCategoty => _categoryItemsFetcher.stream;
+
+  Observable<ItemModel> get allIds => _idsItemsFetcher.stream;
 
   Observable<ItemModel> get getBestItem => _bestItemFetcher.stream;
 
@@ -145,7 +149,7 @@ class ItemListBloc {
       previous: itemCategory.previous,
       results: usersIds,
     );
-    _categoryItemsFetcher.sink.add(itemIdsData);
+    _idsItemsFetcher.sink.add(itemIdsData);
   }
 
   fetchAllItemCategoryBest(
@@ -320,9 +324,32 @@ class ItemListBloc {
     _categoryItemsFetcher.sink.add(itemCategoryData);
   }
 
+  updateIds() async {
+    List<ItemResult> database = await _repository.databaseItem();
+
+    ///ids
+    for (var j = 0; j < database.length; j++) {
+      for (var i = 0; i < usersIds.length; i++) {
+        if (usersIds[i].id == database[j].id) {
+          usersIds[i].cardCount = database[j].cardCount;
+          usersIds[i].favourite = database[j].favourite;
+        }
+      }
+    }
+
+    itemIdsData = new ItemModel(
+      count: itemIdsCount,
+      next: itemIdsNext,
+      previous: itemIdsPrevious,
+      results: usersIds,
+    );
+    _idsItemsFetcher.sink.add(itemIdsData);
+  }
+
   dispose() {
     _categoryItemsFetcher.close();
     _bestItemFetcher.close();
+    _idsItemsFetcher.close();
     _itemSearchFetcher.close();
   }
 }

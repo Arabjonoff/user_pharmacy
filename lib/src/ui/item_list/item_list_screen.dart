@@ -25,6 +25,7 @@ import 'fliter_screen.dart';
 bool isOpenBest = false;
 bool isOpenCategory = false;
 bool isOpenSearch = false;
+bool isOpenIds = false;
 
 // ignore: must_be_immutable
 class ItemListScreen extends StatefulWidget {
@@ -64,9 +65,14 @@ class _ItemListScreenState extends State<ItemListScreen> {
   @override
   void initState() {
     super.initState();
-    widget.type == 2
-        ? isOpenBest = true
-        : widget.type == 3 ? isOpenSearch = true : isOpenCategory = true;
+
+    if (widget.type == 4) {
+      isOpenIds = true;
+    } else {
+      widget.type == 2
+          ? isOpenBest = true
+          : widget.type == 3 ? isOpenSearch = true : isOpenCategory = true;
+    }
 
     _getMoreData(1);
     registerBus();
@@ -82,52 +88,25 @@ class _ItemListScreenState extends State<ItemListScreen> {
   void registerBus() {
     RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST").listen((event) {
       if (event.title) {
-        //  ItemListBloc().updateBest();
-        blocItemsList.fetchAllItemCategoryBest(
-          1,
-          international_name_ids,
-          manufacturer_ids,
-          sortFilter,
-          price_max,
-          price_min,
-          unit_ids,
-        );
-        page = 2;
+        blocItemsList.updateBest();
       }
     });
     RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_SEARCH")
         .listen((event) {
       if (event.title) {
-        //  ItemListBloc().updateSearch();
-        blocItemsList.fetchAllItemSearch(
-          widget.id,
-          1,
-          international_name_ids,
-          manufacturer_ids,
-          sortFilter,
-          price_max,
-          price_min,
-          unit_ids,
-        );
-        page = 2;
+        blocItemsList.updateSearch();
       }
     });
 
     RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_CATEGORY")
         .listen((event) {
       if (event.title) {
-        // ItemListBloc().updateCategory();
-        blocItemsList.fetchAllItemCategory(
-          widget.id,
-          1,
-          international_name_ids,
-          manufacturer_ids,
-          sortFilter,
-          price_max,
-          price_min,
-          unit_ids,
-        );
-        page = 2;
+        blocItemsList.updateCategory();
+      }
+    });
+    RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_IDS").listen((event) {
+      if (event.title) {
+        blocItemsList.updateIds();
       }
     });
   }
@@ -146,6 +125,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
     isOpenBest = false;
     isOpenCategory = false;
     isOpenSearch = false;
+    isOpenIds = false;
     RxBus.destroy();
     super.dispose();
   }
@@ -509,7 +489,9 @@ class _ItemListScreenState extends State<ItemListScreen> {
                     ? blocItemsList.getBestItem
                     : widget.type == 3
                         ? blocItemsList.getItemSearch
-                        : blocItemsList.allItemsCategoty,
+                        : widget.type == 4
+                            ? blocItemsList.allIds
+                            : blocItemsList.allItemsCategoty,
                 builder: (context, AsyncSnapshot<ItemModel> snapshot) {
                   if (snapshot.hasData) {
                     snapshot.data.next == null
