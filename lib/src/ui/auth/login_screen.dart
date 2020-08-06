@@ -6,6 +6,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/auth/verfy_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
 
@@ -179,31 +180,51 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
-            Container(
-              width: double.infinity,
-              child: Text(
-                translate("dialog.soglas"),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: AppTheme.black_transparent_text,
-                  fontFamily: AppTheme.fontRoboto,
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 11,
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 8),
-              child: Text(
-                translate("dialog.danniy"),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: AppTheme.blue_app_color,
-                  fontFamily: AppTheme.fontRoboto,
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 11,
+            GestureDetector(
+              onTap: () async {
+                var url = 'https://api.gopharm.uz/privacy';
+                if (await canLaunch(url)) {
+                  await launch(url);
+                } else {
+                  throw 'Could not launch $url';
+                }
+              },
+              child: Container(
+                height: 45,
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      child: Text(
+                        translate("dialog.soglas"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppTheme.black_transparent_text,
+                          fontFamily: AppTheme.fontRoboto,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 8),
+                      child: Text(
+                        translate("dialog.danniy"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppTheme.blue_app_color,
+                          fontFamily: AppTheme.fontRoboto,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
