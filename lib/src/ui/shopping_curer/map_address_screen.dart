@@ -47,10 +47,24 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
 
   DatabaseHelperAddress db = new DatabaseHelperAddress();
 
+  bool error = false;
+
   @override
   void initState() {
     super.initState();
     _requestPermission();
+  }
+
+  _MapAddressScreenState() {
+    homeController.addListener(() {
+      if (homeController.text.length > 0) {
+        if (error) {
+          setState(() {
+            error = false;
+          });
+        }
+      }
+    });
   }
 
   Future<void> _requestPermission() async {
@@ -235,7 +249,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                 borderRadius: BorderRadius.circular(10.0),
                 color: AppTheme.auth_login,
                 border: Border.all(
-                  color: AppTheme.auth_border,
+                  color: error ? AppTheme.red_fav_color : AppTheme.auth_border,
                   width: 1.0,
                 ),
               ),
@@ -285,11 +299,40 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(left: 12, right: 12),
-                child: YandexMap(
-                  onMapCreated:
-                      (YandexMapController yandexMapController) async {
-                    controller = yandexMapController;
-                  },
+                child: Stack(
+                  children: [
+                    YandexMap(
+                      onMapCreated:
+                          (YandexMapController yandexMapController) async {
+                        controller = yandexMapController;
+                      },
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          controller.move(
+                            point: _point,
+                            animation:
+                                const MapAnimation(smooth: true, duration: 0.5),
+                          );
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(top: 12, right: 12),
+                          height: 36,
+                          width: 36,
+                          decoration: BoxDecoration(
+                              color: AppTheme.white,
+                              borderRadius: BorderRadius.circular(18)),
+                          child: Icon(
+                            Icons.my_location,
+                            color: Color.fromRGBO(59, 62, 77, 1.0),
+                            size: 28.0,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
@@ -311,6 +354,10 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                       child: CurerAddressCardScreen(),
                     ),
                   );
+                } else {
+                  setState(() {
+                    error = true;
+                  });
                 }
               },
               child: Container(

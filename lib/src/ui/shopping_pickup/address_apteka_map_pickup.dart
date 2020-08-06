@@ -341,55 +341,30 @@ class _AddressAptekaMapPickupScreenState
               mapController = yandexMapController;
             },
           ),
-//          Align(
-//            alignment: Alignment.bottomRight,
-//            child: Container(
-//              margin: EdgeInsets.only(right: 16, bottom: 32),
-//              width: 48,
-//              height: 200,
-//              child: Column(
-//                children: <Widget>[
-//                  IconButton(
-//                    icon: Icon(
-//                      Icons.add_circle_outline,
-//                      color: Color.fromRGBO(59, 62, 77, 1.0),
-//                      size: 36.0,
-//                    ),
-//                    onPressed: () {
-//                      mapController.zoomIn();
-//                    },
-//                  ),
-//                  IconButton(
-//                    icon: Icon(
-//                      Icons.remove_circle_outline,
-//                      color: Color.fromRGBO(59, 62, 77, 1.0),
-//                      size: 36.0,
-//                    ),
-//                    onPressed: () {
-//                      mapController.zoomOut();
-//                    },
-//                  ),
-//                  SizedBox(
-//                    height: 36,
-//                  ),
-//                  IconButton(
-//                    icon: Icon(
-//                      Icons.my_location,
-//                      color: Color.fromRGBO(59, 62, 77, 1.0),
-//                      size: 36.0,
-//                    ),
-//                    onPressed: () {
-//                      mapController.move(
-//                        point: _point,
-//                        animation:
-//                            const MapAnimation(smooth: true, duration: 0.5),
-//                      );
-//                    },
-//                  )
-//                ],
-//              ),
-//            ),
-//          )
+          Align(
+            alignment: Alignment.topRight,
+            child: GestureDetector(
+              onTap: () {
+                mapController.move(
+                  point: _point,
+                  animation: const MapAnimation(smooth: true, duration: 0.5),
+                );
+              },
+              child: Container(
+                margin: EdgeInsets.only(top: 12, right: 12),
+                height: 36,
+                width: 36,
+                decoration: BoxDecoration(
+                    color: AppTheme.white,
+                    borderRadius: BorderRadius.circular(18)),
+                child: Icon(
+                  Icons.my_location,
+                  color: Color.fromRGBO(59, 62, 77, 1.0),
+                  size: 28.0,
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
