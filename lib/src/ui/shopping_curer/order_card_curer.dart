@@ -15,7 +15,6 @@ import 'package:pharmacy/src/ui/payment/verfy_payment_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vibrate/vibrate.dart';
 
 import '../../app_theme.dart';
 import 'curer_address_card.dart';
@@ -951,8 +950,6 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                             }
                                           else
                                             {
-                                              Vibrate.feedback(
-                                                  FeedbackType.error),
                                               setState(() {
                                                 error = true;
                                                 loading = false;
@@ -987,7 +984,6 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                         }
                                       else
                                         {
-                                          Vibrate.feedback(FeedbackType.error),
                                           setState(() {
                                             error = true;
                                             loading = false;

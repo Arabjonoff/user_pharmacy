@@ -15,11 +15,6 @@ import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/send/check_order.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
-import 'package:pharmacy/src/ui/main/card/card_screen.dart';
-import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:vibrate/vibrate.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
@@ -356,7 +351,6 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                     ),
                   );
                 } else {
-                  Vibrate.feedback(FeedbackType.error);
                   setState(() {
                     error = true;
                   });

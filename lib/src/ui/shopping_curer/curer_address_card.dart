@@ -16,7 +16,6 @@ import 'package:pharmacy/src/ui/shopping_curer/map_address_screen.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:vibrate/vibrate.dart';
 
 import '../../app_theme.dart';
 import 'order_card_curer.dart';
@@ -535,14 +534,14 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                     }),
                           });
                     } else {
-                      Vibrate.feedback(FeedbackType.error);
+
                       setState(() {
                         error = true;
                         error_text = translate("not_time");
                       });
                     }
                   } else {
-                    Vibrate.feedback(FeedbackType.error);
+
                     setState(() {
                       error = true;
                       error_text = translate("not_address");

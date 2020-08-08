@@ -18,7 +18,6 @@ import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dar
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vibrate/vibrate.dart';
 
 import '../../app_theme.dart';
 import '../shopping_curer/curer_address_card.dart';
@@ -1059,8 +1058,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                             }
                                           else
                                             {
-                                              Vibrate.feedback(
-                                                  FeedbackType.error),
                                               setState(() {
                                                 error = true;
                                                 loading = false;
@@ -1096,7 +1093,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                         }
                                       else
                                         {
-                                          Vibrate.feedback(FeedbackType.error),
                                           setState(() {
                                             error = true;
                                             loading = false;
