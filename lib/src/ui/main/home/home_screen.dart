@@ -240,19 +240,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               children: [
                 GestureDetector(
                   onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (_) => RatingDialog(),
-                    );
-//                    isLogin
-//                        ? Navigator.push(
-//                            context,
-//                            PageTransition(
-//                              type: PageTransitionType.rightToLeft,
-//                              child: HistoryOrderScreen(),
-//                            ),
-//                          )
-//                        : BottomDialog.createBottomSheetHistory(context);
+                    isLogin
+                        ? Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: HistoryOrderScreen(),
+                            ),
+                          )
+                        : BottomDialog.createBottomSheetHistory(context);
                   },
                   child: Container(
                     child: ClipRRect(
