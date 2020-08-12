@@ -100,6 +100,7 @@ class Repository {
         price_min,
         unit_ids,
       );
+
   Future<ItemModel> fetchIdsItemsList(
     String id,
     int page,
@@ -191,4 +192,7 @@ class Repository {
 
   Future<CheckVersion> fetchCheckVersion(String version) =>
       pharmacyApiProvider.fetchCheckVersion(version);
+
+  Future<CheckVersion> fetchSendRating(String comment, int rating) =>
+      pharmacyApiProvider.fetchSendRating(comment, rating);
 }

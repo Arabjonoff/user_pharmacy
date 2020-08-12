@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -17,6 +18,7 @@ import 'package:pharmacy/src/ui/chat/chat_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/favorite/favorites_screen.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
+import 'package:pharmacy/src/ui/view/rating_dialog.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -47,6 +49,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     registerBus();
     _setLanguage();
+    sendRating();
     super.initState();
   }
 
@@ -295,5 +298,29 @@ class _MainScreenState extends State<MainScreen> {
         },
       ),
     );
+  }
+
+  Future<void> sendRating() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var count = prefs.getInt("userEnterCount") == null
+        ? 0
+        : prefs.getInt("userEnterCount");
+    if (count < 51) {
+      if (count == 3 || count == 15 || count == 50) {
+        Future.delayed(
+          Duration(seconds: 5),
+          () {
+            showDialog(
+              context: context,
+              builder: (_) => RatingDialog(),
+            );
+          },
+        );
+      }
+      count = count + 1;
+      prefs.setInt('userEnterCount', count);
+      prefs.commit();
+    }
   }
 }

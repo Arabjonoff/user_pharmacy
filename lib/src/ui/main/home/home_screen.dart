@@ -29,6 +29,7 @@ import 'package:pharmacy/src/ui/main/category/category_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
+import 'package:pharmacy/src/ui/view/rating_dialog.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:pharmacy/src/ui/item/item_screen.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
@@ -239,15 +240,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               children: [
                 GestureDetector(
                   onTap: () {
-                    isLogin
-                        ? Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              child: HistoryOrderScreen(),
-                            ),
-                          )
-                        : BottomDialog.createBottomSheetHistory(context);
+                    showDialog(
+                      context: context,
+                      builder: (_) => RatingDialog(),
+                    );
+//                    isLogin
+//                        ? Navigator.push(
+//                            context,
+//                            PageTransition(
+//                              type: PageTransitionType.rightToLeft,
+//                              child: HistoryOrderScreen(),
+//                            ),
+//                          )
+//                        : BottomDialog.createBottomSheetHistory(context);
                   },
                   child: Container(
                     child: ClipRRect(
