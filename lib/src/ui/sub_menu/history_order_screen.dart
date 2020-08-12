@@ -134,7 +134,6 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                               ),
                               margin:
                                   EdgeInsets.only(top: 16, left: 16, right: 16),
-                              height: 260,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -221,17 +220,17 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                         ),
                                         Container(
                                           decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(4.0),
-                                              color: snapshot
-                                                          .data
-                                                          .results[index]
-                                                          .status ==
-                                                      "pending"
-                                                  ? Color(0xFF792EC0)
-                                                  : Color(0xFFA3ADB8)),
-                                          height: 24,
-                                          width: 85,
+                                            borderRadius:
+                                                BorderRadius.circular(4.0),
+                                            color: ColorStatus(snapshot
+                                                .data.results[index].status),
+                                          ),
+                                          padding: EdgeInsets.only(
+                                            top: 4,
+                                            bottom: 4,
+                                            left: 12,
+                                            right: 12,
+                                          ),
                                           child: Center(
                                             child: Text(
                                               translate(
@@ -240,7 +239,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                                 fontFamily: AppTheme.fontRoboto,
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 11,
-                                                color: AppTheme.white,
+                                                color: AppTheme.black_text,
                                                 fontStyle: FontStyle.normal,
                                               ),
                                             ),
@@ -303,59 +302,58 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       ),
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Container(
-                                      margin:
-                                          EdgeInsets.only(top: 16, bottom: 16),
-                                      child: ListView.builder(
-                                        padding: const EdgeInsets.only(
-                                          top: 0,
-                                          bottom: 0,
-                                          right: 16,
-                                          left: 16,
-                                        ),
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: snapshot
-                                            .data.results[index].items.length,
-                                        itemBuilder: (BuildContext context,
-                                            int subindex) {
-                                          return Container(
+                                  Container(
+                                    margin:
+                                        EdgeInsets.only(top: 16, bottom: 16),
+                                    height: 56,
+                                    child: ListView.builder(
+                                      padding: const EdgeInsets.only(
+                                        top: 0,
+                                        bottom: 0,
+                                        right: 16,
+                                        left: 16,
+                                      ),
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: snapshot
+                                          .data.results[index].items.length,
+                                      itemBuilder:
+                                          (BuildContext context, int subindex) {
+                                        return Container(
+                                          width: 56,
+                                          height: 56,
+                                          margin: EdgeInsets.only(right: 16),
+                                          child: Container(
                                             width: 56,
                                             height: 56,
-                                            margin: EdgeInsets.only(right: 16),
-                                            child: Container(
-                                              width: 56,
-                                              height: 56,
-                                              child: CachedNetworkImage(
-                                                imageUrl: snapshot
-                                                    .data
-                                                    .results[index]
-                                                    .items[subindex]
-                                                    .drug
-                                                    .imageThumbnail,
-                                                placeholder: (context, url) =>
-                                                    Container(
-                                                  padding: EdgeInsets.all(5),
-                                                  child: Center(
-                                                    child: SvgPicture.asset(
-                                                        "assets/images/place_holder.svg"),
-                                                  ),
+                                            child: CachedNetworkImage(
+                                              imageUrl: snapshot
+                                                  .data
+                                                  .results[index]
+                                                  .items[subindex]
+                                                  .drug
+                                                  .imageThumbnail,
+                                              placeholder: (context, url) =>
+                                                  Container(
+                                                padding: EdgeInsets.all(5),
+                                                child: Center(
+                                                  child: SvgPicture.asset(
+                                                      "assets/images/place_holder.svg"),
                                                 ),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Container(
-                                                  padding: EdgeInsets.all(5),
-                                                  child: Center(
-                                                    child: SvgPicture.asset(
-                                                        "assets/images/place_holder.svg"),
-                                                  ),
-                                                ),
-                                                fit: BoxFit.fitHeight,
                                               ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Container(
+                                                padding: EdgeInsets.all(5),
+                                                child: Center(
+                                                  child: SvgPicture.asset(
+                                                      "assets/images/place_holder.svg"),
+                                                ),
+                                              ),
+                                              fit: BoxFit.fitHeight,
                                             ),
-                                          );
-                                        },
-                                      ),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   )
                                 ],
@@ -445,6 +443,47 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
         blocHistory.fetchAllHistory(index);
         page++;
       });
+    }
+  }
+
+  Color ColorStatus(String status) {
+    switch (status) {
+      case "pending":
+        {
+          return Colors.yellow;
+        }
+      case "accept":
+        {
+          return Color(0xFF43A047);
+        }
+      case "cancelled_by_store":
+        {
+          return Color(0xFFE53935);
+        }
+      case "waiting_deliverer":
+        {
+          return Color(0xFF0288D1);
+        }
+      case "delivering":
+        {
+          return Color(0xFF0288D1);
+        }
+      case "delivered":
+        {
+          return Colors.green;
+        }
+      case "cancelled_by_admin":
+        {
+          return Color(0xFF616161);
+        }
+      case "pick_up":
+        {
+          return Color(0xFFB39DDB);
+        }
+      case "picked_up":
+        {
+          return Color(0xFF4CAF50);
+        }
     }
   }
 }

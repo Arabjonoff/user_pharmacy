@@ -115,7 +115,8 @@
     "exit_title": "Exit",
     "exit_message": "Do you want to exit now?",
     "exit_yes": "Yes",
-    "exit_no": "No"
+    "exit_no": "No",
+    "number": "Call center:  +998 71 205 08 88"
   },
   "dialog": {
     "enter": "Sign in",
@@ -213,9 +214,13 @@
     "dostavka": "by delivery service",
     "pending": "Pending",
     "accept": "Accept",
-    "cancel": "Cancel",
-    "shipped": "Shipped",
-    "delivered": "Delivered"
+    "cancelled_by_store": "Cancelled by store",
+    "waiting_deliverer": "Waiting for deliverer",
+    "delivering": "Delivering",
+    "delivered": "Delivered",
+    "cancelled_by_admin": "Cancel by admin",
+    "pick_up": "Pickup",
+    "picked_up": "Picked up"
   },
   "voice": {
     "voice_search": "Voice search",
@@ -244,5 +249,6 @@
   "auto_update": {
     "title": "Updates available",
     "button": "Update"
-  }
+  },
+  "about_app": "  ИДЕЯ приложения Go Pharm- это сделать доступную доставку медикаментов для всех слоев населения. Поэтому мы позаботились обо всех пунктах, начиная с выбора партнёра дистрибьютора с безупречной репутацией и, пожалуй, с самыми адекватными ценами медицинской продукции и лекарственных средств, и до выбора транспорта доставки; сегодня - скутеры, в условиях пандемии и ограничения движения это идеальное решение; в ближайшем будущем мы планируем закуп гаража экокар. Это соответствует нашей КОНЦЕПЦИИ \"все деяния наши во благо населения, экологии и человека\". Упаковка, в которой Вам доставят Ваш заказ- это тоже одно из воплощений нашей Эко теории. \nНаша ЦЕЛЬ- социальная лояльность. Важен Ваш выбор, удобство пользования нашей интернет платформой, привязка населения к комфорту доставки. Ведь даже после окончания карантина поход в аптеку останется чем то вроде пережитка прошлого."
 }

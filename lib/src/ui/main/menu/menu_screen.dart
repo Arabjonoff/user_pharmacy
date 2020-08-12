@@ -7,6 +7,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/about_app_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/fav_apteka_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/language_screen.dart';
@@ -34,7 +35,6 @@ class _MenuScreenState extends State<MenuScreen> {
   String fullName = "";
   String city = "";
 
-
   @override
   void initState() {
     registerBus();
@@ -54,7 +54,6 @@ class _MenuScreenState extends State<MenuScreen> {
     RxBus.destroy();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -373,9 +372,7 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
           isLogin
               ? GestureDetector(
-                  onTap: () async {
-
-                  },
+                  onTap: () async {},
                   child: Container(
                     margin: EdgeInsets.only(
                       left: 16,
@@ -534,7 +531,15 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
           ),
           GestureDetector(
-            onTap: () async {},
+            onTap: () async {
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: AboutAppScreen(),
+                ),
+              );
+            },
             child: Container(
               margin: EdgeInsets.only(
                 left: 16,
@@ -576,6 +581,21 @@ class _MenuScreenState extends State<MenuScreen> {
               color: AppTheme.white,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(top: 32, left: 16, right: 16),
+            child: Center(
+              child: Text(
+                translate("menu.number"),
+                style: TextStyle(
+                  fontFamily: AppTheme.fontRoboto,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                  fontStyle: FontStyle.normal,
+                  color: AppTheme.black_text,
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );

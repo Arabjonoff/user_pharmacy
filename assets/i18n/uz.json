@@ -115,7 +115,8 @@
     "exit_title": "Chiqish",
     "exit_message": "Dasturdan chiqmochimisiz?",
     "exit_yes": "Ha",
-    "exit_no": "Yo'q"
+    "exit_no": "Yo'q",
+    "number": "Qo'ngiroq markazi: +998 71 205 08 88"
   },
   "dialog": {
     "enter": "Kirish",
@@ -211,11 +212,15 @@
     "price": "To'lov miqdori",
     "somviz": "Olib ketish",
     "dostavka": "Kuryer xizmati orqali",
-    "pending": "Kutilmoqda",
-    "accept": "Qabul qilish",
-    "cancel": "Bekor qilish",
-    "shipped": "Jo'natildi",
-    "delivered": "Yetkazildi"
+    "pending": "Kutish jarayonida",
+    "accept": "Qabul qilindi",
+    "cancelled_by_store": "Dorixona qabul qilmadi",
+    "waiting_deliverer": "Buyurtma yetkazuvchini kutyapti",
+    "delivering": "Yetkazib berilmoqda",
+    "delivered": "Yetkazib berildi",
+    "cancelled_by_admin": "Bekor qilindi",
+    "pick_up": "Olib ketishga",
+    "picked_up": "Mijoz olib ketdi"
   },
   "voice": {
     "voice_search": "Ovozli qidiruv",
@@ -244,5 +249,6 @@
   "auto_update": {
     "title": "Yangilanishlar mavjud",
     "button": "Yangilang"
-  }
+  },
+  "about_app": "  ИДЕЯ приложения Go Pharm- это сделать доступную доставку медикаментов для всех слоев населения. Поэтому мы позаботились обо всех пунктах, начиная с выбора партнёра дистрибьютора с безупречной репутацией и, пожалуй, с самыми адекватными ценами медицинской продукции и лекарственных средств, и до выбора транспорта доставки; сегодня - скутеры, в условиях пандемии и ограничения движения это идеальное решение; в ближайшем будущем мы планируем закуп гаража экокар. Это соответствует нашей КОНЦЕПЦИИ \"все деяния наши во благо населения, экологии и человека\". Упаковка, в которой Вам доставят Ваш заказ- это тоже одно из воплощений нашей Эко теории. \nНаша ЦЕЛЬ- социальная лояльность. Важен Ваш выбор, удобство пользования нашей интернет платформой, привязка населения к комфорту доставки. Ведь даже после окончания карантина поход в аптеку останется чем то вроде пережитка прошлого."
 }
