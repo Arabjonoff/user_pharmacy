@@ -221,7 +221,8 @@
     "delivered": "Доставлен",
     "cancelled_by_admin": "Отменен админом",
     "pick_up": "Собой",
-    "picked_up": "Клиент забрал"
+    "picked_up": "Клиент забрал",
+    "payment_waiting": "Ожидается оплата"
   },
   "voice": {
     "voice_search": "Голосовой поиск",

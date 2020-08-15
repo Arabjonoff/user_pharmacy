@@ -221,7 +221,8 @@
     "delivered": "Delivered",
     "cancelled_by_admin": "Cancel by admin",
     "pick_up": "Pickup",
-    "picked_up": "Picked up"
+    "picked_up": "Picked up",
+    "payment_waiting": "Payment is waiting"
   },
   "voice": {
     "voice_search": "Voice search",

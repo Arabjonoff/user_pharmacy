@@ -221,7 +221,8 @@
     "delivered": "Yetkazib berildi",
     "cancelled_by_admin": "Bekor qilindi",
     "pick_up": "Olib ketishga",
-    "picked_up": "Mijoz olib ketdi"
+    "picked_up": "Mijoz olib ketdi",
+    "payment_waiting": "To'lovni kutmoqda"
   },
   "voice": {
     "voice_search": "Ovozli qidiruv",

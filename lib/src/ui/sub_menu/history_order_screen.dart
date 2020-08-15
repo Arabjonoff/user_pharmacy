@@ -484,6 +484,14 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
         {
           return Color(0xFF4CAF50);
         }
+      case "payment_waiting":
+        {
+          return Colors.pink;
+        }
+      default:
+        {
+          return Color(0xFF4CAF50);
+        }
     }
   }
 }
