@@ -7,9 +7,11 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
+import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/payment/verfy_payment_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
@@ -922,6 +924,25 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                               if (response.data.card_token !=
                                                   "")
                                                 {
+                                                  if (isOpenCategory)
+                                                    RxBus.post(
+                                                        AllItemIsOpen(true),
+                                                        tag:
+                                                            "EVENT_ITEM_LIST_CATEGORY"),
+                                                  if (isOpenBest)
+                                                    RxBus.post(
+                                                        AllItemIsOpen(true),
+                                                        tag: "EVENT_ITEM_LIST"),
+                                                  if (isOpenIds)
+                                                    RxBus.post(
+                                                        AllItemIsOpen(true),
+                                                        tag:
+                                                            "EVENT_ITEM_LIST_IDS"),
+                                                  if (isOpenSearch)
+                                                    RxBus.post(
+                                                        AllItemIsOpen(true),
+                                                        tag:
+                                                            "EVENT_ITEM_LIST_SEARCH"),
                                                   Navigator.pushReplacement(
                                                     context,
                                                     PageTransition(
@@ -937,6 +958,25 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                                 }
                                               else
                                                 {
+                                                  if (isOpenCategory)
+                                                    RxBus.post(
+                                                        AllItemIsOpen(true),
+                                                        tag:
+                                                            "EVENT_ITEM_LIST_CATEGORY"),
+                                                  if (isOpenBest)
+                                                    RxBus.post(
+                                                        AllItemIsOpen(true),
+                                                        tag: "EVENT_ITEM_LIST"),
+                                                  if (isOpenIds)
+                                                    RxBus.post(
+                                                        AllItemIsOpen(true),
+                                                        tag:
+                                                            "EVENT_ITEM_LIST_IDS"),
+                                                  if (isOpenSearch)
+                                                    RxBus.post(
+                                                        AllItemIsOpen(true),
+                                                        tag:
+                                                            "EVENT_ITEM_LIST_SEARCH"),
                                                   Navigator.pushReplacement(
                                                     context,
                                                     PageTransition(
