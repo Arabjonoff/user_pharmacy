@@ -43,42 +43,44 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppTheme.white,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 1.0,
         backgroundColor: AppTheme.white,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          elevation: 1.0,
-          backgroundColor: AppTheme.white,
-          brightness: Brightness.light,
-          leading: GestureDetector(
-            child: Container(
-              height: 56,
-              width: 56,
-              color: AppTheme.arrow_examp_back,
-              padding: EdgeInsets.all(13),
-              child: SvgPicture.asset("assets/images/arrow_back.svg"),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
+        brightness: Brightness.light,
+        leading: GestureDetector(
+          child: Container(
+            height: 56,
+            width: 56,
+            color: AppTheme.arrow_examp_back,
+            padding: EdgeInsets.all(13),
+            child: SvgPicture.asset("assets/images/arrow_back.svg"),
           ),
-          title: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                translate("menu.history"),
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  color: AppTheme.black_text,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: AppTheme.fontCommons,
-                  fontSize: 17,
-                ),
-              ),
-            ],
-          ),
+          onTap: () {
+            Navigator.pop(context);
+          },
         ),
-        body: StreamBuilder(
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              translate("menu.history"),
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                color: AppTheme.black_text,
+                fontWeight: FontWeight.w500,
+                fontFamily: AppTheme.fontCommons,
+                fontSize: 17,
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: Container(
+        color: AppTheme.white,
+        child: StreamBuilder(
           stream: blocHistory.allHistory,
           builder: (context, AsyncSnapshot<HistoryModel> snapshot) {
             if (snapshot.hasData) {
@@ -434,7 +436,9 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
               ),
             );
           },
-        ));
+        ),
+      ),
+    );
   }
 
   void _getMoreData(int index) async {
