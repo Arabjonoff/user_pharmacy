@@ -7,6 +7,7 @@ import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
+import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
@@ -553,10 +554,12 @@ class BottomDialog {
                         alignment: Alignment.bottomCenter,
                         child: GestureDetector(
                           onTap: () async {
-                            var lat = locationItem.location.coordinates[1];
-                            var lng = locationItem.location.coordinates[0];
+                            var pharmacyLat =
+                                locationItem.location.coordinates[1];
+                            var pharmacyLng =
+                                locationItem.location.coordinates[0];
                             var url =
-                                'https://www.google.com/maps/search/?api=1&query=$lat,$lng';
+                                'http://maps.google.com/maps?saddr=$lat,$lng&daddr=$pharmacyLat,$pharmacyLng';
                             if (await canLaunch(url)) {
                               await launch(url);
                             } else {

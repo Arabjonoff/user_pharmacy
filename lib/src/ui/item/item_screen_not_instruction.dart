@@ -15,7 +15,9 @@ import 'package:pharmacy/src/ui/item/item_screen.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:rxbus/rxbus.dart';
+import 'package:selectable_autolink_text/selectable_autolink_text.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
 
@@ -36,6 +38,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
   @override
   Widget build(BuildContext context) {
     blocItem.fetchAllCategory(widget.id.toString());
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
@@ -76,6 +79,8 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
           stream: blocItem.allItems,
           builder: (context, AsyncSnapshot<ItemsAllModel> snapshot) {
             if (snapshot.hasData) {
+              print(snapshot.data.description);
+
               return Column(
                 children: [
                   Align(
@@ -375,6 +380,35 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                             ),
                           ),
                         ),
+
+                        snapshot.data.description != null
+                            ? Container(
+                                margin: EdgeInsets.only(
+                                    left: 16, right: 16, top: 21),
+                                child: SelectableAutoLinkText(
+                                  " "+snapshot.data.description,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: AppTheme.fontRoboto,
+                                    fontWeight: FontWeight.normal,
+                                    color: AppTheme.black_catalog,
+                                  ),
+                                  linkStyle: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontSize: 15,
+                                    fontFamily: AppTheme.fontRoboto,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                  highlightedLinkStyle: TextStyle(
+                                    color: Colors.blueAccent,
+                                    backgroundColor:
+                                        Colors.blueAccent.withAlpha(0x33),
+                                  ),
+                                  onTap: (url) =>
+                                      launch(url, forceSafariVC: false),
+                                ),
+                              )
+                            : Container(),
 
                         ///recommendations
                         snapshot.data.recommendations.length > 0

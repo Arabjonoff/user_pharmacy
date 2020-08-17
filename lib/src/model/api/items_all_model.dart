@@ -4,6 +4,7 @@ class ItemsAllModel {
   int id;
   String name;
   String barcode;
+  String description;
   String image;
   String imageThumbnail;
   String piece;
@@ -29,6 +30,7 @@ class ItemsAllModel {
     this.id,
     this.name,
     this.barcode,
+    this.description,
     this.image,
     this.imageThumbnail,
     this.piece,
@@ -50,6 +52,7 @@ class ItemsAllModel {
     id = json['id'];
     name = json['name'];
     barcode = json['barcode'];
+    description = json['description'];
     image = json['image'];
     imageThumbnail = json['image_thumbnail'];
     piece = json['piece'];
