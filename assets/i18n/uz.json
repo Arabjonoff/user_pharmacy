@@ -222,7 +222,8 @@
     "cancelled_by_admin": "Bekor qilindi",
     "pick_up": "Olib ketishga",
     "picked_up": "Mijoz olib ketdi",
-    "payment_waiting": "To'lovni kutmoqda"
+    "payment_waiting": "To'lovni kutmoqda",
+    "payment_type": "naqd to'lov"
   },
   "voice": {
     "voice_search": "Ovozli qidiruv",

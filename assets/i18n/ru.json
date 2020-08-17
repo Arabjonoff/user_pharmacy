@@ -222,7 +222,8 @@
     "cancelled_by_admin": "Отменен админом",
     "pick_up": "Собой",
     "picked_up": "Клиент забрал",
-    "payment_waiting": "Ожидается оплата"
+    "payment_waiting": "Ожидается оплата",
+    "payment_type": "наличными"
   },
   "voice": {
     "voice_search": "Голосовой поиск",

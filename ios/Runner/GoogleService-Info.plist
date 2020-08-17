@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>69755273051-oe9kh0glegah0r491jdohjk8gqed5qq9.apps.googleusercontent.com</string>
+	<string>69755273051-tprqub4qltpfkvuvvflttpp683ekarrq.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.69755273051-oe9kh0glegah0r491jdohjk8gqed5qq9</string>
+	<string>com.googleusercontent.apps.69755273051-tprqub4qltpfkvuvvflttpp683ekarrq</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAgvZ6jAIGVxTVsvYNtd5-N3yAYy06nv98</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>uz.gopharmacy.online</string>
+	<string>go.pharmacy.online</string>
 	<key>PROJECT_ID</key>
 	<string>gopharm-9e860</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:69755273051:ios:8d91bb731904bc1d5aa47e</string>
+	<string>1:69755273051:ios:665581d81783f1e25aa47e</string>
 	<key>DATABASE_URL</key>
 	<string>https://gopharm-9e860.firebaseio.com</string>
 </dict>

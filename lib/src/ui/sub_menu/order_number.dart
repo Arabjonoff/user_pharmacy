@@ -149,24 +149,42 @@ class _OrderNumberState extends State<OrderNumber> {
                 Expanded(
                   child: Container(),
                 ),
-                widget.item.status == "pending"
-                    ? SvgPicture.asset("assets/images/check_error.svg")
-                    : SvgPicture.asset("assets/images/check.svg"),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  widget.item.status == "pending"
-                      ? translate("zakaz.not_paymment")
-                      : translate("zakaz.oplachen"),
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 13,
-                    fontStyle: FontStyle.normal,
-                    fontFamily: AppTheme.fontRoboto,
-                    color: AppTheme.black_text,
-                  ),
-                ),
+                widget.item.paymentType.type == "cash"
+                    ? Text(
+                        translate("history.payment_type"),
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 13,
+                          fontStyle: FontStyle.normal,
+                          fontFamily: AppTheme.fontRoboto,
+                          color: AppTheme.black_text,
+                        ),
+                      )
+                    : Container(),
+                widget.item.paymentType.type != "cash"
+                    ? widget.item.status == "payment_waiting"
+                        ? SvgPicture.asset("assets/images/check_error.svg")
+                        : SvgPicture.asset("assets/images/check.svg")
+                    : Container(),
+                widget.item.paymentType.type != "cash"
+                    ? SizedBox(
+                        width: 8,
+                      )
+                    : Container(),
+                widget.item.paymentType.type != "cash"
+                    ? Text(
+                        widget.item.status == "payment_waiting"
+                            ? translate("zakaz.not_paymment")
+                            : translate("zakaz.oplachen"),
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 13,
+                          fontStyle: FontStyle.normal,
+                          fontFamily: AppTheme.fontRoboto,
+                          color: AppTheme.black_text,
+                        ),
+                      )
+                    : Container(),
               ],
             ),
           ),
@@ -322,21 +340,25 @@ class _OrderNumberState extends State<OrderNumber> {
                           child: Container(),
                         ),
                         Container(
-                          height: 22,
-                          width: 64,
                           decoration: BoxDecoration(
-                            color: AppTheme.blue_app_color,
                             borderRadius: BorderRadius.circular(4.0),
+                            color: ColorStatus(widget.item.status),
+                          ),
+                          padding: EdgeInsets.only(
+                            top: 4,
+                            bottom: 4,
+                            left: 12,
+                            right: 12,
                           ),
                           child: Center(
                             child: Text(
-                              translate("zakaz.sozdan"),
+                              translate("history.${widget.item.status}"),
                               style: TextStyle(
                                 fontFamily: AppTheme.fontRoboto,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 11,
+                                color: AppTheme.black_text,
                                 fontStyle: FontStyle.normal,
-                                color: AppTheme.white,
                               ),
                             ),
                           ),
@@ -490,5 +512,54 @@ class _OrderNumberState extends State<OrderNumber> {
         ],
       ),
     );
+  }
+
+  Color ColorStatus(String status) {
+    switch (status) {
+      case "pending":
+        {
+          return Colors.yellow;
+        }
+      case "accept":
+        {
+          return Color(0xFF43A047);
+        }
+      case "cancelled_by_store":
+        {
+          return Color(0xFFE53935);
+        }
+      case "waiting_deliverer":
+        {
+          return Color(0xFF0288D1);
+        }
+      case "delivering":
+        {
+          return Color(0xFF0288D1);
+        }
+      case "delivered":
+        {
+          return Colors.green;
+        }
+      case "cancelled_by_admin":
+        {
+          return Color(0xFF616161);
+        }
+      case "pick_up":
+        {
+          return Color(0xFFB39DDB);
+        }
+      case "picked_up":
+        {
+          return Color(0xFF4CAF50);
+        }
+      case "payment_waiting":
+        {
+          return Colors.pink;
+        }
+      default:
+        {
+          return Color(0xFF4CAF50);
+        }
+    }
   }
 }

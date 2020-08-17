@@ -222,7 +222,8 @@
     "cancelled_by_admin": "Cancel by admin",
     "pick_up": "Pickup",
     "picked_up": "Picked up",
-    "payment_waiting": "Payment is waiting"
+    "payment_waiting": "Payment is waiting",
+    "payment_type": "cash"
   },
   "voice": {
     "voice_search": "Voice search",
