@@ -316,36 +316,36 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(left: 16, right: 16, top: 21),
-                          child: Text(
-                            snapshot.data.isRecept
-                                ? translate("item.yes")
-                                : translate("item.no"),
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: AppTheme.fontRoboto,
-                              fontWeight: FontWeight.normal,
-                              color: AppTheme.black_catalog,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            top: 3,
-                            left: 16,
-                            right: 16,
-                          ),
-                          child: Text(
-                            translate("item.recipe"),
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontFamily: AppTheme.fontRoboto,
-                              fontWeight: FontWeight.normal,
-                              color: AppTheme.black_transparent_text,
-                            ),
-                          ),
-                        ),
+//                        Container(
+//                          margin: EdgeInsets.only(left: 16, right: 16, top: 21),
+//                          child: Text(
+//                            snapshot.data.isRecept
+//                                ? translate("item.yes")
+//                                : translate("item.no"),
+//                            style: TextStyle(
+//                              fontSize: 16,
+//                              fontFamily: AppTheme.fontRoboto,
+//                              fontWeight: FontWeight.normal,
+//                              color: AppTheme.black_catalog,
+//                            ),
+//                          ),
+//                        ),
+//                        Container(
+//                          margin: EdgeInsets.only(
+//                            top: 3,
+//                            left: 16,
+//                            right: 16,
+//                          ),
+//                          child: Text(
+//                            translate("item.recipe"),
+//                            style: TextStyle(
+//                              fontSize: 13,
+//                              fontFamily: AppTheme.fontRoboto,
+//                              fontWeight: FontWeight.normal,
+//                              color: AppTheme.black_transparent_text,
+//                            ),
+//                          ),
+//                        ),
                         Container(
                           margin: EdgeInsets.only(
                             top: 21,
