@@ -528,20 +528,18 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                             error = true;
                                             loading = false;
                                             error_text =
-                                                translate("not_product");
+                                                translate("error_distanse");
                                           }),
                                         }
                                     }),
                           });
                     } else {
-
                       setState(() {
                         error = true;
                         error_text = translate("not_time");
                       });
                     }
                   } else {
-
                     setState(() {
                       error = true;
                       error_text = translate("not_address");

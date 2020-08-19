@@ -24,6 +24,7 @@
   "fast": "Tezda",
   "or": "yoki",
   "save": "saqlash",
+  "error_distanse": "Mumkin emas",
   "main": {
     "home": "Asosiy",
     "catalog": "Katalog",
@@ -153,7 +154,8 @@
     "now": "Bugun",
     "map_add_order": "Shu joydan olib ketish",
     "payment_type": "To'lov turi",
-    "add_new_card": "Kartani qo'shish"
+    "add_new_card": "Kartani qo'shish",
+    "click_number": "CLICKingiz qaysi raqamga ulangan? UZCARD, HUMO"
   },
   "address": {
     "title": "Yetkazib berish xizmati",

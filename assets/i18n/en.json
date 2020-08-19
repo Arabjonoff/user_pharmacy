@@ -24,6 +24,7 @@
   "fast": "Fast",
   "or": "or",
   "save": "save",
+  "error_distanse": "Impossible",
   "main": {
     "home": "Home",
     "catalog": "Catalog",
@@ -153,7 +154,8 @@
     "now": "Today",
     "map_add_order": "Pickup from this place",
     "payment_type": "Payment type",
-    "add_new_card": "Add card"
+    "add_new_card": "Add card",
+    "click_number": "To which number CLICK is connected? UZCARD, HUMO"
   },
   "address": {
     "title": "Delivery service",

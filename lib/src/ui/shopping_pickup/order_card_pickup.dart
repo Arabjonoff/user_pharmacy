@@ -736,7 +736,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                 Text(
                                   translate("saveCard"),
                                   style: TextStyle(
-                                    fontSize: 15,
+                                    fontSize: 13,
                                     fontStyle: FontStyle.normal,
                                     fontWeight: FontWeight.w600,
                                     fontFamily: AppTheme.fontRoboto,
@@ -792,8 +792,23 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                           ),
                         ),
                         Container(
-                          height: 56,
                           margin: EdgeInsets.only(top: 24, left: 16, right: 16),
+                          child: Center(
+                            child: Text(
+                              translate("orders.click_number"),
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: AppTheme.fontRoboto,
+                                color: AppTheme.black_text,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 56,
+                          margin: EdgeInsets.only(top: 12, left: 16, right: 16),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: AppTheme.auth_login,
@@ -1029,26 +1044,28 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                               RxBus.post(
                                                   CardItemChangeModel(true),
                                                   tag: "EVENT_CARD"),
-
                                               if (response.data.card_token !=
                                                   "")
                                                 {
-
                                                   if (isOpenCategory)
-                                                    RxBus.post(AllItemIsOpen(true),
+                                                    RxBus.post(
+                                                        AllItemIsOpen(true),
                                                         tag:
-                                                        "EVENT_ITEM_LIST_CATEGORY"),
+                                                            "EVENT_ITEM_LIST_CATEGORY"),
                                                   if (isOpenBest)
-                                                    RxBus.post(AllItemIsOpen(true),
+                                                    RxBus.post(
+                                                        AllItemIsOpen(true),
                                                         tag: "EVENT_ITEM_LIST"),
                                                   if (isOpenIds)
-                                                    RxBus.post(AllItemIsOpen(true),
-                                                        tag: "EVENT_ITEM_LIST_IDS"),
-                                                  if (isOpenSearch)
-                                                    RxBus.post(AllItemIsOpen(true),
+                                                    RxBus.post(
+                                                        AllItemIsOpen(true),
                                                         tag:
-                                                        "EVENT_ITEM_LIST_SEARCH"),
-
+                                                            "EVENT_ITEM_LIST_IDS"),
+                                                  if (isOpenSearch)
+                                                    RxBus.post(
+                                                        AllItemIsOpen(true),
+                                                        tag:
+                                                            "EVENT_ITEM_LIST_SEARCH"),
                                                   Navigator.pushReplacement(
                                                     context,
                                                     PageTransition(
@@ -1064,21 +1081,25 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                                 }
                                               else
                                                 {
-
                                                   if (isOpenCategory)
-                                                    RxBus.post(AllItemIsOpen(true),
+                                                    RxBus.post(
+                                                        AllItemIsOpen(true),
                                                         tag:
-                                                        "EVENT_ITEM_LIST_CATEGORY"),
+                                                            "EVENT_ITEM_LIST_CATEGORY"),
                                                   if (isOpenBest)
-                                                    RxBus.post(AllItemIsOpen(true),
+                                                    RxBus.post(
+                                                        AllItemIsOpen(true),
                                                         tag: "EVENT_ITEM_LIST"),
                                                   if (isOpenIds)
-                                                    RxBus.post(AllItemIsOpen(true),
-                                                        tag: "EVENT_ITEM_LIST_IDS"),
-                                                  if (isOpenSearch)
-                                                    RxBus.post(AllItemIsOpen(true),
+                                                    RxBus.post(
+                                                        AllItemIsOpen(true),
                                                         tag:
-                                                        "EVENT_ITEM_LIST_SEARCH"),
+                                                            "EVENT_ITEM_LIST_IDS"),
+                                                  if (isOpenSearch)
+                                                    RxBus.post(
+                                                        AllItemIsOpen(true),
+                                                        tag:
+                                                            "EVENT_ITEM_LIST_SEARCH"),
                                                   Navigator.pushReplacement(
                                                     context,
                                                     PageTransition(

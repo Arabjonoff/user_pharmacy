@@ -547,7 +547,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                 Text(
                                   translate("saveCard"),
                                   style: TextStyle(
-                                    fontSize: 15,
+                                    fontSize: 13,
                                     fontStyle: FontStyle.normal,
                                     fontWeight: FontWeight.w600,
                                     fontFamily: AppTheme.fontRoboto,
@@ -603,8 +603,23 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                           ),
                         ),
                         Container(
-                          height: 56,
                           margin: EdgeInsets.only(top: 24, left: 16, right: 16),
+                          child: Center(
+                            child: Text(
+                              translate("orders.click_number"),
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: AppTheme.fontRoboto,
+                                color: AppTheme.black_text,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 56,
+                          margin: EdgeInsets.only(top: 12, left: 16, right: 16),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: AppTheme.auth_login,

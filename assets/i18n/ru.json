@@ -24,6 +24,7 @@
   "fast": "Срочно",
   "or": "или",
   "save": "сохранить",
+  "error_distanse": "Невозможно",
   "main": {
     "home": "Главное",
     "catalog": "Каталог",
@@ -153,7 +154,8 @@
     "now": "Сегодня",
     "map_add_order": "Забрать отсюда",
     "payment_type": "Вид оплаты",
-    "add_new_card": "Добавить карту"
+    "add_new_card": "Добавить карту",
+    "click_number": "На какой номер привязан CLICK? UZCARD, HUMO"
   },
   "address": {
     "title": "Курьерская доставка",
