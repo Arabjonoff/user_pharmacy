@@ -79,8 +79,6 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
           stream: blocItem.allItems,
           builder: (context, AsyncSnapshot<ItemsAllModel> snapshot) {
             if (snapshot.hasData) {
-              print(snapshot.data.description);
-
               return Column(
                 children: [
                   Align(

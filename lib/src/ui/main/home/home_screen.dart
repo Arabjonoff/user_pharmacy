@@ -88,12 +88,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final PackageInfo info = await PackageInfo.fromPlatform();
     if (info.buildNumber != null) {
       Repository().fetchCheckVersion(info.buildNumber).then((value) => {
-            if (value.status != 0)
+            if (value.status != null && value.status != 0)
               {
-//                RxBus.post(
-//                    CheckVersionModel(
-//                        title: true, packageName: info.packageName),
-//                    tag: "EVENT_ITEM_CHECK")
+                RxBus.post(
+                    CheckVersionModel(
+                        title: true, packageName: info.packageName),
+                    tag: "EVENT_ITEM_CHECK")
               }
           });
     }
@@ -114,7 +114,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-
     if (isOpenBest) RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST");
     if (isOpenIds) RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_IDS");
     if (isOpenSearch)
@@ -561,12 +560,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       return GestureDetector(
                         onTap: () {
                           if (snapshot.data.results[index].drugs.length > 0) {
-                            print(snapshot.data.results[index].drugs
-                                .toString()
-                                .replaceAll('[', '')
-                                .replaceAll(']', '')
-                                .replaceAll(' ', ''));
-
                             Navigator.push(
                               context,
                               PageTransition(

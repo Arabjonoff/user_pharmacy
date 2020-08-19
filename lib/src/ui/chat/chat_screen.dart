@@ -504,8 +504,6 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<void> socket(String value) async {
     var url = Utils.BASE_URL_SOCET + "messages?token=$value";
 
-    print(url);
-
     var channel = await IOWebSocketChannel.connect(url);
     channel.stream.listen((message) {
       //channel.sink.add("received!");

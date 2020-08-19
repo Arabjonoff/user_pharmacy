@@ -55,7 +55,7 @@ class _SearchScreenState extends State<SearchScreen> {
   _SearchScreenState() {
     searchController.addListener(() {
       if (searchController.text != obj) {
-        if (searchController.text.length > 0) {
+        if (searchController.text.length > 2) {
           setState(() {
             users = new List();
             page = 1;

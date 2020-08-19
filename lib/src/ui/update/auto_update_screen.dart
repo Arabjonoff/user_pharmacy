@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -62,7 +63,14 @@ class _AutoUpdateScreenState extends State<AutoUpdateScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(left: 16, right: 16),
+                child: Center(
+                  child: SvgPicture.asset("assets/images/go_pharm.svg"),
+                ),
+              ),
+            ),
             Container(
               margin: EdgeInsets.only(bottom: 45, left: 16, right: 16),
               child: Text(
@@ -80,15 +88,15 @@ class _AutoUpdateScreenState extends State<AutoUpdateScreen> {
               onTap: () async {
                 if (Platform.isAndroid) {
                   var url =
-                      'https://play.google.com/store/apps/details?id=' +
-                          widget.package;
+                      'https://play.google.com/store/apps/details?id=uz.go.pharm';
                   if (await canLaunch(url)) {
                     await launch(url);
                   } else {
                     throw 'Could not launch $url';
                   }
                 } else if (Platform.isIOS) {
-                  var url = 'market://details?id=' + widget.package;
+                  var url =
+                      'https://apps.apple.com/uz/app/gopharm-online/id1527930423';
                   if (await canLaunch(url)) {
                     await launch(url);
                   } else {
@@ -116,6 +124,9 @@ class _AutoUpdateScreenState extends State<AutoUpdateScreen> {
                   ),
                 ),
               ),
+            ),
+            Expanded(
+              child: Container(),
             ),
           ],
         ),
