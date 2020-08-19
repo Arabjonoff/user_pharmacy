@@ -303,7 +303,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                             margin: EdgeInsets.only(
                                 top: 16, bottom: 3, left: 16, right: 16),
                             child: Text(
-                              translate("orders.to_picup"),
+                              translate("orders.from_which_store"),
                               maxLines: 1,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -411,7 +411,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
               child: Row(
                 children: [
                   Text(
-                    translate("orders.your_data"),
+                    translate("orders.to_picup"),
                     style: TextStyle(
                       fontFamily: AppTheme.fontRoboto,
                       fontStyle: FontStyle.normal,
