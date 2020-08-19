@@ -67,7 +67,10 @@
     "release": "Form",
     "city": "Made in",
     "category": "Categories",
-    "recomendation": "Related products"
+    "recomendation": "Related products",
+    "recipe": "With receipt: ",
+    "yes": "Yes",
+    "no": "No"
   },
   "search": {
     "cancel": "Cancel",

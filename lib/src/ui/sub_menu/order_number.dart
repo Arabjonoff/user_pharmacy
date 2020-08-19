@@ -289,10 +289,15 @@ class _OrderNumberState extends State<OrderNumber> {
                           child: Center(
                             child: Text(
                               translate("history.${widget.item.status}"),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontFamily: AppTheme.fontRoboto,
                                 fontWeight: FontWeight.w600,
-                                fontSize: 11,
+                                fontSize:
+                                    widget.item.status == "waiting_deliverer"
+                                        ? 7
+                                        : 11,
                                 color: AppTheme.black_text,
                                 fontStyle: FontStyle.normal,
                               ),

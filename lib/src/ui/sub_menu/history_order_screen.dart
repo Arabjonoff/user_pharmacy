@@ -237,10 +237,18 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                             child: Text(
                                               translate(
                                                   "history.${snapshot.data.results[index].status}"),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                 fontFamily: AppTheme.fontRoboto,
                                                 fontWeight: FontWeight.w600,
-                                                fontSize: 11,
+                                                fontSize: snapshot
+                                                            .data
+                                                            .results[index]
+                                                            .status ==
+                                                        "waiting_deliverer"
+                                                    ? 7
+                                                    : 11,
                                                 color: AppTheme.black_text,
                                                 fontStyle: FontStyle.normal,
                                               ),

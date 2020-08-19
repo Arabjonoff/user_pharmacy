@@ -67,7 +67,10 @@
     "release": "Mahsulot shakli",
     "city": "Ishlab chiqarilgan davlat",
     "category": "Kategoriya",
-    "recomendation": "Ushbu mahsulotga tavsiya qilinadi"
+    "recomendation": "Ushbu mahsulotga tavsiya qilinadi",
+    "recipe": "Shifokor retsepti bilan:",
+    "yes": "Ha",
+    "no": "Yo'q"
   },
   "search": {
     "cancel": "Bekor qilish",

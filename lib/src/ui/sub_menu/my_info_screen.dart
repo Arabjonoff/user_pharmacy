@@ -7,9 +7,12 @@ import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/database/database_helper_apteka.dart';
 import 'package:pharmacy/src/database/database_helper_history.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/sort_radio_btn.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
+import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app_theme.dart';
@@ -140,18 +143,12 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                             ),
                           ),
                           onPressed: () {
-                            // Navigator.of(context).pop();
-
+                            Navigator.of(context).pop();
+                            RxBus.post(BottomView(true), tag: "MENU_VIEW");
                             dbApteka.clear();
                             dbAddress.clear();
                             dbHistory.clear();
                             Utils.clearData();
-                            Navigator.pop(context);
-                            if (Navigator.canPop(context)) {
-                              Navigator.pop(context);
-                            } else {
-                              SystemNavigator.pop();
-                            }
                           },
                         ),
                       ],
