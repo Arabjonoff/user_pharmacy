@@ -66,6 +66,9 @@ class _ItemListScreenState extends State<ItemListScreen> {
   void initState() {
     super.initState();
 
+    internationalNameExamp = new List();
+    manufacturerExamp = new List();
+
     if (widget.type == 4) {
       isOpenIds = true;
     } else {

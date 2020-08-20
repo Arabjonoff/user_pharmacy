@@ -1043,7 +1043,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                             error = true;
                                             loading = false;
                                             error_text =
-                                                translate("not_product");
+                                                translate("error_distanse");
                                           }),
                                         }
                                     }),

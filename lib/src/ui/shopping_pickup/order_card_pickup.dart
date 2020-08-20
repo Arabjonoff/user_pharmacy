@@ -79,6 +79,12 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
   }
 
   @override
+  void dispose() {
+    aptekaModel = null;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
 //    blocCard.fetchAllCard();
     return Scaffold(
@@ -1152,7 +1158,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                             error = true;
                                             loading = false;
                                             error_text =
-                                                translate("not_product");
+                                                translate("error_distanse");
                                           }),
                                         }
                                     }),
