@@ -203,7 +203,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                           context,
                           PageTransition(
                             type: PageTransitionType.fade,
-                            child: CurerAddressCardScreen(),
+                            child: CurerAddressCardScreen(false),
                           ),
                         );
                       },

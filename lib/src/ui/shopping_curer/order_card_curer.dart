@@ -145,7 +145,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                           context,
                           PageTransition(
                             type: PageTransitionType.fade,
-                            child: CurerAddressCardScreen(),
+                            child: CurerAddressCardScreen(false),
                           ),
                         );
                       },

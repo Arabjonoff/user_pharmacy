@@ -202,7 +202,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                           context,
                           PageTransition(
                             type: PageTransitionType.downToUp,
-                            child: CurerAddressCardScreen(),
+                            child: CurerAddressCardScreen(false),
                           ),
                         );
                       },
@@ -347,7 +347,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                     context,
                     PageTransition(
                       type: PageTransitionType.downToUp,
-                      child: CurerAddressCardScreen(),
+                      child: CurerAddressCardScreen(true),
                     ),
                   );
                 } else {

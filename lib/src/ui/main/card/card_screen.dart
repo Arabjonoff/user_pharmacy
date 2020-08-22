@@ -750,7 +750,8 @@ class _CardScreenState extends State<CardScreen> {
                                                       type: PageTransitionType
                                                           .fade,
                                                       child:
-                                                          CurerAddressCardScreen(),
+                                                          CurerAddressCardScreen(
+                                                              false),
                                                     ),
                                                   ),
                                                   setState(() {

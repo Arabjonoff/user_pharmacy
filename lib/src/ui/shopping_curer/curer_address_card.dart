@@ -22,6 +22,10 @@ import 'order_card_curer.dart';
 
 // ignore: must_be_immutable
 class CurerAddressCardScreen extends StatefulWidget {
+  bool isAddress;
+
+  CurerAddressCardScreen(this.isAddress);
+
   @override
   State<StatefulWidget> createState() {
     return _CurerAddressCardScreenState();
@@ -252,6 +256,13 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                             child: Text("error"),
                           ),
                         );
+                      } else {
+                        if (widget.isAddress) {
+                          myAddress = data[data.length - 1].street;
+                          chooseLat = double.parse(data[data.length - 1].lat);
+                          chooseLng = double.parse(data[data.length - 1].lng);
+                          id = data[data.length - 1].id;
+                        }
                       }
                       return snapshot.data.length > 0
                           ? ListView(
