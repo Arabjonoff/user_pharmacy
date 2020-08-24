@@ -262,12 +262,18 @@ class ItemListBloc {
     List<ItemResult> database = await _repository.databaseItem();
 
     ///best
-    for (var j = 0; j < database.length; j++) {
-      for (var i = 0; i < usersBest.length; i++) {
-        if (usersBest[i].id == database[j].id) {
-          usersBest[i].cardCount = database[j].cardCount;
-          usersBest[i].favourite = database[j].favourite;
+    if (database.length != 0) {
+      for (var j = 0; j < database.length; j++) {
+        for (var i = 0; i < usersBest.length; i++) {
+          if (usersBest[i].id == database[j].id) {
+            usersBest[i].cardCount = database[j].cardCount;
+            usersBest[i].favourite = database[j].favourite;
+          }
         }
+      }
+    } else {
+      for (var i = 0; i < usersBest.length; i++) {
+        usersBest[i].cardCount = 0;
       }
     }
 
@@ -285,14 +291,21 @@ class ItemListBloc {
     List<ItemResult> database = await _repository.databaseItem();
 
     ///search
-    for (var j = 0; j < database.length; j++) {
-      for (var i = 0; i < usersSearch.length; i++) {
-        if (usersSearch[i].id == database[j].id) {
-          usersSearch[i].cardCount = database[j].cardCount;
-          usersSearch[i].favourite = database[j].favourite;
+    if (database.length != 0) {
+      for (var j = 0; j < database.length; j++) {
+        for (var i = 0; i < usersSearch.length; i++) {
+          if (usersSearch[i].id == database[j].id) {
+            usersSearch[i].cardCount = database[j].cardCount;
+            usersSearch[i].favourite = database[j].favourite;
+          }
         }
       }
+    } else {
+      for (var i = 0; i < usersSearch.length; i++) {
+        usersSearch[i].cardCount = 0;
+      }
     }
+
     itemSearchData = new ItemModel(
       count: itemModelSearchCount,
       next: itemModelSearchNext,
@@ -306,12 +319,18 @@ class ItemListBloc {
     List<ItemResult> database = await _repository.databaseItem();
 
     ///category
-    for (var j = 0; j < database.length; j++) {
-      for (var i = 0; i < usersCategory.length; i++) {
-        if (usersCategory[i].id == database[j].id) {
-          usersCategory[i].cardCount = database[j].cardCount;
-          usersCategory[i].favourite = database[j].favourite;
+    if (database.length != 0) {
+      for (var j = 0; j < database.length; j++) {
+        for (var i = 0; i < usersCategory.length; i++) {
+          if (usersCategory[i].id == database[j].id) {
+            usersCategory[i].cardCount = database[j].cardCount;
+            usersCategory[i].favourite = database[j].favourite;
+          }
         }
+      }
+    } else {
+      for (var i = 0; i < usersCategory.length; i++) {
+        usersCategory[i].cardCount = 0;
       }
     }
 
@@ -328,12 +347,18 @@ class ItemListBloc {
     List<ItemResult> database = await _repository.databaseItem();
 
     ///ids
-    for (var j = 0; j < database.length; j++) {
-      for (var i = 0; i < usersIds.length; i++) {
-        if (usersIds[i].id == database[j].id) {
-          usersIds[i].cardCount = database[j].cardCount;
-          usersIds[i].favourite = database[j].favourite;
+    if (database.length != 0) {
+      for (var j = 0; j < database.length; j++) {
+        for (var i = 0; i < usersIds.length; i++) {
+          if (usersIds[i].id == database[j].id) {
+            usersIds[i].cardCount = database[j].cardCount;
+            usersIds[i].favourite = database[j].favourite;
+          }
         }
+      }
+    } else {
+      for (var i = 0; i < usersIds.length; i++) {
+        usersIds[i].cardCount = 0;
       }
     }
 
