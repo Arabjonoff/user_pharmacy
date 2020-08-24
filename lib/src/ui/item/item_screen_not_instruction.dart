@@ -21,6 +21,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
 
+int itemId;
+bool isOpenItem = false;
+
 class ItemScreenNotIstruction extends StatefulWidget {
   int id;
 
@@ -36,9 +39,21 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
   DatabaseHelper dataBase = new DatabaseHelper();
 
   @override
+  void initState() {
+    isOpenItem = true;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    isOpenItem = false;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     blocItem.fetchAllCategory(widget.id.toString());
-
+    itemId = widget.id;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(

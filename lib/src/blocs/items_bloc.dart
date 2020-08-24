@@ -9,9 +9,10 @@ class ItemBloc {
   final _itemFetcher = PublishSubject<ItemsAllModel>();
 
   Observable<ItemsAllModel> get allItems => _itemFetcher.stream;
+  ItemsAllModel items;
 
   fetchAllCategory(String id) async {
-    ItemsAllModel items = await _repository.fetchItems(id);
+    items = await _repository.fetchItems(id);
 
     List<ItemResult> database = await _repository.databaseItem();
     for (var j = 0; j < database.length; j++) {
@@ -40,6 +41,35 @@ class ItemBloc {
     }
 
     _itemFetcher.sink.add(items);
+  }
+
+  fetchAllUpdate(int id) async {
+    if (id == items.id) {
+      List<ItemResult> database = await _repository.databaseItem();
+      for (var j = 0; j < database.length; j++) {
+        if (items.id == database[j].id) {
+          items.cardCount = database[j].cardCount;
+          items.favourite = database[j].favourite;
+        }
+      }
+      for (var i = 0; i < items.analog.length; i++) {
+        for (var j = 0; j < database.length; j++) {
+          if (items.analog[i].id == database[j].id) {
+            items.analog[i].cardCount = database[j].cardCount;
+            items.analog[i].favourite = database[j].favourite;
+          }
+        }
+      }
+      for (var i = 0; i < items.recommendations.length; i++) {
+        for (var j = 0; j < database.length; j++) {
+          if (items.recommendations[i].id == database[j].id) {
+            items.recommendations[i].cardCount = database[j].cardCount;
+            items.recommendations[i].favourite = database[j].favourite;
+          }
+        }
+      }
+      _itemFetcher.sink.add(items);
+    }
   }
 
   dispose() {
