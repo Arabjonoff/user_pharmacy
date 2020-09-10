@@ -35,6 +35,16 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
 
   List<TimeNote> timeList = List();
 
+  _AddNotfScreenState() {
+    durationController.addListener(() {
+      if (durationController.text.isNotEmpty) {
+        if (int.parse(durationController.text) > 365) {
+          durationController.text = "365";
+        }
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -227,7 +237,7 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
                     padding:
                         EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 12),
                     child: TextFormField(
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.text,
                       style: TextStyle(
                         fontFamily: AppTheme.fontRoboto,
                         fontStyle: FontStyle.normal,
@@ -333,7 +343,7 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
                     padding:
                         EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 12),
                     child: TextFormField(
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.number,
                       style: TextStyle(
                         fontFamily: AppTheme.fontRoboto,
                         fontStyle: FontStyle.normal,
@@ -479,68 +489,71 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
           ),
           GestureDetector(
             onTap: () {
-              var groupName =
-                  (DateTime.now().millisecondsSinceEpoch / 1000).toString();
-              var time = DateTime(DateTime.now().year, DateTime.now().month,
-                  DateTime.now().day);
+              if (nameController.text.isNotEmpty &&
+                  dozaController.text.isNotEmpty &&
+                  edaController.text.isNotEmpty &&
+                  durationController.text.isNotEmpty) {
+                var groupName =
+                    (DateTime.now().millisecondsSinceEpoch / 1000).toString();
+                var time = DateTime(DateTime.now().year, DateTime.now().month,
+                    DateTime.now().day);
 
-              var times = "";
-              for (int i = 0; i < timeList.length; i++) {
-                if (i != timeList.length - 1)
-                  times += _toTwoDigitString(timeList[i].hour) +
-                      ":" +
-                      _toTwoDigitString(timeList[i].minute).toString() +
-                      ", ";
-                else
-                  times += _toTwoDigitString(timeList[i].hour) +
-                      ":" +
-                      _toTwoDigitString(timeList[i].minute).toString();
-              }
-
-              for (int j = 0; j < 3; j++) {
+                var times = "";
                 for (int i = 0; i < timeList.length; i++) {
-                  print(time.add(Duration(
-                    days: j,
-                    hours: timeList[i].hour,
-                    minutes: timeList[i].minute,
-                  )));
-                  dataBase
-                      .saveProducts(
-                        NoteModel(
-                          name: nameController.text.toString(),
-                          doza: dozaController.text.toString(),
-                          eda: edaController.text.toString(),
-                          time: times,
-                          groupsName: groupName,
-                          dateItem: time
-                              .add(Duration(
-                                days: j,
-                                hours: timeList[i].hour,
-                                minutes: timeList[i].minute,
-                              ))
-                              .toString(),
-                          mark: 0,
-                        ),
-                      )
-                      .then((value) => {
-                            print(value),
-                            // scheduleNotification(
-                            //   value,
-                            //   groupName,
-                            //   nameController.text.toString(),
-                            //   dozaController.text.toString(),
-                            //   time.add(Duration(
-                            //     days: j,
-                            //     hours: timeList[i].hour,
-                            //     minutes: timeList[i].minute,
-                            //   )),
-                            // ),
-                          });
+                  if (i != timeList.length - 1)
+                    times += _toTwoDigitString(timeList[i].hour) +
+                        ":" +
+                        _toTwoDigitString(timeList[i].minute).toString() +
+                        ", ";
+                  else
+                    times += _toTwoDigitString(timeList[i].hour) +
+                        ":" +
+                        _toTwoDigitString(timeList[i].minute).toString();
                 }
-                print("//////////////////////////");
-              }
 
-              Navigator.pop(context);
+                for (int j = 0; j < int.parse(durationController.text); j++) {
+                  for (int i = 0; i < timeList.length; i++) {
+                    print(time.add(Duration(
+                      days: j,
+                      hours: timeList[i].hour,
+                      minutes: timeList[i].minute,
+                    )));
+                    dataBase
+                        .saveProducts(
+                          NoteModel(
+                            name: nameController.text.toString(),
+                            doza: dozaController.text.toString(),
+                            eda: edaController.text.toString(),
+                            time: times,
+                            groupsName: groupName,
+                            dateItem: time
+                                .add(Duration(
+                                  days: j,
+                                  hours: timeList[i].hour,
+                                  minutes: timeList[i].minute,
+                                ))
+                                .toString(),
+                            mark: 0,
+                          ),
+                        )
+                        .then((value) => {
+                              scheduleNotification(
+                                value,
+                                groupName,
+                                nameController.text.toString(),
+                                dozaController.text.toString(),
+                                time.add(Duration(
+                                  days: j,
+                                  hours: timeList[i].hour,
+                                  minutes: timeList[i].minute,
+                                )),
+                              ),
+                            });
+                  }
+                }
+
+                Navigator.pop(context);
+              }
             },
             child: Container(
               height: 44,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacy/src/app_theme.dart';
 
 class NotificationScreen extends StatefulWidget {
   NotificationScreen(this.payload);
@@ -21,6 +22,7 @@ class NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppTheme.white,
       appBar: AppBar(
         title: Text('Second Screen with payload: ${(_payload ?? '')}'),
       ),
