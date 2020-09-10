@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_translate/global.dart';
@@ -28,7 +29,7 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
   TextEditingController nameController = TextEditingController();
 
   TextEditingController dozaController = TextEditingController();
-  TextEditingController edaController = TextEditingController();
+  TextEditingController edaController = TextEditingController(text: "");
   TextEditingController durationController = TextEditingController();
 
   DatabaseHelperNote dataBase = new DatabaseHelperNote();
@@ -45,9 +46,20 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
     });
   }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  List<String> edaExamp = [
+    "",
+    translate("eda.empty"),
+    translate("eda.before"),
+    translate("eda.while"),
+    translate("eda.after"),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: AppTheme.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -207,55 +219,76 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
                     ),
                   ),
                 ),
-                Container(
-                  height: 56,
-                  margin: EdgeInsets.only(top: 12, left: 16, right: 16),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: AppTheme.auth_login,
-                    border: Border.all(
-                      color: AppTheme.auth_border,
-                      width: 1.0,
-                    ),
-                  ),
-                  child: Padding(
-                    padding:
-                        EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 12),
-                    child: TextFormField(
-                      keyboardType: TextInputType.text,
-                      style: TextStyle(
-                        fontFamily: AppTheme.fontRoboto,
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.normal,
-                        color: AppTheme.black_text,
-                        fontSize: 15,
+                GestureDetector(
+                  onTap: () {
+                    Picker picker = new Picker(
+                        adapter:
+                            PickerDataAdapter<String>(pickerdata: edaExamp),
+                        changeToFirst: true,
+                        textAlign: TextAlign.left,
+                        columnPadding: const EdgeInsets.all(8.0),
+                        onConfirm: (Picker picker, List value) {
+                          setState(() {
+                            edaController.text = picker.getSelectedValues()[0];
+                          });
+                        });
+                    picker.show(_scaffoldKey.currentState);
+                  },
+                  child: Container(
+                    height: 56,
+                    margin: EdgeInsets.only(top: 12, left: 16, right: 16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: AppTheme.auth_login,
+                      border: Border.all(
+                        color: AppTheme.auth_border,
+                        width: 1.0,
                       ),
-                      controller: edaController,
-                      decoration: InputDecoration(
-                        labelText: translate('note.eda'),
-                        labelStyle: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.normal,
-                          color: Color(0xFF6D7885),
-                          fontSize: 11,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: AppTheme.auth_login,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          top: 8, bottom: 8, left: 12, right: 12),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  translate("note.eda"),
+                                  style: TextStyle(
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: AppTheme.fontRoboto,
+                                    color: Color(0xFF6D7885),
+                                    height: 1.27,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      edaController.text,
+                                      style: TextStyle(
+                                          fontFamily: AppTheme.fontRoboto,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 15,
+                                          fontStyle: FontStyle.normal,
+                                          color: AppTheme.black_text),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: AppTheme.auth_login,
-                          ),
-                        ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: Color(0xFFB8C1CC),
+                            size: 18,
+                          )
+                        ],
                       ),
                     ),
                   ),
