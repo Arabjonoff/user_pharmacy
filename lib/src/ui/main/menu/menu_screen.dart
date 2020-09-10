@@ -7,6 +7,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
+import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/about_app_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/fav_apteka_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
@@ -347,6 +348,58 @@ class _MenuScreenState extends State<MenuScreen> {
                   Expanded(
                     child: Text(
                       translate("menu.address_apteka"),
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontFamily: AppTheme.fontRoboto,
+                        color: AppTheme.black_text,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 19,
+                    color: AppTheme.arrow_catalog,
+                  ),
+                  SizedBox(width: 3),
+                ],
+              ),
+              height: 48,
+              color: AppTheme.white,
+            ),
+          ),
+          GestureDetector(
+            onTap: () async {
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.fade,
+                  child: NoteAllScreen(),
+                ),
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.only(
+                left: 16,
+                right: 16,
+              ),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    height: 25,
+                    width: 25,
+                    child: Center(
+                      child: SvgPicture.asset(
+                          "assets/images/icon_notification.svg"),
+                    ),
+                  ),
+                  SizedBox(width: 15),
+                  Expanded(
+                    child: Text(
+                      translate("note.screen_name"),
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
                         fontFamily: AppTheme.fontRoboto,

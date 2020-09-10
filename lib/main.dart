@@ -27,12 +27,12 @@ class MyHttpOverrides extends HttpOverrides {
           (X509Certificate cert, String host, int port) => true;
   }
 }
-void main() async {
 
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   notificationAppLaunchDetails =
-  await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
 
   var initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
   // Note: permissions aren't requested here just to demonstrate that can be done later using the `requestPermissions()` method
@@ -50,11 +50,11 @@ void main() async {
       initializationSettingsAndroid, initializationSettingsIOS);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: (String payload) async {
-        if (payload != null) {
-          debugPrint('notification payload: ' + payload);
-        }
-        selectNotificationSubject.add(payload);
-      });
+    if (payload != null) {
+      debugPrint('notification payload: ' + payload);
+    }
+    selectNotificationSubject.add(payload);
+  });
 
   var delegate = await LocalizationDelegate.create(
       fallbackLocale: 'ru', supportedLocales: ['ru', 'en', 'uz']);
@@ -105,7 +105,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: NoteAllScreen(),
+        home: MainScreen(),
       ),
     );
   }

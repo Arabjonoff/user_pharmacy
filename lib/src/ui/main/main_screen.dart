@@ -51,9 +51,9 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    // _requestIOSPermissions();
-    // _configureDidReceiveLocalNotificationSubject();
-    // _configureSelectNotificationSubject();
+    _requestIOSPermissions();
+    _configureDidReceiveLocalNotificationSubject();
+    _configureSelectNotificationSubject();
     registerBus();
     _setLanguage();
     sendRating();
@@ -114,8 +114,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void dispose() {
-    // didReceiveLocalNotificationSubject.close();
-    // selectNotificationSubject.close();
+    didReceiveLocalNotificationSubject.close();
+    selectNotificationSubject.close();
     RxBus.destroy();
     super.dispose();
   }

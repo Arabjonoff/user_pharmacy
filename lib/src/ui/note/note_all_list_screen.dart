@@ -51,14 +51,51 @@ class _NoteAllListScreenState extends State<NoteAllListScreen> {
                         ),
                       ],
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    child: Row(
                       children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(left: 16, right: 16),
+                                child: Text(
+                                  snapshot.data[position].name,
+                                  style: TextStyle(
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: AppTheme.fontRoboto,
+                                    color: AppTheme.black_text,
+                                    height: 1.23,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: 3, left: 16, right: 16),
+                                child: Text(
+                                  snapshot.data[position].eda,
+                                  style: TextStyle(
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: AppTheme.fontRoboto,
+                                    color: AppTheme.black_transparent_text,
+                                    height: 1.27,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                         Container(
-                          margin: EdgeInsets.only(top: 18, left: 16, right: 16),
+                          margin: EdgeInsets.only(right: 16,bottom: 16),
                           child: Text(
-                            snapshot.data[position].name,
+                            snapshot.data[position].time,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontStyle: FontStyle.normal,
                               fontSize: 13,
@@ -69,20 +106,6 @@ class _NoteAllListScreenState extends State<NoteAllListScreen> {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 3, left: 16, right: 16),
-                          child: Text(
-                            snapshot.data[position].time,
-                            style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontSize: 11,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: AppTheme.fontRoboto,
-                              color: AppTheme.black_transparent_text,
-                              height: 1.27,
-                            ),
-                          ),
-                        )
                       ],
                     ),
                   ),

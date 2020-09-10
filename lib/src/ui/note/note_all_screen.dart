@@ -63,8 +63,6 @@ class _NoteAllScreenScreenState extends State<NoteAllScreen>
     super.dispose();
   }
 
-  DatabaseHelperNote dataBase = new DatabaseHelperNote();
-
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -87,8 +85,7 @@ class _NoteAllScreenScreenState extends State<NoteAllScreen>
               child: SvgPicture.asset("assets/images/arrow_back.svg"),
             ),
             onTap: () {
-              // Navigator.pop(context);
-              dataBase.clear();
+              Navigator.pop(context);
             },
           ),
           title: Column(
