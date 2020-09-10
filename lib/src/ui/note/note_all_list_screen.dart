@@ -31,7 +31,7 @@ class _NoteAllListScreenState extends State<NoteAllListScreen> {
         builder: (context, AsyncSnapshot<List<NoteModel>> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
-              padding: EdgeInsets.only(top: 8, bottom: 8),
+              padding: EdgeInsets.only(top: 8, bottom: 16),
               itemCount: snapshot.data.length,
               itemBuilder: (context, position) {
                 return GestureDetector(
@@ -91,7 +91,7 @@ class _NoteAllListScreenState extends State<NoteAllListScreen> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(right: 16,bottom: 16),
+                          margin: EdgeInsets.only(right: 16, bottom: 16),
                           child: Text(
                             snapshot.data[position].time,
                             maxLines: 2,

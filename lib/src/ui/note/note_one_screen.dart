@@ -61,6 +61,7 @@ class _NoteOneScreenState extends State<NoteOneScreen> {
                 ),
                 Expanded(
                   child: ListView.builder(
+                    padding: EdgeInsets.only(bottom: 16),
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, position) {
                       return Column(
