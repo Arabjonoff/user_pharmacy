@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:flutter_translate/localized_app.dart';
@@ -18,6 +19,8 @@ import 'package:pharmacy/src/ui/chat/chat_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/favorite/favorites_screen.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
+import 'package:pharmacy/src/ui/note/note_all_screen.dart';
+import 'package:pharmacy/src/ui/note/notification_screen.dart';
 import 'package:pharmacy/src/ui/view/rating_dialog.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,10 +50,74 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
+    super.initState();
+    // _requestIOSPermissions();
+    // _configureDidReceiveLocalNotificationSubject();
+    // _configureSelectNotificationSubject();
     registerBus();
     _setLanguage();
     sendRating();
-    super.initState();
+  }
+
+  void _requestIOSPermissions() {
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+  }
+
+  void _configureDidReceiveLocalNotificationSubject() {
+    didReceiveLocalNotificationSubject.stream
+        .listen((ReceivedNotification receivedNotification) async {
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: receivedNotification.title != null
+              ? Text(receivedNotification.title)
+              : null,
+          content: receivedNotification.body != null
+              ? Text(receivedNotification.body)
+              : null,
+          actions: [
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: Text('Ok'),
+              onPressed: () async {
+                Navigator.of(context, rootNavigator: true).pop();
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        NotificationScreen(receivedNotification.id),
+                  ),
+                );
+              },
+            )
+          ],
+        ),
+      );
+    });
+  }
+
+  void _configureSelectNotificationSubject() {
+    selectNotificationSubject.stream.listen((String payload) async {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => NotificationScreen(-1)),
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    // didReceiveLocalNotificationSubject.close();
+    // selectNotificationSubject.close();
+    RxBus.destroy();
+    super.dispose();
   }
 
   Future<void> _setLanguage() async {
@@ -92,12 +159,6 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               )
             });
-  }
-
-  @override
-  void dispose() {
-    RxBus.destroy();
-    super.dispose();
   }
 
   @override

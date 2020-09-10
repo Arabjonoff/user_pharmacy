@@ -190,13 +190,6 @@ class _DeleteScreenState extends State<DeleteScreen> {
       {int, days, int hour, int minute, int second}) async {
     var scheduledNotificationDateTime =
         DateTime.now().add(Duration(seconds: 5));
-
-    for (var i = 0; i < 5; i++) {
-      print(DateTime.now()
-          .add(Duration(days: i, hours: 14, minutes: 56, seconds: 5)));
-      print("//////////////////////////////");
-      print("//////////////////////////////");
-    }
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'dfvdbdgb other channel id',
       'your other csdcsd name',

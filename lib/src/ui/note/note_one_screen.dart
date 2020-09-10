@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/aptek_block.dart';
 import 'package:pharmacy/src/blocs/note_data_block.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
@@ -13,6 +14,7 @@ import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
+import 'notification_screen.dart';
 
 class NoteOneScreen extends StatefulWidget {
   @override
@@ -61,7 +63,6 @@ class _NoteOneScreenState extends State<NoteOneScreen> {
                   child: ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, position) {
-                      snapshot.data[position].mark = position % 3;
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -128,7 +129,16 @@ class _NoteOneScreenState extends State<NoteOneScreen> {
                                     )
                                   : Container(),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: NotificationScreen(
+                                      snapshot.data[position].id),
+                                ),
+                              );
+                            },
                             child: Container(
                               height: 68,
                               margin:
@@ -167,7 +177,7 @@ class _NoteOneScreenState extends State<NoteOneScreen> {
                                             style: TextStyle(
                                               fontStyle: FontStyle.normal,
                                               fontSize: 13,
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.w600,
                                               fontFamily: AppTheme.fontRoboto,
                                               color: AppTheme.black_text,
                                               height: 1.23,

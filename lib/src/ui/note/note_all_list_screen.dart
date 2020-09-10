@@ -62,7 +62,7 @@ class _NoteAllListScreenState extends State<NoteAllListScreen> {
                             style: TextStyle(
                               fontStyle: FontStyle.normal,
                               fontSize: 13,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               fontFamily: AppTheme.fontRoboto,
                               color: AppTheme.black_text,
                               height: 1.23,
