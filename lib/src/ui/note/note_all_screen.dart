@@ -1,12 +1,42 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_list.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
+import 'package:pharmacy/src/ui/note/add_notf_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_list_screen.dart';
 import 'package:pharmacy/src/ui/note/note_one_screen.dart';
+import 'package:rxdart/subjects.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+// Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
+final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
+    BehaviorSubject<ReceivedNotification>();
+
+final BehaviorSubject<String> selectNotificationSubject =
+    BehaviorSubject<String>();
+
+NotificationAppLaunchDetails notificationAppLaunchDetails;
+
+class ReceivedNotification {
+  final int id;
+  final String title;
+  final String body;
+  final String payload;
+
+  ReceivedNotification({
+    @required this.id,
+    @required this.title,
+    @required this.body,
+    @required this.payload,
+  });
+}
 
 class NoteAllScreen extends StatefulWidget {
   @override
@@ -78,6 +108,7 @@ class _NoteAllScreenScreenState extends State<NoteAllScreen>
               child: Container(
                 height: 48,
                 width: 48,
+                color: AppTheme.arrow_examp_back,
                 child: Center(
                   child: Icon(
                     Icons.add,
@@ -86,7 +117,15 @@ class _NoteAllScreenScreenState extends State<NoteAllScreen>
                   ),
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: AddNotfScreen(),
+                  ),
+                );
+              },
             )
           ],
         ),

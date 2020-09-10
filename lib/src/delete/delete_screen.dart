@@ -5,8 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:pharmacy/main.dart';
 import 'package:pharmacy/src/app_theme.dart';
+import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 
 class PaddedRaisedButton extends StatelessWidget {
   final String buttonText;
@@ -35,8 +35,8 @@ class DeleteScreen extends StatefulWidget {
 }
 
 class _DeleteScreenState extends State<DeleteScreen> {
-  final MethodChannel platform =
-      MethodChannel('crossingthestreams.io/resourceResolver');
+  // final MethodChannel platform =
+  //     MethodChannel('crossingthestreams.io/resourceResolver');
 
   @override
   void initState() {
