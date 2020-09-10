@@ -497,50 +497,50 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
                       _toTwoDigitString(timeList[i].minute).toString();
               }
 
-              print(times);
+              for (int j = 0; j < 3; j++) {
+                for (int i = 0; i < timeList.length; i++) {
+                  print(time.add(Duration(
+                    days: j,
+                    hours: timeList[i].hour,
+                    minutes: timeList[i].minute,
+                  )));
+                  dataBase
+                      .saveProducts(
+                        NoteModel(
+                          name: nameController.text.toString(),
+                          doza: dozaController.text.toString(),
+                          eda: edaController.text.toString(),
+                          time: times,
+                          groupsName: groupName,
+                          dateItem: time
+                              .add(Duration(
+                                days: j,
+                                hours: timeList[i].hour,
+                                minutes: timeList[i].minute,
+                              ))
+                              .toString(),
+                          mark: 0,
+                        ),
+                      )
+                      .then((value) => {
+                            print(value),
+                            // scheduleNotification(
+                            //   value,
+                            //   groupName,
+                            //   nameController.text.toString(),
+                            //   dozaController.text.toString(),
+                            //   time.add(Duration(
+                            //     days: j,
+                            //     hours: timeList[i].hour,
+                            //     minutes: timeList[i].minute,
+                            //   )),
+                            // ),
+                          });
+                }
+                print("//////////////////////////");
+              }
 
-              // for (int j = 0; j < 3; j++) {
-              //   for (int i = 0; i < timeList.length; i++) {
-              //     print(time.add(Duration(
-              //       days: j,
-              //       hours: timeList[i].hour,
-              //       minutes: timeList[i].minute,
-              //     )));
-              //     dataBase
-              //         .saveProducts(
-              //           NoteModel(
-              //             name: nameController.text.toString(),
-              //             doza: dozaController.text.toString(),
-              //             eda: edaController.text.toString(),
-              //             time: _toTwoDigitString(timeList[i].hour) +
-              //                 ":" +
-              //                 _toTwoDigitString(timeList[i].minute),
-              //             groupsName: groupName,
-              //             dateItem: Duration(
-              //               days: j,
-              //               hours: timeList[i].hour,
-              //               minutes: timeList[i].minute,
-              //             ).toString(),
-              //             mark: 0,
-              //           ),
-              //         )
-              //         .then((value) => {
-              //               print(value),
-              //               scheduleNotification(
-              //                 value,
-              //                 groupName,
-              //                 nameController.text.toString(),
-              //                 dozaController.text.toString(),
-              //                 time.add(Duration(
-              //                   days: j,
-              //                   hours: timeList[i].hour,
-              //                   minutes: timeList[i].minute,
-              //                 )),
-              //               ),
-              //             });
-              //   }
-              //   print("//////////////////////////");
-              // }
+              Navigator.pop(context);
             },
             child: Container(
               height: 44,

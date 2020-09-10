@@ -16,6 +16,8 @@ class DatabaseHelperNote {
   final String columnEda = 'eda';
   final String columnTime = 'time';
   final String columnGroupName = 'groupsName';
+  final String columnDateItem = 'dateItem';
+  final String columnMark = 'mark';
 
   static Database _db;
 
@@ -44,7 +46,9 @@ class DatabaseHelperNote {
         '$columnDoza TEXT, '
         '$columnEda TEXT, '
         '$columnTime TEXT, '
-        '$columnGroupName TEXT)');
+        '$columnGroupName TEXT, '
+        '$columnDateItem TEXT, '
+        '$columnMark INTEGER)');
   }
 
   Future<int> saveProducts(NoteModel item) async {
@@ -62,6 +66,8 @@ class DatabaseHelperNote {
       columnEda,
       columnTime,
       columnGroupName,
+      columnDateItem,
+      columnMark,
     ]);
 
     return result.toList();
@@ -79,6 +85,8 @@ class DatabaseHelperNote {
         eda: list[i][columnEda],
         time: list[i][columnTime],
         groupsName: list[i][columnGroupName],
+        dateItem: list[i][columnDateItem],
+        mark: list[i][columnMark],
       );
       products.add(items);
     }
@@ -101,6 +109,8 @@ class DatabaseHelperNote {
           columnEda,
           columnTime,
           columnGroupName,
+          columnDateItem,
+          columnMark,
         ],
         where: '$columnId = ?',
         whereArgs: [id]);

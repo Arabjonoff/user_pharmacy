@@ -23,7 +23,7 @@ class NoteAllListScreen extends StatefulWidget {
 class _NoteAllListScreenState extends State<NoteAllListScreen> {
   @override
   Widget build(BuildContext context) {
-    blocNote.fetchAllChat();
+    blocNote.fetchAllNote();
     return Scaffold(
       backgroundColor: AppTheme.white,
       body: StreamBuilder(
@@ -31,7 +31,7 @@ class _NoteAllListScreenState extends State<NoteAllListScreen> {
         builder: (context, AsyncSnapshot<List<NoteModel>> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
-              padding: EdgeInsets.only(top: 8),
+              padding: EdgeInsets.only(top: 8, bottom: 8),
               itemCount: snapshot.data.length,
               itemBuilder: (context, position) {
                 return GestureDetector(
@@ -51,6 +51,40 @@ class _NoteAllListScreenState extends State<NoteAllListScreen> {
                         ),
                       ],
                     ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 18, left: 16, right: 16),
+                          child: Text(
+                            snapshot.data[position].name,
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: AppTheme.fontRoboto,
+                              color: AppTheme.black_text,
+                              height: 1.23,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 3, left: 16, right: 16),
+                          child: Text(
+                            snapshot.data[position].time,
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontSize: 11,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: AppTheme.fontRoboto,
+                              color: AppTheme.black_transparent_text,
+                              height: 1.27,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 );
               },
@@ -68,7 +102,10 @@ class _NoteAllListScreenState extends State<NoteAllListScreen> {
                 padding: EdgeInsets.only(top: 6, bottom: 6),
                 margin: EdgeInsets.only(left: 15, top: 16, right: 15),
                 child: Container(
-                  color: AppTheme.white,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: AppTheme.white,
+                  ),
                 ),
               ),
               itemCount: 20,

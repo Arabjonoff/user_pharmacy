@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/app_theme.dart';
+import 'package:pharmacy/src/database/database_helper_note.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_list.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/ui/note/add_notf_screen.dart';
@@ -66,6 +67,8 @@ class _NoteAllScreenScreenState extends State<NoteAllScreen>
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
 
+    DatabaseHelperNote dataBase = new DatabaseHelperNote();
+
     return new DefaultTabController(
       length: 2,
       child: new Scaffold(
@@ -84,7 +87,8 @@ class _NoteAllScreenScreenState extends State<NoteAllScreen>
               child: SvgPicture.asset("assets/images/arrow_back.svg"),
             ),
             onTap: () {
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              dataBase.clear();
             },
           ),
           title: Column(
