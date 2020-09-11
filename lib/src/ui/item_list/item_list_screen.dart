@@ -730,6 +730,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                         .black_text,
                                                                     fontSize:
                                                                         15,
+                                                                    height: 1.33,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w600,
@@ -758,6 +759,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                             .red_fav_color,
                                                                         fontSize:
                                                                             15,
+                                                                            height: 1.33,
                                                                         fontWeight:
                                                                             FontWeight.w600,
                                                                         fontFamily:
@@ -778,6 +780,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                               FontStyle.normal,
                                                                           fontSize:
                                                                               11,
+                                                                              height: 1.75,
                                                                           fontWeight:
                                                                               FontWeight.w600,
                                                                           color:

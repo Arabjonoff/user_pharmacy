@@ -11,6 +11,7 @@ class ItemsAllModel {
   String dose;
   bool status;
   double price;
+  double base_price;
   String expirationDate;
   bool isRecept;
   Category unit;
@@ -37,6 +38,7 @@ class ItemsAllModel {
     this.dose,
     this.status,
     this.price,
+    this.base_price,
     this.expirationDate,
     this.isRecept,
     this.unit,
@@ -56,6 +58,7 @@ class ItemsAllModel {
     image = json['image'];
     imageThumbnail = json['image_thumbnail'];
     piece = json['piece'];
+    base_price = json['base_price'];
     dose = json['dose'];
     status = json['status'];
     max_count = json["max_count"];
@@ -100,6 +103,7 @@ class ItemsAllModel {
     data['image'] = this.image;
     data['image_thumbnail'] = this.imageThumbnail;
     data['piece'] = this.piece;
+    data['base_price'] = this.base_price;
     data['dose'] = this.dose;
     data['status'] = this.status;
     data['price'] = this.price;

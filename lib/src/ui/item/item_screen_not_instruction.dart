@@ -167,10 +167,45 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                             ),
                           ),
                         ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: snapshot.data.price >= snapshot.data.base_price
+                              ? Container()
+                              : Container(
+                                  height: 18,
+                                  width: 39,
+                                  margin: EdgeInsets.only(
+                                    top: 8,
+                                    left: 16,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.red_fav_color,
+                                    borderRadius: BorderRadius.circular(9),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "-" +
+                                          (((snapshot.data.base_price -
+                                                          snapshot.data.price) *
+                                                      100) ~/
+                                                  snapshot.data.base_price)
+                                              .toString() +
+                                          "%",
+                                      style: TextStyle(
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: AppTheme.fontRoboto,
+                                        color: AppTheme.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                        ),
                         Container(
                           margin: EdgeInsets.only(
-                            top: 24,
-                            left: 17,
+                            top: 8,
+                            left: 16,
                             right: 18,
                           ),
                           child: Row(
@@ -278,28 +313,53 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 24, left: 16),
-                          child: Row(
-                            children: [
-                              Text(
-                                priceFormat.format(snapshot.data.price),
-                                style: TextStyle(
-                                  color: AppTheme.black_text,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontSize: 24,
+                          child: snapshot.data.price >= snapshot.data.base_price
+                              ? Text(
+                                  priceFormat.format(snapshot.data.price) +
+                                      translate("sum"),
+                                  style: TextStyle(
+                                    color: AppTheme.black_text,
+                                    fontSize: 24,
+                                    height: 1.17,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: AppTheme.fontRoboto,
+                                  ),
+                                )
+                              : Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      priceFormat.format(snapshot.data.price) +
+                                          translate("sum"),
+                                      style: TextStyle(
+                                        color: AppTheme.red_fav_color,
+                                        fontSize: 24,
+                                        height: 1.17,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: AppTheme.fontRoboto,
+                                      ),
+                                    ),
+                                    SizedBox(width: 12),
+                                    RichText(
+                                      text: new TextSpan(
+                                        text: priceFormat.format(
+                                                snapshot.data.base_price) +
+                                            translate("sum"),
+                                        style: new TextStyle(
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 16,
+                                          height: 1.75,
+                                          fontWeight: FontWeight.w600,
+                                          color:
+                                              AppTheme.black_transparent_text,
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Text(
-                                translate("sum"),
-                                style: TextStyle(
-                                  color: AppTheme.black_text,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontSize: 19,
-                                ),
-                              ),
-                            ],
-                          ),
                         ),
                         Container(
                           margin: EdgeInsets.only(left: 16, right: 16, top: 26),
