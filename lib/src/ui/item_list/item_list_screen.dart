@@ -553,35 +553,94 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                 ),
                                                 height: 112,
                                                 width: 112,
-                                                child: Center(
-                                                  child: CachedNetworkImage(
-                                                    height: 112,
-                                                    width: 112,
-                                                    imageUrl: snapshot
-                                                        .data
-                                                        .results[index]
-                                                        .imageThumbnail,
-                                                    placeholder:
-                                                        (context, url) =>
+                                                child: Stack(
+                                                  children: [
+                                                    Center(
+                                                      child: CachedNetworkImage(
+                                                        height: 112,
+                                                        width: 112,
+                                                        imageUrl: snapshot
+                                                            .data
+                                                            .results[index]
+                                                            .imageThumbnail,
+                                                        placeholder:
+                                                            (context, url) =>
+                                                                Container(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  25),
+                                                          child: Center(
+                                                            child: SvgPicture.asset(
+                                                                "assets/images/place_holder.svg"),
+                                                          ),
+                                                        ),
+                                                        errorWidget: (context,
+                                                                url, error) =>
                                                             Container(
-                                                      padding:
-                                                          EdgeInsets.all(25),
-                                                      child: Center(
-                                                        child: SvgPicture.asset(
-                                                            "assets/images/place_holder.svg"),
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  25),
+                                                          child: Center(
+                                                            child: SvgPicture.asset(
+                                                                "assets/images/place_holder.svg"),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
-                                                    errorWidget:
-                                                        (context, url, error) =>
-                                                            Container(
-                                                      padding:
-                                                          EdgeInsets.all(25),
-                                                      child: Center(
-                                                        child: SvgPicture.asset(
-                                                            "assets/images/place_holder.svg"),
-                                                      ),
-                                                    ),
-                                                  ),
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.topRight,
+                                                      child: snapshot
+                                                                  .data
+                                                                  .results[
+                                                                      index]
+                                                                  .price >=
+                                                              snapshot
+                                                                  .data
+                                                                  .results[
+                                                                      index]
+                                                                  .base_price
+                                                          ? Container()
+                                                          : Container(
+                                                              height: 18,
+                                                              width: 39,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: AppTheme
+                                                                    .red_fav_color,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            9),
+                                                              ),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  "-" +
+                                                                      (((snapshot.data.results[index].base_price - snapshot.data.results[index].price) * 100) ~/
+                                                                              snapshot.data.results[index].base_price)
+                                                                          .toString() +
+                                                                      "%",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontStyle:
+                                                                        FontStyle
+                                                                            .normal,
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontFamily:
+                                                                        AppTheme
+                                                                            .fontRoboto,
+                                                                    color: AppTheme
+                                                                        .white,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                    )
+                                                  ],
                                                 ),
                                               ),
                                               Expanded(
@@ -644,21 +703,50 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                         ),
                                                       ),
                                                       Expanded(
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            snapshot
-                                                                    .data
-                                                                    .results[
-                                                                        index]
-                                                                    .sale
-                                                                ? StrikeThroughWidget(
-                                                                    child: Text(
+                                                        child: Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: snapshot
+                                                                      .data
+                                                                      .results[
+                                                                          index]
+                                                                      .price >=
+                                                                  snapshot
+                                                                      .data
+                                                                      .results[
+                                                                          index]
+                                                                      .base_price
+                                                              ? Text(
+                                                                  priceFormat.format(snapshot
+                                                                          .data
+                                                                          .results[
+                                                                              index]
+                                                                          .price) +
+                                                                      translate(
+                                                                          "sum"),
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: AppTheme
+                                                                        .black_text,
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontFamily:
+                                                                        AppTheme
+                                                                            .fontRoboto,
+                                                                  ),
+                                                                )
+                                                              : Row(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
                                                                       priceFormat.format(snapshot
                                                                               .data
                                                                               .results[index]
@@ -667,47 +755,40 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                       style:
                                                                           TextStyle(
                                                                         color: AppTheme
-                                                                            .black_transparent_text,
+                                                                            .red_fav_color,
                                                                         fontSize:
-                                                                            12,
+                                                                            15,
                                                                         fontWeight:
                                                                             FontWeight.w600,
                                                                         fontFamily:
                                                                             AppTheme.fontRoboto,
                                                                       ),
                                                                     ),
-                                                                  )
-                                                                : Container(),
-                                                            Text(
-                                                              priceFormat.format(snapshot
-                                                                      .data
-                                                                      .results[
-                                                                          index]
-                                                                      .price) +
-                                                                  translate(
-                                                                      "sum"),
-                                                              style: TextStyle(
-                                                                color: snapshot
-                                                                        .data
-                                                                        .results[
-                                                                            index]
-                                                                        .sale
-                                                                    ? AppTheme
-                                                                        .red_text_sale
-                                                                    : AppTheme
-                                                                        .black_text,
-                                                                fontSize: 15,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontFamily: AppTheme
-                                                                    .fontRoboto,
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 7,
-                                                            ),
-                                                          ],
+                                                                    SizedBox(
+                                                                        width:
+                                                                            12),
+                                                                    RichText(
+                                                                      text:
+                                                                          new TextSpan(
+                                                                        text: priceFormat.format(snapshot.data.results[index].base_price) +
+                                                                            translate("sum"),
+                                                                        style:
+                                                                            new TextStyle(
+                                                                          fontStyle:
+                                                                              FontStyle.normal,
+                                                                          fontSize:
+                                                                              11,
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                          color:
+                                                                              AppTheme.black_transparent_text,
+                                                                          decoration:
+                                                                              TextDecoration.lineThrough,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                         ),
                                                       ),
                                                       Container(
