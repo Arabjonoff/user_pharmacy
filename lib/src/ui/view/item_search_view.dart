@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
-import 'package:pharmacy/src/ui/item/item_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 
 import '../../app_theme.dart';

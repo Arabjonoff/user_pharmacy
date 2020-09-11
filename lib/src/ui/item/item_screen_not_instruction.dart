@@ -11,7 +11,6 @@ import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
-import 'package:pharmacy/src/ui/item/item_screen.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:rxbus/rxbus.dart';
@@ -568,28 +567,83 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                       Container(
                                         width: 140,
                                         height: 140,
-                                        child: CachedNetworkImage(
-                                          imageUrl: snapshot
-                                              .data
-                                              .recommendations[index]
-                                              .getImageThumbnail,
-                                          placeholder: (context, url) =>
-                                              Container(
-                                            padding: EdgeInsets.all(25),
-                                            child: Center(
-                                              child: SvgPicture.asset(
-                                                  "assets/images/place_holder.svg"),
+                                        child: Stack(
+                                          children: [
+                                            CachedNetworkImage(
+                                              imageUrl: snapshot
+                                                  .data
+                                                  .recommendations[index]
+                                                  .getImageThumbnail,
+                                              placeholder: (context, url) =>
+                                                  Container(
+                                                padding: EdgeInsets.all(25),
+                                                child: Center(
+                                                  child: SvgPicture.asset(
+                                                      "assets/images/place_holder.svg"),
+                                                ),
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Container(
+                                                padding: EdgeInsets.all(25),
+                                                child: Center(
+                                                  child: SvgPicture.asset(
+                                                      "assets/images/place_holder.svg"),
+                                                ),
+                                              ),
+                                              fit: BoxFit.fitHeight,
                                             ),
-                                          ),
-                                          errorWidget: (context, url, error) =>
-                                              Container(
-                                            padding: EdgeInsets.all(25),
-                                            child: Center(
-                                              child: SvgPicture.asset(
-                                                  "assets/images/place_holder.svg"),
-                                            ),
-                                          ),
-                                          fit: BoxFit.fitHeight,
+                                            Align(
+                                              alignment: Alignment.topRight,
+                                              child: snapshot
+                                                          .data
+                                                          .recommendations[
+                                                              index]
+                                                          .price >=
+                                                      snapshot
+                                                          .data
+                                                          .recommendations[
+                                                              index]
+                                                          .base_price
+                                                  ? Container()
+                                                  : Container(
+                                                      height: 18,
+                                                      width: 39,
+                                                      decoration: BoxDecoration(
+                                                        color: AppTheme
+                                                            .red_fav_color,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(9),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          "-" +
+                                                              (((snapshot.data.recommendations[index].base_price - snapshot.data.recommendations[index].price) *
+                                                                          100) ~/
+                                                                      snapshot
+                                                                          .data
+                                                                          .recommendations[
+                                                                              index]
+                                                                          .base_price)
+                                                                  .toString() +
+                                                              "%",
+                                                          style: TextStyle(
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontFamily: AppTheme
+                                                                .fontRoboto,
+                                                            color:
+                                                                AppTheme.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                            )
+                                          ],
                                         ),
                                       ),
                                       Container(
@@ -1008,26 +1062,79 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                       Container(
                                         width: 140,
                                         height: 140,
-                                        child: CachedNetworkImage(
-                                          imageUrl: snapshot.data.analog[index]
-                                              .getImageThumbnail,
-                                          placeholder: (context, url) =>
-                                              Container(
-                                            padding: EdgeInsets.all(25),
-                                            child: Center(
-                                              child: SvgPicture.asset(
-                                                  "assets/images/place_holder.svg"),
+                                        child: Stack(
+                                          children: [
+                                            CachedNetworkImage(
+                                              imageUrl: snapshot
+                                                  .data
+                                                  .analog[index]
+                                                  .getImageThumbnail,
+                                              placeholder: (context, url) =>
+                                                  Container(
+                                                padding: EdgeInsets.all(25),
+                                                child: Center(
+                                                  child: SvgPicture.asset(
+                                                      "assets/images/place_holder.svg"),
+                                                ),
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Container(
+                                                padding: EdgeInsets.all(25),
+                                                child: Center(
+                                                  child: SvgPicture.asset(
+                                                      "assets/images/place_holder.svg"),
+                                                ),
+                                              ),
+                                              fit: BoxFit.fitHeight,
                                             ),
-                                          ),
-                                          errorWidget: (context, url, error) =>
-                                              Container(
-                                            padding: EdgeInsets.all(25),
-                                            child: Center(
-                                              child: SvgPicture.asset(
-                                                  "assets/images/place_holder.svg"),
-                                            ),
-                                          ),
-                                          fit: BoxFit.fitHeight,
+                                            Align(
+                                              alignment: Alignment.topRight,
+                                              child: snapshot.data.analog[index]
+                                                          .price >=
+                                                      snapshot
+                                                          .data
+                                                          .analog[index]
+                                                          .base_price
+                                                  ? Container()
+                                                  : Container(
+                                                      height: 18,
+                                                      width: 39,
+                                                      decoration: BoxDecoration(
+                                                        color: AppTheme
+                                                            .red_fav_color,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(9),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          "-" +
+                                                              (((snapshot.data.analog[index].base_price - snapshot.data.analog[index].price) *
+                                                                          100) ~/
+                                                                      snapshot
+                                                                          .data
+                                                                          .analog[
+                                                                              index]
+                                                                          .base_price)
+                                                                  .toString() +
+                                                              "%",
+                                                          style: TextStyle(
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontFamily: AppTheme
+                                                                .fontRoboto,
+                                                            color:
+                                                                AppTheme.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                            )
+                                          ],
                                         ),
                                       ),
                                       Container(

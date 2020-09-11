@@ -9,7 +9,6 @@ import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
-import 'package:pharmacy/src/ui/item/item_screen.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';

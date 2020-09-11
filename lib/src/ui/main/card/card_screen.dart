@@ -15,7 +15,6 @@ import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
-import 'package:pharmacy/src/ui/item/item_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/curer_address_card.dart';
