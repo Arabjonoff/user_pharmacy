@@ -21,7 +21,6 @@ import 'package:pharmacy/src/ui/main/favorite/favorites_screen.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 import 'package:pharmacy/src/ui/note/notification_screen.dart';
-import 'package:pharmacy/src/ui/view/rating_dialog.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -56,7 +55,6 @@ class _MainScreenState extends State<MainScreen> {
     _configureSelectNotificationSubject();
     registerBus();
     _setLanguage();
-    sendRating();
   }
 
   void _requestIOSPermissions() {
@@ -320,18 +318,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Map<String, WidgetBuilder> _routeBuilders(BuildContext context, int index) {
-//    switch (index) {
-//      case 0:
-//        return {'/home': (context) => HomeScreen()};
-//      case 1:
-//        return {'/category': (context) => CategoryScreen()};
-//      case 2:
-//        return {'/card': (context) => CardScreen()};
-//      case 3:
-//        return {'/favorites': (context) => FavoritesScreen()};
-//      case 4:
-//        return {'/menu': (context) => MenuScreen()};
-//    }
     return {
       '/': (context) {
         return [
@@ -359,29 +345,5 @@ class _MainScreenState extends State<MainScreen> {
         },
       ),
     );
-  }
-
-  Future<void> sendRating() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    var count = prefs.getInt("userEnterCount") == null
-        ? 0
-        : prefs.getInt("userEnterCount");
-    if (count < 51) {
-      if (count == 3 || count == 15 || count == 50) {
-        Future.delayed(
-          Duration(seconds: 5),
-          () {
-            showDialog(
-              context: context,
-              builder: (_) => RatingDialog(),
-            );
-          },
-        );
-      }
-      count = count + 1;
-      prefs.setInt('userEnterCount', count);
-      prefs.commit();
-    }
   }
 }

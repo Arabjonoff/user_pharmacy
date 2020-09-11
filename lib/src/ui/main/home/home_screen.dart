@@ -29,7 +29,6 @@ import 'package:pharmacy/src/ui/main/category/category_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
-import 'package:pharmacy/src/ui/view/rating_dialog.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';

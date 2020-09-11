@@ -53,6 +53,44 @@ class BottomDialog {
     );
   }
 
+  static void createBottomSheetRating(BuildContext context) async {
+
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              height: 450,
+              padding: EdgeInsets.only(bottom: 5, left: 5, right: 5),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: AppTheme.white,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(top: 12),
+                      height: 4,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        color: AppTheme.bottom_dialog,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   static void createBottomSheetHistory(BuildContext context) async {
     showModalBottomSheet(
       context: context,
