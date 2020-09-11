@@ -1010,30 +1010,6 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                                 loading = false;
                                                 error_text =
                                                     response.data.error_note;
-
-//                                                if (response.data.error_code ==
-//                                                    -21) {
-//                                                  error_text =
-//                                                      "Карта неактивна";
-//                                                } else {
-//                                                  if (response
-//                                                          .data.error_code ==
-//                                                      22) {
-//                                                    checkBox = false;
-//                                                  }
-//                                                  error_text = response.data
-//                                                              .error_code ==
-//                                                          2
-//                                                      ? translate(
-//                                                          "cardNumberError")
-//                                                      : response.data
-//                                                                  .error_code ==
-//                                                              22
-//                                                          ? translate(
-//                                                              "notSaveCard")
-//                                                          : response
-//                                                              .data.error_note;
-//                                                }
                                               }),
                                             }
                                         }
@@ -1042,8 +1018,9 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                           setState(() {
                                             error = true;
                                             loading = false;
-                                            error_text =
-                                                translate("error_distanse");
+                                            error_text = response.msg == ""
+                                                ? translate("error_distanse")
+                                                : response.msg;
                                           }),
                                         }
                                     }),

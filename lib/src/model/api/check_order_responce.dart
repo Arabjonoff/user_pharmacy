@@ -7,7 +7,7 @@ class CheckOrderResponceModel {
 
   CheckOrderResponceModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    msg = json['msg'];
+    msg = json['msg'] == null ? "" : json['msg'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 

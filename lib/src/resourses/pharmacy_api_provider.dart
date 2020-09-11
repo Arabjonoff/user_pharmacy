@@ -366,10 +366,15 @@ class PharmacyApiProvider {
 
   ///add order
   Future<OrderStatusModel> fetchAddOrder(AddOrderModel order) async {
-    String url = Utils.BASE_URL + '/api/v1/add-order';
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
+    String lan = prefs.getString('language');
+
+    if (lan == null) {
+      lan = "uz";
+    }
+
+    String url = Utils.BASE_URL + '/api/v1/add-order?lan=$lan';
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -454,10 +459,15 @@ class PharmacyApiProvider {
 
   /// Check order
   Future<CheckOrderResponceModel> fetchCheckOrder(CheckOrderModel order) async {
-    String url = Utils.BASE_URL + '/api/v1/check-order';
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
+    String lan = prefs.getString('language');
+
+    if (lan == null) {
+      lan = "uz";
+    }
+
+    String url = Utils.BASE_URL + '/api/v1/check-order?lan=$lan';
 
     HttpClient httpClient = new HttpClient();
     httpClient

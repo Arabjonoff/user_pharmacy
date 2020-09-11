@@ -538,8 +538,9 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                           setState(() {
                                             error = true;
                                             loading = false;
-                                            error_text =
-                                                translate("error_distanse");
+                                            error_text = response.msg == ""
+                                                ? translate("error_distanse")
+                                                : response.msg;
                                           }),
                                         }
                                     }),
