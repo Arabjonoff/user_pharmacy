@@ -23,6 +23,7 @@ import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/note/note_data_model.dart';
 import 'package:pharmacy/src/model/payment_verfy.dart';
+import 'package:pharmacy/src/model/review/get_review.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/model/send/check_order.dart';
@@ -200,4 +201,10 @@ class Repository {
 
   Future<CheckVersion> fetchSendRating(String comment, int rating) =>
       pharmacyApiProvider.fetchSendRating(comment, rating);
+
+  Future<CheckVersion> fetchOrderItemReview(String comment, int rating,int orderId) =>
+      pharmacyApiProvider.fetchOrderItemReview(comment, rating,orderId);
+
+  Future<GetReviewModel> fetchGetNoReview() =>
+      pharmacyApiProvider.fetchGetNoReview();
 }
