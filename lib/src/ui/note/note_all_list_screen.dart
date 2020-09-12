@@ -6,9 +6,11 @@ import 'package:pharmacy/src/blocs/aptek_block.dart';
 import 'package:pharmacy/src/blocs/note_data_block.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/database/database_helper_apteka.dart';
+import 'package:pharmacy/src/database/database_helper_note.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/note/note_data_model.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
+import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
@@ -21,6 +23,80 @@ class NoteAllListScreen extends StatefulWidget {
 }
 
 class _NoteAllListScreenState extends State<NoteAllListScreen> {
+  Future<void> _cancelNotification(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
+  }
+
+  Widget slideRightBackground() {
+    return Container(
+      height: 68,
+      margin: EdgeInsets.only(top: 16, left: 12, right: 12),
+      decoration: BoxDecoration(
+        color: AppTheme.red_fav_color,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Align(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              width: 20,
+            ),
+            Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+            Text(
+              translate("note.delete"),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+              ),
+              textAlign: TextAlign.right,
+            ),
+          ],
+        ),
+        alignment: Alignment.centerLeft,
+      ),
+    );
+  }
+
+  Widget slideLeftBackground() {
+    return Container(
+      height: 68,
+      margin: EdgeInsets.only(top: 16, left: 12, right: 12),
+      decoration: BoxDecoration(
+        color: AppTheme.red_fav_color,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Align(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+            Text(
+              translate("note.delete"),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+              ),
+              textAlign: TextAlign.right,
+            ),
+            SizedBox(
+              width: 20,
+            ),
+          ],
+        ),
+        alignment: Alignment.centerRight,
+      ),
+    );
+  }
+
+  DatabaseHelperNote notes = new DatabaseHelperNote();
+
   @override
   Widget build(BuildContext context) {
     blocNote.fetchAllNote();
@@ -34,81 +110,118 @@ class _NoteAllListScreenState extends State<NoteAllListScreen> {
               padding: EdgeInsets.only(top: 8, bottom: 16),
               itemCount: snapshot.data.length,
               itemBuilder: (context, position) {
-                return GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    height: 68,
-                    margin: EdgeInsets.only(top: 16, left: 12, right: 12),
-                    decoration: BoxDecoration(
-                      color: AppTheme.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.08),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 16, right: 16),
-                                child: Text(
-                                  snapshot.data[position].name,
-                                  style: TextStyle(
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: AppTheme.fontRoboto,
-                                    color: AppTheme.black_text,
-                                    height: 1.23,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    top: 3, left: 16, right: 16),
-                                child: Text(
-                                  snapshot.data[position].eda,
-                                  style: TextStyle(
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: AppTheme.fontRoboto,
-                                    color: AppTheme.black_transparent_text,
-                                    height: 1.27,
-                                  ),
-                                ),
-                              )
-                            ],
+                return Dismissible(
+                  key: Key(snapshot.data[position].id.toString()),
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      height: 68,
+                      margin: EdgeInsets.only(top: 16, left: 12, right: 12),
+                      decoration: BoxDecoration(
+                        color: AppTheme.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.08),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 3), // changes position of shadow
                           ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 16, bottom: 16),
-                          child: Text(
-                            snapshot.data[position].time,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: AppTheme.fontRoboto,
-                              color: AppTheme.black_text,
-                              height: 1.23,
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(left: 16, right: 16),
+                                  child: Text(
+                                    snapshot.data[position].name,
+                                    style: TextStyle(
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: AppTheme.fontRoboto,
+                                      color: AppTheme.black_text,
+                                      height: 1.23,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      top: 3, left: 16, right: 16),
+                                  child: Text(
+                                    snapshot.data[position].eda,
+                                    style: TextStyle(
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: AppTheme.fontRoboto,
+                                      color: AppTheme.black_transparent_text,
+                                      height: 1.27,
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                        ),
-                      ],
+                          Container(
+                            margin: EdgeInsets.only(right: 16, bottom: 16),
+                            child: Text(
+                              snapshot.data[position].time,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontStyle: FontStyle.normal,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: AppTheme.fontRoboto,
+                                color: AppTheme.black_text,
+                                height: 1.23,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
+                  background: slideRightBackground(),
+                  secondaryBackground: slideLeftBackground(),
+                  // ignore: missing_return
+                  confirmDismiss: (direction) async {
+                    if (direction == DismissDirection.endToStart) {
+                      notes
+                          .getProductsGroup(snapshot.data[position].groupsName)
+                          .then((value) => {
+                                setState(() {
+                                  notes.deleteProductsGroup(
+                                      snapshot.data[position].groupsName);
+                                }),
+                                for (int i = 0; i < value.length; i++)
+                                  {
+                                    _cancelNotification(value[i].id),
+                                  }
+                              });
+                      // snapshot.data.removeAt(position);
+                    } else {
+                      notes
+                          .getProductsGroup(snapshot.data[position].groupsName)
+                          .then((value) => {
+                                setState(() {
+                                  notes.deleteProductsGroup(
+                                      snapshot.data[position].groupsName);
+                                }),
+                                for (int i = 0; i < value.length; i++)
+                                  {
+                                    _cancelNotification(value[i].id),
+                                  }
+                              });
+                      // snapshot.data.removeAt(position);
+                    }
+                  },
                 );
               },
             );

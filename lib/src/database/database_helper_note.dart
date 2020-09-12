@@ -122,10 +122,54 @@ class DatabaseHelperNote {
     return null;
   }
 
+  Future<List<NoteModel>> getProductsGroup(String id) async {
+    var dbClient = await db;
+    List<NoteModel> products = new List();
+    List<Map> result = await dbClient.query(tableNote,
+        columns: [
+          columnId,
+          columnName,
+          columnDoza,
+          columnEda,
+          columnTime,
+          columnGroupName,
+          columnDateItem,
+          columnMark,
+        ],
+        where: '$columnGroupName = ?',
+        whereArgs: [id]);
+
+    for (int i = 0; i < result.length; i++) {
+      var items = new NoteModel(
+        id: result[i][columnId],
+        name: result[i][columnName],
+        doza: result[i][columnDoza],
+        eda: result[i][columnEda],
+        time: result[i][columnTime],
+        groupsName: result[i][columnGroupName],
+        dateItem: result[i][columnDateItem],
+        mark: result[i][columnMark],
+      );
+      products.add(items);
+    }
+
+    // if (result.length > 0) {
+    //   return NoteModel.fromJson(result.first);
+    // }
+
+    return products;
+  }
+
   Future<int> deleteProducts(int id) async {
     var dbClient = await db;
     return await dbClient
         .delete(tableNote, where: '$columnId = ?', whereArgs: [id]);
+  }
+
+  Future<int> deleteProductsGroup(String id) async {
+    var dbClient = await db;
+    return await dbClient
+        .delete(tableNote, where: '$columnGroupName = ?', whereArgs: [id]);
   }
 
   Future<int> updateProduct(NoteModel products) async {
