@@ -213,7 +213,7 @@ class _CardScreenState extends State<CardScreen> {
                                                   height: 18,
                                                 ),
                                                 Text(
-                                                  snapshot.data[index].name,
+                                                  snapshot.data[index].name ,
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: TextStyle(
@@ -236,6 +236,9 @@ class _CardScreenState extends State<CardScreen> {
                                                       ? ""
                                                       : snapshot.data[index]
                                                           .manufacturer.name,
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   style: TextStyle(
                                                     color: AppTheme
                                                         .black_transparent_text,
@@ -279,7 +282,7 @@ class _CardScreenState extends State<CardScreen> {
                                                 ),
                                                 Container(
                                                   margin: EdgeInsets.only(
-                                                      bottom: 15.5),
+                                                      bottom: 7),
                                                   height: 30,
                                                   child: Row(
                                                     children: <Widget>[
@@ -489,10 +492,7 @@ class _CardScreenState extends State<CardScreen> {
                                                               ),
                                                       ),
                                                       Expanded(
-                                                        child: Container(
-                                                          child: Text(snapshot
-                                                              .data[index].msg),
-                                                        ),
+                                                        child: Container(),
                                                       ),
                                                       GestureDetector(
                                                         child: snapshot
@@ -566,6 +566,15 @@ class _CardScreenState extends State<CardScreen> {
                                       ],
                                     ),
                                   ),
+                                  Text(
+                                    snapshot.data[index].msg,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: AppTheme.fontRoboto,
+                                      color: AppTheme.red_fav_color,
+                                    ),
+                                  ),
                                   Container(
                                     height: 1,
                                     margin: EdgeInsets.only(left: 8, right: 8),
@@ -589,71 +598,6 @@ class _CardScreenState extends State<CardScreen> {
                         ),
                         margin: EdgeInsets.only(top: 24, left: 16, right: 16),
                       ),
-//                      Container(
-//                        margin: EdgeInsets.only(
-//                          top: 23,
-//                          left: 16,
-//                          right: 16,
-//                        ),
-//                        child: Row(
-//                          children: [
-//                            Text(
-//                              translate("card.all_card"),
-//                              style: TextStyle(
-//                                fontSize: 13,
-//                                fontFamily: AppTheme.fontRoboto,
-//                                fontWeight: FontWeight.normal,
-//                                color: AppTheme.black_transparent_text,
-//                              ),
-//                            ),
-//                            Expanded(
-//                              child: Container(),
-//                            ),
-//                            Text(
-//                              translate(allCount.toString()),
-//                              style: TextStyle(
-//                                fontSize: 13,
-//                                fontFamily: AppTheme.fontRoboto,
-//                                fontWeight: FontWeight.normal,
-//                                color: AppTheme.black_transparent_text,
-//                              ),
-//                            ),
-//                          ],
-//                        ),
-//                      ),
-//                      Container(
-//                        margin: EdgeInsets.only(
-//                          top: 18,
-//                          left: 16,
-//                          right: 16,
-//                        ),
-//                        child: Row(
-//                          children: [
-//                            Text(
-//                              translate("card.tovar_sum"),
-//                              style: TextStyle(
-//                                fontSize: 13,
-//                                fontFamily: AppTheme.fontRoboto,
-//                                fontWeight: FontWeight.normal,
-//                                color: AppTheme.black_transparent_text,
-//                              ),
-//                            ),
-//                            Expanded(
-//                              child: Container(),
-//                            ),
-//                            Text(
-//                              priceFormat.format(allPrice) +
-//                                  translate(translate("sum")),
-//                              style: TextStyle(
-//                                fontSize: 13,
-//                                fontFamily: AppTheme.fontRoboto,
-//                                fontWeight: FontWeight.normal,
-//                                color: AppTheme.black_transparent_text,
-//                              ),
-//                            ),
-//                          ],
-//                        ),
-//                      ),
                       Container(
                         margin: EdgeInsets.only(
                           top: 26,

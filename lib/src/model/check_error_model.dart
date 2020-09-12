@@ -21,7 +21,10 @@ class CheckErrorModel {
       CheckErrorModel(
         error: json["error"],
         msg: json["msg"],
-        errors: List<CheckErroData>.from(json["errors"].map((x) => CheckErroData.fromJson(x))),
+        errors: json["errors"] == null
+            ? null
+            : List<CheckErroData>.from(
+                json["errors"].map((x) => CheckErroData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
