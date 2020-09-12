@@ -15,7 +15,10 @@ import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/check_version.dart';
+import 'package:pharmacy/src/model/notification_model.dart';
 import 'package:pharmacy/src/ui/chat/chat_screen.dart';
+import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
+import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/favorite/favorites_screen.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
@@ -138,6 +141,57 @@ class _MainScreenState extends State<MainScreen> {
         .listen((event) => setState(() {
               _selectedIndex = event.position;
             }));
+
+    RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_ITEM_NOTF")
+        .listen((event) => {
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.downToUp,
+                  alignment: Alignment.bottomCenter,
+                  child: ItemScreenNotIstruction(
+                    event.position,
+                  ),
+                ),
+              ),
+            });
+
+    RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_CATEGORY_NOTF")
+        .listen((event) => {
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.downToUp,
+                  alignment: Alignment.bottomCenter,
+                  child: ItemListScreen(
+                    translate("sale"),
+                    1,
+                    event.position.toString(),
+                  ),
+                ),
+              ),
+            });
+
+    RxBus.register<BottomViewIdsModel>(tag: "EVENT_BOTTOM_IDS_NOTF")
+        .listen((event) => {
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.downToUp,
+                  alignment: Alignment.bottomCenter,
+                  child: ItemListScreen(
+                    translate("sale"),
+                    4,
+                    event.position
+                        .toString()
+                        .replaceAll('[', '')
+                        .replaceAll(']', '')
+                        .replaceAll(' ', ''),
+                  ),
+                ),
+              ),
+            });
+
     RxBus.register<LoginModel>(tag: "EVENT_CHAT_SCREEN").listen((event) => {
           Navigator.push(
             context,

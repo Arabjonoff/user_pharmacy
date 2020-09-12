@@ -3,3 +3,9 @@ class BottomViewModel{
 
   BottomViewModel(this.position);
 }
+
+class BottomViewIdsModel{
+  String position;
+
+  BottomViewIdsModel(this.position);
+}

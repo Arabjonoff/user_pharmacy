@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
@@ -18,6 +21,7 @@ import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/check_version.dart';
+import 'package:pharmacy/src/model/notification_model.dart';
 import 'package:pharmacy/src/model/top_item_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
@@ -27,6 +31,7 @@ import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/category/category_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
+import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -58,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Size size;
   DatabaseHelper dataBase = new DatabaseHelper();
   int page = 1;
+  final FirebaseMessaging _fcm = FirebaseMessaging();
 
   @override
   void initState() {
@@ -65,7 +71,37 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     initSpeechState();
     _initPackageInfo();
     registerBus();
+    _notificationFirebase();
     super.initState();
+  }
+
+  void _notificationFirebase() {
+    if (Platform.isIOS) {
+      _fcm.requestNotificationPermissions(IosNotificationSettings());
+    }
+
+    _fcm.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        // print("onMessage: $message");
+        // print("onMessage: $message");
+        // print("onMessage: $message");
+        //
+        // _notifiData(message);
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+
+        _notifiData(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+
+        _notifiData(message);
+      },
+    );
+    _fcm.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
   }
 
   void registerBus() {
@@ -748,8 +784,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 child: Stack(
                                   children: [
                                     CachedNetworkImage(
-                                      imageUrl: snapshot
-                                          .data.results[index].getImageThumbnail,
+                                      imageUrl: snapshot.data.results[index]
+                                          .getImageThumbnail,
                                       placeholder: (context, url) => Container(
                                         padding: EdgeInsets.all(25),
                                         child: Center(
@@ -759,66 +795,61 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ),
                                       errorWidget: (context, url, error) =>
                                           Container(
-                                            padding: EdgeInsets.all(25),
-                                            child: Center(
-                                              child: SvgPicture.asset(
-                                                  "assets/images/place_holder.svg"),
-                                            ),
-                                          ),
+                                        padding: EdgeInsets.all(25),
+                                        child: Center(
+                                          child: SvgPicture.asset(
+                                              "assets/images/place_holder.svg"),
+                                        ),
+                                      ),
                                       fit: BoxFit.fitHeight,
                                     ),
                                     Align(
-                                      alignment:
-                                      Alignment.topRight,
+                                      alignment: Alignment.topRight,
                                       child: snapshot
-                                          .data
-                                          .results[
-                                      index]
-                                          .price >=
-                                          snapshot
-                                              .data
-                                              .results[
-                                          index]
-                                              .base_price
+                                                  .data.results[index].price >=
+                                              snapshot.data.results[index]
+                                                  .base_price
                                           ? Container()
                                           : Container(
-                                        height: 18,
-                                        width: 39,
-                                        decoration:
-                                        BoxDecoration(
-                                          color: AppTheme
-                                              .red_fav_color,
-                                          borderRadius:
-                                          BorderRadius
-                                              .circular(
-                                              9),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            "-" +
-                                                (((snapshot.data.results[index].base_price - snapshot.data.results[index].price) * 100) ~/
-                                                    snapshot.data.results[index].base_price)
-                                                    .toString() +
-                                                "%",
-                                            style:
-                                            TextStyle(
-                                              fontStyle:
-                                              FontStyle
-                                                  .normal,
-                                              fontSize:
-                                              12,
-                                              fontWeight:
-                                              FontWeight
-                                                  .w600,
-                                              fontFamily:
-                                              AppTheme
-                                                  .fontRoboto,
-                                              color: AppTheme
-                                                  .white,
+                                              height: 18,
+                                              width: 39,
+                                              decoration: BoxDecoration(
+                                                color: AppTheme.red_fav_color,
+                                                borderRadius:
+                                                    BorderRadius.circular(9),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  "-" +
+                                                      (((snapshot
+                                                                          .data
+                                                                          .results[
+                                                                              index]
+                                                                          .base_price -
+                                                                      snapshot
+                                                                          .data
+                                                                          .results[
+                                                                              index]
+                                                                          .price) *
+                                                                  100) ~/
+                                                              snapshot
+                                                                  .data
+                                                                  .results[
+                                                                      index]
+                                                                  .base_price)
+                                                          .toString() +
+                                                      "%",
+                                                  style: TextStyle(
+                                                    fontStyle: FontStyle.normal,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontFamily:
+                                                        AppTheme.fontRoboto,
+                                                    color: AppTheme.white,
+                                                  ),
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                      ),
                                     )
                                   ],
                                 ),
@@ -1205,6 +1236,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         var localizationDelegate = LocalizedApp.of(context).delegate;
         localizationDelegate.changeLocale(Locale('ru'));
       });
+    }
+  }
+
+  void _notifiData(Map<String, dynamic> message) {
+    int item = int.parse(message["data"]["drug"]);
+    int category = int.parse(message["data"]["category"]);
+    String ids = message["data"]["drugs"];
+
+    if (item > 0) {
+      RxBus.post(BottomViewModel(item), tag: "EVENT_BOTTOM_ITEM_NOTF");
+    } else if (category > 0) {
+      RxBus.post(BottomViewModel(category), tag: "EVENT_BOTTOM_CATEGORY_NOTF");
+    } else if (ids.length > 2) {
+      RxBus.post(BottomViewIdsModel(ids), tag: "EVENT_BOTTOM_IDS_NOTF");
     }
   }
 }
