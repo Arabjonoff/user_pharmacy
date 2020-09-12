@@ -12,9 +12,9 @@ import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_note.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/note/note_data_model.dart';
+import 'package:pharmacy/src/model/note/time_note.dart';
 import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 import 'package:pharmacy/src/ui/note/notification_screen.dart';
-import 'file:///D:/Flutter/ishxona/user_pharmacy/lib/src/model/note/time_note.dart';
 
 import '../../app_theme.dart';
 
