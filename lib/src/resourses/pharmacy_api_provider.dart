@@ -20,6 +20,9 @@ import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/chat/chat_api_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/payment_verfy.dart';
+import 'package:pharmacy/src/model/review/get_review.dart';
+import 'package:pharmacy/src/model/review/send_all_review.dart';
+import 'package:pharmacy/src/model/review/send_review.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/model/send/check_order.dart';
@@ -652,21 +655,80 @@ class PharmacyApiProvider {
   Future<CheckVersion> fetchSendRating(String comment, int rating) async {
     String url = Utils.BASE_URL + '/api/v1/send-review';
 
-    final data = {"comment": comment, "rating": rating.toString()};
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
+
+    SendAllReviewModel verfy =
+        new SendAllReviewModel(comment: comment, rating: rating);
+
+    print(json.encode(verfy));
+
+    HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
+    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
+    request.headers.set('Content-Type', 'application/json');
+    if (token != null)
+      request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
+    request.write(json.encode(verfy));
+    HttpClientResponse response = await request.close();
+
+
+    String reply = await response.transform(utf8.decoder).join();
+    final Map parsed = json.decode(reply);
+    print(reply);
+    return CheckVersion.fromJson(parsed);
+  }
+
+  ///get-no-reviews
+  Future<GetReviewModel> fetchGetNoReview() async {
+    String url = Utils.BASE_URL + '/api/v1/get-no-reviews';
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
 
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
-    };
+    if (token != null) {
+      Map<String, String> headers = {
+        HttpHeaders.authorizationHeader: "Bearer $token",
+      };
 
-    http.Response response = await http
-        .post(url, headers: headers, body: data)
-        .timeout(const Duration(seconds: 120));
+      http.Response response = await http
+          .get(url, headers: headers)
+          .timeout(const Duration(seconds: 120));
 
-    final Map parsed = json.decode(response.body);
+      final Map parsed = json.decode(response.body);
 
+      return GetReviewModel.fromJson(parsed);
+    }
+  }
+
+  ///order item review
+  Future<CheckVersion> fetchOrderItemReview(
+    String comment,
+    int rating,
+    int orderId,
+  ) async {
+    String url = Utils.BASE_URL + '/api/v1/send-order-reviews';
+
+    SendReviewModel verfy =
+        new SendReviewModel(orderId: orderId, rating: rating, review: comment);
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
+
+    HttpClient httpClient = new HttpClient();
+    httpClient
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
+    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
+    request.write(json.encode(verfy));
+    HttpClientResponse response = await request.close();
+
+    String reply = await response.transform(utf8.decoder).join();
+    final Map parsed = json.decode(reply);
     return CheckVersion.fromJson(parsed);
   }
 }

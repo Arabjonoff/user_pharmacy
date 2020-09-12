@@ -21,7 +21,6 @@ import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/check_version.dart';
-import 'package:pharmacy/src/model/notification_model.dart';
 import 'package:pharmacy/src/model/top_item_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
@@ -65,6 +64,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   int page = 1;
   final FirebaseMessaging _fcm = FirebaseMessaging();
 
+  int _stars = 0;
+  var loading = false;
+  TextEditingController commentController = TextEditingController();
+
   @override
   void initState() {
     _setLanguage();
@@ -72,7 +75,316 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _initPackageInfo();
     registerBus();
     _notificationFirebase();
+    _getNoReview();
+
     super.initState();
+  }
+
+  void _getNoReview() {
+    Utils.isLogin().then((value) => {
+          if (value)
+            {
+              Repository().fetchGetNoReview().then(
+                    (value) => {
+                      if (value.data.length > 0)
+                        {
+                          _stars = 0,
+                          commentController.text = "",
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                              return StatefulBuilder(
+                                builder: (BuildContext context, setState) =>
+                                    Container(
+                                  height: 535,
+                                  padding: EdgeInsets.only(
+                                      bottom: 5, left: 5, right: 5),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      color: AppTheme.white,
+                                    ),
+                                    child: Theme(
+                                      data: ThemeData(
+                                        platform: TargetPlatform.android,
+                                      ),
+                                      child: ListView(
+                                        children: <Widget>[
+                                          Center(
+                                            child: Container(
+                                              margin: EdgeInsets.only(top: 12),
+                                              height: 4,
+                                              width: 60,
+                                              decoration: BoxDecoration(
+                                                color: AppTheme.bottom_dialog,
+                                                borderRadius:
+                                                    BorderRadius.circular(4),
+                                              ),
+                                            ),
+                                          ),
+                                          Center(
+                                            child: Container(
+                                              margin: EdgeInsets.only(
+                                                  top: 16, left: 16, right: 16),
+                                              height: 153,
+                                              width: 153,
+                                              child: SvgPicture.asset(
+                                                  "assets/images/icon_comment.svg"),
+                                            ),
+                                          ),
+                                          Center(
+                                            child: Container(
+                                              margin: EdgeInsets.only(
+                                                  top: 8, left: 16, right: 16),
+                                              child: Text(
+                                                translate("dialog_rat.title"),
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.fontRoboto,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 17,
+                                                  fontStyle: FontStyle.normal,
+                                                  color: AppTheme.black_text,
+                                                  height: 1.65,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                top: 8, left: 32, right: 32),
+                                            child: Text(
+                                              translate("dialog_rat.message"),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRoboto,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 15,
+                                                fontStyle: FontStyle.normal,
+                                                color: AppTheme
+                                                    .black_transparent_text,
+                                                height: 1.47,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                top: 8, left: 16, right: 16),
+                                            height: 40,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: <Widget>[
+                                                InkWell(
+                                                  child: _stars >= 1
+                                                      ? SvgPicture.asset(
+                                                          "assets/images/star_select.svg")
+                                                      : SvgPicture.asset(
+                                                          "assets/images/star_unselect.svg"),
+                                                  onTap: () {
+                                                    setState(() {
+                                                      _stars = 1;
+                                                    });
+                                                  },
+                                                ),
+                                                SizedBox(width: 16),
+                                                InkWell(
+                                                  child: _stars >= 2
+                                                      ? SvgPicture.asset(
+                                                          "assets/images/star_select.svg")
+                                                      : SvgPicture.asset(
+                                                          "assets/images/star_unselect.svg"),
+                                                  onTap: () {
+                                                    setState(() {
+                                                      _stars = 2;
+                                                    });
+                                                  },
+                                                ),
+                                                SizedBox(width: 16),
+                                                InkWell(
+                                                  child: _stars >= 3
+                                                      ? SvgPicture.asset(
+                                                          "assets/images/star_select.svg")
+                                                      : SvgPicture.asset(
+                                                          "assets/images/star_unselect.svg"),
+                                                  onTap: () {
+                                                    setState(() {
+                                                      _stars = 3;
+                                                    });
+                                                  },
+                                                ),
+                                                SizedBox(width: 16),
+                                                InkWell(
+                                                  child: _stars >= 4
+                                                      ? SvgPicture.asset(
+                                                          "assets/images/star_select.svg")
+                                                      : SvgPicture.asset(
+                                                          "assets/images/star_unselect.svg"),
+                                                  onTap: () {
+                                                    setState(() {
+                                                      _stars = 4;
+                                                    });
+                                                  },
+                                                ),
+                                                SizedBox(width: 16),
+                                                InkWell(
+                                                  child: _stars >= 5
+                                                      ? SvgPicture.asset(
+                                                          "assets/images/star_select.svg")
+                                                      : SvgPicture.asset(
+                                                          "assets/images/star_unselect.svg"),
+                                                  onTap: () {
+                                                    setState(() {
+                                                      _stars = 5;
+                                                    });
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 93,
+                                            decoration: BoxDecoration(
+                                                color: AppTheme.auth_login,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: AppTheme.auth_border,
+                                                    width: 1)),
+                                            margin: EdgeInsets.only(
+                                                left: 16, right: 16, top: 24),
+                                            child: TextField(
+                                              keyboardType:
+                                                  TextInputType.multiline,
+                                              maxLines: 3,
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRoboto,
+                                                fontStyle: FontStyle.normal,
+                                                fontWeight: FontWeight.normal,
+                                                color: AppTheme.black_text,
+                                                fontSize: 16,
+                                              ),
+                                              controller: commentController,
+                                              decoration: InputDecoration(
+                                                hintText: translate(
+                                                    "dialog_rat.comment"),
+                                                hintStyle: TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 16,
+                                                  fontStyle: FontStyle.normal,
+                                                  fontFamily:
+                                                      AppTheme.fontRoboto,
+                                                  color: AppTheme.grey,
+                                                ),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10)),
+                                                  borderSide: BorderSide(
+                                                    width: 1,
+                                                    color: AppTheme.grey
+                                                        .withOpacity(0.001),
+                                                  ),
+                                                ),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(10),
+                                                  ),
+                                                  borderSide: BorderSide(
+                                                    width: 1,
+                                                    color: AppTheme.grey
+                                                        .withOpacity(0.001),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () async {
+                                              if (commentController
+                                                      .text.length >
+                                                  0) {
+                                                setState(() {
+                                                  loading = true;
+                                                });
+                                                Repository()
+                                                    .fetchOrderItemReview(
+                                                      commentController.text,
+                                                      _stars,
+                                                      value.data[0],
+                                                    )
+                                                    .then(
+                                                      (value) => {
+                                                        setState(() {
+                                                          loading = false;
+                                                        }),
+                                                        Navigator.of(context)
+                                                            .pop(),
+                                                      },
+                                                    );
+                                              }
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.only(
+                                                top: 24,
+                                                left: 16,
+                                                right: 16,
+                                                bottom: 16,
+                                              ),
+                                              height: 44,
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: AppTheme.blue_app_color,
+                                              ),
+                                              child: Center(
+                                                child: loading
+                                                    ? CircularProgressIndicator(
+                                                        value: null,
+                                                        strokeWidth: 3.0,
+                                                        valueColor:
+                                                            AlwaysStoppedAnimation<
+                                                                    Color>(
+                                                                AppTheme.white),
+                                                      )
+                                                    : Text(
+                                                        translate(
+                                                            "dialog_rat.send"),
+                                                        style: TextStyle(
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontFamily: AppTheme
+                                                              .fontRoboto,
+                                                          color: AppTheme.white,
+                                                          height: 1.29,
+                                                        ),
+                                                      ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        },
+                    },
+                  ),
+            }
+        });
   }
 
   void _notificationFirebase() {
@@ -83,11 +395,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-        // print("onMessage: $message");
-        // print("onMessage: $message");
-        // print("onMessage: $message");
-        //
-        // _notifiData(message);
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
