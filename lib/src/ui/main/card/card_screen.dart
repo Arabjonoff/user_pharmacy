@@ -8,6 +8,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
@@ -49,7 +50,7 @@ class _CardScreenState extends State<CardScreen> {
   var error = false;
   String error_text = "";
   bool isNext = false;
-
+  List<CheckErroData> errorData = new List();
   int minSum = 0;
 
   DatabaseHelper dataBase = new DatabaseHelper();
@@ -124,6 +125,16 @@ class _CardScreenState extends State<CardScreen> {
             isNext = true;
             allPrice.toInt() >= minSum ? isNext = true : isNext = false;
 
+            if (errorData.length > 0) {
+              for (int i = 0; i < errorData.length; i++) {
+                for (int j = 0; j < snapshot.data.length; j++) {
+                  if (errorData[i].drugId == snapshot.data[j].id) {
+                    snapshot.data[j].msg = errorData[i].msg;
+                  }
+                }
+              }
+            }
+
             return snapshot.data.length == 0
                 ? CardEmptyScreen()
                 : ListView(
@@ -147,7 +158,7 @@ class _CardScreenState extends State<CardScreen> {
                               );
                             },
                             child: Container(
-                              height: snapshot.data[index].sale ? 172 : 160,
+                              height: 160,
                               color: AppTheme.white,
                               child: Column(
                                 children: <Widget>[
@@ -244,30 +255,6 @@ class _CardScreenState extends State<CardScreen> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      snapshot.data[index].sale
-                                                          ? StrikeThroughWidget(
-                                                              child: Text(
-                                                                priceFormat.format(snapshot
-                                                                        .data[
-                                                                            index]
-                                                                        .price) +
-                                                                    translate(
-                                                                        "sum"),
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: AppTheme
-                                                                      .black_transparent_text,
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontFamily:
-                                                                      AppTheme
-                                                                          .fontRoboto,
-                                                                ),
-                                                              ),
-                                                            )
-                                                          : Container(),
                                                       Text(
                                                         priceFormat.format(
                                                                 snapshot
@@ -275,13 +262,8 @@ class _CardScreenState extends State<CardScreen> {
                                                                     .price) +
                                                             translate("sum"),
                                                         style: TextStyle(
-                                                          color: snapshot
-                                                                  .data[index]
-                                                                  .sale
-                                                              ? AppTheme
-                                                                  .red_text_sale
-                                                              : AppTheme
-                                                                  .black_text,
+                                                          color: AppTheme
+                                                              .black_text,
                                                           fontSize: 15,
                                                           fontWeight:
                                                               FontWeight.w600,
@@ -507,7 +489,10 @@ class _CardScreenState extends State<CardScreen> {
                                                               ),
                                                       ),
                                                       Expanded(
-                                                        child: Container(),
+                                                        child: Container(
+                                                          child: Text(snapshot
+                                                              .data[index].msg),
+                                                        ),
                                                       ),
                                                       GestureDetector(
                                                         child: snapshot
@@ -763,6 +748,9 @@ class _CardScreenState extends State<CardScreen> {
                                                   setState(() {
                                                     error = true;
                                                     loading = false;
+                                                    errorData = new List();
+                                                    errorData
+                                                        .addAll(value.errors);
                                                     error_text = value.msg;
                                                   }),
                                                 }
@@ -884,27 +872,6 @@ class _CardScreenState extends State<CardScreen> {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class StrikeThroughWidget extends StatelessWidget {
-  final Widget _child;
-
-  StrikeThroughWidget({Key key, @required Widget child})
-      : this._child = child,
-        super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: _child,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/red.png'),
-          fit: BoxFit.fitWidth,
-        ),
       ),
     );
   }

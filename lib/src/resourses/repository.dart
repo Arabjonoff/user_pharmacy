@@ -19,6 +19,7 @@ import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/chat/chat_api_model.dart';
+import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/note/note_data_model.dart';
@@ -187,7 +188,7 @@ class Repository {
   Future<LoginModel> fetchSentMessage(String message) =>
       pharmacyApiProvider.fetchSentMessage(message);
 
-  Future<CheckError> fetchCheckError(
+  Future<CheckErrorModel> fetchCheckError(
           AccessStore accessStore, String language) =>
       pharmacyApiProvider.fetchCheckError(accessStore, language);
 
@@ -202,8 +203,9 @@ class Repository {
   Future<CheckVersion> fetchSendRating(String comment, int rating) =>
       pharmacyApiProvider.fetchSendRating(comment, rating);
 
-  Future<CheckVersion> fetchOrderItemReview(String comment, int rating,int orderId) =>
-      pharmacyApiProvider.fetchOrderItemReview(comment, rating,orderId);
+  Future<CheckVersion> fetchOrderItemReview(
+          String comment, int rating, int orderId) =>
+      pharmacyApiProvider.fetchOrderItemReview(comment, rating, orderId);
 
   Future<GetReviewModel> fetchGetNoReview() =>
       pharmacyApiProvider.fetchGetNoReview();

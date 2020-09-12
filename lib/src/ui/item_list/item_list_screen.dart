@@ -535,9 +535,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                     );
                                   },
                                   child: Container(
-                                    height: snapshot.data.results[index].sale
-                                        ? 172
-                                        : 160,
+                                    height: 160,
                                     color: AppTheme.white,
                                     child: Column(
                                       children: <Widget>[
@@ -730,7 +728,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                         .black_text,
                                                                     fontSize:
                                                                         15,
-                                                                    height: 1.33,
+                                                                    height:
+                                                                        1.33,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w600,
@@ -759,7 +758,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                             .red_fav_color,
                                                                         fontSize:
                                                                             15,
-                                                                            height: 1.33,
+                                                                        height:
+                                                                            1.33,
                                                                         fontWeight:
                                                                             FontWeight.w600,
                                                                         fontFamily:
@@ -780,7 +780,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                               FontStyle.normal,
                                                                           fontSize:
                                                                               11,
-                                                                              height: 1.75,
+                                                                          height:
+                                                                              1.75,
                                                                           fontWeight:
                                                                               FontWeight.w600,
                                                                           color:

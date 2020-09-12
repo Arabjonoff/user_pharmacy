@@ -18,6 +18,7 @@ import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/chat/chat_api_model.dart';
+import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/payment_verfy.dart';
 import 'package:pharmacy/src/model/review/get_review.dart';
@@ -592,9 +593,9 @@ class PharmacyApiProvider {
   }
 
   ///items
-  Future<CheckError> fetchCheckError(
+  Future<CheckErrorModel> fetchCheckError(
       AccessStore accessStore, String language) async {
-    String url = Utils.BASE_URL + '/api/v1/check-error?lang=$language';
+    String url = Utils.BASE_URL + '/api/v1/check-error?lan=$language';
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
@@ -612,7 +613,7 @@ class PharmacyApiProvider {
     String reply = await response.transform(utf8.decoder).join();
     final Map parsed = json.decode(reply);
 
-    return CheckError.fromJson(parsed);
+    return CheckErrorModel.fromJson(parsed);
   }
 
   ///items

@@ -42,7 +42,7 @@ class _ItemViewState extends State<ItemView> {
         );
       },
       child: Container(
-        height: widget.item.sale ? 172 : 160,
+        height: 160,
         color: AppTheme.white,
         child: Column(
           children: <Widget>[
@@ -121,29 +121,11 @@ class _ItemViewState extends State<ItemView> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                widget.item.sale
-                                    ? StrikeThroughWidget(
-                                        child: Text(
-                                          priceFormat
-                                                  .format(widget.item.price) +
-                                              translate("sum"),
-                                          style: TextStyle(
-                                            color:
-                                                AppTheme.black_transparent_text,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: AppTheme.fontRoboto,
-                                          ),
-                                        ),
-                                      )
-                                    : Container(),
                                 Text(
                                   priceFormat.format(widget.item.price) +
                                       translate("sum"),
                                   style: TextStyle(
-                                    color: widget.item.sale
-                                        ? AppTheme.red_text_sale
-                                        : AppTheme.black_text,
+                                    color:  AppTheme.black_text,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
                                     fontFamily: AppTheme.fontRoboto,
