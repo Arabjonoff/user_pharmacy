@@ -179,6 +179,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                     ),
                                     Text(
                                       fullName,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         fontSize: 17,
                                         fontFamily: AppTheme.fontRoboto,

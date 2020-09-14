@@ -662,8 +662,6 @@ class PharmacyApiProvider {
     SendAllReviewModel verfy =
         new SendAllReviewModel(comment: comment, rating: rating);
 
-    print(json.encode(verfy));
-
     HttpClient httpClient = new HttpClient();
     httpClient
       ..badCertificateCallback =
@@ -675,10 +673,8 @@ class PharmacyApiProvider {
     request.write(json.encode(verfy));
     HttpClientResponse response = await request.close();
 
-
     String reply = await response.transform(utf8.decoder).join();
     final Map parsed = json.decode(reply);
-    print(reply);
     return CheckVersion.fromJson(parsed);
   }
 

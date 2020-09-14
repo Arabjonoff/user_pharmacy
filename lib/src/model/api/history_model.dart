@@ -37,6 +37,7 @@ class HistoryResults {
   DateTime endShiptime;
   double deliveryTotal;
   PaymentType paymentType;
+  Store store;
   String createdAt;
   double total;
   double realTotal;
@@ -53,6 +54,7 @@ class HistoryResults {
       this.endShiptime,
       this.deliveryTotal,
       this.paymentType,
+      this.store,
       this.createdAt,
       this.total,
       this.realTotal,
@@ -82,6 +84,9 @@ class HistoryResults {
     paymentType = json['payment_type'] != null
         ? new PaymentType.fromJson(json['payment_type'])
         : null;
+    store = json['store'] != null
+        ? new Store.fromJson(json['store'])
+        : null;
     createdAt = json['created_at'];
     total = json['total'];
     realTotal = json['real_total'];
@@ -109,6 +114,9 @@ class HistoryResults {
     data['delivery_total'] = this.deliveryTotal;
     if (this.paymentType != null) {
       data['payment_type'] = this.paymentType.toJson();
+    }
+    if (this.store != null) {
+      data['store'] = this.store.toJson();
     }
     data['created_at'] = this.createdAt;
     data['total'] = this.total;
@@ -161,6 +169,42 @@ class PaymentType {
     data['id'] = this.id;
     data['name'] = this.name;
     data['type'] = this.type;
+    return data;
+  }
+}
+
+class Store {
+  int id;
+  String name;
+  String address;
+  String phone;
+  String mode;
+  Location location;
+
+  Store(
+      {this.id, this.name, this.address, this.phone, this.mode, this.location});
+
+  Store.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    address = json['address'];
+    phone = json['phone'];
+    mode = json['mode'];
+    location = json['location'] != null
+        ? new Location.fromJson(json['location'])
+        : Location(type: "", coordinates: [0.0, 0.0]);
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['address'] = this.address;
+    data['phone'] = this.phone;
+    data['mode'] = this.mode;
+    if (this.location != null) {
+      data['location'] = this.location.toJson();
+    }
     return data;
   }
 }

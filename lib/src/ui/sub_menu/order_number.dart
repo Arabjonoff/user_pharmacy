@@ -6,7 +6,9 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
 
@@ -449,7 +451,180 @@ class _OrderNumberState extends State<OrderNumber> {
                 ],
               ),
             ),
-          )
+          ),
+          widget.item.type == "self"
+              ? Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  margin: EdgeInsets.only(
+                    right: 16,
+                    top: 24,
+                    left: 16,
+                  ),
+                  padding: EdgeInsets.all(12),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        widget.item.store.name,
+                        textAlign: TextAlign.start,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRoboto,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          fontStyle: FontStyle.normal,
+                          color: AppTheme.black_text,
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 12, right: 12, top: 8),
+                        width: double.infinity,
+                        child: Text(
+                          widget.item.store.address,
+                          textAlign: TextAlign.start,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRoboto,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 15,
+                            fontStyle: FontStyle.normal,
+                            color: AppTheme.black_text,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 12, right: 12, top: 17),
+                        child: Row(
+                          children: [
+                            Text(
+                              translate("map.work") + " : ",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12,
+                                fontStyle: FontStyle.normal,
+                                color: AppTheme.black_transparent_text,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 7,
+                            ),
+                            Expanded(
+                              child: Text(
+                                widget.item.store.mode,
+                                textAlign: TextAlign.start,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.normal,
+                                  color: AppTheme.black_text,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 12, right: 12, top: 12),
+                        child: Row(
+                          children: [
+                            Text(
+                              translate("auth.number_auth") + " : ",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12,
+                                fontStyle: FontStyle.normal,
+                                color: AppTheme.black_transparent_text,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 7,
+                            ),
+                            Expanded(
+                              child: Text(
+                                widget.item.store.phone,
+                                textAlign: TextAlign.start,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.normal,
+                                  color: AppTheme.blue_app_color,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 24),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: GestureDetector(
+                            onTap: () async {
+                              var pharmacyLat =
+                                  widget.item.store.location.coordinates[1];
+                              var pharmacyLng =
+                                  widget.item.store.location.coordinates[0];
+                              var url =
+                                  'http://maps.google.com/maps?saddr=$lat,$lng&daddr=$pharmacyLat,$pharmacyLng';
+                              if (await canLaunch(url)) {
+                                await launch(url);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              height: 44,
+                              margin: EdgeInsets.only(left: 16, right: 16),
+                              decoration: BoxDecoration(
+                                color: AppTheme.blue_app_color,
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  translate("map.maps"),
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    color: AppTheme.white,
+                                    fontFamily: AppTheme.fontRoboto,
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FontStyle.normal,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              : Container(),
         ],
       ),
     );
