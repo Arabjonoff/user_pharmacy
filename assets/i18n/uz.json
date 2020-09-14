@@ -263,9 +263,34 @@
     "rate": "Baholash"
   },
   "note": {
-    "title": "Прием лекарств",
-    "list": "Лекарства",
-    "one": "Расписание"
+    "screen_name": "Dori qabul qilish eslatmasi",
+    "title": "Dori qabul qilish",
+    "list": "Dori",
+    "one": "Jadval",
+    "add_notf": "Qabul qilishni qo'shish",
+    "name": "Nomi",
+    "reception": "Qabul qilish",
+    "time": "Qabul qilish vaqti",
+    "doza": "Dozasi",
+    "eda": "Ovqat",
+    "duration": "Qabul qilish davomiyligi",
+    "add": "Qo'shish",
+    "notf_title": "Dori qabul qilish vaqti:",
+    "drug": "Dori:",
+    "dozasi": "Dozasi:",
+    "prin": "Qabul qilindi",
+    "cancel": "O'tkazib yuborildi",
+    "one_title": "Sog'lom bo'lish vaqti!",
+    "one_message": "Doringizni qabul qiling. Samaradorlik - muntazamlikda!",
+    "next": "Qabulni o'tkazib yuborish",
+    "now": "Qabul qilish",
+    "delete": "O'chirish"
+  },
+  "dialog_rat": {
+    "title": "Xizmatimizni baholang",
+    "message": "Siz bergan baho xizmatimizni yaxshilash uchun yordam beradi.",
+    "comment": "Izoh",
+    "send": "Jo'natish"
   },
   "eda": {
     "empty": "Och qoringa",

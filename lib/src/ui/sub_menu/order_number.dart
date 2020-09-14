@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
@@ -454,7 +455,9 @@ class _OrderNumberState extends State<OrderNumber> {
           ),
           widget.item.type == "self"
               ? Container(
+                  height: 220,
                   decoration: BoxDecoration(
+                    color: AppTheme.white,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10),
@@ -473,21 +476,26 @@ class _OrderNumberState extends State<OrderNumber> {
                     right: 16,
                     top: 24,
                     left: 16,
+                    bottom: 16,
                   ),
-                  padding: EdgeInsets.all(12),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        widget.item.store.name,
-                        textAlign: TextAlign.start,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          fontStyle: FontStyle.normal,
-                          color: AppTheme.black_text,
+                      Container(
+                        margin: EdgeInsets.only(left: 12, right: 12, top: 12),
+                        width: double.infinity,
+                        child: Text(
+                          widget.item.store.name,
+                          textAlign: TextAlign.start,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRoboto,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            fontStyle: FontStyle.normal,
+                            color: AppTheme.black_text,
+                          ),
                         ),
                       ),
                       Container(
@@ -579,22 +587,40 @@ class _OrderNumberState extends State<OrderNumber> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 24),
                       Expanded(
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
+                        child: Center(
                           child: GestureDetector(
                             onTap: () async {
                               var pharmacyLat =
                                   widget.item.store.location.coordinates[1];
                               var pharmacyLng =
                                   widget.item.store.location.coordinates[0];
-                              var url =
-                                  'http://maps.google.com/maps?saddr=$lat,$lng&daddr=$pharmacyLat,$pharmacyLng';
-                              if (await canLaunch(url)) {
-                                await launch(url);
+
+                              if (lat == null && lng == null) {
+                                Position position = await Geolocator()
+                                    .getCurrentPosition(
+                                        desiredAccuracy:
+                                            LocationAccuracy.bestForNavigation);
+                                if (position.latitude != null &&
+                                    position.longitude != null) {
+                                  lat = position.latitude;
+                                  lng = position.longitude;
+                                  var url =
+                                      'http://maps.google.com/maps?saddr=$lat,$lng&daddr=$pharmacyLat,$pharmacyLng';
+                                  if (await canLaunch(url)) {
+                                    await launch(url);
+                                  } else {
+                                    throw 'Could not launch $url';
+                                  }
+                                }
                               } else {
-                                throw 'Could not launch $url';
+                                var url =
+                                    'http://maps.google.com/maps?saddr=$lat,$lng&daddr=$pharmacyLat,$pharmacyLng';
+                                if (await canLaunch(url)) {
+                                  await launch(url);
+                                } else {
+                                  throw 'Could not launch $url';
+                                }
                               }
                             },
                             child: Container(

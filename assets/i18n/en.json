@@ -263,9 +263,34 @@
     "rate": "Rate"
   },
   "note": {
-    "title": "Прием лекарств",
-    "list": "Лекарства",
-    "one": "Расписание"
+    "screen_name": "Reminder to take a medicine",
+    "title": "Medicine intake",
+    "list": "Medicine",
+    "one": "Schedule",
+    "add_notf": "Add an intake",
+    "name": "Name",
+    "reception": "Intake",
+    "time": "Time of the intake",
+    "doza": "Dosage",
+    "eda": "Meal",
+    "duration": "Duration of the intake",
+    "add": "Add",
+    "notf_title": "Time to take a medicine:",
+    "drug": "Medicine:",
+    "dozasi": "Dose:",
+    "prin": "Accepted",
+    "cancel": "Missed",
+    "one_title": "Time to be healthy!",
+    "one_message": "Take your medicine. Efficiency is in the regularity!",
+    "next": "Skip the intake",
+    "now": "Accept",
+    "delete": "Delete"
+  },
+  "dialog_rat": {
+    "title": "Rate our service",
+    "message": "Your rating will help us to improve the quality of our service",
+    "comment": "Note",
+    "send": "Send"
   },
   "eda": {
     "empty": "Empty stomach",
