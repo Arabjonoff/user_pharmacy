@@ -29,7 +29,7 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
   TextEditingController nameController = TextEditingController();
 
   TextEditingController dozaController = TextEditingController();
-  TextEditingController edaController = TextEditingController(text: "");
+  TextEditingController edaController = TextEditingController();
   TextEditingController durationController = TextEditingController();
 
   DatabaseHelperNote dataBase = new DatabaseHelperNote();
@@ -48,8 +48,14 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  bool errorName = false;
+  bool errorDoza = false;
+  bool errorEda = false;
+  bool errorDuration = false;
+  bool errorTime = false;
+
   List<String> edaExamp = [
-    "",
+    "     ",
     translate("eda.empty"),
     translate("eda.before"),
     translate("eda.while"),
@@ -107,7 +113,9 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
                     borderRadius: BorderRadius.circular(10.0),
                     color: AppTheme.auth_login,
                     border: Border.all(
-                      color: AppTheme.auth_border,
+                      color: errorName
+                          ? AppTheme.red_fav_color
+                          : AppTheme.auth_border,
                       width: 1.0,
                     ),
                   ),
@@ -173,7 +181,9 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
                     borderRadius: BorderRadius.circular(10.0),
                     color: AppTheme.auth_login,
                     border: Border.all(
-                      color: AppTheme.auth_border,
+                      color: errorDoza
+                          ? AppTheme.red_fav_color
+                          : AppTheme.auth_border,
                       width: 1.0,
                     ),
                   ),
@@ -241,13 +251,15 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
                       borderRadius: BorderRadius.circular(10.0),
                       color: AppTheme.auth_login,
                       border: Border.all(
-                        color: AppTheme.auth_border,
+                        color: errorEda
+                            ? AppTheme.red_fav_color
+                            : AppTheme.auth_border,
                         width: 1.0,
                       ),
                     ),
                     child: Padding(
                       padding: EdgeInsets.only(
-                          top: 8, bottom: 8, left: 12, right: 12),
+                          top: 8, bottom: 8, left: 24, right: 12),
                       child: Row(
                         children: [
                           Expanded(
@@ -300,7 +312,9 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
                     borderRadius: BorderRadius.circular(10.0),
                     color: AppTheme.auth_login,
                     border: Border.all(
-                      color: AppTheme.auth_border,
+                      color: errorDuration
+                          ? AppTheme.red_fav_color
+                          : AppTheme.auth_border,
                       width: 1.0,
                     ),
                   ),
@@ -428,6 +442,7 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
                             hour: date.hour,
                             minute: date.minute,
                           ));
+                          errorTime = false;
                         });
                       },
                       currentTime: DateTime.now(),
@@ -441,7 +456,10 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
                         color: AppTheme.white,
                         borderRadius: BorderRadius.circular(8.0),
                         border: Border.all(
-                            color: AppTheme.blue_app_color, width: 1)),
+                            color: errorTime
+                                ? AppTheme.red_fav_color
+                                : AppTheme.blue_app_color,
+                            width: 1)),
                     child: Icon(
                       Icons.add,
                       color: AppTheme.blue_app_color,
@@ -454,65 +472,95 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
           ),
           GestureDetector(
             onTap: () {
-              if (nameController.text.isNotEmpty &&
-                  dozaController.text.isNotEmpty &&
-                  edaController.text.isNotEmpty &&
-                  durationController.text.isNotEmpty) {
-                var groupName =
-                    (DateTime.now().millisecondsSinceEpoch / 1000).toString();
-                var time = DateTime(DateTime.now().year, DateTime.now().month,
-                    DateTime.now().day);
+              if (nameController.text.isNotEmpty) {
+                if (dozaController.text.isNotEmpty) {
+                  if (edaController.text.isNotEmpty) {
+                    if (durationController.text.isNotEmpty) {
+                      if (timeList.length > 0) {
+                        var groupName =
+                            (DateTime.now().millisecondsSinceEpoch / 1000)
+                                .toString();
+                        var time = DateTime(DateTime.now().year,
+                            DateTime.now().month, DateTime.now().day);
 
-                var times = "";
-                for (int i = 0; i < timeList.length; i++) {
-                  if (i != timeList.length - 1)
-                    times += _toTwoDigitString(timeList[i].hour) +
-                        ":" +
-                        _toTwoDigitString(timeList[i].minute).toString() +
-                        ", ";
-                  else
-                    times += _toTwoDigitString(timeList[i].hour) +
-                        ":" +
-                        _toTwoDigitString(timeList[i].minute).toString();
-                }
+                        var times = "";
+                        for (int i = 0; i < timeList.length; i++) {
+                          if (i != timeList.length - 1)
+                            times += _toTwoDigitString(timeList[i].hour) +
+                                ":" +
+                                _toTwoDigitString(timeList[i].minute)
+                                    .toString() +
+                                ", ";
+                          else
+                            times += _toTwoDigitString(timeList[i].hour) +
+                                ":" +
+                                _toTwoDigitString(timeList[i].minute)
+                                    .toString();
+                        }
 
-                for (int j = 0; j < int.parse(durationController.text); j++) {
-                  for (int i = 0; i < timeList.length; i++) {
-                    dataBase
-                        .saveProducts(
-                          NoteModel(
-                            name: nameController.text.toString(),
-                            doza: dozaController.text.toString(),
-                            eda: edaController.text.toString(),
-                            time: times,
-                            groupsName: groupName,
-                            dateItem: time
-                                .add(Duration(
-                                  days: j,
-                                  hours: timeList[i].hour,
-                                  minutes: timeList[i].minute,
-                                ))
-                                .toString(),
-                            mark: 0,
-                          ),
-                        )
-                        .then((value) => {
-                              scheduleNotification(
-                                value,
-                                groupName,
-                                nameController.text.toString(),
-                                dozaController.text.toString(),
-                                time.add(Duration(
-                                  days: j,
-                                  hours: timeList[i].hour,
-                                  minutes: timeList[i].minute,
-                                )),
-                              ),
-                            });
+                        for (int j = 0;
+                            j < int.parse(durationController.text);
+                            j++) {
+                          for (int i = 0; i < timeList.length; i++) {
+                            dataBase
+                                .saveProducts(
+                                  NoteModel(
+                                    name: nameController.text.toString(),
+                                    doza: dozaController.text.toString(),
+                                    eda: edaController.text.toString(),
+                                    time: times,
+                                    groupsName: groupName,
+                                    dateItem: time
+                                        .add(Duration(
+                                          days: j,
+                                          hours: timeList[i].hour,
+                                          minutes: timeList[i].minute,
+                                        ))
+                                        .toString(),
+                                    mark: 0,
+                                  ),
+                                )
+                                .then((value) => {
+                                      scheduleNotification(
+                                        value,
+                                        groupName,
+                                        nameController.text.toString(),
+                                        dozaController.text.toString(),
+                                        time.add(Duration(
+                                          days: j,
+                                          hours: timeList[i].hour,
+                                          minutes: timeList[i].minute,
+                                        )),
+                                      ),
+                                    });
+                          }
+                        }
+
+                        Navigator.pop(context);
+                      } else {
+                        setState(() {
+                          errorTime = true;
+                        });
+                      }
+                    } else {
+                      setState(() {
+                        errorDuration = true;
+                      });
+                    }
+                  } else {
+                    setState(() {
+                      errorEda = true;
+                    });
                   }
+                } else {
+                  setState(() {
+                    errorDoza = true;
+                  });
                 }
-
-                Navigator.pop(context);
+              } else {
+                setState(() {
+                  errorName = true;
+                });
               }
             },
             child: Container(
