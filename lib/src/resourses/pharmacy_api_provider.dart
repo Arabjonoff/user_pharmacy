@@ -112,12 +112,15 @@ class PharmacyApiProvider {
 
   ///Sale
   Future<SaleModel> fetchSaleList() async {
-    String url = Utils.BASE_URL + '/api/v1/sales';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+    if (regionId == null) {
+      regionId = 1;
+    }
+
+    String url = Utils.BASE_URL + '/api/v1/sales?region=$regionId';
 
     HttpClient httpClient = new HttpClient();
-//    httpClient
-//      ..badCertificateCallback =
-//          (X509Certificate cert, String host, int port) => true;
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
     HttpClientResponse response = await request.close();
@@ -139,10 +142,17 @@ class PharmacyApiProvider {
     String price_min,
     String unit_ids,
   ) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+    if (regionId == null) {
+      regionId = 1;
+    }
+
     String url = Utils.BASE_URL +
         '/api/v1/drugs?'
             'is_home=1&'
             'page=$page&'
+            'region=$regionId&'
             'per_page=$per_page&'
             'international_name_ids=$international_name_ids&'
             'manufacturer_ids=$manufacturer_ids&'
@@ -167,7 +177,13 @@ class PharmacyApiProvider {
 
   ///category
   Future<CategoryModel> fetchCategoryList() async {
-    String url = Utils.BASE_URL + '/api/v1/categories';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+    if (regionId == null) {
+      regionId = 1;
+    }
+
+    String url = Utils.BASE_URL + '/api/v1/categories?region=$regionId';
 
     HttpClient httpClient = new HttpClient();
     httpClient
@@ -185,7 +201,13 @@ class PharmacyApiProvider {
 
   ///search
   Future<ItemModel> fetchSearchList(String obj) async {
-    String url = Utils.BASE_URL + '/api/v1/drugs?search=' + obj;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+    if (regionId == null) {
+      regionId = 1;
+    }
+
+    String url = Utils.BASE_URL + '/api/v1/drugs?search=$obj&region=$regionId';
 
     HttpClient httpClient = new HttpClient();
     httpClient
@@ -213,9 +235,16 @@ class PharmacyApiProvider {
     String price_min,
     String unit_ids,
   ) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+    if (regionId == null) {
+      regionId = 1;
+    }
+
     String url = Utils.BASE_URL +
         '/api/v1/drugs?'
             'page=$page&'
+            'region=$regionId&'
             'per_page=$per_page&'
             'category=$id&'
             'international_name_ids=$international_name_ids&'
@@ -251,9 +280,16 @@ class PharmacyApiProvider {
     String price_min,
     String unit_ids,
   ) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+    if (regionId == null) {
+      regionId = 1;
+    }
+
     String url = Utils.BASE_URL +
         '/api/v1/drugs?'
             'page=$page&'
+            'region=$regionId&'
             'per_page=$per_page&'
             'ids=$id&'
             'international_name_ids=$international_name_ids&'
@@ -289,9 +325,16 @@ class PharmacyApiProvider {
     String price_min,
     String unit_ids,
   ) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+    if (regionId == null) {
+      regionId = 1;
+    }
+
     String url = Utils.BASE_URL +
         '/api/v1/drugs?'
             'page=$page&'
+            'region=$regionId&'
             'per_page=$per_page&'
             'search=$obj&'
             'international_name_ids=$international_name_ids&'
@@ -318,7 +361,14 @@ class PharmacyApiProvider {
 
   ///items
   Future<ItemsAllModel> fetchItems(String id) async {
-    String url = Utils.BASE_URL + '/api/v1/drugs/' + id.toString();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+    if (regionId == null) {
+      regionId = 1;
+    }
+
+
+    String url = Utils.BASE_URL + '/api/v1/drugs/$id?region=$regionId';
 
     HttpClient httpClient = new HttpClient();
     httpClient

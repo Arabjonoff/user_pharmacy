@@ -144,90 +144,167 @@ class _RegionScreenState extends State<RegionScreen> {
               itemCount: users.length,
               scrollDirection: Axis.vertical,
               itemBuilder: (context, index) {
-                return Container(
-                  height: 60,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      GestureDetector(
+                return users[index].childs.length == 0
+                    ? GestureDetector(
                         onTap: () async {
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
                           prefs.setString("city", users[index].name);
+                          prefs.setInt("cityId", users[index].id);
                           prefs.commit();
                           Navigator.pop(context);
                         },
                         child: Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.only(
-                              top: 9, bottom: 2, left: 12, right: 12),
-                          child: Text(
-                            users[index].name,
-                            style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: AppTheme.fontRoboto,
-                              fontSize: 15,
-                              color: AppTheme.black_text,
-                            ),
+                          color: AppTheme.white,
+                          height: 60,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  width: double.infinity,
+                                  margin: EdgeInsets.only(left: 16, right: 16),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      users[index].name,
+                                      style: TextStyle(
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: AppTheme.fontRoboto,
+                                        fontSize: 15,
+                                        color: AppTheme.black_text,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                height: 1,
+                                color: AppTheme.black_linear_category,
+                              )
+                            ],
                           ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-                          prefs.setString("city", users[index].name);
-                          prefs.commit();
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.only(left: 12, right: 12),
-                          child: Text(
-                            users[index].parentName,
-                            style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: AppTheme.fontRoboto,
-                              fontSize: 13,
-                              color: AppTheme.black_transparent_text,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () async {
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            prefs.setString("city", users[index].name);
-                            prefs.commit();
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            width: double.infinity,
-                            child: Text(
-                              users[index].parentName,
-                              style: TextStyle(
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: AppTheme.fontRoboto,
-                                fontSize: 13,
-                                color: AppTheme.white,
+                      )
+                    : Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () async {
+                              setState(() {
+                                if (users[index].isOpen == null ||
+                                    users[index].isOpen == false) {
+                                  users[index].isOpen = true;
+                                } else {
+                                  users[index].isOpen = false;
+                                }
+                              });
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 16, right: 16),
+                              color: AppTheme.white,
+                              height: 60,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      users[index].name,
+                                      style: TextStyle(
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: AppTheme.fontRoboto,
+                                        fontSize: 15,
+                                        color: AppTheme.black_text,
+                                      ),
+                                    ),
+                                  ),
+                                  Icon(
+                                    users[index].isOpen == null
+                                        ? Icons.keyboard_arrow_down
+                                        : users[index].isOpen
+                                            ? Icons.keyboard_arrow_up
+                                            : Icons.keyboard_arrow_down,
+                                    size: 24,
+                                    color: AppTheme.black_text,
+                                  )
+                                ],
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: 1,
-                        color: AppTheme.black_linear_category,
-                      )
-                    ],
-                  ),
-                );
+                          (users[index].isOpen == null ||
+                                  users[index].isOpen == false)
+                              ? Container()
+                              : ListView.builder(
+                                  itemCount: users[index].childs.length,
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  itemBuilder: (context, position) {
+                                    return GestureDetector(
+                                      onTap: () async {
+                                        SharedPreferences prefs =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        prefs.setString("city",
+                                            users[index].childs[position].name);
+                                        prefs.setInt("cityId",
+                                            users[index].childs[position].id);
+                                        prefs.commit();
+                                        Navigator.pop(context);
+                                      },
+                                      child: Container(
+                                        color: Colors.black.withOpacity(0.05),
+                                        height: 60,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              height: 1,
+                                              color: AppTheme
+                                                  .black_linear_category,
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                width: double.infinity,
+                                                margin: EdgeInsets.only(
+                                                    left: 24, right: 24),
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Text(
+                                                    users[index]
+                                                        .childs[position]
+                                                        .name,
+                                                    style: TextStyle(
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontFamily:
+                                                          AppTheme.fontRoboto,
+                                                      fontSize: 15,
+                                                      color:
+                                                          AppTheme.black_text,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                          Container(
+                            height: 1,
+                            color: AppTheme.black_linear_category,
+                          )
+                        ],
+                      );
               },
             ),
           )

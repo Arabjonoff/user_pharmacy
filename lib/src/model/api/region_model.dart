@@ -11,21 +11,27 @@ class RegionModel {
     this.id,
     this.name,
     this.parentName,
+    this.childs,
   });
 
   int id;
   String name;
   String parentName;
+  List<RegionModel> childs;
+  bool isOpen;
 
   factory RegionModel.fromJson(Map<String, dynamic> json) => RegionModel(
         id: json["id"],
         name: json["name"] == null ? "" : json["name"],
         parentName: json["parent_name"] == null ? "" : json["parent_name"],
+        childs: List<RegionModel>.from(
+            json["childs"].map((x) => RegionModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "parent_name": parentName,
+        "childs": List<dynamic>.from(childs.map((x) => x.toJson())),
       };
 }
