@@ -166,7 +166,9 @@ class NotificationScreenState extends State<NotificationScreen> {
                   Container(
                     margin: EdgeInsets.only(left: 16, right: 16),
                     child: Text(
-                      fullName + ", " + translate("note.one_title"),
+                      fullName == ""
+                          ? translate("note.one_title")
+                          : fullName + ", " + translate("note.one_title"),
                       style: TextStyle(
                           fontFamily: AppTheme.fontRoboto,
                           fontWeight: FontWeight.w600,
