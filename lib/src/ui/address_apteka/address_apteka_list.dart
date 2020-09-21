@@ -33,6 +33,7 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
           if (snapshot.hasData) {
             return ListView.builder(
               itemCount: snapshot.data.length,
+              padding: EdgeInsets.only(bottom: 56),
               itemBuilder: (context, index) {
                 return Container(
                   margin: EdgeInsets.only(top: 16, left: 12, right: 12),

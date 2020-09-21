@@ -820,7 +820,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     height: 25,
                     width: 25,
                     child: Center(
-                      child: SvgPicture.asset("assets/images/language.svg"),
+                      child: SvgPicture.asset("assets/images/message_square.svg"),
                     ),
                   ),
                   SizedBox(width: 15),

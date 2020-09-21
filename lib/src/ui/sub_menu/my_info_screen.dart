@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:flutter_translate/localized_app.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/database/database_helper_apteka.dart';
 import 'package:pharmacy/src/database/database_helper_history.dart';
@@ -143,7 +144,10 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                             ),
                           ),
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            var localizationDelegate =
+                                LocalizedApp.of(context).delegate;
+                            localizationDelegate.changeLocale(Locale("ru"));
+                            Navigator.pop(context, 'ru');
                             RxBus.post(BottomView(true), tag: "MENU_VIEW");
                             dbApteka.clear();
                             dbAddress.clear();

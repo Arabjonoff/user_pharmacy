@@ -120,13 +120,14 @@
     "faq": "FAQ",
     "faq_about": "questions and answers",
     "enter": "Sign in",
-    "me_info": "Your info",
+    "me_info": "Account details",
     "logout": "Logout",
-    "exit_title": "Exit",
-    "exit_message": "Do you want to exit now?",
+    "exit_title": "Logout",
+    "exit_message": "Do you want to logout now?",
     "exit_yes": "Yes",
     "exit_no": "No",
-    "number": "Call center:  +998 71 205 08 88"
+    "number": "Call center:  +998 71 205 08 88",
+    "rating": "Feedback"
   },
   "dialog": {
     "enter": "Sign in",
@@ -201,7 +202,7 @@
     "work": "Working time",
     "maps": "Show a route",
     "lov_apt_mes": "No favorite pharmacies yet",
-    "lov_apt_title": "Choose pharmacies for easy and fast search",
+    "lov_apt_title": "Choose pharmacies for an easy and fast search",
     "lov_apt_cat": "Choose favorite pharmacies",
     "tab_one": "Map",
     "tab_two": "List"

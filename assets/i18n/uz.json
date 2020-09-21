@@ -23,14 +23,14 @@
   "notSaveCard": "Bu kartani saqlash mumkin emas",
   "fast": "Tezda",
   "or": "yoki",
-  "save": "saqlash",
+  "save": "Saqlash",
   "error_distanse": "Mumkin emas",
   "pharmacy_title": "Dorixonalar",
   "main": {
     "home": "Asosiy",
     "catalog": "Katalog",
     "card": "Savatcha",
-    "favourite": "Sevimli",
+    "favourite": "Sevimlilar",
     "menu": "Menyu"
   },
   "home": {
@@ -126,7 +126,8 @@
     "exit_message": "Dasturdan chiqmochimisiz?",
     "exit_yes": "Ha",
     "exit_no": "Yo'q",
-    "number": "Qo'ngiroq markazi: +998 71 205 08 88"
+    "number": "Qo'ngiroq markazi: +998 71 205 08 88",
+    "rating": "Fikr-mulohazalar"
   },
   "dialog": {
     "enter": "Kirish",
@@ -183,7 +184,7 @@
     "verfy": "Tekshirish kodi",
     "data": "Ma'lumotlaringiz",
     "name": "Ism*",
-    "sur_name": "Familya*",
+    "sur_name": "Familiya*",
     "birthday": "Tug'ilgan kun*",
     "number_auth": "Telefon",
     "male": "Erkak",
