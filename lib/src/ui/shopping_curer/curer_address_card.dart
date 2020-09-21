@@ -45,6 +45,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
   int shippingId;
   int id;
   String myAddress;
+  bool isAddress = false;
 
   bool error = false;
   bool loading = false;
@@ -55,6 +56,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
   @override
   void initState() {
     _getLanguage();
+    isAddress = widget.isAddress;
     super.initState();
   }
 
@@ -257,11 +259,12 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                           ),
                         );
                       } else {
-                        if (widget.isAddress) {
+                        if (isAddress) {
                           myAddress = data[data.length - 1].street;
                           chooseLat = double.parse(data[data.length - 1].lat);
                           chooseLng = double.parse(data[data.length - 1].lng);
                           id = data[data.length - 1].id;
+                          isAddress = false;
                         }
                       }
                       return snapshot.data.length > 0
@@ -324,48 +327,46 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                           : Container();
                     },
                   ),
-                  Container(
-                    height: 21,
-                    margin: EdgeInsets.only(
-                        left: 25, right: 16, top: 25, bottom: 25),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 21,
-                          width: 21,
-                          child: Icon(
-                            Icons.add_circle_outline,
-                            color: AppTheme.blue_app_color,
-                          ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.fade,
+                          child: MapAddressScreen(),
                         ),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushReplacement(
-                                context,
-                                PageTransition(
-                                  type: PageTransitionType.fade,
-                                  child: MapAddressScreen(),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              height: 21,
-                              margin: EdgeInsets.only(left: 25),
-                              child: Text(
-                                translate("orders.new_address"),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 15,
-                                  color: AppTheme.blue_app_color,
-                                ),
-                              ),
+                      );
+                    },
+                    child: Container(
+                      height: 31,
+                      color: AppTheme.white,
+                      margin: EdgeInsets.only(
+                          left: 25, right: 16, top: 20, bottom: 20),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 21,
+                            width: 21,
+                            child: Icon(
+                              Icons.add_circle_outline,
+                              color: AppTheme.blue_app_color,
                             ),
                           ),
-                        )
-                      ],
+                          SizedBox(width: 25),
+                          Text(
+                            translate("orders.new_address"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 15,
+                              color: AppTheme.blue_app_color,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Container(

@@ -402,6 +402,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                       );
                     },
                     child: Container(
+                      height: 55,
                       color: AppTheme.white,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -449,6 +450,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                       );
                     },
                     child: Container(
+                      height: 55,
                       color: AppTheme.white,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
