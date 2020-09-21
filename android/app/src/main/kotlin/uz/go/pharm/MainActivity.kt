@@ -1,14 +1,17 @@
 package uz.go.pharm
 
-import android.content.ContentResolver
-import android.content.Context
-import android.media.RingtoneManager
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.util.Base64
+import android.util.Log
 import androidx.annotation.NonNull
 import com.yandex.mapkit.MapKitFactory
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 
 class MainActivity : FlutterActivity() {
