@@ -133,24 +133,24 @@ class _ItemListScreenState extends State<ItemListScreen> {
     super.dispose();
   }
 
-  String radioItem = 'По названиею (А-Я)';
+  String radioItem = translate("item.sort_one");
 
   List<RadioGroup> fList = [
     RadioGroup(
       index: 1,
-      name: "По названиею (А-Я)",
+      name: translate("item.sort_one"),
     ),
     RadioGroup(
       index: 2,
-      name: "По названиею (Я-А)",
+      name: translate("item.sort_two"),
     ),
     RadioGroup(
       index: 3,
-      name: "По цене (по возрастанию)",
+      name: translate("item.sort_three"),
     ),
     RadioGroup(
       index: 4,
-      name: "По цене (по убыванию)",
+      name: translate("item.sort_four"),
     ),
   ];
 

@@ -25,6 +25,7 @@
   "or": "or",
   "save": "save",
   "error_distanse": "Impossible",
+  "pharmacy_title": "Pharmacies",
   "main": {
     "home": "Home",
     "catalog": "Catalog",
@@ -55,6 +56,10 @@
     "buy": "Pay",
     "sht": "pcs.",
     "sort": "By name",
+    "sort_one": "By name (A-Z)",
+    "sort_two": "By name (Z-A)",
+    "sort_three": "By price (ascending)",
+    "sort_four": "By price (descending)",
     "filter": "Filter",
     "card": "Add to cart",
     "tovar": "products",

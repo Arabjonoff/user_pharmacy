@@ -25,6 +25,7 @@
   "or": "yoki",
   "save": "saqlash",
   "error_distanse": "Mumkin emas",
+  "pharmacy_title": "Dorixonalar",
   "main": {
     "home": "Asosiy",
     "catalog": "Katalog",
@@ -55,6 +56,10 @@
     "buy": "To'lov qilish",
     "sht": "dona",
     "sort": "Nomi bo'yicha",
+    "sort_one": "Nomi bo'yicha (A-Z)",
+    "sort_two": "Nomi bo'yicha (Z-A)",
+    "sort_three": "Narxi (ko'payish)",
+    "sort_four": "Narxi (kamayish)",
     "filter": "Filtr",
     "card": "Savatga qo'shish",
     "tovar": "mahsulot",
