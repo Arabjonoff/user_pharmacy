@@ -54,8 +54,6 @@ class BottomDialog {
   }
 
   static void createBottomSheetRating(BuildContext context) async {
-
-
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -117,67 +115,45 @@ class BottomDialog {
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.downToUp,
-                            child: LoginScreen(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: AppTheme.blue_app_color,
-                        ),
-                        height: 44,
-                        width: double.infinity,
-                        margin: EdgeInsets.only(
-                          top: 16,
-                          bottom: 30,
-                          left: 16,
-                          right: 16,
-                        ),
-                        child: Center(
-                          child: Text(
-                            translate("dialog.enter"),
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontFamily: AppTheme.fontRoboto,
-                              fontSize: 17,
-                              color: AppTheme.white,
+                    Expanded(
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.downToUp,
+                                child: LoginScreen(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: AppTheme.blue_app_color,
+                            ),
+                            height: 44,
+                            width: double.infinity,
+                            margin: EdgeInsets.only(
+                              top: 16,
+                              bottom: 30,
+                              left: 16,
+                              right: 16,
+                            ),
+                            child: Center(
+                              child: Text(
+                                translate("dialog.enter"),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontSize: 17,
+                                  color: AppTheme.white,
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.downToUp,
-                            child: LoginScreen(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        child: Text(
-                          translate("dialog.register"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
-                            fontSize: 13,
-                            fontWeight: FontWeight.normal,
-                            fontStyle: FontStyle.normal,
-                            color: AppTheme.blue_app_color,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(),
                     ),
                     Container(
                       width: double.infinity,
@@ -193,20 +169,31 @@ class BottomDialog {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 8),
-                      child: Text(
-                        translate("dialog.danniy"),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppTheme.blue_app_color,
-                          fontFamily: AppTheme.fontRoboto,
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 11,
+                    GestureDetector(
+                      onTap: () async {
+                        var url = 'https://api.gopharm.uz/privacy';
+                        if (await canLaunch(url)) {
+                        await launch(url);
+                        } else {
+                        throw 'Could not launch $url';
+                        }
+                      },
+                      child:Container(
+                        margin: EdgeInsets.only(bottom: 16),
+                        child: Text(
+                          translate("dialog.danniy"),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: AppTheme.blue_app_color,
+                            fontFamily: AppTheme.fontRoboto,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 11,
+                          ),
                         ),
                       ),
-                    ),
+                    )
+                    ,
                   ],
                 ),
               ),
