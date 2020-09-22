@@ -367,7 +367,6 @@ class PharmacyApiProvider {
       regionId = 1;
     }
 
-
     String url = Utils.BASE_URL + '/api/v1/drugs/$id?region=$regionId';
 
     HttpClient httpClient = new HttpClient();
@@ -709,18 +708,17 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
 
-    SendAllReviewModel verfy =
-        new SendAllReviewModel(comment: comment, rating: rating);
+    final data = {"comment": comment, "rating": rating};
 
     HttpClient httpClient = new HttpClient();
     httpClient
       ..badCertificateCallback =
           ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
-    request.headers.set('Content-Type', 'application/json');
+    request.headers.set('Content-Type', 'application/json; charset=utf-8');
     if (token != null)
       request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
-    request.write(json.encode(verfy));
+    request.write(json.encode(data));
     HttpClientResponse response = await request.close();
 
     String reply = await response.transform(utf8.decoder).join();
@@ -758,8 +756,7 @@ class PharmacyApiProvider {
   ) async {
     String url = Utils.BASE_URL + '/api/v1/send-order-reviews';
 
-    SendReviewModel verfy =
-        new SendReviewModel(orderId: orderId, rating: rating, review: comment);
+    final data = {"review": comment, "rating": rating, "order_id": orderId};
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
@@ -769,9 +766,9 @@ class PharmacyApiProvider {
       ..badCertificateCallback =
           ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json');
+    request.headers.set('content-type', 'application/json; charset=utf-8');
     request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
-    request.write(json.encode(verfy));
+    request.write(json.encode(data));
     HttpClientResponse response = await request.close();
 
     String reply = await response.transform(utf8.decoder).join();

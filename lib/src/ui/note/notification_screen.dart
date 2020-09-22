@@ -4,6 +4,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/database/database_helper_note.dart';
 import 'package:pharmacy/src/model/note/note_data_model.dart';
+import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -197,6 +198,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                       ? GestureDetector(
                           onTap: () {
                             items.mark = 2;
+                            _cancelNotification(items.id);
                             databaseHelperNote.updateProduct(items);
                             Navigator.pop(context);
                           },
@@ -232,6 +234,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                       ? GestureDetector(
                           onTap: () {
                             items.mark = 1;
+                            _cancelNotification(items.id);
                             databaseHelperNote.updateProduct(items);
                             Navigator.pop(context);
                           },
@@ -270,6 +273,10 @@ class NotificationScreenState extends State<NotificationScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _cancelNotification(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
   }
 
   Future<void> getInfo() async {
