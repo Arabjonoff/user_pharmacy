@@ -141,6 +141,12 @@ class _MainScreenState extends State<MainScreen> {
               _selectedIndex = event.position;
             }));
 
+    RxBus.register<BottomViewIdsModel>(tag: "EVENT_BOTTOM_VIEW_LANGUAGE")
+        .listen((event) => setState(() {
+              var localizationDelegate = LocalizedApp.of(context).delegate;
+              localizationDelegate.changeLocale(Locale(event.position));
+            }));
+
     RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_ITEM_NOTF")
         .listen((event) => {
               Navigator.push(

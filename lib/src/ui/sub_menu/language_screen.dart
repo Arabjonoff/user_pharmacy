@@ -6,7 +6,9 @@ import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/src/database/database_helper_apteka.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app_theme.dart';
@@ -87,16 +89,22 @@ class _LanguageScreenState extends State<LanguageScreen> {
                   prefs.setString("language", "uz");
                   prefs.commit();
                   localizationDelegate.changeLocale(Locale("uz"));
+                  RxBus.post(BottomViewIdsModel("uz"),
+                      tag: "EVENT_BOTTOM_VIEW_LANGUAGE");
                   Navigator.pop(context, 'uz');
                 } else if (two) {
                   localizationDelegate.changeLocale(Locale("ru"));
                   prefs.setString("language", "ru");
                   prefs.commit();
+                  RxBus.post(BottomViewIdsModel("ru"),
+                      tag: "EVENT_BOTTOM_VIEW_LANGUAGE");
                   Navigator.pop(context, 'ru');
                 } else {
                   localizationDelegate.changeLocale(Locale("en"));
                   prefs.setString("language", "en");
                   prefs.commit();
+                  RxBus.post(BottomViewIdsModel("en"),
+                      tag: "EVENT_BOTTOM_VIEW_LANGUAGE");
                   Navigator.pop(context, 'en');
                 }
               },
