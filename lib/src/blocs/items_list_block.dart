@@ -274,6 +274,7 @@ class ItemListBloc {
     } else {
       for (var i = 0; i < usersBest.length; i++) {
         usersBest[i].cardCount = 0;
+        usersBest[i].favourite = false;
       }
     }
 
@@ -303,6 +304,7 @@ class ItemListBloc {
     } else {
       for (var i = 0; i < usersSearch.length; i++) {
         usersSearch[i].cardCount = 0;
+        usersSearch[i].favourite = false;
       }
     }
 
@@ -331,6 +333,7 @@ class ItemListBloc {
     } else {
       for (var i = 0; i < usersCategory.length; i++) {
         usersCategory[i].cardCount = 0;
+        usersCategory[i].favourite = false;
       }
     }
 
@@ -359,6 +362,7 @@ class ItemListBloc {
     } else {
       for (var i = 0; i < usersIds.length; i++) {
         usersIds[i].cardCount = 0;
+        usersIds[i].favourite = false;
       }
     }
 

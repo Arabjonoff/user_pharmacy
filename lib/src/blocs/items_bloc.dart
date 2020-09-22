@@ -46,11 +46,16 @@ class ItemBloc {
   fetchAllUpdate(int id) async {
     if (id == items.id) {
       List<ItemResult> database = await _repository.databaseItem();
-      for (var j = 0; j < database.length; j++) {
-        if (items.id == database[j].id) {
-          items.cardCount = database[j].cardCount;
-          items.favourite = database[j].favourite;
+      if (database.length > 0) {
+        for (var j = 0; j < database.length; j++) {
+          if (items.id == database[j].id) {
+            items.cardCount = database[j].cardCount;
+            items.favourite = database[j].favourite;
+          }
         }
+      } else {
+        items.cardCount = 0;
+        items.favourite = false;
       }
       for (var i = 0; i < items.analog.length; i++) {
         for (var j = 0; j < database.length; j++) {
