@@ -140,7 +140,7 @@
     "chechout": "Buyurtma berish",
     "productMethod": "Qabul qilib olish shakli",
     "pickup": "Olib ketish",
-    "courier": "Yetkazib beruvchi tomonidan",
+    "courier": "Yetkazib berish",
     "to_picup": "Olib ketuvchi shaxs",
     "from_which_store": "Qaysi dorixonadan olib ketasiz?",
     "your_data": "Yetkaziladigan shaxs",
@@ -174,7 +174,7 @@
     "comment": "Sharh",
     "save_address": "Shu manzilga yetkazish",
     "choose_address": "Manzilni kiriting",
-    "choose_time": "Vaqtni kiriting",
+    "choose_time": "Vaqtni tanlang",
     "free": "Bepul"
   },
   "auth": {

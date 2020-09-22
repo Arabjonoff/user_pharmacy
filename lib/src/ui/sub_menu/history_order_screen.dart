@@ -281,9 +281,11 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                                     .endShiptime.hour
                                                     .toString() +
                                                 ":" +
-                                                snapshot.data.results[index]
-                                                    .endShiptime.minute
-                                                    .toString(),
+                                                _toTwoDigitString(snapshot
+                                                    .data
+                                                    .results[index]
+                                                    .endShiptime
+                                                    .minute),
                                             style: TextStyle(
                                               fontFamily: AppTheme.fontRoboto,
                                               fontWeight: FontWeight.normal,
@@ -447,6 +449,10 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
         ),
       ),
     );
+  }
+
+  String _toTwoDigitString(int value) {
+    return value.toString().padLeft(2, '0');
   }
 
   void _getMoreData(int index) async {

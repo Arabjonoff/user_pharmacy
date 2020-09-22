@@ -53,7 +53,7 @@ class _OrderNumberState extends State<OrderNumber> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Заказ №" + widget.item.id.toString(),
+              "№" + widget.item.id.toString(),
               textAlign: TextAlign.start,
               style: TextStyle(
                 color: AppTheme.black_text,
@@ -310,7 +310,7 @@ class _OrderNumberState extends State<OrderNumber> {
                       ],
                     ),
                   ),
-                  Container(
+                  widget.item.type != "self"?  Container(
                     margin: EdgeInsets.only(left: 16, right: 16),
                     child: Text(
                       widget.item.type != "self"
@@ -324,8 +324,8 @@ class _OrderNumberState extends State<OrderNumber> {
                         color: AppTheme.black_text,
                       ),
                     ),
-                  ),
-                  Container(
+                  ):Container(),
+                  widget.item.type != "self"?Container(
                     margin: EdgeInsets.only(left: 16, right: 16, top: 2),
                     child: Text(
                       widget.item.address,
@@ -339,7 +339,7 @@ class _OrderNumberState extends State<OrderNumber> {
                       ),
                       maxLines: 2,
                     ),
-                  ),
+                  ):Container(),
                   Container(
                     height: 1,
                     color: AppTheme.black_linear_category,
