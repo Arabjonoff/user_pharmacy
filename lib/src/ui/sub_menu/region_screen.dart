@@ -20,6 +20,7 @@ class _RegionScreenState extends State<RegionScreen> {
   TextEditingController searchController = TextEditingController();
   bool isSearchText = false;
   String obj = "";
+  int cityId;
 
   List<RegionModel> users = new List();
 
@@ -164,19 +165,29 @@ class _RegionScreenState extends State<RegionScreen> {
                               Expanded(
                                 child: Container(
                                   width: double.infinity,
+                                  height: 59,
                                   margin: EdgeInsets.only(left: 16, right: 16),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      users[index].name,
-                                      style: TextStyle(
-                                        fontStyle: FontStyle.normal,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: AppTheme.fontRoboto,
-                                        fontSize: 15,
-                                        color: AppTheme.black_text,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          users[index].name,
+                                          style: TextStyle(
+                                            fontStyle: FontStyle.normal,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: AppTheme.fontRoboto,
+                                            fontSize: 15,
+                                            color: AppTheme.black_text,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      users[index].isChoose == null
+                                          ? Container()
+                                          : users[index].isChoose == false
+                                              ? Container()
+                                              : SvgPicture.asset(
+                                                  "assets/images/icon_region.svg"),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -253,46 +264,40 @@ class _RegionScreenState extends State<RegionScreen> {
                                         Navigator.pop(context);
                                       },
                                       child: Container(
-                                        color: Colors.black.withOpacity(0.05),
+                                        color: AppTheme.white,
                                         height: 60,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                        width: double.infinity,
+                                        margin: EdgeInsets.only(
+                                            left: 32, right: 16),
+                                        child: Row(
                                           children: [
-                                            Container(
-                                              height: 1,
-                                              color: AppTheme
-                                                  .black_linear_category,
-                                            ),
                                             Expanded(
-                                              child: Container(
-                                                width: double.infinity,
-                                                margin: EdgeInsets.only(
-                                                    left: 24, right: 24),
-                                                child: Align(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Text(
-                                                    users[index]
-                                                        .childs[position]
-                                                        .name,
-                                                    style: TextStyle(
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontFamily:
-                                                          AppTheme.fontRoboto,
-                                                      fontSize: 15,
-                                                      color:
-                                                          AppTheme.black_text,
-                                                    ),
-                                                  ),
+                                              child: Text(
+                                                users[index]
+                                                    .childs[position]
+                                                    .name,
+                                                style: TextStyle(
+                                                  fontStyle: FontStyle.normal,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily:
+                                                      AppTheme.fontRoboto,
+                                                  fontSize: 15,
+                                                  color: AppTheme.black_text,
                                                 ),
                                               ),
                                             ),
+                                            users[index]
+                                                        .childs[position]
+                                                        .isChoose ==
+                                                    null
+                                                ? Container()
+                                                : users[index]
+                                                            .childs[position]
+                                                            .isChoose ==
+                                                        false
+                                                    ? Container()
+                                                    : SvgPicture.asset(
+                                                        "assets/images/icon_region.svg")
                                           ],
                                         ),
                                       ),
@@ -316,7 +321,28 @@ class _RegionScreenState extends State<RegionScreen> {
   void _getMoreData() async {
     var response = Repository().fetchRegions(obj);
 
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // if (prefs.getInt("cityId") != null) {
+    //   cityId = prefs.getInt("cityId");
+    // }
     response.then((value) => {
+          // for (int i = 0; i < value.length; i++)
+          //   {
+          //     if (value[i].childs.length > 0)
+          //       {
+          //         for (int j = 0; j < value[i].childs.length; j++)
+          //           {
+          //             if (cityId == value[i].childs[j].id)
+          //               {
+          //                 value[i].isChoose = true,
+          //               }
+          //           }
+          //       }
+          //     else if (cityId == value[i].id)
+          //       {
+          //         value[i].isChoose = true,
+          //       }
+          //   },
           setState(() {
             users = new List();
             users = value;

@@ -137,106 +137,106 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
             Expanded(
               child: ListView(
                 children: [
+                  // Container(
+                  //   margin: EdgeInsets.only(
+                  //     left: 16,
+                  //   ),
+                  //   child: Text(
+                  //     translate("orders.productMethod"),
+                  //     style: TextStyle(
+                  //       fontWeight: FontWeight.w600,
+                  //       fontSize: 20,
+                  //       fontFamily: AppTheme.fontRoboto,
+                  //       fontStyle: FontStyle.normal,
+                  //       color: AppTheme.black_text,
+                  //     ),
+                  //   ),
+                  // ),
+                  // Container(
+                  //   height: 36,
+                  //   margin: EdgeInsets.only(
+                  //     right: 16,
+                  //     top: 24,
+                  //     left: 16,
+                  //   ),
+                  //   child: Row(
+                  //     children: [
+                  //       Expanded(
+                  //         child: GestureDetector(
+                  //           onTap: () {},
+                  //           child: Container(
+                  //             padding: EdgeInsets.only(left: 16),
+                  //             decoration: BoxDecoration(
+                  //               borderRadius: BorderRadius.circular(10.0),
+                  //               color: AppTheme.white,
+                  //               border: Border.all(
+                  //                 color: AppTheme.blue_app_color,
+                  //                 width: 2.0,
+                  //               ),
+                  //             ),
+                  //             height: 36,
+                  //             child: Align(
+                  //               alignment: Alignment.centerLeft,
+                  //               child: Text(
+                  //                 translate("orders.courier"),
+                  //                 style: TextStyle(
+                  //                   fontFamily: AppTheme.fontRoboto,
+                  //                   fontWeight: FontWeight.w600,
+                  //                   fontSize: 13,
+                  //                   color: AppTheme.black_text,
+                  //                   fontStyle: FontStyle.normal,
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       SizedBox(
+                  //         width: 15,
+                  //       ),
+                  //       Expanded(
+                  //         child: GestureDetector(
+                  //           onTap: () {
+                  //             Navigator.pushReplacement(
+                  //               context,
+                  //               PageTransition(
+                  //                 type: PageTransitionType.fade,
+                  //                 child: OrderCardPickupScreen(),
+                  //               ),
+                  //             );
+                  //           },
+                  //           child: Container(
+                  //             padding: EdgeInsets.only(left: 16),
+                  //             decoration: BoxDecoration(
+                  //               borderRadius: BorderRadius.circular(10.0),
+                  //               color: AppTheme.white,
+                  //               border: Border.all(
+                  //                 color: AppTheme.arrow_catalog,
+                  //                 width: 2.0,
+                  //               ),
+                  //             ),
+                  //             height: 36,
+                  //             child: Align(
+                  //               alignment: Alignment.centerLeft,
+                  //               child: Text(
+                  //                 translate("orders.pickup"),
+                  //                 style: TextStyle(
+                  //                   fontFamily: AppTheme.fontRoboto,
+                  //                   fontWeight: FontWeight.w600,
+                  //                   fontSize: 13,
+                  //                   color: AppTheme.black_text,
+                  //                   fontStyle: FontStyle.normal,
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   Container(
-                    margin: EdgeInsets.only(
-                      left: 16,
-                    ),
-                    child: Text(
-                      translate("orders.productMethod"),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                        fontFamily: AppTheme.fontRoboto,
-                        fontStyle: FontStyle.normal,
-                        color: AppTheme.black_text,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 36,
-                    margin: EdgeInsets.only(
-                      right: 16,
-                      top: 24,
-                      left: 16,
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              padding: EdgeInsets.only(left: 16),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: AppTheme.white,
-                                border: Border.all(
-                                  color: AppTheme.blue_app_color,
-                                  width: 2.0,
-                                ),
-                              ),
-                              height: 36,
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  translate("orders.courier"),
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontRoboto,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 13,
-                                    color: AppTheme.black_text,
-                                    fontStyle: FontStyle.normal,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushReplacement(
-                                context,
-                                PageTransition(
-                                  type: PageTransitionType.fade,
-                                  child: OrderCardPickupScreen(),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              padding: EdgeInsets.only(left: 16),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: AppTheme.white,
-                                border: Border.all(
-                                  color: AppTheme.arrow_catalog,
-                                  width: 2.0,
-                                ),
-                              ),
-                              height: 36,
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  translate("orders.pickup"),
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontRoboto,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 13,
-                                    color: AppTheme.black_text,
-                                    fontStyle: FontStyle.normal,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 30, left: 16, bottom: 24),
+                    margin: EdgeInsets.only(top: 24, left: 16, bottom: 24),
                     child: Text(
                       translate("address.delivery_address"),
                       style: TextStyle(

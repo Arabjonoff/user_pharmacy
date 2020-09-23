@@ -21,6 +21,7 @@ import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/curer_address_card.dart';
 import 'package:pharmacy/src/ui/shopping_curer/map_address_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
+import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shimmer/shimmer.dart';
@@ -46,7 +47,8 @@ class _CardScreenState extends State<CardScreen> {
   int count = 0;
   int allCount = 0;
   double allPrice = 0;
-  var loading = false;
+  var loadingPickup = false;
+  var loadingDelivery = false;
   var error = false;
   String error_text = "";
   bool isNext = false;
@@ -213,7 +215,7 @@ class _CardScreenState extends State<CardScreen> {
                                                   height: 18,
                                                 ),
                                                 Text(
-                                                  snapshot.data[index].name ,
+                                                  snapshot.data[index].name,
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: TextStyle(
@@ -250,32 +252,44 @@ class _CardScreenState extends State<CardScreen> {
                                                   ),
                                                 ),
                                                 Expanded(
-                                                  child: Column(
+                                                  child: Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
-                                                            .center,
+                                                            .start,
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
-                                                            .start,
+                                                            .center,
                                                     children: [
-                                                      Text(
-                                                        priceFormat.format(
-                                                                snapshot
-                                                                    .data[index]
-                                                                    .price) +
-                                                            translate("sum"),
-                                                        style: TextStyle(
-                                                          color: AppTheme
-                                                              .black_text,
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontFamily: AppTheme
-                                                              .fontRoboto,
+                                                      Expanded(
+                                                        child: Text(
+                                                          priceFormat.format(
+                                                              snapshot
+                                                                  .data[index]
+                                                                  .price) +
+                                                              translate("sum"),
+                                                          style: TextStyle(
+                                                            color: AppTheme
+                                                                .black_text,
+                                                            height: 1.33,
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                            FontWeight.w600,
+                                                            fontFamily: AppTheme
+                                                                .fontRoboto,
+                                                          ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        height: 7,
+                                                        width: 7,
+                                                      ),
+                                                      Text(
+                                                        snapshot.data[index].msg,
+                                                        style: TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight.w600,
+                                                          fontFamily: AppTheme.fontRoboto,
+                                                          color: AppTheme.red_fav_color,
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
@@ -296,8 +310,18 @@ class _CardScreenState extends State<CardScreen> {
                                                                 height: 30,
                                                                 decoration:
                                                                     BoxDecoration(
-                                                                  color: AppTheme
-                                                                      .blue_transparent,
+                                                                  color: snapshot
+                                                                              .data[
+                                                                                  index]
+                                                                              .msg
+                                                                              .length >
+                                                                          0
+                                                                      ? AppTheme
+                                                                          .red_fav_color
+                                                                          .withOpacity(
+                                                                              0.1)
+                                                                      : AppTheme
+                                                                          .blue_transparent,
                                                                   borderRadius:
                                                                       BorderRadius
                                                                           .circular(
@@ -379,8 +403,9 @@ class _CardScreenState extends State<CardScreen> {
                                                                               TextStyle(
                                                                             fontSize:
                                                                                 15.0,
-                                                                            color:
-                                                                                AppTheme.blue,
+                                                                            color: snapshot.data[index].msg.length > 0
+                                                                                ? AppTheme.red_fav_color
+                                                                                : AppTheme.blue,
                                                                             fontFamily:
                                                                                 AppTheme.fontRoboto,
                                                                             fontWeight:
@@ -566,15 +591,6 @@ class _CardScreenState extends State<CardScreen> {
                                       ],
                                     ),
                                   ),
-                                  Text(
-                                    snapshot.data[index].msg,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: AppTheme.fontRoboto,
-                                      color: AppTheme.red_fav_color,
-                                    ),
-                                  ),
                                   Container(
                                     height: 1,
                                     margin: EdgeInsets.only(left: 8, right: 8),
@@ -648,97 +664,216 @@ class _CardScreenState extends State<CardScreen> {
                               ),
                             )
                           : Container(),
-                      GestureDetector(
-                        onTap: () {
-                          if (isLogin) {
-                            if (isNext) {
-                              setState(() {
-                                loading = true;
-                              });
-                              AccessStore addModel = new AccessStore();
-                              List<ProductsStore> drugs = new List();
-                              dataBase.getProdu(true).then((database) => {
-                                    for (int i = 0; i < database.length; i++)
-                                      {
-                                        drugs.add(ProductsStore(
-                                            drugId: database[i].id,
-                                            qty: database[i].cardCount))
-                                      },
-                                    addModel = new AccessStore(
-                                        lat: 0.0, lng: 0.0, products: drugs),
-                                    Repository()
-                                        .fetchCheckError(
-                                            addModel, language_data)
-                                        .then((value) => {
-                                              if (value.error == 0)
-                                                {
-                                                  Navigator.push(
-                                                    context,
-                                                    PageTransition(
-                                                      type: PageTransitionType
-                                                          .fade,
-                                                      child:
-                                                          CurerAddressCardScreen(
-                                                              false),
-                                                    ),
-                                                  ),
-                                                  setState(() {
-                                                    loading = false;
-                                                    error = false;
-                                                  }),
-                                                }
-                                              else
-                                                {
-                                                  setState(() {
-                                                    error = true;
-                                                    loading = false;
-                                                    errorData = new List();
-                                                    errorData
-                                                        .addAll(value.errors);
-                                                    error_text = value.msg;
-                                                  }),
-                                                }
-                                            })
-                                  });
-                            }
-                          } else {
-                            BottomDialog.createBottomSheetHistory(context);
-                          }
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: isNext
-                                ? AppTheme.blue_app_color
-                                : AppTheme.blue_app_color_transparent,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                if (isLogin) {
+                                  if (isNext) {
+                                    setState(() {
+                                      loadingPickup = true;
+                                    });
+                                    AccessStore addModel = new AccessStore();
+                                    List<ProductsStore> drugs = new List();
+                                    dataBase.getProdu(true).then((database) => {
+                                          for (int i = 0;
+                                              i < database.length;
+                                              i++)
+                                            {
+                                              drugs.add(ProductsStore(
+                                                  drugId: database[i].id,
+                                                  qty: database[i].cardCount))
+                                            },
+                                          addModel = new AccessStore(
+                                              lat: 0.0,
+                                              lng: 0.0,
+                                              products: drugs),
+                                          Repository()
+                                              .fetchCheckError(
+                                                  addModel, language_data)
+                                              .then((value) => {
+                                                    if (value.error == 0)
+                                                      {
+                                                        errorData = new List(),
+                                                        Navigator.push(
+                                                          context,
+                                                          PageTransition(
+                                                            type:
+                                                                PageTransitionType
+                                                                    .fade,
+                                                            child:
+                                                                OrderCardPickupScreen(),
+                                                          ),
+                                                        ),
+                                                        setState(() {
+                                                          loadingPickup = false;
+                                                          error = false;
+                                                        }),
+                                                      }
+                                                    else
+                                                      {
+                                                        setState(() {
+                                                          error = true;
+                                                          loadingPickup = false;
+                                                          errorData =
+                                                              new List();
+                                                          errorData.addAll(
+                                                              value.errors);
+                                                          error_text =
+                                                              value.msg;
+                                                        }),
+                                                      }
+                                                  })
+                                        });
+                                  }
+                                } else {
+                                  BottomDialog.createBottomSheetHistory(
+                                      context);
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: Color(0xFF6FCF97),
+                                ),
+                                height: 44,
+                                width: size.width,
+                                margin: EdgeInsets.only(
+                                  top: 36,
+                                  bottom: 36,
+                                  left: 12,
+                                  right: 12,
+                                ),
+                                child: Center(
+                                  child: loadingPickup
+                                      ? CircularProgressIndicator(
+                                          value: null,
+                                          strokeWidth: 3.0,
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                  AppTheme.white),
+                                        )
+                                      : Text(
+                                          translate("orders.pickup"),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: AppTheme.fontRoboto,
+                                            fontSize: 17,
+                                            color: AppTheme.white,
+                                          ),
+                                        ),
+                                ),
+                              ),
+                            ),
                           ),
-                          height: 44,
-                          width: size.width,
-                          margin: EdgeInsets.only(
-                            top: 47,
-                            bottom: 47,
-                            left: 12,
-                            right: 12,
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                if (isLogin) {
+                                  if (isNext) {
+                                    setState(() {
+                                      loadingDelivery = true;
+                                    });
+                                    AccessStore addModel = new AccessStore();
+                                    List<ProductsStore> drugs = new List();
+                                    dataBase.getProdu(true).then((database) => {
+                                          for (int i = 0;
+                                              i < database.length;
+                                              i++)
+                                            {
+                                              drugs.add(ProductsStore(
+                                                  drugId: database[i].id,
+                                                  qty: database[i].cardCount))
+                                            },
+                                          addModel = new AccessStore(
+                                              lat: 0.0,
+                                              lng: 0.0,
+                                              products: drugs),
+                                          Repository()
+                                              .fetchCheckError(
+                                                  addModel, language_data)
+                                              .then((value) => {
+                                                    if (value.error == 0)
+                                                      {
+                                                        errorData = new List(),
+                                                        Navigator.push(
+                                                          context,
+                                                          PageTransition(
+                                                            type:
+                                                                PageTransitionType
+                                                                    .fade,
+                                                            child:
+                                                                CurerAddressCardScreen(
+                                                                    false),
+                                                          ),
+                                                        ),
+                                                        setState(() {
+                                                          loadingDelivery =
+                                                              false;
+                                                          error = false;
+                                                        }),
+                                                      }
+                                                    else
+                                                      {
+                                                        setState(() {
+                                                          error = true;
+                                                          loadingDelivery =
+                                                              false;
+                                                          errorData =
+                                                              new List();
+                                                          errorData.addAll(
+                                                              value.errors);
+                                                          error_text =
+                                                              value.msg;
+                                                        }),
+                                                      }
+                                                  })
+                                        });
+                                  }
+                                } else {
+                                  BottomDialog.createBottomSheetHistory(
+                                      context);
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: isNext
+                                      ? AppTheme.blue_app_color
+                                      : AppTheme.blue_app_color_transparent,
+                                ),
+                                height: 44,
+                                width: size.width,
+                                margin: EdgeInsets.only(
+                                  top: 36,
+                                  bottom: 36,
+                                  left: 12,
+                                  right: 12,
+                                ),
+                                child: Center(
+                                  child: loadingDelivery
+                                      ? CircularProgressIndicator(
+                                          value: null,
+                                          strokeWidth: 3.0,
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                  AppTheme.white),
+                                        )
+                                      : Text(
+                                          translate("orders.courier"),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: AppTheme.fontRoboto,
+                                            fontSize: 17,
+                                            color: AppTheme.white,
+                                          ),
+                                        ),
+                                ),
+                              ),
+                            ),
                           ),
-                          child: Center(
-                            child: loading
-                                ? CircularProgressIndicator(
-                                    value: null,
-                                    strokeWidth: 3.0,
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        AppTheme.white),
-                                  )
-                                : Text(
-                                    translate("card.buy"),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: AppTheme.fontRoboto,
-                                      fontSize: 17,
-                                      color: AppTheme.white,
-                                    ),
-                                  ),
-                          ),
-                        ),
+                        ],
                       )
                     ],
                   );

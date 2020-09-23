@@ -19,6 +19,7 @@ class RegionModel {
   String parentName;
   List<RegionModel> childs;
   bool isOpen;
+  bool isChoose;
 
   factory RegionModel.fromJson(Map<String, dynamic> json) => RegionModel(
         id: json["id"],
