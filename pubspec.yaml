@@ -31,7 +31,7 @@ dependencies:
   rxbus: ^0.0.2
   cupertino_icons: ^0.1.2
   web_socket_channel: ^1.1.0
-  lottie: ^0.4.1
+  lottie: ^0.6.0
   firebase_messaging: ^6.0.16
   package_info: ^0.4.1
   selectable_autolink_text: ^1.3.3
