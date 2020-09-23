@@ -123,7 +123,7 @@ class _AddressAptekaScreenState extends State<AddressAptekaPickupScreen>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              "Аптеке",
+                              translate("pharmacy_title"),
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 color: AppTheme.black_text,

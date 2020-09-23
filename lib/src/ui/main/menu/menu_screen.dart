@@ -13,6 +13,7 @@ import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/about_app_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/faq_app_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/fav_apteka_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/language_screen.dart';
@@ -67,9 +68,7 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     Utils.isLogin().then((value) => isLogin = value);
-    size = MediaQuery
-        .of(context)
-        .size;
+    size = MediaQuery.of(context).size;
     getLanguage();
     return Scaffold(
       backgroundColor: AppTheme.white,
@@ -86,149 +85,149 @@ class _MenuScreenState extends State<MenuScreen> {
         children: <Widget>[
           isLogin
               ? Container(
-            width: size.width,
-            child: Image.asset(
-              "assets/images/menu_image.png",
-              fit: BoxFit.fitWidth,
-            ),
-          )
-              : Container(
-            margin: EdgeInsets.only(left: 12, right: 12, bottom: 30),
-            height: 146,
-            decoration: BoxDecoration(
-              color: AppTheme.blue_app_color,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 16, left: 24, right: 24),
-                  child: Text(
-                    translate("menu.menu_about_message"),
-                    style: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 13,
-                      fontStyle: FontStyle.normal,
-                      color: AppTheme.white,
-                    ),
+                  width: size.width,
+                  child: Image.asset(
+                    "assets/images/menu_image.png",
+                    fit: BoxFit.fitWidth,
                   ),
-                  height: 51,
+                )
+              : Container(
+                  margin: EdgeInsets.only(left: 12, right: 12, bottom: 30),
+                  height: 146,
+                  decoration: BoxDecoration(
+                    color: AppTheme.blue_app_color,
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 16, left: 24, right: 24),
+                        child: Text(
+                          translate("menu.menu_about_message"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRoboto,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 13,
+                            fontStyle: FontStyle.normal,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                        height: 51,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.downToUp,
+                              child: LoginScreen(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          height: 44,
+                          margin: EdgeInsets.only(left: 24, right: 24, top: 20),
+                          decoration: BoxDecoration(
+                            color: AppTheme.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Center(
+                            child: Text(
+                              translate("menu.enter"),
+                              style: TextStyle(
+                                color: AppTheme.blue_app_color,
+                                fontWeight: FontWeight.w600,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 15,
+                                fontFamily: AppTheme.fontRoboto,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-                GestureDetector(
+          isLogin
+              ? GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       PageTransition(
-                        type: PageTransitionType.downToUp,
-                        child: LoginScreen(),
+                        type: PageTransitionType.rightToLeft,
+                        child: MyInfoScreen(),
                       ),
                     );
                   },
                   child: Container(
-                    height: 44,
-                    margin: EdgeInsets.only(left: 24, right: 24, top: 20),
-                    decoration: BoxDecoration(
-                      color: AppTheme.white,
-                      borderRadius: BorderRadius.circular(10.0),
+                    height: 60,
+                    margin: EdgeInsets.only(
+                      left: 16,
+                      right: 16,
                     ),
-                    child: Center(
-                      child: Text(
-                        translate("menu.enter"),
-                        style: TextStyle(
-                          color: AppTheme.blue_app_color,
-                          fontWeight: FontWeight.w600,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 15,
-                          fontFamily: AppTheme.fontRoboto,
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Container(),
+                                    ),
+                                    Text(
+                                      fullName,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                        fontFamily: AppTheme.fontRoboto,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppTheme.black_text,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      translate("menu.all_info"),
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontFamily: AppTheme.fontRoboto,
+                                        fontWeight: FontWeight.normal,
+                                        color: AppTheme.black_transparent_text,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 19,
+                                color: AppTheme.arrow_catalog,
+                              ),
+                              SizedBox(width: 3),
+                            ],
+                          ),
+                          height: 48,
+                          color: AppTheme.white,
                         ),
-                      ),
+                        Container(
+                          height: 1,
+                          color: AppTheme.black_linear_category,
+                        )
+                      ],
                     ),
                   ),
                 )
-              ],
-            ),
-          ),
-          isLogin
-              ? GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                PageTransition(
-                  type: PageTransitionType.rightToLeft,
-                  child: MyInfoScreen(),
-                ),
-              );
-            },
-            child: Container(
-              height: 60,
-              margin: EdgeInsets.only(
-                left: 16,
-                right: 16,
-              ),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Container(),
-                              ),
-                              Text(
-                                fullName,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppTheme.black_text,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              Text(
-                                translate("menu.all_info"),
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontWeight: FontWeight.normal,
-                                  color: AppTheme.black_transparent_text,
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 19,
-                          color: AppTheme.arrow_catalog,
-                        ),
-                        SizedBox(width: 3),
-                      ],
-                    ),
-                    height: 48,
-                    color: AppTheme.white,
-                  ),
-                  Container(
-                    height: 1,
-                    color: AppTheme.black_linear_category,
-                  )
-                ],
-              ),
-            ),
-          )
               : Container(),
 //          GestureDetector(
 //            onTap: () async {},
@@ -483,373 +482,58 @@ class _MenuScreenState extends State<MenuScreen> {
 //              : Container(),
           isLogin
               ? GestureDetector(
-            onTap: () async {
-              Navigator.push(
-                context,
-                PageTransition(
-                  type: PageTransitionType.rightToLeft,
-                  child: HistoryOrderScreen(),
-                ),
-              );
-            },
-            child: Container(
-              margin: EdgeInsets.only(
-                left: 16,
-                right: 16,
-              ),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    height: 25,
-                    width: 25,
-                    child: Center(
-                      child:
-                      SvgPicture.asset("assets/images/history.svg"),
-                    ),
-                  ),
-                  SizedBox(width: 15),
-                  Expanded(
-                    child: Text(
-                      translate("menu.history"),
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontFamily: AppTheme.fontRoboto,
-                        color: AppTheme.black_text,
-                        fontSize: 15,
+                  onTap: () async {
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: HistoryOrderScreen(),
                       ),
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      left: 16,
+                      right: 16,
                     ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: 19,
-                    color: AppTheme.arrow_catalog,
-                  ),
-                  SizedBox(width: 3),
-                ],
-              ),
-              height: 48,
-              color: AppTheme.white,
-            ),
-          )
-              : Container(),
-          GestureDetector(
-            onTap: () async {
-              _stars = 0;
-              commentController.text = "";
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                builder: (BuildContext context) {
-                  return StatefulBuilder(
-                    builder: (BuildContext context, setState) =>
+                    child: Row(
+                      children: <Widget>[
                         Container(
-                          height: 535,
-                          padding: EdgeInsets.only(
-                              bottom: 5, left: 5, right: 5),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: AppTheme.white,
-                            ),
-                            child: Theme(
-                              data: ThemeData(
-                                platform: TargetPlatform.android,
-                              ),
-                              child: ListView(
-                                children: <Widget>[
-                                  Center(
-                                    child: Container(
-                                      margin: EdgeInsets.only(top: 12),
-                                      height: 4,
-                                      width: 60,
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.bottom_dialog,
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                    ),
-                                  ),
-                                  Center(
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                          top: 16, left: 16, right: 16),
-                                      height: 153,
-                                      width: 153,
-                                      child: SvgPicture.asset(
-                                          "assets/images/icon_comment.svg"),
-                                    ),
-                                  ),
-                                  Center(
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                          top: 8, left: 16, right: 16),
-                                      child: Text(
-                                        translate("dialog_rat.title"),
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontRoboto,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 17,
-                                          fontStyle: FontStyle.normal,
-                                          color: AppTheme.black_text,
-                                          height: 1.65,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        top: 8, left: 32, right: 32),
-                                    child: Text(
-                                      translate("dialog_rat.message"),
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontRoboto,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 15,
-                                        fontStyle: FontStyle.normal,
-                                        color: AppTheme.black_transparent_text,
-                                        height: 1.47,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        top: 8, left: 16, right: 16),
-                                    height: 40,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .center,
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .center,
-                                      children: <Widget>[
-                                        InkWell(
-                                          child: _stars >= 1
-                                              ? SvgPicture.asset(
-                                              "assets/images/star_select.svg")
-                                              : SvgPicture.asset(
-                                              "assets/images/star_unselect.svg"),
-                                          onTap: () {
-                                            setState(() {
-                                              _stars = 1;
-                                            });
-                                          },
-                                        ),
-                                        SizedBox(width: 16),
-                                        InkWell(
-                                          child: _stars >= 2
-                                              ? SvgPicture.asset(
-                                              "assets/images/star_select.svg")
-                                              : SvgPicture.asset(
-                                              "assets/images/star_unselect.svg"),
-                                          onTap: () {
-                                            setState(() {
-                                              _stars = 2;
-                                            });
-                                          },
-                                        ),
-                                        SizedBox(width: 16),
-                                        InkWell(
-                                          child: _stars >= 3
-                                              ? SvgPicture.asset(
-                                              "assets/images/star_select.svg")
-                                              : SvgPicture.asset(
-                                              "assets/images/star_unselect.svg"),
-                                          onTap: () {
-                                            setState(() {
-                                              _stars = 3;
-                                            });
-                                          },
-                                        ),
-                                        SizedBox(width: 16),
-                                        InkWell(
-                                          child: _stars >= 4
-                                              ? SvgPicture.asset(
-                                              "assets/images/star_select.svg")
-                                              : SvgPicture.asset(
-                                              "assets/images/star_unselect.svg"),
-                                          onTap: () {
-                                            setState(() {
-                                              _stars = 4;
-                                            });
-                                          },
-                                        ),
-                                        SizedBox(width: 16),
-                                        InkWell(
-                                          child: _stars >= 5
-                                              ? SvgPicture.asset(
-                                              "assets/images/star_select.svg")
-                                              : SvgPicture.asset(
-                                              "assets/images/star_unselect.svg"),
-                                          onTap: () {
-                                            setState(() {
-                                              _stars = 5;
-                                            });
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 93,
-                                    decoration: BoxDecoration(
-                                        color: AppTheme.auth_login,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: AppTheme.auth_border,
-                                            width: 1)),
-                                    margin: EdgeInsets.only(
-                                        left: 16, right: 16, top: 24),
-                                    child: TextField(
-                                      keyboardType: TextInputType.multiline,
-                                      maxLines: 3,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontRoboto,
-                                        fontStyle: FontStyle.normal,
-                                        fontWeight: FontWeight.normal,
-                                        color: AppTheme.black_text,
-                                        fontSize: 16,
-                                      ),
-                                      controller: commentController,
-                                      decoration: InputDecoration(
-                                        hintText: translate(
-                                            "dialog_rat.comment"),
-                                        hintStyle: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 16,
-                                          fontStyle: FontStyle.normal,
-                                          fontFamily: AppTheme.fontRoboto,
-                                          color: AppTheme.grey,
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                          borderSide: BorderSide(
-                                            width: 1,
-                                            color: AppTheme.grey.withOpacity(
-                                                0.001),
-                                          ),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10),
-                                          ),
-                                          borderSide: BorderSide(
-                                            width: 1,
-                                            color: AppTheme.grey.withOpacity(
-                                                0.001),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () async {
-                                      if (commentController.text.length > 0) {
-                                        setState(() {
-                                          loading = true;
-                                        });
-                                        Repository()
-                                            .fetchSendRating(
-                                            commentController.text, _stars)
-                                            .then(
-                                              (value) =>
-                                          {
-                                            setState(() {
-                                              loading = false;
-                                            }),
-                                            Navigator.of(context).pop(),
-                                          },
-                                        );
-                                      }
-                                    },
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                        top: 24,
-                                        left: 16,
-                                        right: 16,
-                                        bottom: 16,
-                                      ),
-                                      height: 44,
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: AppTheme.blue_app_color,
-                                      ),
-                                      child: Center(
-                                        child: loading
-                                            ? CircularProgressIndicator(
-                                          value: null,
-                                          strokeWidth: 3.0,
-                                          valueColor:
-                                          AlwaysStoppedAnimation<Color>(
-                                              AppTheme.white),
-                                        )
-                                            : Text(
-                                          translate("dialog_rat.send"),
-                                          style: TextStyle(
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: AppTheme.fontRoboto,
-                                            color: AppTheme.white,
-                                            height: 1.29,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
+                          height: 25,
+                          width: 25,
+                          child: Center(
+                            child:
+                                SvgPicture.asset("assets/images/history.svg"),
+                          ),
+                        ),
+                        SizedBox(width: 15),
+                        Expanded(
+                          child: Text(
+                            translate("menu.history"),
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: AppTheme.fontRoboto,
+                              color: AppTheme.black_text,
+                              fontSize: 15,
                             ),
                           ),
                         ),
-                  );
-                },
-              );
-            },
-            child: Container(
-              margin: EdgeInsets.only(
-                left: 16,
-                right: 16,
-              ),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    height: 25,
-                    width: 25,
-                    child: Center(
-                      child: SvgPicture.asset("assets/images/message_square.svg"),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 19,
+                          color: AppTheme.arrow_catalog,
+                        ),
+                        SizedBox(width: 3),
+                      ],
                     ),
+                    height: 48,
+                    color: AppTheme.white,
                   ),
-                  SizedBox(width: 15),
-                  Expanded(
-                    child: Text(
-                      translate("menu.rating"),
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontFamily: AppTheme.fontRoboto,
-                        color: AppTheme.black_text,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: 19,
-                    color: AppTheme.arrow_catalog,
-                  ),
-                  SizedBox(width: 3),
-                ],
-              ),
-              height: 48,
-              color: AppTheme.white,
-            ),
-          ),
+                )
+              : Container(),
           GestureDetector(
             onTap: () async {
               Navigator.push(
@@ -893,6 +577,372 @@ class _MenuScreenState extends State<MenuScreen> {
                       fontFamily: AppTheme.fontRoboto,
                       color: AppTheme.black_transparent_text,
                       fontSize: 15,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 19,
+                    color: AppTheme.arrow_catalog,
+                  ),
+                  SizedBox(width: 3),
+                ],
+              ),
+              height: 48,
+              color: AppTheme.white,
+            ),
+          ),
+          GestureDetector(
+            onTap: () async {
+              _stars = 0;
+              commentController.text = "";
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (BuildContext context) {
+                  return StatefulBuilder(
+                    builder: (BuildContext context, setState) => Container(
+                      height: 535,
+                      padding: EdgeInsets.only(bottom: 5, left: 5, right: 5),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: AppTheme.white,
+                        ),
+                        child: Theme(
+                          data: ThemeData(
+                            platform: TargetPlatform.android,
+                          ),
+                          child: ListView(
+                            children: <Widget>[
+                              Center(
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 12),
+                                  height: 4,
+                                  width: 60,
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.bottom_dialog,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: GestureDetector(
+                                  onTap: (){
+                                    FocusScopeNode currentFocus = FocusScope.of(context);
+                                    if (!currentFocus.hasPrimaryFocus) {
+                                      currentFocus.unfocus();
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        top: 16, left: 16, right: 16),
+                                    height: 153,
+                                    width: 153,
+                                    child: SvgPicture.asset(
+                                        "assets/images/icon_comment.svg"),
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      top: 8, left: 16, right: 16),
+                                  child: Text(
+                                    translate("dialog_rat.title"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 17,
+                                      fontStyle: FontStyle.normal,
+                                      color: AppTheme.black_text,
+                                      height: 1.65,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: 8, left: 32, right: 32),
+                                child: Text(
+                                  translate("dialog_rat.message"),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRoboto,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.normal,
+                                    color: AppTheme.black_transparent_text,
+                                    height: 1.47,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: 8, left: 16, right: 16),
+                                height: 40,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    InkWell(
+                                      child: _stars >= 1
+                                          ? SvgPicture.asset(
+                                              "assets/images/star_select.svg")
+                                          : SvgPicture.asset(
+                                              "assets/images/star_unselect.svg"),
+                                      onTap: () {
+                                        setState(() {
+                                          _stars = 1;
+                                        });
+                                      },
+                                    ),
+                                    SizedBox(width: 16),
+                                    InkWell(
+                                      child: _stars >= 2
+                                          ? SvgPicture.asset(
+                                              "assets/images/star_select.svg")
+                                          : SvgPicture.asset(
+                                              "assets/images/star_unselect.svg"),
+                                      onTap: () {
+                                        setState(() {
+                                          _stars = 2;
+                                        });
+                                      },
+                                    ),
+                                    SizedBox(width: 16),
+                                    InkWell(
+                                      child: _stars >= 3
+                                          ? SvgPicture.asset(
+                                              "assets/images/star_select.svg")
+                                          : SvgPicture.asset(
+                                              "assets/images/star_unselect.svg"),
+                                      onTap: () {
+                                        setState(() {
+                                          _stars = 3;
+                                        });
+                                      },
+                                    ),
+                                    SizedBox(width: 16),
+                                    InkWell(
+                                      child: _stars >= 4
+                                          ? SvgPicture.asset(
+                                              "assets/images/star_select.svg")
+                                          : SvgPicture.asset(
+                                              "assets/images/star_unselect.svg"),
+                                      onTap: () {
+                                        setState(() {
+                                          _stars = 4;
+                                        });
+                                      },
+                                    ),
+                                    SizedBox(width: 16),
+                                    InkWell(
+                                      child: _stars >= 5
+                                          ? SvgPicture.asset(
+                                              "assets/images/star_select.svg")
+                                          : SvgPicture.asset(
+                                              "assets/images/star_unselect.svg"),
+                                      onTap: () {
+                                        setState(() {
+                                          _stars = 5;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 93,
+                                decoration: BoxDecoration(
+                                    color: AppTheme.auth_login,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        color: AppTheme.auth_border, width: 1)),
+                                margin: EdgeInsets.only(
+                                    left: 16, right: 16, top: 24),
+                                child: TextField(
+                                  keyboardType: TextInputType.multiline,
+                                  maxLines: 3,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRoboto,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.normal,
+                                    color: AppTheme.black_text,
+                                    fontSize: 16,
+                                  ),
+                                  controller: commentController,
+                                  decoration: InputDecoration(
+                                    hintText: translate("dialog_rat.comment"),
+                                    hintStyle: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 16,
+                                      fontStyle: FontStyle.normal,
+                                      fontFamily: AppTheme.fontRoboto,
+                                      color: AppTheme.grey,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                        width: 1,
+                                        color: AppTheme.grey.withOpacity(0.001),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                      borderSide: BorderSide(
+                                        width: 1,
+                                        color: AppTheme.grey.withOpacity(0.001),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  if (commentController.text.length > 0) {
+                                    setState(() {
+                                      loading = true;
+                                    });
+                                    Repository()
+                                        .fetchSendRating(
+                                            commentController.text, _stars)
+                                        .then(
+                                          (value) => {
+                                            setState(() {
+                                              loading = false;
+                                            }),
+                                            Navigator.of(context).pop(),
+                                          },
+                                        );
+                                  }
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                    top: 24,
+                                    left: 16,
+                                    right: 16,
+                                    bottom: 16,
+                                  ),
+                                  height: 44,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: AppTheme.blue_app_color,
+                                  ),
+                                  child: Center(
+                                    child: loading
+                                        ? CircularProgressIndicator(
+                                            value: null,
+                                            strokeWidth: 3.0,
+                                            valueColor:
+                                                AlwaysStoppedAnimation<Color>(
+                                                    AppTheme.white),
+                                          )
+                                        : Text(
+                                            translate("dialog_rat.send"),
+                                            style: TextStyle(
+                                              fontStyle: FontStyle.normal,
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: AppTheme.fontRoboto,
+                                              color: AppTheme.white,
+                                              height: 1.29,
+                                            ),
+                                          ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.only(
+                left: 16,
+                right: 16,
+              ),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    height: 25,
+                    width: 25,
+                    child: Center(
+                      child:
+                          SvgPicture.asset("assets/images/message_square.svg"),
+                    ),
+                  ),
+                  SizedBox(width: 15),
+                  Expanded(
+                    child: Text(
+                      translate("menu.rating"),
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontFamily: AppTheme.fontRoboto,
+                        color: AppTheme.black_text,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 19,
+                    color: AppTheme.arrow_catalog,
+                  ),
+                  SizedBox(width: 3),
+                ],
+              ),
+              height: 48,
+              color: AppTheme.white,
+            ),
+          ),
+          GestureDetector(
+            onTap: () async {
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: FaqAppScreen(),
+                ),
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.only(
+                left: 16,
+                right: 16,
+              ),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    height: 25,
+                    width: 25,
+                    child: Center(
+                      child: SvgPicture.asset("assets/images/icon_faq.svg"),
+                    ),
+                  ),
+                  SizedBox(width: 15),
+                  Expanded(
+                    child: Text(
+                      translate("menu.faq"),
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontFamily: AppTheme.fontRoboto,
+                        color: AppTheme.black_text,
+                        fontSize: 15,
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -962,7 +1012,7 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 32, left: 16, right: 16),
+            margin: EdgeInsets.only(top: 32, left: 16, right: 16, bottom: 24),
             child: Center(
               child: Text(
                 translate("menu.number"),

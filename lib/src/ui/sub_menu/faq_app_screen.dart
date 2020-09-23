@@ -11,14 +11,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app_theme.dart';
 
-class AboutAppScreen extends StatefulWidget {
+class FaqAppScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _AboutAppScreenState();
+    return _FaqAppScreenState();
   }
 }
 
-class _AboutAppScreenState extends State<AboutAppScreen> {
+class _FaqAppScreenState extends State<FaqAppScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +45,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              translate("menu.about"),
+              translate("menu.faq"),
               textAlign: TextAlign.start,
               style: TextStyle(
                 color: AppTheme.black_text,
@@ -64,7 +64,6 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
           style: TextStyle(
             fontStyle: FontStyle.normal,
             fontSize: 15,
-            height: 1.6,
             fontWeight: FontWeight.normal,
             fontFamily: AppTheme.fontSFProDisplay,
             color: AppTheme.black_text,
