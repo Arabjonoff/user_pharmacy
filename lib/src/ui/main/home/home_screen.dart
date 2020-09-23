@@ -481,7 +481,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               floating: true,
               brightness: Brightness.light,
               backgroundColor: AppTheme.white,
-              expandedHeight: 96,
+              expandedHeight: 110,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
                 background: Column(

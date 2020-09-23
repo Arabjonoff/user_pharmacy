@@ -7,14 +7,14 @@ class CheckOrderResponceModel {
 
   CheckOrderResponceModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    msg = json['msg'] == null ? "" : json['msg'];
+    msg = json['error'] == null ? "" : json['error'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
-    data['msg'] = this.msg;
+    data['error'] = this.msg;
     if (this.data != null) {
       data['data'] = this.data.toJson();
     }

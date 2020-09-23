@@ -39,7 +39,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
             height: 56,
             width: 56,
             color: AppTheme.arrow_examp_back,
-            padding: EdgeInsets.all(13),
+            padding: EdgeInsets.all(19),
             child: SvgPicture.asset("assets/images/arrow_back.svg"),
           ),
           onTap: () {
