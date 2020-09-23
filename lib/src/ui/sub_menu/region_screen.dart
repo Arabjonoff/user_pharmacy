@@ -166,7 +166,7 @@ class _RegionScreenState extends State<RegionScreen> {
                                 child: Container(
                                   width: double.infinity,
                                   height: 59,
-                                  margin: EdgeInsets.only(left: 16, right: 16),
+                                  margin: EdgeInsets.only(left: 16, right: 20),
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -268,7 +268,7 @@ class _RegionScreenState extends State<RegionScreen> {
                                         height: 60,
                                         width: double.infinity,
                                         margin: EdgeInsets.only(
-                                            left: 32, right: 16),
+                                            left: 32, right: 20),
                                         child: Row(
                                           children: [
                                             Expanded(
@@ -321,28 +321,30 @@ class _RegionScreenState extends State<RegionScreen> {
   void _getMoreData() async {
     var response = Repository().fetchRegions(obj);
 
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // if (prefs.getInt("cityId") != null) {
-    //   cityId = prefs.getInt("cityId");
-    // }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getInt("cityId") != null) {
+      cityId = prefs.getInt("cityId");
+    }
     response.then((value) => {
-          // for (int i = 0; i < value.length; i++)
-          //   {
-          //     if (value[i].childs.length > 0)
-          //       {
-          //         for (int j = 0; j < value[i].childs.length; j++)
-          //           {
-          //             if (cityId == value[i].childs[j].id)
-          //               {
-          //                 value[i].isChoose = true,
-          //               }
-          //           }
-          //       }
-          //     else if (cityId == value[i].id)
-          //       {
-          //         value[i].isChoose = true,
-          //       }
-          //   },
+          for (int i = 0; i < value.length; i++)
+            {
+              if (value[i].childs.length > 0)
+                {
+                  for (int j = 0; j < value[i].childs.length; j++)
+                    {
+                      print(value[i].childs[j].id.toString()+" "+cityId.toString()),
+
+                      if (cityId == value[i].childs[j].id)
+                        {
+                          value[i].childs[j].isChoose = true,
+                        }
+                    }
+                }
+              else if (cityId == value[i].id)
+                {
+                  value[i].isChoose = true,
+                }
+            },
           setState(() {
             users = new List();
             users = value;

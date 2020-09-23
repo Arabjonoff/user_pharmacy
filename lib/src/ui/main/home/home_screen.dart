@@ -78,7 +78,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     registerBus();
     _notificationFirebase();
     _getNoReview();
-
+    blocHome.fetchAllHome(
+      page,
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+    );
     super.initState();
   }
 
@@ -462,15 +470,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (isOpenSearch)
       RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_SEARCH");
 
-    blocHome.fetchAllHome(
-      page,
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-    );
     Utils.isLogin().then((value) => isLogin = value);
     return Scaffold(
       backgroundColor: AppTheme.white,
@@ -489,40 +488,40 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(top: 32.0, left: 16, right: 16),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              child: RegionScreen(),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                city,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                  color: AppTheme.black_text,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              SvgPicture.asset(
-                                  "assets/images/down_arrow_black.svg"),
-                            ],
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            child: RegionScreen(),
                           ),
+                        );
+                      },
+                      child: Container(
+                        height: 28,
+                        color: AppTheme.white,
+                        margin: EdgeInsets.only(top: 46.0, left: 16, right: 16),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              city,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                color: AppTheme.black_text,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            SvgPicture.asset(
+                                "assets/images/down_arrow_black.svg"),
+                          ],
                         ),
                       ),
                     ),
