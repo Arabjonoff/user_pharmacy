@@ -256,18 +256,18 @@ class PharmacyApiProvider {
             'price_min=$price_min&'
             'unit_ids=$unit_ids';
 
-    HttpClient httpClient = new HttpClient();
-    httpClient
-      ..badCertificateCallback =
-          ((X509Certificate cert, String host, int port) => true);
-    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json');
-    HttpClientResponse response = await request.close();
+    try {
+      http.Response response =
+          await http.get(url).timeout(const Duration(seconds: 10));
+      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
-    String reply = await response.transform(utf8.decoder).join();
-
-    final Map parsed = json.decode(reply);
-    return ItemModel.fromJson(parsed);
+      return ItemModel.fromJson(responseJson);
+    } on TimeoutException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return null;
+    } on SocketException catch (_) {
+      return null;
+    }
   }
 
   ///category's by item
@@ -345,20 +345,16 @@ class PharmacyApiProvider {
             'price_max=$price_max&'
             'price_min=$price_min&'
             'unit_ids=$unit_ids';
-
-    HttpClient httpClient = new HttpClient();
-    httpClient
-      ..badCertificateCallback =
-          ((X509Certificate cert, String host, int port) => true);
-    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json');
-    HttpClientResponse response = await request.close();
-
-    String reply = await response.transform(utf8.decoder).join();
-
-    final Map parsed = json.decode(reply);
-
-    return ItemModel.fromJson(parsed);
+    try {
+      http.Response response =
+          await http.get(url).timeout(const Duration(seconds: 10));
+      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+      return ItemModel.fromJson(responseJson);
+    } on TimeoutException catch (_) {
+      return null;
+    } on SocketException catch (_) {
+      return null;
+    }
   }
 
   ///items

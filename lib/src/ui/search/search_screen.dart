@@ -415,13 +415,16 @@ class _SearchScreenState extends State<SearchScreen> {
       try {
         List<ItemResult> tList = new List();
         response.then((value) => {
-              for (int i = 0; i < value.results.length; i++)
-                {tList.add(value.results[i])},
-              setState(() {
-                isLoading = false;
-                users.addAll(tList);
-                page++;
-              }),
+              if (value != null)
+                {
+                  for (int i = 0; i < value.results.length; i++)
+                    {tList.add(value.results[i])},
+                  setState(() {
+                    isLoading = false;
+                    users.addAll(tList);
+                    page++;
+                  }),
+                }
             });
       } catch (_) {
         setState(() {
