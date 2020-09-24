@@ -332,8 +332,6 @@ class _RegionScreenState extends State<RegionScreen> {
                 {
                   for (int j = 0; j < value[i].childs.length; j++)
                     {
-                      print(value[i].childs[j].id.toString()+" "+cityId.toString()),
-
                       if (cityId == value[i].childs[j].id)
                         {
                           value[i].childs[j].isChoose = true,

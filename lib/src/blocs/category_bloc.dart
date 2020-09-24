@@ -10,7 +10,7 @@ class CategoryBloc {
 
   fetchAllCategory() async {
     CategoryModel saleModel = await _repository.fetchCategoryItem();
-    _categoryFetcher.sink.add(saleModel);
+    if (saleModel.results != null) _categoryFetcher.sink.add(saleModel);
   }
 
   dispose() {

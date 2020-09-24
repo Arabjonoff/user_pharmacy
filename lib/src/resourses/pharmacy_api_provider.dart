@@ -123,19 +123,9 @@ class PharmacyApiProvider {
 
     String url = Utils.BASE_URL + '/api/v1/sales?region=$regionId';
 
-    // HttpClient httpClient = new HttpClient();
-    // HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
-    // request.headers.set('content-type', 'application/json');
-    // HttpClientResponse response = await request.close();
-    //
-    // String reply = await response.transform(utf8.decoder).join();
-    //
-    // final Map parsed = json.decode(reply);
-    // return SaleModel.fromJson(parsed);
-
     try {
       http.Response response =
-          await http.get(url).timeout(const Duration(seconds: 5));
+          await http.get(url).timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return SaleModel.fromJson(responseJson);
@@ -179,7 +169,7 @@ class PharmacyApiProvider {
             'unit_ids=$unit_ids';
     try {
       http.Response response =
-          await http.get(url).timeout(const Duration(seconds: 5));
+          await http.get(url).timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return ItemModel.fromJson(responseJson);
@@ -199,19 +189,17 @@ class PharmacyApiProvider {
     }
 
     String url = Utils.BASE_URL + '/api/v1/categories?region=$regionId';
+    try {
+      http.Response response =
+          await http.get(url).timeout(const Duration(seconds: 10));
+      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
-    HttpClient httpClient = new HttpClient();
-    httpClient
-      ..badCertificateCallback =
-          ((X509Certificate cert, String host, int port) => true);
-    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json');
-    HttpClientResponse response = await request.close();
-
-    String reply = await response.transform(utf8.decoder).join();
-
-    final Map parsed = json.decode(reply);
-    return CategoryModel.fromJson(parsed);
+      return CategoryModel.fromJson(responseJson);
+    } on TimeoutException catch (_) {
+      return CategoryModel();
+    } on SocketException catch (_) {
+      return CategoryModel();
+    }
   }
 
   ///search
