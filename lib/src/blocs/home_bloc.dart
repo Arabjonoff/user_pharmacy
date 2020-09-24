@@ -22,7 +22,7 @@ class HomeBloc {
     String unit_ids,
   ) async {
     SaleModel saleModel = await _repository.fetchAllSales();
-    _saleFetcher.sink.add(saleModel);
+    if (saleModel.results != null) _saleFetcher.sink.add(saleModel);
 
     ItemModel itemModelResponse = await _repository.fetchBestItem(
       page,
@@ -34,17 +34,17 @@ class HomeBloc {
       unit_ids,
     );
     List<ItemResult> database = await _repository.databaseItem();
-
-    for (var i = 0; i < itemModelResponse.results.length; i++) {
-      for (var j = 0; j < database.length; j++) {
-        if (itemModelResponse.results[i].id == database[j].id) {
-          itemModelResponse.results[i].cardCount = database[j].cardCount;
-          itemModelResponse.results[i].favourite = database[j].favourite;
+    if (itemModelResponse.results != null) {
+      for (var i = 0; i < itemModelResponse.results.length; i++) {
+        for (var j = 0; j < database.length; j++) {
+          if (itemModelResponse.results[i].id == database[j].id) {
+            itemModelResponse.results[i].cardCount = database[j].cardCount;
+            itemModelResponse.results[i].favourite = database[j].favourite;
+          }
         }
       }
+      _bestItemFetcher.sink.add(itemModelResponse);
     }
-
-    _bestItemFetcher.sink.add(itemModelResponse);
   }
 
   dispose() {

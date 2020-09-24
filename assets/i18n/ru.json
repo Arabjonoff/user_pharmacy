@@ -23,9 +23,10 @@
   "notSaveCard": "Нельзя сохранить эту карту",
   "fast": "Срочно",
   "or": "или",
-  "save": "сохранить",
+  "save": "Сохранить",
   "error_distanse": "Невозможно",
   "pharmacy_title": "Аптеки",
+  "internet_error": "Internet error",
   "main": {
     "home": "Главное",
     "catalog": "Каталог",

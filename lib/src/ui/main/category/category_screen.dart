@@ -199,14 +199,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             width: 250,
                             color: AppTheme.white,
                           ),
-                          Expanded(
-                            child: Container(),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: 16,
-                            color: AppTheme.arrow_catalog,
-                          )
                         ],
                       ),
                     ),

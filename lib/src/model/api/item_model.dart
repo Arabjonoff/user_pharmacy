@@ -11,17 +11,17 @@ class ItemModel {
   dynamic previous;
   List<ItemResult> results;
 
-  factory ItemModel.fromJson(Map<String, dynamic> json) =>
-      ItemModel(
-        count: int.parse(json["count"].toString()),
+  factory ItemModel.fromJson(Map<String, dynamic> json) => ItemModel(
+        count: json["count"],
         next: json["next"],
         previous: json["previous"],
-        results: List<ItemResult>.from(
-            json["results"].map((x) => ItemResult.fromJson(x))),
+        results: json["results"] == null
+            ? null
+            : List<ItemResult>.from(
+                json["results"].map((x) => ItemResult.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "count": count,
         "next": next,
         "previous": previous,
@@ -44,17 +44,18 @@ class ItemResult {
   int cardCount = 0;
   String msg = "";
 
-  ItemResult(this.id,
-      this.name,
-      this.barcode,
-      this.image,
-      this.imageThumbnail,
-      this.price,
-      this.manufacturer,
-      this.favourite,
-      this.cardCount, {
-        this.base_price,
-      });
+  ItemResult(
+    this.id,
+    this.name,
+    this.barcode,
+    this.image,
+    this.imageThumbnail,
+    this.price,
+    this.manufacturer,
+    this.favourite,
+    this.cardCount, {
+    this.base_price,
+  });
 
   int get getId => id;
 
@@ -117,8 +118,7 @@ class ItemResult {
     return map;
   }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "barcode": barcode,
@@ -133,7 +133,9 @@ class ItemResult {
 }
 
 class Manifacture {
-  Manifacture(this.name,);
+  Manifacture(
+    this.name,
+  );
 
   String name;
 
@@ -147,8 +149,7 @@ class Manifacture {
     return map;
   }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "name": name,
       };
 }

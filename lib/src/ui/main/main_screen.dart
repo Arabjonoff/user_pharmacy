@@ -141,6 +141,36 @@ class _MainScreenState extends State<MainScreen> {
               _selectedIndex = event.position;
             }));
 
+    RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_VIEW_ERROR")
+        .listen((event) => {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                    content: Container(
+                      width: 239.0,
+                      height: 64.0,
+                      child: Center(
+                        child: Text(
+                          translate("internet_error"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRoboto,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            color: AppTheme.black_text,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              )
+            });
+
     RxBus.register<BottomViewIdsModel>(tag: "EVENT_BOTTOM_VIEW_LANGUAGE")
         .listen((event) => setState(() {
               var localizationDelegate = LocalizedApp.of(context).delegate;
