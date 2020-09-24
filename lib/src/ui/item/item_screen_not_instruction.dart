@@ -1754,65 +1754,99 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                 ),
               ),
               padding: EdgeInsets.only(top: 14),
-              child: Shimmer.fromColors(
-                baseColor: Colors.grey[300],
-                highlightColor: Colors.grey[100],
-                child: Container(
-                  height: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: Container(
-                          margin: EdgeInsets.only(top: 52),
-                          height: 240,
-                          width: 240,
-                          color: Colors.white,
+              child:Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 48,
+                        width: 48,
+                        margin: EdgeInsets.only(right: 4),
+                        color: AppTheme.arrow_examp_back,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            height: 24,
+                            width: 24,
+                            padding: EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              color: AppTheme.arrow_back,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: SvgPicture.asset(
+                                "assets/images/arrow_close.svg"),
+                          ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 24.0),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 16, right: 16),
-                        height: 15,
-                        width: 250,
-                        color: Colors.white,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 8.0),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 16, right: 16),
-                        height: 22,
-                        width: double.infinity,
-                        color: Colors.white,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 24.0),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 16, right: 16),
-                        height: 22,
-                        width: 125,
-                        color: Colors.white,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 40.0),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        margin: EdgeInsets.only(left: 16, right: 16),
-                        height: 40,
-                        width: double.infinity,
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  Expanded(
+                    child:  Shimmer.fromColors(
+                      baseColor: Colors.grey[300],
+                      highlightColor: Colors.grey[100],
+                      child: Container(
+                        height: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Center(
+                              child: Container(
+                                margin: EdgeInsets.only(top: 24),
+                                height: 240,
+                                width: 240,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 24.0),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 16, right: 16),
+                              height: 15,
+                              width: 250,
+                              color: Colors.white,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 8.0),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 16, right: 16),
+                              height: 22,
+                              width: double.infinity,
+                              color: Colors.white,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 24.0),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 16, right: 16),
+                              height: 22,
+                              width: 125,
+                              color: Colors.white,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 40.0),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              margin: EdgeInsets.only(left: 16, right: 16),
+                              height: 40,
+                              width: double.infinity,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
             );
           },

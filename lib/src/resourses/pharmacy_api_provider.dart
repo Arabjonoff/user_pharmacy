@@ -2,11 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:pharmacy/src/model/api/chech_error.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
+import 'package:pharmacy/src/model/api/chech_error.dart';
 import 'package:pharmacy/src/model/api/check_order_responce.dart';
 import 'package:pharmacy/src/model/api/check_version.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
@@ -31,7 +32,6 @@ import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/model/send/check_order.dart';
 import 'package:pharmacy/src/model/send/verfy_payment_model.dart';
 import 'package:pharmacy/src/utils/utils.dart';
-import 'package:http/http.dart' as http;
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -371,18 +371,18 @@ class PharmacyApiProvider {
 
     String url = Utils.BASE_URL + '/api/v1/drugs/$id?region=$regionId';
 
-    HttpClient httpClient = new HttpClient();
-    httpClient
-      ..badCertificateCallback =
-          ((X509Certificate cert, String host, int port) => true);
-    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json');
-    HttpClientResponse response = await request.close();
+    try {
+      http.Response response =
+          await http.get(url).timeout(const Duration(seconds: 10));
 
-    String reply = await response.transform(utf8.decoder).join();
-
-    final Map parsed = json.decode(reply);
-    return ItemsAllModel.fromJson(parsed);
+      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+      return ItemsAllModel.fromJson(responseJson);
+    } on TimeoutException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return null;
+    } on SocketException catch (_) {
+      return null;
+    }
   }
 
   ///items
