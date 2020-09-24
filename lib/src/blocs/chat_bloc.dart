@@ -13,13 +13,15 @@ class ChatBloc {
 
   fetchAllChat(int page) async {
     ChatApiModel saleModel = await _repository.fetchGetAppMessage(page);
-    model = new ChatApiModel(
-        count: page,
-        next: saleModel.next,
-        previous: saleModel.previous,
-        results: saleModel.results);
+    if (saleModel != null) {
+      model = new ChatApiModel(
+          count: page,
+          next: saleModel.next,
+          previous: saleModel.previous,
+          results: saleModel.results);
 
-    _chatFetcher.sink.add(model);
+      _chatFetcher.sink.add(model);
+    }
   }
 
   dispose() {
