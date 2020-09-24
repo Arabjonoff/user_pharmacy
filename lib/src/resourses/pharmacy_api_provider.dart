@@ -388,18 +388,19 @@ class PharmacyApiProvider {
   ///items
   Future<List<LocationModel>> fetchApteka(double lat, double lng) async {
     String url = Utils.BASE_URL + '/api/v1/stores?lat=$lat&lng=$lng';
+    try {
+      http.Response response =
+          await http.get(url).timeout(const Duration(seconds: 10));
 
-    HttpClient httpClient = new HttpClient();
-    httpClient
-      ..badCertificateCallback =
-          ((X509Certificate cert, String host, int port) => true);
-    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json');
-    HttpClientResponse response = await request.close();
+      var responseJson = utf8.decode(response.bodyBytes);
 
-    String reply = await response.transform(utf8.decoder).join();
-
-    return locationModelFromJson(reply);
+      return locationModelFromJson(responseJson);
+    } on TimeoutException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return null;
+    } on SocketException catch (_) {
+      return null;
+    }
   }
 
   ///regions

@@ -58,7 +58,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   }
 
   void _addMarkers(Future<List<LocationModel>> response) async {
-    if (placemarks != null)
+    if (placemarks != null && response != null)
       for (int i = 0; i < placemarks.length; i++)
         await mapController.removePlacemark(placemarks[i]);
     response.then((somedata) {
@@ -67,21 +67,22 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   }
 
   void _addMarkerData(List<LocationModel> data) {
-    for (int i = 0; i < data.length; i++) {
-      mapController.addPlacemark(
-        placemark.Placemark(
-          point: Point(
-            latitude: data[i].location.coordinates[1],
-            longitude: data[i].location.coordinates[0],
+    if (data != null)
+      for (int i = 0; i < data.length; i++) {
+        mapController.addPlacemark(
+          placemark.Placemark(
+            point: Point(
+              latitude: data[i].location.coordinates[1],
+              longitude: data[i].location.coordinates[0],
+            ),
+            opacity: 1.0,
+            iconName: 'assets/map/selected_order.png',
+            onTap: (double latitude, double longitude) => {
+              BottomDialog.mapBottom(data[i], context),
+            },
           ),
-          opacity: 1.0,
-          iconName: 'assets/map/selected_order.png',
-          onTap: (double latitude, double longitude) => {
-            BottomDialog.mapBottom(data[i], context),
-          },
-        ),
-      );
-    }
+        );
+      }
   }
 
   Future<void> _getPosition() async {
