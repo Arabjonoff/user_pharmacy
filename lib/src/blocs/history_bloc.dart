@@ -16,16 +16,16 @@ class HistoryBloc {
       results = new List();
     }
     HistoryModel historyModel = await _repository.fetchHistory(page);
-    if (historyModel.results != null) results.addAll(historyModel.results);
-
-    model = new HistoryModel(
-      count: historyModel.count,
-      next: historyModel.next,
-      previous: historyModel.previous,
-      results: results,
-    );
-
-    _historyFetcher.sink.add(model);
+    if (historyModel != null) {
+      if (historyModel.results != null) results.addAll(historyModel.results);
+      model = new HistoryModel(
+        count: historyModel.count,
+        next: historyModel.next,
+        previous: historyModel.previous,
+        results: results,
+      );
+      _historyFetcher.sink.add(model);
+    }
   }
 
   dispose() {

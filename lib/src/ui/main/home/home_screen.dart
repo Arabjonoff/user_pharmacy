@@ -78,6 +78,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     registerBus();
     _notificationFirebase();
     _getNoReview();
+    blocHome.fetchAllHome(
+      page,
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+    );
+
     super.initState();
   }
 
@@ -461,15 +471,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (isOpenSearch)
       RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_SEARCH");
 
-    blocHome.fetchAllHome(
-      page,
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-    );
 
     Utils.isLogin().then((value) => isLogin = value);
     return Scaffold(
@@ -1654,15 +1655,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Future<void> _setRegion() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getString("city") != null) {
-      if (prefs.getString("city") != city)
-        setState(() {
-          city = prefs.getString("city");
-        });
+      setState(() {
+        city = prefs.getString("city");
+      });
     } else {
-      if (city != "Ташкент")
-        setState(() {
-          city = "Ташкент";
-        });
+      setState(() {
+        city = "Ташкент";
+      });
     }
   }
 

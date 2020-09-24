@@ -9,6 +9,7 @@ import 'package:flutter_translate/global.dart';
 import 'package:flutter_translate/localized_app.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
+import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
@@ -300,6 +301,16 @@ class _MainScreenState extends State<MainScreen> {
                       break;
                     }
                 }
+              } else if (index == 0) {
+                blocHome.fetchAllHome(
+                  1,
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                );
               }
               setState(() {
                 _selectedIndex = index;
