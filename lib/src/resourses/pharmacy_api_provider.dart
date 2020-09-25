@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
@@ -648,24 +649,24 @@ class PharmacyApiProvider {
   Future<CheckErrorModel> fetchCheckError(
       AccessStore accessStore, String language) async {
     String url = Utils.BASE_URL + '/api/v1/check-error?lan=$language';
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
-
-    HttpClient httpClient = new HttpClient();
-    httpClient
-      ..badCertificateCallback =
-          ((X509Certificate cert, String host, int port) => true);
-    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json');
-    request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
-    request.write(json.encode(accessStore));
-    HttpClientResponse response = await request.close();
-
-    String reply = await response.transform(utf8.decoder).join();
-    final Map parsed = json.decode(reply);
-
-    return CheckErrorModel.fromJson(parsed);
+    Map<String, String> headers = {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+      'content-type': 'application/json; charset=utf-8',
+    };
+    try {
+      http.Response response = await http
+          .post(url, headers: headers, body: json.encode(accessStore))
+          .timeout(const Duration(seconds: 10));
+      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+      return CheckErrorModel.fromJson(responseJson);
+    } on TimeoutException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return CheckErrorModel(error: 1, msg: translate("internet_error"));
+    } on SocketException catch (_) {
+      return CheckErrorModel(error: 1, msg: translate("internet_error"));
+    }
   }
 
   ///items

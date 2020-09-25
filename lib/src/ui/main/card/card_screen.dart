@@ -254,8 +254,7 @@ class _CardScreenState extends State<CardScreen> {
                                                 Expanded(
                                                   child: Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
+                                                        MainAxisAlignment.start,
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .center,
@@ -263,9 +262,10 @@ class _CardScreenState extends State<CardScreen> {
                                                       Expanded(
                                                         child: Text(
                                                           priceFormat.format(
-                                                              snapshot
-                                                                  .data[index]
-                                                                  .price) +
+                                                                  snapshot
+                                                                      .data[
+                                                                          index]
+                                                                      .price) +
                                                               translate("sum"),
                                                           style: TextStyle(
                                                             color: AppTheme
@@ -273,7 +273,7 @@ class _CardScreenState extends State<CardScreen> {
                                                             height: 1.33,
                                                             fontSize: 15,
                                                             fontWeight:
-                                                            FontWeight.w600,
+                                                                FontWeight.w600,
                                                             fontFamily: AppTheme
                                                                 .fontRoboto,
                                                           ),
@@ -283,12 +283,16 @@ class _CardScreenState extends State<CardScreen> {
                                                         width: 7,
                                                       ),
                                                       Text(
-                                                        snapshot.data[index].msg,
+                                                        snapshot
+                                                            .data[index].msg,
                                                         style: TextStyle(
                                                           fontSize: 12,
-                                                          fontWeight: FontWeight.w600,
-                                                          fontFamily: AppTheme.fontRoboto,
-                                                          color: AppTheme.red_fav_color,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontFamily: AppTheme
+                                                              .fontRoboto,
+                                                          color: AppTheme
+                                                              .red_fav_color,
                                                         ),
                                                       ),
                                                     ],
@@ -822,8 +826,10 @@ class _CardScreenState extends State<CardScreen> {
                                                               false;
                                                           errorData =
                                                               new List();
-                                                          errorData.addAll(
-                                                              value.errors);
+                                                          if (value.errors !=
+                                                              null)
+                                                            errorData.addAll(
+                                                                value.errors);
                                                           error_text =
                                                               value.msg;
                                                         }),
