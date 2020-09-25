@@ -8,9 +8,6 @@ import 'package:rxdart/rxdart.dart';
 class CardBloc {
   final _repository = Repository();
   final _cardFetcher = PublishSubject<List<ItemResult>>();
-  final _paymentTypeFetcher = PublishSubject<OrderOptionsModel>();
-
-  Observable<OrderOptionsModel> get orderTypeOptions => _paymentTypeFetcher.stream;
 
   Observable<List<ItemResult>> get allCard => _cardFetcher.stream;
 
@@ -18,6 +15,7 @@ class CardBloc {
     List<ItemResult> result = await _repository.databaseCardItem(true);
     _cardFetcher.sink.add(result);
   }
+
 //
 //  fetchPaymentType(String lan) async {
 //    OrderOptionsModel orderOptions = await _repository.fetchOrderOptions(lan);
@@ -28,7 +26,6 @@ class CardBloc {
 
   dispose() {
     _cardFetcher.close();
-    _paymentTypeFetcher.close();
   }
 }
 

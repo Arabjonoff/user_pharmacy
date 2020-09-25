@@ -427,6 +427,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                               child: OrderCardCurerScreen(
                                                 address: myAddress,
                                                 price: response.data.total,
+                                                cash: response.data.cash,
                                                 deliveryPrice:
                                                     response.data.deliverySum,
                                                 lat: chooseLat,

@@ -100,31 +100,41 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
             ? 0.0
             : double.parse(cashPriceController.text.replaceAll(" ", ""));
 
-        if (p > cashData.total) {
-          setState(() {
-            cashData.cash == 0
-                ? cashPriceController.text = ""
-                : cashPriceController.text = cashData.total.toInt().toString();
-            cashPriceController.selection = TextSelection.fromPosition(
-                TextPosition(offset: cashPriceController.text.length));
-            allPrice = 0;
-            cashPrice = cashData.total;
-          });
-        } else if (p <= cashData.cash) {
-          setState(() {
-            allPrice = cashData.total - p;
-            cashPrice = p;
-          });
+        if (p <= cashData.cash) {
+          if (p >= cashData.total) {
+            setState(() {
+              allPrice = 0;
+              cashPrice = cashData.total;
+              cashPriceController.text = cashData.total.toInt().toString();
+              cashPriceController.selection = TextSelection.fromPosition(
+                  TextPosition(offset: cashPriceController.text.length));
+            });
+          } else {
+            setState(() {
+              allPrice = cashData.total - p;
+              cashPrice = p;
+            });
+          }
         } else {
-          setState(() {
-            cashData.cash == 0
-                ? cashPriceController.text = ""
-                : cashPriceController.text = cashData.cash.toInt().toString();
-            cashPriceController.selection = TextSelection.fromPosition(
-                TextPosition(offset: cashPriceController.text.length));
-            allPrice = cashData.total - cashData.cash;
-            cashPrice = cashData.cash;
-          });
+          if (p >= cashData.total) {
+            setState(() {
+              allPrice = 0;
+              cashPrice = cashData.total;
+              cashPriceController.text = cashData.total.toInt().toString();
+              cashPriceController.selection = TextSelection.fromPosition(
+                  TextPosition(offset: cashPriceController.text.length));
+            });
+          } else {
+            setState(() {
+              cashData.cash == 0
+                  ? cashPriceController.text = ""
+                  : cashPriceController.text = cashData.cash.toInt().toString();
+              cashPriceController.selection = TextSelection.fromPosition(
+                  TextPosition(offset: cashPriceController.text.length));
+              allPrice = cashData.total - cashData.cash;
+              cashPrice = cashData.cash;
+            });
+          }
         }
       } on Exception catch (_) {
         throw Exception("Error");

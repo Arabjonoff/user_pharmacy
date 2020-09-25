@@ -28,20 +28,23 @@ class Data {
   String address;
   bool isUserPay;
   double total;
+  double cash;
 
   Data(
       {this.distance,
       this.deliverySum,
       this.address,
       this.isUserPay,
+      this.cash,
       this.total});
 
   Data.fromJson(Map<String, dynamic> json) {
-    distance = json['distance'];
-    deliverySum = json['delivery_sum'];
+    distance = json['distance'] == null ? 0.0 : json['distance'];
+    deliverySum = json['delivery_sum'] == null ? 0.0 : json['delivery_sum'];
     address = json['address'];
     isUserPay = json['is_user_pay'];
-    total = json['total'];
+    cash = json['cash'] == null ? 0.0 : json['cash'];
+    total = json['total'] == null ? 0.0 : json['total'];
   }
 
   Map<String, dynamic> toJson() {
@@ -50,6 +53,7 @@ class Data {
     data['delivery_sum'] = this.deliverySum;
     data['address'] = this.address;
     data['is_user_pay'] = this.isUserPay;
+    data['cash'] = this.cash;
     data['total'] = this.total;
     return data;
   }
