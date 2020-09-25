@@ -41,6 +41,7 @@ class CardScreen extends StatefulWidget {
 
 int count = 0;
 bool isLogin = false;
+CashBackData cashData;
 
 class _CardScreenState extends State<CardScreen> {
   Size size;
@@ -694,12 +695,13 @@ class _CardScreenState extends State<CardScreen> {
                                               lng: 0.0,
                                               products: drugs),
                                           Repository()
-                                              .fetchCheckError(
+                                              .fetchCheckErrorPickup(
                                                   addModel, language_data)
                                               .then((value) => {
                                                     if (value.error == 0)
                                                       {
                                                         errorData = new List(),
+                                                        cashData = value.data,
                                                         Navigator.push(
                                                           context,
                                                           PageTransition(
@@ -722,8 +724,10 @@ class _CardScreenState extends State<CardScreen> {
                                                           loadingPickup = false;
                                                           errorData =
                                                               new List();
-                                                          errorData.addAll(
-                                                              value.errors);
+                                                          if (value.errors !=
+                                                              null)
+                                                            errorData.addAll(
+                                                                value.errors);
                                                           error_text =
                                                               value.msg;
                                                         }),
@@ -795,7 +799,7 @@ class _CardScreenState extends State<CardScreen> {
                                               lng: 0.0,
                                               products: drugs),
                                           Repository()
-                                              .fetchCheckError(
+                                              .fetchCheckErrorDelivery(
                                                   addModel, language_data)
                                               .then((value) => {
                                                     if (value.error == 0)

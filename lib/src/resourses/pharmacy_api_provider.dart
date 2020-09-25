@@ -646,8 +646,8 @@ class PharmacyApiProvider {
     return MinSum.fromJson(parsed).min;
   }
 
-  ///items
-  Future<CheckErrorModel> fetchCheckError(
+  ///Check error pickup
+  Future<CheckErrorModel> fetchCheckErrorPickup(
       AccessStore accessStore, String language) async {
     String url = Utils.BASE_URL + '/api/v1/check-error?lan=$language';
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -656,6 +656,31 @@ class PharmacyApiProvider {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
     };
+    try {
+      http.Response response = await http
+          .post(url, headers: headers, body: json.encode(accessStore))
+          .timeout(const Duration(seconds: 10));
+      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+      return CheckErrorModel.fromJson(responseJson);
+    } on TimeoutException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return CheckErrorModel(error: 1, msg: translate("internet_error"));
+    } on SocketException catch (_) {
+      return CheckErrorModel(error: 1, msg: translate("internet_error"));
+    }
+  }
+
+  ///Check error delivery
+  Future<CheckErrorModel> fetchCheckErrorDelivery(
+      AccessStore accessStore, String language) async {
+    String url = Utils.BASE_URL + '/api/v1/check-shipping-error?lan=$language';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
+    Map<String, String> headers = {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+      'content-type': 'application/json; charset=utf-8',
+    };
+
     try {
       http.Response response = await http
           .post(url, headers: headers, body: json.encode(accessStore))

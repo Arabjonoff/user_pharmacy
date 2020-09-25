@@ -2,11 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/blocs/order_options_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
@@ -20,6 +23,7 @@ import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dar
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
 import '../shopping_curer/curer_address_card.dart';
@@ -35,7 +39,9 @@ class OrderCardPickupScreen extends StatefulWidget {
 AptekaModel aptekaModel;
 
 class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
-  double allPrice = 0;
+  double allPrice = cashData.total;
+  double itemPrice = cashData.total;
+  double cashPrice = 0.0;
   int paymentType;
   int clickType;
   bool checkBox = false;
@@ -62,6 +68,8 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
   TextEditingController cardDateController = TextEditingController();
   TextEditingController loginController = TextEditingController(text: "+998");
 
+  TextEditingController cashPriceController = TextEditingController();
+
   var maskFormatter = new MaskTextInputFormatter(
       mask: '+998 ## ### ## ##', filter: {"#": RegExp(r'[0-9]')});
   var maskFormatterNumber = new MaskTextInputFormatter(
@@ -84,9 +92,48 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
     super.dispose();
   }
 
+  _OrderCardPickupScreenState() {
+    cashPriceController.addListener(() {
+      double p;
+      try {
+        p = cashPriceController.text == ""
+            ? 0.0
+            : double.parse(cashPriceController.text.replaceAll(" ", ""));
+
+        if (p > cashData.total) {
+          setState(() {
+            cashData.cash == 0
+                ? cashPriceController.text = ""
+                : cashPriceController.text = cashData.total.toInt().toString();
+            cashPriceController.selection = TextSelection.fromPosition(
+                TextPosition(offset: cashPriceController.text.length));
+            allPrice = 0;
+            cashPrice = cashData.total;
+          });
+        } else if (p <= cashData.cash) {
+          setState(() {
+            allPrice = cashData.total - p;
+            cashPrice = p;
+          });
+        } else {
+          setState(() {
+            cashData.cash == 0
+                ? cashPriceController.text = ""
+                : cashPriceController.text = cashData.cash.toInt().toString();
+            cashPriceController.selection = TextSelection.fromPosition(
+                TextPosition(offset: cashPriceController.text.length));
+            allPrice = cashData.total - cashData.cash;
+            cashPrice = cashData.cash;
+          });
+        }
+      } on Exception catch (_) {
+        throw Exception("Error");
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-//    blocCard.fetchAllCard();
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
@@ -172,104 +219,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                 ],
               ),
             ),
-            // Container(
-            //   margin: EdgeInsets.only(
-            //     left: 16,
-            //   ),
-            //   child: Text(
-            //     translate("orders.productMethod"),
-            //     style: TextStyle(
-            //       fontWeight: FontWeight.w600,
-            //       fontSize: 20,
-            //       fontFamily: AppTheme.fontRoboto,
-            //       fontStyle: FontStyle.normal,
-            //       color: AppTheme.black_text,
-            //     ),
-            //   ),
-            // ),
-            // Container(
-            //   height: 36,
-            //   margin: EdgeInsets.only(
-            //     right: 16,
-            //     top: 24,
-            //     left: 16,
-            //   ),
-            //   child: Row(
-            //     children: [
-            //       Expanded(
-            //         child: GestureDetector(
-            //           onTap: () {
-            //             Navigator.pushReplacement(
-            //               context,
-            //               PageTransition(
-            //                 type: PageTransitionType.fade,
-            //                 child: CurerAddressCardScreen(false),
-            //               ),
-            //             );
-            //           },
-            //           child: Container(
-            //             padding: EdgeInsets.only(left: 16),
-            //             decoration: BoxDecoration(
-            //               borderRadius: BorderRadius.circular(10.0),
-            //               color: AppTheme.white,
-            //               border: Border.all(
-            //                 color: AppTheme.arrow_catalog,
-            //                 width: 2.0,
-            //               ),
-            //             ),
-            //             height: 36,
-            //             child: Align(
-            //               alignment: Alignment.centerLeft,
-            //               child: Text(
-            //                 translate("orders.courier"),
-            //                 style: TextStyle(
-            //                   fontFamily: AppTheme.fontRoboto,
-            //                   fontWeight: FontWeight.w600,
-            //                   fontSize: 13,
-            //                   color: AppTheme.black_text,
-            //                   fontStyle: FontStyle.normal,
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-            //       SizedBox(
-            //         width: 15,
-            //       ),
-            //       Expanded(
-            //         child: GestureDetector(
-            //           onTap: () {},
-            //           child: Container(
-            //             padding: EdgeInsets.only(left: 16),
-            //             decoration: BoxDecoration(
-            //               borderRadius: BorderRadius.circular(10.0),
-            //               color: AppTheme.white,
-            //               border: Border.all(
-            //                 color: AppTheme.blue_app_color,
-            //                 width: 2.0,
-            //               ),
-            //             ),
-            //             height: 36,
-            //             child: Align(
-            //               alignment: Alignment.centerLeft,
-            //               child: Text(
-            //                 translate("orders.pickup"),
-            //                 style: TextStyle(
-            //                   fontFamily: AppTheme.fontRoboto,
-            //                   fontWeight: FontWeight.w600,
-            //                   fontSize: 13,
-            //                   color: AppTheme.black_text,
-            //                   fontStyle: FontStyle.normal,
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -568,49 +517,100 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                 ),
               ),
             ),
-            Column(
-              children: paymentTypes
-                  .map((data) => RadioListTile(
-                        title: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                "${data.pan}",
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.normal,
-                                  color: Colors.black,
-                                ),
+            StreamBuilder(
+              stream: blocOrderOptions.orderOptions,
+              builder: (context, AsyncSnapshot<OrderOptionsModel> snapshot) {
+                if (snapshot.hasData) {
+                  paymentTypes = new List();
+
+                  for (int i = 0; i < snapshot.data.paymentTypes.length; i++) {
+                    paymentTypes.add(PaymentTypesCheckBox(
+                      id: i,
+                      payment_id: snapshot.data.paymentTypes[i].id,
+                      card_id: snapshot.data.paymentTypes[i].card_id,
+                      card_token: snapshot.data.paymentTypes[i].card_token,
+                      name: snapshot.data.paymentTypes[i].name,
+                      pan: snapshot.data.paymentTypes[i].pan,
+                      type: snapshot.data.paymentTypes[i].type,
+                    ));
+                  }
+                  return Column(
+                    children: paymentTypes
+                        .map((data) => RadioListTile(
+                              title: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      "${data.pan}",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: AppTheme.fontRoboto,
+                                        fontSize: 15,
+                                        fontStyle: FontStyle.normal,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                        activeColor: AppTheme.blue_app_color,
-                        groupValue: clickType,
-                        value: data.id,
-                        onChanged: (val) {
-                          if (data.id == paymentTypes.length - 1) {
-                            setState(() {
-                              clickType = data.id;
-                              paymentType = data.payment_id;
-                              isEnd = true;
-                              cardToken = data.card_token;
-                            });
-                          } else {
-                            setState(() {
-                              clickType = data.id;
-                              paymentType = data.payment_id;
-                              isEnd = false;
-                              cardToken = data.card_token;
-                            });
-                          }
-                        },
-                      ))
-                  .toList(),
+                              activeColor: AppTheme.blue_app_color,
+                              groupValue: clickType,
+                              value: data.id,
+                              onChanged: (val) {
+                                if (data.id == paymentTypes.length - 1) {
+                                  setState(() {
+                                    clickType = data.id;
+                                    paymentType = data.payment_id;
+                                    isEnd = true;
+                                    cardToken = data.card_token;
+                                  });
+                                } else {
+                                  setState(() {
+                                    clickType = data.id;
+                                    paymentType = data.payment_id;
+                                    isEnd = false;
+                                    cardToken = data.card_token;
+                                  });
+                                }
+                              },
+                            ))
+                        .toList(),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                }
+                return Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.grey[100],
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    itemBuilder: (_, __) => Container(
+                      height: 48,
+                      padding: EdgeInsets.only(top: 6, bottom: 6),
+                      margin: EdgeInsets.only(left: 15, right: 15),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Container(),
+                          ),
+                          Container(
+                            height: 15,
+                            width: 250,
+                            color: AppTheme.white,
+                          ),
+                          Expanded(
+                            child: Container(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    itemCount: 4,
+                  ),
+                );
+              },
             ),
             isEnd
                 ? Container(
@@ -872,6 +872,110 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                   )
                 : Container(),
             Container(
+              height: 24,
+              margin: EdgeInsets.only(top: 24, left: 16, right: 16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 24,
+                    width: 24,
+                    margin: EdgeInsets.only(right: 8),
+                    child: SvgPicture.asset("assets/images/login_logo.svg"),
+                  ),
+                  Text(
+                    translate("cash_price_title"),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRoboto,
+                      fontSize: 16,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w600,
+                      color: AppTheme.black_text,
+                    ),
+                  ),
+                  Expanded(child: Container()),
+                  Text(
+                    translate("cash_pay"),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRoboto,
+                      fontSize: 16,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.normal,
+                      color: AppTheme.search_empty,
+                    ),
+                  ),
+                  Text(
+                    " " +
+                        priceFormat
+                            .format(cashData == null ? 0.0 : cashData.cash) +
+                        translate("sum"),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRoboto,
+                      fontSize: 16,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.normal,
+                      color: AppTheme.search_empty,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: 48,
+              margin: EdgeInsets.only(top: 16, left: 16, right: 16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: AppTheme.auth_login,
+                border: Border.all(
+                  color: AppTheme.auth_border,
+                  width: 1.0,
+                ),
+              ),
+              child: Padding(
+                padding:
+                    EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 12),
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  style: TextStyle(
+                    fontFamily: AppTheme.fontRoboto,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.normal,
+                    color: AppTheme.black_text,
+                    fontSize: 15,
+                  ),
+                  controller: cashPriceController,
+                  decoration: InputDecoration(
+                    labelText: translate('cash_price'),
+                    labelStyle: TextStyle(
+                      fontFamily: AppTheme.fontRoboto,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.normal,
+                      color: Color(0xFF6D7885),
+                      fontSize: 11,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 1,
+                        color: AppTheme.auth_login,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      borderSide: BorderSide(
+                        width: 1,
+                        color: AppTheme.auth_login,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
               margin: EdgeInsets.only(
                 top: 24,
                 left: 16,
@@ -890,7 +994,80 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
             ),
             Container(
               margin: EdgeInsets.only(
-                top: 26,
+                top: 16,
+                left: 16,
+                right: 16,
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    translate("price_item"),
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: AppTheme.fontRoboto,
+                      fontWeight: FontWeight.normal,
+                      color: AppTheme.search_empty,
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(),
+                  ),
+                  Text(
+                    priceFormat.format(itemPrice) + translate(translate("sum")),
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: AppTheme.fontRoboto,
+                      fontWeight: FontWeight.normal,
+                      color: AppTheme.search_empty,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                top: 16,
+                left: 16,
+                right: 16,
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    translate("price_cash_item"),
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: AppTheme.fontRoboto,
+                      fontWeight: FontWeight.normal,
+                      color: AppTheme.search_empty,
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(),
+                  ),
+                  Text(
+                    cashPrice == 0
+                        ? priceFormat.format(cashPrice) +
+                            translate(
+                              translate("sum"),
+                            )
+                        : "-" +
+                            priceFormat.format(cashPrice) +
+                            translate(
+                              translate("sum"),
+                            ),
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: AppTheme.fontRoboto,
+                      fontWeight: FontWeight.normal,
+                      color: AppTheme.search_empty,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                top: 16,
                 left: 16,
                 right: 16,
               ),
@@ -1210,14 +1387,15 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
 
   Future<void> getInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    Repository().databaseCardItem(true).then((value) => {
-          allPrice = 0,
-          setState(() {
-            for (int i = 0; i < value.length; i++) {
-              allPrice += (value[i].cardCount * value[i].price);
-            }
-          }),
-        });
+
+    var language_data;
+    if (prefs.getString('language') != null) {
+      language_data = prefs.getString('language');
+    } else {
+      language_data = "ru";
+    }
+    blocOrderOptions.fetchOrderOptions(language_data);
+
     setState(() {
       var num = "+";
       for (int i = 0; i < prefs.getString("number").length; i++) {

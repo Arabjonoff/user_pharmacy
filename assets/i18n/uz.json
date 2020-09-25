@@ -28,6 +28,11 @@
   "pharmacy_title": "Dorixonalar",
   "internet_error": "Internet error",
   "cash_price_title": "Мой баланс",
+  "cash_pay": "Доступно:",
+  "cash_price": "Введите сумму",
+  "price_item": "Товары на сумму",
+  "price_cash_item": "GoPharm Баланс",
+  "price_delivery_item": "Доставка",
   "main": {
     "home": "Asosiy",
     "catalog": "Katalog",
