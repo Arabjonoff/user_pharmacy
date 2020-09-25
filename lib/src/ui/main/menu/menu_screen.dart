@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/blocs/menu_bloc.dart';
+import 'package:pharmacy/src/model/api/cash_back_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
@@ -48,6 +50,14 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   void initState() {
     registerBus();
+    Utils.isLogin().then((value) => {
+          isLogin = value,
+          if (isLogin)
+            {
+              menuBack.fetchCashBack(),
+            }
+        });
+
     super.initState();
   }
 
@@ -84,12 +94,124 @@ class _MenuScreenState extends State<MenuScreen> {
       body: ListView(
         children: <Widget>[
           isLogin
-              ? Container(
-                  width: size.width,
-                  child: Image.asset(
-                    "assets/images/menu_image.png",
-                    fit: BoxFit.fitWidth,
-                  ),
+              ? StreamBuilder(
+                  stream: menuBack.cashBackOptions,
+                  builder: (context, AsyncSnapshot<CashBackModel> snapshot) {
+                    if (snapshot.hasData) {
+                      return Container(
+                        height: 200,
+                        width: double.infinity,
+                        child: Stack(
+                          children: [
+                            Container(
+                              height: 200,
+                              width: double.infinity,
+                              color: AppTheme.white,
+                              child: Image.asset(
+                                "assets/images/menu_image.png",
+                                fit: BoxFit.fitWidth,
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Container(
+                                margin: EdgeInsets.only(top: 24, left: 24),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      priceFormat.format(snapshot.data.cash),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w900,
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 24,
+                                        height: 1.17,
+                                        fontFamily: AppTheme.fontRoboto,
+                                        color: AppTheme.white,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      translate("cash_price_title"
+                                          ""),
+                                      style: TextStyle(
+                                        height: 1.17,
+                                        fontWeight: FontWeight.normal,
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 12,
+                                        fontFamily: AppTheme.fontRoboto,
+                                        color: AppTheme.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text(snapshot.error.toString());
+                    }
+                    return Container(
+                      height: 200,
+                      width: double.infinity,
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 200,
+                            width: double.infinity,
+                            color: AppTheme.white,
+                            child: Image.asset(
+                              "assets/images/menu_image.png",
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Container(
+                              margin: EdgeInsets.only(top: 24, left: 24),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 24,
+                                      height: 1.17,
+                                      fontFamily: AppTheme.fontRoboto,
+                                      color: AppTheme.white,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text(
+                                    translate("cash_price_title"
+                                        ""),
+                                    style: TextStyle(
+                                      height: 1.17,
+                                      fontWeight: FontWeight.normal,
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 12,
+                                      fontFamily: AppTheme.fontRoboto,
+                                      color: AppTheme.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 )
               : Container(
                   margin: EdgeInsets.only(left: 12, right: 12, bottom: 30),
@@ -630,8 +752,9 @@ class _MenuScreenState extends State<MenuScreen> {
                               ),
                               Center(
                                 child: GestureDetector(
-                                  onTap: (){
-                                    FocusScopeNode currentFocus = FocusScope.of(context);
+                                  onTap: () {
+                                    FocusScopeNode currentFocus =
+                                        FocusScope.of(context);
                                     if (!currentFocus.hasPrimaryFocus) {
                                       currentFocus.unfocus();
                                     }

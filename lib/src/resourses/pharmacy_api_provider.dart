@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
+import 'package:pharmacy/src/model/api/cash_back_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/chech_error.dart';
 import 'package:pharmacy/src/model/api/check_order_responce.dart';
@@ -778,5 +779,23 @@ class PharmacyApiProvider {
     String reply = await response.transform(utf8.decoder).join();
     final Map parsed = json.decode(reply);
     return CheckVersion.fromJson(parsed);
+  }
+
+  /// Cash back
+  Future<CashBackModel> fetchCashBack() async {
+    String url = Utils.BASE_URL + '/api/v1/user-cashback';
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
+    Map<String, String> headers = {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+      'content-type': 'application/json; charset=utf-8',
+    };
+    http.Response response = await http
+        .get(url, headers: headers)
+        .timeout(const Duration(seconds: 10));
+    final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+
+    return CashBackModel.fromJson(responseJson);
   }
 }

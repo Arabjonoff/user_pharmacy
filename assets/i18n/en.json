@@ -27,6 +27,7 @@
   "error_distanse": "Impossible",
   "pharmacy_title": "Pharmacies",
   "internet_error": "Internet error",
+  "cash_price_title": "Мой баланс",
   "main": {
     "home": "Home",
     "catalog": "Catalog",

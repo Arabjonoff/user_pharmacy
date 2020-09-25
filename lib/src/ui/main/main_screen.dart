@@ -10,6 +10,7 @@ import 'package:flutter_translate/localized_app.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
+import 'package:pharmacy/src/blocs/menu_bloc.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
@@ -24,6 +25,7 @@ import 'package:pharmacy/src/ui/main/favorite/favorites_screen.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 import 'package:pharmacy/src/ui/note/notification_screen.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -311,6 +313,14 @@ class _MainScreenState extends State<MainScreen> {
                   "",
                   "",
                 );
+              } else if (index == 4) {
+                Utils.isLogin().then((value) => {
+                      isLogin = value,
+                      if (isLogin)
+                        {
+                          menuBack.fetchCashBack(),
+                        }
+                    });
               }
               setState(() {
                 _selectedIndex = index;
