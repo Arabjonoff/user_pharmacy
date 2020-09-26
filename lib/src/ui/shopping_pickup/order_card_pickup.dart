@@ -1168,6 +1168,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                     ? addModel = new AddOrderModel(
                                         type: "self",
                                         full_name: fullName,
+                              cash_pay: cashPrice.toInt(),
                                         phone: number
                                             .replaceAll('+', '')
                                             .replaceAll(' ', ''),
@@ -1179,6 +1180,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                     : addModel = new AddOrderModel(
                                         type: "self",
                                         full_name: fullName,
+                              cash_pay: cashPrice.toInt(),
                                         phone: number
                                             .replaceAll('+', '')
                                             .replaceAll(' ', ''),
@@ -1192,6 +1194,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                 : addModel = new AddOrderModel(
                                     type: "self",
                                     full_name: fullName,
+                              cash_pay: cashPrice.toInt(),
                                     phone: number
                                         .replaceAll('+', '')
                                         .replaceAll(' ', ''),

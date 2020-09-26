@@ -7,6 +7,7 @@ class AddOrderModel {
   int shipping_time;
   int payment_type;
   int store_id;
+  int cash_pay;
   String card_pan;
   String card_exp;
   int card_save;
@@ -23,6 +24,7 @@ class AddOrderModel {
       this.shipping_time,
       this.payment_type,
       this.store_id,
+      this.cash_pay,
       this.drugs,
       this.card_pan,
       this.card_exp,
@@ -34,6 +36,7 @@ class AddOrderModel {
     address = json['address'];
     location = json['location'];
     type = json['type'];
+    cash_pay = json['cash_pay'];
     full_name = json['full_name'];
     phone = json['phone'];
     shipping_time = json['shipping_time'];
@@ -57,6 +60,7 @@ class AddOrderModel {
     data['address'] = this.address;
     data['location'] = this.location;
     data['type'] = this.type;
+    data['cash_pay'] = this.cash_pay;
     data['full_name'] = this.full_name;
     data['phone'] = this.phone;
     data['store_id'] = this.store_id;

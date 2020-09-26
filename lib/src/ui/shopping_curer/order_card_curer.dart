@@ -1049,6 +1049,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                         location: widget.lat.toString() +
                                             "," +
                                             widget.lng.toString(),
+                                        cash_pay: cashPrice.toInt(),
                                         type: "shipping",
                                         full_name: fullName,
                                         phone: number
@@ -1064,6 +1065,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                         location: widget.lat.toString() +
                                             "," +
                                             widget.lng.toString(),
+                                        cash_pay: cashPrice.toInt(),
                                         type: "shipping",
                                         full_name: fullName,
                                         phone: number
@@ -1084,6 +1086,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                         "," +
                                         widget.lng.toString(),
                                     type: "shipping",
+                                    cash_pay: cashPrice.toInt(),
                                     full_name: fullName,
                                     phone: number
                                         .replaceAll('+', '')

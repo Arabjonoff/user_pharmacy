@@ -84,12 +84,10 @@ class HistoryResults {
     paymentType = json['payment_type'] != null
         ? new PaymentType.fromJson(json['payment_type'])
         : null;
-    store = json['store'] != null
-        ? new Store.fromJson(json['store'])
-        : null;
+    store = json['store'] != null ? new Store.fromJson(json['store']) : null;
     createdAt = json['created_at'];
-    total = json['total'];
-    realTotal = json['real_total'];
+    total = json['total'] == null ? 0.0 : json['total'];
+    realTotal = json['real_total']== null ? 0.0 : json['real_total'];
     status = json['status'];
     type = json['type'];
     fullName = json['full_name'];
