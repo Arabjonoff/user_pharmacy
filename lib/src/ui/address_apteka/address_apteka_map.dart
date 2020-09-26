@@ -102,6 +102,13 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
             zoom: 12,
             animation: const MapAnimation(smooth: true, duration: 0.5),
           );
+        } else {
+          _addMarkers(Repository().fetchApteka(41.311081, 69.240562));
+          mapController.move(
+            point: Point(latitude: 41.311081, longitude: 69.240562),
+            zoom: 12,
+            animation: const MapAnimation(smooth: true, duration: 0.5),
+          );
         }
       });
     } else {

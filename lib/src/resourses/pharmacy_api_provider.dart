@@ -430,18 +430,14 @@ class PharmacyApiProvider {
 
     String url = Utils.BASE_URL + '/api/v1/add-order?lan=$lan';
 
-
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json'
     };
 
-    print(json.encode(order));
-
     http.Response response = await http
         .post(url, headers: headers, body: json.encode(order))
         .timeout(const Duration(seconds: 120));
-
 
     final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 

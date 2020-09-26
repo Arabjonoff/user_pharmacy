@@ -308,6 +308,15 @@ class _AddressAptekaMapPickupScreenState
             zoom: 12,
             animation: const MapAnimation(smooth: true, duration: 0.5),
           );
+        } else {
+          addModel =
+              new AccessStore(lat: 41.311081, lng: 69.240562, products: drugs);
+          _addMarkers(Repository().fetchAccessApteka(addModel));
+          mapController.move(
+            point: Point(latitude: 41.311081, longitude: 69.240562),
+            zoom: 12,
+            animation: const MapAnimation(smooth: true, duration: 0.5),
+          );
         }
       });
     } else {

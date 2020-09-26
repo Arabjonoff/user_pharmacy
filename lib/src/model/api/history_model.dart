@@ -87,11 +87,11 @@ class HistoryResults {
     store = json['store'] != null ? new Store.fromJson(json['store']) : null;
     createdAt = json['created_at'];
     total = json['total'] == null ? 0.0 : json['total'];
-    realTotal = json['real_total']== null ? 0.0 : json['real_total'];
+    realTotal = json['real_total'] == null ? 0.0 : json['real_total'];
     status = json['status'];
-    type = json['type'];
-    fullName = json['full_name'];
-    phone = json['phone'];
+    type = json['type'] == null ? "" : json['type'];
+    fullName = json['full_name'] == null ? "" : json['full_name'];
+    phone = json['phone'] == null ? "" : json['phone'];
     if (json['items'] != null) {
       items = new List<Items>();
       json['items'].forEach((v) {
@@ -159,7 +159,7 @@ class PaymentType {
   PaymentType.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    type = json['type'];
+    type = json['type'] == null?"":json['type'];
   }
 
   Map<String, dynamic> toJson() {
