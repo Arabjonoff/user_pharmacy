@@ -12,6 +12,7 @@ import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/chech_error.dart';
 import 'package:pharmacy/src/model/api/check_order_responce.dart';
 import 'package:pharmacy/src/model/api/check_version.dart';
+import 'package:pharmacy/src/model/api/faq_model.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
@@ -822,5 +823,24 @@ class PharmacyApiProvider {
     final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
     return CashBackModel.fromJson(responseJson);
+  }
+
+  /// FAQ
+  Future<List<FaqModel>> fetchFAQ() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String lan = prefs.getString('language');
+
+    if (lan == null) {
+      lan = "uz";
+    }
+    String url = Utils.BASE_URL + '/api/v1/faq?lan=$lan';
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+    };
+    http.Response response = await http
+        .get(url, headers: headers)
+        .timeout(const Duration(seconds: 10));
+
+    return faqModelFromJson(utf8.decode(response.bodyBytes));
   }
 }

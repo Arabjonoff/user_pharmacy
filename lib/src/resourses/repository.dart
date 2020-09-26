@@ -10,6 +10,7 @@ import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/check_order_responce.dart';
 import 'package:pharmacy/src/model/api/check_version.dart';
+import 'package:pharmacy/src/model/api/faq_model.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
@@ -193,7 +194,7 @@ class Repository {
           AccessStore accessStore, String language) =>
       pharmacyApiProvider.fetchCheckErrorPickup(accessStore, language);
 
-Future<CheckErrorModel> fetchCheckErrorDelivery(
+  Future<CheckErrorModel> fetchCheckErrorDelivery(
           AccessStore accessStore, String language) =>
       pharmacyApiProvider.fetchCheckErrorDelivery(accessStore, language);
 
@@ -216,4 +217,6 @@ Future<CheckErrorModel> fetchCheckErrorDelivery(
       pharmacyApiProvider.fetchGetNoReview();
 
   Future<CashBackModel> fetchCashBack() => pharmacyApiProvider.fetchCashBack();
+
+  Future<List<FaqModel>> fetchFAQ() => pharmacyApiProvider.fetchFAQ();
 }
