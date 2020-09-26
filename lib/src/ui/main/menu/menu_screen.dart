@@ -121,7 +121,9 @@ class _MenuScreenState extends State<MenuScreen> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      priceFormat.format(snapshot.data.cash),
+                                      priceFormat.format((snapshot.data.cash)
+                                          .toInt()
+                                          .toDouble())+translate("sum"),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w900,
                                         fontStyle: FontStyle.normal,

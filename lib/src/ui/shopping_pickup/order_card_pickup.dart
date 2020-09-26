@@ -917,7 +917,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                   Text(
                     " " +
                         priceFormat
-                            .format(cashData == null ? 0.0 : cashData.cash) +
+                            .format(cashData == null ? 0.0 : (cashData.cash).toInt().toDouble()) +
                         translate("sum"),
                     style: TextStyle(
                       fontFamily: AppTheme.fontRoboto,

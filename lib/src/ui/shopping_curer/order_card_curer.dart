@@ -769,7 +769,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     ),
                   ),
                   Text(
-                    " " + priceFormat.format(widget.cash) + translate("sum"),
+                    " " + priceFormat.format((widget.cash.toInt()).toDouble()) + translate("sum"),
                     style: TextStyle(
                       fontFamily: AppTheme.fontRoboto,
                       fontSize: 16,
