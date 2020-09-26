@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -117,8 +118,8 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
           if (p >= cashData.total) {
             setState(() {
               allPrice = 0;
-              cashPrice = cashData.total;
-              cashPriceController.text = cashData.total.toInt().toString();
+              cashPrice = [cashData.total,cashData.cash].reduce(min);
+              cashPriceController.text = [cashData.total,cashData.cash].reduce(min).toInt().toString();
             });
           } else {
             setState(() {

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -123,9 +125,12 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
           if (text >= (widget.price + widget.deliveryPrice)) {
             setState(() {
               allPrice = 0;
-              cashPrice = (widget.price + widget.deliveryPrice);
-              cashPriceController.text =
-                  (widget.price + widget.deliveryPrice).toInt().toString();
+              cashPrice = [(widget.price + widget.deliveryPrice), widget.cash]
+                  .reduce(min);
+              cashPriceController.text = [
+                (widget.price + widget.deliveryPrice),
+                widget.cash
+              ].reduce(min).toInt().toString();
             });
           } else {
             setState(() {
