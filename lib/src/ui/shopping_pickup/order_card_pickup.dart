@@ -106,8 +106,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
               allPrice = 0;
               cashPrice = cashData.total;
               cashPriceController.text = cashData.total.toInt().toString();
-              cashPriceController.selection = TextSelection.fromPosition(
-                  TextPosition(offset: cashPriceController.text.length));
             });
           } else {
             setState(() {
@@ -121,16 +119,13 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
               allPrice = 0;
               cashPrice = cashData.total;
               cashPriceController.text = cashData.total.toInt().toString();
-              cashPriceController.selection = TextSelection.fromPosition(
-                  TextPosition(offset: cashPriceController.text.length));
             });
           } else {
             setState(() {
               cashData.cash == 0
                   ? cashPriceController.text = ""
                   : cashPriceController.text = cashData.cash.toInt().toString();
-              cashPriceController.selection = TextSelection.fromPosition(
-                  TextPosition(offset: cashPriceController.text.length));
+
               allPrice = cashData.total - cashData.cash;
               cashPrice = cashData.cash;
             });

@@ -112,8 +112,6 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
               cashPrice = (widget.price + widget.deliveryPrice);
               cashPriceController.text =
                   (widget.price + widget.deliveryPrice).toInt().toString();
-              cashPriceController.selection = TextSelection.fromPosition(
-                  TextPosition(offset: cashPriceController.text.length));
             });
           } else {
             setState(() {
@@ -128,16 +126,12 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
               cashPrice = (widget.price + widget.deliveryPrice);
               cashPriceController.text =
                   (widget.price + widget.deliveryPrice).toInt().toString();
-              cashPriceController.selection = TextSelection.fromPosition(
-                  TextPosition(offset: cashPriceController.text.length));
             });
           } else {
             setState(() {
               widget.cash == 0
                   ? cashPriceController.text = ""
                   : cashPriceController.text = widget.cash.toInt().toString();
-              cashPriceController.selection = TextSelection.fromPosition(
-                  TextPosition(offset: cashPriceController.text.length));
               allPrice = widget.price + widget.deliveryPrice - widget.cash;
               cashPrice = widget.cash;
             });

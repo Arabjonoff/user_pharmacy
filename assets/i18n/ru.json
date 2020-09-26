@@ -33,6 +33,7 @@
   "price_item": "Товары на сумму",
   "price_cash_item": "GoPharm Баланс",
   "price_delivery_item": "Доставка",
+  "type_time": "Условия доставки",
   "main": {
     "home": "Главное",
     "catalog": "Каталог",
@@ -181,7 +182,7 @@
     "comment": "Дополнительные комментарии",
     "save_address": "Привезти сюда",
     "choose_address": "Выберите адрес",
-    "choose_time": "Укажите время",
+    "choose_time": "Время доставки",
     "free": "Бесплатно"
   },
   "auth": {

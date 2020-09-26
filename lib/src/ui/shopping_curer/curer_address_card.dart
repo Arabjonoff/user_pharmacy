@@ -42,10 +42,12 @@ class CheckboxList {
 class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
   DatabaseHelperAddress db = new DatabaseHelperAddress();
   double chooseLat = 0.0, chooseLng = 0.0;
-  int shippingId;
+  int shippingId = 0;
+  int positionId = 0;
   int id;
   String myAddress;
   bool isAddress = false;
+  bool isFirst = true;
 
   bool error = false;
   bool loading = false;
@@ -271,27 +273,12 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(
-                        left: 16, right: 16, bottom: 4, top: 25),
-                    child: Text(
-                      translate("address.choose_time"),
-                      style: TextStyle(
-                        fontFamily: AppTheme.fontRoboto,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                        fontStyle: FontStyle.normal,
-                        color: AppTheme.black_text,
-                      ),
-                    ),
-                  ),
                   StreamBuilder(
                     stream: blocOrderOptions.orderOptions,
                     builder:
                         (context, AsyncSnapshot<OrderOptionsModel> snapshot) {
                       if (snapshot.hasData) {
                         paymentTypes = new List();
-
                         for (int i = 0;
                             i < snapshot.data.paymentTypes.length;
                             i++) {
@@ -306,31 +293,138 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                             type: snapshot.data.paymentTypes[i].type,
                           ));
                         }
-                        return Column(
-                          children: snapshot.data.shippingTimes
-                              .map((data) => RadioListTile(
-                                    title: Text(
-                                      "${data.name}",
-//                                            overflow: TextOverflow.ellipsis,
-//                                            maxLines: 2,
+                        if (isFirst) {
+                          isFirst = false;
+                          shippingId = snapshot.data.shippingTimes[0].id;
+                        }
+                        return ListView(
+                          physics: ClampingScrollPhysics(),
+                          shrinkWrap: true,
+                          children: [
+                            snapshot.data.shippingTimes.length > 1
+                                ? Container(
+                                    margin: EdgeInsets.only(
+                                        left: 16,
+                                        right: 16,
+                                        bottom: 8,
+                                        top: 24),
+                                    child: Text(
+                                      translate("address.choose_time"),
                                       style: TextStyle(
-                                        fontWeight: FontWeight.normal,
                                         fontFamily: AppTheme.fontRoboto,
-                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 20,
                                         fontStyle: FontStyle.normal,
-                                        color: Colors.black,
+                                        color: AppTheme.black_text,
                                       ),
                                     ),
-                                    activeColor: AppTheme.blue_app_color,
-                                    groupValue: shippingId,
-                                    value: data.id,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        shippingId = data.id;
-                                      });
-                                    },
-                                  ))
-                              .toList(),
+                                  )
+                                : Container(),
+                            snapshot.data.shippingTimes.length > 1
+                                ? Column(
+                                    children: snapshot.data.shippingTimes
+                                        .map((data) => RadioListTile(
+                                              title: Text(
+                                                "${data.name}",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily:
+                                                      AppTheme.fontRoboto,
+                                                  fontSize: 15,
+                                                  fontStyle: FontStyle.normal,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              activeColor:
+                                                  AppTheme.blue_app_color,
+                                              groupValue: shippingId,
+                                              value: data.id,
+                                              onChanged: (val) {
+                                                setState(() {
+                                                  shippingId = data.id;
+                                                  for (int i = 0;
+                                                      i <
+                                                          snapshot
+                                                              .data
+                                                              .shippingTimes
+                                                              .length;
+                                                      i++) {
+                                                    if (data.id ==
+                                                        snapshot
+                                                            .data
+                                                            .shippingTimes[i]
+                                                            .id) {
+                                                      positionId = i;
+                                                    }
+                                                  }
+                                                });
+                                              },
+                                            ))
+                                        .toList(),
+                                  )
+                                : Container(),
+                            Container(
+                              margin:
+                                  EdgeInsets.only(left: 16, right: 16, top: 24),
+                              child: Text(
+                                translate("type_time"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20,
+                                  fontStyle: FontStyle.normal,
+                                  color: AppTheme.black_text,
+                                ),
+                              ),
+                            ),
+                            ListView.builder(
+                                physics: ClampingScrollPhysics(),
+                                shrinkWrap: true,
+                                padding: EdgeInsets.all(16),
+                                itemCount: snapshot
+                                    .data
+                                    .shippingTimes[positionId]
+                                    .descriptions
+                                    .length,
+                                itemBuilder: (BuildContext ctxt, int index) {
+                                  return Column(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.only(
+                                            top: 16, bottom: 16),
+                                        child: Row(
+                                          children: [
+                                            SvgPicture.asset(
+                                                "assets/images/icon_yes_blue.svg"),
+                                            SizedBox(width: 12),
+                                            Expanded(
+                                              child: Text(
+                                                snapshot
+                                                    .data
+                                                    .shippingTimes[positionId]
+                                                    .descriptions[index],
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 15,
+                                                  height: 1.33,
+                                                  fontFamily:
+                                                      AppTheme.fontRoboto,
+                                                  color: AppTheme.black_text,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 1,
+                                        color: Color.fromRGBO(0, 0, 0, 0.08),
+                                      )
+                                    ],
+                                  );
+                                }),
+                          ],
                         );
                       } else if (snapshot.hasError) {
                         return Text(snapshot.error.toString());

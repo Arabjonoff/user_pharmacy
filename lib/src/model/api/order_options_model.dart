@@ -38,8 +38,16 @@ class ShippingTimes {
   double price;
   int time;
   bool isUserPay;
+  List<String> descriptions;
 
-  ShippingTimes({this.id, this.name, this.price, this.time, this.isUserPay});
+  ShippingTimes({
+    this.id,
+    this.name,
+    this.price,
+    this.time,
+    this.isUserPay,
+    this.descriptions,
+  });
 
   ShippingTimes.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -47,6 +55,9 @@ class ShippingTimes {
     price = json['price'] == null ? 0.0 : json['price'];
     time = json['time'];
     isUserPay = json['is_user_pay'];
+    descriptions = json['descriptions'] == null
+        ? null
+        : List<String>.from(json["descriptions"].map((x) => x));
   }
 
   Map<String, dynamic> toJson() {
@@ -56,6 +67,7 @@ class ShippingTimes {
     data['price'] = this.price;
     data['time'] = this.time;
     data['is_user_pay'] = this.isUserPay;
+    data['descriptions'] = List<dynamic>.from(descriptions.map((x) => x));
     return data;
   }
 }
@@ -68,7 +80,8 @@ class PaymentTypes {
   String pan;
   String type;
 
-  PaymentTypes({this.id, this.card_id, this.card_token,this.name, this.pan, this.type});
+  PaymentTypes(
+      {this.id, this.card_id, this.card_token, this.name, this.pan, this.type});
 
   PaymentTypes.fromJson(Map<String, dynamic> json) {
     id = json['id'];
