@@ -118,8 +118,11 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
           if (p >= cashData.total) {
             setState(() {
               allPrice = 0;
-              cashPrice = [cashData.total,cashData.cash].reduce(min);
-              cashPriceController.text = [cashData.total,cashData.cash].reduce(min).toInt().toString();
+              cashPrice = [cashData.total, cashData.cash].reduce(min);
+              cashPriceController.text = [cashData.total, cashData.cash]
+                  .reduce(min)
+                  .toInt()
+                  .toString();
             });
           } else {
             setState(() {
@@ -1169,7 +1172,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                     ? addModel = new AddOrderModel(
                                         type: "self",
                                         full_name: fullName,
-                              cash_pay: cashPrice.toInt(),
+                                        cash_pay: cashPrice.toInt(),
                                         phone: number
                                             .replaceAll('+', '')
                                             .replaceAll(' ', ''),
@@ -1181,7 +1184,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                     : addModel = new AddOrderModel(
                                         type: "self",
                                         full_name: fullName,
-                              cash_pay: cashPrice.toInt(),
+                                        cash_pay: cashPrice.toInt(),
                                         phone: number
                                             .replaceAll('+', '')
                                             .replaceAll(' ', ''),
@@ -1195,7 +1198,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                 : addModel = new AddOrderModel(
                                     type: "self",
                                     full_name: fullName,
-                              cash_pay: cashPrice.toInt(),
+                                    cash_pay: cashPrice.toInt(),
                                     phone: number
                                         .replaceAll('+', '')
                                         .replaceAll(' ', ''),
@@ -1309,31 +1312,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                                 loading = false;
                                                 error_text =
                                                     response.data.error_note;
-
-//
-//                                                if (response.data.error_code ==
-//                                                    -21) {
-//                                                  error_text =
-//                                                      "Карта неактивна";
-//                                                } else {
-//                                                  if (response
-//                                                          .data.error_code ==
-//                                                      22) {
-//                                                    checkBox = false;
-//                                                  }
-//                                                  error_text = response.data
-//                                                              .error_code ==
-//                                                          2
-//                                                      ? translate(
-//                                                          "cardNumberError")
-//                                                      : response.data
-//                                                                  .error_code ==
-//                                                              22
-//                                                          ? translate(
-//                                                              "notSaveCard")
-//                                                          : response
-//                                                              .data.error_note;
-//                                                }
                                               }),
                                             }
                                         }
