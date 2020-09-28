@@ -9,12 +9,11 @@ import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
-import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/sort_radio_btn.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
+import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
-import 'package:pharmacy/src/ui/view/item_view.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shimmer/shimmer.dart';
@@ -248,8 +247,20 @@ class _ItemListScreenState extends State<ItemListScreen> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
-                              BottomDialog.createBottomVoiceAssistant(context);
+                            onTap: () async {
+                              bool hasSpeech = await speech.initialize(
+                                onError: (errorNotification) => {
+                                  setState(() {
+                                    lastError =
+                                        "${errorNotification.errorMsg} - ${errorNotification.permanent}";
+                                  }),
+                                },
+                              );
+
+                              if (hasSpeech) {
+                                BottomDialog.createBottomVoiceAssistant(
+                                    context);
+                              }
                             },
                             child: Container(
                               height: 36,

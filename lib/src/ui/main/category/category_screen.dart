@@ -14,6 +14,7 @@ import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/category/sub_category_screen.dart';
+import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
@@ -255,8 +256,20 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
-                              BottomDialog.createBottomVoiceAssistant(context);
+                            onTap: () async {
+                              bool hasSpeech = await speech.initialize(
+                                onError: (errorNotification) => {
+                                  setState(() {
+                                    lastError =
+                                        "${errorNotification.errorMsg} - ${errorNotification.permanent}";
+                                  }),
+                                },
+                              );
+
+                              if (hasSpeech) {
+                                BottomDialog.createBottomVoiceAssistant(
+                                    context);
+                              }
                             },
                             child: Container(
                               height: 36,
