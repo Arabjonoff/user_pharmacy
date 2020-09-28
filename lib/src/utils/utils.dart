@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_translate/global.dart';
-import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:barcode_scan/barcode_scan.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Utils {
   //static String BASE_URL = "http://185.183.243.77";
@@ -52,10 +53,30 @@ class Utils {
 
   static Future<String> scanBarcodeNormal() async {
     try {
-      return await FlutterBarcodeScanner.scanBarcode(
-          "#ff6666", "Cancel", true, ScanMode.BARCODE);
-    } on FormatException {
-      return '';
+      var options = ScanOptions(
+        strings: {
+          "cancel": "Cancel",
+          "flash_on": "Flash on",
+          "flash_off": "Flash off",
+        },
+        restrictFormat: [
+          ...BarcodeFormat.values.toList()
+            ..removeWhere((e) => e == BarcodeFormat.unknown)
+        ],
+        useCamera: -1,
+        autoEnableFlash: false,
+        android: AndroidOptions(
+          aspectTolerance: 0.0,
+          useAutoFocus: true,
+        ),
+      );
+      var result = await BarcodeScanner.scan(options: options);
+      if (result.type.name == "Cancelled")
+        return "-1";
+      else
+        return result.rawContent;
+    } on PlatformException catch (e) {
+      return "-1";
     }
   }
 
