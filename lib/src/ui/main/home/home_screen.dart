@@ -73,7 +73,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     _setLanguage();
-    initSpeechState();
     _initPackageInfo();
     registerBus();
     _notificationFirebase();
@@ -451,18 +450,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
-  Future<void> initSpeechState() async {
-    bool hasSpeech = await speech.initialize(
-      onError: (errorNotification) => {
-        setState(() {
-          lastError =
-              "${errorNotification.errorMsg} - ${errorNotification.permanent}";
-        }),
-      },
-    );
-    if (!mounted) return;
-  }
-
   @override
   Widget build(BuildContext context) {
     _setRegion();
@@ -470,7 +457,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (isOpenIds) RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_IDS");
     if (isOpenSearch)
       RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_SEARCH");
-
 
     Utils.isLogin().then((value) => isLogin = value);
     return Scaffold(
@@ -579,9 +565,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ),
                                     ),
                                     GestureDetector(
-                                      onTap: () {
-                                        BottomDialog.createBottomVoiceAssistant(
-                                            context);
+                                      onTap: () async {
+                                        bool hasSpeech =
+                                            await speech.initialize(
+                                          onError: (errorNotification) => {
+                                            setState(() {
+                                              lastError =
+                                                  "${errorNotification.errorMsg} - ${errorNotification.permanent}";
+                                            }),
+                                          },
+                                        );
+
+                                        if (hasSpeech) {
+                                          BottomDialog
+                                              .createBottomVoiceAssistant(
+                                                  context);
+                                        }
                                       },
                                       child: Container(
                                         height: 36,
