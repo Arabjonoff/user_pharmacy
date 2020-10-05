@@ -49,20 +49,21 @@ class PharmacyApiProvider {
       "login": login,
     };
 
-    HttpClient httpClient = new HttpClient();
-    httpClient
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json');
-    request.write(json.encode(data));
-    HttpClientResponse response = await request.close();
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+    };
 
-    String reply = await response.transform(utf8.decoder).join();
-
-    final Map parsed = json.decode(reply);
-
-    return LoginModel.fromJson(parsed);
+    try {
+      http.Response response = await http
+          .post(url, headers: headers, body: json.encode(data))
+          .timeout(const Duration(seconds: 10));
+      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+      return LoginModel.fromJson(responseJson);
+    } on TimeoutException catch (_) {
+      return LoginModel(status: -1, msg: translate("internet_error"));
+    } on SocketException catch (_) {
+      return LoginModel(status: -1, msg: translate("internet_error"));
+    }
   }
 
   ///verfy

@@ -17,6 +17,7 @@ import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/check_version.dart';
+import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/chat/chat_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
@@ -435,10 +436,22 @@ class _MainScreenState extends State<MainScreen> {
           CategoryScreen(),
           CardScreen(),
           FavoritesScreen(),
-          MenuScreen(),
+          MenuScreen(
+            onLogin: _login,
+          ),
         ].elementAt(index);
       },
     };
+  }
+
+  void _login() {
+    Navigator.push(
+      context,
+      PageTransition(
+        type: PageTransitionType.downToUp,
+        child: LoginScreen(),
+      ),
+    );
   }
 
   Widget _buildOffstageNavigator(int index) {

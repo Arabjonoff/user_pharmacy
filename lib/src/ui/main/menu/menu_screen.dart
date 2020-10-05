@@ -28,6 +28,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../app_theme.dart';
 
 class MenuScreen extends StatefulWidget {
+  Function onLogin;
+
+  MenuScreen({this.onLogin});
+
   @override
   State<StatefulWidget> createState() {
     return _MenuScreenState();
@@ -122,8 +126,9 @@ class _MenuScreenState extends State<MenuScreen> {
                                   children: [
                                     Text(
                                       priceFormat.format((snapshot.data.cash)
-                                          .toInt()
-                                          .toDouble())+translate("sum"),
+                                              .toInt()
+                                              .toDouble()) +
+                                          translate("sum"),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w900,
                                         fontStyle: FontStyle.normal,
@@ -241,15 +246,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         height: 51,
                       ),
                       GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.downToUp,
-                              child: LoginScreen(),
-                            ),
-                          );
-                        },
+                        onTap: widget.onLogin,
                         child: Container(
                           height: 44,
                           margin: EdgeInsets.only(left: 24, right: 24, top: 20),

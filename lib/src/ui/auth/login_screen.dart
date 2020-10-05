@@ -19,6 +19,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   var loading = false;
+  var error = false;
+  var errorText = "";
 
   TextEditingController loginController = TextEditingController(text: "+998");
   var maskFormatter = new MaskTextInputFormatter(
@@ -98,30 +100,30 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
-            Container(
-              height: 72,
-              width: double.infinity,
-              margin: EdgeInsets.only(
-                top: 30,
-              ),
-              child: Center(
-                child: SvgPicture.asset("assets/images/login_logo.svg"),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              margin: EdgeInsets.only(
-                top: 22.37,
-              ),
-              child: Center(
-                child: SvgPicture.asset("assets/images/grandpharm.svg"),
-              ),
-            ),
             Expanded(
               child: ListView(
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
                 children: [
+                  Container(
+                    height: 72,
+                    width: double.infinity,
+                    margin: EdgeInsets.only(
+                      top: 30,
+                    ),
+                    child: Center(
+                      child: SvgPicture.asset("assets/images/login_logo.svg"),
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(
+                      top: 22.37,
+                    ),
+                    child: Center(
+                      child: SvgPicture.asset("assets/images/grandpharm.svg"),
+                    ),
+                  ),
                   Container(
                     height: 56,
                     margin: EdgeInsets.only(top: 24, left: 16, right: 16),
@@ -176,7 +178,25 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  error
+                      ? Container(
+                          margin: EdgeInsets.only(left: 16, right: 16, top: 9),
+                          width: double.infinity,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              errorText,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontSize: 13,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.red_fav_color,
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
                 ],
               ),
             ),
@@ -244,9 +264,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     });
                     var responce = await Repository().fetchLogin(number);
                     if (responce.status == 1) {
-                      setState(() {
-                        loading = false;
-                      });
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -255,6 +272,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                     } else {
                       setState(() {
+                        error = true;
+                        errorText = responce.msg;
                         loading = false;
                       });
                     }
