@@ -11,7 +11,7 @@ class OrderOptionBloc {
 
   fetchOrderOptions(String lan) async {
     OrderOptionsModel orderOptions = await _repository.fetchOrderOptions(lan);
-    _orderOptionsFetcher.sink.add(orderOptions);
+    if (orderOptions != null) _orderOptionsFetcher.sink.add(orderOptions);
   }
 
   dispose() {
