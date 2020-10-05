@@ -25,6 +25,8 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   var loading = false;
+  var error = false;
+  var errorText = "";
 
   TextEditingController surNameController = TextEditingController();
   TextEditingController nameController = TextEditingController();
@@ -325,6 +327,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                   ),
+                  error
+                      ? Container(
+                          margin: EdgeInsets.only(left: 16, right: 16, top: 9),
+                          width: double.infinity,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              errorText,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontSize: 13,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.red_fav_color,
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
                   Container(
                     margin: EdgeInsets.only(top: 25),
                     child: GridView(
@@ -393,8 +413,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     setState(() {
                       loading = false;
                     });
+                  } else if (response.status == -1) {
+                    setState(() {
+                      error = true;
+                      errorText = response.msg;
+                      loading = false;
+                    });
                   } else {
                     setState(() {
+                      error = false;
                       loading = false;
                     });
                   }

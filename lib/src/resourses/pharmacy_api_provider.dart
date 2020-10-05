@@ -108,13 +108,17 @@ class PharmacyApiProvider {
       HttpHeaders.authorizationHeader: "Bearer $token",
     };
 
-    http.Response response = await http
-        .post(url, headers: headers, body: data)
-        .timeout(const Duration(seconds: 120));
-
-    final Map parsed = json.decode(response.body);
-
-    return LoginModel.fromJson(parsed);
+    try {
+      http.Response response = await http
+          .post(url, headers: headers, body: data)
+          .timeout(const Duration(seconds: 15));
+      final Map parsed = json.decode(response.body);
+      return LoginModel.fromJson(parsed);
+    } on TimeoutException catch (_) {
+      return LoginModel(status: -1, msg: translate("internet_error"));
+    } on SocketException catch (_) {
+      return LoginModel(status: -1, msg: translate("internet_error"));
+    }
   }
 
   ///Sale
