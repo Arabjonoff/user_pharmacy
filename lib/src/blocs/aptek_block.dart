@@ -45,31 +45,33 @@ class AptekaBloc {
   fetchAccessApteka(AccessStore accessStore) async {
     List<LocationModel> saleModel =
         await _repository.fetchAccessApteka(accessStore);
-    List<AptekaModel> aptekadatabase = await _repository.dbAptekaItems();
-    List<AptekaModel> aptekadata = new List();
 
-    for (int i = 0; i < saleModel.length; i++) {
-      aptekadata.add(AptekaModel(
-        saleModel[i].id,
-        saleModel[i].name,
-        saleModel[i].address,
-        saleModel[i].mode,
-        saleModel[i].phone,
-        saleModel[i].location.coordinates[1],
-        saleModel[i].location.coordinates[0],
-        false,
-      ));
-    }
+    if (saleModel != null) {
+      List<AptekaModel> aptekadatabase = await _repository.dbAptekaItems();
+      List<AptekaModel> aptekadata = new List();
 
-    for (int i = 0; i < aptekadata.length; i++) {
-      for (int j = 0; j < aptekadatabase.length; j++) {
-        if (aptekadata[i].id == aptekadatabase[j].id) {
-          aptekadata[i].fav = true;
+      for (int i = 0; i < saleModel.length; i++) {
+        aptekadata.add(AptekaModel(
+          saleModel[i].id,
+          saleModel[i].name,
+          saleModel[i].address,
+          saleModel[i].mode,
+          saleModel[i].phone,
+          saleModel[i].location.coordinates[1],
+          saleModel[i].location.coordinates[0],
+          false,
+        ));
+      }
+
+      for (int i = 0; i < aptekadata.length; i++) {
+        for (int j = 0; j < aptekadatabase.length; j++) {
+          if (aptekadata[i].id == aptekadatabase[j].id) {
+            aptekadata[i].fav = true;
+          }
         }
       }
+      _aptekaFetcher.sink.add(aptekadata);
     }
-
-    _aptekaFetcher.sink.add(aptekadata);
   }
 
   dispose() {

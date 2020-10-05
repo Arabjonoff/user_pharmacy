@@ -61,7 +61,7 @@ class _AddressAptekaMapPickupScreenState
       for (int i = 0; i < placemarks.length; i++)
         await mapController.removePlacemark(placemarks[i]);
     response.then((somedata) {
-      _addMarkerData(somedata);
+      if (somedata != null) _addMarkerData(somedata);
     });
   }
 

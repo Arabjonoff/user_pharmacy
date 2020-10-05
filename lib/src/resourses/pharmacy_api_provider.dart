@@ -545,22 +545,23 @@ class PharmacyApiProvider {
     }
   }
 
-  ///items
+  ///Exist store
   Future<List<LocationModel>> fetchAccessApteka(AccessStore accessStore) async {
     String url = Utils.BASE_URL + '/api/v1/exists-stores';
 
-    HttpClient httpClient = new HttpClient();
-    httpClient
-      ..badCertificateCallback =
-          ((X509Certificate cert, String host, int port) => true);
-    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json');
-    request.write(json.encode(accessStore));
-    HttpClientResponse response = await request.close();
-
-    String reply = await response.transform(utf8.decoder).join();
-
-    return locationModelFromJson(reply);
+    try {
+      http.Response response = await http
+          .post(url, body: json.encode(accessStore))
+          .timeout(const Duration(seconds: 10));
+      var responseJson = utf8.decode(response.bodyBytes);
+      return locationModelFromJson(responseJson);
+    } on TimeoutException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return null;
+    } on SocketException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return null;
+    }
   }
 
   ///reload payment
