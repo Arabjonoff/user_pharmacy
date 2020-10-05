@@ -21,9 +21,10 @@ class FilterBloc {
     FilterModel itemModelResponse =
         await _repository.fetchFilterParametrs(page, type);
 
-    filterItems.addAll(itemModelResponse.results);
+    if (itemModelResponse != null) {
+      filterItems.addAll(itemModelResponse.results);
 
-    if (type == 1) {
+      if (type == 1) {
 //      for (int i = 0; i < filterItems.length; i++) {
 //        for (int j = 0; j < unitExamp.length; j++) {
 //          if (filterItems[i].id == unitExamp[j].id) {
@@ -31,25 +32,26 @@ class FilterBloc {
 //          }
 //        }
 //      }
-    } else if (type == 2) {
-      for (int i = 0; i < filterItems.length; i++) {
-        for (int j = 0; j < manufacturerExamp.length; j++) {
-          if (filterItems[i].id == manufacturerExamp[j].id) {
-            filterItems[i].isClick = true;
+      } else if (type == 2) {
+        for (int i = 0; i < filterItems.length; i++) {
+          for (int j = 0; j < manufacturerExamp.length; j++) {
+            if (filterItems[i].id == manufacturerExamp[j].id) {
+              filterItems[i].isClick = true;
+            }
+          }
+        }
+      } else {
+        for (int i = 0; i < filterItems.length; i++) {
+          for (int j = 0; j < internationalNameExamp.length; j++) {
+            if (filterItems[i].id == internationalNameExamp[j].id) {
+              filterItems[i].isClick = true;
+            }
           }
         }
       }
-    } else {
-      for (int i = 0; i < filterItems.length; i++) {
-        for (int j = 0; j < internationalNameExamp.length; j++) {
-          if (filterItems[i].id == internationalNameExamp[j].id) {
-            filterItems[i].isClick = true;
-          }
-        }
-      }
-    }
 
-    _filterFetcher.sink.add(filterItems);
+      _filterFetcher.sink.add(filterItems);
+    }
   }
 
   dispose() {
