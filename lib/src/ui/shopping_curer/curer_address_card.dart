@@ -531,6 +531,14 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                             ),
                                           ),
                                         }
+                                      else if (response.status == -1)
+                                        {
+                                          setState(() {
+                                            error = true;
+                                            loading = false;
+                                            error_text = response.msg;
+                                          }),
+                                        }
                                       else
                                         {
                                           setState(() {
