@@ -141,6 +141,7 @@ class PharmacyApiProvider {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
       return SaleModel();
     } on SocketException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
       return SaleModel();
     }
   }
@@ -209,30 +210,6 @@ class PharmacyApiProvider {
     }
   }
 
-  ///search
-  Future<ItemModel> fetchSearchList(String obj) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int regionId = prefs.getInt("cityId");
-    if (regionId == null) {
-      regionId = 1;
-    }
-
-    String url = Utils.BASE_URL + '/api/v1/drugs?search=$obj&region=$regionId';
-
-    HttpClient httpClient = new HttpClient();
-    httpClient
-      ..badCertificateCallback =
-          ((X509Certificate cert, String host, int port) => true);
-    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json');
-    HttpClientResponse response = await request.close();
-
-    String reply = await response.transform(utf8.decoder).join();
-
-    final Map parsed = json.decode(reply);
-    return ItemModel.fromJson(parsed);
-  }
-
   ///category's by item
   Future<ItemModel> fetchCategoryItemsList(
     String id,
@@ -274,6 +251,7 @@ class PharmacyApiProvider {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
       return null;
     } on SocketException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
       return null;
     }
   }
@@ -385,24 +363,24 @@ class PharmacyApiProvider {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
       return null;
     } on SocketException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
       return null;
     }
   }
 
-  ///items
+  ///stores
   Future<List<LocationModel>> fetchApteka(double lat, double lng) async {
     String url = Utils.BASE_URL + '/api/v1/stores?lat=$lat&lng=$lng';
     try {
       http.Response response =
           await http.get(url).timeout(const Duration(seconds: 10));
-
       var responseJson = utf8.decode(response.bodyBytes);
-
       return locationModelFromJson(responseJson);
     } on TimeoutException catch (_) {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
       return null;
     } on SocketException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
       return null;
     }
   }
@@ -411,17 +389,18 @@ class PharmacyApiProvider {
   Future<List<RegionModel>> fetchRegions(String obj) async {
     String url = Utils.BASE_URL + '/api/v1/regions?search=' + obj;
 
-    HttpClient httpClient = new HttpClient();
-    httpClient
-      ..badCertificateCallback =
-          ((X509Certificate cert, String host, int port) => true);
-    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json');
-    HttpClientResponse response = await request.close();
-
-    String reply = await response.transform(utf8.decoder).join();
-
-    return regionModelFromJson(reply);
+    try {
+      http.Response response =
+          await http.get(url).timeout(const Duration(seconds: 10));
+      var responseJson = utf8.decode(response.bodyBytes);
+      return regionModelFromJson(responseJson);
+    } on TimeoutException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return null;
+    } on SocketException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return null;
+    }
   }
 
   ///add order

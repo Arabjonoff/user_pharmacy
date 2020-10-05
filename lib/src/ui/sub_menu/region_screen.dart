@@ -325,28 +325,32 @@ class _RegionScreenState extends State<RegionScreen> {
     if (prefs.getInt("cityId") != null) {
       cityId = prefs.getInt("cityId");
     }
+
     response.then((value) => {
-          for (int i = 0; i < value.length; i++)
+          if (value != null)
             {
-              if (value[i].childs.length > 0)
+              for (int i = 0; i < value.length; i++)
                 {
-                  for (int j = 0; j < value[i].childs.length; j++)
+                  if (value[i].childs.length > 0)
                     {
-                      if (cityId == value[i].childs[j].id)
+                      for (int j = 0; j < value[i].childs.length; j++)
                         {
-                          value[i].childs[j].isChoose = true,
+                          if (cityId == value[i].childs[j].id)
+                            {
+                              value[i].childs[j].isChoose = true,
+                            }
                         }
                     }
-                }
-              else if (cityId == value[i].id)
-                {
-                  value[i].isChoose = true,
-                }
-            },
-          setState(() {
-            users = new List();
-            users = value;
-          }),
+                  else if (cityId == value[i].id)
+                    {
+                      value[i].isChoose = true,
+                    }
+                },
+              setState(() {
+                users = new List();
+                users = value;
+              }),
+            }
         });
   }
 }
