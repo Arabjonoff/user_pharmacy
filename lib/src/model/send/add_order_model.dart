@@ -13,6 +13,7 @@ class AddOrderModel {
   int card_save;
   String card_token;
   String phone_number;
+  String device;
   List<Drugs> drugs;
 
   AddOrderModel(
@@ -22,6 +23,7 @@ class AddOrderModel {
       this.full_name,
       this.phone,
       this.shipping_time,
+      this.device,
       this.payment_type,
       this.store_id,
       this.cash_pay,
@@ -37,6 +39,7 @@ class AddOrderModel {
     location = json['location'];
     type = json['type'];
     cash_pay = json['cash_pay'];
+    device = json['device'];
     full_name = json['full_name'];
     phone = json['phone'];
     shipping_time = json['shipping_time'];
@@ -60,6 +63,7 @@ class AddOrderModel {
     data['address'] = this.address;
     data['location'] = this.location;
     data['type'] = this.type;
+    data['device'] = this.device;
     data['cash_pay'] = this.cash_pay;
     data['full_name'] = this.full_name;
     data['phone'] = this.phone;

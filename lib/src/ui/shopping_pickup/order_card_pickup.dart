@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -916,8 +917,9 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                   ),
                   Text(
                     " " +
-                        priceFormat
-                            .format(cashData == null ? 0.0 : (cashData.cash).toInt().toDouble()) +
+                        priceFormat.format(cashData == null
+                            ? 0.0
+                            : (cashData.cash).toInt().toDouble()) +
                         translate("sum"),
                     style: TextStyle(
                       fontFamily: AppTheme.fontRoboto,
@@ -1178,6 +1180,8 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                             .replaceAll(' ', ''),
                                         store_id: aptekaModel.id,
                                         payment_type: paymentType,
+                                        device:
+                                            Platform.isIOS ? "IOS" : "Android",
                                         drugs: drugs,
                                         phone_number: num,
                                       )
@@ -1185,6 +1189,8 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                         type: "self",
                                         full_name: fullName,
                                         cash_pay: cashPrice.toInt(),
+                                        device:
+                                            Platform.isIOS ? "IOS" : "Android",
                                         phone: number
                                             .replaceAll('+', '')
                                             .replaceAll(' ', ''),
@@ -1199,6 +1205,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                     type: "self",
                                     full_name: fullName,
                                     cash_pay: cashPrice.toInt(),
+                                    device: Platform.isIOS ? "IOS" : "Android",
                                     phone: number
                                         .replaceAll('+', '')
                                         .replaceAll(' ', ''),
@@ -1314,6 +1321,14 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                                     response.data.error_note;
                                               }),
                                             }
+                                        }
+                                      else if (response.status == -1)
+                                        {
+                                          setState(() {
+                                            error = true;
+                                            loading = false;
+                                            error_text = response.msg;
+                                          }),
                                         }
                                       else
                                         {

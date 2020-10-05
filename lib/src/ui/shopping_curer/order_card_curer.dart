@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -769,7 +770,9 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     ),
                   ),
                   Text(
-                    " " + priceFormat.format((widget.cash.toInt()).toDouble()) + translate("sum"),
+                    " " +
+                        priceFormat.format((widget.cash.toInt()).toDouble()) +
+                        translate("sum"),
                     style: TextStyle(
                       fontFamily: AppTheme.fontRoboto,
                       fontSize: 16,
@@ -1064,7 +1067,8 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                         payment_type: paymentType,
                                         drugs: drugs,
                                         phone_number: num,
-                                      )
+                                        device:
+                                            Platform.isIOS ? "IOS" : "Android")
                                     : addModel = new AddOrderModel(
                                         address: widget.address,
                                         location: widget.lat.toString() +
@@ -1073,6 +1077,8 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                         cash_pay: cashPrice.toInt(),
                                         type: "shipping",
                                         full_name: fullName,
+                                        device:
+                                            Platform.isIOS ? "IOS" : "Android",
                                         phone: number
                                             .replaceAll('+', '')
                                             .replaceAll(' ', ''),
@@ -1093,6 +1099,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                     type: "shipping",
                                     cash_pay: cashPrice.toInt(),
                                     full_name: fullName,
+                                    device: Platform.isIOS ? "IOS" : "Android",
                                     phone: number
                                         .replaceAll('+', '')
                                         .replaceAll(' ', ''),
@@ -1208,6 +1215,14 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                                     response.data.error_note;
                                               }),
                                             }
+                                        }
+                                      else if (response.status == -1)
+                                        {
+                                          setState(() {
+                                            error = true;
+                                            loading = false;
+                                            error_text = response.msg;
+                                          }),
                                         }
                                       else
                                         {

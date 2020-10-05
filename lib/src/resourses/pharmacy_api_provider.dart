@@ -420,13 +420,19 @@ class PharmacyApiProvider {
       'content-type': 'application/json'
     };
 
-    http.Response response = await http
-        .post(url, headers: headers, body: json.encode(order))
-        .timeout(const Duration(seconds: 120));
-
-    final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-
-    return OrderStatusModel.fromJson(responseJson);
+    try {
+      http.Response response = await http
+          .post(url, headers: headers, body: json.encode(order))
+          .timeout(const Duration(seconds: 15));
+      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+      return OrderStatusModel.fromJson(responseJson);
+    } on TimeoutException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return OrderStatusModel(status: -1, msg: translate("internet_error"));
+    } on SocketException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return OrderStatusModel(status: -1, msg: translate("internet_error"));
+    }
   }
 
   ///add order
