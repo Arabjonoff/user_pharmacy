@@ -318,8 +318,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           GestureDetector(
                                             onTap: () async {
                                               if (commentController
-                                                      .text.length >
-                                                  0) {
+                                                          .text.length >
+                                                      0 ||
+                                                  _stars > 0) {
                                                 setState(() {
                                                   loading = true;
                                                 });

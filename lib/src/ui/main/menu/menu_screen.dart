@@ -927,7 +927,8 @@ class _MenuScreenState extends State<MenuScreen> {
                               ),
                               GestureDetector(
                                 onTap: () async {
-                                  if (commentController.text.length > 0) {
+                                  if (commentController.text.length > 0 ||
+                                      _stars > 0) {
                                     setState(() {
                                       loading = true;
                                     });
