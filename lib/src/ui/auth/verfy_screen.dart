@@ -27,6 +27,7 @@ class VerfyScreen extends StatefulWidget {
 class _VerfyScreenState extends State<VerfyScreen> {
   var loading = false;
   var error = false;
+  var errorText = "";
   var timerLoad = true;
 
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -280,7 +281,7 @@ class _VerfyScreenState extends State<VerfyScreen> {
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: Text(
-                              translate("auth.error"),
+                                errorText,
                               style: TextStyle(
                                 fontFamily: AppTheme.fontRoboto,
                                 fontSize: 13,
@@ -332,6 +333,7 @@ class _VerfyScreenState extends State<VerfyScreen> {
                   } else {
                     setState(() {
                       loading = false;
+                      errorText = responce.msg;
                       error = true;
                     });
                   }
