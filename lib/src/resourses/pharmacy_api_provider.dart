@@ -564,28 +564,6 @@ class PharmacyApiProvider {
     }
   }
 
-  ///reload payment
-  Future<OrderStatusModel> fetchOrderPayment(String id) async {
-    String url = Utils.BASE_URL + '/api/v1/order-payment';
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token");
-
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
-    };
-
-    final data = {"order_id": id};
-
-    http.Response response = await http
-        .post(url, headers: headers, body: data)
-        .timeout(const Duration(seconds: 120));
-
-    final Map parsed = json.decode(response.body);
-
-    return OrderStatusModel.fromJson(parsed);
-  }
-
   ///get all message
   Future<ChatApiModel> fetchGetAppMessage(int page, int per_page) async {
     String url =
@@ -607,6 +585,7 @@ class PharmacyApiProvider {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
       return null;
     } on SocketException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
       return null;
     }
   }
