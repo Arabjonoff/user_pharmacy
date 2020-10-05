@@ -281,7 +281,7 @@ class _VerfyScreenState extends State<VerfyScreen> {
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: Text(
-                                errorText,
+                              errorText,
                               style: TextStyle(
                                 fontFamily: AppTheme.fontRoboto,
                                 fontSize: 13,
@@ -330,10 +330,16 @@ class _VerfyScreenState extends State<VerfyScreen> {
                       loading = false;
                       error = false;
                     });
-                  } else {
+                  } else if (responce.status == -1) {
                     setState(() {
                       loading = false;
                       errorText = responce.msg;
+                      error = true;
+                    });
+                  } else {
+                    setState(() {
+                      loading = false;
+                      errorText = translate("auth.error");
                       error = true;
                     });
                   }
