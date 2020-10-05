@@ -14,7 +14,7 @@ class FaqBloc {
 
   fetchAllFaq() async {
     List<FaqModel> result = await _repository.fetchFAQ();
-    _faqFetcher.sink.add(result);
+    if (result != null) _faqFetcher.sink.add(result);
   }
 
   dispose() {

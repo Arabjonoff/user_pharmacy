@@ -705,6 +705,8 @@ class PharmacyApiProvider {
           error_code: -1, errorNote: translate("internet_error"));
     }
 
+    /// to'lov tasdiqlash joyi sinab ko'rish kere yaxshilab
+
     // HttpClient httpClient = new HttpClient();
     // httpClient
     //   ..badCertificateCallback =
@@ -839,10 +841,17 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
     };
-    http.Response response = await http
-        .get(url, headers: headers)
-        .timeout(const Duration(seconds: 10));
-
-    return faqModelFromJson(utf8.decode(response.bodyBytes));
+    try {
+      http.Response response = await http
+          .get(url, headers: headers)
+          .timeout(const Duration(seconds: 10));
+      return faqModelFromJson(utf8.decode(response.bodyBytes));
+    } on TimeoutException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return null;
+    } on SocketException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return null;
+    }
   }
 }
