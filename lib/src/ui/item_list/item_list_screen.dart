@@ -248,7 +248,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              bool hasSpeech = await speech.initialize(
+                              bool hasSpeech = await speechText.initialize(
                                 onError: (errorNotification) => {
                                   setState(() {
                                     lastError =

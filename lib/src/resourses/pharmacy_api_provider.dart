@@ -125,9 +125,9 @@ class PharmacyApiProvider {
   Future<SaleModel> fetchSaleList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
-    if (regionId == null) {
-      regionId = 1;
-    }
+    // if (regionId == null) {
+    //   regionId = 1;
+    // }
 
     String url = Utils.BASE_URL + '/api/v1/sales?region=$regionId';
 
@@ -159,9 +159,9 @@ class PharmacyApiProvider {
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
-    if (regionId == null) {
-      regionId = 1;
-    }
+    // if (regionId == null) {
+    //   regionId = 1;
+    // }
 
     String url = Utils.BASE_URL +
         '/api/v1/drugs?'
@@ -175,6 +175,7 @@ class PharmacyApiProvider {
             'price_max=$price_max&'
             'price_min=$price_min&'
             'unit_ids=$unit_ids';
+
     try {
       http.Response response =
           await http.get(url).timeout(const Duration(seconds: 10));
@@ -192,10 +193,9 @@ class PharmacyApiProvider {
   Future<CategoryModel> fetchCategoryList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
-    if (regionId == null) {
-      regionId = 1;
-    }
-
+    // if (regionId == null) {
+    //   regionId = 1;
+    // }
     String url = Utils.BASE_URL + '/api/v1/categories?region=$regionId';
     try {
       http.Response response =
@@ -224,9 +224,9 @@ class PharmacyApiProvider {
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
-    if (regionId == null) {
-      regionId = 1;
-    }
+    // if (regionId == null) {
+    //   regionId = 1;
+    // }
 
     String url = Utils.BASE_URL +
         '/api/v1/drugs?'
@@ -270,9 +270,9 @@ class PharmacyApiProvider {
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
-    if (regionId == null) {
-      regionId = 1;
-    }
+    // if (regionId == null) {
+    //   regionId = 1;
+    // }
 
     String url = Utils.BASE_URL +
         '/api/v1/drugs?'
@@ -315,9 +315,9 @@ class PharmacyApiProvider {
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
-    if (regionId == null) {
-      regionId = 1;
-    }
+    // if (regionId == null) {
+    //   regionId = 1;
+    // }
 
     String url = Utils.BASE_URL +
         '/api/v1/drugs?'
@@ -347,9 +347,9 @@ class PharmacyApiProvider {
   Future<ItemsAllModel> fetchItems(String id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
-    if (regionId == null) {
-      regionId = 1;
-    }
+    // if (regionId == null) {
+    //   regionId = 1;
+    // }
 
     String url = Utils.BASE_URL + '/api/v1/drugs/$id?region=$regionId';
 
@@ -410,7 +410,7 @@ class PharmacyApiProvider {
     String lan = prefs.getString('language');
 
     if (lan == null) {
-      lan = "uz";
+      lan = "ru";
     }
 
     String url = Utils.BASE_URL + '/api/v1/add-order?lan=$lan';
@@ -435,7 +435,7 @@ class PharmacyApiProvider {
     }
   }
 
-  ///add order
+  ///History
   Future<HistoryModel> fetchOrderHistory(int page, int per_page) async {
     String url =
         Utils.BASE_URL + '/api/v1/orders?page=$page&per_page=$per_page';
@@ -519,7 +519,7 @@ class PharmacyApiProvider {
     String lan = prefs.getString('language');
 
     if (lan == null) {
-      lan = "uz";
+      lan = "ru";
     }
 
     String url = Utils.BASE_URL + '/api/v1/check-order?lan=$lan';
@@ -835,7 +835,7 @@ class PharmacyApiProvider {
     String lan = prefs.getString('language');
 
     if (lan == null) {
-      lan = "uz";
+      lan = "ru";
     }
     String url = Utils.BASE_URL + '/api/v1/faq?lan=$lan';
     Map<String, String> headers = {

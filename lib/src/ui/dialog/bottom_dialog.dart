@@ -173,12 +173,12 @@ class BottomDialog {
                       onTap: () async {
                         var url = 'https://api.gopharm.uz/privacy';
                         if (await canLaunch(url)) {
-                        await launch(url);
+                          await launch(url);
                         } else {
-                        throw 'Could not launch $url';
+                          throw 'Could not launch $url';
                         }
                       },
-                      child:Container(
+                      child: Container(
                         margin: EdgeInsets.only(bottom: 16),
                         child: Text(
                           translate("dialog.danniy"),
@@ -191,43 +191,6 @@ class BottomDialog {
                             fontSize: 11,
                           ),
                         ),
-                      ),
-                    )
-                    ,
-                  ],
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  static void createBottomSheetReadyOrder(BuildContext context) async {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return Container(
-              height: 420,
-              padding: EdgeInsets.only(bottom: 5, left: 5, right: 5),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: AppTheme.white,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(top: 12),
-                      height: 4,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        color: AppTheme.bottom_dialog,
-                        borderRadius: BorderRadius.circular(4),
                       ),
                     ),
                   ],
@@ -249,11 +212,11 @@ class BottomDialog {
       builder: (context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
-            speech.listen(
+            speechText.listen(
                 onResult: (result) => {
                       setState(() {
                         if (result.finalResult) {
-                          speech.cancel();
+                          speechText.cancel();
                           setState(() {
                             level = 0.0;
                           });
@@ -342,18 +305,6 @@ class BottomDialog {
                             height: 103,
                             child: Stack(
                               children: [
-//                                Container(
-//                                  child: Center(
-//                                    child: SvgPicture.asset(
-//                                        "assets/images/voice_bottom.svg"),
-//                                  ),
-//                                ),
-//                                Container(
-//                                  child: Center(
-//                                    child: SvgPicture.asset(
-//                                        "assets/images/voice_medium.svg"),
-//                                  ),
-//                                ),
                                 Container(
                                   decoration: BoxDecoration(
                                     boxShadow: [
@@ -380,7 +331,7 @@ class BottomDialog {
                     GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
-                        speech.cancel();
+                        speechText.cancel();
                         setState(() {
                           level = 0.0;
                         });

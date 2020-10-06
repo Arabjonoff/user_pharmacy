@@ -76,9 +76,6 @@ class Repository {
   Future<CategoryModel> fetchCategoryItem() =>
       pharmacyApiProvider.fetchCategoryList();
 
-  Future<CategoryModel> fetchSearchItem() =>
-      pharmacyApiProvider.fetchCategoryList();
-
   Future<List<ItemResult>> databaseItem() => databaseHelper.getProduct();
 
   Future<List<NoteModel>> databaseNote() => databaseHelperNote.getProduct();

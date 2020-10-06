@@ -35,6 +35,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   void initState() {
     registerBus();
+    blocCategory.fetchAllCategory();
     super.initState();
   }
 
@@ -61,7 +62,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
       blocItem.fetchAllUpdate(itemId);
     }
 
-    blocCategory.fetchAllCategory();
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: AppBar(
@@ -257,7 +257,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              bool hasSpeech = await speech.initialize(
+                              bool hasSpeech = await speechText.initialize(
                                 onError: (errorNotification) => {
                                   setState(() {
                                     lastError =

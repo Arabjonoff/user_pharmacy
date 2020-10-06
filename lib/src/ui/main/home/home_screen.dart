@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
@@ -12,6 +13,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
@@ -39,8 +41,11 @@ import 'package:pharmacy/src/utils/utils.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:rxbus/rxbus.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:speech_to_text/speech_recognition_error.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 import '../../../app_theme.dart';
@@ -50,7 +55,7 @@ final priceFormat = new NumberFormat("#,##0", "ru");
 double level = 0.0;
 double minSoundLevel = 50000;
 double maxSoundLevel = -50000;
-final SpeechToText speech = SpeechToText();
+final SpeechToText speechText = SpeechToText();
 String lastError = "";
 
 class HomeScreen extends StatefulWidget {
@@ -70,6 +75,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   var loading = false;
   TextEditingController commentController = TextEditingController();
 
+  final SpeechToText speech = SpeechToText();
+
+  var errors = StreamController<SpeechRecognitionError>();
+  var statuses = BehaviorSubject<String>();
+  var words = StreamController<SpeechRecognitionResult>();
+  bool hasSpeech;
+
   @override
   void initState() {
     _setLanguage();
@@ -77,6 +89,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     registerBus();
     _notificationFirebase();
     _getNoReview();
+    _searchToText();
     blocHome.fetchAllHome(
       page,
       "",
@@ -430,6 +443,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
   }
 
+  Future<void> _searchToText() async {
+    hasSpeech = await speech.initialize(
+      onError: errorListener,
+      onStatus: statusListener,
+    );
+  }
+
   @override
   void dispose() {
     RxBus.destroy();
@@ -567,21 +587,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                     GestureDetector(
                                       onTap: () async {
-                                        bool hasSpeech =
-                                            await speech.initialize(
-                                          onError: (errorNotification) => {
-                                            setState(() {
-                                              lastError =
-                                                  "${errorNotification.errorMsg} - ${errorNotification.permanent}";
-                                            }),
-                                          },
-                                        );
+                                        //_requestPermission();
 
-                                        if (hasSpeech) {
-                                          BottomDialog
-                                              .createBottomVoiceAssistant(
-                                                  context);
+                                        try {
+                                          MethodChannel methodChannel =
+                                              MethodChannel(
+                                                  "flutter/MethodChannelDemoExam");
+                                          var result = await methodChannel
+                                              .invokeMethod("start");
+                                          print(result);
+                                        } on PlatformException catch (e) {
+                                          print("exceptiong");
                                         }
+                                        // print("hasSpeech = " +
+                                        //     hasSpeech.toString());
+                                        // startListening();
                                       },
                                       child: Container(
                                         height: 36,
@@ -1635,6 +1655,49 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  Future<void> _requestPermission() async {
+    final List<PermissionGroup> permissions = <PermissionGroup>[
+      PermissionGroup.speech
+    ];
+    final Map<PermissionGroup, PermissionStatus> permissionRequestResult =
+        await PermissionHandler().requestPermissions(permissions);
+    print(permissionRequestResult[PermissionGroup.speech]);
+  }
+
+  void startListening() {
+    speech.stop();
+    speech.listen(
+        onResult: resultListener,
+        listenFor: Duration(minutes: 1),
+        localeId: "ru_RU",
+        onSoundLevelChange: null,
+        cancelOnError: true,
+        partialResults: true);
+  }
+
+  void errorListener(SpeechRecognitionError error) {
+    print("error " + error.errorMsg + " => " + error.permanent.toString());
+    errors.add(error);
+  }
+
+  void statusListener(String status) {
+    print("status " + status);
+    statuses.add(status);
+  }
+
+  void resultListener(SpeechRecognitionResult result) {
+    print("result " + result.recognizedWords);
+    words.add(result);
+  }
+
+  void stopListening() {
+    speech.stop();
+  }
+
+  void cancelListening() {
+    speech.cancel();
   }
 
   Future<void> _setLanguage() async {
