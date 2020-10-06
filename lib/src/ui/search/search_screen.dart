@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -41,6 +42,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   DatabaseHelperHistory dataHistory = new DatabaseHelperHistory();
 
+  Timer _timer;
+
   @override
   void initState() {
     searchController.text = widget.name;
@@ -53,16 +56,56 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   _SearchScreenState() {
+    const oneSec = const Duration(milliseconds: 500);
     searchController.addListener(() {
       if (searchController.text != obj) {
         if (searchController.text.length > 2) {
-          setState(() {
-            users = new List();
-            page = 1;
-            obj = searchController.text;
-            isSearchText = true;
-            this._getMoreData(page);
-          });
+          if (_timer == null) {
+            _timer = new Timer.periodic(
+              oneSec,
+              (Timer timer) => setState(
+                () {
+                  _timer.cancel();
+                  users = new List();
+                  page = 1;
+                  obj = searchController.text;
+                  isSearchText = true;
+                  this._getMoreData(page);
+                },
+              ),
+            );
+          } else {
+            if (_timer.isActive) {
+              _timer.cancel();
+              _timer = new Timer.periodic(
+                oneSec,
+                (Timer timer) => setState(
+                  () {
+                    _timer.cancel();
+                    users = new List();
+                    page = 1;
+                    obj = searchController.text;
+                    isSearchText = true;
+                    this._getMoreData(page);
+                  },
+                ),
+              );
+            } else {
+              _timer = new Timer.periodic(
+                oneSec,
+                (Timer timer) => setState(
+                  () {
+                    _timer.cancel();
+                    users = new List();
+                    page = 1;
+                    obj = searchController.text;
+                    isSearchText = true;
+                    this._getMoreData(page);
+                  },
+                ),
+              );
+            }
+          }
         } else {
           setState(() {
             users = new List();
@@ -78,6 +121,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void dispose() {
     _sc.dispose();
+    _timer.cancel();
     super.dispose();
   }
 
@@ -396,40 +440,42 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _getMoreData(int index) async {
-    if (!isLoading) {
-      setState(() {
-        isLoading = true;
-      });
-
-      var response = Repository().fetchSearchItemList(
-        obj,
-        index,
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-      );
-
-      try {
-        List<ItemResult> tList = new List();
-        response.then((value) => {
-              if (value != null)
-                {
-                  for (int i = 0; i < value.results.length; i++)
-                    {tList.add(value.results[i])},
-                  setState(() {
-                    isLoading = false;
-                    users.addAll(tList);
-                    page++;
-                  }),
-                }
-            });
-      } catch (_) {
+    if (obj.length > 2) {
+      if (!isLoading) {
         setState(() {
-          isLoading = false;
+          isLoading = true;
         });
+
+        var response = Repository().fetchSearchItemList(
+          obj,
+          index,
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+        );
+
+        try {
+          List<ItemResult> tList = new List();
+          response.then((value) => {
+                if (value != null)
+                  {
+                    for (int i = 0; i < value.results.length; i++)
+                      {tList.add(value.results[i])},
+                    setState(() {
+                      isLoading = false;
+                      users.addAll(tList);
+                      page++;
+                    }),
+                  }
+              });
+        } catch (_) {
+          setState(() {
+            isLoading = false;
+          });
+        }
       }
     }
   }
