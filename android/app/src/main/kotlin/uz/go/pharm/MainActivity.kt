@@ -9,6 +9,7 @@ import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -19,22 +20,13 @@ import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
+import java.util.*
 
 
 class MainActivity : FlutterActivity() {
 
 
-    private var speechRecognizer: SpeechRecognizer? = null
-
-//    private fun resourceToUriString(context: Context, resId: Int): String? {
-//        return (ContentResolver.SCHEME_ANDROID_RESOURCE
-//                + "://"
-//                + context.resources.getResourcePackageName(resId)
-//                + "/"
-//                + context.resources.getResourceTypeName(resId)
-//                + "/"
-//                + context.resources.getResourceEntryName(resId))
-//    }
+    lateinit var speechRecognizer: SpeechRecognizer
 
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
@@ -42,25 +34,26 @@ class MainActivity : FlutterActivity() {
         GeneratedPluginRegistrant.registerWith(flutterEngine);
         FacebookSdk.setIsDebugEnabled(true)
         FacebookSdk.addLoggingBehavior(LoggingBehavior.APP_EVENTS)
-        SpeechRecognizer.createSpeechRecognizer(this@MainActivity)
-
-
-
 
 
         MethodChannel(flutterEngine.dartExecutor, "flutter/MethodChannelDemoExam").setMethodCallHandler { call, result ->
-            val recognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-            recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ru_RU")
+
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), 1)
-                }
+                checkPermission()
             }
 
-            Log.d("MRX", "MethodChannel")
+            speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)
 
-            speechRecognizer?.setRecognitionListener(object : RecognitionListener {
+
+            val speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+            speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ru_RU")
+
+
+            Log.d("MRX", "MethodChannel")
+            Log.d("MRX", Locale.getDefault().toLanguageTag())
+
+            speechRecognizer.setRecognitionListener(object : RecognitionListener {
                 override fun onReadyForSpeech(bundle: Bundle) {
                     Log.d("MRX", "onReadyForSpeech")
                 }
@@ -104,10 +97,10 @@ class MainActivity : FlutterActivity() {
             when (call.method) {
                 "start" -> {
                     Log.d("MRX", "start")
-                    speechRecognizer?.startListening(recognizerIntent)
-                            ?: result.error("418", "nullErrorMessage", null)
+                    speechRecognizer.startListening(speechRecognizerIntent)
+                            ?: result.error("110", "nullErrorMessage", null)
                 }
-                "stop" -> speechRecognizer?.stopListening()
+                "stop" -> speechRecognizer.stopListening()
                         ?: result.error("418", "nullErrorMessage", null);
                 else -> result.notImplemented()
             }
@@ -122,5 +115,23 @@ class MainActivity : FlutterActivity() {
 //                result.success(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM).toString())
 //            }
 //        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        speechRecognizer.destroy()
+    }
+
+    private fun checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), 1)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1 && grantResults.size > 0) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
+        }
     }
 }

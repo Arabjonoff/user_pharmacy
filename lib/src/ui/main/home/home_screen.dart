@@ -75,13 +75,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   var loading = false;
   TextEditingController commentController = TextEditingController();
 
-  final SpeechToText speech = SpeechToText();
-
-  var errors = StreamController<SpeechRecognitionError>();
-  var statuses = BehaviorSubject<String>();
-  var words = StreamController<SpeechRecognitionResult>();
-  bool hasSpeech;
-
   @override
   void initState() {
     _setLanguage();
@@ -89,7 +82,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     registerBus();
     _notificationFirebase();
     _getNoReview();
-    _searchToText();
     blocHome.fetchAllHome(
       page,
       "",
@@ -443,13 +435,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
   }
 
-  Future<void> _searchToText() async {
-    hasSpeech = await speech.initialize(
-      onError: errorListener,
-      onStatus: statusListener,
-    );
-  }
-
   @override
   void dispose() {
     RxBus.destroy();
@@ -587,21 +572,27 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                     GestureDetector(
                                       onTap: () async {
-                                        //_requestPermission();
-
+                                        BottomDialog.voiceAssistantDialog(
+                                            context);
                                         try {
                                           MethodChannel methodChannel =
                                               MethodChannel(
                                                   "flutter/MethodChannelDemoExam");
                                           var result = await methodChannel
                                               .invokeMethod("start");
+                                          Navigator.pop(context);
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType.fade,
+                                              child: SearchScreen(result, 1),
+                                            ),
+                                          );
                                           print(result);
                                         } on PlatformException catch (e) {
-                                          print("exceptiong");
+                                          Navigator.pop(context);
+                                          print(e.code);
                                         }
-                                        // print("hasSpeech = " +
-                                        //     hasSpeech.toString());
-                                        // startListening();
                                       },
                                       child: Container(
                                         height: 36,
@@ -1655,49 +1646,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
       ),
     );
-  }
-
-  Future<void> _requestPermission() async {
-    final List<PermissionGroup> permissions = <PermissionGroup>[
-      PermissionGroup.speech
-    ];
-    final Map<PermissionGroup, PermissionStatus> permissionRequestResult =
-        await PermissionHandler().requestPermissions(permissions);
-    print(permissionRequestResult[PermissionGroup.speech]);
-  }
-
-  void startListening() {
-    speech.stop();
-    speech.listen(
-        onResult: resultListener,
-        listenFor: Duration(minutes: 1),
-        localeId: "ru_RU",
-        onSoundLevelChange: null,
-        cancelOnError: true,
-        partialResults: true);
-  }
-
-  void errorListener(SpeechRecognitionError error) {
-    print("error " + error.errorMsg + " => " + error.permanent.toString());
-    errors.add(error);
-  }
-
-  void statusListener(String status) {
-    print("status " + status);
-    statuses.add(status);
-  }
-
-  void resultListener(SpeechRecognitionResult result) {
-    print("result " + result.recognizedWords);
-    words.add(result);
-  }
-
-  void stopListening() {
-    speech.stop();
-  }
-
-  void cancelListening() {
-    speech.cancel();
   }
 
   Future<void> _setLanguage() async {

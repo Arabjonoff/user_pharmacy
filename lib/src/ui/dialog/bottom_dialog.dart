@@ -2,8 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
@@ -205,7 +207,6 @@ class BottomDialog {
 
   static void createBottomVoiceAssistant(BuildContext context) async {
     String lastWords = "";
-
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -335,6 +336,120 @@ class BottomDialog {
                         setState(() {
                           level = 0.0;
                         });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: AppTheme.white,
+                          borderRadius: BorderRadius.circular(10.0),
+                          border: Border.all(
+                            color: AppTheme.blue_app_color,
+                            width: 2.0,
+                          ),
+                        ),
+                        height: 56,
+                        width: double.infinity,
+                        child: Center(
+                          child: Text(
+                            translate("voice.cancel"),
+                            style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontWeight: FontWeight.w600,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 17,
+                                color: AppTheme.blue_app_color),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  static void voiceAssistantDialog(BuildContext context) async {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              height: 340,
+              padding: EdgeInsets.only(bottom: 5, left: 5, right: 5),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: AppTheme.white,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(top: 12),
+                      height: 4,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        color: AppTheme.bottom_dialog,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 16, left: 16, right: 16),
+                      child: Center(
+                        child: Text(
+                          translate("voice.voice_search"),
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: AppTheme.fontRoboto,
+                            color: AppTheme.black_text,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 8, left: 32, right: 32),
+                      child: Center(
+                        child: Text(
+                          translate("voice.title"),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: AppTheme.fontRoboto,
+                            color: AppTheme.black_transparent_text,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            width: 103,
+                            height: 103,
+                            child: Center(
+                              child: Lottie.asset('assets/anim/voice.json'),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        Navigator.pop(context);
+                        MethodChannel methodChannel =
+                            MethodChannel("flutter/MethodChannelDemoExam");
+                        var result = await methodChannel.invokeMethod("stop");
+
                       },
                       child: Container(
                         margin: EdgeInsets.all(16),
