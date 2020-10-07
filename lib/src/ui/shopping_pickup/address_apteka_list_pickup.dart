@@ -41,12 +41,11 @@ class _AddressAptekaListPickupScreenState
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    aptekaModel = snapshot.data[index];
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
                       PageTransition(
                         type: PageTransitionType.fade,
-                        child: OrderCardPickupScreen(),
+                        child: OrderCardPickupScreen(snapshot.data[index]),
                       ),
                     );
                   },

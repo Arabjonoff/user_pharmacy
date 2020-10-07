@@ -205,6 +205,131 @@ class BottomDialog {
     );
   }
 
+  static void bottomDialogOrder(BuildContext context) async {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              height: 420,
+              padding: EdgeInsets.only(bottom: 5, left: 5, right: 5),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: AppTheme.white,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(top: 12),
+                      height: 4,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        color: AppTheme.bottom_dialog,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: SvgPicture.asset(
+                            "assets/images/image_defoult_dialog.svg"),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 24, right: 24, bottom: 8),
+                      child: Text(
+                        translate("dialog_rat.order_title"),
+                        style: TextStyle(
+                          fontStyle: FontStyle.normal,
+                          fontFamily: AppTheme.fontRoboto,
+                          fontSize: 17,
+                          height: 1.65,
+                          fontWeight: FontWeight.w600,
+                          color: AppTheme.black_text,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 24, right: 24, bottom: 16),
+                      child: Text(
+                        translate("dialog_rat.order_message"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontStyle: FontStyle.normal,
+                          fontFamily: AppTheme.fontRoboto,
+                          fontSize: 13,
+                          height: 1.38,
+                          fontWeight: FontWeight.normal,
+                          color: AppTheme.black_transparent_text,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        height: 44,
+                        margin:
+                            EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                        decoration: BoxDecoration(
+                            color: AppTheme.white,
+                            border: Border.all(
+                              color: AppTheme.blue_app_color,
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Center(
+                          child: Text(
+                            translate("dialog_rat.history"),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 17,
+                              fontFamily: AppTheme.fontRoboto,
+                              fontStyle: FontStyle.normal,
+                              height: 1.29,
+                              color: AppTheme.blue_app_color,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 44,
+                        margin:
+                            EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                        decoration: BoxDecoration(
+                            color: AppTheme.blue_app_color,
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Center(
+                          child: Text(
+                            translate("dialog_rat.close"),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 17,
+                              fontFamily: AppTheme.fontRoboto,
+                              fontStyle: FontStyle.normal,
+                              height: 1.29,
+                              color: AppTheme.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   static void createBottomVoiceAssistant(BuildContext context) async {
     String lastWords = "";
     showModalBottomSheet(
@@ -449,7 +574,6 @@ class BottomDialog {
                         MethodChannel methodChannel =
                             MethodChannel("flutter/MethodChannelDemoExam");
                         var result = await methodChannel.invokeMethod("stop");
-
                       },
                       child: Container(
                         margin: EdgeInsets.all(16),

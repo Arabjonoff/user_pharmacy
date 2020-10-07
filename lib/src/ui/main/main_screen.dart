@@ -27,6 +27,9 @@ import 'package:pharmacy/src/ui/main/favorite/favorites_screen.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 import 'package:pharmacy/src/ui/note/notification_screen.dart';
+import 'package:pharmacy/src/ui/shopping_curer/curer_address_card.dart';
+import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
+import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -441,7 +444,10 @@ class _MainScreenState extends State<MainScreen> {
         return [
           HomeScreen(),
           CategoryScreen(),
-          CardScreen(),
+          CardScreen(
+            onPickup: _pickup,
+            onCurer: _curer,
+          ),
           FavoritesScreen(),
           MenuScreen(
             onLogin: _login,
@@ -449,6 +455,26 @@ class _MainScreenState extends State<MainScreen> {
         ].elementAt(index);
       },
     };
+  }
+
+  void _pickup() {
+    Navigator.push(
+      context,
+      PageTransition(
+        type: PageTransitionType.downToUp,
+        child: AddressAptekaPickupScreen(),
+      ),
+    );
+  }
+
+  void _curer() {
+    Navigator.push(
+      context,
+      PageTransition(
+        type: PageTransitionType.downToUp,
+        child: CurerAddressCardScreen(false),
+      ),
+    );
   }
 
   void _login() {

@@ -99,14 +99,14 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
               latitude: position.latitude, longitude: position.longitude);
           mapController.move(
             point: _point,
-            zoom: 12,
+            zoom: 11,
             animation: const MapAnimation(smooth: true, duration: 0.5),
           );
         } else {
           _addMarkers(Repository().fetchApteka(41.311081, 69.240562));
           mapController.move(
             point: Point(latitude: 41.311081, longitude: 69.240562),
-            zoom: 12,
+            zoom: 11,
             animation: const MapAnimation(smooth: true, duration: 0.5),
           );
         }
@@ -116,7 +116,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
       _addMarkers(Repository().fetchApteka(lat, lng));
       mapController.move(
         point: _point,
-        zoom: 12,
+        zoom: 11,
         animation: const MapAnimation(smooth: true, duration: 0.5),
       );
     }
@@ -126,10 +126,12 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   Widget build(BuildContext context) {
     if (_permissionStatus == PermissionStatus.granted) {
       _getPosition();
-      mapController.showUserLayer(
+      if (mapController != null)
+        mapController.showUserLayer(
           iconName: 'assets/map/user.png',
           arrowName: 'assets/map/arrow.png',
-          accuracyCircleFillColor: Colors.blue.withOpacity(0.5));
+          accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
+        );
     }
 
     return Scaffold(

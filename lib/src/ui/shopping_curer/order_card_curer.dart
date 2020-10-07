@@ -1195,15 +1195,23 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                                         AllItemIsOpen(true),
                                                         tag:
                                                             "EVENT_ITEM_LIST_SEARCH"),
-                                                  Navigator.pushReplacement(
-                                                    context,
-                                                    PageTransition(
-                                                      type: PageTransitionType
-                                                          .fade,
-                                                      child:
-                                                          HistoryOrderScreen(),
-                                                    ),
-                                                  )
+
+                                                  Navigator.of(context)
+                                                      .popUntil((route) =>
+                                                          route.isFirst),
+                                                  RxBus.post(
+                                                      CardItemChangeModel(true),
+                                                      tag: "EVENT_CARD_BOTTOM"),
+
+                                                  // Navigator.pushReplacement(
+                                                  //   context,
+                                                  //   PageTransition(
+                                                  //     type: PageTransitionType
+                                                  //         .fade,
+                                                  //     child:
+                                                  //         HistoryOrderScreen(),
+                                                  //   ),
+                                                  // )
                                                 }
                                             }
                                           else

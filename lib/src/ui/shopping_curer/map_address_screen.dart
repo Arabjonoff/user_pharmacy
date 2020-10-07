@@ -85,7 +85,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                 latitude: position.latitude, longitude: position.longitude);
             controller.move(
               point: _point,
-              zoom: 12,
+              zoom: 11,
               animation: const MapAnimation(smooth: true, duration: 0.5),
             );
           }
@@ -95,7 +95,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
       _point = new Point(latitude: lat, longitude: lng);
       controller.move(
         point: _point,
-        zoom: 12,
+        zoom: 11,
         animation: const MapAnimation(smooth: true, duration: 0.5),
       );
     }
@@ -141,10 +141,12 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
   @override
   Widget build(BuildContext context) {
     if (_permissionStatus == PermissionStatus.granted) {
-      controller.showUserLayer(
+      if (controller != null)
+        controller.showUserLayer(
           iconName: 'assets/map/user.png',
           arrowName: 'assets/map/arrow.png',
-          accuracyCircleFillColor: Colors.blue.withOpacity(0.5));
+          accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
+        );
       _getPosition();
       addMarker();
     }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,6 +35,11 @@ import 'card_empty_screen.dart';
 final priceFormat = new NumberFormat("#,##0", "ru");
 
 class CardScreen extends StatefulWidget {
+  Function onPickup;
+  Function onCurer;
+
+  CardScreen({this.onPickup, this.onCurer});
+
   @override
   State<StatefulWidget> createState() {
     return _CardScreenState();
@@ -66,8 +73,16 @@ class _CardScreenState extends State<CardScreen> {
   }
 
   void registerBus() {
-    RxBus.register<CardItemChangeModel>(tag: "EVENT_CARD")
-        .listen((event) => setState(() {}));
+    RxBus.register<CardItemChangeModel>(tag: "EVENT_CARD_BOTTOM")
+        .listen((event) => {
+              if (event.cardChange)
+                {
+                  Timer(Duration(milliseconds: 100), () {
+                    blocCard.fetchAllCard();
+                    BottomDialog.bottomDialogOrder(context);
+                  }),
+                },
+            });
 
     RxBus.register<BottomView>(tag: "CARD_VIEW").listen((event) {
       if (event.title) {
@@ -702,16 +717,18 @@ class _CardScreenState extends State<CardScreen> {
                                                       {
                                                         errorData = new List(),
                                                         cashData = value.data,
-                                                        Navigator.push(
-                                                          context,
-                                                          PageTransition(
-                                                            type:
-                                                                PageTransitionType
-                                                                    .fade,
-                                                            child:
-                                                                OrderCardPickupScreen(),
-                                                          ),
-                                                        ),
+                                                        widget.onPickup(),
+
+                                                        // Navigator.push(
+                                                        //   context,
+                                                        //   PageTransition(
+                                                        //     type:
+                                                        //         PageTransitionType
+                                                        //             .fade,
+                                                        //     child:
+                                                        //         OrderCardPickupScreen(),
+                                                        //   ),
+                                                        // ),
                                                         setState(() {
                                                           loadingPickup = false;
                                                           error = false;
@@ -805,17 +822,20 @@ class _CardScreenState extends State<CardScreen> {
                                                     if (value.error == 0)
                                                       {
                                                         errorData = new List(),
-                                                        Navigator.push(
-                                                          context,
-                                                          PageTransition(
-                                                            type:
-                                                                PageTransitionType
-                                                                    .fade,
-                                                            child:
-                                                                CurerAddressCardScreen(
-                                                                    false),
-                                                          ),
-                                                        ),
+
+                                                        widget.onCurer(),
+
+                                                        // Navigator.push(
+                                                        //   context,
+                                                        //   PageTransition(
+                                                        //     type:
+                                                        //         PageTransitionType
+                                                        //             .fade,
+                                                        //     child:
+                                                        //         CurerAddressCardScreen(
+                                                        //             false),
+                                                        //   ),
+                                                        // ),
                                                         setState(() {
                                                           loadingDelivery =
                                                               false;

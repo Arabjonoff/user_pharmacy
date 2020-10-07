@@ -8,12 +8,14 @@ import 'package:flutter_translate/global.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/app_theme.dart';
+import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/verfy_payment_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/auth/register_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
+import 'package:rxbus/rxbus.dart';
 
 class VerfyPaymentScreen extends StatefulWidget {
   String number;
@@ -294,13 +296,16 @@ class _VerfyPaymentScreenState extends State<VerfyPaymentScreen> {
                         loading = false;
                         error = false;
                       });
-                      Navigator.pushReplacement(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.fade,
-                          child: HistoryOrderScreen(),
-                        ),
-                      );
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                      RxBus.post(CardItemChangeModel(true),
+                          tag: "EVENT_CARD_BOTTOM");
+                      // Navigator.pushReplacement(
+                      //   context,
+                      //   PageTransition(
+                      //     type: PageTransitionType.fade,
+                      //     child: HistoryOrderScreen(),
+                      //   ),
+                      // );
                     } else {
                       setState(() {
                         errorText = responce.errorNote;

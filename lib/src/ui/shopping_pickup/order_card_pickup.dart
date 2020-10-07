@@ -32,13 +32,15 @@ import '../shopping_curer/curer_address_card.dart';
 
 // ignore: must_be_immutable
 class OrderCardPickupScreen extends StatefulWidget {
+  AptekaModel aptekaModel;
+
+  OrderCardPickupScreen(this.aptekaModel);
+
   @override
   State<StatefulWidget> createState() {
     return _OrderCardPickupScreenState();
   }
 }
-
-AptekaModel aptekaModel;
 
 class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
   double allPrice = cashData.total;
@@ -90,7 +92,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
 
   @override
   void dispose() {
-    aptekaModel = null;
+    // aptekaModel = null;
     super.dispose();
   }
 
@@ -200,10 +202,35 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                     ),
                   ),
                   Align(
-                    alignment: Alignment.centerRight,
+                    alignment: Alignment.centerLeft,
                     child: GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 48,
+                        width: 48,
+                        margin: EdgeInsets.only(left: 4),
+                        color: AppTheme.arrow_examp_back,
+                        child: Center(
+                          child: Container(
+                            height: 24,
+                            width: 24,
+                            padding: EdgeInsets.all(3),
+                            child: SvgPicture.asset(
+                                "assets/images/arrow_back.svg"),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: () {
+                        //Navigator.pop(context);
+                        Navigator.of(context)
+                            .popUntil((route) => route.isFirst);
                       },
                       child: Container(
                         height: 48,
@@ -263,7 +290,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    aptekaModel == null
+                    widget.aptekaModel == null
                         ? Container(
                             margin: EdgeInsets.only(
                                 top: 16, bottom: 3, left: 16, right: 16),
@@ -283,7 +310,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                             margin:
                                 EdgeInsets.only(top: 24, left: 16, right: 16),
                             child: Text(
-                              aptekaModel.address,
+                              widget.aptekaModel.address,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                               style: TextStyle(
@@ -295,13 +322,15 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                               ),
                             ),
                           ),
-                    aptekaModel == null
+                    widget.aptekaModel == null
                         ? Container()
                         : Container(
                             margin:
                                 EdgeInsets.only(bottom: 3, left: 16, right: 16),
                             child: Text(
-                              translate("orders.now") + ", " + aptekaModel.open,
+                              translate("orders.now") +
+                                  ", " +
+                                  widget.aptekaModel.open,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               style: TextStyle(
@@ -318,11 +347,11 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                         margin: EdgeInsets.only(
                             left: 16, right: 16, bottom: 16, top: 16),
                         decoration: BoxDecoration(
-                          color: aptekaModel == null
+                          color: widget.aptekaModel == null
                               ? AppTheme.blue_app_color
                               : AppTheme.white,
                           borderRadius: BorderRadius.circular(10.0),
-                          border: aptekaModel == null
+                          border: widget.aptekaModel == null
                               ? Border.all(
                                   color: AppTheme.blue_app_color,
                                   width: 0.0,
@@ -334,7 +363,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                         ),
                         child: Center(
                           child: Text(
-                            aptekaModel == null
+                            widget.aptekaModel == null
                                 ? translate("orders.edit_aptek_choose")
                                 : translate("orders.edit_aptek"),
                             style: TextStyle(
@@ -342,7 +371,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                               fontStyle: FontStyle.normal,
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              color: aptekaModel == null
+                              color: widget.aptekaModel == null
                                   ? AppTheme.white
                                   : AppTheme.blue_app_color,
                             ),
@@ -352,13 +381,14 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                             left: 12, right: 12, top: 8, bottom: 8),
                       ),
                       onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: AddressAptekaPickupScreen(),
-                          ),
-                        );
+                        Navigator.pop(context);
+                        // Navigator.pushReplacement(
+                        //   context,
+                        //   PageTransition(
+                        //     type: PageTransitionType.rightToLeft,
+                        //     child: AddressAptekaPickupScreen(),
+                        //   ),
+                        // );
                       },
                     )
                   ],
@@ -1132,7 +1162,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
             GestureDetector(
               onTap: () {
                 if (!loading) {
-                  if (aptekaModel != null && clickType != null) {
+                  if (widget.aptekaModel != null && clickType != null) {
                     var cardNum = cardNumberController.text.replaceAll(' ', '');
                     var cardDate = cardDateController.text
                         .replaceAll(' ', '')
@@ -1178,7 +1208,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                         phone: number
                                             .replaceAll('+', '')
                                             .replaceAll(' ', ''),
-                                        store_id: aptekaModel.id,
+                                        store_id: widget.aptekaModel.id,
                                         payment_type: paymentType,
                                         device:
                                             Platform.isIOS ? "IOS" : "Android",
@@ -1194,7 +1224,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                         phone: number
                                             .replaceAll('+', '')
                                             .replaceAll(' ', ''),
-                                        store_id: aptekaModel.id,
+                                        store_id: widget.aptekaModel.id,
                                         payment_type: paymentType,
                                         drugs: drugs,
                                         card_pan: cardNum,
@@ -1209,7 +1239,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                     phone: number
                                         .replaceAll('+', '')
                                         .replaceAll(' ', ''),
-                                    store_id: aptekaModel.id,
+                                    store_id: widget.aptekaModel.id,
                                     payment_type: paymentType,
                                     card_token:
                                         cardToken == "" ? null : cardToken,
@@ -1242,9 +1272,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                                           value[i].id)
                                                     }
                                                 },
-                                              RxBus.post(
-                                                  CardItemChangeModel(true),
-                                                  tag: "EVENT_CARD"),
                                               if (response.data.card_token !=
                                                   "")
                                                 {
@@ -1301,15 +1328,23 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                                         AllItemIsOpen(true),
                                                         tag:
                                                             "EVENT_ITEM_LIST_SEARCH"),
-                                                  Navigator.pushReplacement(
-                                                    context,
-                                                    PageTransition(
-                                                      type: PageTransitionType
-                                                          .fade,
-                                                      child:
-                                                          HistoryOrderScreen(),
-                                                    ),
-                                                  )
+
+                                                  Navigator.of(context)
+                                                      .popUntil((route) =>
+                                                          route.isFirst),
+                                                  RxBus.post(
+                                                      CardItemChangeModel(true),
+                                                      tag: "EVENT_CARD_BOTTOM"),
+
+                                                  // Navigator.pushReplacement(
+                                                  //   context,
+                                                  //   PageTransition(
+                                                  //     type: PageTransitionType
+                                                  //         .fade,
+                                                  //     child:
+                                                  //         HistoryOrderScreen(),
+                                                  //   ),
+                                                  // )
                                                 }
                                             }
                                           else
@@ -1349,7 +1384,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  color: (aptekaModel == null || clickType == null)
+                  color: (widget.aptekaModel == null || clickType == null)
                       ? AppTheme.blue_app_color_transparent
                       : AppTheme.blue_app_color,
                 ),

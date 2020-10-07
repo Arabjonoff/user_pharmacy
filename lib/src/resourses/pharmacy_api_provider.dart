@@ -526,7 +526,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json',
+      'content-type': 'application/json; charset=utf-8',
     };
     try {
       http.Response response = await http
@@ -549,9 +549,13 @@ class PharmacyApiProvider {
   Future<List<LocationModel>> fetchAccessApteka(AccessStore accessStore) async {
     String url = Utils.BASE_URL + '/api/v1/exists-stores';
 
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+    };
+
     try {
       http.Response response = await http
-          .post(url, body: json.encode(accessStore))
+          .post(url, body: json.encode(accessStore), headers: headers)
           .timeout(const Duration(seconds: 10));
       var responseJson = utf8.decode(response.bodyBytes);
       return locationModelFromJson(responseJson);
