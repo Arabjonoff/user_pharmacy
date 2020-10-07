@@ -13,6 +13,7 @@ import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/view/item_search_view.dart';
 import 'package:pharmacy/src/utils/utils.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
 
@@ -39,6 +40,8 @@ class _SearchScreenState extends State<SearchScreen> {
   ScrollController _sc = new ScrollController();
   bool isLoading = false;
   List<ItemResult> users = new List();
+
+  bool isShimmer = false;
 
   DatabaseHelperHistory dataHistory = new DatabaseHelperHistory();
 
@@ -247,42 +250,84 @@ class _SearchScreenState extends State<SearchScreen> {
           Container(
             width: size.width,
             child: isSearchText
-                ? users.length > 0
-                    ? ListView.builder(
-                        itemCount: users.length + 1,
-                        controller: _sc,
-                        itemBuilder: (context, index) {
-                          if (index == users.length) {
-                            return _buildProgressIndicator();
-                          } else {
-                            return ItemSearchView(users[index], index);
-                          }
-                        },
-                      )
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/images/empty.svg",
-                            height: 155,
-                            width: 155,
-                          ),
-                          Container(
-                            width: 210,
-                            child: Text(
-                              translate("search.empty"),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
-                                fontSize: 17,
-                                fontWeight: FontWeight.normal,
-                                color: AppTheme.search_empty,
+                ? isShimmer
+                    ? Container(
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey[300],
+                          highlightColor: Colors.grey[100],
+                          child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            physics: ClampingScrollPhysics(),
+                            itemCount: 10,
+                            itemBuilder: (_, __) => Container(
+                              height: 80,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    height: 16,
+                                    margin:
+                                        EdgeInsets.only(left: 16, right: 16),
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.white,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        top: 8, left: 16, right: 16),
+                                    height: 16,
+                                    width: size.width * 0.6,
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.white,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          )
-                        ],
+                          ),
+                        ),
                       )
+                    : users.length > 0
+                        ? ListView.builder(
+                            itemCount: users.length + 1,
+                            controller: _sc,
+                            itemBuilder: (context, index) {
+                              if (index == users.length) {
+                                return _buildProgressIndicator();
+                              } else {
+                                return ItemSearchView(users[index], index);
+                              }
+                            },
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                "assets/images/empty.svg",
+                                height: 155,
+                                width: 155,
+                              ),
+                              Container(
+                                width: 210,
+                                child: Text(
+                                  translate("search.empty"),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRoboto,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.normal,
+                                    color: AppTheme.search_empty,
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
                 : ListView(
                     children: [
                       Container(
@@ -443,6 +488,7 @@ class _SearchScreenState extends State<SearchScreen> {
     if (obj.length > 2) {
       if (!isLoading) {
         setState(() {
+          isShimmer = true;
           isLoading = true;
         });
 
@@ -465,6 +511,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     for (int i = 0; i < value.results.length; i++)
                       {tList.add(value.results[i])},
                     setState(() {
+                      isShimmer = false;
                       isLoading = false;
                       users.addAll(tList);
                       page++;
