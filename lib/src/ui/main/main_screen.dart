@@ -10,6 +10,7 @@ import 'package:flutter_translate/localized_app.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
+import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/blocs/menu_bloc.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
@@ -305,6 +306,9 @@ class _MainScreenState extends State<MainScreen> {
                     }
                 }
               } else if (index == 0) {
+                if (isOpenBest) blocItemsList.updateBest();
+                if (isOpenSearch) blocItemsList.updateSearch();
+                if (isOpenIds) blocItemsList.updateIds();
                 blocHome.fetchAllHome(
                   1,
                   "",
@@ -322,6 +326,9 @@ class _MainScreenState extends State<MainScreen> {
                           menuBack.fetchCashBack(),
                         }
                     });
+              } else if (index == 1) {
+                if (isOpenSearch) blocItemsList.updateSearch();
+                if (isOpenCategory) blocItemsList.updateCategory();
               }
               setState(() {
                 _selectedIndex = index;

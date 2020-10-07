@@ -459,10 +459,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     _setRegion();
-    if (isOpenBest) RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST");
-    if (isOpenIds) RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_IDS");
-    if (isOpenSearch)
-      RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_SEARCH");
+    //if (isOpenBest) RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST");
+    // if (isOpenIds) RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_IDS");
+    // if (isOpenSearch)
+    //   RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_SEARCH");
 
     Utils.isLogin().then((value) => isLogin = value);
     return Scaffold(

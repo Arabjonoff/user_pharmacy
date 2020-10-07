@@ -56,8 +56,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    if (isOpenCategory)
-      RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_CATEGORY");
+    // if (isOpenCategory)
+    //   RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_CATEGORY");
     if (isOpenItem) {
       blocItem.fetchAllUpdate(itemId);
     }

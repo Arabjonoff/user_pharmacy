@@ -64,10 +64,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
   @override
   void initState() {
     super.initState();
-
     internationalNameExamp = new List();
     manufacturerExamp = new List();
-
     if (widget.type == 4) {
       isOpenIds = true;
     } else {
@@ -75,9 +73,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
           ? isOpenBest = true
           : widget.type == 3 ? isOpenSearch = true : isOpenCategory = true;
     }
-
     _getMoreData(1);
-    registerBus();
+    //registerBus();
     _sc.addListener(() {
       if (_sc.position.pixels == _sc.position.maxScrollExtent) {
         _getMoreData(page);
@@ -88,29 +85,29 @@ class _ItemListScreenState extends State<ItemListScreen> {
   bool title = false;
 
   void registerBus() {
-    RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST").listen((event) {
-      if (event.title) {
-        blocItemsList.updateBest();
-      }
-    });
-    RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_SEARCH")
-        .listen((event) {
-      if (event.title) {
-        blocItemsList.updateSearch();
-      }
-    });
+    // RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST").listen((event) {
+    //   if (event.title) {
+    //     blocItemsList.updateBest();
+    //   }
+    // });
+    // RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_SEARCH")
+    //     .listen((event) {
+    //   if (event.title) {
+    //     blocItemsList.updateSearch();
+    //   }
+    // });
 
-    RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_CATEGORY")
-        .listen((event) {
-      if (event.title) {
-        blocItemsList.updateCategory();
-      }
-    });
-    RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_IDS").listen((event) {
-      if (event.title) {
-        blocItemsList.updateIds();
-      }
-    });
+    // RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_CATEGORY")
+    //     .listen((event) {
+    //   if (event.title) {
+    //     blocItemsList.updateCategory();
+    //   }
+    // });
+    // RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_IDS").listen((event) {
+    //   if (event.title) {
+    //     blocItemsList.updateIds();
+    //   }
+    // });
   }
 
   @override

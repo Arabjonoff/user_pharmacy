@@ -124,7 +124,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void dispose() {
     _sc.dispose();
-    _timer.cancel();
+    if (_timer != null) _timer.cancel();
     super.dispose();
   }
 
