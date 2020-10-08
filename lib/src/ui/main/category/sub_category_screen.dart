@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
@@ -206,18 +207,25 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              bool hasSpeech = await speechText.initialize(
-                                onError: (errorNotification) => {
-                                  setState(() {
-                                    lastError =
-                                        "${errorNotification.errorMsg} - ${errorNotification.permanent}";
-                                  }),
-                                },
-                              );
-
-                              if (hasSpeech) {
-                                BottomDialog.createBottomVoiceAssistant(
-                                    context);
+                              BottomDialog.voiceAssistantDialog(context);
+                              try {
+                                MethodChannel methodChannel = MethodChannel(
+                                    "flutter/MethodChannelDemoExam");
+                                var result =
+                                    await methodChannel.invokeMethod("start");
+                                if (result.toString().length > 0) {
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    PageTransition(
+                                      type: PageTransitionType.fade,
+                                      child: SearchScreen(result, 1),
+                                    ),
+                                  );
+                                  await methodChannel.invokeMethod("stop");
+                                }
+                              } on PlatformException catch (e) {
+                                Navigator.pop(context);
                               }
                             },
                             child: Container(

@@ -52,11 +52,11 @@ import '../../../app_theme.dart';
 
 final priceFormat = new NumberFormat("#,##0", "ru");
 
-double level = 0.0;
-double minSoundLevel = 50000;
-double maxSoundLevel = -50000;
-final SpeechToText speechText = SpeechToText();
-String lastError = "";
+// double level = 0.0;
+// double minSoundLevel = 50000;
+// double maxSoundLevel = -50000;
+// final SpeechToText speechText = SpeechToText();
+// String lastError = "";
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -581,8 +581,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           var result = await methodChannel
                                               .invokeMethod("start");
                                           if (result.toString().length > 0) {
-                                            await methodChannel
-                                                .invokeMethod("stop");
                                             Navigator.pop(context);
                                             Navigator.push(
                                               context,
@@ -591,6 +589,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 child: SearchScreen(result, 1),
                                               ),
                                             );
+                                            await methodChannel
+                                                .invokeMethod("stop");
                                           }
                                         } on PlatformException catch (e) {
                                           Navigator.pop(context);
