@@ -760,7 +760,9 @@ class _CardScreenState extends State<CardScreen> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  color: Color(0xFF6FCF97),
+                                  color: isNext
+                                      ? Color(0xFF6FCF97)
+                                      : Color(0xFF6FCF97).withOpacity(0.4),
                                 ),
                                 height: 44,
                                 width: size.width,

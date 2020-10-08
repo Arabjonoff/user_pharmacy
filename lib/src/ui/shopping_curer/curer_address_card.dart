@@ -133,6 +133,19 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                       ),
                     ),
                   ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      translate("orders.choose_address"),
+                      style: TextStyle(
+                        fontStyle: FontStyle.normal,
+                        fontFamily: AppTheme.fontCommons,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: AppTheme.black_text,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -514,7 +527,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                             loading = false;
                                             error = false;
                                           }),
-                                          Navigator.pushReplacement(
+                                          Navigator.push(
                                             context,
                                             PageTransition(
                                               type: PageTransitionType.fade,

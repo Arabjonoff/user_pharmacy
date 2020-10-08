@@ -199,13 +199,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     alignment: Alignment.centerLeft,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            child: CurerAddressCardScreen(false),
-                          ),
-                        );
+                        Navigator.pop(context);
                       },
                       child: Container(
                         height: 48,
@@ -241,7 +235,9 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.of(context)
+                            .popUntil((route) => route.isFirst);
+                        // Navigator.pop(context);
                       },
                       child: Container(
                         height: 48,

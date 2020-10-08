@@ -284,60 +284,6 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                 ],
               ),
             ),
-            // Container(
-            //   height: 56,
-            //   margin: EdgeInsets.only(left: 16, right: 16, bottom: 12),
-            //   decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(10.0),
-            //     color: AppTheme.auth_login,
-            //     border: Border.all(
-            //       color: error ? AppTheme.red_fav_color : AppTheme.auth_border,
-            //       width: 1.0,
-            //     ),
-            //   ),
-            //   child: Padding(
-            //     padding:
-            //         EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 12),
-            //     child: TextFormField(
-            //       keyboardType: TextInputType.text,
-            //       style: TextStyle(
-            //         fontFamily: AppTheme.fontRoboto,
-            //         fontStyle: FontStyle.normal,
-            //         fontWeight: FontWeight.normal,
-            //         color: AppTheme.black_text,
-            //         fontSize: 15,
-            //       ),
-            //       textCapitalization: TextCapitalization.sentences,
-            //       controller: homeController,
-            //       decoration: InputDecoration(
-            //         labelText: translate('address.dom'),
-            //         labelStyle: TextStyle(
-            //           fontFamily: AppTheme.fontRoboto,
-            //           fontStyle: FontStyle.normal,
-            //           fontWeight: FontWeight.normal,
-            //           color: Color(0xFF6D7885),
-            //           fontSize: 11,
-            //         ),
-            //         enabledBorder: OutlineInputBorder(
-            //           borderRadius: BorderRadius.all(Radius.circular(10)),
-            //           borderSide: BorderSide(
-            //             width: 1,
-            //             color: AppTheme.auth_login,
-            //           ),
-            //         ),
-            //         focusedBorder: OutlineInputBorder(
-            //           borderRadius: BorderRadius.all(
-            //             Radius.circular(10),
-            //           ),
-            //           borderSide: BorderSide(
-            //             width: 1,
-            //             color: AppTheme.auth_login,
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
             Expanded(
               child: Container(
                 child: Stack(
