@@ -294,7 +294,7 @@ class _AddressAptekaMapPickupScreenState
             },
         });
 
-    if (lat == null && lng == null) {
+    if (lat == 41.311081 && lng == 69.240562) {
       geolocator.getPositionStream(locationOptions).listen((Position position) {
         if (position != null) {
           lat = position.latitude;

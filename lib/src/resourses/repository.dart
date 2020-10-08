@@ -10,6 +10,7 @@ import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/check_order_responce.dart';
 import 'package:pharmacy/src/model/api/check_version.dart';
+import 'package:pharmacy/src/model/api/current_location_address_model.dart';
 import 'package:pharmacy/src/model/api/faq_model.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
@@ -213,4 +214,8 @@ class Repository {
   Future<CashBackModel> fetchCashBack() => pharmacyApiProvider.fetchCashBack();
 
   Future<List<FaqModel>> fetchFAQ() => pharmacyApiProvider.fetchFAQ();
+
+  Future<CurrentLocationAddressModel> fetchLocationAddress(
+          double lat, double lng) =>
+      pharmacyApiProvider.fetchLocationAddress(lat, lng);
 }

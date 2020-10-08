@@ -596,7 +596,7 @@ class _OrderNumberState extends State<OrderNumber> {
                               var pharmacyLng =
                                   widget.item.store.location.coordinates[0];
 
-                              if (lat == null && lng == null) {
+                              if (lat == 41.311081 && lng == 69.240562) {
                                 Position position = await Geolocator()
                                     .getCurrentPosition(
                                         desiredAccuracy:

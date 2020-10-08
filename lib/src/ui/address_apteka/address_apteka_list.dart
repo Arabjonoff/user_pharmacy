@@ -220,13 +220,15 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
   }
 
   Future<void> getLocation() async {
-    if (lat == null && lng == null) {
+    if (lat == 41.311081 && lng == 69.240562) {
       Position position = await Geolocator().getCurrentPosition(
           desiredAccuracy: LocationAccuracy.bestForNavigation);
       if (position.latitude != null && position.longitude != null) {
         lat = position.latitude;
         lng = position.longitude;
         blocApteka.fetchAllApteka(position.latitude, position.longitude);
+      }else{
+        blocApteka.fetchAllApteka(lat, lng);
       }
     } else {
       blocApteka.fetchAllApteka(lat, lng);

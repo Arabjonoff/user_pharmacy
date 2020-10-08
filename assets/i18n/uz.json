@@ -34,6 +34,7 @@
   "price_cash_item": "GoPharm Balans",
   "price_delivery_item": "Yetkazib berish",
   "type_time": "Yetkazib berish shartlari",
+  "what_me": "Qayerdaman?",
   "main": {
     "home": "Asosiy",
     "catalog": "Katalog",
@@ -304,7 +305,11 @@
     "title": "Xizmatimizni baholang",
     "message": "Siz bergan baho xizmatimizni yaxshilash uchun yordam beradi.",
     "comment": "Izoh",
-    "send": "Jo'natish"
+    "send": "Jo'natish",
+    "order_title": "Buyurtmangiz muvaffaqiyatli tamomlandi",
+    "order_message": "Buyurtmaning holatidagi o'zgarishlarni profilingizda ko'rishingiz mumkin",
+    "history": "Buyurtma ma'lumotlarini ko'rish",
+    "close": "Chiqish"
   },
   "eda": {
     "empty": "Och qoringa",

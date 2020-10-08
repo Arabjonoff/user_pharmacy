@@ -13,7 +13,7 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
 import '../../app_theme.dart';
 
-var lat, lng;
+var lat = 41.311081, lng = 69.240562;
 
 class AddressAptekaMapScreen extends StatefulWidget {
   @override
@@ -86,7 +86,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   }
 
   Future<void> _getPosition() async {
-    if (lat == null && lng == null) {
+    if (lat == 41.311081 && lng == 69.240562) {
       _getPosSub = geolocator
           .getPositionStream(LocationOptions(
               accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 10))

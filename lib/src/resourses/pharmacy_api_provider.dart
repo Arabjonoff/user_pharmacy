@@ -12,6 +12,7 @@ import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/chech_error.dart';
 import 'package:pharmacy/src/model/api/check_order_responce.dart';
 import 'package:pharmacy/src/model/api/check_version.dart';
+import 'package:pharmacy/src/model/api/current_location_address_model.dart';
 import 'package:pharmacy/src/model/api/faq_model.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
@@ -855,6 +856,25 @@ class PharmacyApiProvider {
       return null;
     } on SocketException catch (_) {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return null;
+    }
+  }
+
+  Future<CurrentLocationAddressModel> fetchLocationAddress(
+      double lat, double lng) async {
+    String url =
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyBR2VPav7rT71KDVjGGAwr72bKuRb26Py4';
+    try {
+      http.Response response =
+          await http.get(url).timeout(const Duration(seconds: 10));
+      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+
+      print(responseJson);
+
+      return CurrentLocationAddressModel.fromJson(responseJson);
+    } on TimeoutException catch (_) {
+      return null;
+    } on SocketException catch (_) {
       return null;
     }
   }

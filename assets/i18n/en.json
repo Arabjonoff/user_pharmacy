@@ -34,6 +34,7 @@
   "price_cash_item": "GoPharm Balance",
   "price_delivery_item": "Delivery",
   "type_time": "Terms of delivery",
+  "what_me": "Where am I?",
   "main": {
     "home": "Home",
     "catalog": "Catalog",
@@ -304,7 +305,11 @@
     "title": "Rate our service",
     "message": "Your rating will help us to improve the quality of our service",
     "comment": "Note",
-    "send": "Send"
+    "send": "Send",
+    "order_title": "Your order is completed",
+    "order_message": "You can track changes in the order status in your profile",
+    "history": "View order details",
+    "close": "Close"
   },
   "eda": {
     "empty": "To an empty stomach",

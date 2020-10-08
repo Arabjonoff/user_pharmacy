@@ -39,28 +39,19 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
   var locationOptions =
       LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
 
-  TextEditingController homeController = TextEditingController();
+  // TextEditingController homeController = TextEditingController();
 
   DatabaseHelperAddress db = new DatabaseHelperAddress();
 
   bool error = false;
+  bool isFirst = true;
+  double height;
+  String address = "";
 
   @override
   void initState() {
     super.initState();
     _requestPermission();
-  }
-
-  _MapAddressScreenState() {
-    homeController.addListener(() {
-      if (homeController.text.length > 0) {
-        if (error) {
-          setState(() {
-            error = false;
-          });
-        }
-      }
-    });
   }
 
   Future<void> _requestPermission() async {
@@ -75,7 +66,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
   }
 
   Future<void> _getPosition() async {
-    if (lat == null && lng == null) {
+    if (lat == 41.311081 && lng == 69.240562) {
       geolocator.getPositionStream(locationOptions).listen(
         (Position position) {
           if (position != null) {
@@ -85,7 +76,14 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                 latitude: position.latitude, longitude: position.longitude);
             controller.move(
               point: _point,
-              zoom: 11,
+              zoom: 12,
+              animation: const MapAnimation(smooth: true, duration: 0.5),
+            );
+          } else {
+            _point = new Point(latitude: lat, longitude: lng);
+            controller.move(
+              point: _point,
+              zoom: 12,
               animation: const MapAnimation(smooth: true, duration: 0.5),
             );
           }
@@ -95,7 +93,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
       _point = new Point(latitude: lat, longitude: lng);
       controller.move(
         point: _point,
-        zoom: 11,
+        zoom: 12,
         animation: const MapAnimation(smooth: true, duration: 0.5),
       );
     }
@@ -128,6 +126,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
     if (lastPlaceMark != null) {
       controller.removePlacemark(lastPlaceMark);
     }
+
     lastPlaceMark = placemark.Placemark(
       point: point,
       iconName: 'assets/map/location_red.png',
@@ -136,10 +135,25 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
     await controller.addPlacemark(
       lastPlaceMark,
     );
+    var responce =
+        Repository().fetchLocationAddress(point.latitude, point.longitude);
+    responce.then((value) => {
+          if (responce != null)
+            {
+              print(value.results[0].formattedAddress),
+              if (value.results.length > 0)
+                {
+                  setState(() {
+                    address = value.results[0].formattedAddress;
+                  }),
+                }
+            }
+        });
   }
 
   @override
   Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
     if (_permissionStatus == PermissionStatus.granted) {
       if (controller != null)
         controller.showUserLayer(
@@ -147,8 +161,11 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
           arrowName: 'assets/map/arrow.png',
           accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
         );
-      _getPosition();
-      addMarker();
+      if (isFirst) {
+        _getPosition();
+        addMarker();
+        isFirst = false;
+      }
     }
 
     return Scaffold(
@@ -186,16 +203,43 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
             topRight: Radius.circular(14.0),
           ),
         ),
-        padding: EdgeInsets.only(top: 14),
+        padding: EdgeInsets.only(top: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               height: 48,
-              margin: EdgeInsets.only(bottom: 16, right: 12),
+              margin: EdgeInsets.only(bottom: 4),
               child: Stack(
                 children: [
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 48,
+                        width: 48,
+                        color: AppTheme.arrow_examp_back,
+                        margin: EdgeInsets.only(right: 4),
+                        child: Center(
+                          child: Container(
+                            height: 24,
+                            width: 24,
+                            padding: EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              color: AppTheme.arrow_back,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: SvgPicture.asset(
+                                "assets/images/arrow_close.svg"),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: GestureDetector(
@@ -240,63 +284,62 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                 ],
               ),
             ),
-            Container(
-              height: 56,
-              margin: EdgeInsets.only(left: 16, right: 16, bottom: 12),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: AppTheme.auth_login,
-                border: Border.all(
-                  color: error ? AppTheme.red_fav_color : AppTheme.auth_border,
-                  width: 1.0,
-                ),
-              ),
-              child: Padding(
-                padding:
-                    EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 12),
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
-                  style: TextStyle(
-                    fontFamily: AppTheme.fontRoboto,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.normal,
-                    color: AppTheme.black_text,
-                    fontSize: 15,
-                  ),
-                  textCapitalization: TextCapitalization.sentences,
-                  controller: homeController,
-                  decoration: InputDecoration(
-                    labelText: translate('address.dom'),
-                    labelStyle: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.normal,
-                      color: Color(0xFF6D7885),
-                      fontSize: 11,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: AppTheme.auth_login,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: AppTheme.auth_login,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // Container(
+            //   height: 56,
+            //   margin: EdgeInsets.only(left: 16, right: 16, bottom: 12),
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(10.0),
+            //     color: AppTheme.auth_login,
+            //     border: Border.all(
+            //       color: error ? AppTheme.red_fav_color : AppTheme.auth_border,
+            //       width: 1.0,
+            //     ),
+            //   ),
+            //   child: Padding(
+            //     padding:
+            //         EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 12),
+            //     child: TextFormField(
+            //       keyboardType: TextInputType.text,
+            //       style: TextStyle(
+            //         fontFamily: AppTheme.fontRoboto,
+            //         fontStyle: FontStyle.normal,
+            //         fontWeight: FontWeight.normal,
+            //         color: AppTheme.black_text,
+            //         fontSize: 15,
+            //       ),
+            //       textCapitalization: TextCapitalization.sentences,
+            //       controller: homeController,
+            //       decoration: InputDecoration(
+            //         labelText: translate('address.dom'),
+            //         labelStyle: TextStyle(
+            //           fontFamily: AppTheme.fontRoboto,
+            //           fontStyle: FontStyle.normal,
+            //           fontWeight: FontWeight.normal,
+            //           color: Color(0xFF6D7885),
+            //           fontSize: 11,
+            //         ),
+            //         enabledBorder: OutlineInputBorder(
+            //           borderRadius: BorderRadius.all(Radius.circular(10)),
+            //           borderSide: BorderSide(
+            //             width: 1,
+            //             color: AppTheme.auth_login,
+            //           ),
+            //         ),
+            //         focusedBorder: OutlineInputBorder(
+            //           borderRadius: BorderRadius.all(
+            //             Radius.circular(10),
+            //           ),
+            //           borderSide: BorderSide(
+            //             width: 1,
+            //             color: AppTheme.auth_login,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(left: 12, right: 12),
                 child: Stack(
                   children: [
                     YandexMap(
@@ -305,8 +348,26 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                         controller = yandexMapController;
                       },
                     ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: 24, right: 24, top: height / 5 - 15),
+                      child: Text(
+                        address,
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontStyle: FontStyle.normal,
+                          fontFamily: AppTheme.fontRoboto,
+                          fontSize: 20,
+                          height: 1.4,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.black_text,
+                        ),
+                      ),
+                    ),
                     Align(
-                      alignment: Alignment.topRight,
+                      alignment: Alignment.bottomRight,
                       child: GestureDetector(
                         onTap: () {
                           controller.move(
@@ -316,16 +377,29 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                           );
                         },
                         child: Container(
-                          margin: EdgeInsets.only(top: 12, right: 12),
-                          height: 36,
-                          width: 36,
+                          margin: EdgeInsets.only(bottom: 16, right: 16),
+                          width: 112,
+                          padding: EdgeInsets.only(
+                              top: 12, bottom: 12, left: 16, right: 16),
                           decoration: BoxDecoration(
                               color: AppTheme.white,
-                              borderRadius: BorderRadius.circular(18)),
-                          child: Icon(
-                            Icons.my_location,
-                            color: Color.fromRGBO(59, 62, 77, 1.0),
-                            size: 28.0,
+                              borderRadius: BorderRadius.circular(100)),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                  "assets/images/icon_my_location.svg"),
+                              SizedBox(width: 12),
+                              Text(
+                                translate("what_me"),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15,
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontStyle: FontStyle.normal,
+                                  color: AppTheme.black_text,
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ),
@@ -336,11 +410,10 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
             ),
             GestureDetector(
               onTap: () async {
-                if (homeController.text.isNotEmpty &&
-                    homeController.text.replaceAll(" ", "").length > 0) {
+                if (address != "") {
                   db.saveProducts(
                     AddressModel(
-                      street: homeController.text,
+                      street: address,
                       lat: lastPlaceMark.point.latitude.toString(),
                       lng: lastPlaceMark.point.longitude.toString(),
                     ),
@@ -361,7 +434,9 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  color: AppTheme.blue_app_color,
+                  color: address == ""
+                      ? AppTheme.blue_app_color.withOpacity(0.3)
+                      : AppTheme.blue_app_color,
                 ),
                 height: 44,
                 width: double.infinity,
