@@ -580,18 +580,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   "flutter/MethodChannelDemoExam");
                                           var result = await methodChannel
                                               .invokeMethod("start");
-                                          Navigator.pop(context);
-                                          Navigator.push(
-                                            context,
-                                            PageTransition(
-                                              type: PageTransitionType.fade,
-                                              child: SearchScreen(result, 1),
-                                            ),
-                                          );
-                                          print(result);
+                                          if (result.toString().length > 0) {
+                                            await methodChannel
+                                                .invokeMethod("stop");
+                                            Navigator.pop(context);
+                                            Navigator.push(
+                                              context,
+                                              PageTransition(
+                                                type: PageTransitionType.fade,
+                                                child: SearchScreen(result, 1),
+                                              ),
+                                            );
+                                          }
                                         } on PlatformException catch (e) {
                                           Navigator.pop(context);
-                                          print(e.code);
                                         }
                                       },
                                       child: Container(
