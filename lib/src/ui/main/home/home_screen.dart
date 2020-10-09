@@ -464,6 +464,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     // if (isOpenSearch)
     //   RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_SEARCH");
 
+    _fcm.getToken().then((value) => {
+      print(value),
+    });
+
     Utils.isLogin().then((value) => isLogin = value);
     return Scaffold(
       backgroundColor: AppTheme.white,
