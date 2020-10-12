@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/provider/home_screen_provider.dart';
 import 'package:provider/provider.dart';
 
