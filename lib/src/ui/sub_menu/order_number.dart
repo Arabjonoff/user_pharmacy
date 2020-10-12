@@ -29,6 +29,7 @@ class _OrderNumberState extends State<OrderNumber> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.item.type);
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: AppBar(
@@ -191,9 +192,81 @@ class _OrderNumberState extends State<OrderNumber> {
               ],
             ),
           ),
+          widget.item.type == "shipping"
+              ? Container(
+                  margin: EdgeInsets.only(
+                    top: 26,
+                    left: 16,
+                    right: 16,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        translate("card.tovar_sum"),
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontFamily: AppTheme.fontRoboto,
+                          fontWeight: FontWeight.normal,
+                          color: AppTheme.black_transparent_text,
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(),
+                      ),
+                      Text(
+                        priceFormat.format(widget.item.total) +
+                            translate(translate("sum")),
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontFamily: AppTheme.fontRoboto,
+                          fontWeight: FontWeight.normal,
+                          color: AppTheme.black_transparent_text,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : Container(),
+          widget.item.type == "shipping"
+              ? Container(
+                  margin: EdgeInsets.only(
+                    top: 12,
+                    left: 16,
+                    right: 16,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        translate("card.dostavka"),
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontFamily: AppTheme.fontRoboto,
+                          fontWeight: FontWeight.normal,
+                          color: AppTheme.black_transparent_text,
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(),
+                      ),
+                      Text(
+                        widget.item.deliveryTotal != 0
+                            ? priceFormat.format(widget.item.deliveryTotal) +
+                                translate(translate("sum"))
+                            : translate("free"),
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontFamily: AppTheme.fontRoboto,
+                          fontWeight: FontWeight.normal,
+                          color: AppTheme.black_transparent_text,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : Container(),
           Container(
             margin: EdgeInsets.only(
-              top: 26,
+              top: 12,
               left: 16,
               right: 16,
             ),
@@ -212,7 +285,8 @@ class _OrderNumberState extends State<OrderNumber> {
                   child: Container(),
                 ),
                 Text(
-                  priceFormat.format(widget.item.total) +
+                  priceFormat.format(
+                          widget.item.total + widget.item.deliveryTotal) +
                       translate(translate("sum")),
                   style: TextStyle(
                     fontSize: 15,
@@ -310,36 +384,40 @@ class _OrderNumberState extends State<OrderNumber> {
                       ],
                     ),
                   ),
-                  widget.item.type != "self"?  Container(
-                    margin: EdgeInsets.only(left: 16, right: 16),
-                    child: Text(
-                      widget.item.type != "self"
-                          ? translate("zakaz.address")
-                          : translate("zakaz.order"),
-                      style: TextStyle(
-                        fontStyle: FontStyle.normal,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: AppTheme.fontRoboto,
-                        color: AppTheme.black_text,
-                      ),
-                    ),
-                  ):Container(),
-                  widget.item.type != "self"?Container(
-                    margin: EdgeInsets.only(left: 16, right: 16, top: 2),
-                    child: Text(
-                      widget.item.address,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontStyle: FontStyle.normal,
-                        fontSize: 13,
-                        fontWeight: FontWeight.normal,
-                        fontFamily: AppTheme.fontRoboto,
-                        color: AppTheme.black_text,
-                      ),
-                      maxLines: 2,
-                    ),
-                  ):Container(),
+                  widget.item.type != "self"
+                      ? Container(
+                          margin: EdgeInsets.only(left: 16, right: 16),
+                          child: Text(
+                            widget.item.type != "self"
+                                ? translate("zakaz.address")
+                                : translate("zakaz.order"),
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: AppTheme.fontRoboto,
+                              color: AppTheme.black_text,
+                            ),
+                          ),
+                        )
+                      : Container(),
+                  widget.item.type != "self"
+                      ? Container(
+                          margin: EdgeInsets.only(left: 16, right: 16, top: 2),
+                          child: Text(
+                            widget.item.address,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontSize: 13,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: AppTheme.fontRoboto,
+                              color: AppTheme.black_text,
+                            ),
+                            maxLines: 2,
+                          ),
+                        )
+                      : Container(),
                   Container(
                     height: 1,
                     color: AppTheme.black_linear_category,

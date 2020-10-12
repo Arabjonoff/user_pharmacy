@@ -3,84 +3,51 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmacy/src/app_theme.dart';
+import 'package:pharmacy/src/provider/home_screen_provider.dart';
+import 'package:provider/provider.dart';
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int k = 0;
-
-  Timer _timer;
-
+class MyAppDelete extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppTheme.white,
-      appBar: AppBar(
-        title: Text("SSSSSSSSSSSS"),
-      ),
-      body: Container(
-        color: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            GestureDetector(
-              onTap: () {
-                startTimer();
-              },
-              child: Icon(
-                Icons.edit,
-                color: Colors.red,
-                size: 36,
+    return Provider<HomeScreenProvider>(
+      create: (context) => HomeScreenProvider(),
+      child: Consumer<HomeScreenProvider>(
+        builder: (context, myModel, child) {
+          return ValueListenableProvider<String>.value(
+            value: myModel.cityName,
+            child: Scaffold(
+              appBar: AppBar(title: Text('My App')),
+              body: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      padding: const EdgeInsets.all(20),
+                      color: Colors.green[200],
+                      child: Consumer<HomeScreenProvider>(
+                        builder: (context, myModel, child) {
+                          return RaisedButton(
+                            child: Text('something'),
+                            onPressed: () {
+                              myModel.getCityName();
+                            },
+                          );
+                        },
+                      )),
+                  Container(
+                    padding: const EdgeInsets.all(35),
+                    color: Colors.blue[200],
+                    child: Consumer<String>(
+                      builder: (context, myValue, child) {
+                        return Text(myValue);
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 36),
-            Text(k.toString()),
-            SizedBox(height: 36),
-            Text(_timer == null ? "Null" : _timer.isActive.toString())
-          ],
-        ),
+          );
+        },
       ),
     );
-  }
-
-  void startTimer() {
-    const oneSec = const Duration(milliseconds: 600);
-    if (_timer != null) {
-      _timer.isActive
-          // ignore: unnecessary_statements
-          ? {
-              _timer.cancel(),
-              setState(() {
-                k = 0;
-              }),
-            }
-          : _timer = new Timer.periodic(
-              oneSec,
-              (Timer timer) => setState(
-                () {
-                  k++;
-                },
-              ),
-            );
-    } else {
-      _timer = new Timer.periodic(
-        oneSec,
-        (Timer timer) => setState(
-          () {
-            k++;
-          },
-        ),
-      );
-    }
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
   }
 }

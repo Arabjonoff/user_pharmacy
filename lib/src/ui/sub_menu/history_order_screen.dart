@@ -267,7 +267,8 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       translate("history.price") +
                                           " " +
                                           priceFormat.format(snapshot
-                                              .data.results[index].total) +
+                                              .data.results[index].total+snapshot
+                                              .data.results[index].deliveryTotal) +
                                           translate("sum"),
                                       style: TextStyle(
                                         fontFamily: AppTheme.fontRoboto,
