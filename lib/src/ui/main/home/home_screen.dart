@@ -31,32 +31,18 @@ import 'package:pharmacy/src/ui/chat/chat_screen.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
-import 'package:pharmacy/src/ui/main/category/category_screen.dart';
-import 'package:pharmacy/src/ui/main/main_screen.dart';
-import 'package:pharmacy/src/ui/note/note_all_screen.dart';
-import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/region_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:rxbus/rxbus.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:speech_to_text/speech_recognition_error.dart';
-import 'package:speech_to_text/speech_recognition_result.dart';
-import 'package:speech_to_text/speech_to_text.dart';
 
 import '../../../app_theme.dart';
 
 final priceFormat = new NumberFormat("#,##0", "ru");
-
-// double level = 0.0;
-// double minSoundLevel = 50000;
-// double maxSoundLevel = -50000;
-// final SpeechToText speechText = SpeechToText();
-// String lastError = "";
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -463,10 +449,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     // if (isOpenIds) RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_IDS");
     // if (isOpenSearch)
     //   RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_SEARCH");
-
-    _fcm.getToken().then((value) => {
-      print(value),
-    });
 
     Utils.isLogin().then((value) => isLogin = value);
     return Scaffold(
