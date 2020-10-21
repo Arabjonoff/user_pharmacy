@@ -4,12 +4,10 @@ import 'dart:io';
 
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/cash_back_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
-import 'package:pharmacy/src/model/api/chech_error.dart';
 import 'package:pharmacy/src/model/api/check_order_responce.dart';
 import 'package:pharmacy/src/model/api/check_version.dart';
 import 'package:pharmacy/src/model/api/current_location_address_model.dart';
@@ -29,8 +27,6 @@ import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/payment_verfy.dart';
 import 'package:pharmacy/src/model/review/get_review.dart';
-import 'package:pharmacy/src/model/review/send_all_review.dart';
-import 'package:pharmacy/src/model/review/send_review.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/model/send/check_order.dart';
@@ -126,9 +122,6 @@ class PharmacyApiProvider {
   Future<SaleModel> fetchSaleList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
-    // if (regionId == null) {
-    //   regionId = 1;
-    // }
 
     String url = Utils.BASE_URL + '/api/v1/sales?region=$regionId';
 
@@ -160,10 +153,6 @@ class PharmacyApiProvider {
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
-    // if (regionId == null) {
-    //   regionId = 1;
-    // }
-
     String url = Utils.BASE_URL +
         '/api/v1/drugs?'
             'is_home=1&'
@@ -194,9 +183,7 @@ class PharmacyApiProvider {
   Future<CategoryModel> fetchCategoryList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
-    // if (regionId == null) {
-    //   regionId = 1;
-    // }
+
     String url = Utils.BASE_URL + '/api/v1/categories?region=$regionId';
     try {
       http.Response response =
@@ -225,9 +212,6 @@ class PharmacyApiProvider {
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
-    // if (regionId == null) {
-    //   regionId = 1;
-    // }
 
     String url = Utils.BASE_URL +
         '/api/v1/drugs?'
@@ -271,9 +255,6 @@ class PharmacyApiProvider {
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
-    // if (regionId == null) {
-    //   regionId = 1;
-    // }
 
     String url = Utils.BASE_URL +
         '/api/v1/drugs?'
@@ -316,9 +297,6 @@ class PharmacyApiProvider {
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
-    // if (regionId == null) {
-    //   regionId = 1;
-    // }
 
     String url = Utils.BASE_URL +
         '/api/v1/drugs?'
@@ -348,9 +326,6 @@ class PharmacyApiProvider {
   Future<ItemsAllModel> fetchItems(String id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
-    // if (regionId == null) {
-    //   regionId = 1;
-    // }
 
     String url = Utils.BASE_URL + '/api/v1/drugs/$id?region=$regionId';
 
@@ -371,7 +346,11 @@ class PharmacyApiProvider {
 
   ///stores
   Future<List<LocationModel>> fetchApteka(double lat, double lng) async {
-    String url = Utils.BASE_URL + '/api/v1/stores?lat=$lat&lng=$lng';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+
+    String url =
+        Utils.BASE_URL + '/api/v1/stores?lat=$lat&lng=$lng&region=$regionId';
     try {
       http.Response response =
           await http.get(url).timeout(const Duration(seconds: 10));
@@ -409,12 +388,12 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
     String lan = prefs.getString('language');
-
+    int regionId = prefs.getInt("cityId");
     if (lan == null) {
       lan = "ru";
     }
 
-    String url = Utils.BASE_URL + '/api/v1/add-order?lan=$lan';
+    String url = Utils.BASE_URL + '/api/v1/add-order?lan=$lan&region=$regionId';
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -438,11 +417,12 @@ class PharmacyApiProvider {
 
   ///History
   Future<HistoryModel> fetchOrderHistory(int page, int per_page) async {
-    String url =
-        Utils.BASE_URL + '/api/v1/orders?page=$page&per_page=$per_page';
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
+    int regionId = prefs.getInt("cityId");
+
+    String url = Utils.BASE_URL +
+        '/api/v1/orders?page=$page&per_page=$per_page&region=$regionId';
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -488,12 +468,14 @@ class PharmacyApiProvider {
     }
   }
 
-  /// Filter parametrs
+  /// Order options
   Future<OrderOptionsModel> fetchOrderOptions(String lan) async {
-    String url = Utils.BASE_URL + '/api/v1/order-options?lan=$lan';
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
+    int regionId = prefs.getInt("cityId");
+
+    String url =
+        Utils.BASE_URL + '/api/v1/order-options?lan=$lan&region=$regionId';
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -517,13 +499,15 @@ class PharmacyApiProvider {
   Future<CheckOrderResponceModel> fetchCheckOrder(CheckOrderModel order) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
+    int regionId = prefs.getInt("cityId");
     String lan = prefs.getString('language');
 
     if (lan == null) {
       lan = "ru";
     }
 
-    String url = Utils.BASE_URL + '/api/v1/check-order?lan=$lan';
+    String url =
+        Utils.BASE_URL + '/api/v1/check-order?lan=$lan&region=$regionId';
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -618,7 +602,10 @@ class PharmacyApiProvider {
 
   ///Min sum
   Future<int> fetchMinSum() async {
-    String url = Utils.BASE_URL + '/api/v1/order-minimum';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+
+    String url = Utils.BASE_URL + '/api/v1/order-minimum?region=$regionId';
 
     HttpClient httpClient = new HttpClient();
     httpClient
@@ -637,9 +624,13 @@ class PharmacyApiProvider {
   ///Check error pickup
   Future<CheckErrorModel> fetchCheckErrorPickup(
       AccessStore accessStore, String language) async {
-    String url = Utils.BASE_URL + '/api/v1/check-error?lan=$language';
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+
+    String url =
+        Utils.BASE_URL + '/api/v1/check-error?lan=$language&region=$regionId';
     String token = prefs.getString("token");
+
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
@@ -661,8 +652,11 @@ class PharmacyApiProvider {
   ///Check error delivery
   Future<CheckErrorModel> fetchCheckErrorDelivery(
       AccessStore accessStore, String language) async {
-    String url = Utils.BASE_URL + '/api/v1/check-shipping-error?lan=$language';
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+
+    String url = Utils.BASE_URL +
+        '/api/v1/check-shipping-error?lan=$language&region=$regionId';
     String token = prefs.getString("token");
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -768,9 +762,10 @@ class PharmacyApiProvider {
 
   ///get-no-reviews
   Future<GetReviewModel> fetchGetNoReview() async {
-    String url = Utils.BASE_URL + '/api/v1/get-no-reviews';
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+
+    String url = Utils.BASE_URL + '/api/v1/get-no-reviews?region=$regionId';
     String token = prefs.getString("token");
 
     if (token != null) {
@@ -818,9 +813,11 @@ class PharmacyApiProvider {
 
   /// Cash back
   Future<CashBackModel> fetchCashBack() async {
-    String url = Utils.BASE_URL + '/api/v1/user-cashback';
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+
+    String url = Utils.BASE_URL + '/api/v1/user-cashback?region=$regionId';
+
     String token = prefs.getString("token");
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -838,11 +835,12 @@ class PharmacyApiProvider {
   Future<List<FaqModel>> fetchFAQ() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String lan = prefs.getString('language');
+    int regionId = prefs.getInt("cityId");
 
     if (lan == null) {
       lan = "ru";
     }
-    String url = Utils.BASE_URL + '/api/v1/faq?lan=$lan';
+    String url = Utils.BASE_URL + '/api/v1/faq?lan=$lan&region=$regionId';
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
     };
