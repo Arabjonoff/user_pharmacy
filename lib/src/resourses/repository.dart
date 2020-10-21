@@ -23,6 +23,7 @@ import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/chat/chat_api_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
+import 'package:pharmacy/src/model/create_order_status_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/note/note_data_model.dart';
@@ -31,6 +32,7 @@ import 'package:pharmacy/src/model/review/get_review.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/model/send/check_order.dart';
+import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/model/send/verfy_payment_model.dart';
 
 import 'pharmacy_api_provider.dart';
@@ -166,6 +168,9 @@ class Repository {
 
   Future<OrderStatusModel> fetchRAddOrder(AddOrderModel order) =>
       pharmacyApiProvider.fetchAddOrder(order);
+
+  Future<CreateOrderStatusModel> fetchCreateOrder(CreateOrderModel order) =>
+      pharmacyApiProvider.fetchCreateOrder(order);
 
   Future<CheckOrderResponceModel> fetchCheckOrder(CheckOrderModel order) =>
       pharmacyApiProvider.fetchCheckOrder(order);
