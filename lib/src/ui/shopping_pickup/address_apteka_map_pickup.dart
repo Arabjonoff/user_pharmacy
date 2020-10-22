@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
@@ -7,10 +9,14 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
+import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
+import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
+import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
+import 'package:rxbus/rxbus.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
@@ -36,6 +42,7 @@ class _AddressAptekaMapPickupScreenState
   DatabaseHelper dataBase = new DatabaseHelper();
 
   var myLongitude, myLatitude;
+  bool loading = false;
 
   @override
   void initState() {
@@ -229,23 +236,202 @@ class _AddressAptekaMapPickupScreenState
                             alignment: Alignment.center,
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.pop(context);
-                                Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.fade,
-                                    child: OrderCardPickupScreen(AptekaModel(
-                                      data[i].id,
-                                      data[i].name,
-                                      data[i].address,
-                                      data[i].mode,
-                                      data[i].phone,
-                                      data[i].location.coordinates[1],
-                                      data[i].location.coordinates[0],
-                                      false,
-                                    )),
-                                  ),
-                                );
+                                setState(() {
+                                  loading = true;
+                                });
+                                CreateOrderModel createOrder;
+                                List<Drugs> drugs = new List();
+                                dataBase.getProdu(true).then((dataBaseValue) =>
+                                    {
+                                      for (int i = 0;
+                                          i < dataBaseValue.length;
+                                          i++)
+                                        {
+                                          drugs.add(Drugs(
+                                            drug: dataBaseValue[i].id,
+                                            qty: dataBaseValue[i].cardCount,
+                                          ))
+                                        },
+                                      createOrder = new CreateOrderModel(
+                                        device:
+                                            Platform.isIOS ? "IOS" : "Android",
+                                        type: "self",
+                                        store_id: data[i].id,
+                                        drugs: drugs,
+                                      ),
+                                      Repository()
+                                          .fetchCreateOrder(createOrder)
+                                          .then((response) => {
+                                                if (response.status == 1)
+                                                  {
+                                                    setState(() {
+                                                      loading = false;
+                                                    }),
+                                                    for (int i = 0;
+                                                        i <
+                                                            dataBaseValue
+                                                                .length;
+                                                        i++)
+                                                      {
+                                                        if (dataBaseValue[i]
+                                                            .favourite)
+                                                          {
+                                                            dataBaseValue[i]
+                                                                .cardCount = 0,
+                                                            dataBase
+                                                                .updateProduct(
+                                                                    dataBaseValue[
+                                                                        i])
+                                                          }
+                                                        else
+                                                          {
+                                                            dataBase
+                                                                .deleteProducts(
+                                                                    dataBaseValue[
+                                                                            i]
+                                                                        .id)
+                                                          }
+                                                      },
+                                                    if (isOpenCategory)
+                                                      RxBus.post(
+                                                          AllItemIsOpen(true),
+                                                          tag:
+                                                              "EVENT_ITEM_LIST_CATEGORY"),
+                                                    if (isOpenBest)
+                                                      RxBus.post(
+                                                          AllItemIsOpen(true),
+                                                          tag:
+                                                              "EVENT_ITEM_LIST"),
+                                                    if (isOpenIds)
+                                                      RxBus.post(
+                                                          AllItemIsOpen(true),
+                                                          tag:
+                                                              "EVENT_ITEM_LIST_IDS"),
+                                                    if (isOpenSearch)
+                                                      RxBus.post(
+                                                          AllItemIsOpen(true),
+                                                          tag:
+                                                              "EVENT_ITEM_LIST_SEARCH"),
+                                                    Navigator.pop(context),
+                                                    Navigator.push(
+                                                      context,
+                                                      PageTransition(
+                                                        type: PageTransitionType
+                                                            .fade,
+                                                        child:
+                                                            OrderCardPickupScreen(
+                                                                response
+                                                                    .orderId),
+                                                      ),
+                                                    ),
+                                                  }
+                                                else if (response.status == -1)
+                                                  {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          10.0))),
+                                                          contentPadding:
+                                                              EdgeInsets
+                                                                  .fromLTRB(
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0),
+                                                          content: Container(
+                                                            width: 239.0,
+                                                            height: 64.0,
+                                                            child: Center(
+                                                              child: Text(
+                                                                response.msg,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontFamily:
+                                                                      AppTheme
+                                                                          .fontRoboto,
+                                                                  fontStyle:
+                                                                      FontStyle
+                                                                          .normal,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontSize: 16,
+                                                                  color: AppTheme
+                                                                      .black_text,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                    setState(() {
+                                                      loading = false;
+                                                    }),
+                                                  }
+                                                else
+                                                  {
+                                                    setState(() {
+                                                      loading = false;
+                                                    }),
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          10.0))),
+                                                          contentPadding:
+                                                              EdgeInsets
+                                                                  .fromLTRB(
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0),
+                                                          content: Container(
+                                                            width: 239.0,
+                                                            height: 64.0,
+                                                            child: Center(
+                                                              child: Text(
+                                                                response.msg ==
+                                                                        ""
+                                                                    ? translate(
+                                                                        "error_distanse")
+                                                                    : response
+                                                                        .msg,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontFamily:
+                                                                      AppTheme
+                                                                          .fontRoboto,
+                                                                  fontStyle:
+                                                                      FontStyle
+                                                                          .normal,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontSize: 16,
+                                                                  color: AppTheme
+                                                                      .black_text,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  }
+                                              }),
+                                    });
                               },
                               child: Container(
                                 width: double.infinity,
@@ -256,16 +442,25 @@ class _AddressAptekaMapPickupScreenState
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                                 child: Center(
-                                  child: Text(
-                                    translate("orders.map_add_order"),
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      color: AppTheme.white,
-                                      fontFamily: AppTheme.fontRoboto,
-                                      fontWeight: FontWeight.w600,
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                  ),
+                                  child: loading
+                                      ? CircularProgressIndicator(
+                                          value: null,
+                                          strokeWidth: 3.0,
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                            AppTheme.white,
+                                          ),
+                                        )
+                                      : Text(
+                                          translate("orders.map_add_order"),
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            color: AppTheme.white,
+                                            fontFamily: AppTheme.fontRoboto,
+                                            fontWeight: FontWeight.w600,
+                                            fontStyle: FontStyle.normal,
+                                          ),
+                                        ),
                                 ),
                               ),
                             ),

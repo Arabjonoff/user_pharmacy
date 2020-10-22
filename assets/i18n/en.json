@@ -156,6 +156,7 @@
     "from_which_store": "From where will you pick up?",
     "edit": "Edit",
     "name": "Name",
+    "choose_address": "Courier delivery",
     "number": "Phone number",
     "promocode": "Promocode",
     "promocode_name": "You can use only 1 promocode",
@@ -245,7 +246,8 @@
     "pick_up": "Pickup",
     "picked_up": "Picked up",
     "payment_waiting": "Payment is waiting",
-    "payment_type": "cash"
+    "payment_type": "cash",
+    "not_paid": "Not paid"
   },
   "voice": {
     "voice_search": "Voice search",

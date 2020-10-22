@@ -16,6 +16,7 @@ import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
+import 'package:pharmacy/src/model/send/create_payment_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
@@ -32,9 +33,9 @@ import '../shopping_curer/curer_address_card.dart';
 
 // ignore: must_be_immutable
 class OrderCardPickupScreen extends StatefulWidget {
-  AptekaModel aptekaModel;
+  int orderId;
 
-  OrderCardPickupScreen(this.aptekaModel);
+  OrderCardPickupScreen(this.orderId);
 
   @override
   State<StatefulWidget> createState() {
@@ -52,9 +53,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
   bool isEnd = false;
   String cardToken = "";
 
-  String fullName = "";
-
-  String number = "";
   bool loading = false;
   bool error = false;
   bool edit = true;
@@ -64,20 +62,11 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
   DatabaseHelper dataBase = new DatabaseHelper();
   DateTime date = new DateTime.now();
 
-  TextEditingController fullNameController = TextEditingController();
-  TextEditingController numberController = TextEditingController(text: "+998");
-
   TextEditingController cardNumberController =
       TextEditingController(text: "8600");
   TextEditingController cardDateController = TextEditingController();
-  TextEditingController loginController = TextEditingController(text: "+998");
 
   TextEditingController cashPriceController = TextEditingController();
-
-  var maskFormatter = new MaskTextInputFormatter(
-      mask: '+998 ## ### ## ##', filter: {"#": RegExp(r'[0-9]')});
-  var maskFormatterNumber = new MaskTextInputFormatter(
-      mask: '+998 ## ### ## ##', filter: {"#": RegExp(r'[0-9]')});
 
   var maskCardNumberFormatter = new MaskTextInputFormatter(
       mask: '8600 #### #### ####', filter: {"#": RegExp(r'[0-9]')});
@@ -191,36 +180,15 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      translate("orders.chechout"),
+                      translate("orders.chechout") +
+                          " №" +
+                          widget.orderId.toString(),
                       style: TextStyle(
                         fontStyle: FontStyle.normal,
                         fontFamily: AppTheme.fontCommons,
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: AppTheme.black_text,
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        height: 48,
-                        width: 48,
-                        margin: EdgeInsets.only(left: 4),
-                        color: AppTheme.arrow_examp_back,
-                        child: Center(
-                          child: Container(
-                            height: 24,
-                            width: 24,
-                            padding: EdgeInsets.all(3),
-                            child: SvgPicture.asset(
-                                "assets/images/arrow_back.svg"),
-                          ),
-                        ),
                       ),
                     ),
                   ),
@@ -254,294 +222,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                     ),
                   ),
                 ],
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              margin: EdgeInsets.only(
-                right: 16,
-                top: 24,
-                left: 16,
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10)),
-                  color: AppTheme.white,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    widget.aptekaModel == null
-                        ? Container(
-                            margin: EdgeInsets.only(
-                                top: 16, bottom: 3, left: 16, right: 16),
-                            child: Text(
-                              translate("orders.from_which_store"),
-                              maxLines: 1,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                                fontStyle: FontStyle.normal,
-                                color: AppTheme.black_text,
-                                fontFamily: AppTheme.fontRoboto,
-                              ),
-                            ),
-                          )
-                        : Container(
-                            margin:
-                                EdgeInsets.only(top: 24, left: 16, right: 16),
-                            child: Text(
-                              widget.aptekaModel.address,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontSize: 13,
-                                fontStyle: FontStyle.normal,
-                                color: AppTheme.black_text,
-                                fontFamily: AppTheme.fontRoboto,
-                              ),
-                            ),
-                          ),
-                    widget.aptekaModel == null
-                        ? Container()
-                        : Container(
-                            margin:
-                                EdgeInsets.only(bottom: 3, left: 16, right: 16),
-                            child: Text(
-                              translate("orders.now") +
-                                  ", " +
-                                  widget.aptekaModel.open,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontSize: 13,
-                                fontStyle: FontStyle.normal,
-                                color: AppTheme.black_text,
-                                fontFamily: AppTheme.fontRoboto,
-                              ),
-                            ),
-                          ),
-                    GestureDetector(
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            left: 16, right: 16, bottom: 16, top: 16),
-                        decoration: BoxDecoration(
-                          color: widget.aptekaModel == null
-                              ? AppTheme.blue_app_color
-                              : AppTheme.white,
-                          borderRadius: BorderRadius.circular(10.0),
-                          border: widget.aptekaModel == null
-                              ? Border.all(
-                                  color: AppTheme.blue_app_color,
-                                  width: 0.0,
-                                )
-                              : Border.all(
-                                  color: AppTheme.blue_app_color,
-                                  width: 2.0,
-                                ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            widget.aptekaModel == null
-                                ? translate("orders.edit_aptek_choose")
-                                : translate("orders.edit_aptek"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: widget.aptekaModel == null
-                                  ? AppTheme.white
-                                  : AppTheme.blue_app_color,
-                            ),
-                          ),
-                        ),
-                        padding: EdgeInsets.only(
-                            left: 12, right: 12, top: 8, bottom: 8),
-                      ),
-                      onTap: () {
-                        Navigator.pop(context);
-                        // Navigator.pushReplacement(
-                        //   context,
-                        //   PageTransition(
-                        //     type: PageTransitionType.rightToLeft,
-                        //     child: AddressAptekaPickupScreen(),
-                        //   ),
-                        // );
-                      },
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              height: 24,
-              margin: EdgeInsets.only(
-                left: 16,
-                right: 16,
-                top: 24,
-              ),
-              child: Row(
-                children: [
-                  Text(
-                    translate("orders.to_picup"),
-                    style: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: AppTheme.black_text,
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(),
-                  ),
-                  edit
-                      ? GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              edit = false;
-                            });
-                          },
-                          child: Text(
-                            translate("orders.edit"),
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: AppTheme.fontRoboto,
-                                color: AppTheme.blue_app_color),
-                          ),
-                        )
-                      : Container(),
-                ],
-              ),
-            ),
-            edit
-                ? Container(
-                    margin: EdgeInsets.only(top: 26, left: 16, right: 16),
-                    child: Text(
-                      fullName,
-                      style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
-                          fontWeight: FontWeight.normal,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 16,
-                          color: AppTheme.black_catalog),
-                    ),
-                  )
-                : Container(
-                    margin: EdgeInsets.only(top: 26, left: 3, right: 3),
-                    child: TextFormField(
-                      keyboardType: TextInputType.text,
-                      style: TextStyle(
-                        fontFamily: AppTheme.fontRoboto,
-                        fontWeight: FontWeight.normal,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 16,
-                        color: AppTheme.black_catalog,
-                      ),
-                      controller: fullNameController,
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: AppTheme.white,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: AppTheme.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-            Container(
-              margin: EdgeInsets.only(top: 3, left: 16, right: 16),
-              child: Text(
-                translate("orders.name"),
-                style: TextStyle(
-                    fontFamily: AppTheme.fontRoboto,
-                    fontWeight: FontWeight.normal,
-                    fontStyle: FontStyle.normal,
-                    fontSize: 13,
-                    color: AppTheme.black_transparent_text),
-              ),
-            ),
-            edit
-                ? Container(
-                    margin: EdgeInsets.only(top: 26, left: 16, right: 16),
-                    child: Text(
-                      number,
-                      style: TextStyle(
-                        fontFamily: AppTheme.fontRoboto,
-                        fontWeight: FontWeight.normal,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 16,
-                        color: AppTheme.black_catalog,
-                      ),
-                    ),
-                  )
-                : TextFormField(
-                    keyboardType: TextInputType.phone,
-                    style: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
-                      fontWeight: FontWeight.normal,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 16,
-                      color: AppTheme.black_catalog,
-                    ),
-                    controller: numberController,
-                    inputFormatters: [maskFormatter],
-                    decoration: InputDecoration(
-                      hintText: translate("orders.number"),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: AppTheme.white,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: AppTheme.white,
-                        ),
-                      ),
-                    ),
-                  ),
-            Container(
-              margin: EdgeInsets.only(top: 3, left: 16, right: 16),
-              child: Text(
-                translate("orders.number"),
-                style: TextStyle(
-                    fontFamily: AppTheme.fontRoboto,
-                    fontWeight: FontWeight.normal,
-                    fontStyle: FontStyle.normal,
-                    fontSize: 13,
-                    color: AppTheme.black_transparent_text),
               ),
             ),
             Container(
@@ -801,112 +481,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(left: 16, right: 16),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: 1,
-                                  color: AppTheme.black_transparent_text,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 7,
-                              ),
-                              Text(
-                                translate("or"),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontSize: 13,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.normal,
-                                  color: AppTheme.black_transparent_text,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 7,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  height: 1,
-                                  color: AppTheme.black_transparent_text,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 24, left: 16, right: 16),
-                          child: Center(
-                            child: Text(
-                              translate("orders.click_number"),
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: AppTheme.fontRoboto,
-                                color: AppTheme.black_text,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 56,
-                          margin: EdgeInsets.only(top: 12, left: 16, right: 16),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: AppTheme.auth_login,
-                            border: Border.all(
-                              color: AppTheme.auth_border,
-                              width: 1.0,
-                            ),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                top: 8, bottom: 8, left: 12, right: 12),
-                            child: TextFormField(
-                              keyboardType: TextInputType.phone,
-//                        cursorColor:  AppTheme.auth_login,
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.normal,
-                                color: AppTheme.black_text,
-                                fontSize: 15,
-                              ),
-                              controller: loginController,
-                              inputFormatters: [maskFormatterNumber],
-                              decoration: InputDecoration(
-                                labelText: translate('auth.number'),
-                                labelStyle: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.normal,
-                                  color: Color(0xFF6D7885),
-                                  fontSize: 11,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: AppTheme.auth_login,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: AppTheme.auth_login,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
                       ],
                     ),
                   )
@@ -1162,220 +736,91 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
             GestureDetector(
               onTap: () {
                 if (!loading) {
-                  if (widget.aptekaModel != null && clickType != null) {
+                  if (widget.orderId != null && clickType != null) {
                     var cardNum = cardNumberController.text.replaceAll(' ', '');
                     var cardDate = cardDateController.text
                         .replaceAll(' ', '')
                         .replaceAll('/', '');
-                    var num = loginController.text
-                        .replaceAll('(', '')
-                        .replaceAll(')', '')
-                        .replaceAll('+', '')
-                        .replaceAll(' ', '')
-                        .replaceAll('-', '');
 
                     if (!isEnd ||
-                        (cardNum.length == 16 && cardDate.length == 4) ||
-                        num.length == 12) {
+                        (cardNum.length == 16 && cardDate.length == 4)) {
                       setState(() {
                         loading = true;
                       });
 
-                      if (fullNameController.text.isNotEmpty) {
-                        fullName = fullNameController.text;
-                      }
-                      var numbe = numberController.text
-                          .replaceAll('+', '')
-                          .replaceAll(' ', '');
-                      if (numbe.length == 12) {
-                        number = numberController.text;
-                      }
+                      PaymentOrderModel addModel = new PaymentOrderModel();
 
-                      AddOrderModel addModel = new AddOrderModel();
-                      List<Drugs> drugs = new List();
-                      dataBase.getProdu(true).then((value) => {
-                            for (int i = 0; i < value.length; i++)
+                      isEnd
+                          ? addModel = new PaymentOrderModel(
+                              order_id: widget.orderId,
+                              cash_pay: cashPrice.toInt(),
+                              payment_type: paymentType,
+                              card_pan: cardNum,
+                              card_exp: cardDate,
+                              card_save: checkBox ? 1 : 0,
+                            )
+                          : addModel = new PaymentOrderModel(
+                              order_id: widget.orderId,
+                              cash_pay: cashPrice.toInt(),
+                              payment_type: paymentType,
+                              card_token: cardToken == "" ? null : cardToken,
+                            );
+                      Repository().fetchPayment(addModel).then((response) => {
+                            if (response.status == 1)
                               {
-                                drugs.add(Drugs(
-                                    drug: value[i].id, qty: value[i].cardCount))
-                              },
-                            isEnd
-                                ? num.length == 12
-                                    ? addModel = new AddOrderModel(
-                                        type: "self",
-                                        full_name: fullName,
-                                        cash_pay: cashPrice.toInt(),
-                                        phone: number
-                                            .replaceAll('+', '')
-                                            .replaceAll(' ', ''),
-                                        store_id: widget.aptekaModel.id,
-                                        payment_type: paymentType,
-                                        device:
-                                            Platform.isIOS ? "IOS" : "Android",
-                                        drugs: drugs,
-                                        phone_number: num,
-                                      )
-                                    : addModel = new AddOrderModel(
-                                        type: "self",
-                                        full_name: fullName,
-                                        cash_pay: cashPrice.toInt(),
-                                        device:
-                                            Platform.isIOS ? "IOS" : "Android",
-                                        phone: number
-                                            .replaceAll('+', '')
-                                            .replaceAll(' ', ''),
-                                        store_id: widget.aptekaModel.id,
-                                        payment_type: paymentType,
-                                        drugs: drugs,
-                                        card_pan: cardNum,
-                                        card_exp: cardDate,
-                                        card_save: checkBox ? 1 : 0,
-                                      )
-                                : addModel = new AddOrderModel(
-                                    type: "self",
-                                    full_name: fullName,
-                                    cash_pay: cashPrice.toInt(),
-                                    device: Platform.isIOS ? "IOS" : "Android",
-                                    phone: number
-                                        .replaceAll('+', '')
-                                        .replaceAll(' ', ''),
-                                    store_id: widget.aptekaModel.id,
-                                    payment_type: paymentType,
-                                    card_token:
-                                        cardToken == "" ? null : cardToken,
-                                    drugs: drugs,
-                                  ),
-                            Repository()
-                                .fetchRAddOrder(addModel)
-                                .then((response) => {
-                                      if (response.status == 1)
-                                        {
-                                          if (response.data.error_code == 0)
-                                            {
-                                              setState(() {
-                                                loading = false;
-                                                error = false;
-                                              }),
-                                              for (int i = 0;
-                                                  i < value.length;
-                                                  i++)
-                                                {
-                                                  if (value[i].favourite)
-                                                    {
-                                                      value[i].cardCount = 0,
-                                                      dataBase.updateProduct(
-                                                          value[i])
-                                                    }
-                                                  else
-                                                    {
-                                                      dataBase.deleteProducts(
-                                                          value[i].id)
-                                                    }
-                                                },
-                                              if (response.data.card_token !=
-                                                  "")
-                                                {
-                                                  if (isOpenCategory)
-                                                    RxBus.post(
-                                                        AllItemIsOpen(true),
-                                                        tag:
-                                                            "EVENT_ITEM_LIST_CATEGORY"),
-                                                  if (isOpenBest)
-                                                    RxBus.post(
-                                                        AllItemIsOpen(true),
-                                                        tag: "EVENT_ITEM_LIST"),
-                                                  if (isOpenIds)
-                                                    RxBus.post(
-                                                        AllItemIsOpen(true),
-                                                        tag:
-                                                            "EVENT_ITEM_LIST_IDS"),
-                                                  if (isOpenSearch)
-                                                    RxBus.post(
-                                                        AllItemIsOpen(true),
-                                                        tag:
-                                                            "EVENT_ITEM_LIST_SEARCH"),
-                                                  Navigator.pushReplacement(
-                                                    context,
-                                                    PageTransition(
-                                                      type: PageTransitionType
-                                                          .fade,
-                                                      child: VerfyPaymentScreen(
-                                                          response.data
-                                                              .phone_number,
-                                                          response
-                                                              .data.card_token),
-                                                    ),
-                                                  )
-                                                }
-                                              else
-                                                {
-                                                  if (isOpenCategory)
-                                                    RxBus.post(
-                                                        AllItemIsOpen(true),
-                                                        tag:
-                                                            "EVENT_ITEM_LIST_CATEGORY"),
-                                                  if (isOpenBest)
-                                                    RxBus.post(
-                                                        AllItemIsOpen(true),
-                                                        tag: "EVENT_ITEM_LIST"),
-                                                  if (isOpenIds)
-                                                    RxBus.post(
-                                                        AllItemIsOpen(true),
-                                                        tag:
-                                                            "EVENT_ITEM_LIST_IDS"),
-                                                  if (isOpenSearch)
-                                                    RxBus.post(
-                                                        AllItemIsOpen(true),
-                                                        tag:
-                                                            "EVENT_ITEM_LIST_SEARCH"),
-
-                                                  Navigator.of(context)
-                                                      .popUntil((route) =>
-                                                          route.isFirst),
-                                                  RxBus.post(
-                                                      CardItemChangeModel(true),
-                                                      tag: "EVENT_CARD_BOTTOM"),
-
-                                                  // Navigator.pushReplacement(
-                                                  //   context,
-                                                  //   PageTransition(
-                                                  //     type: PageTransitionType
-                                                  //         .fade,
-                                                  //     child:
-                                                  //         HistoryOrderScreen(),
-                                                  //   ),
-                                                  // )
-                                                }
-                                            }
-                                          else
-                                            {
-                                              setState(() {
-                                                error = true;
-                                                loading = false;
-                                                error_text =
-                                                    response.data.error_note;
-                                              }),
-                                            }
-                                        }
-                                      else if (response.status == -1)
-                                        {
-                                          setState(() {
-                                            error = true;
-                                            loading = false;
-                                            error_text = response.msg;
-                                          }),
-                                        }
-                                      else
-                                        {
-                                          setState(() {
-                                            error = true;
-                                            loading = false;
-                                            error_text = response.msg == ""
-                                                ? translate("error_distanse")
-                                                : response.msg;
-                                          }),
-                                        }
+                                if (response.data.error_code == 0)
+                                  {
+                                    setState(() {
+                                      loading = false;
+                                      error = false;
                                     }),
+                                    if (response.data.card_token != "")
+                                      {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          PageTransition(
+                                            type: PageTransitionType.fade,
+                                            child: VerfyPaymentScreen(
+                                                response.data.phone_number,
+                                                response.data.card_token),
+                                          ),
+                                        )
+                                      }
+                                    else
+                                      {
+                                        Navigator.of(context)
+                                            .popUntil((route) => route.isFirst),
+                                        RxBus.post(CardItemChangeModel(true),
+                                            tag: "EVENT_CARD_BOTTOM"),
+                                      }
+                                  }
+                                else
+                                  {
+                                    setState(() {
+                                      error = true;
+                                      loading = false;
+                                      error_text = response.data.error_note;
+                                    }),
+                                  }
+                              }
+                            else if (response.status == -1)
+                              {
+                                setState(() {
+                                  error = true;
+                                  loading = false;
+                                  error_text = response.msg;
+                                }),
+                              }
+                            else
+                              {
+                                setState(() {
+                                  error = true;
+                                  loading = false;
+                                  error_text = response.msg == ""
+                                      ? translate("error_distanse")
+                                      : response.msg;
+                                }),
+                              }
                           });
                     }
                   }
@@ -1384,7 +829,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  color: (widget.aptekaModel == null || clickType == null)
+                  color: clickType == null
                       ? AppTheme.blue_app_color_transparent
                       : AppTheme.blue_app_color,
                 ),
@@ -1432,22 +877,5 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
       language_data = "ru";
     }
     blocOrderOptions.fetchOrderOptions(language_data);
-
-    setState(() {
-      var num = "+";
-      for (int i = 0; i < prefs.getString("number").length; i++) {
-        if (i == 3 || i == 5 || i == 8 || i == 10) {
-          num += " ";
-        }
-        num += prefs.getString("number")[i];
-      }
-      number = num;
-
-      var name = prefs.getString("name");
-      var surName = prefs.getString("surname");
-
-      fullName = name + " " + surName;
-      fullNameController.text = name + " " + surName;
-    });
   }
 }

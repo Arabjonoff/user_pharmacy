@@ -156,6 +156,7 @@
     "your_data": "Yetkaziladigan shaxs",
     "edit": "O'zgartirish",
     "name": "Ism",
+    "choose_address": "Yetkazib berish",
     "number": "Telefon raqam",
     "promocode": "Promokod",
     "promocode_name": "Faqat 1 promokoddan foydalaning",
@@ -245,7 +246,8 @@
     "pick_up": "Olib ketishga",
     "picked_up": "Mijoz olib ketdi",
     "payment_waiting": "To'lovni kutmoqda",
-    "payment_type": "naqd to'lov"
+    "payment_type": "naqd to'lov",
+    "not_paid": "To'lanmagan"
   },
   "voice": {
     "voice_search": "Ovozli qidiruv",

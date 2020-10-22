@@ -718,17 +718,6 @@ class _CardScreenState extends State<CardScreen> {
                                                         errorData = new List(),
                                                         cashData = value.data,
                                                         widget.onPickup(),
-
-                                                        // Navigator.push(
-                                                        //   context,
-                                                        //   PageTransition(
-                                                        //     type:
-                                                        //         PageTransitionType
-                                                        //             .fade,
-                                                        //     child:
-                                                        //         OrderCardPickupScreen(),
-                                                        //   ),
-                                                        // ),
                                                         setState(() {
                                                           loadingPickup = false;
                                                           error = false;

@@ -156,7 +156,7 @@
     "from_which_store": "С какой аптеки заберете?",
     "edit": "Изменить",
     "name": "Имя",
-    "choose_address": "Курьеркая доставка",
+    "choose_address": "Курьерская доставка",
     "number": "Номер телефона",
     "promocode": "Промокод",
     "promocode_name": "Используйте только 1 промокод",
@@ -246,7 +246,8 @@
     "pick_up": "Собой",
     "picked_up": "Клиент забрал",
     "payment_waiting": "Ожидается оплата",
-    "payment_type": "наличными"
+    "payment_type": "наличными",
+    "not_paid": "Не оплачен"
   },
   "voice": {
     "voice_search": "Голосовой поиск",
