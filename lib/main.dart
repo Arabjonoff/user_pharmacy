@@ -12,6 +12,7 @@ import 'package:flutter_translate/localized_app.dart';
 import 'package:pharmacy/src/delete/delete_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_screen.dart';
+import 'package:pharmacy/src/ui/update/auto_update_screen.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

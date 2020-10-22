@@ -130,7 +130,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response =
-      await http.get(url).timeout(const Duration(seconds: 10));
+          await http.get(url).timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return SaleModel.fromJson(responseJson);
@@ -144,14 +144,16 @@ class PharmacyApiProvider {
   }
 
   ///best items
-  Future<ItemModel> fetchBestItemList(int page,
-      int per_page,
-      String international_name_ids,
-      String manufacturer_ids,
-      String ordering,
-      String price_max,
-      String price_min,
-      String unit_ids,) async {
+  Future<ItemModel> fetchBestItemList(
+    int page,
+    int per_page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
     String url = Utils.BASE_URL +
@@ -169,7 +171,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response =
-      await http.get(url).timeout(const Duration(seconds: 10));
+          await http.get(url).timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return ItemModel.fromJson(responseJson);
@@ -188,7 +190,7 @@ class PharmacyApiProvider {
     String url = Utils.BASE_URL + '/api/v1/categories?region=$regionId';
     try {
       http.Response response =
-      await http.get(url).timeout(const Duration(seconds: 10));
+          await http.get(url).timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return CategoryModel.fromJson(responseJson);
@@ -200,15 +202,17 @@ class PharmacyApiProvider {
   }
 
   ///category's by item
-  Future<ItemModel> fetchCategoryItemsList(String id,
-      int page,
-      int per_page,
-      String international_name_ids,
-      String manufacturer_ids,
-      String ordering,
-      String price_max,
-      String price_min,
-      String unit_ids,) async {
+  Future<ItemModel> fetchCategoryItemsList(
+    String id,
+    int page,
+    int per_page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
@@ -227,7 +231,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response =
-      await http.get(url).timeout(const Duration(seconds: 10));
+          await http.get(url).timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return ItemModel.fromJson(responseJson);
@@ -241,15 +245,17 @@ class PharmacyApiProvider {
   }
 
   ///category's by item
-  Future<ItemModel> fetchIdsItemsList(String id,
-      int page,
-      int per_page,
-      String international_name_ids,
-      String manufacturer_ids,
-      String ordering,
-      String price_max,
-      String price_min,
-      String unit_ids,) async {
+  Future<ItemModel> fetchIdsItemsList(
+    String id,
+    int page,
+    int per_page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
@@ -269,7 +275,7 @@ class PharmacyApiProvider {
     HttpClient httpClient = new HttpClient();
     httpClient
       ..badCertificateCallback =
-      ((X509Certificate cert, String host, int port) => true);
+          ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
     HttpClientResponse response = await request.close();
@@ -281,15 +287,17 @@ class PharmacyApiProvider {
   }
 
   ///search's by item
-  Future<ItemModel> fetchSearchItemsList(String obj,
-      int page,
-      int per_page,
-      String international_name_ids,
-      String manufacturer_ids,
-      String ordering,
-      String price_max,
-      String price_min,
-      String unit_ids,) async {
+  Future<ItemModel> fetchSearchItemsList(
+    String obj,
+    int page,
+    int per_page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
@@ -307,7 +315,7 @@ class PharmacyApiProvider {
             'unit_ids=$unit_ids';
     try {
       http.Response response =
-      await http.get(url).timeout(const Duration(seconds: 10));
+          await http.get(url).timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return ItemModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -326,7 +334,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response =
-      await http.get(url).timeout(const Duration(seconds: 10));
+          await http.get(url).timeout(const Duration(seconds: 10));
 
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return ItemsAllModel.fromJson(responseJson);
@@ -348,7 +356,7 @@ class PharmacyApiProvider {
         Utils.BASE_URL + '/api/v1/stores?lat=$lat&lng=$lng&region=$regionId';
     try {
       http.Response response =
-      await http.get(url).timeout(const Duration(seconds: 10));
+          await http.get(url).timeout(const Duration(seconds: 10));
       var responseJson = utf8.decode(response.bodyBytes);
       return locationModelFromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -362,11 +370,17 @@ class PharmacyApiProvider {
 
   ///regions
   Future<List<RegionModel>> fetchRegions(String obj) async {
-    String url = Utils.BASE_URL + '/api/v1/regions?search=' + obj;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String lan = prefs.getString('language');
+    if (lan == null) {
+      lan = "ru";
+    }
+
+    String url = Utils.BASE_URL + '/api/v1/regions?search=$obj&lan=$lan';
 
     try {
       http.Response response =
-      await http.get(url).timeout(const Duration(seconds: 10));
+          await http.get(url).timeout(const Duration(seconds: 10));
       var responseJson = utf8.decode(response.bodyBytes);
       return regionModelFromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -439,19 +453,19 @@ class PharmacyApiProvider {
   }
 
   /// Filter parametrs
-  Future<FilterModel> fetchFilterParametrs(int page, int per_page,
-      int type) async {
+  Future<FilterModel> fetchFilterParametrs(
+      int page, int per_page, int type) async {
     String url = type == 1
         ? Utils.BASE_URL + '/api/v1/units?page=$page&per_page=$per_page'
         : type == 2
-        ? Utils.BASE_URL +
-        '/api/v1/manufacturers?page=$page&per_page=$per_page'
-        : Utils.BASE_URL +
-        '/api/v1/international-names?page=$page&per_page=$per_page';
+            ? Utils.BASE_URL +
+                '/api/v1/manufacturers?page=$page&per_page=$per_page'
+            : Utils.BASE_URL +
+                '/api/v1/international-names?page=$page&per_page=$per_page';
 
     try {
       http.Response response =
-      await http.get(url).timeout(const Duration(seconds: 10));
+          await http.get(url).timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return FilterModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -613,14 +627,12 @@ class PharmacyApiProvider {
     String reply = await response.transform(utf8.decoder).join();
     final Map parsed = json.decode(reply);
 
-    return MinSum
-        .fromJson(parsed)
-        .min;
+    return MinSum.fromJson(parsed).min;
   }
 
   ///Check error pickup
-  Future<CheckErrorModel> fetchCheckErrorPickup(AccessStore accessStore,
-      String language) async {
+  Future<CheckErrorModel> fetchCheckErrorPickup(
+      AccessStore accessStore, String language) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
@@ -647,8 +659,8 @@ class PharmacyApiProvider {
   }
 
   ///Check error delivery
-  Future<CheckErrorModel> fetchCheckErrorDelivery(AccessStore accessStore,
-      String language) async {
+  Future<CheckErrorModel> fetchCheckErrorDelivery(
+      AccessStore accessStore, String language) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
@@ -725,7 +737,7 @@ class PharmacyApiProvider {
     final data = {"version": version};
 
     http.Response response =
-    await http.post(url, body: data).timeout(const Duration(seconds: 120));
+        await http.post(url, body: data).timeout(const Duration(seconds: 120));
 
     final Map parsed = json.decode(response.body);
 
@@ -744,7 +756,7 @@ class PharmacyApiProvider {
     HttpClient httpClient = new HttpClient();
     httpClient
       ..badCertificateCallback =
-      ((X509Certificate cert, String host, int port) => true);
+          ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
     request.headers.set('Content-Type', 'application/json; charset=utf-8');
     if (token != null)
@@ -781,9 +793,11 @@ class PharmacyApiProvider {
   }
 
   ///order item review
-  Future<CheckVersion> fetchOrderItemReview(String comment,
-      int rating,
-      int orderId,) async {
+  Future<CheckVersion> fetchOrderItemReview(
+    String comment,
+    int rating,
+    int orderId,
+  ) async {
     String url = Utils.BASE_URL + '/api/v1/send-order-reviews';
 
     final data = {"review": comment, "rating": rating, "order_id": orderId};
@@ -794,7 +808,7 @@ class PharmacyApiProvider {
     HttpClient httpClient = new HttpClient();
     httpClient
       ..badCertificateCallback =
-      ((X509Certificate cert, String host, int port) => true);
+          ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json; charset=utf-8');
     request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
@@ -853,13 +867,13 @@ class PharmacyApiProvider {
     }
   }
 
-  Future<CurrentLocationAddressModel> fetchLocationAddress(double lat,
-      double lng) async {
+  Future<CurrentLocationAddressModel> fetchLocationAddress(
+      double lat, double lng) async {
     String url =
         'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyBR2VPav7rT71KDVjGGAwr72bKuRb26Py4';
     try {
       http.Response response =
-      await http.get(url).timeout(const Duration(seconds: 10));
+          await http.get(url).timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       print(responseJson);
@@ -901,8 +915,6 @@ class PharmacyApiProvider {
       print(response.body);
 
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-
-
 
       return CreateOrderStatusModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
