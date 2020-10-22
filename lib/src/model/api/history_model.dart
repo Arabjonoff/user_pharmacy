@@ -73,17 +73,12 @@ class HistoryResults {
     endShiptime = json["end_shiptime"] == null
         ? null
         : DateTime.parse(json["end_shiptime"]);
-//    endShiptime = json['end_shiptime'] == null
-//        ? ""
-//        : json['end_shiptime'].toString().split("T")[0] +
-//            " " +
-//            json['end_shiptime'].toString().split("T")[1].split("+")[0];
     deliveryTotal = json['delivery_total'] == null
         ? 0.0
         : json['delivery_total'].toDouble();
     paymentType = json['payment_type'] != null
         ? new PaymentType.fromJson(json['payment_type'])
-        : null;
+        : PaymentType(id: 0, name: "", type: "");
     store = json['store'] != null ? new Store.fromJson(json['store']) : null;
     createdAt = json['created_at'];
     total = json['total'] == null ? 0.0 : json['total'];
@@ -159,7 +154,7 @@ class PaymentType {
   PaymentType.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    type = json['type'] == null?"":json['type'];
+    type = json['type'] == null ? "" : json['type'];
   }
 
   Map<String, dynamic> toJson() {

@@ -3,11 +3,11 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
@@ -992,106 +992,195 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                       ),
                       Container(
-                        height: 154.0,
+                        height: 175.0,
+                        width: double.infinity,
                         margin: EdgeInsets.only(top: 32),
                         child: StreamBuilder(
                           stream: blocHome.allSale,
                           builder:
                               (context, AsyncSnapshot<SaleModel> snapshot) {
                             if (snapshot.hasData) {
-                              return ListView.builder(
-                                padding: const EdgeInsets.only(
-                                  top: 0,
-                                  bottom: 0,
-                                  right: 12,
-                                  left: 12,
+                              return CarouselSlider(
+                                options: CarouselOptions(
+                                  viewportFraction: 0.9,
+                                  aspectRatio: 2.0,
+                                  autoPlay: true,
+                                  autoPlayInterval: Duration(seconds: 5),
+                                  enlargeCenterPage: true,
+                                  enlargeStrategy:
+                                      CenterPageEnlargeStrategy.height,
                                 ),
-                                scrollDirection: Axis.horizontal,
-                                itemCount: snapshot.data.results.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      if (snapshot.data.results[index].drugs
-                                              .length >
-                                          0) {
-                                        Navigator.push(
-                                          context,
-                                          PageTransition(
-                                            type: PageTransitionType.fade,
-                                            child: ItemListScreen(
-                                              translate("sale"),
-                                              4,
-                                              snapshot.data.results[index].drugs
-                                                  .toString()
-                                                  .replaceAll('[', '')
-                                                  .replaceAll(']', '')
-                                                  .replaceAll(' ', ''),
+                                items: snapshot.data.results.map(
+                                  (url) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        if (url.drugs.length > 0) {
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType.fade,
+                                              child: ItemListScreen(
+                                                translate("sale"),
+                                                4,
+                                                url.drugs
+                                                    .toString()
+                                                    .replaceAll('[', '')
+                                                    .replaceAll(']', '')
+                                                    .replaceAll(' ', ''),
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      } else if (snapshot
-                                              .data.results[index].drug !=
-                                          null) {
-                                        Navigator.push(
-                                          context,
-                                          PageTransition(
-                                            type: PageTransitionType.downToUp,
-                                            alignment: Alignment.bottomCenter,
-                                            child: ItemScreenNotIstruction(
-                                              snapshot.data.results[index].drug,
+                                          );
+                                        } else if (url.drug != null) {
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType.downToUp,
+                                              alignment: Alignment.bottomCenter,
+                                              child: ItemScreenNotIstruction(
+                                                url.drug,
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      } else if (snapshot
-                                              .data.results[index].category !=
-                                          null) {
-                                        Navigator.push(
-                                          context,
-                                          PageTransition(
-                                            type: PageTransitionType.fade,
-                                            child: ItemListScreen(
-                                              translate("sale"),
-                                              1,
-                                              snapshot
-                                                  .data.results[index].category
-                                                  .toString(),
+                                          );
+                                        } else if (url.category != null) {
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType.fade,
+                                              child: ItemListScreen(
+                                                translate("sale"),
+                                                1,
+                                                url.category.toString(),
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    child: Container(
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(16.0),
-                                        child: Container(
-                                          color: AppTheme.white,
-                                          width: 311,
-                                          height: 154,
-                                          child: CachedNetworkImage(
-                                            imageUrl: snapshot
-                                                .data.results[index].image,
-                                            placeholder: (context, url) =>
-                                                Container(
-                                              color: AppTheme.background,
+                                          );
+                                        }
+                                      },
+                                      child: Container(
+                                        width: double.infinity,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(16.0),
+                                          child: Container(
+                                            color: AppTheme.white,
+                                            width: 311,
+                                            height: 154,
+                                            child: CachedNetworkImage(
+                                              imageUrl: url.image,
+                                              placeholder: (context, url) =>
+                                                  Container(
+                                                color: AppTheme.background,
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Container(
+                                                color: AppTheme.background,
+                                              ),
+                                              fit: BoxFit.fitHeight,
                                             ),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    Container(
-                                              color: AppTheme.background,
-                                            ),
-                                            fit: BoxFit.fitHeight,
                                           ),
                                         ),
+                                        padding: EdgeInsets.only(
+                                          right: 12,
+                                        ),
+                                        height: 154,
                                       ),
-                                      padding: EdgeInsets.only(
-                                        right: 12,
-                                      ),
-                                      height: 154,
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ).toList(),
                               );
+                              // return ListView.builder(
+                              //   padding: const EdgeInsets.only(
+                              //     top: 0,
+                              //     bottom: 0,
+                              //     right: 12,
+                              //     left: 12,
+                              //   ),
+                              //   scrollDirection: Axis.horizontal,
+                              //   itemCount: snapshot.data.results.length,
+                              //   itemBuilder: (BuildContext context, int index) {
+                              //     return GestureDetector(
+                              //       onTap: () {
+                              //         if (snapshot.data.results[index].drugs
+                              //                 .length >
+                              //             0) {
+                              //           Navigator.push(
+                              //             context,
+                              //             PageTransition(
+                              //               type: PageTransitionType.fade,
+                              //               child: ItemListScreen(
+                              //                 translate("sale"),
+                              //                 4,
+                              //                 snapshot.data.results[index].drugs
+                              //                     .toString()
+                              //                     .replaceAll('[', '')
+                              //                     .replaceAll(']', '')
+                              //                     .replaceAll(' ', ''),
+                              //               ),
+                              //             ),
+                              //           );
+                              //         } else if (snapshot
+                              //                 .data.results[index].drug !=
+                              //             null) {
+                              //           Navigator.push(
+                              //             context,
+                              //             PageTransition(
+                              //               type: PageTransitionType.downToUp,
+                              //               alignment: Alignment.bottomCenter,
+                              //               child: ItemScreenNotIstruction(
+                              //                 snapshot.data.results[index].drug,
+                              //               ),
+                              //             ),
+                              //           );
+                              //         } else if (snapshot
+                              //                 .data.results[index].category !=
+                              //             null) {
+                              //           Navigator.push(
+                              //             context,
+                              //             PageTransition(
+                              //               type: PageTransitionType.fade,
+                              //               child: ItemListScreen(
+                              //                 translate("sale"),
+                              //                 1,
+                              //                 snapshot
+                              //                     .data.results[index].category
+                              //                     .toString(),
+                              //               ),
+                              //             ),
+                              //           );
+                              //         }
+                              //       },
+                              //       child: Container(
+                              //         child: ClipRRect(
+                              //           borderRadius:
+                              //               BorderRadius.circular(16.0),
+                              //           child: Container(
+                              //             color: AppTheme.white,
+                              //             width: 311,
+                              //             height: 154,
+                              //             child: CachedNetworkImage(
+                              //               imageUrl: snapshot
+                              //                   .data.results[index].image,
+                              //               placeholder: (context, url) =>
+                              //                   Container(
+                              //                 color: AppTheme.background,
+                              //               ),
+                              //               errorWidget:
+                              //                   (context, url, error) =>
+                              //                       Container(
+                              //                 color: AppTheme.background,
+                              //               ),
+                              //               fit: BoxFit.fitHeight,
+                              //             ),
+                              //           ),
+                              //         ),
+                              //         padding: EdgeInsets.only(
+                              //           right: 12,
+                              //         ),
+                              //         height: 154,
+                              //       ),
+                              //     );
+                              //   },
+                              // );
                             } else if (snapshot.hasError) {
                               return Text(snapshot.error.toString());
                             }
