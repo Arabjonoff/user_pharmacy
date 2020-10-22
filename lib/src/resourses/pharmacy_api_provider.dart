@@ -899,7 +899,6 @@ class PharmacyApiProvider {
       'content-type': 'application/json'
     };
 
-
     try {
       http.Response response = await http
           .post(url, headers: headers, body: json.encode(order))
@@ -937,11 +936,16 @@ class PharmacyApiProvider {
       'content-type': 'application/json'
     };
 
+    print(json.encode(order));
+
     try {
       http.Response response = await http
           .post(url, headers: headers, body: json.encode(order))
           .timeout(const Duration(seconds: 15));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+
+      print(responseJson);
+
       return OrderStatusModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
