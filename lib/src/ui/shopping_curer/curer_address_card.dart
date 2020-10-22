@@ -569,14 +569,10 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                               type: PageTransitionType.fade,
                                               child: OrderCardCurerScreen(
                                                 orderId: response.orderId,
-                                                address: myAddress,
                                                 price: response.data.total,
                                                 cash: response.data.cash,
                                                 deliveryPrice:
                                                     response.data.deliverySum,
-                                                lat: chooseLat,
-                                                lng: chooseLng,
-                                                shippingTime: shippingId,
                                               ),
                                             ),
                                           ),

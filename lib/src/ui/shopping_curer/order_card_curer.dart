@@ -27,24 +27,16 @@ import '../../app_theme.dart';
 import 'curer_address_card.dart';
 
 class OrderCardCurerScreen extends StatefulWidget {
-  String address;
   double price;
   double cash;
   double deliveryPrice;
-  double lat;
-  double lng;
-  int shippingTime;
   int orderId;
 
   OrderCardCurerScreen({
-    this.address,
     this.orderId,
     this.price,
     this.cash,
     this.deliveryPrice,
-    this.lat,
-    this.lng,
-    this.shippingTime,
   });
 
   @override

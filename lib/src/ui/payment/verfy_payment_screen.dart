@@ -127,7 +127,8 @@ class _VerfyPaymentScreenState extends State<VerfyPaymentScreen> {
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.of(context)
+                            .popUntil((route) => route.isFirst);
                       },
                       child: Container(
                         height: 24,

@@ -12,7 +12,10 @@ import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
+import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
+import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
 import 'package:pharmacy/src/ui/sub_menu/order_number.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
@@ -108,14 +111,52 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                         } else {
                           return GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                PageTransition(
-                                  type: PageTransitionType.fade,
-                                  child:
-                                      OrderNumber(snapshot.data.results[index]),
-                                ),
-                              );
+                              if (snapshot.data.results[index].status ==
+                                  "payment_waiting") {
+                                if (snapshot.data.results[index].type ==
+                                    "self") {
+                                  Navigator.push(
+                                    context,
+                                    PageTransition(
+                                      type: PageTransitionType.fade,
+                                      child: OrderCardPickupScreen(
+                                          snapshot.data.results[index].id),
+                                    ),
+                                  );
+                                } else {
+                                  Utils.getCashBack().then((value) => {
+                                        print(value),
+                                        print(snapshot
+                                            .data.results[index].deliveryTotal),
+                                        print(snapshot
+                                            .data.results[index].realTotal),
+                                        Navigator.push(
+                                          context,
+                                          PageTransition(
+                                            type: PageTransitionType.fade,
+                                            child: OrderCardCurerScreen(
+                                              orderId: snapshot
+                                                  .data.results[index].id,
+                                              price: snapshot.data
+                                                  .results[index].realTotal,
+                                              cash: value,
+                                              deliveryPrice: snapshot.data
+                                                  .results[index].deliveryTotal,
+                                            ),
+                                          ),
+                                        ),
+                                      });
+                                }
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  PageTransition(
+                                    type: PageTransitionType.fade,
+                                    child: OrderNumber(
+                                        snapshot.data.results[index]),
+                                  ),
+                                );
+                              }
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -267,8 +308,9 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       translate("history.price") +
                                           " " +
                                           priceFormat.format(snapshot
-                                              .data.results[index].total+snapshot
-                                              .data.results[index].deliveryTotal) +
+                                                  .data.results[index].total +
+                                              snapshot.data.results[index]
+                                                  .deliveryTotal) +
                                           translate("sum"),
                                       style: TextStyle(
                                         fontFamily: AppTheme.fontRoboto,

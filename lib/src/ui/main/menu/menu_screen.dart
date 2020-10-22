@@ -102,6 +102,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   stream: menuBack.cashBackOptions,
                   builder: (context, AsyncSnapshot<CashBackModel> snapshot) {
                     if (snapshot.hasData) {
+                      Utils.saveCashBack(snapshot.data.cash);
                       return Container(
                         height: 200,
                         width: double.infinity,

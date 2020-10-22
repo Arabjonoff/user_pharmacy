@@ -29,7 +29,6 @@ class _OrderNumberState extends State<OrderNumber> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.item.type);
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: AppBar(
@@ -165,7 +164,8 @@ class _OrderNumberState extends State<OrderNumber> {
                         ),
                       )
                     : Container(),
-                widget.item.paymentType.type != "cash"
+                widget.item.paymentType.type != "cash" &&
+                        widget.item.status != "not_paid"
                     ? widget.item.status == "payment_waiting"
                         ? SvgPicture.asset("assets/images/check_error.svg")
                         : SvgPicture.asset("assets/images/check.svg")
@@ -175,7 +175,8 @@ class _OrderNumberState extends State<OrderNumber> {
                         width: 8,
                       )
                     : Container(),
-                widget.item.paymentType.type != "cash"
+                widget.item.paymentType.type != "cash" &&
+                        widget.item.status != "not_paid"
                     ? Text(
                         widget.item.status == "payment_waiting"
                             ? translate("zakaz.not_paymment")

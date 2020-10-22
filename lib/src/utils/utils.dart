@@ -26,6 +26,17 @@ class Utils {
     prefs.commit();
   }
 
+  static Future<void> saveCashBack(double cashBack) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setDouble('cashBack', cashBack);
+    prefs.commit();
+  }
+
+  static Future<double> getCashBack() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getDouble("cashBack");
+  }
+
   static Future<void> clearData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
@@ -34,7 +45,6 @@ class Utils {
 
   static Future<int> getId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
     return prefs.getInt("userId");
   }
 

@@ -227,8 +227,6 @@ class ItemListBloc {
       unit_ids,
     );
 
-    print(itemModelSearch.toString() + "DDDDDD");
-
     if (itemModelSearch != null) {
       List<ItemResult> database = await _repository.databaseItem();
       for (var j = 0; j < database.length; j++) {
@@ -292,9 +290,6 @@ class ItemListBloc {
 
   updateSearch() async {
     List<ItemResult> database = await _repository.databaseItem();
-
-
-    print("update");
 
     if (usersSearch != null) {
       ///search
