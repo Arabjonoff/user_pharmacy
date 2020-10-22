@@ -824,20 +824,7 @@ class _CardScreenState extends State<CardScreen> {
                                                     if (value.error == 0)
                                                       {
                                                         errorData = new List(),
-
                                                         widget.onCurer(),
-
-                                                        // Navigator.push(
-                                                        //   context,
-                                                        //   PageTransition(
-                                                        //     type:
-                                                        //         PageTransitionType
-                                                        //             .fade,
-                                                        //     child:
-                                                        //         CurerAddressCardScreen(
-                                                        //             false),
-                                                        //   ),
-                                                        // ),
                                                         setState(() {
                                                           loadingDelivery =
                                                               false;

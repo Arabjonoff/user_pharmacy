@@ -32,6 +32,7 @@ import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/model/send/check_order.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
+import 'package:pharmacy/src/model/send/create_payment_model.dart';
 import 'package:pharmacy/src/model/send/verfy_payment_model.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
@@ -893,22 +894,18 @@ class PharmacyApiProvider {
     String url =
         Utils.BASE_URL + '/api/v1/create-order?lan=$lan&region=$regionId';
 
-    print(url);
-
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json'
     };
-    print(headers);
-    print(json.encode(order));
+
 
     try {
       http.Response response = await http
           .post(url, headers: headers, body: json.encode(order))
           .timeout(const Duration(seconds: 15));
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
-      print(responseJson);
+      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return CreateOrderStatusModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -919,6 +916,39 @@ class PharmacyApiProvider {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
       return CreateOrderStatusModel(
           status: -1, msg: translate("internet_error"));
+    }
+  }
+
+  ///Payment
+  Future<OrderStatusModel> fetchPayment(PaymentOrderModel order) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
+    String lan = prefs.getString('language');
+    int regionId = prefs.getInt("cityId");
+    if (lan == null) {
+      lan = "ru";
+    }
+
+    String url =
+        Utils.BASE_URL + '/api/v1/activate-order?lan=$lan&region=$regionId';
+
+    Map<String, String> headers = {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+      'content-type': 'application/json'
+    };
+
+    try {
+      http.Response response = await http
+          .post(url, headers: headers, body: json.encode(order))
+          .timeout(const Duration(seconds: 15));
+      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+      return OrderStatusModel.fromJson(responseJson);
+    } on TimeoutException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return OrderStatusModel(status: -1, msg: translate("internet_error"));
+    } on SocketException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return OrderStatusModel(status: -1, msg: translate("internet_error"));
     }
   }
 }

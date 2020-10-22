@@ -33,6 +33,7 @@ import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/model/send/check_order.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
+import 'package:pharmacy/src/model/send/create_payment_model.dart';
 import 'package:pharmacy/src/model/send/verfy_payment_model.dart';
 
 import 'pharmacy_api_provider.dart';
@@ -168,6 +169,9 @@ class Repository {
 
   Future<OrderStatusModel> fetchRAddOrder(AddOrderModel order) =>
       pharmacyApiProvider.fetchAddOrder(order);
+
+  Future<OrderStatusModel> fetchPayment(PaymentOrderModel order) =>
+      pharmacyApiProvider.fetchPayment(order);
 
   Future<CreateOrderStatusModel> fetchCreateOrder(CreateOrderModel order) =>
       pharmacyApiProvider.fetchCreateOrder(order);

@@ -41,9 +41,9 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     error_code = json['error_code'];
     error_note = json['error_note'];
-    invoice_id = json['invoice_id'];
+    invoice_id = json['invoice_id']== null ? 0 : json['invoice_id'];
     card_token = json['card_token'] == null ? "" : json['card_token'];
-    phone_number = json['phone_number'];
+    phone_number = json['phone_number']== null ? "" : json['phone_number'];
   }
 
   Map<String, dynamic> toJson() {

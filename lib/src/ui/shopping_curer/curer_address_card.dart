@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,12 +10,14 @@ import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
-import 'package:pharmacy/src/model/database/apteka_model.dart';
-import 'package:pharmacy/src/model/send/check_order.dart';
+import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
+import 'package:pharmacy/src/model/send/create_order_model.dart';
+
+//import 'package:pharmacy/src/model/send/check_order.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/main/home/home_screen.dart';
+import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/map_address_screen.dart';
-import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
+import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -500,26 +504,28 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                       setState(() {
                         loading = true;
                       });
-                      CheckOrderModel orderModel;
+                      CreateOrderModel createOrder;
                       List<Drugs> drugs = new List();
-                      dataBase.getProdu(true).then((dataBase) => {
-                            for (int i = 0; i < dataBase.length; i++)
+                      dataBase.getProdu(true).then((dataBaseValue) => {
+                            for (int i = 0; i < dataBaseValue.length; i++)
                               {
                                 drugs.add(Drugs(
-                                  drug: dataBase[i].id,
-                                  qty: dataBase[i].cardCount,
+                                  drug: dataBaseValue[i].id,
+                                  qty: dataBaseValue[i].cardCount,
                                 ))
                               },
-                            orderModel = new CheckOrderModel(
+                            createOrder = new CreateOrderModel(
                               location: chooseLat.toString() +
                                   "," +
                                   chooseLng.toString(),
+                              device: Platform.isIOS ? "IOS" : "Android",
+                              address: myAddress,
                               type: "shipping",
                               shipping_time: shippingId,
                               drugs: drugs,
                             ),
                             Repository()
-                                .fetchCheckOrder(orderModel)
+                                .fetchCreateOrder(createOrder)
                                 .then((response) => {
                                       if (response.status == 1)
                                         {
@@ -527,11 +533,42 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                             loading = false;
                                             error = false;
                                           }),
+                                          for (int i = 0;
+                                              i < dataBaseValue.length;
+                                              i++)
+                                            {
+                                              if (dataBaseValue[i].favourite)
+                                                {
+                                                  dataBaseValue[i].cardCount =
+                                                      0,
+                                                  dataBase.updateProduct(
+                                                      dataBaseValue[i])
+                                                }
+                                              else
+                                                {
+                                                  dataBase.deleteProducts(
+                                                      dataBaseValue[i].id)
+                                                }
+                                            },
+                                          if (isOpenCategory)
+                                            RxBus.post(AllItemIsOpen(true),
+                                                tag:
+                                                    "EVENT_ITEM_LIST_CATEGORY"),
+                                          if (isOpenBest)
+                                            RxBus.post(AllItemIsOpen(true),
+                                                tag: "EVENT_ITEM_LIST"),
+                                          if (isOpenIds)
+                                            RxBus.post(AllItemIsOpen(true),
+                                                tag: "EVENT_ITEM_LIST_IDS"),
+                                          if (isOpenSearch)
+                                            RxBus.post(AllItemIsOpen(true),
+                                                tag: "EVENT_ITEM_LIST_SEARCH"),
                                           Navigator.push(
                                             context,
                                             PageTransition(
                                               type: PageTransitionType.fade,
                                               child: OrderCardCurerScreen(
+                                                orderId: response.orderId,
                                                 address: myAddress,
                                                 price: response.data.total,
                                                 cash: response.data.cash,

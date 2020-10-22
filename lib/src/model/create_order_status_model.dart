@@ -47,9 +47,9 @@ class Data {
   });
 
   int orderId;
-  int total;
-  int deliverySum;
-  int cash;
+  double total;
+  double deliverySum;
+  double cash;
   dynamic startShipping;
   bool isUserPay;
   bool isTotalCash;
