@@ -438,7 +438,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               {
                 RxBus.post(
                     CheckVersionModel(
-                        title: true, packageName: info.packageName),
+                      title: true,
+                      packageName: info.packageName,
+                      desk: value.description
+                    ),
                     tag: "EVENT_ITEM_CHECK")
               }
           });
@@ -1766,19 +1769,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       setState(() {
         var localizationDelegate = LocalizedApp.of(context).delegate;
         localizationDelegate.changeLocale(Locale('ru'));
-      });
-    }
-  }
-
-  Future<void> _setRegion() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString("city") != null) {
-      setState(() {
-        city = prefs.getString("city");
-      });
-    } else {
-      setState(() {
-        city = "Ташкент";
       });
     }
   }
