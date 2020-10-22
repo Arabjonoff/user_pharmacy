@@ -250,7 +250,7 @@ class _MainScreenState extends State<MainScreen> {
                 context,
                 PageTransition(
                   type: PageTransitionType.downToUp,
-                  child: AutoUpdateScreen(event.packageName),
+                  child: AutoUpdateScreen(package: event.packageName),
                 ),
               )
             });

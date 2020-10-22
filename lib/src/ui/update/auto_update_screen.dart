@@ -12,8 +12,9 @@ import '../../app_theme.dart';
 // ignore: must_be_immutable
 class AutoUpdateScreen extends StatefulWidget {
   String package;
+  String desk;
 
-  AutoUpdateScreen(this.package);
+  AutoUpdateScreen({this.package, this.desk});
 
   @override
   State<StatefulWidget> createState() {
@@ -22,6 +23,8 @@ class AutoUpdateScreen extends StatefulWidget {
 }
 
 class _AutoUpdateScreenState extends State<AutoUpdateScreen> {
+  bool isDesk = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,26 +67,67 @@ class _AutoUpdateScreenState extends State<AutoUpdateScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-              child: Container(
-                margin: EdgeInsets.only(left: 16, right: 16),
-                child: Center(
-                  child: SvgPicture.asset("assets/images/go_pharm.svg"),
-                ),
-              ),
+              child: Container(),
             ),
             Container(
-              margin: EdgeInsets.only(bottom: 45, left: 16, right: 16),
-              child: Text(
-                translate("auto_update.title"),
-                style: TextStyle(
-                  fontSize: 25,
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: AppTheme.fontRoboto,
-                  color: AppTheme.black_text,
+              margin: EdgeInsets.only(
+                left: 16,
+                right: 16,
+              ),
+              child: Center(
+                child: SvgPicture.asset("assets/images/go_update.svg"),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  isDesk = !isDesk;
+                });
+              },
+              child: Container(
+                margin: EdgeInsets.only(top: 24),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      translate("auto_update.desk"),
+                      style: TextStyle(
+                        color: AppTheme.black_transparent_text,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15,
+                        height: 1.47,
+                        fontFamily: AppTheme.fontRoboto,
+                        fontStyle: FontStyle.normal,
+                      ),
+                    ),
+                    SizedBox(width: 12),
+                    isDesk
+                        ? SvgPicture.asset("assets/images/arrow_bottom.svg")
+                        : SvgPicture.asset("assets/images/arrow_right.svg")
+                  ],
                 ),
               ),
             ),
+            isDesk
+                ? Container(
+                    margin: EdgeInsets.only(left: 32, top: 12, right: 32),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        widget.desk,
+                        style: TextStyle(
+                          fontStyle: FontStyle.normal,
+                          fontSize: 16,
+                          height: 1.6,
+                          color: AppTheme.black_text,
+                          fontWeight: FontWeight.normal,
+                          fontFamily: AppTheme.fontSFProDisplay
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(),
             GestureDetector(
               onTap: () async {
                 if (Platform.isAndroid) {
@@ -105,10 +149,12 @@ class _AutoUpdateScreenState extends State<AutoUpdateScreen> {
                 }
               },
               child: Container(
-                height: 56,
-                margin: EdgeInsets.only(left: 35, right: 35),
+                width: 175,
+                margin: EdgeInsets.only(top: 24),
+                padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppTheme.blue_app_color,
+                  color: AppTheme.white,
+                  border: Border.all(color: AppTheme.blue_app_color, width: 2),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Center(
@@ -119,7 +165,7 @@ class _AutoUpdateScreenState extends State<AutoUpdateScreen> {
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w600,
                       fontFamily: AppTheme.fontRoboto,
-                      color: AppTheme.white,
+                      color: AppTheme.blue_app_color,
                     ),
                   ),
                 ),

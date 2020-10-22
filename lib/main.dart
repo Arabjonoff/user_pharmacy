@@ -10,6 +10,7 @@ import 'package:flutter_translate/localization_delegate.dart';
 import 'package:flutter_translate/localization_provider.dart';
 import 'package:flutter_translate/localized_app.dart';
 import 'package:pharmacy/src/delete/delete_screen.dart';
+import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 import 'package:pharmacy/src/ui/update/auto_update_screen.dart';

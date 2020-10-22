@@ -278,7 +278,8 @@
     "button": "Update",
     "send": "Send",
     "cancel": "Cancel",
-    "rate": "Rate"
+    "rate": "Rate",
+    "desk": "See the changes"
   },
   "note": {
     "screen_name": "Reminder to take a medicine",
