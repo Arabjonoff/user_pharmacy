@@ -9,6 +9,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/order_options_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
@@ -196,6 +197,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: () {
+                        blocCard.fetchAllCard();
                         //Navigator.pop(context);
                         Navigator.of(context)
                             .popUntil((route) => route.isFirst);

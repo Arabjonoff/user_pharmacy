@@ -199,6 +199,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: () {
+                        blocCard.fetchAllCard();
                         Navigator.of(context)
                             .popUntil((route) => route.isFirst);
                         // Navigator.pop(context);

@@ -22,9 +22,9 @@ class CreateOrderStatusModel {
   factory CreateOrderStatusModel.fromJson(Map<String, dynamic> json) =>
       CreateOrderStatusModel(
         status: json["status"],
-        msg: json["msg"],
-        orderId: json["order_id"],
-        data: Data.fromJson(json["data"]),
+        msg: json["msg"] == null ? "" : json["msg"],
+        orderId: json["order_id"] == null ? 0 : json["order_id"],
+        data: json["data"] == null ? Data() : Data.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {

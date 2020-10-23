@@ -34,10 +34,15 @@ class _AddressAptekaListPickupScreenState
   DatabaseHelper dataBase = new DatabaseHelper();
 
   bool loading = false;
+  @override
+  void initState() {
+    getAppDrugs();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    getAppDrugs();
+
 
     return Scaffold(
       backgroundColor: AppTheme.background,

@@ -156,6 +156,7 @@ class PharmacyApiProvider {
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
+
     String url = Utils.BASE_URL +
         '/api/v1/drugs?'
             'is_home=1&'
@@ -900,6 +901,8 @@ class PharmacyApiProvider {
     String url =
         Utils.BASE_URL + '/api/v1/create-order?lan=$lan&region=$regionId';
 
+    print(url);
+
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json'
@@ -912,10 +915,8 @@ class PharmacyApiProvider {
           .post(url, headers: headers, body: json.encode(order))
           .timeout(const Duration(seconds: 15));
 
-      print(response.body);
-
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-
+      print(responseJson);
       return CreateOrderStatusModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");

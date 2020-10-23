@@ -48,6 +48,7 @@ class _AddressAptekaMapPickupScreenState
   void initState() {
     super.initState();
     _requestPermission();
+    _getPosition();
     //_getPosition();
     //   _addMarkerData(widget.data);
   }
@@ -529,14 +530,18 @@ class _AddressAptekaMapPickupScreenState
   @override
   Widget build(BuildContext context) {
     if (_permissionStatus == PermissionStatus.granted) {
-      if (mapController != null)
+      if (mapController != null) {
         mapController.showUserLayer(
           iconName: 'assets/map/user.png',
           arrowName: 'assets/map/arrow.png',
           accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
         );
-      _getPosition();
-//      _getLocation();
+        mapController.move(
+          point: Point(latitude: 41.311081, longitude: 69.240562),
+          zoom: 11,
+          animation: const MapAnimation(smooth: true, duration: 0.5),
+        );
+      }
     }
 
     return Scaffold(
