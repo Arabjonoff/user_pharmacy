@@ -7,9 +7,13 @@ import 'package:rxdart/rxdart.dart';
 
 class AptekaBloc {
   final _repository = Repository();
+
   final _aptekaFetcher = PublishSubject<List<AptekaModel>>();
+  final _existStoreFetcher = PublishSubject<List<AptekaModel>>();
 
   Observable<List<AptekaModel>> get allApteka => _aptekaFetcher.stream;
+
+  Observable<List<AptekaModel>> get allExistStorea => _existStoreFetcher.stream;
 
   fetchAllApteka(double lat, double lng) async {
     List<LocationModel> orderModel = await _repository.fetchApteka(lat, lng);
@@ -70,12 +74,13 @@ class AptekaBloc {
           }
         }
       }
-      _aptekaFetcher.sink.add(aptekadata);
+      _existStoreFetcher.sink.add(aptekadata);
     }
   }
 
   dispose() {
     _aptekaFetcher.close();
+    _existStoreFetcher.close();
   }
 }
 

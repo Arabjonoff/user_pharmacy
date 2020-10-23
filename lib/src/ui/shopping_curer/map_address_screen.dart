@@ -140,7 +140,6 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
     responce.then((value) => {
           if (responce != null)
             {
-              print(value.results[0].formattedAddress),
               if (value.results.length > 0)
                 {
                   setState(() {

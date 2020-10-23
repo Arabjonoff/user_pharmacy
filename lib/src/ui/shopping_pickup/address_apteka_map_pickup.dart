@@ -24,6 +24,10 @@ import '../../app_theme.dart';
 import 'order_card_pickup.dart';
 
 class AddressAptekaMapPickupScreen extends StatefulWidget {
+  List<ProductsStore> drugs;
+
+  AddressAptekaMapPickupScreen(this.drugs);
+
   @override
   State<StatefulWidget> createState() {
     return _AddressAptekaMapPickupScreenState();
@@ -31,7 +35,10 @@ class AddressAptekaMapPickupScreen extends StatefulWidget {
 }
 
 class _AddressAptekaMapPickupScreenState
-    extends State<AddressAptekaMapPickupScreen> {
+    extends State<AddressAptekaMapPickupScreen>
+    with AutomaticKeepAliveClientMixin<AddressAptekaMapPickupScreen> {
+  @override
+  bool get wantKeepAlive => true;
   YandexMapController mapController;
   Point _point;
   PermissionStatus _permissionStatus = PermissionStatus.unknown;
@@ -328,6 +335,7 @@ class _AddressAptekaMapPickupScreenState
                                                   }
                                                 else if (response.status == -1)
                                                   {
+                                                    Navigator.pop(context),
                                                     showDialog(
                                                       context: context,
                                                       builder: (BuildContext
@@ -381,6 +389,7 @@ class _AddressAptekaMapPickupScreenState
                                                     setState(() {
                                                       loading = false;
                                                     }),
+                                                    Navigator.pop(context),
                                                     showDialog(
                                                       context: context,
                                                       builder: (BuildContext
@@ -481,49 +490,53 @@ class _AddressAptekaMapPickupScreenState
 
   Future<void> _getPosition() async {
     AccessStore addModel = new AccessStore();
-    List<ProductsStore> drugs = new List();
-    dataBase.getProdu(true).then((value) => {
-          for (int i = 0; i < value.length; i++)
-            {
-              drugs.add(
-                  ProductsStore(drugId: value[i].id, qty: value[i].cardCount))
-            },
-        });
+    // List<ProductsStore> drugs = new List();
+    // dataBase.getProdu(true).then((value) => {
+    //       for (int i = 0; i < value.length; i++)
+    //         {
+    //           drugs.add(
+    //               ProductsStore(drugId: value[i].id, qty: value[i].cardCount))
+    //         },
+    //     });
 
     if (lat == 41.311081 && lng == 69.240562) {
       geolocator.getPositionStream(locationOptions).listen((Position position) {
         if (position != null) {
           lat = position.latitude;
           lng = position.longitude;
-          addModel = new AccessStore(lat: lat, lng: lng, products: drugs);
+          addModel =
+              new AccessStore(lat: lat, lng: lng, products: widget.drugs);
           _addMarkers(Repository().fetchAccessApteka(addModel));
           _point = new Point(
               latitude: position.latitude, longitude: position.longitude);
-          mapController.move(
-            point: _point,
-            zoom: 11,
-            animation: const MapAnimation(smooth: true, duration: 0.5),
-          );
+          if (mapController != null)
+            mapController.move(
+              point: _point,
+              zoom: 11,
+              animation: const MapAnimation(smooth: true, duration: 0.5),
+            );
         } else {
-          addModel =
-              new AccessStore(lat: 41.311081, lng: 69.240562, products: drugs);
+          addModel = new AccessStore(
+              lat: 41.311081, lng: 69.240562, products: widget.drugs);
           _addMarkers(Repository().fetchAccessApteka(addModel));
-          mapController.move(
-            point: Point(latitude: 41.311081, longitude: 69.240562),
-            zoom: 11,
-            animation: const MapAnimation(smooth: true, duration: 0.5),
-          );
+          if (mapController != null)
+            mapController.move(
+              point: Point(latitude: 41.311081, longitude: 69.240562),
+              zoom: 11,
+              animation: const MapAnimation(smooth: true, duration: 0.5),
+            );
         }
       });
     } else {
-      addModel = new AccessStore(lat: lat, lng: lng, products: drugs);
-      _addMarkers(Repository().fetchAccessApteka(addModel));
+      addModel = new AccessStore(lat: lat, lng: lng, products: widget.drugs);
       _point = new Point(latitude: lat, longitude: lng);
-      mapController.move(
-        point: _point,
-        zoom: 11,
-        animation: const MapAnimation(smooth: true, duration: 0.5),
-      );
+      if (mapController != null)
+        mapController.move(
+          point: _point,
+          zoom: 11,
+          animation: const MapAnimation(smooth: true, duration: 0.5),
+        );
+      _addMarkers(Repository().fetchAccessApteka(addModel));
     }
   }
 

@@ -745,29 +745,31 @@ class PharmacyApiProvider {
     return CheckVersion.fromJson(parsed);
   }
 
-  ///items
+  ///send rating
   Future<CheckVersion> fetchSendRating(String comment, int rating) async {
     String url = Utils.BASE_URL + '/api/v1/send-review';
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
 
+    Map<String, String> headers = {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+      'content-type': 'application/json; charset=utf-8',
+    };
     final data = {"comment": comment, "rating": rating};
-
-    HttpClient httpClient = new HttpClient();
-    httpClient
-      ..badCertificateCallback =
-          ((X509Certificate cert, String host, int port) => true);
-    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
-    request.headers.set('Content-Type', 'application/json; charset=utf-8');
-    if (token != null)
-      request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
-    request.write(json.encode(data));
-    HttpClientResponse response = await request.close();
-
-    String reply = await response.transform(utf8.decoder).join();
-    final Map parsed = json.decode(reply);
-    return CheckVersion.fromJson(parsed);
+    try {
+      http.Response response = await http
+          .post(url, headers: headers, body: json.encode(data))
+          .timeout(const Duration(seconds: 10));
+      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+      return CheckVersion.fromJson(responseJson);
+    } on TimeoutException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return CheckVersion();
+    } on SocketException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return CheckVersion();
+    }
   }
 
   ///get-no-reviews
@@ -877,8 +879,6 @@ class PharmacyApiProvider {
           await http.get(url).timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
-      print(responseJson);
-
       return CurrentLocationAddressModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
       return null;
@@ -901,14 +901,10 @@ class PharmacyApiProvider {
     String url =
         Utils.BASE_URL + '/api/v1/create-order?lan=$lan&region=$regionId';
 
-    print(url);
-
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json'
     };
-
-    print(json.encode(order));
 
     try {
       http.Response response = await http
@@ -916,7 +912,7 @@ class PharmacyApiProvider {
           .timeout(const Duration(seconds: 15));
 
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      print(responseJson);
+
       return CreateOrderStatusModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
@@ -947,15 +943,11 @@ class PharmacyApiProvider {
       'content-type': 'application/json'
     };
 
-    print(json.encode(order));
-
     try {
       http.Response response = await http
           .post(url, headers: headers, body: json.encode(order))
           .timeout(const Duration(seconds: 15));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-
-      print(responseJson);
 
       return OrderStatusModel.fromJson(responseJson);
     } on TimeoutException catch (_) {

@@ -5,8 +5,10 @@ import 'package:flutter_translate/global.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
+import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_list_pickup.dart';
@@ -16,6 +18,12 @@ import '../../app_theme.dart';
 import 'order_card_pickup.dart';
 
 class AddressAptekaPickupScreen extends StatefulWidget {
+
+  List<ProductsStore> drugs;
+
+
+  AddressAptekaPickupScreen(this.drugs);
+
   @override
   State<StatefulWidget> createState() {
     return _AddressAptekaScreenState();
@@ -181,8 +189,8 @@ class _AddressAptekaScreenState extends State<AddressAptekaPickupScreen>
                       child: TabBarView(
                         controller: _tabController,
                         children: [
-                          AddressAptekaMapPickupScreen(),
-                          AddressAptekaListPickupScreen(),
+                          AddressAptekaMapPickupScreen(widget.drugs),
+                          AddressAptekaListPickupScreen(widget.drugs),
                         ],
                       ),
                     )

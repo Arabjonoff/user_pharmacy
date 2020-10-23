@@ -93,39 +93,53 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
             ? 0.0
             : double.parse(cashPriceController.text.replaceAll(" ", ""));
 
-        if (text <= widget.cash) {
-          if (text >= (widget.price + widget.deliveryPrice)) {
-            setState(() {
-              allPrice = 0;
-              cashPrice = (widget.price + widget.deliveryPrice);
-              cashPriceController.text =
-                  (widget.price + widget.deliveryPrice).toInt().toString();
-            });
+        if (cashPrice.toInt().toString() != cashPriceController.text) {
+          if (text <= widget.cash) {
+            if (text >= (widget.price + widget.deliveryPrice)) {
+              setState(() {
+                allPrice = 0;
+                cashPrice = (widget.price + widget.deliveryPrice);
+                cashPriceController.text =
+                    (widget.price + widget.deliveryPrice).toInt().toString();
+                // cashPriceController.selection = TextSelection.fromPosition(TextPosition(offset: cashPriceController.text.length));
+                cashPriceController.selection = TextSelection.collapsed(
+                    offset: cashPriceController.text.length);
+              });
+            } else {
+              setState(() {
+                allPrice = widget.price + widget.deliveryPrice - text;
+                cashPrice = text;
+                cashPriceController.selection = TextSelection.collapsed(
+                    offset: cashPriceController.text.length);
+              });
+            }
           } else {
-            setState(() {
-              allPrice = widget.price + widget.deliveryPrice - text;
-              cashPrice = text;
-            });
-          }
-        } else {
-          if (text >= (widget.price + widget.deliveryPrice)) {
-            setState(() {
-              allPrice = 0;
-              cashPrice = [(widget.price + widget.deliveryPrice), widget.cash]
-                  .reduce(min);
-              cashPriceController.text = [
-                (widget.price + widget.deliveryPrice),
-                widget.cash
-              ].reduce(min).toInt().toString();
-            });
-          } else {
-            setState(() {
-              widget.cash == 0
-                  ? cashPriceController.text = ""
-                  : cashPriceController.text = widget.cash.toInt().toString();
-              allPrice = widget.price + widget.deliveryPrice - widget.cash;
-              cashPrice = widget.cash;
-            });
+            if (text >= (widget.price + widget.deliveryPrice)) {
+              setState(() {
+                allPrice = 0;
+                cashPrice = [(widget.price + widget.deliveryPrice), widget.cash]
+                    .reduce(min);
+                cashPriceController.text = [
+                  (widget.price + widget.deliveryPrice),
+                  widget.cash
+                ].reduce(min).toInt().toString();
+                cashPriceController.selection = TextSelection.collapsed(
+                    offset: cashPriceController.text.length);
+                // cashPriceController.selection = TextSelection.fromPosition(TextPosition(offset: cashPriceController.text.length));
+                // // cashPriceController.selection =
+                // //     TextSelection.collapsed(offset: 3);
+              });
+            } else {
+              setState(() {
+                widget.cash == 0
+                    ? cashPriceController.text = ""
+                    : cashPriceController.text = widget.cash.toInt().toString();
+                allPrice = widget.price + widget.deliveryPrice - widget.cash;
+                cashPrice = widget.cash;
+                cashPriceController.selection = TextSelection.collapsed(
+                    offset: cashPriceController.text.length);
+              });
+            }
           }
         }
       } on Exception catch (_) {

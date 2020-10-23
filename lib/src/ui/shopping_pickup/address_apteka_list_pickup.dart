@@ -22,6 +22,10 @@ import '../../app_theme.dart';
 import 'order_card_pickup.dart';
 
 class AddressAptekaListPickupScreen extends StatefulWidget {
+  List<ProductsStore> drugs;
+
+  AddressAptekaListPickupScreen(this.drugs);
+
   @override
   State<StatefulWidget> createState() {
     return _AddressAptekaListPickupScreenState();
@@ -29,25 +33,32 @@ class AddressAptekaListPickupScreen extends StatefulWidget {
 }
 
 class _AddressAptekaListPickupScreenState
-    extends State<AddressAptekaListPickupScreen> {
+    extends State<AddressAptekaListPickupScreen>
+    with AutomaticKeepAliveClientMixin<AddressAptekaListPickupScreen> {
+  @override
+  bool get wantKeepAlive => true;
+
   DatabaseHelperApteka db = new DatabaseHelperApteka();
   DatabaseHelper dataBase = new DatabaseHelper();
 
   bool loading = false;
+
   @override
   void initState() {
-    getAppDrugs();
+    AccessStore addModel =
+        new AccessStore(lat: lat, lng: lng, products: widget.drugs);
+
+    blocApteka.fetchAccessApteka(addModel);
+    // getAppDrugs();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       backgroundColor: AppTheme.background,
       body: StreamBuilder(
-        stream: blocApteka.allApteka,
+        stream: blocApteka.allExistStorea,
         builder: (context, AsyncSnapshot<List<AptekaModel>> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(

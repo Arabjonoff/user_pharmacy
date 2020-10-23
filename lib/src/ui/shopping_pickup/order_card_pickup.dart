@@ -93,39 +93,49 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
         p = cashPriceController.text == ""
             ? 0.0
             : double.parse(cashPriceController.text.replaceAll(" ", ""));
-
-        if (p <= cashData.cash) {
-          if (p >= cashData.total) {
-            setState(() {
-              allPrice = 0;
-              cashPrice = cashData.total;
-              cashPriceController.text = cashData.total.toInt().toString();
-            });
+        if (cashPrice.toInt().toString() != cashPriceController.text) {
+          if (p <= cashData.cash) {
+            if (p >= cashData.total) {
+              setState(() {
+                allPrice = 0;
+                cashPrice = cashData.total;
+                cashPriceController.text = cashData.total.toInt().toString();
+                cashPriceController.selection = TextSelection.collapsed(
+                    offset: cashPriceController.text.length);
+              });
+            } else {
+              setState(() {
+                allPrice = cashData.total - p;
+                cashPrice = p;
+                cashPriceController.selection = TextSelection.collapsed(
+                    offset: cashPriceController.text.length);
+              });
+            }
           } else {
-            setState(() {
-              allPrice = cashData.total - p;
-              cashPrice = p;
-            });
-          }
-        } else {
-          if (p >= cashData.total) {
-            setState(() {
-              allPrice = 0;
-              cashPrice = [cashData.total, cashData.cash].reduce(min);
-              cashPriceController.text = [cashData.total, cashData.cash]
-                  .reduce(min)
-                  .toInt()
-                  .toString();
-            });
-          } else {
-            setState(() {
-              cashData.cash == 0
-                  ? cashPriceController.text = ""
-                  : cashPriceController.text = cashData.cash.toInt().toString();
+            if (p >= cashData.total) {
+              setState(() {
+                allPrice = 0;
+                cashPrice = [cashData.total, cashData.cash].reduce(min);
+                cashPriceController.text = [cashData.total, cashData.cash]
+                    .reduce(min)
+                    .toInt()
+                    .toString();
+                cashPriceController.selection = TextSelection.collapsed(
+                    offset: cashPriceController.text.length);
+              });
+            } else {
+              setState(() {
+                cashData.cash == 0
+                    ? cashPriceController.text = ""
+                    : cashPriceController.text =
+                        cashData.cash.toInt().toString();
 
-              allPrice = cashData.total - cashData.cash;
-              cashPrice = cashData.cash;
-            });
+                allPrice = cashData.total - cashData.cash;
+                cashPrice = cashData.cash;
+                cashPriceController.selection = TextSelection.collapsed(
+                    offset: cashPriceController.text.length);
+              });
+            }
           }
         }
       } on Exception catch (_) {

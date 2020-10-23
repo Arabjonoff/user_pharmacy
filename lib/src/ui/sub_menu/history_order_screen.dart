@@ -125,11 +125,6 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                   );
                                 } else {
                                   Utils.getCashBack().then((value) => {
-                                        print(value),
-                                        print(snapshot
-                                            .data.results[index].deliveryTotal),
-                                        print(snapshot
-                                            .data.results[index].realTotal),
                                         Navigator.push(
                                           context,
                                           PageTransition(

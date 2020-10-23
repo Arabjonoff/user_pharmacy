@@ -12,12 +12,14 @@ import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/blocs/menu_bloc.dart';
+import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/check_version.dart';
+import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/chat/chat_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
@@ -48,6 +50,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
+  DatabaseHelper dataBase = new DatabaseHelper();
 
   List<GlobalKey<NavigatorState>> _navigatorKeys = [
     GlobalKey<NavigatorState>(),
@@ -461,13 +464,21 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _pickup() {
-    Navigator.push(
-      context,
-      PageTransition(
-        type: PageTransitionType.downToUp,
-        child: AddressAptekaPickupScreen(),
-      ),
-    );
+    List<ProductsStore> drugs = new List();
+    dataBase.getProdu(true).then((value) => {
+          for (int i = 0; i < value.length; i++)
+            {
+              drugs.add(
+                  ProductsStore(drugId: value[i].id, qty: value[i].cardCount))
+            },
+          Navigator.push(
+            context,
+            PageTransition(
+              type: PageTransitionType.downToUp,
+              child: AddressAptekaPickupScreen(drugs),
+            ),
+          ),
+        });
   }
 
   void _curer() {
