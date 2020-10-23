@@ -81,7 +81,11 @@ class _AddressAptekaMapPickupScreenState
   }
 
   void _addMarkerData(List<LocationModel> data) {
+    double lat = 0.0, lng = 0.0;
     for (int i = 0; i < data.length; i++) {
+      lat += data[i].location.coordinates[1];
+      lng += data[i].location.coordinates[0];
+
       mapController.addPlacemark(placemark.Placemark(
         point: Point(
           latitude: data[i].location.coordinates[1],
@@ -486,6 +490,13 @@ class _AddressAptekaMapPickupScreenState
         },
       ));
     }
+    if (mapController != null)
+      mapController.move(
+        point: new Point(
+            latitude: lat / data.length, longitude: lng / data.length),
+        zoom: 11,
+        animation: const MapAnimation(smooth: true, duration: 0.5),
+      );
   }
 
   Future<void> _getPosition() async {
@@ -509,33 +520,33 @@ class _AddressAptekaMapPickupScreenState
           _addMarkers(Repository().fetchAccessApteka(addModel));
           _point = new Point(
               latitude: position.latitude, longitude: position.longitude);
-          if (mapController != null)
-            mapController.move(
-              point: _point,
-              zoom: 11,
-              animation: const MapAnimation(smooth: true, duration: 0.5),
-            );
+          // if (mapController != null)
+          //   mapController.move(
+          //     point: _point,
+          //     zoom: 11,
+          //     animation: const MapAnimation(smooth: true, duration: 0.5),
+          //   );
         } else {
           addModel = new AccessStore(
               lat: 41.311081, lng: 69.240562, products: widget.drugs);
           _addMarkers(Repository().fetchAccessApteka(addModel));
-          if (mapController != null)
-            mapController.move(
-              point: Point(latitude: 41.311081, longitude: 69.240562),
-              zoom: 11,
-              animation: const MapAnimation(smooth: true, duration: 0.5),
-            );
+          // if (mapController != null)
+          //   mapController.move(
+          //     point: Point(latitude: 41.311081, longitude: 69.240562),
+          //     zoom: 11,
+          //     animation: const MapAnimation(smooth: true, duration: 0.5),
+          //   );
         }
       });
     } else {
       addModel = new AccessStore(lat: lat, lng: lng, products: widget.drugs);
       _point = new Point(latitude: lat, longitude: lng);
-      if (mapController != null)
-        mapController.move(
-          point: _point,
-          zoom: 11,
-          animation: const MapAnimation(smooth: true, duration: 0.5),
-        );
+      // if (mapController != null)
+      //   mapController.move(
+      //     point: _point,
+      //     zoom: 11,
+      //     animation: const MapAnimation(smooth: true, duration: 0.5),
+      //   );
       _addMarkers(Repository().fetchAccessApteka(addModel));
     }
   }

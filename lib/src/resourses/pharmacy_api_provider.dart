@@ -542,7 +542,10 @@ class PharmacyApiProvider {
 
   ///Exist store
   Future<List<LocationModel>> fetchAccessApteka(AccessStore accessStore) async {
-    String url = Utils.BASE_URL + '/api/v1/exists-stores';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+
+    String url = Utils.BASE_URL + '/api/v1/exists-stores?region=$regionId';
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
