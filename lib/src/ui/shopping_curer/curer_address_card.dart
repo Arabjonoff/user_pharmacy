@@ -571,8 +571,10 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                                 orderId: response.orderId,
                                                 price: response.data.total,
                                                 cash: response.data.cash,
-                                                deliveryPrice:
-                                                    response.data.deliverySum,
+                                                deliveryPrice: response
+                                                        .data.isUserPay
+                                                    ? response.data.deliverySum
+                                                    : 0.0,
                                               ),
                                             ),
                                           ),

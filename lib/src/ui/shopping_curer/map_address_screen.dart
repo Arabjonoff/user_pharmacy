@@ -294,20 +294,29 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                       },
                     ),
                     Container(
-                      margin: EdgeInsets.only(
-                          left: 24, right: 24, top: height / 5 - 15),
-                      child: Text(
-                        address,
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontStyle: FontStyle.normal,
-                          fontFamily: AppTheme.fontRoboto,
-                          fontSize: 20,
-                          height: 1.4,
-                          fontWeight: FontWeight.bold,
-                          color: AppTheme.black_text,
+                      margin:
+                          EdgeInsets.only(left: 24, right: 24, top: height / 5),
+                      height: 64,
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Color(0xFFE6E8FA).withOpacity(0.6),
+                      ),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          address,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontStyle: FontStyle.normal,
+                            fontFamily: AppTheme.fontRoboto,
+                            fontSize: 20,
+                            height: 1.4,
+                            fontWeight: FontWeight.bold,
+                            color: AppTheme.black_text,
+                          ),
                         ),
                       ),
                     ),
@@ -323,13 +332,15 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                         },
                         child: Container(
                           margin: EdgeInsets.only(bottom: 16, right: 16),
-                          width: 112,
+                          width: 145,
                           padding: EdgeInsets.only(
                               top: 12, bottom: 12, left: 16, right: 16),
                           decoration: BoxDecoration(
                               color: AppTheme.white,
                               borderRadius: BorderRadius.circular(100)),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               SvgPicture.asset(
                                   "assets/images/icon_my_location.svg"),

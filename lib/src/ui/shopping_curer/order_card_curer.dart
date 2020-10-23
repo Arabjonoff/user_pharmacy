@@ -626,8 +626,10 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     child: Container(),
                   ),
                   Text(
-                    priceFormat.format(widget.deliveryPrice) +
-                        translate(translate("sum")),
+                    widget.deliveryPrice.toInt() != 0
+                        ? priceFormat.format(widget.deliveryPrice) +
+                            translate(translate("sum"))
+                        : translate("free"),
                     style: TextStyle(
                       fontSize: 13,
                       fontFamily: AppTheme.fontRoboto,

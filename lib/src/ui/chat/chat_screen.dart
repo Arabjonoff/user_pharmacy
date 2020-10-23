@@ -32,6 +32,7 @@ class _ChatScreenState extends State<ChatScreen> {
   bool addItem = false;
   bool isLoading = false;
   int page = 1;
+  bool isSend = true;
 
   List<ChatResults> chatModel = new List();
   ChatResults results;
@@ -385,23 +386,27 @@ class _ChatScreenState extends State<ChatScreen> {
                 GestureDetector(
                   onTap: () {
                     var now = new DateTime.now();
-                    if (chatController.text != "") {
+                    if (chatController.text != "" && isSend) {
+                      Repository()
+                          .fetchSentMessage(chatController.text)
+                          .then((value) => {
+                                if (value == null)
+                                  {
+                                    setState(() {
+                                      isSend = true;
+                                      chatModel.removeAt(0);
+                                    }),
+                                  }
+                                else
+                                  {
+                                    setState(() {
+                                      isSend = true;
+                                    }),
+                                  }
+                              });
                       setState(() {
+                        isSend = false;
                         addItem = true;
-//                        results = ChatResults(
-//                            id: 0,
-//                            body: chatController.text,
-//                            userId: userId,
-//                            month: now.month,
-//                            day: now.day,
-//                            time: now.hour.toString() +
-//                                ":" +
-//                                now.minute.toString(),
-//                            year: now.year.toString() +
-//                                "-" +
-//                                now.month.toString() +
-//                                "-" +
-//                                now.day.toString());
                         chatModel.insert(
                             0,
                             ChatResults(
@@ -418,15 +423,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                     now.month.toString() +
                                     "-" +
                                     now.day.toString()));
-                        Repository()
-                            .fetchSentMessage(chatController.text)
-                            .then((value) => {
-//                                  setState(() {
-//                                    blocChat.fetchAllChat(1);
-//                                    isLoading = false;
-//                                    page == 2;
-//                                  }),
-                                });
+
                         chatController.text = "";
                       });
                     }
@@ -436,7 +433,9 @@ class _ChatScreenState extends State<ChatScreen> {
                     width: 48,
                     margin: EdgeInsets.only(left: 12),
                     decoration: BoxDecoration(
-                        color: AppTheme.blue_app_color,
+                        color: isSend
+                            ? AppTheme.blue_app_color
+                            : AppTheme.blue_app_color_transparent,
                         borderRadius: BorderRadius.circular(16.0)),
                     child: Center(
                       child: Icon(

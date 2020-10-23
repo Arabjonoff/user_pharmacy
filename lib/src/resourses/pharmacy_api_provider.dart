@@ -600,14 +600,20 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
     };
+    try {
+      http.Response response = await http
+          .post(url, headers: headers, body: data)
+          .timeout(const Duration(seconds: 7));
+      final Map parsed = json.decode(response.body);
 
-    http.Response response = await http
-        .post(url, headers: headers, body: data)
-        .timeout(const Duration(seconds: 120));
-
-    final Map parsed = json.decode(response.body);
-
-    return LoginModel.fromJson(parsed);
+      return LoginModel.fromJson(parsed);
+    } on TimeoutException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return null;
+    } on SocketException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return null;
+    }
   }
 
   ///Min sum
