@@ -11,6 +11,7 @@ import 'package:flutter_translate/localization_provider.dart';
 import 'package:flutter_translate/localized_app.dart';
 import 'package:pharmacy/src/delete/delete_screen.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
+import 'package:pharmacy/src/ui/login_region_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 import 'package:pharmacy/src/ui/update/auto_update_screen.dart';
@@ -20,6 +21,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'src/app_theme.dart';
 
 String language = 'ru';
+bool isLoginPage;
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -37,8 +39,6 @@ void main() async {
       await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
 
   var initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
-  // Note: permissions aren't requested here just to demonstrate that can be done later using the `requestPermissions()` method
-  // of the `IOSFlutterLocalNotificationsPlugin` class
   var initializationSettingsIOS = IOSInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
@@ -64,6 +64,11 @@ void main() async {
   HttpOverrides.global = new MyHttpOverrides();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  if (prefs.getInt("cityId") != null) {
+    isLoginPage = true;
+  } else {
+    isLoginPage = false;
+  }
   if (prefs.getString('language') != null) {
     language = prefs.getString('language');
   }
@@ -107,7 +112,7 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: MainScreen(),
+        home: isLoginPage ? MainScreen() : LoginRegionScreen(),
       ),
     );
   }

@@ -148,6 +148,7 @@ class _RegionScreenState extends State<RegionScreen> {
                 return users[index].childs.length == 0
                     ? GestureDetector(
                         onTap: () async {
+                          Repository().fetchAddRegion(users[index].id);
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
                           prefs.setString("city", users[index].name);
@@ -253,6 +254,8 @@ class _RegionScreenState extends State<RegionScreen> {
                                   itemBuilder: (context, position) {
                                     return GestureDetector(
                                       onTap: () async {
+                                        Repository().fetchAddRegion(
+                                            users[index].childs[position].id);
                                         SharedPreferences prefs =
                                             await SharedPreferences
                                                 .getInstance();

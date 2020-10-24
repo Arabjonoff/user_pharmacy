@@ -224,6 +224,12 @@ class Repository {
 
   Future<List<FaqModel>> fetchFAQ() => pharmacyApiProvider.fetchFAQ();
 
+  Future<OrderStatusModel> fetchGetRegion(String location) =>
+      pharmacyApiProvider.fetchGetRegion(location);
+
+  Future<OrderStatusModel> fetchAddRegion(int regionId) =>
+      pharmacyApiProvider.fetchAddRegion(regionId);
+
   Future<CurrentLocationAddressModel> fetchLocationAddress(
           double lat, double lng) =>
       pharmacyApiProvider.fetchLocationAddress(lat, lng);

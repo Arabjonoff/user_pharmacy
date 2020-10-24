@@ -97,11 +97,15 @@ class PharmacyApiProvider {
       String gender, String token) async {
     String url = Utils.BASE_URL + '/api/v1/register-profil';
 
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+
     final data = {
       "first_name": name,
       "last_name": surname,
       "gender": gender,
       "birth_date": birthday,
+      "region": regionId,
     };
 
     Map<String, String> headers = {
@@ -959,6 +963,85 @@ class PharmacyApiProvider {
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return OrderStatusModel.fromJson(responseJson);
+    } on TimeoutException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return OrderStatusModel(status: -1, msg: translate("internet_error"));
+    } on SocketException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return OrderStatusModel(status: -1, msg: translate("internet_error"));
+    }
+  }
+
+  ///set location to region
+  Future<OrderStatusModel> fetchGetRegion(String location) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String lan = prefs.getString('language');
+    if (lan == null) {
+      lan = "ru";
+    }
+
+    final data = {
+      "location": location,
+    };
+
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+    };
+
+    String url = Utils.BASE_URL + '/api/v1/check-region-polygon?lan=$lan';
+
+    try {
+      http.Response response = await http
+          .post(url, headers: headers, body: json.encode(data))
+          .timeout(const Duration(seconds: 15));
+      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+
+      return OrderStatusModel.fromJson(responseJson);
+    } on TimeoutException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return OrderStatusModel(status: -1, msg: translate("internet_error"));
+    } on SocketException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return OrderStatusModel(status: -1, msg: translate("internet_error"));
+    }
+  }
+
+  ///add region
+  Future<OrderStatusModel> fetchAddRegion(int regionId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String lan = prefs.getString('language');
+    String token = prefs.getString("token");
+    if (lan == null) {
+      lan = "ru";
+    }
+
+    final data = {
+      "region": regionId,
+    };
+
+    String url = Utils.BASE_URL + '/api/v1/add-region?lan=$lan';
+
+    try {
+      if (token != null) {
+        Map<String, String> headers = {
+          'content-type': 'application/json; charset=utf-8',
+          HttpHeaders.authorizationHeader: "Bearer $token",
+        };
+        http.Response response = await http
+            .post(url, headers: headers, body: json.encode(data))
+            .timeout(const Duration(seconds: 15));
+        final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+
+        return OrderStatusModel.fromJson(responseJson);
+      } else {
+        Map<String, String> headers = {
+          'content-type': 'application/json; charset=utf-8',
+        };
+        http.Response response = await http
+            .post(url, headers: headers, body: json.encode(data))
+            .timeout(const Duration(seconds: 15));
+        final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+      }
     } on TimeoutException catch (_) {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
       return OrderStatusModel(status: -1, msg: translate("internet_error"));
