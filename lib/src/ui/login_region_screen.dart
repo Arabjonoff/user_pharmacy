@@ -27,6 +27,8 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
   static StreamSubscription _getPosSub;
   List<RegionModel> users = new List();
 
+  bool isLoading = true;
+
   @override
   void initState() {
     _getMoreData();
@@ -64,6 +66,7 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
         response.then((value) => {
               if (value.status == 1)
                 {
+                  isLoading = false,
                   prefs.setString("city", value.msg),
                   prefs.setInt("cityId", value.region),
                   prefs.commit(),
@@ -74,6 +77,12 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                       child: MainScreen(),
                     ),
                   ),
+                }
+              else
+                {
+                  setState(() {
+                    isLoading = false;
+                  }),
                 }
             });
       }
@@ -139,153 +148,57 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                   ),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(top: 24),
-                  child: ListView.builder(
-                    itemCount: users.length,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, index) {
-                      return users[index].childs.length == 0
-                          ? GestureDetector(
-                              onTap: () async {
-                                SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                prefs.setString("city", users[index].name);
-                                prefs.setInt("cityId", users[index].id);
-                                prefs.commit();
-                                Navigator.pushReplacement(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: MainScreen(),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                color: AppTheme.white,
-                                height: 60,
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: 59,
-                                        margin: EdgeInsets.only(
-                                            left: 16, right: 20),
-                                        child: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                            users[index].name,
-                                            style: TextStyle(
-                                              fontStyle: FontStyle.normal,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: AppTheme.fontRoboto,
-                                              fontSize: 15,
-                                              color: AppTheme.black_text,
-                                            ),
-                                          ),
+              isLoading
+                  ? Expanded(
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          value: null,
+                          strokeWidth: 3.0,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            AppTheme.blue_app_color,
+                          ),
+                        ),
+                      ),
+                    )
+                  : Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(top: 24),
+                        child: ListView.builder(
+                          itemCount: users.length,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, index) {
+                            return users[index].childs.length == 0
+                                ? GestureDetector(
+                                    onTap: () async {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        PageTransition(
+                                          type: PageTransitionType.rightToLeft,
+                                          child: MainScreen(),
                                         ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 1,
-                                      color: AppTheme.black_linear_category,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          : Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () async {
-                                    setState(() {
-                                      if (users[index].isOpen == null ||
-                                          users[index].isOpen == false) {
-                                        users[index].isOpen = true;
-                                      } else {
-                                        users[index].isOpen = false;
-                                      }
-                                    });
-                                  },
-                                  child: Container(
-                                    margin:
-                                        EdgeInsets.only(left: 16, right: 16),
-                                    color: AppTheme.white,
-                                    height: 60,
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            users[index].name,
-                                            style: TextStyle(
-                                              fontStyle: FontStyle.normal,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: AppTheme.fontRoboto,
-                                              fontSize: 15,
-                                              color: AppTheme.black_text,
-                                            ),
-                                          ),
-                                        ),
-                                        Icon(
-                                          users[index].isOpen == null
-                                              ? Icons.keyboard_arrow_down
-                                              : users[index].isOpen
-                                                  ? Icons.keyboard_arrow_up
-                                                  : Icons.keyboard_arrow_down,
-                                          size: 24,
-                                          color: AppTheme.black_text,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                (users[index].isOpen == null ||
-                                        users[index].isOpen == false)
-                                    ? Container()
-                                    : ListView.builder(
-                                        itemCount: users[index].childs.length,
-                                        shrinkWrap: true,
-                                        scrollDirection: Axis.vertical,
-                                        itemBuilder: (context, position) {
-                                          return GestureDetector(
-                                            onTap: () async {
-                                              SharedPreferences prefs =
-                                                  await SharedPreferences
-                                                      .getInstance();
-                                              prefs.setString(
-                                                  "city",
-                                                  users[index]
-                                                      .childs[position]
-                                                      .name);
-                                              prefs.setInt(
-                                                  "cityId",
-                                                  users[index]
-                                                      .childs[position]
-                                                      .id);
-                                              prefs.commit();
-                                              Navigator.pushReplacement(
-                                                context,
-                                                PageTransition(
-                                                  type: PageTransitionType
-                                                      .rightToLeft,
-                                                  child: MainScreen(),
-                                                ),
-                                              );
-                                            },
+                                      );
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      prefs.setString(
+                                          "city", users[index].name);
+                                      prefs.setInt("cityId", users[index].id);
+                                      prefs.commit();
+                                    },
+                                    child: Container(
+                                      color: AppTheme.white,
+                                      height: 60,
+                                      child: Column(
+                                        children: [
+                                          Expanded(
                                             child: Container(
-                                              color: AppTheme.white,
-                                              height: 60,
                                               width: double.infinity,
+                                              height: 59,
                                               margin: EdgeInsets.only(
-                                                  left: 32, right: 20),
+                                                  left: 16, right: 20),
                                               child: Align(
                                                 alignment: Alignment.centerLeft,
                                                 child: Text(
-                                                  users[index]
-                                                      .childs[position]
-                                                      .name,
+                                                  users[index].name,
                                                   style: TextStyle(
                                                     fontStyle: FontStyle.normal,
                                                     fontWeight:
@@ -298,19 +211,139 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                                                 ),
                                               ),
                                             ),
-                                          );
-                                        },
+                                          ),
+                                          Container(
+                                            height: 1,
+                                            color:
+                                                AppTheme.black_linear_category,
+                                          )
+                                        ],
                                       ),
-                                Container(
-                                  height: 1,
-                                  color: AppTheme.black_linear_category,
-                                )
-                              ],
-                            );
-                    },
-                  ),
-                ),
-              )
+                                    ),
+                                  )
+                                : Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () async {
+                                          setState(() {
+                                            if (users[index].isOpen == null ||
+                                                users[index].isOpen == false) {
+                                              users[index].isOpen = true;
+                                            } else {
+                                              users[index].isOpen = false;
+                                            }
+                                          });
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                              left: 16, right: 16),
+                                          color: AppTheme.white,
+                                          height: 60,
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  users[index].name,
+                                                  style: TextStyle(
+                                                    fontStyle: FontStyle.normal,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontFamily:
+                                                        AppTheme.fontRoboto,
+                                                    fontSize: 15,
+                                                    color: AppTheme.black_text,
+                                                  ),
+                                                ),
+                                              ),
+                                              Icon(
+                                                users[index].isOpen == null
+                                                    ? Icons.keyboard_arrow_down
+                                                    : users[index].isOpen
+                                                        ? Icons
+                                                            .keyboard_arrow_up
+                                                        : Icons
+                                                            .keyboard_arrow_down,
+                                                size: 24,
+                                                color: AppTheme.black_text,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      (users[index].isOpen == null ||
+                                              users[index].isOpen == false)
+                                          ? Container()
+                                          : ListView.builder(
+                                              itemCount:
+                                                  users[index].childs.length,
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.vertical,
+                                              itemBuilder: (context, position) {
+                                                return GestureDetector(
+                                                  onTap: () async {
+                                                    SharedPreferences prefs =
+                                                        await SharedPreferences
+                                                            .getInstance();
+                                                    prefs.setString(
+                                                        "city",
+                                                        users[index]
+                                                            .childs[position]
+                                                            .name);
+                                                    prefs.setInt(
+                                                        "cityId",
+                                                        users[index]
+                                                            .childs[position]
+                                                            .id);
+                                                    prefs.commit();
+                                                    Navigator.pushReplacement(
+                                                      context,
+                                                      PageTransition(
+                                                        type: PageTransitionType
+                                                            .rightToLeft,
+                                                        child: MainScreen(),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    color: AppTheme.white,
+                                                    height: 60,
+                                                    width: double.infinity,
+                                                    margin: EdgeInsets.only(
+                                                        left: 32, right: 20),
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Text(
+                                                        users[index]
+                                                            .childs[position]
+                                                            .name,
+                                                        style: TextStyle(
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontFamily: AppTheme
+                                                              .fontRoboto,
+                                                          fontSize: 15,
+                                                          color: AppTheme
+                                                              .black_text,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                      Container(
+                                        height: 1,
+                                        color: AppTheme.black_linear_category,
+                                      )
+                                    ],
+                                  );
+                          },
+                        ),
+                      ),
+                    )
             ],
           ),
         ),

@@ -105,7 +105,7 @@ class PharmacyApiProvider {
       "last_name": surname,
       "gender": gender,
       "birth_date": birthday,
-      "region": regionId,
+      "region": regionId.toString(),
     };
 
     Map<String, String> headers = {
@@ -1024,7 +1024,7 @@ class PharmacyApiProvider {
     }
 
     final data = {
-      "region": regionId,
+      "region": regionId.toString(),
     };
 
     String url = Utils.BASE_URL + '/api/v1/add-region?lan=$lan';
