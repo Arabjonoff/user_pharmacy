@@ -58,6 +58,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
   String error_text = "";
 
   DatabaseHelper dataBase = new DatabaseHelper();
+  ScrollController _scrollController = new ScrollController();
 
   @override
   void initState() {
@@ -155,6 +156,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
             ),
             Expanded(
               child: ListView(
+                controller: _scrollController,
                 children: [
                   Container(
                     margin: EdgeInsets.only(top: 24, left: 16, bottom: 24),
@@ -582,6 +584,13 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                       else if (response.status == -1)
                                         {
                                           setState(() {
+                                            _scrollController.animateTo(
+                                              _scrollController
+                                                  .position.maxScrollExtent,
+                                              curve: Curves.easeOut,
+                                              duration: const Duration(
+                                                  milliseconds: 300),
+                                            );
                                             error = true;
                                             loading = false;
                                             error_text = response.msg;
@@ -590,6 +599,13 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                       else
                                         {
                                           setState(() {
+                                            _scrollController.animateTo(
+                                              _scrollController
+                                                  .position.maxScrollExtent,
+                                              curve: Curves.easeOut,
+                                              duration: const Duration(
+                                                  milliseconds: 300),
+                                            );
                                             error = true;
                                             loading = false;
                                             error_text = response.msg == ""

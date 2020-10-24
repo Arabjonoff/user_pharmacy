@@ -665,7 +665,9 @@ class BottomDialog {
                             width: 7,
                           ),
                           Text(
-                            locationItem.distance.toString() + " m",
+                            locationItem.distance.toInt() == 0
+                                ? ""
+                                : locationItem.distance.toString() + " m",
                             textAlign: TextAlign.start,
                             maxLines: 1,
                             style: TextStyle(

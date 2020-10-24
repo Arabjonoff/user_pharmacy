@@ -54,13 +54,13 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   void initState() {
     registerBus();
-    Utils.isLogin().then((value) => {
-          isLogin = value,
-          if (isLogin)
-            {
-              menuBack.fetchCashBack(),
-            }
-        });
+    // Utils.isLogin().then((value) => {
+    //       isLogin = value,
+    //       if (isLogin)
+    //         {
+    //           menuBack.fetchCashBack(),
+    //         }
+    //     });
 
     super.initState();
   }

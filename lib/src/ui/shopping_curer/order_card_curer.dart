@@ -106,11 +106,16 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     offset: cashPriceController.text.length);
               });
             } else {
+              if (cashPriceController.text.toString() != "") {
+                if (int.parse(cashPriceController.text.toString()) == 0) {
+                  cashPriceController.text = "0";
+                  cashPriceController.selection = TextSelection.collapsed(
+                      offset: cashPriceController.text.length);
+                }
+              }
               setState(() {
                 allPrice = widget.price + widget.deliveryPrice - text;
                 cashPrice = text;
-                cashPriceController.selection = TextSelection.collapsed(
-                    offset: cashPriceController.text.length);
               });
             }
           } else {
@@ -130,14 +135,19 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                 // //     TextSelection.collapsed(offset: 3);
               });
             } else {
+              if (cashPriceController.text.toString() != "") {
+                if (int.parse(cashPriceController.text.toString()) == 0) {
+                  cashPriceController.text = "0";
+                  cashPriceController.selection = TextSelection.collapsed(
+                      offset: cashPriceController.text.length);
+                }
+              }
               setState(() {
                 widget.cash == 0
                     ? cashPriceController.text = ""
                     : cashPriceController.text = widget.cash.toInt().toString();
                 allPrice = widget.price + widget.deliveryPrice - widget.cash;
                 cashPrice = widget.cash;
-                cashPriceController.selection = TextSelection.collapsed(
-                    offset: cashPriceController.text.length);
               });
             }
           }

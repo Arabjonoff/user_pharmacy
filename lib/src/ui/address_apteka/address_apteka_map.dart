@@ -67,8 +67,11 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   }
 
   void _addMarkerData(List<LocationModel> data) {
-    if (data != null)
+    double latOr = 0.0, lngOr = 0.0;
+    if (data != null) {
       for (int i = 0; i < data.length; i++) {
+        latOr += data[i].location.coordinates[1];
+        lngOr += data[i].location.coordinates[0];
         mapController.addPlacemark(
           placemark.Placemark(
             point: Point(
@@ -83,6 +86,14 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
           ),
         );
       }
+      if (mapController != null)
+        mapController.move(
+          point: new Point(
+              latitude: latOr / data.length, longitude: lngOr / data.length),
+          zoom: 11,
+          animation: const MapAnimation(smooth: true, duration: 0.5),
+        );
+    }
   }
 
   Future<void> _getPosition() async {
@@ -91,34 +102,35 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
           .getPositionStream(LocationOptions(
               accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 10))
           .listen((Position position) {
+        print(position.toString() + "SJSJSJSJ");
         if (position != null) {
           lat = position.latitude;
           lng = position.longitude;
           _addMarkers(Repository().fetchApteka(lat, lng));
           _point = new Point(
               latitude: position.latitude, longitude: position.longitude);
-          mapController.move(
-            point: _point,
-            zoom: 11,
-            animation: const MapAnimation(smooth: true, duration: 0.5),
-          );
+          // mapController.move(
+          //   point: _point,
+          //   zoom: 11,
+          //   animation: const MapAnimation(smooth: true, duration: 0.5),
+          // );
         } else {
           _addMarkers(Repository().fetchApteka(41.311081, 69.240562));
-          mapController.move(
-            point: Point(latitude: 41.311081, longitude: 69.240562),
-            zoom: 11,
-            animation: const MapAnimation(smooth: true, duration: 0.5),
-          );
+          // mapController.move(
+          //   point: Point(latitude: 41.311081, longitude: 69.240562),
+          //   zoom: 11,
+          //   animation: const MapAnimation(smooth: true, duration: 0.5),
+          // );
         }
       });
     } else {
       _point = new Point(latitude: lat, longitude: lng);
       _addMarkers(Repository().fetchApteka(lat, lng));
-      mapController.move(
-        point: _point,
-        zoom: 11,
-        animation: const MapAnimation(smooth: true, duration: 0.5),
-      );
+      // mapController.move(
+      //   point: _point,
+      //   zoom: 11,
+      //   animation: const MapAnimation(smooth: true, duration: 0.5),
+      // );
     }
   }
 
@@ -126,11 +138,25 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   Widget build(BuildContext context) {
     if (_permissionStatus == PermissionStatus.granted) {
       _getPosition();
-      if (mapController != null)
+      if (mapController != null) {
         mapController.showUserLayer(
           iconName: 'assets/map/user.png',
           arrowName: 'assets/map/arrow.png',
           accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
+        );
+        mapController.move(
+          point: Point(latitude: 41.311081, longitude: 69.240562),
+          zoom: 11,
+          animation: const MapAnimation(smooth: true, duration: 0.5),
+        );
+      }
+    } else if (_permissionStatus == PermissionStatus.disabled) {
+      _addMarkers(Repository().fetchApteka(null, null));
+      if (mapController != null)
+        mapController.move(
+          point: Point(latitude: 41.311081, longitude: 69.240562),
+          zoom: 11,
+          animation: const MapAnimation(smooth: true, duration: 0.5),
         );
     }
 
@@ -170,4 +196,10 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
       ),
     );
   }
+
+// Future<void> locationEnabled() async {
+//   final PermissionStatus permission = await PermissionHandler()
+//       .checkPermissionStatus(PermissionGroup.location);
+//   print(permission);
+// }
 }

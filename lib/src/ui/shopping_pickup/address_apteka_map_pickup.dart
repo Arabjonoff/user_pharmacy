@@ -81,10 +81,10 @@ class _AddressAptekaMapPickupScreenState
   }
 
   void _addMarkerData(List<LocationModel> data) {
-    double lat = 0.0, lng = 0.0;
+    double latOr = 0.0, lngOr = 0.0;
     for (int i = 0; i < data.length; i++) {
-      lat += data[i].location.coordinates[1];
-      lng += data[i].location.coordinates[0];
+      latOr += data[i].location.coordinates[1];
+      lngOr += data[i].location.coordinates[0];
 
       mapController.addPlacemark(placemark.Placemark(
         point: Point(
@@ -139,7 +139,9 @@ class _AddressAptekaMapPickupScreenState
                                 width: 7,
                               ),
                               Text(
-                                data[i].distance.toString() + " m",
+                                data[i].distance.toInt() == 0
+                                    ? ""
+                                    : data[i].distance.toString() + " m",
                                 textAlign: TextAlign.start,
                                 maxLines: 1,
                                 style: TextStyle(
@@ -493,7 +495,7 @@ class _AddressAptekaMapPickupScreenState
     if (mapController != null)
       mapController.move(
         point: new Point(
-            latitude: lat / data.length, longitude: lng / data.length),
+            latitude: latOr / data.length, longitude: lngOr / data.length),
         zoom: 11,
         animation: const MapAnimation(smooth: true, duration: 0.5),
       );
@@ -566,6 +568,16 @@ class _AddressAptekaMapPickupScreenState
           animation: const MapAnimation(smooth: true, duration: 0.5),
         );
       }
+    } else if (_permissionStatus == PermissionStatus.disabled) {
+      AccessStore addModel = new AccessStore();
+      addModel = new AccessStore(products: widget.drugs);
+      _addMarkers(Repository().fetchAccessApteka(addModel));
+      if (mapController != null)
+        mapController.move(
+          point: Point(latitude: 41.311081, longitude: 69.240562),
+          zoom: 11,
+          animation: const MapAnimation(smooth: true, duration: 0.5),
+        );
     }
 
     return Scaffold(

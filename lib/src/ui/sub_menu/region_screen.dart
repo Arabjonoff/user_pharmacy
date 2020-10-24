@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -154,6 +155,15 @@ class _RegionScreenState extends State<RegionScreen> {
                           prefs.setString("city", users[index].name);
                           prefs.setInt("cityId", users[index].id);
                           prefs.commit();
+                          blocHome.fetchAllHome(
+                            1,
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                          );
                           Navigator.pop(context);
                         },
                         child: Container(
@@ -264,6 +274,15 @@ class _RegionScreenState extends State<RegionScreen> {
                                         prefs.setInt("cityId",
                                             users[index].childs[position].id);
                                         prefs.commit();
+                                        blocHome.fetchAllHome(
+                                          1,
+                                          "",
+                                          "",
+                                          "",
+                                          "",
+                                          "",
+                                          "",
+                                        );
                                         Navigator.pop(context);
                                       },
                                       child: Container(

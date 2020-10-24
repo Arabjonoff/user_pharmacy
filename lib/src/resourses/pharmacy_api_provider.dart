@@ -359,10 +359,12 @@ class PharmacyApiProvider {
 
     String url =
         Utils.BASE_URL + '/api/v1/stores?lat=$lat&lng=$lng&region=$regionId';
+    print(url);
     try {
       http.Response response =
           await http.get(url).timeout(const Duration(seconds: 10));
       var responseJson = utf8.decode(response.bodyBytes);
+      print(response.body);
       return locationModelFromJson(responseJson);
     } on TimeoutException catch (_) {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
@@ -551,6 +553,9 @@ class PharmacyApiProvider {
 
     String url = Utils.BASE_URL + '/api/v1/exists-stores?region=$regionId';
 
+    print(url);
+    print(json.encode(accessStore));
+
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
     };
@@ -560,6 +565,9 @@ class PharmacyApiProvider {
           .post(url, body: json.encode(accessStore), headers: headers)
           .timeout(const Duration(seconds: 10));
       var responseJson = utf8.decode(response.bodyBytes);
+
+      print(responseJson);
+      print(locationModelFromJson(responseJson).length);
       return locationModelFromJson(responseJson);
     } on TimeoutException catch (_) {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
@@ -1020,9 +1028,8 @@ class PharmacyApiProvider {
     };
 
     String url = Utils.BASE_URL + '/api/v1/add-region?lan=$lan';
-
-    try {
-      if (token != null) {
+    if (token != null) {
+      try {
         Map<String, String> headers = {
           'content-type': 'application/json; charset=utf-8',
           HttpHeaders.authorizationHeader: "Bearer $token",
@@ -1033,20 +1040,14 @@ class PharmacyApiProvider {
         final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
         return OrderStatusModel.fromJson(responseJson);
-      } else {
-        Map<String, String> headers = {
-          'content-type': 'application/json; charset=utf-8',
-        };
-        http.Response response = await http
-            .post(url, headers: headers, body: json.encode(data))
-            .timeout(const Duration(seconds: 15));
-        final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+      } on TimeoutException catch (_) {
+        RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+        return OrderStatusModel(status: -1, msg: translate("internet_error"));
+      } on SocketException catch (_) {
+        RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+        return OrderStatusModel(status: -1, msg: translate("internet_error"));
       }
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return OrderStatusModel(status: -1, msg: translate("internet_error"));
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+    } else {
       return OrderStatusModel(status: -1, msg: translate("internet_error"));
     }
   }

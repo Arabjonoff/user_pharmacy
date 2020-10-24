@@ -104,11 +104,16 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                     offset: cashPriceController.text.length);
               });
             } else {
+              if (cashPriceController.text.toString() != "") {
+                if (int.parse(cashPriceController.text.toString()) == 0) {
+                  cashPriceController.text = "0";
+                  cashPriceController.selection = TextSelection.collapsed(
+                      offset: cashPriceController.text.length);
+                }
+              }
               setState(() {
                 allPrice = cashData.total - p;
                 cashPrice = p;
-                cashPriceController.selection = TextSelection.collapsed(
-                    offset: cashPriceController.text.length);
               });
             }
           } else {
@@ -124,6 +129,13 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                     offset: cashPriceController.text.length);
               });
             } else {
+              if (cashPriceController.text.toString() != "") {
+                if (int.parse(cashPriceController.text.toString()) == 0) {
+                  cashPriceController.text = "0";
+                  cashPriceController.selection = TextSelection.collapsed(
+                      offset: cashPriceController.text.length);
+                }
+              }
               setState(() {
                 cashData.cash == 0
                     ? cashPriceController.text = ""
@@ -132,8 +144,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
 
                 allPrice = cashData.total - cashData.cash;
                 cashPrice = cashData.cash;
-                cashPriceController.selection = TextSelection.collapsed(
-                    offset: cashPriceController.text.length);
               });
             }
           }

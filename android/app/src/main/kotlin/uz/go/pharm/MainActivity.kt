@@ -27,6 +27,7 @@ class MainActivity : FlutterActivity() {
 
 
     lateinit var speechRecognizer: SpeechRecognizer
+    var isInit: Boolean = false
 
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
@@ -96,30 +97,24 @@ class MainActivity : FlutterActivity() {
 
             when (call.method) {
                 "start" -> {
+                    isInit = true
                     Log.d("MRX", "start")
                     speechRecognizer.startListening(speechRecognizerIntent)
                             ?: result.error("110", "nullErrorMessage", null)
                 }
-                "stop" -> speechRecognizer.stopListening()
-                        ?: result.error("418", "nullErrorMessage", null);
+                "stop" -> {
+                    isInit = true
+                    speechRecognizer.stopListening()
+                }
                 else -> result.notImplemented()
             }
         }
-
-//        MethodChannel(flutterEngine.dartExecutor, "crossingthestreams.io/resourceResolver").setMethodCallHandler { call, result ->
-//            if ("drawableToUri" == call.method) {
-//                val resourceId: Int = this@MainActivity.resources.getIdentifier(call.arguments as String, "drawable", this@MainActivity.packageName)
-//                result.success(resourceToUriString(this@MainActivity.applicationContext, resourceId))
-//            }
-//            if ("getAlarmUri" == call.method) {
-//                result.success(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM).toString())
-//            }
-//        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        speechRecognizer.destroy()
+        if (isInit)
+            speechRecognizer.destroy()
     }
 
     private fun checkPermission() {

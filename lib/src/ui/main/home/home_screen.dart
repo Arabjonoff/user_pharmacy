@@ -15,6 +15,7 @@ import 'package:package_info/package_info.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
+import 'package:pharmacy/src/blocs/menu_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/check_version.dart';
@@ -79,6 +80,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       "",
       "",
     );
+    Utils.isLogin().then((value) => {
+          isLogin = value,
+          if (isLogin)
+            {
+              menuBack.fetchCashBack(),
+            }
+        });
 
     super.initState();
   }
@@ -438,10 +446,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               {
                 RxBus.post(
                     CheckVersionModel(
-                      title: true,
-                      packageName: info.packageName,
-                      desk: value.description
-                    ),
+                        title: true,
+                        packageName: info.packageName,
+                        desk: value.description),
                     tag: "EVENT_ITEM_CHECK")
               }
           });
