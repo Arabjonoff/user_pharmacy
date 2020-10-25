@@ -998,11 +998,15 @@ class PharmacyApiProvider {
 
     String url = Utils.BASE_URL + '/api/v1/check-region-polygon?lan=$lan';
 
+    print(url);
+
     try {
       http.Response response = await http
           .post(url, headers: headers, body: json.encode(data))
           .timeout(const Duration(seconds: 15));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+
+      print(OrderStatusModel.fromJson(responseJson));
 
       return OrderStatusModel.fromJson(responseJson);
     } on TimeoutException catch (_) {

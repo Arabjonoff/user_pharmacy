@@ -31,7 +31,7 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
 
   @override
   void initState() {
-    _getMoreData();
+
     _requestPermission();
     super.initState();
   }
@@ -78,12 +78,7 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                     ),
                   ),
                 }
-              else
-                {
-                  setState(() {
-                    isLoading = false;
-                  }),
-                }
+
             });
       }
     });
@@ -93,6 +88,7 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
   Widget build(BuildContext context) {
     if (_permissionStatus == PermissionStatus.granted) {
       _getPosition();
+      _getMoreData();
     }
 
     return Scaffold(
@@ -355,15 +351,21 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
     var response = Repository().fetchRegions("");
 
     response.then((value) => {
+      print(value),
           if (value != null)
             {
               setState(() {
+
+                isLoading = false;
                 users = new List();
                 users = value;
               }),
             }
           else
             {
+              setState(() {
+                isLoading = false;
+              }),
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
