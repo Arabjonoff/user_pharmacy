@@ -95,47 +95,100 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
             if (snapshot.hasData) {
               return Column(
                 children: [
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: GestureDetector(
-                      onTap: () {
-                        if (isOpenBest)
-                          RxBus.post(AllItemIsOpen(true),
-                              tag: "EVENT_ITEM_LIST");
-                        if (isOpenIds)
-                          RxBus.post(AllItemIsOpen(true),
-                              tag: "EVENT_ITEM_LIST_IDS");
-                        if (isOpenSearch)
-                          RxBus.post(AllItemIsOpen(true),
-                              tag: "EVENT_ITEM_LIST_SEARCH");
-                        if (isOpenCategory)
-                          RxBus.post(AllItemIsOpen(true),
-                              tag: "EVENT_ITEM_LIST_CATEGORY");
-                        blocCard.fetchAllCard();
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        height: 48,
-                        width: 48,
-                        margin: EdgeInsets.only(right: 4),
-                        color: AppTheme.arrow_examp_back,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            height: 24,
-                            width: 24,
-                            padding: EdgeInsets.all(7),
-                            decoration: BoxDecoration(
-                              color: AppTheme.arrow_back,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: SvgPicture.asset(
-                                "assets/images/arrow_close.svg"),
-                          ),
+                  Container(
+                    height: 40,
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: 16),
+                          child: SvgPicture.asset(
+                              "assets/images/logo_new_design.svg"),
                         ),
-                      ),
+                        Expanded(
+                          child: Container(),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            if (isOpenBest)
+                              RxBus.post(AllItemIsOpen(true),
+                                  tag: "EVENT_ITEM_LIST");
+                            if (isOpenIds)
+                              RxBus.post(AllItemIsOpen(true),
+                                  tag: "EVENT_ITEM_LIST_IDS");
+                            if (isOpenSearch)
+                              RxBus.post(AllItemIsOpen(true),
+                                  tag: "EVENT_ITEM_LIST_SEARCH");
+                            if (isOpenCategory)
+                              RxBus.post(AllItemIsOpen(true),
+                                  tag: "EVENT_ITEM_LIST_CATEGORY");
+                            blocCard.fetchAllCard();
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            margin: EdgeInsets.only(right: 4),
+                            color: AppTheme.arrow_examp_back,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Container(
+                                height: 24,
+                                width: 24,
+                                padding: EdgeInsets.all(7),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.arrow_back,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: SvgPicture.asset(
+                                    "assets/images/arrow_close.svg"),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
+                  // Align(
+                  //   alignment: Alignment.topRight,
+                  //   child: GestureDetector(
+                  //     onTap: () {
+                  //       if (isOpenBest)
+                  //         RxBus.post(AllItemIsOpen(true),
+                  //             tag: "EVENT_ITEM_LIST");
+                  //       if (isOpenIds)
+                  //         RxBus.post(AllItemIsOpen(true),
+                  //             tag: "EVENT_ITEM_LIST_IDS");
+                  //       if (isOpenSearch)
+                  //         RxBus.post(AllItemIsOpen(true),
+                  //             tag: "EVENT_ITEM_LIST_SEARCH");
+                  //       if (isOpenCategory)
+                  //         RxBus.post(AllItemIsOpen(true),
+                  //             tag: "EVENT_ITEM_LIST_CATEGORY");
+                  //       blocCard.fetchAllCard();
+                  //       Navigator.pop(context);
+                  //     },
+                  //     child: Container(
+                  //       height: 48,
+                  //       width: 48,
+                  //       margin: EdgeInsets.only(right: 4),
+                  //       color: AppTheme.arrow_examp_back,
+                  //       child: Align(
+                  //         alignment: Alignment.center,
+                  //         child: Container(
+                  //           height: 24,
+                  //           width: 24,
+                  //           padding: EdgeInsets.all(7),
+                  //           decoration: BoxDecoration(
+                  //             color: AppTheme.arrow_back,
+                  //             borderRadius: BorderRadius.circular(12),
+                  //           ),
+                  //           child: SvgPicture.asset(
+                  //               "assets/images/arrow_close.svg"),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   Expanded(
                     child: ListView(
                       children: [
@@ -1754,7 +1807,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                 ),
               ),
               padding: EdgeInsets.only(top: 14),
-              child:Column(
+              child: Column(
                 children: [
                   Align(
                     alignment: Alignment.topRight,
@@ -1785,7 +1838,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                     ),
                   ),
                   Expanded(
-                    child:  Shimmer.fromColors(
+                    child: Shimmer.fromColors(
                       baseColor: Colors.grey[300],
                       highlightColor: Colors.grey[100],
                       child: Container(

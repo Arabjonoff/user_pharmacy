@@ -474,13 +474,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       floating: true,
                       brightness: Brightness.light,
                       backgroundColor: AppTheme.white,
-                      expandedHeight: 110,
+                      expandedHeight: 147,
                       flexibleSpace: FlexibleSpaceBar(
                         collapseMode: CollapseMode.pin,
                         background: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
+                            Container(
+                              height: 36.45,
+                              margin: EdgeInsets.only(left: 16, top: 30),
+                              child: SvgPicture.asset(
+                                  "assets/images/logo_new_design.svg"),
+                            ),
                             GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -495,7 +501,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 height: 28,
                                 color: AppTheme.white,
                                 margin: EdgeInsets.only(
-                                    top: 46.0, left: 16, right: 16),
+                                    top: 16.0, left: 16, right: 16),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.start,

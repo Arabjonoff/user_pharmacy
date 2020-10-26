@@ -28,11 +28,12 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
   List<RegionModel> users = new List();
 
   bool isLoading = true;
+  bool isFirst = true;
 
   @override
   void initState() {
-
     _requestPermission();
+    _getMoreData();
     super.initState();
   }
 
@@ -78,7 +79,6 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                     ),
                   ),
                 }
-
             });
       }
     });
@@ -87,8 +87,10 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
   @override
   Widget build(BuildContext context) {
     if (_permissionStatus == PermissionStatus.granted) {
-      _getPosition();
-      _getMoreData();
+      if (isFirst) {
+        _getPosition();
+        isFirst = false;
+      }
     }
 
     return Scaffold(
@@ -351,11 +353,9 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
     var response = Repository().fetchRegions("");
 
     response.then((value) => {
-      print(value),
           if (value != null)
             {
               setState(() {
-
                 isLoading = false;
                 users = new List();
                 users = value;
