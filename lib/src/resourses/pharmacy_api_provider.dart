@@ -749,11 +749,16 @@ class PharmacyApiProvider {
   Future<CheckVersion> fetchCheckVersion(String version) async {
     String url = Utils.BASE_URL + '/api/v1/check-version';
 
-    final data = {"version": version};
+    final data = {
+      "version": version,
+      "device": Platform.isIOS ? "ios" : "android"
+    };
 
+    print(url);
+    print(data);
     http.Response response =
         await http.post(url, body: data).timeout(const Duration(seconds: 120));
-
+    print(response.body);
     final Map parsed = json.decode(response.body);
 
     return CheckVersion.fromJson(parsed);
