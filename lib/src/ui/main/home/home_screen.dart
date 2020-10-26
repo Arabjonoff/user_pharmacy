@@ -474,7 +474,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       floating: true,
                       brightness: Brightness.light,
                       backgroundColor: AppTheme.white,
-                      expandedHeight: 147,
+                      expandedHeight: 155,
                       flexibleSpace: FlexibleSpaceBar(
                         collapseMode: CollapseMode.pin,
                         background: Column(
@@ -483,7 +483,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           children: <Widget>[
                             Container(
                               height: 36.45,
-                              margin: EdgeInsets.only(left: 16, top: 30),
+                              margin: EdgeInsets.only(left: 16, top: 38),
                               child: SvgPicture.asset(
                                   "assets/images/logo_new_design.svg"),
                             ),
