@@ -102,7 +102,6 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
           .getPositionStream(LocationOptions(
               accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 10))
           .listen((Position position) {
-        print(position.toString() + "SJSJSJSJ");
         if (position != null) {
           lat = position.latitude;
           lng = position.longitude;

@@ -55,7 +55,7 @@ class _AddressAptekaMapPickupScreenState
   void initState() {
     super.initState();
     _requestPermission();
-    _getPosition();
+    // _getPosition();
     //_getPosition();
     //   _addMarkerData(widget.data);
   }
@@ -556,6 +556,7 @@ class _AddressAptekaMapPickupScreenState
   @override
   Widget build(BuildContext context) {
     if (_permissionStatus == PermissionStatus.granted) {
+      _getPosition();
       if (mapController != null) {
         mapController.showUserLayer(
           iconName: 'assets/map/user.png',

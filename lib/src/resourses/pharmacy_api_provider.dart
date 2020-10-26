@@ -359,12 +359,10 @@ class PharmacyApiProvider {
 
     String url =
         Utils.BASE_URL + '/api/v1/stores?lat=$lat&lng=$lng&region=$regionId';
-    print(url);
     try {
       http.Response response =
           await http.get(url).timeout(const Duration(seconds: 10));
       var responseJson = utf8.decode(response.bodyBytes);
-      print(response.body);
       return locationModelFromJson(responseJson);
     } on TimeoutException catch (_) {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
@@ -553,9 +551,6 @@ class PharmacyApiProvider {
 
     String url = Utils.BASE_URL + '/api/v1/exists-stores?region=$regionId';
 
-    print(url);
-    print(json.encode(accessStore));
-
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
     };
@@ -566,8 +561,6 @@ class PharmacyApiProvider {
           .timeout(const Duration(seconds: 10));
       var responseJson = utf8.decode(response.bodyBytes);
 
-      print(responseJson);
-      print(locationModelFromJson(responseJson).length);
       return locationModelFromJson(responseJson);
     } on TimeoutException catch (_) {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
