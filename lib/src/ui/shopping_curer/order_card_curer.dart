@@ -9,6 +9,7 @@ import 'package:flutter_translate/global.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
+import 'package:pharmacy/src/blocs/order_options_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
@@ -22,6 +23,7 @@ import 'package:pharmacy/src/ui/payment/verfy_payment_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
 import 'curer_address_card.dart';
@@ -82,7 +84,19 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
   @override
   void initState() {
     allPrice = widget.deliveryPrice + widget.price;
+    _getLanguage();
     super.initState();
+  }
+
+  Future<void> _getLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var language_data;
+    if (prefs.getString('language') != null) {
+      language_data = prefs.getString('language');
+    } else {
+      language_data = "ru";
+    }
+    blocOrderOptions.fetchOrderOptions(language_data);
   }
 
   _OrderCardCurerScreenState() {
@@ -265,49 +279,100 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                 ),
               ),
             ),
-            Column(
-              children: paymentTypes
-                  .map((data) => RadioListTile(
-                        title: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                "${data.pan}",
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.normal,
-                                  color: Colors.black,
-                                ),
+            StreamBuilder(
+              stream: blocOrderOptions.orderOptions,
+              builder: (context, AsyncSnapshot<OrderOptionsModel> snapshot) {
+                if (snapshot.hasData) {
+                  paymentTypes = new List();
+
+                  for (int i = 0; i < snapshot.data.paymentTypes.length; i++) {
+                    paymentTypes.add(PaymentTypesCheckBox(
+                      id: i,
+                      payment_id: snapshot.data.paymentTypes[i].id,
+                      card_id: snapshot.data.paymentTypes[i].card_id,
+                      card_token: snapshot.data.paymentTypes[i].card_token,
+                      name: snapshot.data.paymentTypes[i].name,
+                      pan: snapshot.data.paymentTypes[i].pan,
+                      type: snapshot.data.paymentTypes[i].type,
+                    ));
+                  }
+                  return Column(
+                    children: paymentTypes
+                        .map((data) => RadioListTile(
+                              title: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      "${data.pan}",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: AppTheme.fontRoboto,
+                                        fontSize: 15,
+                                        fontStyle: FontStyle.normal,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                        activeColor: AppTheme.blue_app_color,
-                        groupValue: clickType,
-                        value: data.id,
-                        onChanged: (val) {
-                          if (data.id == paymentTypes.length - 1) {
-                            setState(() {
-                              clickType = data.id;
-                              paymentType = data.payment_id;
-                              isEnd = true;
-                              cardToken = data.card_token;
-                            });
-                          } else {
-                            setState(() {
-                              clickType = data.id;
-                              paymentType = data.payment_id;
-                              isEnd = false;
-                              cardToken = data.card_token;
-                            });
-                          }
-                        },
-                      ))
-                  .toList(),
+                              activeColor: AppTheme.blue_app_color,
+                              groupValue: clickType,
+                              value: data.id,
+                              onChanged: (val) {
+                                if (data.id == paymentTypes.length - 1) {
+                                  setState(() {
+                                    clickType = data.id;
+                                    paymentType = data.payment_id;
+                                    isEnd = true;
+                                    cardToken = data.card_token;
+                                  });
+                                } else {
+                                  setState(() {
+                                    clickType = data.id;
+                                    paymentType = data.payment_id;
+                                    isEnd = false;
+                                    cardToken = data.card_token;
+                                  });
+                                }
+                              },
+                            ))
+                        .toList(),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                }
+                return Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.grey[100],
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    itemBuilder: (_, __) => Container(
+                      height: 48,
+                      padding: EdgeInsets.only(top: 6, bottom: 6),
+                      margin: EdgeInsets.only(left: 15, right: 15),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Container(),
+                          ),
+                          Container(
+                            height: 15,
+                            width: 250,
+                            color: AppTheme.white,
+                          ),
+                          Expanded(
+                            child: Container(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    itemCount: 4,
+                  ),
+                );
+              },
             ),
             isEnd
                 ? Container(
