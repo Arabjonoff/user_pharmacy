@@ -37,6 +37,13 @@ class Utils {
     return prefs.getDouble("cashBack");
   }
 
+  static Future<void> saveRegion(int id, String city) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('cityId', id);
+    prefs.setString('city', city);
+    prefs.commit();
+  }
+
   static Future<void> clearData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();

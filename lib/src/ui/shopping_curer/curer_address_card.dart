@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -65,6 +66,12 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
     _getLanguage();
     isAddress = widget.isAddress;
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -584,33 +591,39 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                       else if (response.status == -1)
                                         {
                                           setState(() {
+                                            error = true;
+                                            loading = false;
+                                            error_text = response.msg;
+                                          }),
+                                          Timer(Duration(milliseconds: 100),
+                                              () {
                                             _scrollController.animateTo(
                                               _scrollController
                                                   .position.maxScrollExtent,
                                               curve: Curves.easeOut,
                                               duration: const Duration(
-                                                  milliseconds: 300),
+                                                  milliseconds: 200),
                                             );
-                                            error = true;
-                                            loading = false;
-                                            error_text = response.msg;
                                           }),
                                         }
                                       else
                                         {
                                           setState(() {
-                                            _scrollController.animateTo(
-                                              _scrollController
-                                                  .position.maxScrollExtent,
-                                              curve: Curves.easeOut,
-                                              duration: const Duration(
-                                                  milliseconds: 300),
-                                            );
                                             error = true;
                                             loading = false;
                                             error_text = response.msg == ""
                                                 ? translate("error_distanse")
                                                 : response.msg;
+                                          }),
+                                          Timer(Duration(milliseconds: 100),
+                                              () {
+                                            _scrollController.animateTo(
+                                              _scrollController
+                                                  .position.maxScrollExtent,
+                                              curve: Curves.easeOut,
+                                              duration: const Duration(
+                                                  milliseconds: 200),
+                                            );
                                           }),
                                         }
                                     }),

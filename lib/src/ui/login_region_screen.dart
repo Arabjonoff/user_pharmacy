@@ -10,6 +10,7 @@ import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app_theme.dart';
@@ -63,21 +64,22 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
         lat = position.latitude;
         lng = position.longitude;
         var response = Repository().fetchGetRegion("$lng,$lat");
-        SharedPreferences prefs = await SharedPreferences.getInstance();
         response.then((value) => {
               if (value.status == 1)
                 {
                   isLoading = false,
-                  prefs.setString("city", value.msg),
-                  prefs.setInt("cityId", value.region),
-                  prefs.commit(),
+                  Utils.saveRegion(value.region, value.msg),
                   Navigator.pushReplacement(
                     context,
-                    PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: MainScreen(),
-                    ),
+                    MaterialPageRoute(builder: (context) => MainScreen()),
                   ),
+                  // Navigator.pushReplacement(
+                  //   context,
+                  //   PageTransition(
+                  //     type: PageTransitionType.fade,
+                  //     child: MainScreen(),
+                  //   ),
+                  // ),
                 }
             });
       }
@@ -168,19 +170,27 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                             return users[index].childs.length == 0
                                 ? GestureDetector(
                                     onTap: () async {
+                                      Utils.saveRegion(
+                                          users[index].id, users[index].name);
                                       Navigator.pushReplacement(
                                         context,
-                                        PageTransition(
-                                          type: PageTransitionType.rightToLeft,
-                                          child: MainScreen(),
-                                        ),
+                                        MaterialPageRoute(
+                                            builder: (context) => MainScreen()),
                                       );
-                                      SharedPreferences prefs =
-                                          await SharedPreferences.getInstance();
-                                      prefs.setString(
-                                          "city", users[index].name);
-                                      prefs.setInt("cityId", users[index].id);
-                                      prefs.commit();
+
+                                      // Navigator.pushReplacement(
+                                      //   context,
+                                      //   PageTransition(
+                                      //     type: PageTransitionType.rightToLeft,
+                                      //     child: MainScreen(),
+                                      //   ),
+                                      // );
+                                      // SharedPreferences prefs =
+                                      //     await SharedPreferences.getInstance();
+                                      // prefs.setString(
+                                      //     "city", users[index].name);
+                                      // prefs.setInt("cityId", users[index].id);
+                                      // prefs.commit();
                                     },
                                     child: Container(
                                       color: AppTheme.white,
@@ -279,28 +289,42 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                                               itemBuilder: (context, position) {
                                                 return GestureDetector(
                                                   onTap: () async {
-                                                    SharedPreferences prefs =
-                                                        await SharedPreferences
-                                                            .getInstance();
-                                                    prefs.setString(
-                                                        "city",
+                                                    Utils.saveRegion(
+                                                        users[index]
+                                                            .childs[position]
+                                                            .id,
                                                         users[index]
                                                             .childs[position]
                                                             .name);
-                                                    prefs.setInt(
-                                                        "cityId",
-                                                        users[index]
-                                                            .childs[position]
-                                                            .id);
-                                                    prefs.commit();
                                                     Navigator.pushReplacement(
                                                       context,
-                                                      PageTransition(
-                                                        type: PageTransitionType
-                                                            .rightToLeft,
-                                                        child: MainScreen(),
-                                                      ),
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              MainScreen()),
                                                     );
+
+                                                    // SharedPreferences prefs =
+                                                    //     await SharedPreferences
+                                                    //         .getInstance();
+                                                    // prefs.setString(
+                                                    //     "city",
+                                                    //     users[index]
+                                                    //         .childs[position]
+                                                    //         .name);
+                                                    // prefs.setInt(
+                                                    //     "cityId",
+                                                    //     users[index]
+                                                    //         .childs[position]
+                                                    //         .id);
+                                                    // prefs.commit();
+                                                    // Navigator.pushReplacement(
+                                                    //   context,
+                                                    //   PageTransition(
+                                                    //     type: PageTransitionType
+                                                    //         .rightToLeft,
+                                                    //     child: MainScreen(),
+                                                    //   ),
+                                                    // );
                                                   },
                                                   child: Container(
                                                     color: AppTheme.white,
