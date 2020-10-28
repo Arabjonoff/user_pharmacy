@@ -64,50 +64,72 @@ class _SearchScreenState extends State<SearchScreen> {
       if (searchController.text != obj) {
         if (searchController.text.length > 2) {
           if (_timer == null) {
-            _timer = new Timer.periodic(
-              oneSec,
-              (Timer timer) => setState(
-                () {
-                  _timer.cancel();
-                  users = new List();
-                  page = 1;
-                  obj = searchController.text;
-                  isSearchText = true;
-                  this._getMoreData(page);
-                },
-              ),
-            );
+            _timer = new Timer(oneSec, () {
+              setState(() {
+                _timer.cancel();
+                users = new List();
+                page = 1;
+                obj = searchController.text;
+                isSearchText = true;
+                this._getMoreData(page);
+              });
+            });
+
+            // _timer = new Timer.periodic(
+            //   oneSec,
+            //   (Timer timer) => setState(
+            //     () {
+            //       _timer.cancel();
+            //       users = new List();
+            //       page = 1;
+            //       obj = searchController.text;
+            //       isSearchText = true;
+            //       this._getMoreData(page);
+            //     },
+            //   ),
+            // );
           } else {
-            if (_timer.isActive) {
-              _timer.cancel();
-              _timer = new Timer.periodic(
-                oneSec,
-                (Timer timer) => setState(
-                  () {
-                    _timer.cancel();
-                    users = new List();
-                    page = 1;
-                    obj = searchController.text;
-                    isSearchText = true;
-                    this._getMoreData(page);
-                  },
-                ),
-              );
-            } else {
-              _timer = new Timer.periodic(
-                oneSec,
-                (Timer timer) => setState(
-                  () {
-                    _timer.cancel();
-                    users = new List();
-                    page = 1;
-                    obj = searchController.text;
-                    isSearchText = true;
-                    this._getMoreData(page);
-                  },
-                ),
-              );
-            }
+            _timer.cancel();
+            _timer = new Timer(oneSec, () {
+              setState(() {
+                _timer.cancel();
+                users = new List();
+                page = 1;
+                obj = searchController.text;
+                isSearchText = true;
+                this._getMoreData(page);
+              });
+            });
+            // if (_timer.isActive) {
+            //   _timer.cancel();
+            //   _timer = new Timer.periodic(
+            //     oneSec,
+            //     (Timer timer) => setState(
+            //       () {
+            //         _timer.cancel();
+            //         users = new List();
+            //         page = 1;
+            //         obj = searchController.text;
+            //         isSearchText = true;
+            //         this._getMoreData(page);
+            //       },
+            //     ),
+            //   );
+            // } else {
+            //   _timer = new Timer.periodic(
+            //     oneSec,
+            //     (Timer timer) => setState(
+            //       () {
+            //         _timer.cancel();
+            //         users = new List();
+            //         page = 1;
+            //         obj = searchController.text;
+            //         isSearchText = true;
+            //         this._getMoreData(page);
+            //       },
+            //     ),
+            //   );
+            // }
           }
         } else {
           setState(() {
