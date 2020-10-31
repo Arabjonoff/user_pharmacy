@@ -45,6 +45,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
 
   bool error = false;
   bool isFirst = true;
+  bool isFirstNo = true;
   double height;
   String address = "";
 
@@ -102,7 +103,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
   Future<void> addMarker() async {
     final Point currentTarget = await controller.enableCameraTracking(
       placemark.Placemark(
-        point: const Point(latitude: 0, longitude: 0),
+        point: Point(latitude: lat, longitude: lng),
         iconName: 'assets/map/location_red.png',
         opacity: 0.9,
       ),
@@ -164,6 +165,17 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
         _getPosition();
         addMarker();
         isFirst = false;
+      }
+    } else {
+      if (controller != null)
+        controller.move(
+          point: Point(latitude: lat, longitude: lng),
+          zoom: 9,
+          animation: const MapAnimation(smooth: true, duration: 0.5),
+        );
+      if (isFirstNo) {
+        addMarker();
+        isFirstNo = false;
       }
     }
 
@@ -324,11 +336,12 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                       alignment: Alignment.bottomRight,
                       child: GestureDetector(
                         onTap: () {
-                          controller.move(
-                            point: _point,
-                            animation:
-                                const MapAnimation(smooth: true, duration: 0.5),
-                          );
+                          if (_point != null)
+                            controller.move(
+                              point: _point,
+                              animation: const MapAnimation(
+                                  smooth: true, duration: 0.5),
+                            );
                         },
                         child: Container(
                           margin: EdgeInsets.only(bottom: 16, right: 16),
