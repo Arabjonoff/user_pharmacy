@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,7 @@ import 'package:pharmacy/src/model/send/check_order.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/utils/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
@@ -39,6 +42,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
   var geolocator = Geolocator();
   var locationOptions =
       LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
+  static StreamSubscription _getPosSub;
 
   // TextEditingController homeController = TextEditingController();
 
@@ -68,44 +72,37 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
   }
 
   Future<void> _getPosition() async {
-    if (lat == 41.311081 && lng == 69.240562) {
-      geolocator.getPositionStream(locationOptions).listen(
-        (Position position) {
-          if (position != null) {
-            lng = position.longitude;
-            lat = position.latitude;
-            Utils.saveLocation(lat, lng);
-            _point = new Point(
-                latitude: position.latitude, longitude: position.longitude);
-            controller.move(
-              point: _point,
-              zoom: 12,
-              animation: const MapAnimation(smooth: true, duration: 0.5),
-            );
-          } else {
-            _point = new Point(latitude: lat, longitude: lng);
-            controller.move(
-              point: _point,
-              zoom: 12,
-              animation: const MapAnimation(smooth: true, duration: 0.5),
-            );
-          }
-        },
-      );
-    } else {
-      _point = new Point(latitude: lat, longitude: lng);
-      controller.move(
-        point: _point,
-        zoom: 12,
-        animation: const MapAnimation(smooth: true, duration: 0.5),
-      );
-    }
+    _getPosSub = geolocator.getPositionStream(locationOptions).listen(
+      (Position position) {
+        if (position != null) {
+          lng = position.longitude;
+          lat = position.latitude;
+          Utils.saveLocation(lat, lng);
+          addMarker(lat, lng);
+          _point = new Point(
+              latitude: position.latitude, longitude: position.longitude);
+          controller.move(
+            point: _point,
+            zoom: 12,
+            animation: const MapAnimation(smooth: true, duration: 0.5),
+          );
+        } else {
+          addMarker(lat, lng);
+          _point = new Point(latitude: lat, longitude: lng);
+          controller.move(
+            point: _point,
+            zoom: 12,
+            animation: const MapAnimation(smooth: true, duration: 0.5),
+          );
+        }
+      },
+    );
   }
 
-  Future<void> addMarker() async {
+  Future<void> addMarker(double markerLat, double markerLng) async {
     final Point currentTarget = await controller.enableCameraTracking(
       placemark.Placemark(
-        point: Point(latitude: lat, longitude: lng),
+        point: Point(latitude: markerLat, longitude: markerLng),
         iconName: 'assets/map/location_red.png',
         opacity: 0.9,
       ),
@@ -153,31 +150,33 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
   }
 
   @override
+  void dispose() {
+    _getPosSub?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     if (_permissionStatus == PermissionStatus.granted) {
-      if (controller != null)
-        controller.showUserLayer(
-          iconName: 'assets/map/user.png',
-          arrowName: 'assets/map/arrow.png',
-          accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
-        );
       if (isFirst) {
-        _getPosition();
-        addMarker();
+        if (controller != null)
+          controller.showUserLayer(
+            iconName: 'assets/map/user.png',
+            arrowName: 'assets/map/arrow.png',
+            accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
+          );
+        Timer(Duration(milliseconds: 250), () {
+          _getPosition();
+        });
         isFirst = false;
       }
     } else {
-      if (controller != null) {
-        controller.move(
-          point: Point(latitude: lat, longitude: lng),
-          zoom: 9,
-          animation: const MapAnimation(smooth: true, duration: 0.5),
-        );
-        if (isFirstNo) {
-          addMarker();
-          isFirstNo = false;
-        }
+      if (isFirstNo) {
+        Timer(Duration(milliseconds: 250), () {
+          _defaultLocation();
+        });
+        isFirstNo = false;
       }
     }
 
@@ -435,5 +434,30 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _defaultLocation() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getDouble("coordLat") != null) {
+      addMarker(prefs.getDouble("coordLat"), prefs.getDouble("coordLng"));
+      if (controller != null) {
+        controller.move(
+          point: Point(
+              latitude: prefs.getDouble("coordLat"),
+              longitude: prefs.getDouble("coordLng")),
+          zoom: 11,
+          animation: const MapAnimation(smooth: true, duration: 0.5),
+        );
+      }
+    } else {
+      addMarker(41.311081, 69.240562);
+      if (controller != null) {
+        controller.move(
+          point: Point(latitude: 41.311081, longitude: 69.240562),
+          zoom: 11,
+          animation: const MapAnimation(smooth: true, duration: 0.5),
+        );
+      }
+    }
   }
 }
