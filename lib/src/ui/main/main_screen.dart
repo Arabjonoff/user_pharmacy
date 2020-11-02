@@ -303,8 +303,8 @@ class _MainScreenState extends State<MainScreen> {
       'device': build.device,
       'product': build.product,
       'version.incremental': build.version.incremental,
-      'display': MediaQuery.of(context).size,
-      'displayUi': window.physicalSize,
+      'displaySize': MediaQuery.of(context).size,
+      'displayPixel': window.physicalSize,
     };
   }
 
@@ -318,8 +318,8 @@ class _MainScreenState extends State<MainScreen> {
       'isPhysicalDevice': data.isPhysicalDevice,
       'identifierForVendor': data.identifierForVendor,
       'systemName': data.systemName,
-      'display': MediaQuery.of(context).size,
-      'displayUi': window.physicalSize,
+      'displaySize': MediaQuery.of(context).size,
+      'displayPixel': window.physicalSize,
     };
   }
 

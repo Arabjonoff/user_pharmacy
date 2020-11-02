@@ -44,6 +44,7 @@ class PharmacyApiProvider {
   ///Login
   Future<LoginModel> fetchLogin(String login) async {
     String url = Utils.BASE_URL + '/api/v1/register';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final data = {
       "login": login,
@@ -51,6 +52,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
     };
 
     try {
@@ -69,6 +71,7 @@ class PharmacyApiProvider {
   ///verfy
   Future<VerfyModel> fetchVerfy(String login, String code, String token) async {
     String url = Utils.BASE_URL + '/api/v1/accept';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final data = {
       "login": login,
@@ -78,6 +81,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
     };
     try {
       http.Response response = await http
@@ -110,6 +114,8 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
+      'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
     };
 
     try {
@@ -132,9 +138,15 @@ class PharmacyApiProvider {
 
     String url = Utils.BASE_URL + '/api/v1/sales?region=$regionId';
 
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
+    };
+
     try {
-      http.Response response =
-          await http.get(url).timeout(const Duration(seconds: 10));
+      http.Response response = await http
+          .get(url, headers: headers)
+          .timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return SaleModel.fromJson(responseJson);
@@ -174,9 +186,15 @@ class PharmacyApiProvider {
             'price_min=$price_min&'
             'unit_ids=$unit_ids';
 
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
+    };
+
     try {
-      http.Response response =
-          await http.get(url).timeout(const Duration(seconds: 10));
+      http.Response response = await http
+          .get(url, headers: headers)
+          .timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return ItemModel.fromJson(responseJson);
@@ -193,9 +211,15 @@ class PharmacyApiProvider {
     int regionId = prefs.getInt("cityId");
 
     String url = Utils.BASE_URL + '/api/v1/categories?region=$regionId';
+
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
+    };
     try {
-      http.Response response =
-          await http.get(url).timeout(const Duration(seconds: 10));
+      http.Response response = await http
+          .get(url, headers: headers)
+          .timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return CategoryModel.fromJson(responseJson);
@@ -234,9 +258,15 @@ class PharmacyApiProvider {
             'price_min=$price_min&'
             'unit_ids=$unit_ids';
 
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
+    };
+
     try {
-      http.Response response =
-          await http.get(url).timeout(const Duration(seconds: 10));
+      http.Response response = await http
+          .get(url, headers: headers)
+          .timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return ItemModel.fromJson(responseJson);
@@ -282,7 +312,8 @@ class PharmacyApiProvider {
       ..badCertificateCallback =
           ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json');
+    request.headers.set('content-type', 'application/json; charset=utf-8');
+    request.headers.set('X-Device', prefs.getString("deviceData"));
     HttpClientResponse response = await request.close();
 
     String reply = await response.transform(utf8.decoder).join();
@@ -318,9 +349,15 @@ class PharmacyApiProvider {
             'price_max=$price_max&'
             'price_min=$price_min&'
             'unit_ids=$unit_ids';
+
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
+    };
     try {
-      http.Response response =
-          await http.get(url).timeout(const Duration(seconds: 10));
+      http.Response response = await http
+          .get(url, headers: headers)
+          .timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return ItemModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -336,10 +373,15 @@ class PharmacyApiProvider {
     int regionId = prefs.getInt("cityId");
 
     String url = Utils.BASE_URL + '/api/v1/drugs/$id?region=$regionId';
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
+    };
 
     try {
-      http.Response response =
-          await http.get(url).timeout(const Duration(seconds: 10));
+      http.Response response = await http
+          .get(url, headers: headers)
+          .timeout(const Duration(seconds: 10));
 
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return ItemsAllModel.fromJson(responseJson);
@@ -359,9 +401,15 @@ class PharmacyApiProvider {
 
     String url =
         Utils.BASE_URL + '/api/v1/stores?lat=$lat&lng=$lng&region=$regionId';
+
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
+    };
     try {
-      http.Response response =
-          await http.get(url).timeout(const Duration(seconds: 10));
+      http.Response response = await http
+          .get(url, headers: headers)
+          .timeout(const Duration(seconds: 10));
       var responseJson = utf8.decode(response.bodyBytes);
       return locationModelFromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -383,9 +431,15 @@ class PharmacyApiProvider {
 
     String url = Utils.BASE_URL + '/api/v1/regions?search=$obj&lan=$lan';
 
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
+    };
+
     try {
-      http.Response response =
-          await http.get(url).timeout(const Duration(seconds: 10));
+      http.Response response = await http
+          .get(url, headers: headers)
+          .timeout(const Duration(seconds: 10));
       var responseJson = utf8.decode(response.bodyBytes);
       return regionModelFromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -411,7 +465,8 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json'
+      'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
     };
 
     try {
@@ -440,6 +495,8 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
+      'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
     };
 
     try {
@@ -460,6 +517,7 @@ class PharmacyApiProvider {
   /// Filter parametrs
   Future<FilterModel> fetchFilterParametrs(
       int page, int per_page, int type) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     String url = type == 1
         ? Utils.BASE_URL + '/api/v1/units?page=$page&per_page=$per_page'
         : type == 2
@@ -468,9 +526,15 @@ class PharmacyApiProvider {
             : Utils.BASE_URL +
                 '/api/v1/international-names?page=$page&per_page=$per_page';
 
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
+    };
+
     try {
-      http.Response response =
-          await http.get(url).timeout(const Duration(seconds: 10));
+      http.Response response = await http
+          .get(url, headers: headers)
+          .timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return FilterModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -493,6 +557,8 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
+      'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
     };
     try {
       http.Response response = await http
@@ -526,6 +592,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
     };
     try {
       http.Response response = await http
@@ -553,6 +620,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
     };
 
     try {
@@ -581,6 +649,8 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
+      'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
     };
     try {
       http.Response response = await http
@@ -607,6 +677,8 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
+      'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
     };
     try {
       http.Response response = await http
@@ -636,7 +708,8 @@ class PharmacyApiProvider {
       ..badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json');
+    request.headers.set('content-type', 'application/json; charset=utf-8');
+    request.headers.set('X-Device', prefs.getString("deviceData"));
     HttpClientResponse response = await request.close();
 
     String reply = await response.transform(utf8.decoder).join();
@@ -658,6 +731,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
     };
     try {
       http.Response response = await http
@@ -685,6 +759,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
     };
 
     try {
@@ -711,6 +786,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
     };
     try {
       http.Response response = await http
@@ -748,14 +824,20 @@ class PharmacyApiProvider {
   ///items
   Future<CheckVersion> fetchCheckVersion(String version) async {
     String url = Utils.BASE_URL + '/api/v1/check-version';
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     final data = {
       "version": version,
       "device": Platform.isIOS ? "ios" : "android"
     };
 
-    http.Response response =
-        await http.post(url, body: data).timeout(const Duration(seconds: 120));
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
+    };
+
+    http.Response response = await http
+        .post(url, body: data, headers: headers)
+        .timeout(const Duration(seconds: 120));
 
     final Map parsed = json.decode(response.body);
 
@@ -772,6 +854,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
     };
     final data = {"comment": comment, "rating": rating};
     try {
@@ -800,6 +883,8 @@ class PharmacyApiProvider {
     if (token != null) {
       Map<String, String> headers = {
         HttpHeaders.authorizationHeader: "Bearer $token",
+        'content-type': 'application/json; charset=utf-8',
+        'X-Device': prefs.getString("deviceData"),
       };
 
       http.Response response = await http
@@ -831,6 +916,7 @@ class PharmacyApiProvider {
           ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json; charset=utf-8');
+    request.headers.set('X-Device', prefs.getString("deviceData"));
     request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
     request.write(json.encode(data));
     HttpClientResponse response = await request.close();
@@ -851,6 +937,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
     };
     http.Response response = await http
         .get(url, headers: headers)
@@ -872,6 +959,7 @@ class PharmacyApiProvider {
     String url = Utils.BASE_URL + '/api/v1/faq?lan=$lan&region=$regionId';
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
     };
     try {
       http.Response response = await http
@@ -921,7 +1009,8 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json'
+      'content-type': 'application/json',
+      'X-Device': prefs.getString("deviceData"),
     };
 
     try {
@@ -958,7 +1047,8 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json'
+      'content-type': 'application/json',
+      'X-Device': prefs.getString("deviceData"),
     };
 
     try {
@@ -991,6 +1081,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
     };
 
     String url = Utils.BASE_URL + '/api/v1/check-region-polygon?lan=$lan';
@@ -1029,6 +1120,7 @@ class PharmacyApiProvider {
         Map<String, String> headers = {
           'content-type': 'application/json; charset=utf-8',
           HttpHeaders.authorizationHeader: "Bearer $token",
+          'X-Device': prefs.getString("deviceData"),
         };
         http.Response response = await http
             .post(url, headers: headers, body: json.encode(data))
