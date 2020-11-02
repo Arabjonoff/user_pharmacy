@@ -18,6 +18,7 @@ import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
@@ -502,59 +503,6 @@ class _AddressAptekaMapPickupScreenState
       );
   }
 
-  Future<void> _getPosition() async {
-    AccessStore addModel = new AccessStore();
-    // List<ProductsStore> drugs = new List();
-    // dataBase.getProdu(true).then((value) => {
-    //       for (int i = 0; i < value.length; i++)
-    //         {
-    //           drugs.add(
-    //               ProductsStore(drugId: value[i].id, qty: value[i].cardCount))
-    //         },
-    //     });
-
-    if (lat == 41.311081 && lng == 69.240562) {
-      geolocator.getPositionStream(locationOptions).listen((Position position) {
-        if (position != null) {
-          lat = position.latitude;
-          lng = position.longitude;
-          addModel =
-              new AccessStore(lat: lat, lng: lng, products: widget.drugs);
-          Utils.saveLocation(lat, lng);
-          _addMarkers(Repository().fetchAccessApteka(addModel));
-          _point = new Point(
-              latitude: position.latitude, longitude: position.longitude);
-          // if (mapController != null)
-          //   mapController.move(
-          //     point: _point,
-          //     zoom: 11,
-          //     animation: const MapAnimation(smooth: true, duration: 0.5),
-          //   );
-        } else {
-          addModel = new AccessStore(
-              lat: 41.311081, lng: 69.240562, products: widget.drugs);
-          _addMarkers(Repository().fetchAccessApteka(addModel));
-          // if (mapController != null)
-          //   mapController.move(
-          //     point: Point(latitude: 41.311081, longitude: 69.240562),
-          //     zoom: 11,
-          //     animation: const MapAnimation(smooth: true, duration: 0.5),
-          //   );
-        }
-      });
-    } else {
-      addModel = new AccessStore(lat: lat, lng: lng, products: widget.drugs);
-      _point = new Point(latitude: lat, longitude: lng);
-      // if (mapController != null)
-      //   mapController.move(
-      //     point: _point,
-      //     zoom: 11,
-      //     animation: const MapAnimation(smooth: true, duration: 0.5),
-      //   );
-      _addMarkers(Repository().fetchAccessApteka(addModel));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_permissionStatus == PermissionStatus.granted) {
@@ -571,16 +519,17 @@ class _AddressAptekaMapPickupScreenState
           animation: const MapAnimation(smooth: true, duration: 0.5),
         );
       }
-    } else if (_permissionStatus == PermissionStatus.disabled) {
-      AccessStore addModel = new AccessStore();
-      addModel = new AccessStore(products: widget.drugs);
-      _addMarkers(Repository().fetchAccessApteka(addModel));
-      if (mapController != null)
-        mapController.move(
-          point: Point(latitude: 41.311081, longitude: 69.240562),
-          zoom: 11,
-          animation: const MapAnimation(smooth: true, duration: 0.5),
-        );
+    } else {
+      _defaultLocation();
+      // AccessStore addModel = new AccessStore();
+      // addModel = new AccessStore(products: widget.drugs);
+      // _addMarkers(Repository().fetchAccessApteka(addModel));
+      // if (mapController != null)
+      //   mapController.move(
+      //     point: Point(latitude: 41.311081, longitude: 69.240562),
+      //     zoom: 11,
+      //     animation: const MapAnimation(smooth: true, duration: 0.5),
+      //   );
     }
 
     return Scaffold(
@@ -618,5 +567,53 @@ class _AddressAptekaMapPickupScreenState
         ],
       ),
     );
+  }
+
+  Future<void> _getPosition() async {
+    AccessStore addModel = new AccessStore();
+    geolocator.getPositionStream(locationOptions).listen((Position position) {
+      if (position != null) {
+        lat = position.latitude;
+        lng = position.longitude;
+        addModel = new AccessStore(lat: lat, lng: lng, products: widget.drugs);
+        Utils.saveLocation(lat, lng);
+        _addMarkers(Repository().fetchAccessApteka(addModel));
+        _point = new Point(
+            latitude: position.latitude, longitude: position.longitude);
+      } else {
+        addModel = new AccessStore(
+            lat: 41.311081, lng: 69.240562, products: widget.drugs);
+        _addMarkers(Repository().fetchAccessApteka(addModel));
+      }
+    });
+  }
+
+  Future<void> _defaultLocation() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getDouble("coordLat") != null) {
+      if (mapController != null) {
+        AccessStore addModel = new AccessStore();
+        addModel = new AccessStore(products: widget.drugs);
+        _addMarkers(Repository().fetchAccessApteka(addModel));
+        mapController.move(
+          point: Point(
+              latitude: prefs.getDouble("coordLat"),
+              longitude: prefs.getDouble("coordLng")),
+          zoom: 11,
+          animation: const MapAnimation(smooth: true, duration: 0.5),
+        );
+      }
+    } else {
+      if (mapController != null) {
+        AccessStore addModel = new AccessStore();
+        addModel = new AccessStore(products: widget.drugs);
+        _addMarkers(Repository().fetchAccessApteka(addModel));
+        mapController.move(
+          point: Point(latitude: 41.311081, longitude: 69.240562),
+          zoom: 11,
+          animation: const MapAnimation(smooth: true, duration: 0.5),
+        );
+      }
+    }
   }
 }

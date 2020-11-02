@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/blocs/aptek_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
@@ -15,7 +18,9 @@ import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
@@ -41,18 +46,31 @@ class _AddressAptekaListPickupScreenState
   DatabaseHelperApteka db = new DatabaseHelperApteka();
   DatabaseHelper dataBase = new DatabaseHelper();
 
+  PermissionStatus _permissionStatus = PermissionStatus.unknown;
+  var geolocator = Geolocator();
+  static StreamSubscription _getPosSub;
+
   bool loading = false;
 
   @override
   void initState() {
-    AccessStore addModel =
-        new AccessStore(lat: lat, lng: lng, products: widget.drugs);
-    blocApteka.fetchAccessApteka(addModel);
+    _requestPermission();
     super.initState();
   }
 
   @override
+  void dispose() {
+    _getPosSub?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (_permissionStatus == PermissionStatus.granted) {
+      _getLocation();
+    } else {
+      _defaultLocation();
+    }
     return Scaffold(
       backgroundColor: AppTheme.background,
       body: StreamBuilder(
@@ -427,5 +445,39 @@ class _AddressAptekaListPickupScreenState
         },
       ),
     );
+  }
+
+  Future<void> _requestPermission() async {
+    final List<PermissionGroup> permissions = <PermissionGroup>[
+      PermissionGroup.location
+    ];
+    final Map<PermissionGroup, PermissionStatus> permissionRequestResult =
+        await PermissionHandler().requestPermissions(permissions);
+    setState(() {
+      _permissionStatus = permissionRequestResult[PermissionGroup.location];
+    });
+  }
+
+  Future<void> _getLocation() async {
+    Position position = await Geolocator().getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.bestForNavigation);
+    if (position.latitude != null && position.longitude != null) {
+      lat = position.latitude;
+      lng = position.longitude;
+      Utils.saveLocation(lat, lng);
+      AccessStore addModel =
+          new AccessStore(lat: lat, lng: lng, products: widget.drugs);
+      blocApteka.fetchAccessApteka(addModel);
+    } else {
+      AccessStore addModel =
+          new AccessStore(lat: null, lng: null, products: widget.drugs);
+      blocApteka.fetchAccessApteka(addModel);
+    }
+  }
+
+  Future<void> _defaultLocation() async {
+    AccessStore addModel =
+        new AccessStore(lat: null, lng: null, products: widget.drugs);
+    blocApteka.fetchAccessApteka(addModel);
   }
 }

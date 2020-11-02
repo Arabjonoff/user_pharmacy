@@ -44,7 +44,6 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(_permissionStatus);
     if (_permissionStatus == PermissionStatus.granted) {
       _getLocation();
     } else {
@@ -257,19 +256,15 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
   }
 
   Future<void> _getLocation() async {
-    if (lat == 41.311081 && lng == 69.240562) {
-      Position position = await Geolocator().getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.bestForNavigation);
-      if (position.latitude != null && position.longitude != null) {
-        lat = position.latitude;
-        lng = position.longitude;
-        Utils.saveLocation(lat, lng);
-        blocApteka.fetchAllApteka(position.latitude, position.longitude);
-      } else {
-        blocApteka.fetchAllApteka(null, null);
-      }
+    Position position = await Geolocator().getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.bestForNavigation);
+    if (position.latitude != null && position.longitude != null) {
+      lat = position.latitude;
+      lng = position.longitude;
+      Utils.saveLocation(lat, lng);
+      blocApteka.fetchAllApteka(position.latitude, position.longitude);
     } else {
-      blocApteka.fetchAllApteka(lat, lng);
+      blocApteka.fetchAllApteka(null, null);
     }
   }
 

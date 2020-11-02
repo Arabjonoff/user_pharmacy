@@ -98,26 +98,21 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   }
 
   Future<void> _getPosition() async {
-    if (lat == 41.311081 && lng == 69.240562) {
-      _getPosSub = geolocator
-          .getPositionStream(LocationOptions(
-              accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 10))
-          .listen((Position position) {
-        if (position != null) {
-          lat = position.latitude;
-          lng = position.longitude;
-          _addMarkers(Repository().fetchApteka(lat, lng));
-          Utils.saveLocation(lat, lng);
-          _point = new Point(
-              latitude: position.latitude, longitude: position.longitude);
-        } else {
-          _addMarkers(Repository().fetchApteka(41.311081, 69.240562));
-        }
-      });
-    } else {
-      _point = new Point(latitude: lat, longitude: lng);
-      _addMarkers(Repository().fetchApteka(lat, lng));
-    }
+    _getPosSub = geolocator
+        .getPositionStream(LocationOptions(
+            accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 10))
+        .listen((Position position) {
+      if (position != null) {
+        lat = position.latitude;
+        lng = position.longitude;
+        _addMarkers(Repository().fetchApteka(lat, lng));
+        Utils.saveLocation(lat, lng);
+        _point = new Point(
+            latitude: position.latitude, longitude: position.longitude);
+      } else {
+        _addMarkers(Repository().fetchApteka(41.311081, 69.240562));
+      }
+    });
   }
 
   @override
