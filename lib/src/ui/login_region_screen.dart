@@ -1,7 +1,11 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:ui';
 
+import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:page_transition/page_transition.dart';
@@ -27,9 +31,11 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
   var geolocator = Geolocator();
   static StreamSubscription _getPosSub;
   List<RegionModel> users = new List();
+  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
   bool isLoading = true;
   bool isFirst = true;
+  bool isFirstData = true;
 
   @override
   void initState() {
@@ -79,6 +85,62 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
     });
   }
 
+  Future<void> _initPlatformState(BuildContext context) async {
+    Map<String, dynamic> deviceData;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString("deviceData") == null) {
+      try {
+        if (Platform.isAndroid) {
+          deviceData = _readAndroidBuildData(
+              await deviceInfoPlugin.androidInfo, context);
+        } else if (Platform.isIOS) {
+          deviceData =
+              _readIosDeviceInfo(await deviceInfoPlugin.iosInfo, context);
+        }
+        Utils.saveDeviceData(deviceData);
+      } on PlatformException {
+        deviceData = <String, dynamic>{
+          'Error:': 'Failed to get platform version.'
+        };
+      }
+    }
+
+    if (!mounted) return;
+  }
+
+  Map<String, dynamic> _readAndroidBuildData(
+      AndroidDeviceInfo build, BuildContext context) {
+    return <String, dynamic>{
+      'platform': "Android",
+      'model': build.model,
+      'systemVersion': build.version.release,
+      'brand': build.brand,
+      'isPhysicalDevice': build.isPhysicalDevice,
+      'identifierForVendor': build.androidId,
+      'device': build.device,
+      'product': build.product,
+      'version.incremental': build.version.incremental,
+      'display': MediaQuery.of(context).size,
+      'displayUi': window.physicalSize,
+    };
+  }
+
+  Map<String, dynamic> _readIosDeviceInfo(
+      IosDeviceInfo data, BuildContext context) {
+    return <String, dynamic>{
+      'platform': "IOS",
+      'model': data.name,
+      'systemVersion': data.systemVersion,
+      'brand': data.model,
+      'isPhysicalDevice': data.isPhysicalDevice,
+      'identifierForVendor': data.identifierForVendor,
+      'systemName': data.systemName,
+      'display': MediaQuery.of(context).size,
+      'displayUi': window.physicalSize,
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_permissionStatus == PermissionStatus.granted) {
@@ -86,6 +148,10 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
         _getPosition();
         isFirst = false;
       }
+    }
+    if (isFirstData) {
+      _initPlatformState(context);
+      isFirstData = false;
     }
 
     return Scaffold(

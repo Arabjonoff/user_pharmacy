@@ -79,6 +79,12 @@ class Utils {
     }
   }
 
+  static Future<void> saveDeviceData(Map<String, dynamic> deviceData) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("deviceData", deviceData.toString());
+    prefs.commit();
+  }
+
   static Future<String> scanBarcodeNormal() async {
     try {
       var options = ScanOptions(
