@@ -16,6 +16,7 @@ import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
@@ -519,6 +520,7 @@ class _AddressAptekaMapPickupScreenState
           lng = position.longitude;
           addModel =
               new AccessStore(lat: lat, lng: lng, products: widget.drugs);
+          Utils.saveLocation(lat, lng);
           _addMarkers(Repository().fetchAccessApteka(addModel));
           _point = new Point(
               latitude: position.latitude, longitude: position.longitude);

@@ -68,18 +68,11 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
               if (value.status == 1)
                 {
                   isLoading = false,
-                  Utils.saveRegion(value.region, value.msg),
+                  Utils.saveRegion(value.region, value.msg, lat, lng),
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => MainScreen()),
                   ),
-                  // Navigator.pushReplacement(
-                  //   context,
-                  //   PageTransition(
-                  //     type: PageTransitionType.fade,
-                  //     child: MainScreen(),
-                  //   ),
-                  // ),
                 }
             });
       }
@@ -171,7 +164,11 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                                 ? GestureDetector(
                                     onTap: () async {
                                       Utils.saveRegion(
-                                          users[index].id, users[index].name);
+                                        users[index].id,
+                                        users[index].name,
+                                        users[index].coords[0],
+                                        users[index].coords[1],
+                                      );
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
@@ -290,12 +287,19 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                                                 return GestureDetector(
                                                   onTap: () async {
                                                     Utils.saveRegion(
-                                                        users[index]
-                                                            .childs[position]
-                                                            .id,
-                                                        users[index]
-                                                            .childs[position]
-                                                            .name);
+                                                      users[index]
+                                                          .childs[position]
+                                                          .id,
+                                                      users[index]
+                                                          .childs[position]
+                                                          .name,
+                                                      users[index]
+                                                          .childs[position]
+                                                          .coords[0],
+                                                      users[index]
+                                                          .childs[position]
+                                                          .coords[1],
+                                                    );
                                                     Navigator.pushReplacement(
                                                       context,
                                                       MaterialPageRoute(

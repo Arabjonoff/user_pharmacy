@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/localization_delegate.dart';
 import 'package:flutter_translate/localization_provider.dart';
 import 'package:flutter_translate/localized_app.dart';
+import 'package:pharmacy/src/delete/delete_screen.dart';
 import 'package:pharmacy/src/ui/login_region_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_screen.dart';

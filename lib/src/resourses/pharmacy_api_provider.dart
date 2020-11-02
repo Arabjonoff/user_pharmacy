@@ -754,7 +754,6 @@ class PharmacyApiProvider {
       "device": Platform.isIOS ? "ios" : "android"
     };
 
-
     http.Response response =
         await http.post(url, body: data).timeout(const Duration(seconds: 120));
 
@@ -891,7 +890,8 @@ class PharmacyApiProvider {
   Future<CurrentLocationAddressModel> fetchLocationAddress(
       double lat, double lng) async {
     String url =
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyBR2VPav7rT71KDVjGGAwr72bKuRb26Py4';
+        'https://geocode-maps.yandex.ru/1.x/?apikey=b4985736-e176-472f-af14-36678b5d6aaa&geocode=$lng,$lat&format=json';
+
     try {
       http.Response response =
           await http.get(url).timeout(const Duration(seconds: 10));

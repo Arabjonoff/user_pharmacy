@@ -47,9 +47,7 @@ class _AddressAptekaListPickupScreenState
   void initState() {
     AccessStore addModel =
         new AccessStore(lat: lat, lng: lng, products: widget.drugs);
-
     blocApteka.fetchAccessApteka(addModel);
-    // getAppDrugs();
     super.initState();
   }
 
@@ -429,20 +427,5 @@ class _AddressAptekaListPickupScreenState
         },
       ),
     );
-  }
-
-  void getAppDrugs() {
-    List<ProductsStore> drugs = new List();
-    dataBase.getProdu(true).then((value) => {
-          for (int i = 0; i < value.length; i++)
-            {
-              drugs.add(
-                  ProductsStore(drugId: value[i].id, qty: value[i].cardCount))
-            },
-        });
-
-    AccessStore addModel = new AccessStore(lat: lat, lng: lng, products: drugs);
-
-    blocApteka.fetchAccessApteka(addModel);
   }
 }

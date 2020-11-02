@@ -1,11 +1,19 @@
 import 'dart:async';
 
+import 'package:android_intent/android_intent.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmacy/src/provider/home_screen_provider.dart';
 import 'package:provider/provider.dart';
 
 class MyAppDelete extends StatelessWidget {
+  void openLocationSetting() async {
+    final AndroidIntent intent = new AndroidIntent(
+      action: 'android.settings.LOCATION_SOURCE_SETTINGS',
+    );
+    await intent.launch();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Provider<HomeScreenProvider>(
@@ -27,7 +35,8 @@ class MyAppDelete extends StatelessWidget {
                           return RaisedButton(
                             child: Text('something'),
                             onPressed: () {
-                              myModel.getCityName();
+                              openLocationSetting();
+                              //myModel.getCityName();
                             },
                           );
                         },

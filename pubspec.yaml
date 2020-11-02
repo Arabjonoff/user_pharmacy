@@ -38,6 +38,7 @@ dependencies:
   flutter_picker: ^1.1.5
   provider: 4.3.2+2
   carousel_slider: ^2.3.1
+  android_intent: ^0.3.7+6
 
 dev_dependencies:
   flutter_test:

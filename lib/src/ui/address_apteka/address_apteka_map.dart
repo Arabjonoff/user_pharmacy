@@ -8,6 +8,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
+import 'package:pharmacy/src/utils/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
@@ -27,7 +29,6 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   Point _point;
   PermissionStatus _permissionStatus = PermissionStatus.unknown;
   var geolocator = Geolocator();
-  var geolocatornew = Geolocator();
   static StreamSubscription _getPosSub;
   final List<placemark.Placemark> placemarks = <placemark.Placemark>[];
 
@@ -106,30 +107,16 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
           lat = position.latitude;
           lng = position.longitude;
           _addMarkers(Repository().fetchApteka(lat, lng));
+          Utils.saveLocation(lat, lng);
           _point = new Point(
               latitude: position.latitude, longitude: position.longitude);
-          // mapController.move(
-          //   point: _point,
-          //   zoom: 11,
-          //   animation: const MapAnimation(smooth: true, duration: 0.5),
-          // );
         } else {
           _addMarkers(Repository().fetchApteka(41.311081, 69.240562));
-          // mapController.move(
-          //   point: Point(latitude: 41.311081, longitude: 69.240562),
-          //   zoom: 11,
-          //   animation: const MapAnimation(smooth: true, duration: 0.5),
-          // );
         }
       });
     } else {
       _point = new Point(latitude: lat, longitude: lng);
       _addMarkers(Repository().fetchApteka(lat, lng));
-      // mapController.move(
-      //   point: _point,
-      //   zoom: 11,
-      //   animation: const MapAnimation(smooth: true, duration: 0.5),
-      // );
     }
   }
 
@@ -149,14 +136,8 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
           animation: const MapAnimation(smooth: true, duration: 0.5),
         );
       }
-    } else if (_permissionStatus == PermissionStatus.disabled) {
-      _addMarkers(Repository().fetchApteka(null, null));
-      if (mapController != null)
-        mapController.move(
-          point: Point(latitude: 41.311081, longitude: 69.240562),
-          zoom: 11,
-          animation: const MapAnimation(smooth: true, duration: 0.5),
-        );
+    } else {
+      _defaultLocation();
     }
 
     return Scaffold(
@@ -196,9 +177,28 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
     );
   }
 
-// Future<void> locationEnabled() async {
-//   final PermissionStatus permission = await PermissionHandler()
-//       .checkPermissionStatus(PermissionGroup.location);
-//   print(permission);
-// }
+  Future<void> _defaultLocation() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getDouble("coordLat") != null) {
+      if (mapController != null) {
+        _addMarkers(Repository().fetchApteka(null, null));
+        mapController.move(
+          point: Point(
+              latitude: prefs.getDouble("coordLat"),
+              longitude: prefs.getDouble("coordLng")),
+          zoom: 11,
+          animation: const MapAnimation(smooth: true, duration: 0.5),
+        );
+      }
+    } else {
+      if (mapController != null) {
+        _addMarkers(Repository().fetchApteka(null, null));
+        mapController.move(
+          point: Point(latitude: 41.311081, longitude: 69.240562),
+          zoom: 11,
+          animation: const MapAnimation(smooth: true, duration: 0.5),
+        );
+      }
+    }
+  }
 }

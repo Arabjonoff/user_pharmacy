@@ -1,12 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/blocs/aptek_block.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/database/database_helper_apteka.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
+import 'package:pharmacy/src/utils/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
@@ -21,9 +26,30 @@ class AddressAptekaListScreen extends StatefulWidget {
 class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
   DatabaseHelperApteka db = new DatabaseHelperApteka();
 
+  PermissionStatus _permissionStatus = PermissionStatus.unknown;
+  var geolocator = Geolocator();
+  static StreamSubscription _getPosSub;
+
+  @override
+  void initState() {
+    super.initState();
+    _requestPermission();
+  }
+
+  @override
+  void dispose() {
+    _getPosSub?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    getLocation();
+    print(_permissionStatus);
+    if (_permissionStatus == PermissionStatus.granted) {
+      _getLocation();
+    } else {
+      _defaultLocation();
+    }
 
     return Scaffold(
       backgroundColor: AppTheme.background,
@@ -71,15 +97,15 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
                               child: Container(
                                 child: snapshot.data[index].fav
                                     ? Icon(
-                                  Icons.favorite,
-                                  size: 24,
-                                  color: AppTheme.red_fav_color,
-                                )
+                                        Icons.favorite,
+                                        size: 24,
+                                        color: AppTheme.red_fav_color,
+                                      )
                                     : Icon(
-                                  Icons.favorite_border,
-                                  size: 24,
-                                  color: AppTheme.arrow_catalog,
-                                ),
+                                        Icons.favorite_border,
+                                        size: 24,
+                                        color: AppTheme.arrow_catalog,
+                                      ),
                               ),
                               onTap: () {
                                 if (!snapshot.data[index].fav) {
@@ -219,19 +245,41 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
     );
   }
 
-  Future<void> getLocation() async {
+  Future<void> _requestPermission() async {
+    final List<PermissionGroup> permissions = <PermissionGroup>[
+      PermissionGroup.location
+    ];
+    final Map<PermissionGroup, PermissionStatus> permissionRequestResult =
+        await PermissionHandler().requestPermissions(permissions);
+    setState(() {
+      _permissionStatus = permissionRequestResult[PermissionGroup.location];
+    });
+  }
+
+  Future<void> _getLocation() async {
     if (lat == 41.311081 && lng == 69.240562) {
       Position position = await Geolocator().getCurrentPosition(
           desiredAccuracy: LocationAccuracy.bestForNavigation);
       if (position.latitude != null && position.longitude != null) {
         lat = position.latitude;
         lng = position.longitude;
+        Utils.saveLocation(lat, lng);
         blocApteka.fetchAllApteka(position.latitude, position.longitude);
-      }else{
-        blocApteka.fetchAllApteka(lat, lng);
+      } else {
+        blocApteka.fetchAllApteka(null, null);
       }
     } else {
       blocApteka.fetchAllApteka(lat, lng);
+    }
+  }
+
+  Future<void> _defaultLocation() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getDouble("coordLat") != null) {
+      blocApteka.fetchAllApteka(
+          prefs.getDouble("coordLat"), prefs.getDouble("coordLng"));
+    } else {
+      blocApteka.fetchAllApteka(null, null);
     }
   }
 }

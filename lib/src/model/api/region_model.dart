@@ -12,6 +12,7 @@ class RegionModel {
     this.name,
     this.parentName,
     this.childs,
+    this.coords,
   });
 
   int id;
@@ -20,6 +21,7 @@ class RegionModel {
   List<RegionModel> childs;
   bool isOpen;
   bool isChoose;
+  List<double> coords;
 
   factory RegionModel.fromJson(Map<String, dynamic> json) => RegionModel(
         id: json["id"],
@@ -27,6 +29,9 @@ class RegionModel {
         parentName: json["parent_name"] == null ? "" : json["parent_name"],
         childs: List<RegionModel>.from(
             json["childs"].map((x) => RegionModel.fromJson(x))),
+        coords: json["coords"] == null
+            ? null
+            : List<double>.from(json["coords"].map((x) => x.toDouble())),
       );
 
   Map<String, dynamic> toJson() => {
@@ -34,5 +39,7 @@ class RegionModel {
         "name": name,
         "parent_name": parentName,
         "childs": List<dynamic>.from(childs.map((x) => x.toJson())),
+        "coords":
+            coords == null ? null : List<dynamic>.from(coords.map((x) => x)),
       };
 }

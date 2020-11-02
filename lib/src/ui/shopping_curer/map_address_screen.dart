@@ -15,6 +15,7 @@ import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/send/check_order.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
@@ -73,6 +74,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
           if (position != null) {
             lng = position.longitude;
             lat = position.latitude;
+            Utils.saveLocation(lat, lng);
             _point = new Point(
                 latitude: position.latitude, longitude: position.longitude);
             controller.move(
@@ -141,12 +143,11 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
     responce.then((value) => {
           if (responce != null)
             {
-              if (value.results.length > 0)
-                {
-                  setState(() {
-                    address = value.results[0].formattedAddress;
-                  }),
-                }
+              if (value.response.geoObjectCollection.featureMember.length > 0)
+                setState(() {
+                  address = value.response.geoObjectCollection.featureMember[0]
+                      .geoObject.metaDataProperty.geocoderMetaData.text;
+                }),
             }
         });
   }
@@ -167,15 +168,16 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
         isFirst = false;
       }
     } else {
-      if (controller != null)
+      if (controller != null) {
         controller.move(
           point: Point(latitude: lat, longitude: lng),
           zoom: 9,
           animation: const MapAnimation(smooth: true, duration: 0.5),
         );
-      if (isFirstNo) {
-        addMarker();
-        isFirstNo = false;
+        if (isFirstNo) {
+          addMarker();
+          isFirstNo = false;
+        }
       }
     }
 
