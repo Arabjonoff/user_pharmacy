@@ -36,6 +36,7 @@
   "type_time": "Yetkazib berish shartlari",
   "what_me": "Qayerdaman?",
   "free": "bepul",
+  "disabled": "Разрешите доступ к вашей геопозиции, для определения ваше местоположение",
   "main": {
     "home": "Asosiy",
     "catalog": "Katalog",

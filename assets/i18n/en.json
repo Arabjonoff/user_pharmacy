@@ -36,6 +36,7 @@
   "type_time": "Terms of delivery",
   "what_me": "Where am I?",
   "free": "free",
+  "disabled": "Разрешите доступ к вашей геопозиции, для определения ваше местоположение",
   "main": {
     "home": "Home",
     "catalog": "Catalog",

@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -33,6 +35,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   final List<placemark.Placemark> placemarks = <placemark.Placemark>[];
 
   var myLongitude, myLatitude;
+  bool isGranted = true;
 
   @override
   void initState() {
@@ -118,6 +121,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   @override
   Widget build(BuildContext context) {
     if (_permissionStatus == PermissionStatus.granted) {
+      isGranted = true;
       _getPosition();
       if (mapController != null) {
         mapController.showUserLayer(
@@ -132,6 +136,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
         );
       }
     } else {
+      isGranted = false;
       _defaultLocation();
     }
 
@@ -143,26 +148,100 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
               mapController = yandexMapController;
             },
           ),
+          isGranted
+              ? Container()
+              : GestureDetector(
+                  onTap: () async {
+                    if (_permissionStatus == PermissionStatus.disabled) {
+                      print(_permissionStatus);
+                      AppSettings.openLocationSettings();
+                    } else if (_permissionStatus == PermissionStatus.denied) {
+                      print(_permissionStatus);
+                      bool isOpened =
+                          await PermissionHandler().openAppSettings();
+                      print(isOpened);
+                    }
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: 16, right: 16, top: 16),
+                    width: double.infinity,
+                    height: 72,
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppTheme.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      border: Border.all(
+                        color: Color.fromRGBO(0, 0, 0, 0.12),
+                        width: 1,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromRGBO(0, 0, 0, 0.08),
+                          spreadRadius: 7,
+                          blurRadius: 7,
+                          offset: Offset(0, 2), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset("assets/images/icon_map_disabled.svg"),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            translate("disabled"),
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                              color: AppTheme.black_text,
+                              height: 1.4,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
           Align(
-            alignment: Alignment.topRight,
+            alignment: Alignment.bottomRight,
             child: GestureDetector(
               onTap: () {
-                mapController.move(
-                  point: _point,
-                  animation: const MapAnimation(smooth: true, duration: 0.5),
-                );
+                if (_point != null)
+                  mapController.move(
+                    point: _point,
+                    animation: const MapAnimation(smooth: true, duration: 0.5),
+                  );
               },
               child: Container(
-                margin: EdgeInsets.only(top: 12, right: 12),
-                height: 36,
-                width: 36,
+                margin: EdgeInsets.only(bottom: 16, right: 16),
+                width: 145,
+                padding:
+                    EdgeInsets.only(top: 12, bottom: 12, left: 16, right: 16),
                 decoration: BoxDecoration(
-                    color: AppTheme.white,
-                    borderRadius: BorderRadius.circular(18)),
-                child: Icon(
-                  Icons.my_location,
-                  color: Color.fromRGBO(59, 62, 77, 1.0),
-                  size: 28.0,
+                  color: AppTheme.white,
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset("assets/images/icon_my_location.svg"),
+                    SizedBox(width: 12),
+                    Text(
+                      translate("what_me"),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        fontFamily: AppTheme.fontRoboto,
+                        fontStyle: FontStyle.normal,
+                        color: AppTheme.black_text,
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),

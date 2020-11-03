@@ -48,6 +48,10 @@ import '../../../app_theme.dart';
 final priceFormat = new NumberFormat("#,##0", "ru");
 
 class HomeScreen extends StatefulWidget {
+  Function onStore;
+
+  HomeScreen({this.onStore});
+
   @override
   State<StatefulWidget> createState() {
     return _HomeScreenState();
@@ -845,14 +849,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: AddressAptekaScreen(),
-                                  ),
-                                );
+                                widget.onStore();
                               },
+                              // onTap: () {
+                              //   Navigator.push(
+                              //     context,
+                              //     PageTransition(
+                              //       type: PageTransitionType.rightToLeft,
+                              //       child: AddressAptekaScreen(),
+                              //     ),
+                              //   );
+                              // },
                               child: Container(
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10.0),

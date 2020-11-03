@@ -23,6 +23,7 @@ import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/check_version.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
+import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/chat/chat_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
@@ -513,7 +514,9 @@ class _MainScreenState extends State<MainScreen> {
     return {
       '/': (context) {
         return [
-          HomeScreen(),
+          HomeScreen(
+            onStore: _store,
+          ),
           CategoryScreen(),
           CardScreen(
             onPickup: _pickup,
@@ -544,6 +547,16 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
         });
+  }
+
+  void _store() {
+    Navigator.push(
+      context,
+      PageTransition(
+        type: PageTransitionType.rightToLeft,
+        child: AddressAptekaScreen(),
+      ),
+    );
   }
 
   void _curer() {

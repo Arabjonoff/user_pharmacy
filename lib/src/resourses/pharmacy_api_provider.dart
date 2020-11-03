@@ -114,10 +114,8 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json; charset=utf-8',
       'X-Device': prefs.getString("deviceData"),
     };
-
     try {
       http.Response response = await http
           .post(url, headers: headers, body: data)
@@ -279,7 +277,7 @@ class PharmacyApiProvider {
     }
   }
 
-  ///category's by item
+  ///ids's by item
   Future<ItemModel> fetchIdsItemsList(
     String id,
     int page,
@@ -451,7 +449,7 @@ class PharmacyApiProvider {
     }
   }
 
-  ///add order
+  ///add order endi ishlatilmaydi
   Future<OrderStatusModel> fetchAddOrder(AddOrderModel order) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
@@ -575,7 +573,7 @@ class PharmacyApiProvider {
     }
   }
 
-  /// Check order
+  /// Check order endi ishlatilmaydi
   Future<CheckOrderResponceModel> fetchCheckOrder(CheckOrderModel order) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
@@ -677,7 +675,6 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json; charset=utf-8',
       'X-Device': prefs.getString("deviceData"),
     };
     try {
@@ -704,9 +701,6 @@ class PharmacyApiProvider {
     String url = Utils.BASE_URL + '/api/v1/order-minimum?region=$regionId';
 
     HttpClient httpClient = new HttpClient();
-    httpClient
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json; charset=utf-8');
     request.headers.set('X-Device', prefs.getString("deviceData"));
@@ -776,7 +770,7 @@ class PharmacyApiProvider {
     }
   }
 
-  ///items
+  ///payment vetfy token
   Future<PaymentVerfy> fetchVerfyPaymentModel(VerdyPaymentModel verfy) async {
     String url = Utils.BASE_URL + '/api/v1/verify-token';
 
@@ -803,25 +797,9 @@ class PharmacyApiProvider {
       return PaymentVerfy(
           error_code: -1, errorNote: translate("internet_error"));
     }
-
-    /// to'lov tasdiqlash joyi sinab ko'rish kere yaxshilab
-
-    // HttpClient httpClient = new HttpClient();
-    // httpClient
-    //   ..badCertificateCallback =
-    //       ((X509Certificate cert, String host, int port) => true);
-    // HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
-    // request.headers.set('content-type', 'application/json');
-    // request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
-    // request.write(json.encode(verfy));
-    // HttpClientResponse response = await request.close();
-    //
-    // String reply = await response.transform(utf8.decoder).join();
-    // final Map parsed = json.decode(reply);
-    // return PaymentVerfy.fromJson(parsed);
   }
 
-  ///items
+  ///check version
   Future<CheckVersion> fetchCheckVersion(String version) async {
     String url = Utils.BASE_URL + '/api/v1/check-version';
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -831,7 +809,6 @@ class PharmacyApiProvider {
     };
 
     Map<String, String> headers = {
-      'content-type': 'application/json; charset=utf-8',
       'X-Device': prefs.getString("deviceData"),
     };
 
@@ -910,20 +887,24 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
 
-    HttpClient httpClient = new HttpClient();
-    httpClient
-      ..badCertificateCallback =
-          ((X509Certificate cert, String host, int port) => true);
-    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json; charset=utf-8');
-    request.headers.set('X-Device', prefs.getString("deviceData"));
-    request.headers.set(HttpHeaders.authorizationHeader, "Bearer $token");
-    request.write(json.encode(data));
-    HttpClientResponse response = await request.close();
-
-    String reply = await response.transform(utf8.decoder).join();
-    final Map parsed = json.decode(reply);
-    return CheckVersion.fromJson(parsed);
+    Map<String, String> headers = {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+      'content-type': 'application/json; charset=utf-8',
+      'X-Device': prefs.getString("deviceData"),
+    };
+    try {
+      http.Response response = await http
+          .post(url, headers: headers, body: json.encode(data))
+          .timeout(const Duration(seconds: 10));
+      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+      return CheckVersion.fromJson(responseJson);
+    } on TimeoutException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return CheckVersion();
+    } on SocketException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return CheckVersion();
+    }
   }
 
   /// Cash back
@@ -1045,6 +1026,7 @@ class PharmacyApiProvider {
     String url =
         Utils.BASE_URL + '/api/v1/activate-order?lan=$lan&region=$regionId';
 
+
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json',
@@ -1055,6 +1037,7 @@ class PharmacyApiProvider {
       http.Response response = await http
           .post(url, headers: headers, body: json.encode(order))
           .timeout(const Duration(seconds: 15));
+      print(response.body);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return OrderStatusModel.fromJson(responseJson);
