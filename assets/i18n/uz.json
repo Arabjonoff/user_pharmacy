@@ -36,7 +36,7 @@
   "type_time": "Yetkazib berish shartlari",
   "what_me": "Qayerdaman?",
   "free": "bepul",
-  "disabled": "Разрешите доступ к вашей геопозиции, для определения ваше местоположение",
+  "disabled": "Joylashuvingizni aniqlash uchun geojoylashuvga kirishga ruxsat bering",
   "main": {
     "home": "Asosiy",
     "catalog": "Katalog",
@@ -322,5 +322,5 @@
     "while": "Ovqatlanish vaqtida",
     "after": "Ovqatdan keyin"
   },
-  "about_app": "  Go Pharm ilovasining g'oyasi aholining barcha qatlamlari uchun dori-darmonlarni yetkazib berishni ta'minlashdir. Shuning uchun, biz barcha mahsulotlarga eng yaxshi distributor tanlashdan tortib eng munosib narxlarigacha e'tibor berdik; Bugungi pandemiya sharoitida scooter buning uchun ideal yechim hisoblanadi; va yaqin kelajakda biz ekokar garajini sotib olishni ham rejalashtirmoqdamiz. Bu bizning barcha harakatlarimiz aholi, ekologiya va inson manfaatlari uchun ekanligini tasdiqlaydi. Buyurtmangiz yetib keladigan paket - bu bizning EKO nazariyamizning timsollaridan biridir. Sizning tanlovingiz katta ahamiyatga ega, bunda Internet platformamizdan foydalanish qulayligi ham katta rol o'ynaydi. Chunki, karantin tugaganidan keyin ham, dorixonaga borish o'tmishning qoldiqlaridan biri bo'lib qoladi."
+  "about_app": "  Go Pharm ilovasining g'oyasi aholining barcha qatlamlari uchun dori-darmonlarni yetkazib berishni ta'minlashdir. Shuning uchun, biz barcha mahsulotlarga eng yaxshi distributor tanlashdan tortib eng munosib narxlarigacha e'tibor berdik; Bugungi pandemiya sharoitida scooter buning uchun ideal yechim hisoblanadi; va yaqin kelajakda biz ekokar garajini sotib olishni ham rejalashtirmoqdamiz. Bu bizning barcha harakatlarimiz aholi, ekologiya va inson manfaatlari uchun ekanligini tasdiqlaydi. Buyurtmangiz yetib keladigan paket - bu bizning EKO nazariyamizning timsollaridan biridir. Sizning tanlovingiz katta ahamiyatga ega, bunda Internet platformamizdan foydalanish qulayligi ham katta rol o'ynaydi. Chunki, karantin tugaganidan keyin ham, dorixonaga borish o'tmishning qoldiqlaridan biri bo'lib qoladi.  GRAND ONLINE PHARM LLC"
 }
