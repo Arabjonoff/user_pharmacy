@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +54,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
   bool isFirstNo = true;
   double height;
   String address = "";
+  bool isGranted = true;
 
   @override
   void initState() {
@@ -159,6 +161,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     if (_permissionStatus == PermissionStatus.granted) {
+      isGranted = true;
       if (isFirst) {
         if (controller != null)
           controller.showUserLayer(
@@ -172,8 +175,9 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
         isFirst = false;
       }
     } else {
+      isGranted = false;
       if (isFirstNo) {
-        Timer(Duration(milliseconds: 250), () {
+        Timer(Duration(milliseconds: 750), () {
           _defaultLocation();
         });
         isFirstNo = false;
@@ -306,6 +310,66 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                         controller = yandexMapController;
                       },
                     ),
+                    isGranted
+                        ? Container()
+                        : GestureDetector(
+                            onTap: () async {
+                              if (_permissionStatus ==
+                                  PermissionStatus.disabled) {
+                                AppSettings.openLocationSettings();
+                              } else if (_permissionStatus ==
+                                  PermissionStatus.denied) {
+                                bool isOpened =
+                                    await PermissionHandler().openAppSettings();
+                              }
+                            },
+                            child: Container(
+                              margin:
+                                  EdgeInsets.only(left: 16, right: 16, top: 16),
+                              width: double.infinity,
+                              height: 72,
+                              padding: EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: AppTheme.white,
+                                borderRadius: BorderRadius.circular(10.0),
+                                border: Border.all(
+                                  color: Color.fromRGBO(0, 0, 0, 0.12),
+                                  width: 1,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color.fromRGBO(0, 0, 0, 0.08),
+                                    spreadRadius: 7,
+                                    blurRadius: 7,
+                                    offset: Offset(
+                                        0, 2), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                      "assets/images/icon_map_disabled.svg"),
+                                  SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      translate("disabled"),
+                                      maxLines: 3,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontRoboto,
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        color: AppTheme.black_text,
+                                        height: 1.4,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                     Container(
                       margin:
                           EdgeInsets.only(left: 24, right: 24, top: height / 5),

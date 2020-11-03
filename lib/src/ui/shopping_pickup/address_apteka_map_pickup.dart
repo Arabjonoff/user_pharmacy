@@ -541,13 +541,10 @@ class _AddressAptekaMapPickupScreenState
               : GestureDetector(
                   onTap: () async {
                     if (_permissionStatus == PermissionStatus.disabled) {
-                      print(_permissionStatus);
                       AppSettings.openLocationSettings();
                     } else if (_permissionStatus == PermissionStatus.denied) {
-                      print(_permissionStatus);
                       bool isOpened =
                           await PermissionHandler().openAppSettings();
-                      print(isOpened);
                     }
                   },
                   child: Container(
