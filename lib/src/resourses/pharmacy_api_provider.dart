@@ -827,13 +827,20 @@ class PharmacyApiProvider {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
-
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
-    };
-    final data = {"comment": comment, "rating": rating};
+    Map<String, String> headers;
+    if (token == null) {
+      headers = {
+        'content-type': 'application/json; charset=utf-8',
+        'X-Device': prefs.getString("deviceData"),
+      };
+    } else {
+      headers = {
+        HttpHeaders.authorizationHeader: "Bearer $token",
+        'content-type': 'application/json; charset=utf-8',
+        'X-Device': prefs.getString("deviceData"),
+      };
+    }
+    final data = {"comment": comment, "rating": rating.toString()};
     try {
       http.Response response = await http
           .post(url, headers: headers, body: json.encode(data))
@@ -1025,7 +1032,6 @@ class PharmacyApiProvider {
 
     String url =
         Utils.BASE_URL + '/api/v1/activate-order?lan=$lan&region=$regionId';
-
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",

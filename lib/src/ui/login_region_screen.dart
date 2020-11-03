@@ -62,6 +62,9 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
   }
 
   Future<void> _getPosition() async {
+    setState(() {
+      isLoading = true;
+    });
     _getPosSub = geolocator
         .getPositionStream(LocationOptions(
             accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 10))
@@ -73,13 +76,15 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
         response.then((value) => {
               if (value.status == 1)
                 {
-                  isLoading = false,
                   Utils.saveRegion(value.region, value.msg, lat, lng),
                   Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainScreen()),
-                  ),
-                }
+                  context,
+                  MaterialPageRoute(builder: (context) => MainScreen()),
+                ),
+                },
+              setState(() {
+                isLoading = false;
+              }),
             });
       }
     });
