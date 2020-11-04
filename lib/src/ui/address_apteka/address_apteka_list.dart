@@ -27,7 +27,6 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
   DatabaseHelperApteka db = new DatabaseHelperApteka();
 
   PermissionStatus _permissionStatus = PermissionStatus.unknown;
-  var geolocator = Geolocator();
   static StreamSubscription _getPosSub;
 
   @override

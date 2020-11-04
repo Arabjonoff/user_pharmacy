@@ -373,27 +373,22 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                     Container(
                       margin:
                           EdgeInsets.only(left: 24, right: 24, top: height / 5),
-                      height: 64,
                       padding: EdgeInsets.all(4),
+                      width: double.infinity,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         color: Color(0xFFE6E8FA).withOpacity(0.6),
                       ),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          address,
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontStyle: FontStyle.normal,
-                            fontFamily: AppTheme.fontRoboto,
-                            fontSize: 20,
-                            height: 1.4,
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.black_text,
-                          ),
+                      child: Text(
+                        address,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontStyle: FontStyle.normal,
+                          fontFamily: AppTheme.fontRoboto,
+                          fontSize: 15,
+                          height: 1.4,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.black_text,
                         ),
                       ),
                     ),
@@ -503,6 +498,9 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
   Future<void> _defaultLocation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getDouble("coordLat") != null) {
+      _point = new Point(
+          latitude: prefs.getDouble("coordLat"),
+          longitude: prefs.getDouble("coordLng"));
       addMarker(prefs.getDouble("coordLat"), prefs.getDouble("coordLng"));
       if (controller != null) {
         controller.move(
@@ -515,6 +513,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
       }
     } else {
       addMarker(41.311081, 69.240562);
+      _point = new Point(latitude: 41.311081, longitude: 69.240562);
       if (controller != null) {
         controller.move(
           point: Point(latitude: 41.311081, longitude: 69.240562),
