@@ -26,12 +26,13 @@ class AddressAptekaMapScreen extends StatefulWidget {
   }
 }
 
-class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
+class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
+    with AutomaticKeepAliveClientMixin<AddressAptekaMapScreen> {
+  @override
+  bool get wantKeepAlive => true;
   YandexMapController mapController;
   Point _point;
   PermissionStatus _permissionStatus = PermissionStatus.unknown;
-  var geolocator = Geolocator();
-  static StreamSubscription _getPosSub;
   final List<placemark.Placemark> placemarks = <placemark.Placemark>[];
 
   var myLongitude, myLatitude;
@@ -46,7 +47,6 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   @override
   void dispose() {
     mapController.dispose();
-    _getPosSub?.cancel();
     super.dispose();
   }
 
@@ -101,21 +101,20 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen> {
   }
 
   Future<void> _getPosition() async {
-    _getPosSub = geolocator
-        .getPositionStream(LocationOptions(
-            accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 10))
-        .listen((Position position) {
-      if (position != null) {
-        lat = position.latitude;
-        lng = position.longitude;
-        _addMarkers(Repository().fetchApteka(lat, lng));
-        Utils.saveLocation(lat, lng);
-        _point = new Point(
-            latitude: position.latitude, longitude: position.longitude);
-      } else {
-        _addMarkers(Repository().fetchApteka(41.311081, 69.240562));
-      }
-    });
+    Position position = await Geolocator().getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.bestForNavigation,
+      locationPermissionLevel: GeolocationPermission.locationWhenInUse,
+    );
+    if (position != null) {
+      lat = position.latitude;
+      lng = position.longitude;
+      _addMarkers(Repository().fetchApteka(lat, lng));
+      Utils.saveLocation(lat, lng);
+      _point =
+          new Point(latitude: position.latitude, longitude: position.longitude);
+    } else {
+      _addMarkers(Repository().fetchApteka(41.311081, 69.240562));
+    }
   }
 
   @override

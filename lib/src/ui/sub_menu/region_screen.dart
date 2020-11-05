@@ -368,7 +368,8 @@ class _RegionScreenState extends State<RegionScreen> {
                                                               false
                                                           ? Container()
                                                           : SvgPicture.asset(
-                                                              "assets/images/icon_region.svg")
+                                                              "assets/images/icon_region.svg",
+                                                            )
                                                 ],
                                               ),
                                             ),

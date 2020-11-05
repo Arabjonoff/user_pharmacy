@@ -43,6 +43,7 @@ class _AddressAptekaMapPickupScreenState
     with AutomaticKeepAliveClientMixin<AddressAptekaMapPickupScreen> {
   @override
   bool get wantKeepAlive => true;
+
   YandexMapController mapController;
   Point _point;
   PermissionStatus _permissionStatus = PermissionStatus.unknown;
@@ -638,21 +639,39 @@ class _AddressAptekaMapPickupScreenState
 
   Future<void> _getPosition() async {
     AccessStore addModel = new AccessStore();
-    geolocator.getPositionStream(locationOptions).listen((Position position) {
-      if (position != null) {
-        lat = position.latitude;
-        lng = position.longitude;
-        addModel = new AccessStore(lat: lat, lng: lng, products: widget.drugs);
-        Utils.saveLocation(lat, lng);
-        _addMarkers(Repository().fetchAccessApteka(addModel));
-        _point = new Point(
-            latitude: position.latitude, longitude: position.longitude);
-      } else {
-        addModel = new AccessStore(
-            lat: 41.311081, lng: 69.240562, products: widget.drugs);
-        _addMarkers(Repository().fetchAccessApteka(addModel));
-      }
-    });
+    Position position = await Geolocator().getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.bestForNavigation,
+      locationPermissionLevel: GeolocationPermission.locationWhenInUse,
+    );
+    if (position != null) {
+      lat = position.latitude;
+      lng = position.longitude;
+      addModel = new AccessStore(lat: lat, lng: lng, products: widget.drugs);
+      Utils.saveLocation(lat, lng);
+      _addMarkers(Repository().fetchAccessApteka(addModel));
+      _point =
+          new Point(latitude: position.latitude, longitude: position.longitude);
+    } else {
+      addModel = new AccessStore(
+          lat: 41.311081, lng: 69.240562, products: widget.drugs);
+      _addMarkers(Repository().fetchAccessApteka(addModel));
+    }
+
+    // geolocator.getPositionStream(locationOptions).listen((Position position) {
+    //   if (position != null) {
+    //     lat = position.latitude;
+    //     lng = position.longitude;
+    //     addModel = new AccessStore(lat: lat, lng: lng, products: widget.drugs);
+    //     Utils.saveLocation(lat, lng);
+    //     _addMarkers(Repository().fetchAccessApteka(addModel));
+    //     _point = new Point(
+    //         latitude: position.latitude, longitude: position.longitude);
+    //   } else {
+    //     addModel = new AccessStore(
+    //         lat: 41.311081, lng: 69.240562, products: widget.drugs);
+    //     _addMarkers(Repository().fetchAccessApteka(addModel));
+    //   }
+    // });
   }
 
   Future<void> _defaultLocation() async {

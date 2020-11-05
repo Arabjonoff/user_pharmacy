@@ -23,7 +23,10 @@ class AddressAptekaListScreen extends StatefulWidget {
   }
 }
 
-class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
+class _AddressAptekaListScreenState extends State<AddressAptekaListScreen>
+    with AutomaticKeepAliveClientMixin<AddressAptekaListScreen> {
+  @override
+  bool get wantKeepAlive => true;
   DatabaseHelperApteka db = new DatabaseHelperApteka();
 
   PermissionStatus _permissionStatus = PermissionStatus.unknown;
@@ -256,7 +259,9 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen> {
 
   Future<void> _getLocation() async {
     Position position = await Geolocator().getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.bestForNavigation);
+      desiredAccuracy: LocationAccuracy.bestForNavigation,
+      locationPermissionLevel: GeolocationPermission.locationWhenInUse,
+    );
     if (position.latitude != null && position.longitude != null) {
       lat = position.latitude;
       lng = position.longitude;

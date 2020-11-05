@@ -460,7 +460,9 @@ class _AddressAptekaListPickupScreenState
 
   Future<void> _getLocation() async {
     Position position = await Geolocator().getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.bestForNavigation);
+      desiredAccuracy: LocationAccuracy.bestForNavigation,
+      locationPermissionLevel: GeolocationPermission.locationWhenInUse,
+    );
     if (position.latitude != null && position.longitude != null) {
       lat = position.latitude;
       lng = position.longitude;
