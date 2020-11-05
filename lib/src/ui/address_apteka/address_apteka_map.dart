@@ -37,6 +37,9 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
 
   var myLongitude, myLatitude;
   bool isGranted = true;
+  bool isLoading = true;
+  bool isFirstGrant = true;
+  bool isFirstDisabled = true;
 
   @override
   void initState() {
@@ -66,7 +69,18 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
       for (int i = 0; i < placemarks.length; i++)
         await mapController.removePlacemark(placemarks[i]);
     response.then((somedata) {
-      _addMarkerData(somedata);
+      if (somedata != null) {
+        _isLoading(false);
+        _addMarkerData(somedata);
+      } else {
+        _isLoading(false);
+      }
+    });
+  }
+
+  void _isLoading(bool response) async {
+    setState(() {
+      isLoading = response;
     });
   }
 
@@ -120,23 +134,29 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
   @override
   Widget build(BuildContext context) {
     if (_permissionStatus == PermissionStatus.granted) {
-      isGranted = true;
-      _getPosition();
-      if (mapController != null) {
-        mapController.showUserLayer(
-          iconName: 'assets/map/user.png',
-          arrowName: 'assets/map/arrow.png',
-          accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
-        );
-        mapController.move(
-          point: Point(latitude: 41.311081, longitude: 69.240562),
-          zoom: 11,
-          animation: const MapAnimation(smooth: true, duration: 0.5),
-        );
+      if (isFirstGrant) {
+        isGranted = true;
+        isFirstGrant = false;
+        _getPosition();
+        if (mapController != null) {
+          mapController.showUserLayer(
+            iconName: 'assets/map/user.png',
+            arrowName: 'assets/map/arrow.png',
+            accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
+          );
+          mapController.move(
+            point: Point(latitude: 41.311081, longitude: 69.240562),
+            zoom: 11,
+            animation: const MapAnimation(smooth: true, duration: 0.5),
+          );
+        }
       }
     } else {
-      isGranted = false;
-      _defaultLocation();
+      if (isFirstDisabled) {
+        isGranted = false;
+        isFirstDisabled = false;
+        _defaultLocation();
+      }
     }
 
     return Scaffold(
@@ -241,7 +261,28 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
                 ),
               ),
             ),
-          )
+          ),
+          isLoading
+              ? Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    height: 72,
+                    width: 72,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color:
+                          AppTheme.blue_app_color_transparent.withOpacity(0.3),
+                    ),
+                    padding: EdgeInsets.all(16),
+                    child: CircularProgressIndicator(
+                      value: null,
+                      strokeWidth: 5.0,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          AppTheme.blue_app_color),
+                    ),
+                  ),
+                )
+              : Container()
         ],
       ),
     );

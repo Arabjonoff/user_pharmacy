@@ -57,6 +57,10 @@ class _AddressAptekaMapPickupScreenState
   bool loading = false;
   bool isGranted = true;
 
+  bool isLoading = true;
+  bool isFirstGrant = true;
+  bool isFirstDisabled = true;
+
   @override
   void initState() {
     super.initState();
@@ -82,7 +86,18 @@ class _AddressAptekaMapPickupScreenState
       for (int i = 0; i < placemarks.length; i++)
         await mapController.removePlacemark(placemarks[i]);
     response.then((somedata) {
-      if (somedata != null) _addMarkerData(somedata);
+      if (somedata != null) {
+        _isLoading(false);
+        _addMarkerData(somedata);
+      } else {
+        _isLoading(false);
+      }
+    });
+  }
+
+  void _isLoading(bool response) async {
+    setState(() {
+      isLoading = response;
     });
   }
 
@@ -510,23 +525,29 @@ class _AddressAptekaMapPickupScreenState
   @override
   Widget build(BuildContext context) {
     if (_permissionStatus == PermissionStatus.granted) {
-      isGranted = true;
-      _getPosition();
-      if (mapController != null) {
-        mapController.showUserLayer(
-          iconName: 'assets/map/user.png',
-          arrowName: 'assets/map/arrow.png',
-          accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
-        );
-        mapController.move(
-          point: Point(latitude: 41.311081, longitude: 69.240562),
-          zoom: 11,
-          animation: const MapAnimation(smooth: true, duration: 0.5),
-        );
+      if (isFirstGrant) {
+        isFirstGrant = false;
+        isGranted = true;
+        _getPosition();
+        if (mapController != null) {
+          mapController.showUserLayer(
+            iconName: 'assets/map/user.png',
+            arrowName: 'assets/map/arrow.png',
+            accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
+          );
+          mapController.move(
+            point: Point(latitude: 41.311081, longitude: 69.240562),
+            zoom: 11,
+            animation: const MapAnimation(smooth: true, duration: 0.5),
+          );
+        }
       }
     } else {
-      isGranted = false;
-      _defaultLocation();
+      if (isFirstDisabled) {
+        isFirstDisabled = false;
+        isGranted = false;
+        _defaultLocation();
+      }
     }
 
     return Scaffold(
@@ -631,7 +652,28 @@ class _AddressAptekaMapPickupScreenState
                 ),
               ),
             ),
-          )
+          ),
+          isLoading
+              ? Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    height: 72,
+                    width: 72,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color:
+                          AppTheme.blue_app_color_transparent.withOpacity(0.3),
+                    ),
+                    padding: EdgeInsets.all(16),
+                    child: CircularProgressIndicator(
+                      value: null,
+                      strokeWidth: 5.0,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          AppTheme.blue_app_color),
+                    ),
+                  ),
+                )
+              : Container()
         ],
       ),
     );
@@ -656,22 +698,6 @@ class _AddressAptekaMapPickupScreenState
           lat: 41.311081, lng: 69.240562, products: widget.drugs);
       _addMarkers(Repository().fetchAccessApteka(addModel));
     }
-
-    // geolocator.getPositionStream(locationOptions).listen((Position position) {
-    //   if (position != null) {
-    //     lat = position.latitude;
-    //     lng = position.longitude;
-    //     addModel = new AccessStore(lat: lat, lng: lng, products: widget.drugs);
-    //     Utils.saveLocation(lat, lng);
-    //     _addMarkers(Repository().fetchAccessApteka(addModel));
-    //     _point = new Point(
-    //         latitude: position.latitude, longitude: position.longitude);
-    //   } else {
-    //     addModel = new AccessStore(
-    //         lat: 41.311081, lng: 69.240562, products: widget.drugs);
-    //     _addMarkers(Repository().fetchAccessApteka(addModel));
-    //   }
-    // });
   }
 
   Future<void> _defaultLocation() async {
