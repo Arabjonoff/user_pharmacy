@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
+import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +20,7 @@ class RegionScreen extends StatefulWidget {
 class _RegionScreenState extends State<RegionScreen> {
   Size size;
   TextEditingController searchController = TextEditingController();
+  DatabaseHelper dataBase = new DatabaseHelper();
   bool isSearchText = false;
   String obj = "";
   int cityId;
@@ -163,22 +165,29 @@ class _RegionScreenState extends State<RegionScreen> {
                       return users[index].childs.length == 0
                           ? GestureDetector(
                               onTap: () async {
-                                Repository().fetchAddRegion(users[index].id);
-                                SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                prefs.setString("city", users[index].name);
-                                prefs.setInt("cityId", users[index].id);
-                                prefs.commit();
-                                blocHome.fetchAllHome(
-                                  1,
-                                  "",
-                                  "",
-                                  "",
-                                  "",
-                                  "",
-                                  "",
-                                );
-                                Navigator.pop(context);
+                                if (users[index].isChoose == null ||
+                                    !users[index].isChoose) {
+                                  Repository().fetchAddRegion(users[index].id);
+                                  dataBase.clear();
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  prefs.setString("city", users[index].name);
+                                  prefs.setInt("cityId", users[index].id);
+                                  prefs.commit();
+                                  blocHome.fetchAllHome(
+                                    1,
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                  );
+
+                                  Navigator.pop(context);
+                                } else {
+                                  Navigator.pop(context);
+                                }
                               },
                               child: Container(
                                 color: AppTheme.white,
@@ -281,34 +290,45 @@ class _RegionScreenState extends State<RegionScreen> {
                                         itemBuilder: (context, position) {
                                           return GestureDetector(
                                             onTap: () async {
-                                              Repository().fetchAddRegion(
-                                                  users[index]
+                                              if (users[index]
+                                                          .childs[position]
+                                                          .isChoose ==
+                                                      null ||
+                                                  !users[index]
                                                       .childs[position]
-                                                      .id);
-                                              SharedPreferences prefs =
-                                                  await SharedPreferences
-                                                      .getInstance();
-                                              prefs.setString(
-                                                  "city",
-                                                  users[index]
-                                                      .childs[position]
-                                                      .name);
-                                              prefs.setInt(
-                                                  "cityId",
-                                                  users[index]
-                                                      .childs[position]
-                                                      .id);
-                                              prefs.commit();
-                                              blocHome.fetchAllHome(
-                                                1,
-                                                "",
-                                                "",
-                                                "",
-                                                "",
-                                                "",
-                                                "",
-                                              );
-                                              Navigator.pop(context);
+                                                      .isChoose) {
+                                                Repository().fetchAddRegion(
+                                                    users[index]
+                                                        .childs[position]
+                                                        .id);
+                                                dataBase.clear();
+                                                SharedPreferences prefs =
+                                                    await SharedPreferences
+                                                        .getInstance();
+                                                prefs.setString(
+                                                    "city",
+                                                    users[index]
+                                                        .childs[position]
+                                                        .name);
+                                                prefs.setInt(
+                                                    "cityId",
+                                                    users[index]
+                                                        .childs[position]
+                                                        .id);
+                                                prefs.commit();
+                                                blocHome.fetchAllHome(
+                                                  1,
+                                                  "",
+                                                  "",
+                                                  "",
+                                                  "",
+                                                  "",
+                                                  "",
+                                                );
+                                                Navigator.pop(context);
+                                              } else {
+                                                Navigator.pop(context);
+                                              }
                                             },
                                             child: Container(
                                               color: AppTheme.white,

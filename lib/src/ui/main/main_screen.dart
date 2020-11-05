@@ -402,8 +402,8 @@ class _MainScreenState extends State<MainScreen> {
                         }
                     });
               } else if (index == 1) {
-                if (isOpenSearch) blocItemsList.updateSearch();
                 if (isOpenCategory) blocItemsList.updateCategory();
+                if (isOpenSearch) blocItemsList.updateSearch();
               }
               setState(() {
                 _selectedIndex = index;
