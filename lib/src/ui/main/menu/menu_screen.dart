@@ -104,27 +104,30 @@ class _MenuScreenState extends State<MenuScreen> {
                     if (snapshot.hasData) {
                       Utils.saveCashBack(snapshot.data.cash);
                       return Container(
-                        height: 200,
+                        height: 146,
+                        margin:
+                            EdgeInsets.only(left: 16, right: 16, bottom: 24),
                         width: double.infinity,
                         child: Stack(
                           children: [
                             Container(
-                              height: 200,
+                              height: 146,
                               width: double.infinity,
                               color: AppTheme.white,
                               child: Image.asset(
                                 "assets/images/menu_image.png",
-                                fit: BoxFit.fitWidth,
+                                fit: BoxFit.fill,
                               ),
                             ),
                             Align(
                               alignment: Alignment.topLeft,
                               child: Container(
-                                margin: EdgeInsets.only(top: 24, left: 24),
+                                margin: EdgeInsets.only(left: 12),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
+                                    SizedBox(height: 15),
                                     Text(
                                       priceFormat.format((snapshot.data.cash)
                                               .toInt()
@@ -165,27 +168,29 @@ class _MenuScreenState extends State<MenuScreen> {
                       return Text(snapshot.error.toString());
                     }
                     return Container(
-                      height: 200,
+                      height: 146,
+                      margin: EdgeInsets.only(left: 16, right: 16, bottom: 24),
                       width: double.infinity,
                       child: Stack(
                         children: [
                           Container(
-                            height: 200,
+                            height: 146,
                             width: double.infinity,
                             color: AppTheme.white,
                             child: Image.asset(
                               "assets/images/menu_image.png",
-                              fit: BoxFit.fitWidth,
+                              fit: BoxFit.fill,
                             ),
                           ),
                           Align(
                             alignment: Alignment.topLeft,
                             child: Container(
-                              margin: EdgeInsets.only(top: 24, left: 24),
+                              margin: EdgeInsets.only(left: 12),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
+                                  SizedBox(height: 15),
                                   Text(
                                     "",
                                     style: TextStyle(

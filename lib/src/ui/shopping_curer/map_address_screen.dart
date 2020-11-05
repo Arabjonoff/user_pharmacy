@@ -40,6 +40,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
   placemark.Placemark lastPlaceMark;
   Point _point;
   PermissionStatus _permissionStatus = PermissionStatus.unknown;
+
   // var geolocator = Geolocator();
   // static StreamSubscription _getPosSub;
 
@@ -77,10 +78,10 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
       locationPermissionLevel: GeolocationPermission.locationWhenInUse,
     );
     if (position != null) {
-      lng = position.longitude;
       lat = position.latitude;
-      Utils.saveLocation(lat, lng);
-      addMarker(lat, lng);
+      lng = position.longitude;
+      Utils.saveLocation(position.latitude, position.longitude);
+      addMarker(position.latitude, position.longitude);
       _point =
           new Point(latitude: position.latitude, longitude: position.longitude);
       controller.move(
@@ -89,40 +90,13 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
         animation: const MapAnimation(smooth: true, duration: 0.5),
       );
     } else {
-      addMarker(lat, lng);
-      _point = new Point(latitude: lat, longitude: lng);
+      addMarker(41.311081, 69.240562);
       controller.move(
-        point: _point,
+        point: Point(latitude: 41.311081, longitude: 69.240562),
         zoom: 12,
         animation: const MapAnimation(smooth: true, duration: 0.5),
       );
     }
-
-    // _getPosSub = geolocator.getPositionStream(locationOptions).listen(
-    //   (Position position) {
-    //     if (position != null) {
-    //       lng = position.longitude;
-    //       lat = position.latitude;
-    //       Utils.saveLocation(lat, lng);
-    //       addMarker(lat, lng);
-    //       _point = new Point(
-    //           latitude: position.latitude, longitude: position.longitude);
-    //       controller.move(
-    //         point: _point,
-    //         zoom: 12,
-    //         animation: const MapAnimation(smooth: true, duration: 0.5),
-    //       );
-    //     } else {
-    //       addMarker(lat, lng);
-    //       _point = new Point(latitude: lat, longitude: lng);
-    //       controller.move(
-    //         point: _point,
-    //         zoom: 12,
-    //         animation: const MapAnimation(smooth: true, duration: 0.5),
-    //       );
-    //     }
-    //   },
-    // );
   }
 
   Future<void> addMarker(double markerLat, double markerLng) async {
@@ -419,18 +393,22 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                       alignment: Alignment.bottomRight,
                       child: GestureDetector(
                         onTap: () {
-                          if (_point != null)
+                          if (_point != null) {
                             controller.move(
                               point: _point,
                               animation: const MapAnimation(
                                   smooth: true, duration: 0.5),
                             );
+                          } else {
+                            _requestPermission();
+                          }
                         },
                         child: Container(
                           margin: EdgeInsets.only(bottom: 16, right: 16),
-                          width: 145,
-                          padding: EdgeInsets.only(
-                              top: 12, bottom: 12, left: 16, right: 16),
+                          width:
+                              (translate("what_me").length * 9 + 24 + 32 + 12)
+                                  .toDouble(),
+                          padding: EdgeInsets.only(top: 12, bottom: 12),
                           decoration: BoxDecoration(
                               color: AppTheme.white,
                               borderRadius: BorderRadius.circular(100)),
@@ -521,9 +499,6 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
   Future<void> _defaultLocation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getDouble("coordLat") != null) {
-      _point = new Point(
-          latitude: prefs.getDouble("coordLat"),
-          longitude: prefs.getDouble("coordLng"));
       addMarker(prefs.getDouble("coordLat"), prefs.getDouble("coordLng"));
       if (controller != null) {
         controller.move(
@@ -536,7 +511,6 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
       }
     } else {
       addMarker(41.311081, 69.240562);
-      _point = new Point(latitude: 41.311081, longitude: 69.240562);
       if (controller != null) {
         controller.move(
           point: Point(latitude: 41.311081, longitude: 69.240562),

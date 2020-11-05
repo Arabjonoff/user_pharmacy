@@ -267,7 +267,9 @@ class _AddressAptekaListPickupScreenState
                                                 PageTransition(
                                                   type: PageTransitionType.fade,
                                                   child: OrderCardPickupScreen(
-                                                      response.orderId),
+                                                    response.orderId,
+                                                    "",
+                                                  ),
                                                 ),
                                               ),
                                               setState(() {
@@ -466,9 +468,11 @@ class _AddressAptekaListPickupScreenState
     if (position.latitude != null && position.longitude != null) {
       lat = position.latitude;
       lng = position.longitude;
-      Utils.saveLocation(lat, lng);
-      AccessStore addModel =
-          new AccessStore(lat: lat, lng: lng, products: widget.drugs);
+      Utils.saveLocation(position.latitude, position.longitude);
+      AccessStore addModel = new AccessStore(
+          lat: position.latitude,
+          lng: position.longitude,
+          products: widget.drugs);
       blocApteka.fetchAccessApteka(addModel);
     } else {
       AccessStore addModel =

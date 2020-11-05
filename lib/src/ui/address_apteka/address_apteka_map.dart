@@ -64,6 +64,36 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
     });
   }
 
+  Future<void> _updateLocation() async {
+    final List<PermissionGroup> permissions = <PermissionGroup>[
+      PermissionGroup.location
+    ];
+    final Map<PermissionGroup, PermissionStatus> permissionRequestResult =
+        await PermissionHandler().requestPermissions(permissions);
+    if (permissionRequestResult[PermissionGroup.location] ==
+        PermissionStatus.granted) {
+      Position position = await Geolocator().getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.bestForNavigation,
+        locationPermissionLevel: GeolocationPermission.locationWhenInUse,
+      );
+      if (position != null) {
+        lat = position.latitude;
+        lng = position.longitude;
+        Utils.saveLocation(position.latitude, position.longitude);
+        _point = new Point(
+            latitude: position.latitude, longitude: position.longitude);
+        mapController.move(
+          point: _point,
+          animation: const MapAnimation(smooth: true, duration: 0.5),
+        );
+        setState(() {
+          isFirstGrant = false;
+          isGranted = true;
+        });
+      }
+    }
+  }
+
   void _addMarkers(Future<List<LocationModel>> response) async {
     if (placemarks != null && response != null)
       for (int i = 0; i < placemarks.length; i++)
@@ -122,8 +152,9 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
     if (position != null) {
       lat = position.latitude;
       lng = position.longitude;
-      _addMarkers(Repository().fetchApteka(lat, lng));
-      Utils.saveLocation(lat, lng);
+      _addMarkers(
+          Repository().fetchApteka(position.latitude, position.longitude));
+      Utils.saveLocation(position.latitude, position.longitude);
       _point =
           new Point(latitude: position.latitude, longitude: position.longitude);
     } else {
@@ -137,7 +168,9 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
       if (isFirstGrant) {
         isGranted = true;
         isFirstGrant = false;
-        _getPosition();
+        Timer(Duration(milliseconds: 250), () {
+          _getPosition();
+        });
         if (mapController != null) {
           mapController.showUserLayer(
             iconName: 'assets/map/user.png',
@@ -155,7 +188,9 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
       if (isFirstDisabled) {
         isGranted = false;
         isFirstDisabled = false;
-        _defaultLocation();
+        Timer(Duration(milliseconds: 500), () {
+          _defaultLocation();
+        });
       }
     }
 
@@ -226,17 +261,20 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
             alignment: Alignment.bottomRight,
             child: GestureDetector(
               onTap: () {
-                if (_point != null)
+                if (_point != null) {
                   mapController.move(
                     point: _point,
                     animation: const MapAnimation(smooth: true, duration: 0.5),
                   );
+                } else {
+                  _updateLocation();
+                }
               },
               child: Container(
                 margin: EdgeInsets.only(bottom: 16, right: 16),
-                width: 145,
-                padding:
-                    EdgeInsets.only(top: 12, bottom: 12, left: 16, right: 16),
+                width:
+                    (translate("what_me").length * 9 + 24 + 32 + 12).toDouble(),
+                padding: EdgeInsets.only(top: 12, bottom: 12),
                 decoration: BoxDecoration(
                   color: AppTheme.white,
                   borderRadius: BorderRadius.circular(100),
@@ -291,8 +329,8 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
   Future<void> _defaultLocation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getDouble("coordLat") != null) {
+      _addMarkers(Repository().fetchApteka(null, null));
       if (mapController != null) {
-        _addMarkers(Repository().fetchApteka(null, null));
         mapController.move(
           point: Point(
               latitude: prefs.getDouble("coordLat"),
@@ -302,8 +340,8 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
         );
       }
     } else {
+      _addMarkers(Repository().fetchApteka(null, null));
       if (mapController != null) {
-        _addMarkers(Repository().fetchApteka(null, null));
         mapController.move(
           point: Point(latitude: 41.311081, longitude: 69.240562),
           zoom: 11,

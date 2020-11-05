@@ -1085,8 +1085,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               BorderRadius.circular(16.0),
                                           child: Container(
                                             color: AppTheme.white,
-                                            width: 311,
-                                            height: 154,
                                             child: CachedNetworkImage(
                                               imageUrl: url.image,
                                               placeholder: (context, url) =>
@@ -1098,7 +1096,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       Container(
                                                 color: AppTheme.background,
                                               ),
-                                              fit: BoxFit.fitHeight,
+                                              fit: BoxFit.cover,
                                             ),
                                           ),
                                         ),

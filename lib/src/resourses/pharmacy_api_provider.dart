@@ -158,14 +158,16 @@ class PharmacyApiProvider {
   }
 
   ///best items
-  Future<ItemModel> fetchBestItemList(int page,
-      int per_page,
-      String international_name_ids,
-      String manufacturer_ids,
-      String ordering,
-      String price_max,
-      String price_min,
-      String unit_ids,) async {
+  Future<ItemModel> fetchBestItemList(
+    int page,
+    int per_page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
@@ -227,15 +229,17 @@ class PharmacyApiProvider {
   }
 
   ///category's by item
-  Future<ItemModel> fetchCategoryItemsList(String id,
-      int page,
-      int per_page,
-      String international_name_ids,
-      String manufacturer_ids,
-      String ordering,
-      String price_max,
-      String price_min,
-      String unit_ids,) async {
+  Future<ItemModel> fetchCategoryItemsList(
+    String id,
+    int page,
+    int per_page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
@@ -274,15 +278,17 @@ class PharmacyApiProvider {
   }
 
   ///ids's by item
-  Future<ItemModel> fetchIdsItemsList(String id,
-      int page,
-      int per_page,
-      String international_name_ids,
-      String manufacturer_ids,
-      String ordering,
-      String price_max,
-      String price_min,
-      String unit_ids,) async {
+  Future<ItemModel> fetchIdsItemsList(
+    String id,
+    int page,
+    int per_page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
@@ -302,7 +308,7 @@ class PharmacyApiProvider {
     HttpClient httpClient = new HttpClient();
     httpClient
       ..badCertificateCallback =
-      ((X509Certificate cert, String host, int port) => true);
+          ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json; charset=utf-8');
     request.headers.set('X-Device', prefs.getString("deviceData"));
@@ -315,15 +321,17 @@ class PharmacyApiProvider {
   }
 
   ///search's by item
-  Future<ItemModel> fetchSearchItemsList(String obj,
-      int page,
-      int per_page,
-      String international_name_ids,
-      String manufacturer_ids,
-      String ordering,
-      String price_max,
-      String price_min,
-      String unit_ids,) async {
+  Future<ItemModel> fetchSearchItemsList(
+    String obj,
+    int page,
+    int per_page,
+    String international_name_ids,
+    String manufacturer_ids,
+    String ordering,
+    String price_max,
+    String price_min,
+    String unit_ids,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
@@ -505,16 +513,16 @@ class PharmacyApiProvider {
   }
 
   /// Filter parametrs
-  Future<FilterModel> fetchFilterParametrs(int page, int per_page,
-      int type) async {
+  Future<FilterModel> fetchFilterParametrs(
+      int page, int per_page, int type) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String url = type == 1
         ? Utils.BASE_URL + '/api/v1/units?page=$page&per_page=$per_page'
         : type == 2
-        ? Utils.BASE_URL +
-        '/api/v1/manufacturers?page=$page&per_page=$per_page'
-        : Utils.BASE_URL +
-        '/api/v1/international-names?page=$page&per_page=$per_page';
+            ? Utils.BASE_URL +
+                '/api/v1/manufacturers?page=$page&per_page=$per_page'
+            : Utils.BASE_URL +
+                '/api/v1/international-names?page=$page&per_page=$per_page';
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
@@ -701,14 +709,12 @@ class PharmacyApiProvider {
     String reply = await response.transform(utf8.decoder).join();
     final Map parsed = json.decode(reply);
 
-    return MinSum
-        .fromJson(parsed)
-        .min;
+    return MinSum.fromJson(parsed).min;
   }
 
   ///Check error pickup
-  Future<CheckErrorModel> fetchCheckErrorPickup(AccessStore accessStore,
-      String language) async {
+  Future<CheckErrorModel> fetchCheckErrorPickup(
+      AccessStore accessStore, String language) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
@@ -736,8 +742,8 @@ class PharmacyApiProvider {
   }
 
   ///Check error delivery
-  Future<CheckErrorModel> fetchCheckErrorDelivery(AccessStore accessStore,
-      String language) async {
+  Future<CheckErrorModel> fetchCheckErrorDelivery(
+      AccessStore accessStore, String language) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
@@ -876,9 +882,11 @@ class PharmacyApiProvider {
   }
 
   ///order item review
-  Future<CheckVersion> fetchOrderItemReview(String comment,
-      int rating,
-      int orderId,) async {
+  Future<CheckVersion> fetchOrderItemReview(
+    String comment,
+    int rating,
+    int orderId,
+  ) async {
     String url = Utils.BASE_URL + '/api/v1/send-order-reviews';
 
     final data = {"review": comment, "rating": rating, "order_id": orderId};
@@ -955,14 +963,14 @@ class PharmacyApiProvider {
     }
   }
 
-  Future<CurrentLocationAddressModel> fetchLocationAddress(double lat,
-      double lng) async {
+  Future<CurrentLocationAddressModel> fetchLocationAddress(
+      double lat, double lng) async {
     String url =
         'https://geocode-maps.yandex.ru/1.x/?apikey=b4985736-e176-472f-af14-36678b5d6aaa&geocode=$lng,$lat&format=json';
 
     try {
       http.Response response =
-      await http.get(url).timeout(const Duration(seconds: 10));
+          await http.get(url).timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return CurrentLocationAddressModel.fromJson(responseJson);

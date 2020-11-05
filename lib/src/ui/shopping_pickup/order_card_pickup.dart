@@ -35,8 +35,9 @@ import '../shopping_curer/curer_address_card.dart';
 // ignore: must_be_immutable
 class OrderCardPickupScreen extends StatefulWidget {
   int orderId;
+  String message;
 
-  OrderCardPickupScreen(this.orderId);
+  OrderCardPickupScreen(this.orderId, this.message);
 
   @override
   State<StatefulWidget> createState() {

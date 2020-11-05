@@ -12,6 +12,7 @@ import 'package:flutter_translate/global.dart';
 import 'package:flutter_translate/localized_app.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
+import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/blocs/menu_bloc.dart';
@@ -402,6 +403,7 @@ class _MainScreenState extends State<MainScreen> {
                         }
                     });
               } else if (index == 1) {
+                blocCategory.fetchAllCategory();
                 if (isOpenCategory) blocItemsList.updateCategory();
                 if (isOpenSearch) blocItemsList.updateSearch();
               }

@@ -145,7 +145,8 @@ class _AddressAptekaScreenState extends State<AddressAptekaPickupScreen>
                   ],
                 ),
               ),
-              Expanded(
+              Container(
+                height: size.height - 100,
                 child: ListView(
                   shrinkWrap: true,
                   physics: ClampingScrollPhysics(),
@@ -193,7 +194,7 @@ class _AddressAptekaScreenState extends State<AddressAptekaPickupScreen>
                           AddressAptekaListPickupScreen(widget.drugs),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               )

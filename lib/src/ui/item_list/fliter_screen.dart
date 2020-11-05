@@ -397,9 +397,8 @@ class _FilterScreenState extends State<FilterScreen> {
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: FilterItemScreen(2),
+                        MaterialPageRoute(
+                          builder: (context) => FilterItemScreen(2),
                         ),
                       );
                     },
@@ -479,9 +478,8 @@ class _FilterScreenState extends State<FilterScreen> {
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: FilterItemScreen(3),
+                        MaterialPageRoute(
+                          builder: (context) => FilterItemScreen(3),
                         ),
                       );
                     },

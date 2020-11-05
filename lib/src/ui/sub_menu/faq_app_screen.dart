@@ -86,7 +86,7 @@ class _FaqAppScreenState extends State<FaqAppScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        (index + 1).toString() +" "+ snapshot.data[index].answer,
+                        (index + 1).toString() +" "+ snapshot.data[index].question,
                         style: TextStyle(
                             fontFamily: AppTheme.fontRoboto,
                             fontSize: 17,
@@ -97,7 +97,7 @@ class _FaqAppScreenState extends State<FaqAppScreen> {
                       ),
                       SizedBox(height: 12),
                       Text(
-                        snapshot.data[index].question,
+                        snapshot.data[index].answer,
                         style: TextStyle(
                             fontFamily: AppTheme.fontRoboto,
                             fontSize: 14,

@@ -60,10 +60,14 @@ class DatabaseHelperHistory {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM $tableNote');
     List<String> products = new List();
-    for (int i = 0; i < list.length; i++) {
+    for (int i = list.length - 1; i >= 0; i--) {
       var items = list[i][columnName];
       products.add(items);
     }
+    // for (int i = 0; i < list.length; i++) {
+    //   var items = list[i][columnName];
+    //   products.add(items);
+    // }
     return products;
   }
 

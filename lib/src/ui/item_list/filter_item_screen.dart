@@ -117,9 +117,8 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                       onTap: () {
                         Navigator.pushReplacement(
                           context,
-                          PageTransition(
-                            type: PageTransitionType.leftToRight,
-                            child: FilterScreen(),
+                          MaterialPageRoute(
+                            builder: (context) => FilterScreen(),
                           ),
                         );
 //                        Navigator.pop(context);
@@ -191,7 +190,6 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                                               fontStyle: FontStyle.normal,
                                               color: AppTheme.black_text,
                                             ),
-
                                           ),
                                           value: snapshot.data[index].isClick,
                                           onChanged: (bool value) {
@@ -310,9 +308,8 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                 }
                 Navigator.pushReplacement(
                   context,
-                  PageTransition(
-                    type: PageTransitionType.leftToRight,
-                    child: FilterScreen(),
+                  MaterialPageRoute(
+                    builder: (context) => FilterScreen(),
                   ),
                 );
 //                Navigator.pop(context);

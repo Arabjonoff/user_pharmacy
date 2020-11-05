@@ -265,7 +265,7 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen>
     if (position.latitude != null && position.longitude != null) {
       lat = position.latitude;
       lng = position.longitude;
-      Utils.saveLocation(lat, lng);
+      Utils.saveLocation(position.latitude, position.longitude);
       blocApteka.fetchAllApteka(position.latitude, position.longitude);
     } else {
       blocApteka.fetchAllApteka(null, null);

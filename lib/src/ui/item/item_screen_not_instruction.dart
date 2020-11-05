@@ -1547,6 +1547,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                   ),
                   snapshot.data.is_coming
                       ? Container(
+                          padding: EdgeInsets.only(top: 12, bottom: 12),
                           child: Center(
                             child: Text(
                               translate("fast"),

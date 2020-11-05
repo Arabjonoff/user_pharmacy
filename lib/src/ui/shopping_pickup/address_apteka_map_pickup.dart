@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:app_settings/app_settings.dart';
@@ -79,6 +80,36 @@ class _AddressAptekaMapPickupScreenState
     setState(() {
       _permissionStatus = permissionRequestResult[PermissionGroup.location];
     });
+  }
+
+  Future<void> _updateLocation() async {
+    final List<PermissionGroup> permissions = <PermissionGroup>[
+      PermissionGroup.location
+    ];
+    final Map<PermissionGroup, PermissionStatus> permissionRequestResult =
+        await PermissionHandler().requestPermissions(permissions);
+    if (permissionRequestResult[PermissionGroup.location] ==
+        PermissionStatus.granted) {
+      Position position = await Geolocator().getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.bestForNavigation,
+        locationPermissionLevel: GeolocationPermission.locationWhenInUse,
+      );
+      if (position != null) {
+        lat = position.latitude;
+        lng = position.longitude;
+        Utils.saveLocation(position.latitude, position.longitude);
+        _point = new Point(
+            latitude: position.latitude, longitude: position.longitude);
+        mapController.move(
+          point: _point,
+          animation: const MapAnimation(smooth: true, duration: 0.5),
+        );
+        setState(() {
+          isFirstGrant = false;
+          isGranted = true;
+        });
+      }
+    }
   }
 
   void _addMarkers(Future<List<LocationModel>> response) async {
@@ -356,7 +387,8 @@ class _AddressAptekaMapPickupScreenState
                                                         child:
                                                             OrderCardPickupScreen(
                                                                 response
-                                                                    .orderId),
+                                                                    .orderId,
+                                                                ""),
                                                       ),
                                                     ),
                                                   }
@@ -528,7 +560,9 @@ class _AddressAptekaMapPickupScreenState
       if (isFirstGrant) {
         isFirstGrant = false;
         isGranted = true;
-        _getPosition();
+        Timer(Duration(milliseconds: 250), () {
+          _getPosition();
+        });
         if (mapController != null) {
           mapController.showUserLayer(
             iconName: 'assets/map/user.png',
@@ -546,7 +580,9 @@ class _AddressAptekaMapPickupScreenState
       if (isFirstDisabled) {
         isFirstDisabled = false;
         isGranted = false;
-        _defaultLocation();
+        Timer(Duration(milliseconds: 500), () {
+          _defaultLocation();
+        });
       }
     }
 
@@ -617,17 +653,20 @@ class _AddressAptekaMapPickupScreenState
             alignment: Alignment.bottomRight,
             child: GestureDetector(
               onTap: () {
-                if (_point != null)
+                if (_point != null) {
                   mapController.move(
                     point: _point,
                     animation: const MapAnimation(smooth: true, duration: 0.5),
                   );
+                } else {
+                  _updateLocation();
+                }
               },
               child: Container(
                 margin: EdgeInsets.only(bottom: 16, right: 16),
-                width: 145,
-                padding:
-                    EdgeInsets.only(top: 12, bottom: 12, left: 16, right: 16),
+                width:
+                    (translate("what_me").length * 9 + 24 + 32 + 12).toDouble(),
+                padding: EdgeInsets.only(top: 12, bottom: 12),
                 decoration: BoxDecoration(
                   color: AppTheme.white,
                   borderRadius: BorderRadius.circular(100),
@@ -688,8 +727,11 @@ class _AddressAptekaMapPickupScreenState
     if (position != null) {
       lat = position.latitude;
       lng = position.longitude;
-      addModel = new AccessStore(lat: lat, lng: lng, products: widget.drugs);
-      Utils.saveLocation(lat, lng);
+      addModel = new AccessStore(
+          lat: position.latitude,
+          lng: position.longitude,
+          products: widget.drugs);
+      Utils.saveLocation(position.latitude, position.longitude);
       _addMarkers(Repository().fetchAccessApteka(addModel));
       _point =
           new Point(latitude: position.latitude, longitude: position.longitude);
@@ -703,10 +745,10 @@ class _AddressAptekaMapPickupScreenState
   Future<void> _defaultLocation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getDouble("coordLat") != null) {
+      AccessStore addModel = new AccessStore();
+      addModel = new AccessStore(products: widget.drugs);
+      _addMarkers(Repository().fetchAccessApteka(addModel));
       if (mapController != null) {
-        AccessStore addModel = new AccessStore();
-        addModel = new AccessStore(products: widget.drugs);
-        _addMarkers(Repository().fetchAccessApteka(addModel));
         mapController.move(
           point: Point(
               latitude: prefs.getDouble("coordLat"),
@@ -716,10 +758,10 @@ class _AddressAptekaMapPickupScreenState
         );
       }
     } else {
+      AccessStore addModel = new AccessStore();
+      addModel = new AccessStore(products: widget.drugs);
+      _addMarkers(Repository().fetchAccessApteka(addModel));
       if (mapController != null) {
-        AccessStore addModel = new AccessStore();
-        addModel = new AccessStore(products: widget.drugs);
-        _addMarkers(Repository().fetchAccessApteka(addModel));
         mapController.move(
           point: Point(latitude: 41.311081, longitude: 69.240562),
           zoom: 11,

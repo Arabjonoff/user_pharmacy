@@ -202,6 +202,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
               physics: ClampingScrollPhysics(),
               children: [
                 Container(
+                  height: 52,
                   margin: EdgeInsets.only(top: 16, left: 16, right: 16),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
@@ -255,6 +256,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                   ),
                 ),
                 Container(
+                  height: 52,
                   margin: EdgeInsets.only(top: 12, left: 16, right: 16),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
@@ -275,7 +277,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                         color: AppTheme.black_text,
                         fontSize: 15,
                       ),
-                      maxLength: 50,
+                      maxLength: 25,
                       controller: surNameController,
                       decoration: InputDecoration(
                         counterText: "",
@@ -308,6 +310,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                   ),
                 ),
                 Container(
+                  height: 52,
                   margin: EdgeInsets.only(top: 12, left: 16, right: 16),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
@@ -384,6 +387,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                     );
                   },
                   child: Container(
+                    height: 52,
                     margin: EdgeInsets.only(top: 12, left: 16, right: 16),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
