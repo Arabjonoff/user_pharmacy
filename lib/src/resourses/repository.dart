@@ -182,8 +182,8 @@ class Repository {
   Future<HistoryModel> fetchHistory(int page) =>
       pharmacyApiProvider.fetchOrderHistory(page, 20);
 
-  Future<FilterModel> fetchFilterParametrs(int page, int type) =>
-      pharmacyApiProvider.fetchFilterParametrs(page, 50, type);
+  Future<FilterModel> fetchFilterParametrs(int page, int type, String search) =>
+      pharmacyApiProvider.fetchFilterParametrs(page, 50, type, search);
 
   Future<OrderOptionsModel> fetchOrderOptions(String lan) =>
       pharmacyApiProvider.fetchOrderOptions(lan);

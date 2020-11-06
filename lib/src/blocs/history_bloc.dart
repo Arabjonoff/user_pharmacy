@@ -12,10 +12,10 @@ class HistoryBloc {
   Observable<HistoryModel> get allHistory => _historyFetcher.stream;
 
   fetchAllHistory(int page) async {
+    HistoryModel historyModel = await _repository.fetchHistory(page);
     if (page == 1) {
       results = new List();
     }
-    HistoryModel historyModel = await _repository.fetchHistory(page);
     if (historyModel != null) {
       if (historyModel.results != null) results.addAll(historyModel.results);
       model = new HistoryModel(

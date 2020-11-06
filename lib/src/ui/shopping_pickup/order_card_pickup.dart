@@ -738,7 +738,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
             error
                 ? Container(
                     width: double.infinity,
-                    margin: EdgeInsets.only(top: 11, left: 16, right: 16),
+                    margin: EdgeInsets.only(top: 12, left: 16, right: 16),
                     child: Text(
                       error_text,
                       textAlign: TextAlign.end,
@@ -751,9 +751,37 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                     ),
                   )
                 : Container(),
+            widget.message.length > 1
+                ? Container(
+                    margin: EdgeInsets.only(left: 16, right: 16, top: 24),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                            "assets/images/icon_info_circle.svg"),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            widget.message,
+                            maxLines: 5,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontSize: 13,
+                              height: 1.6,
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.normal,
+                              color: AppTheme.blue_app_color,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                : Container(),
             Container(
               height: 1,
-              margin: EdgeInsets.only(top: 35),
+              margin: EdgeInsets.only(top: 24),
               color: AppTheme.black_linear_category,
             ),
             GestureDetector(

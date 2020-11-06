@@ -487,9 +487,16 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
     int regionId = prefs.getInt("cityId");
-
+    String lan = prefs.getString('language');
+    if (lan == null) {
+      lan = "ru";
+    }
     String url = Utils.BASE_URL +
-        '/api/v1/orders?page=$page&per_page=$per_page&region=$regionId';
+        '/api/v1/orders?'
+            'page=$page&'
+            'per_page=$per_page&'
+            'lan=$lan&'
+            'region=$regionId';
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -514,15 +521,16 @@ class PharmacyApiProvider {
 
   /// Filter parametrs
   Future<FilterModel> fetchFilterParametrs(
-      int page, int per_page, int type) async {
+      int page, int per_page, int type, String search) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String url = type == 1
-        ? Utils.BASE_URL + '/api/v1/units?page=$page&per_page=$per_page'
+        ? Utils.BASE_URL +
+            '/api/v1/units?page=$page&per_page=$per_page&search=$search'
         : type == 2
             ? Utils.BASE_URL +
-                '/api/v1/manufacturers?page=$page&per_page=$per_page'
+                '/api/v1/manufacturers?page=$page&per_page=$per_page&search=$search'
             : Utils.BASE_URL +
-                '/api/v1/international-names?page=$page&per_page=$per_page';
+                '/api/v1/international-names?page=$page&per_page=$per_page&search=$search';
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
@@ -1043,7 +1051,7 @@ class PharmacyApiProvider {
       http.Response response = await http
           .post(url, headers: headers, body: json.encode(order))
           .timeout(const Duration(seconds: 15));
-      print(response.body);
+
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return OrderStatusModel.fromJson(responseJson);

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -27,16 +29,42 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
   static int page = 1;
   ScrollController _sc = new ScrollController();
   bool isLoading = false;
-  int lastPosition = 0;
   List<FilterResults> data = new List();
+  String obj = "";
+  Timer _timer;
+
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
-    this._getMoreData(page);
     super.initState();
     _sc.addListener(() {
       if (_sc.position.pixels == _sc.position.maxScrollExtent) {
-        _getMoreData(page);
+        _getMoreData(page, obj);
+      }
+    });
+  }
+
+  _FilterItemScreenState() {
+    const oneSec = const Duration(seconds: 1);
+    searchController.addListener(() {
+      if (_timer == null) {
+        _timer = new Timer(oneSec, () {
+          _timer.cancel();
+          page = 1;
+          obj = searchController.text;
+          isLoading = false;
+          _getMoreData(1, obj);
+        });
+      } else {
+        _timer.cancel();
+        _timer = new Timer(oneSec, () {
+          _timer.cancel();
+          page = 1;
+          obj = searchController.text;
+          isLoading = false;
+          _getMoreData(1, obj);
+        });
       }
     });
   }
@@ -136,28 +164,77 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                 ],
               ),
             ),
+            Container(
+              height: 36,
+              margin: EdgeInsets.only(left: 16, right: 16, bottom: 4),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(9.0),
+                color: AppTheme.black_transparent,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(width: 8),
+                  Icon(
+                    Icons.search,
+                    size: 24,
+                    color: AppTheme.notWhite,
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Container(
+                      height: 36,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextFormField(
+                          textInputAction: TextInputAction.search,
+                          autofocus: true,
+                          cursorColor: AppTheme.notWhite,
+                          style: TextStyle(
+                            color: AppTheme.black_text,
+                            fontSize: 15,
+                            fontFamily: AppTheme.fontRoboto,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: translate("search_real"),
+                            hintStyle: TextStyle(
+                              color: AppTheme.notWhite,
+                              fontSize: 15,
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          controller: searchController,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: Container(
                 child: StreamBuilder(
                   stream: blocFilter.filterItem,
-                  builder:
-                      (context, AsyncSnapshot<List<FilterResults>> snapshot) {
+                  builder: (context, AsyncSnapshot<FilterModel> snapshot) {
                     if (snapshot.hasData) {
-                      lastPosition == snapshot.data.length
+                      snapshot.data.next == null
                           ? isLoading = true
                           : isLoading = false;
-                      lastPosition = snapshot.data.length;
-                      if (snapshot.data.length > 0) {
+                      if (snapshot.data.results.length > 0) {
                         data = new List();
-                        data.addAll(snapshot.data);
+                        data.addAll(snapshot.data.results);
                       }
-                      return snapshot.data.length > 0
+                      return snapshot.data.results.length > 0
                           ? ListView.builder(
                               controller: _sc,
                               scrollDirection: Axis.vertical,
-                              itemCount: snapshot.data.length + 1,
+                              itemCount: snapshot.data.results.length + 1,
                               itemBuilder: (context, index) {
-                                if (index == snapshot.data.length) {
+                                if (index == snapshot.data.results.length) {
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: new Center(
@@ -180,7 +257,7 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                                           checkColor: Colors.white,
                                           activeColor: Colors.blue,
                                           title: Text(
-                                            snapshot.data[index].name,
+                                            snapshot.data.results[index].name,
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
                                             style: TextStyle(
@@ -191,11 +268,14 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                                               color: AppTheme.black_text,
                                             ),
                                           ),
-                                          value: snapshot.data[index].isClick,
+                                          value: snapshot
+                                              .data.results[index].isClick,
                                           onChanged: (bool value) {
                                             setState(() {
-                                              snapshot.data[index].isClick =
-                                                  !snapshot.data[index].isClick;
+                                              snapshot.data.results[index]
+                                                      .isClick =
+                                                  !snapshot.data.results[index]
+                                                      .isClick;
                                             });
                                           },
                                         ),
@@ -211,32 +291,34 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                                 }
                               },
                             )
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  height: 150,
-                                ),
-                                SvgPicture.asset(
-                                  "assets/images/empty.svg",
-                                  height: 155,
-                                  width: 155,
-                                ),
-                                Container(
-                                  width: 210,
-                                  child: Text(
-                                    translate("search.empty"),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.normal,
-                                      color: AppTheme.search_empty,
-                                    ),
+                          : Container(
+                              width: double.infinity,
+                              height: double.infinity,
+                              child: ListView(
+                                children: [
+                                  SizedBox(height: 75),
+                                  SvgPicture.asset(
+                                    "assets/images/empty.svg",
+                                    height: 155,
+                                    width: 155,
                                   ),
-                                )
-                              ],
+                                  Container(
+                                    width: 210,
+                                    margin:
+                                        EdgeInsets.only(left: 16, right: 16),
+                                    child: Text(
+                                      translate("search.empty"),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontRoboto,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.normal,
+                                        color: AppTheme.search_empty,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
                             );
                     } else if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
@@ -284,14 +366,7 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (widget.type == 1) {
-//                  unitExamp = new List();
-//                  for (int i = 0; i < data.length; i++) {
-//                    if (data[i].isClick) {
-//                      unitExamp.add(data[i]);
-//                    }
-//                  }
-                } else if (widget.type == 2) {
+                if (widget.type == 2) {
                   manufacturerExamp = new List();
                   for (int i = 0; i < data.length; i++) {
                     if (data[i].isClick) {
@@ -312,7 +387,6 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                     builder: (context) => FilterScreen(),
                   ),
                 );
-//                Navigator.pop(context);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -323,7 +397,7 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                 width: double.infinity,
                 margin: EdgeInsets.only(
                   top: 12,
-                  bottom: 33,
+                  bottom: 24,
                   left: 16,
                   right: 16,
                 ),
@@ -347,13 +421,11 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
     );
   }
 
-  void _getMoreData(int index) async {
+  void _getMoreData(int index, String search) async {
     if (!isLoading) {
-      setState(() {
-        blocFilter.fetchAllFilter(widget.type, index);
-        isLoading = false;
-        page++;
-      });
+      blocFilter.fetchAllFilter(widget.type, index, search);
+      isLoading = false;
+      page++;
     }
   }
 }

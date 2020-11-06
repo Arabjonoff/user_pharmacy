@@ -8,8 +8,8 @@ class FilterModel {
 
   FilterModel.fromJson(Map<String, dynamic> json) {
     count = json['count'];
-    next = json['next'] == null ? "" : json['next'];
-    previous = json['previous'] == null ? "" : json['previous'];
+    next = json['next'] == null ? null : json['next'];
+    previous = json['previous'] == null ? null : json['previous'];
     if (json['results'] != null) {
       results = new List<FilterResults>();
       json['results'].forEach((v) {

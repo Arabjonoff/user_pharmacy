@@ -8,31 +8,23 @@ import 'package:rxdart/rxdart.dart';
 
 class FilterBloc {
   final _repository = Repository();
-  final _filterFetcher = PublishSubject<List<FilterResults>>();
+  final _filterFetcher = PublishSubject<FilterModel>();
 
   List<FilterResults> filterItems = new List();
 
-  Observable<List<FilterResults>> get filterItem => _filterFetcher.stream;
+  Observable<FilterModel> get filterItem => _filterFetcher.stream;
 
-  fetchAllFilter(int type, int page) async {
-    if (page == 1) {
-      filterItems = new List();
-    }
+  fetchAllFilter(int type, int page, String obj) async {
     FilterModel itemModelResponse =
-        await _repository.fetchFilterParametrs(page, type);
+        await _repository.fetchFilterParametrs(page, type, obj);
 
     if (itemModelResponse != null) {
+      if (page == 1) {
+        filterItems = new List();
+      }
       filterItems.addAll(itemModelResponse.results);
 
-      if (type == 1) {
-//      for (int i = 0; i < filterItems.length; i++) {
-//        for (int j = 0; j < unitExamp.length; j++) {
-//          if (filterItems[i].id == unitExamp[j].id) {
-//            filterItems[i].isClick = true;
-//          }
-//        }
-//      }
-      } else if (type == 2) {
+      if (type == 2) {
         for (int i = 0; i < filterItems.length; i++) {
           for (int j = 0; j < manufacturerExamp.length; j++) {
             if (filterItems[i].id == manufacturerExamp[j].id) {
@@ -50,12 +42,18 @@ class FilterBloc {
         }
       }
 
-      _filterFetcher.sink.add(filterItems);
+      _filterFetcher.sink.add(
+        FilterModel(
+          count: itemModelResponse.count,
+          previous: itemModelResponse.previous,
+          next: itemModelResponse.next,
+          results: filterItems,
+        ),
+      );
     }
   }
 
   dispose() {
-    filterItems = new List();
     _filterFetcher.close();
   }
 }

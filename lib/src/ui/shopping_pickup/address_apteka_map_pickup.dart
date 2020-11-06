@@ -384,11 +384,10 @@ class _AddressAptekaMapPickupScreenState
                                                       PageTransition(
                                                         type: PageTransitionType
                                                             .fade,
-                                                        child:
-                                                            OrderCardPickupScreen(
-                                                                response
-                                                                    .orderId,
-                                                                ""),
+                                                        child: OrderCardPickupScreen(
+                                                            response.orderId,
+                                                            response.data
+                                                                .expireSelfOrder),
                                                       ),
                                                     ),
                                                   }

@@ -45,6 +45,7 @@ class HistoryResults {
   String type;
   String fullName;
   String phone;
+  String expireSelfOrder;
   List<Items> items;
 
   HistoryResults(
@@ -62,6 +63,7 @@ class HistoryResults {
       this.type,
       this.fullName,
       this.phone,
+      this.expireSelfOrder,
       this.items});
 
   HistoryResults.fromJson(Map<String, dynamic> json) {
@@ -85,6 +87,7 @@ class HistoryResults {
     realTotal = json['real_total'] == null ? 0.0 : json['real_total'];
     status = json['status'];
     type = json['type'] == null ? "" : json['type'];
+    expireSelfOrder = json['expire_self_order'] == null ? "" : json['expire_self_order'];
     fullName = json['full_name'] == null ? "" : json['full_name'];
     phone = json['phone'] == null ? "" : json['phone'];
     if (json['items'] != null) {
@@ -118,6 +121,7 @@ class HistoryResults {
     data['type'] = this.type;
     data['full_name'] = this.fullName;
     data['phone'] = this.phone;
+    data['expire_self_order'] = this.expireSelfOrder;
     if (this.items != null) {
       data['items'] = this.items.map((v) => v.toJson()).toList();
     }

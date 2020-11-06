@@ -41,6 +41,7 @@ class Data {
     this.total,
     this.deliverySum,
     this.cash,
+    this.expireSelfOrder,
     this.startShipping,
     this.isUserPay,
     this.isTotalCash,
@@ -48,6 +49,7 @@ class Data {
 
   int orderId;
   double total;
+  String expireSelfOrder;
   double deliverySum;
   double cash;
   dynamic startShipping;
@@ -57,6 +59,8 @@ class Data {
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         orderId: json["order_id"],
         total: json["total"],
+        expireSelfOrder:
+            json["expire_self_order"] == null ? "" : json["expire_self_order"],
         deliverySum: json["delivery_sum"],
         cash: json["cash"],
         startShipping: json["start_shipping"],
@@ -68,6 +72,7 @@ class Data {
         "order_id": orderId,
         "total": total,
         "delivery_sum": deliverySum,
+        "expire_self_order": expireSelfOrder,
         "cash": cash,
         "start_shipping": startShipping,
         "is_user_pay": isUserPay,

@@ -268,7 +268,8 @@ class _AddressAptekaListPickupScreenState
                                                   type: PageTransitionType.fade,
                                                   child: OrderCardPickupScreen(
                                                     response.orderId,
-                                                    "",
+                                                    response
+                                                        .data.expireSelfOrder,
                                                   ),
                                                 ),
                                               ),

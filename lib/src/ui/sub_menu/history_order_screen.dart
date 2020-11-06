@@ -121,7 +121,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       type: PageTransitionType.fade,
                                       child: OrderCardPickupScreen(
                                         snapshot.data.results[index].id,
-                                        "",
+                                        snapshot.data.results[index].expireSelfOrder,
                                       ),
                                     ),
                                   );
