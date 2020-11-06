@@ -9,9 +9,10 @@ import 'package:pharmacy/src/blocs/history_bloc.dart';
 import 'package:pharmacy/src/database/database_helper_apteka.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
+import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/main/home/home_screen.dart';
+import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
 import 'package:pharmacy/src/ui/sub_menu/order_number.dart';
@@ -115,18 +116,27 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                   "payment_waiting") {
                                 if (snapshot.data.results[index].type ==
                                     "self") {
-                                  Navigator.push(
-                                    context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      child: OrderCardPickupScreen(
-                                        snapshot.data.results[index].id,
-                                        snapshot.data.results[index].expireSelfOrder,
-                                      ),
-                                    ),
-                                  );
+                                  Utils.getCashBack().then((value) => {
+                                        cashData = new CashBackData(
+                                          total: snapshot
+                                              .data.results[index].total,
+                                          cash: value == null ? 0.0 : value,
+                                        ),
+                                        Navigator.push(
+                                          context,
+                                          PageTransition(
+                                            type: PageTransitionType.fade,
+                                            child: OrderCardPickupScreen(
+                                              snapshot.data.results[index].id,
+                                              snapshot.data.results[index]
+                                                  .expireSelfOrder,
+                                            ),
+                                          ),
+                                        ),
+                                      });
                                 } else {
                                   Utils.getCashBack().then((value) => {
+                                        print(value),
                                         Navigator.push(
                                           context,
                                           PageTransition(
@@ -136,7 +146,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                                   .data.results[index].id,
                                               price: snapshot.data
                                                   .results[index].realTotal,
-                                              cash: value,
+                                              cash: value == null ? 0.0 : value,
                                               deliveryPrice: snapshot.data
                                                   .results[index].deliveryTotal,
                                             ),
