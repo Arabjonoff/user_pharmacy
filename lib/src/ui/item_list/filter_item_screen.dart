@@ -368,16 +368,35 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
               onTap: () {
                 if (widget.type == 2) {
                   manufacturerExamp = new List();
+                  manufacturer_ids = "";
                   for (int i = 0; i < data.length; i++) {
                     if (data[i].isClick) {
                       manufacturerExamp.add(data[i]);
                     }
                   }
+                  for (int i = 0; i < manufacturerExamp.length; i++) {
+                    if (i < manufacturerExamp.length - 1) {
+                      manufacturer_ids +=
+                          manufacturerExamp[i].id.toString() + ",";
+                    } else {
+                      manufacturer_ids += manufacturerExamp[i].id.toString();
+                    }
+                  }
                 } else {
                   internationalNameExamp = new List();
+                  international_name_ids = "";
                   for (int i = 0; i < data.length; i++) {
                     if (data[i].isClick) {
                       internationalNameExamp.add(data[i]);
+                    }
+                  }
+                  for (int i = 0; i < internationalNameExamp.length; i++) {
+                    if (i < internationalNameExamp.length - 1) {
+                      international_name_ids +=
+                          internationalNameExamp[i].id.toString() + ",";
+                    } else {
+                      international_name_ids +=
+                          internationalNameExamp[i].id.toString();
                     }
                   }
                 }
