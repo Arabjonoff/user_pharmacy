@@ -82,7 +82,7 @@ class _AddressAptekaScreenState extends State<AddressAptekaScreen>
           children: [
             Container(
               height: 40,
-              width: 350,
+              width: double.infinity,
               margin: EdgeInsets.only(left: 16, right: 16, bottom: 8),
               padding: EdgeInsets.all(4),
               decoration: BoxDecoration(

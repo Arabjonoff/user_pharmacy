@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
@@ -26,6 +27,24 @@ class OrderNumber extends StatefulWidget {
 
 class _OrderNumberState extends State<OrderNumber> {
   bool itemClick = false;
+  PermissionStatus _permissionStatus = PermissionStatus.unknown;
+
+  @override
+  void initState() {
+    super.initState();
+    _requestPermission();
+  }
+
+  Future<void> _requestPermission() async {
+    final List<PermissionGroup> permissions = <PermissionGroup>[
+      PermissionGroup.location
+    ];
+    final Map<PermissionGroup, PermissionStatus> permissionRequestResult =
+        await PermissionHandler().requestPermissions(permissions);
+    setState(() {
+      _permissionStatus = permissionRequestResult[PermissionGroup.location];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -675,15 +694,25 @@ class _OrderNumberState extends State<OrderNumber> {
                               var pharmacyLng =
                                   widget.item.store.location.coordinates[0];
 
-                              if (lat == 41.311081 && lng == 69.240562) {
-                                Position position = await Geolocator()
-                                    .getCurrentPosition(
-                                        desiredAccuracy:
-                                            LocationAccuracy.bestForNavigation);
-                                if (position.latitude != null &&
-                                    position.longitude != null) {
-                                  lat = position.latitude;
-                                  lng = position.longitude;
+                              if (_permissionStatus ==
+                                  PermissionStatus.granted) {
+                                if (lat == 41.311081 && lng == 69.240562) {
+                                  Position position = await Geolocator()
+                                      .getCurrentPosition(
+                                          desiredAccuracy: LocationAccuracy
+                                              .bestForNavigation);
+                                  if (position != null) {
+                                    lat = position.latitude;
+                                    lng = position.longitude;
+                                    var url =
+                                        'http://maps.google.com/maps?saddr=$lat,$lng&daddr=$pharmacyLat,$pharmacyLng';
+                                    if (await canLaunch(url)) {
+                                      await launch(url);
+                                    } else {
+                                      throw 'Could not launch $url';
+                                    }
+                                  }
+                                } else {
                                   var url =
                                       'http://maps.google.com/maps?saddr=$lat,$lng&daddr=$pharmacyLat,$pharmacyLng';
                                   if (await canLaunch(url)) {
@@ -694,7 +723,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                 }
                               } else {
                                 var url =
-                                    'http://maps.google.com/maps?saddr=$lat,$lng&daddr=$pharmacyLat,$pharmacyLng';
+                                    'http://maps.google.com/maps?saddr=41.311081,69.240562&daddr=$pharmacyLat,$pharmacyLng';
                                 if (await canLaunch(url)) {
                                   await launch(url);
                                 } else {
