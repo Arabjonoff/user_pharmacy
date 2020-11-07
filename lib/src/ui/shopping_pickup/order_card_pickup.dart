@@ -53,6 +53,8 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
   int clickType;
   bool checkBox = false;
   bool isEnd = false;
+  bool isCardNum = false;
+  bool isCardDate = false;
   String cardToken = "";
 
   bool loading = false;
@@ -88,6 +90,31 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
   }
 
   _OrderCardPickupScreenState() {
+    cardNumberController.addListener(() {
+      var cardNum = cardNumberController.text.replaceAll(' ', '');
+      if (cardNum.length == 16) {
+        setState(() {
+          isCardNum = true;
+        });
+      } else {
+        setState(() {
+          isCardNum = false;
+        });
+      }
+    });
+    cardDateController.addListener(() {
+      var cardDate =
+          cardDateController.text.replaceAll(' ', '').replaceAll('/', '');
+      if (cardDate.length == 4) {
+        setState(() {
+          isCardDate = true;
+        });
+      } else {
+        setState(() {
+          isCardDate = false;
+        });
+      }
+    });
     cashPriceController.addListener(() {
       double p;
       try {
@@ -758,8 +785,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(
-                            "assets/images/icon_info_circle.svg"),
+                        SvgPicture.asset("assets/images/icon_info_circle.svg"),
                         SizedBox(width: 8),
                         Expanded(
                           child: Text(
@@ -880,8 +906,10 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  color: clickType == null
-                      ? AppTheme.blue_app_color_transparent
+                  color: (clickType == null || (isEnd))
+                      ? (isCardNum && isCardDate)
+                          ? AppTheme.blue_app_color
+                          : AppTheme.blue_app_color_transparent
                       : AppTheme.blue_app_color,
                 ),
                 height: 44,

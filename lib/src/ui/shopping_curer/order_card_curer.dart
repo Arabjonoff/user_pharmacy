@@ -56,6 +56,8 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
   int clickType;
   bool checkBox = false;
   bool isEnd = false;
+  bool isCardNum = false;
+  bool isCardDate = false;
   String cardToken = "";
 
   bool loading = false;
@@ -100,6 +102,31 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
   }
 
   _OrderCardCurerScreenState() {
+    cardNumberController.addListener(() {
+      var cardNum = cardNumberController.text.replaceAll(' ', '');
+      if (cardNum.length == 16) {
+        setState(() {
+          isCardNum = true;
+        });
+      } else {
+        setState(() {
+          isCardNum = false;
+        });
+      }
+    });
+    cardDateController.addListener(() {
+      var cardDate =
+          cardDateController.text.replaceAll(' ', '').replaceAll('/', '');
+      if (cardDate.length == 4) {
+        setState(() {
+          isCardDate = true;
+        });
+      } else {
+        setState(() {
+          isCardDate = false;
+        });
+      }
+    });
     cashPriceController.addListener(() {
       double text;
       try {
@@ -904,8 +931,10 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  color: paymentType == null
-                      ? AppTheme.blue_app_color_transparent
+                  color: (paymentType == null || (isEnd))
+                      ? (isCardNum && isCardDate)
+                          ? AppTheme.blue_app_color
+                          : AppTheme.blue_app_color_transparent
                       : AppTheme.blue_app_color,
                 ),
                 height: 44,
