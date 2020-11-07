@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,11 +26,13 @@ class FilterItemScreen extends StatefulWidget {
   }
 }
 
+List<FilterResults> dataM = new List();
+List<FilterResults> dataI = new List();
+
 class _FilterItemScreenState extends State<FilterItemScreen> {
   static int page = 1;
   ScrollController _sc = new ScrollController();
   bool isLoading = false;
-  List<FilterResults> data = new List();
   String obj = "";
   Timer _timer;
 
@@ -224,10 +227,6 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                       snapshot.data.next == null
                           ? isLoading = true
                           : isLoading = false;
-                      if (snapshot.data.results.length > 0) {
-                        data = new List();
-                        data.addAll(snapshot.data.results);
-                      }
                       return snapshot.data.results.length > 0
                           ? ListView.builder(
                               controller: _sc,
@@ -271,6 +270,58 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                                           value: snapshot
                                               .data.results[index].isClick,
                                           onChanged: (bool value) {
+                                            if (widget.type == 2) {
+                                              int k = 0;
+                                              for (int i = 0;
+                                                  i < dataM.length;
+                                                  i++) {
+                                                if (dataM[i].id ==
+                                                    snapshot.data.results[index]
+                                                        .id) {
+                                                  dataM[i].isClick =
+                                                      !dataM[i].isClick;
+                                                  break;
+                                                } else {
+                                                  k++;
+                                                }
+                                              }
+                                              if (k == dataM.length) {
+                                                dataM.add(
+                                                  FilterResults(
+                                                      id: snapshot.data
+                                                          .results[index].id,
+                                                      name: snapshot.data
+                                                          .results[index].name,
+                                                      isClick: true),
+                                                );
+                                              }
+                                            } else {
+                                              int k = 0;
+                                              for (int i = 0;
+                                                  i < dataI.length;
+                                                  i++) {
+                                                if (dataI[i].id ==
+                                                    snapshot.data.results[index]
+                                                        .id) {
+                                                  dataI[i].isClick =
+                                                      !dataI[i].isClick;
+                                                  break;
+                                                } else {
+                                                  k++;
+                                                }
+                                              }
+                                              if (k == dataI.length) {
+                                                dataI.add(
+                                                  FilterResults(
+                                                      id: snapshot.data
+                                                          .results[index].id,
+                                                      name: snapshot.data
+                                                          .results[index].name,
+                                                      isClick: true),
+                                                );
+                                              }
+                                            }
+
                                             setState(() {
                                               snapshot.data.results[index]
                                                       .isClick =
@@ -369,9 +420,9 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                 if (widget.type == 2) {
                   manufacturerExamp = new List();
                   manufacturer_ids = "";
-                  for (int i = 0; i < data.length; i++) {
-                    if (data[i].isClick) {
-                      manufacturerExamp.add(data[i]);
+                  for (int i = 0; i < dataM.length; i++) {
+                    if (dataM[i].isClick) {
+                      manufacturerExamp.add(dataM[i]);
                     }
                   }
                   for (int i = 0; i < manufacturerExamp.length; i++) {
@@ -385,9 +436,9 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                 } else {
                   internationalNameExamp = new List();
                   international_name_ids = "";
-                  for (int i = 0; i < data.length; i++) {
-                    if (data[i].isClick) {
-                      internationalNameExamp.add(data[i]);
+                  for (int i = 0; i < dataI.length; i++) {
+                    if (dataI[i].isClick) {
+                      internationalNameExamp.add(dataI[i]);
                     }
                   }
                   for (int i = 0; i < internationalNameExamp.length; i++) {

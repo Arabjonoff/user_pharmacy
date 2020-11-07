@@ -30,20 +30,15 @@ class _FilterScreenState extends State<FilterScreen> {
   String interName = "";
   String manufacName = "";
 
-  //String unitName = "";
   String interIds = "";
   String manufacIds = "";
-
-//  String unitIds = "";
 
   @override
   void initState() {
     interName = "";
     manufacName = "";
-    // unitName = "";
     interIds = "";
     manufacIds = "";
-    // unitIds = "";
     minController.text = price_min;
     maxController.text = price_max;
     for (int i = 0; i < internationalNameExamp.length; i++) {
@@ -64,16 +59,6 @@ class _FilterScreenState extends State<FilterScreen> {
         manufacIds += manufacturerExamp[i].id.toString();
       }
     }
-//    for (int i = 0; i < unitExamp.length; i++) {
-//      if (i < unitExamp.length - 1) {
-//        unitName += unitExamp[i].name + ", ";
-//        unitIds += unitExamp[i].id.toString() + ",";
-//      } else {
-//        unitName += unitExamp[i].name;
-//        unitIds += unitExamp[i].id.toString();
-//      }
-//    }
-
     super.initState();
   }
 

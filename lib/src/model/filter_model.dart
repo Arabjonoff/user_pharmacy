@@ -35,7 +35,7 @@ class FilterResults {
   String name;
   bool isClick = false;
 
-  FilterResults({this.id, this.name});
+  FilterResults({this.id, this.name, this.isClick});
 
   FilterResults.fromJson(Map<String, dynamic> json) {
     id = json['id'];

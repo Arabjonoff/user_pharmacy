@@ -2,6 +2,7 @@ import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/item_list/filter_item_screen.dart';
 import 'package:pharmacy/src/ui/item_list/fliter_screen.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:rxdart/rxdart.dart';
@@ -26,17 +27,17 @@ class FilterBloc {
 
       if (type == 2) {
         for (int i = 0; i < filterItems.length; i++) {
-          for (int j = 0; j < manufacturerExamp.length; j++) {
-            if (filterItems[i].id == manufacturerExamp[j].id) {
-              filterItems[i].isClick = true;
+          for (int j = 0; j < dataM.length; j++) {
+            if (filterItems[i].id == dataM[j].id) {
+              filterItems[i].isClick = dataM[j].isClick;
             }
           }
         }
       } else {
         for (int i = 0; i < filterItems.length; i++) {
-          for (int j = 0; j < internationalNameExamp.length; j++) {
-            if (filterItems[i].id == internationalNameExamp[j].id) {
-              filterItems[i].isClick = true;
+          for (int j = 0; j < dataI.length; j++) {
+            if (filterItems[i].id == dataI[j].id) {
+              filterItems[i].isClick = dataI[j].isClick;
             }
           }
         }

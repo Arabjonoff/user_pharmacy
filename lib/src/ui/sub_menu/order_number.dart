@@ -27,23 +27,10 @@ class OrderNumber extends StatefulWidget {
 
 class _OrderNumberState extends State<OrderNumber> {
   bool itemClick = false;
-  PermissionStatus _permissionStatus = PermissionStatus.unknown;
 
   @override
   void initState() {
     super.initState();
-    _requestPermission();
-  }
-
-  Future<void> _requestPermission() async {
-    final List<PermissionGroup> permissions = <PermissionGroup>[
-      PermissionGroup.location
-    ];
-    final Map<PermissionGroup, PermissionStatus> permissionRequestResult =
-        await PermissionHandler().requestPermissions(permissions);
-    setState(() {
-      _permissionStatus = permissionRequestResult[PermissionGroup.location];
-    });
   }
 
   @override
@@ -693,42 +680,12 @@ class _OrderNumberState extends State<OrderNumber> {
                                   widget.item.store.location.coordinates[1];
                               var pharmacyLng =
                                   widget.item.store.location.coordinates[0];
-
-                              if (_permissionStatus ==
-                                  PermissionStatus.granted) {
-                                if (lat == 41.311081 && lng == 69.240562) {
-                                  Position position = await Geolocator()
-                                      .getCurrentPosition(
-                                          desiredAccuracy: LocationAccuracy
-                                              .bestForNavigation);
-                                  if (position != null) {
-                                    lat = position.latitude;
-                                    lng = position.longitude;
-                                    var url =
-                                        'http://maps.google.com/maps?saddr=$lat,$lng&daddr=$pharmacyLat,$pharmacyLng';
-                                    if (await canLaunch(url)) {
-                                      await launch(url);
-                                    } else {
-                                      throw 'Could not launch $url';
-                                    }
-                                  }
-                                } else {
-                                  var url =
-                                      'http://maps.google.com/maps?saddr=$lat,$lng&daddr=$pharmacyLat,$pharmacyLng';
-                                  if (await canLaunch(url)) {
-                                    await launch(url);
-                                  } else {
-                                    throw 'Could not launch $url';
-                                  }
-                                }
+                              String googleUrl =
+                                  'https://maps.google.com/?daddr=$pharmacyLat,$pharmacyLng';
+                              if (await canLaunch(googleUrl)) {
+                                await launch(googleUrl);
                               } else {
-                                var url =
-                                    'http://maps.google.com/maps?saddr=41.311081,69.240562&daddr=$pharmacyLat,$pharmacyLng';
-                                if (await canLaunch(url)) {
-                                  await launch(url);
-                                } else {
-                                  throw 'Could not launch $url';
-                                }
+                                throw 'Could not launch $googleUrl';
                               }
                             },
                             child: Container(
