@@ -1,8 +1,14 @@
 PODS:
+  - android_intent (0.0.1):
+    - Flutter
+  - "app_settings (3.0.0+1)":
+    - Flutter
   - barcode_scan (0.0.1):
     - Flutter
     - MTBBarcodeScanner
     - SwiftProtobuf
+  - device_info (0.0.1):
+    - Flutter
   - Firebase/Core (6.28.1):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 6.6.2)
@@ -137,7 +143,10 @@ PODS:
   - YandexRuntime (3.5.0)
 
 DEPENDENCIES:
+  - android_intent (from `.symlinks/plugins/android_intent/ios`)
+  - app_settings (from `.symlinks/plugins/app_settings/ios`)
   - barcode_scan (from `.symlinks/plugins/barcode_scan/ios`)
+  - device_info (from `.symlinks/plugins/device_info/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
   - flutter_device_locale (from `.symlinks/plugins/flutter_device_locale/ios`)
@@ -181,8 +190,14 @@ SPEC REPOS:
     - YandexRuntime
 
 EXTERNAL SOURCES:
+  android_intent:
+    :path: ".symlinks/plugins/android_intent/ios"
+  app_settings:
+    :path: ".symlinks/plugins/app_settings/ios"
   barcode_scan:
     :path: ".symlinks/plugins/barcode_scan/ios"
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
   firebase_messaging:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   Flutter:
@@ -223,7 +238,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/yandex_mapkit/ios"
 
 SPEC CHECKSUMS:
+  android_intent: 367df2f1277a74e4a90e14a8ab3df3112d087052
+  app_settings: d103828c9f5d515c4df9ee754dabd443f7cedcf3
   barcode_scan: a5c27959edfafaa0c771905bad0b29d6d39e4479
+  device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   Firebase: ed042590caa0029392257529a8003c25ee82bc18
   firebase_messaging: 21344b3b3a7d9d325d63a70e3750c0c798fe1e03
   FirebaseAnalytics: 5fa308e1b13f838d0f6dc74719ac2a72e8c5afc4
