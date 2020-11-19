@@ -1043,7 +1043,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             PageTransition(
                                               type: PageTransitionType.fade,
                                               child: ItemListScreen(
-                                                translate("sale"),
+                                                url.name,
                                                 4,
                                                 url.drugs
                                                     .toString()
@@ -1070,7 +1070,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             PageTransition(
                                               type: PageTransitionType.fade,
                                               child: ItemListScreen(
-                                                translate("sale"),
+                                                url.name,
                                                 1,
                                                 url.category.toString(),
                                               ),
