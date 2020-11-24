@@ -57,6 +57,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  card_scanner:
+    dependency: "direct main"
+    description:
+      name: card_scanner
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0+3"
   carousel_slider:
     dependency: "direct main"
     description:

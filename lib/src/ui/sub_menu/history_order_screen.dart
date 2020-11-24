@@ -136,7 +136,6 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       });
                                 } else {
                                   Utils.getCashBack().then((value) => {
-                                        print(value),
                                         Navigator.push(
                                           context,
                                           PageTransition(

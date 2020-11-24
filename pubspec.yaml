@@ -41,6 +41,7 @@ dependencies:
   android_intent: ^0.3.7+6
   device_info: ^0.4.2+9
   app_settings: 4.0.4
+  card_scanner: ^0.2.0+3
 
 dev_dependencies:
   flutter_test:

@@ -1201,9 +1201,6 @@ class _ItemListScreenState extends State<ItemListScreen> {
   }
 
   void _getMoreData(int index) async {
-    print(manufacturer_ids);
-    print(international_name_ids);
-
     if (!isLoading) {
       setState(() {
         if (widget.type == 4) {
