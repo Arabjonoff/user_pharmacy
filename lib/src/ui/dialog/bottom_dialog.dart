@@ -121,7 +121,7 @@ class BottomDialog {
                             Navigator.pushReplacement(
                               context,
                               PageTransition(
-                                type: PageTransitionType.downToUp,
+                                type: PageTransitionType.bottomToTop,
                                 child: LoginScreen(),
                               ),
                             );

@@ -548,7 +548,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                     Navigator.push(
                                       context,
                                       PageTransition(
-                                        type: PageTransitionType.downToUp,
+                                        type: PageTransitionType.bottomToTop,
                                         alignment: Alignment.bottomCenter,
                                         child: ItemScreenNotIstruction(
                                             snapshot.data.results[index].id),

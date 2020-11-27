@@ -260,7 +260,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                         Navigator.pushReplacement(
                           context,
                           PageTransition(
-                            type: PageTransitionType.downToUp,
+                            type: PageTransitionType.bottomToTop,
                             child: CurerAddressCardScreen(false),
                           ),
                         );
@@ -451,7 +451,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                   Navigator.pushReplacement(
                     context,
                     PageTransition(
-                      type: PageTransitionType.downToUp,
+                      type: PageTransitionType.bottomToTop,
                       child: CurerAddressCardScreen(true),
                     ),
                   );

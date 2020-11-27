@@ -168,7 +168,7 @@ class _CardScreenState extends State<CardScreen> {
                               Navigator.push(
                                 context,
                                 PageTransition(
-                                  type: PageTransitionType.downToUp,
+                                  type: PageTransitionType.bottomToTop,
                                   alignment: Alignment.bottomCenter,
                                   child: ItemScreenNotIstruction(
                                       snapshot.data[index].id),

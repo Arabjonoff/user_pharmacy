@@ -601,7 +601,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                   Navigator.push(
                                     context,
                                     PageTransition(
-                                      type: PageTransitionType.downToUp,
+                                      type: PageTransitionType.bottomToTop,
                                       alignment: Alignment.bottomCenter,
                                       child: ItemScreenNotIstruction(snapshot
                                           .data.recommendations[index].id),
@@ -1096,7 +1096,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                   Navigator.push(
                                     context,
                                     PageTransition(
-                                      type: PageTransitionType.downToUp,
+                                      type: PageTransitionType.bottomToTop,
                                       alignment: Alignment.bottomCenter,
                                       child: ItemScreenNotIstruction(
                                           snapshot.data.analog[index].id),

@@ -200,7 +200,7 @@ class _MainScreenState extends State<MainScreen> {
               Navigator.push(
                 context,
                 PageTransition(
-                  type: PageTransitionType.downToUp,
+                  type: PageTransitionType.bottomToTop,
                   alignment: Alignment.bottomCenter,
                   child: ItemScreenNotIstruction(
                     event.position,
@@ -214,7 +214,7 @@ class _MainScreenState extends State<MainScreen> {
               Navigator.push(
                 context,
                 PageTransition(
-                  type: PageTransitionType.downToUp,
+                  type: PageTransitionType.bottomToTop,
                   alignment: Alignment.bottomCenter,
                   child: ItemListScreen(
                     translate("sale"),
@@ -230,7 +230,7 @@ class _MainScreenState extends State<MainScreen> {
               Navigator.push(
                 context,
                 PageTransition(
-                  type: PageTransitionType.downToUp,
+                  type: PageTransitionType.bottomToTop,
                   alignment: Alignment.bottomCenter,
                   child: ItemListScreen(
                     translate("sale"),
@@ -259,7 +259,7 @@ class _MainScreenState extends State<MainScreen> {
               Navigator.pushReplacement(
                 context,
                 PageTransition(
-                  type: PageTransitionType.downToUp,
+                  type: PageTransitionType.bottomToTop,
                   child: AutoUpdateScreen(
                     package: event.packageName,
                     desk: event.desk,
@@ -544,7 +544,7 @@ class _MainScreenState extends State<MainScreen> {
           Navigator.push(
             context,
             PageTransition(
-              type: PageTransitionType.downToUp,
+              type: PageTransitionType.bottomToTop,
               child: AddressAptekaPickupScreen(drugs),
             ),
           ),
@@ -565,7 +565,7 @@ class _MainScreenState extends State<MainScreen> {
     Navigator.push(
       context,
       PageTransition(
-        type: PageTransitionType.downToUp,
+        type: PageTransitionType.bottomToTop,
         child: CurerAddressCardScreen(false),
       ),
     );
@@ -575,7 +575,7 @@ class _MainScreenState extends State<MainScreen> {
     Navigator.push(
       context,
       PageTransition(
-        type: PageTransitionType.downToUp,
+        type: PageTransitionType.bottomToTop,
         child: LoginScreen(),
       ),
     );
