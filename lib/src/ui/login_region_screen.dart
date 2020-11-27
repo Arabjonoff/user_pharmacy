@@ -40,8 +40,8 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
   void initState() {
     _requestPermission();
     Timer(Duration(seconds: 10), () {
-      if(position == null){
-
+      if (position == null) {
+        blocRegion.fetchAllRegion();
       }
     });
     super.initState();
@@ -415,53 +415,4 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
       ),
     );
   }
-
-// void _getMoreData() async {
-//   var response = Repository().fetchRegions("");
-//
-//   response.then(
-//     (value) => {
-//       if (value != null)
-//         {
-//           setState(() {
-//             isLoading = false;
-//             users = new List();
-//             users = value;
-//           }),
-//         }
-//       else
-//         {
-//           setState(() {
-//             isLoading = false;
-//           }),
-//           showDialog(
-//             context: context,
-//             builder: (BuildContext context) {
-//               return AlertDialog(
-//                 shape: RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.all(Radius.circular(10.0))),
-//                 contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-//                 content: Container(
-//                   width: 239.0,
-//                   height: 64.0,
-//                   child: Center(
-//                     child: Text(
-//                       translate("internet_error"),
-//                       style: TextStyle(
-//                         fontFamily: AppTheme.fontRoboto,
-//                         fontStyle: FontStyle.normal,
-//                         fontWeight: FontWeight.w600,
-//                         fontSize: 16,
-//                         color: AppTheme.black_text,
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//               );
-//             },
-//           )
-//         }
-//     },
-//   );
-// }
 }

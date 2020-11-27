@@ -183,7 +183,7 @@ class _RegionScreenState extends State<RegionScreen> {
                                     "",
                                     "",
                                   );
-
+                                  blocHome.fetchCityName();
                                   Navigator.pop(context);
                                 } else {
                                   Navigator.pop(context);
@@ -325,6 +325,7 @@ class _RegionScreenState extends State<RegionScreen> {
                                                   "",
                                                   "",
                                                 );
+                                                blocHome.fetchCityName();
                                                 Navigator.pop(context);
                                               } else {
                                                 Navigator.pop(context);
