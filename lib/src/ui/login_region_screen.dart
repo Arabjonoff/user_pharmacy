@@ -29,6 +29,7 @@ class LoginRegionScreen extends StatefulWidget {
 
 class _LoginRegionScreenState extends State<LoginRegionScreen> {
   PermissionStatus _permissionStatus;
+  Position position;
 
   //List<RegionModel> users = new List();
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
@@ -38,6 +39,11 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
   @override
   void initState() {
     _requestPermission();
+    Timer(Duration(seconds: 10), () {
+      if(position == null){
+
+      }
+    });
     super.initState();
   }
 
@@ -53,7 +59,7 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
   }
 
   Future<void> _getPosition() async {
-    Position position = await Geolocator().getCurrentPosition(
+    position = await Geolocator().getCurrentPosition(
       desiredAccuracy: LocationAccuracy.bestForNavigation,
       locationPermissionLevel: GeolocationPermission.locationWhenInUse,
     );

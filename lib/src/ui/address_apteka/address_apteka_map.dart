@@ -128,7 +128,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
             ),
             opacity: 1.0,
             iconName: 'assets/map/selected_order.png',
-            onTap: (double latitude, double longitude) => {
+            onTap: (Point point) => {
               BottomDialog.mapBottom(data[i], context),
             },
           ),

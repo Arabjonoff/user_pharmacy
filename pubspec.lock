@@ -57,13 +57,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  card_scanner:
-    dependency: "direct main"
-    description:
-      name: card_scanner
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0+3"
   carousel_slider:
     dependency: "direct main"
     description:
@@ -634,7 +627,7 @@ packages:
       name: yandex_mapkit
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.9"
+    version: "0.3.11"
 sdks:
   dart: ">=2.9.0-14.0.dev <3.0.0"
   flutter: ">=1.18.0-6.0.pre <2.0.0"

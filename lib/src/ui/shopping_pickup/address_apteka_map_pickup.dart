@@ -145,7 +145,7 @@ class _AddressAptekaMapPickupScreenState
         ),
         opacity: 1,
         iconName: 'assets/map/selected_order.png',
-        onTap: (double latitude, double longitude) => {
+        onTap: (Point point) => {
           //BottomDialog.mapBottom(data[i], context),
           showModalBottomSheet(
             context: context,
