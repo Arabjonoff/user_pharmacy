@@ -394,6 +394,7 @@ class _MainScreenState extends State<MainScreen> {
                   "",
                   "",
                 );
+                blocHome.fetchCityName();
               } else if (index == 4) {
                 Utils.isLogin().then((value) => {
                       isLogin = value,
