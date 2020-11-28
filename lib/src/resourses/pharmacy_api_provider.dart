@@ -50,9 +50,11 @@ class PharmacyApiProvider {
       "login": login,
     };
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
 
     try {
@@ -79,9 +81,12 @@ class PharmacyApiProvider {
       "device_token": token,
     };
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
     try {
       http.Response response = await http
@@ -112,9 +117,12 @@ class PharmacyApiProvider {
       "region": regionId.toString(),
     };
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
     try {
       http.Response response = await http
@@ -136,9 +144,11 @@ class PharmacyApiProvider {
 
     String url = Utils.BASE_URL + '/api/v1/sales?region=$regionId';
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
 
     try {
@@ -184,9 +194,12 @@ class PharmacyApiProvider {
             'price_min=$price_min&'
             'unit_ids=$unit_ids';
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
 
     try {
@@ -210,9 +223,12 @@ class PharmacyApiProvider {
 
     String url = Utils.BASE_URL + '/api/v1/categories?region=$regionId';
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
     try {
       http.Response response = await http
@@ -256,9 +272,12 @@ class PharmacyApiProvider {
             'price_min=$price_min&'
             'unit_ids=$unit_ids';
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
 
     try {
@@ -305,6 +324,9 @@ class PharmacyApiProvider {
             'price_min=$price_min&'
             'unit_ids=$unit_ids';
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     HttpClient httpClient = new HttpClient();
     httpClient
       ..badCertificateCallback =
@@ -312,7 +334,7 @@ class PharmacyApiProvider {
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json; charset=utf-8');
     request.headers
-        .set('X-Device', prefs.getString("deviceData").replaceAll('’', ''));
+        .set('X-Device', encoded);
     HttpClientResponse response = await request.close();
 
     String reply = await response.transform(utf8.decoder).join();
@@ -349,9 +371,12 @@ class PharmacyApiProvider {
             'price_min=$price_min&'
             'unit_ids=$unit_ids';
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
     try {
       http.Response response = await http
@@ -371,10 +396,13 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     String url = Utils.BASE_URL + '/api/v1/drugs/$id?region=$regionId';
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
 
     try {
@@ -400,10 +428,12 @@ class PharmacyApiProvider {
 
     String url =
         Utils.BASE_URL + '/api/v1/stores?lat=$lat&lng=$lng&region=$regionId';
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
     try {
       http.Response response = await http
@@ -430,9 +460,12 @@ class PharmacyApiProvider {
 
     String url = Utils.BASE_URL + '/api/v1/regions?search=$obj&lan=$lan';
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
 
     try {
@@ -462,10 +495,13 @@ class PharmacyApiProvider {
 
     String url = Utils.BASE_URL + '/api/v1/add-order?lan=$lan&region=$regionId';
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
 
     try {
@@ -499,10 +535,13 @@ class PharmacyApiProvider {
             'lan=$lan&'
             'region=$regionId';
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
 
     try {
@@ -533,9 +572,12 @@ class PharmacyApiProvider {
             : Utils.BASE_URL +
                 '/api/v1/international-names?page=$page&per_page=$per_page&search=$search';
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
 
     try {
@@ -562,10 +604,13 @@ class PharmacyApiProvider {
     String url =
         Utils.BASE_URL + '/api/v1/order-options?lan=$lan&region=$regionId';
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
     try {
       http.Response response = await http
@@ -596,10 +641,13 @@ class PharmacyApiProvider {
     String url =
         Utils.BASE_URL + '/api/v1/check-order?lan=$lan&region=$regionId';
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
     try {
       http.Response response = await http
@@ -625,9 +673,12 @@ class PharmacyApiProvider {
 
     String url = Utils.BASE_URL + '/api/v1/exists-stores?region=$regionId';
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
 
     try {
@@ -654,10 +705,13 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
     try {
       http.Response response = await http
@@ -682,9 +736,12 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
     try {
       http.Response response = await http
@@ -709,10 +766,13 @@ class PharmacyApiProvider {
 
     String url = Utils.BASE_URL + '/api/v1/order-minimum?region=$regionId';
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json; charset=utf-8');
-    request.headers.set('X-Device', prefs.getString("deviceData").replaceAll('’', ''));
+    request.headers.set('X-Device', encoded);
     HttpClientResponse response = await request.close();
 
     String reply = await response.transform(utf8.decoder).join();
@@ -731,10 +791,13 @@ class PharmacyApiProvider {
         Utils.BASE_URL + '/api/v1/check-error?lan=$language&region=$regionId';
     String token = prefs.getString("token");
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
     try {
       http.Response response = await http
@@ -759,10 +822,13 @@ class PharmacyApiProvider {
     String url = Utils.BASE_URL +
         '/api/v1/check-shipping-error?lan=$language&region=$regionId';
     String token = prefs.getString("token");
+
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
 
     try {
@@ -785,11 +851,14 @@ class PharmacyApiProvider {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
     try {
       http.Response response = await http
@@ -817,8 +886,11 @@ class PharmacyApiProvider {
       "device": Platform.isIOS ? "ios" : "android"
     };
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
 
     http.Response response = await http
@@ -836,17 +908,19 @@ class PharmacyApiProvider {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
     Map<String, String> headers;
     if (token == null) {
       headers = {
         'content-type': 'application/json; charset=utf-8',
-        'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+        'X-Device': encoded,
       };
     } else {
       headers = {
         HttpHeaders.authorizationHeader: "Bearer $token",
         'content-type': 'application/json; charset=utf-8',
-        'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+        'X-Device': encoded,
       };
     }
     final data = {"comment": comment, "rating": rating.toString()};
@@ -872,12 +946,13 @@ class PharmacyApiProvider {
 
     String url = Utils.BASE_URL + '/api/v1/get-no-reviews?region=$regionId';
     String token = prefs.getString("token");
-
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
     if (token != null) {
       Map<String, String> headers = {
         HttpHeaders.authorizationHeader: "Bearer $token",
         'content-type': 'application/json; charset=utf-8',
-        'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+        'X-Device': encoded,
       };
 
       http.Response response = await http
@@ -903,10 +978,13 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
     try {
       http.Response response = await http
@@ -929,12 +1007,13 @@ class PharmacyApiProvider {
     int regionId = prefs.getInt("cityId");
 
     String url = Utils.BASE_URL + '/api/v1/user-cashback?region=$regionId';
-
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
     String token = prefs.getString("token");
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
     http.Response response = await http
         .get(url, headers: headers)
@@ -949,14 +1028,15 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String lan = prefs.getString('language');
     int regionId = prefs.getInt("cityId");
-
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
     if (lan == null) {
       lan = "ru";
     }
     String url = Utils.BASE_URL + '/api/v1/faq?lan=$lan&region=$regionId';
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
     try {
       http.Response response = await http
@@ -1001,13 +1081,16 @@ class PharmacyApiProvider {
       lan = "ru";
     }
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     String url =
         Utils.BASE_URL + '/api/v1/create-order?lan=$lan&region=$regionId';
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
 
     try {
@@ -1042,10 +1125,13 @@ class PharmacyApiProvider {
     String url =
         Utils.BASE_URL + '/api/v1/activate-order?lan=$lan&region=$regionId';
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
 
     try {
@@ -1077,9 +1163,12 @@ class PharmacyApiProvider {
       "location": location,
     };
 
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+      'X-Device': encoded,
     };
 
     String url = Utils.BASE_URL + '/api/v1/check-region-polygon?lan=$lan';
@@ -1111,6 +1200,8 @@ class PharmacyApiProvider {
     final data = {
       "region": regionId.toString(),
     };
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
 
     String url = Utils.BASE_URL + '/api/v1/add-region?lan=$lan';
     if (token != null) {
@@ -1118,7 +1209,7 @@ class PharmacyApiProvider {
         Map<String, String> headers = {
           'content-type': 'application/json; charset=utf-8',
           HttpHeaders.authorizationHeader: "Bearer $token",
-          'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
+          'X-Device': encoded,
         };
         http.Response response = await http
             .post(url, headers: headers, body: json.encode(data))

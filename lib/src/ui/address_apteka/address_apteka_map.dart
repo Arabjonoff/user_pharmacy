@@ -184,7 +184,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
           );
         }
       }
-    } else {
+    } else if (_permissionStatus != PermissionStatus.unknown) {
       if (isFirstDisabled) {
         isGranted = false;
         isFirstDisabled = false;

@@ -575,7 +575,7 @@ class _AddressAptekaMapPickupScreenState
           );
         }
       }
-    } else {
+    } else if (_permissionStatus != PermissionStatus.unknown) {
       if (isFirstDisabled) {
         isFirstDisabled = false;
         isGranted = false;
