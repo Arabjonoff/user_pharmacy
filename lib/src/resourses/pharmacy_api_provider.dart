@@ -52,7 +52,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
 
     try {
@@ -81,7 +81,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
     try {
       http.Response response = await http
@@ -114,7 +114,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
     try {
       http.Response response = await http
@@ -138,7 +138,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
 
     try {
@@ -186,7 +186,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
 
     try {
@@ -212,7 +212,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
     try {
       http.Response response = await http
@@ -258,7 +258,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
 
     try {
@@ -311,7 +311,8 @@ class PharmacyApiProvider {
           ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json; charset=utf-8');
-    request.headers.set('X-Device', prefs.getString("deviceData"));
+    request.headers
+        .set('X-Device', prefs.getString("deviceData").replaceAll('’', ''));
     HttpClientResponse response = await request.close();
 
     String reply = await response.transform(utf8.decoder).join();
@@ -350,7 +351,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
     try {
       http.Response response = await http
@@ -373,7 +374,7 @@ class PharmacyApiProvider {
     String url = Utils.BASE_URL + '/api/v1/drugs/$id?region=$regionId';
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
 
     try {
@@ -402,7 +403,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
     try {
       http.Response response = await http
@@ -431,7 +432,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
 
     try {
@@ -464,7 +465,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
 
     try {
@@ -501,7 +502,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
 
     try {
@@ -534,7 +535,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
 
     try {
@@ -564,7 +565,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
     try {
       http.Response response = await http
@@ -598,7 +599,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
     try {
       http.Response response = await http
@@ -626,7 +627,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
 
     try {
@@ -656,7 +657,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
     try {
       http.Response response = await http
@@ -683,7 +684,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
     try {
       http.Response response = await http
@@ -711,7 +712,7 @@ class PharmacyApiProvider {
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json; charset=utf-8');
-    request.headers.set('X-Device', prefs.getString("deviceData"));
+    request.headers.set('X-Device', prefs.getString("deviceData").replaceAll('’', ''));
     HttpClientResponse response = await request.close();
 
     String reply = await response.transform(utf8.decoder).join();
@@ -733,7 +734,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
     try {
       http.Response response = await http
@@ -761,7 +762,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
 
     try {
@@ -788,7 +789,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
     try {
       http.Response response = await http
@@ -817,16 +818,16 @@ class PharmacyApiProvider {
     };
 
     Map<String, String> headers = {
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
 
     http.Response response = await http
         .post(url, body: data, headers: headers)
         .timeout(const Duration(seconds: 120));
 
-    final Map parsed = json.decode(response.body);
+    final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
-    return CheckVersion.fromJson(parsed);
+    return CheckVersion.fromJson(responseJson);
   }
 
   ///send rating
@@ -839,13 +840,13 @@ class PharmacyApiProvider {
     if (token == null) {
       headers = {
         'content-type': 'application/json; charset=utf-8',
-        'X-Device': prefs.getString("deviceData"),
+        'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
       };
     } else {
       headers = {
         HttpHeaders.authorizationHeader: "Bearer $token",
         'content-type': 'application/json; charset=utf-8',
-        'X-Device': prefs.getString("deviceData"),
+        'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
       };
     }
     final data = {"comment": comment, "rating": rating.toString()};
@@ -876,7 +877,7 @@ class PharmacyApiProvider {
       Map<String, String> headers = {
         HttpHeaders.authorizationHeader: "Bearer $token",
         'content-type': 'application/json; charset=utf-8',
-        'X-Device': prefs.getString("deviceData"),
+        'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
       };
 
       http.Response response = await http
@@ -905,7 +906,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
     try {
       http.Response response = await http
@@ -933,7 +934,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
     http.Response response = await http
         .get(url, headers: headers)
@@ -955,7 +956,7 @@ class PharmacyApiProvider {
     String url = Utils.BASE_URL + '/api/v1/faq?lan=$lan&region=$regionId';
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
     try {
       http.Response response = await http
@@ -1006,7 +1007,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
 
     try {
@@ -1044,7 +1045,7 @@ class PharmacyApiProvider {
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
 
     try {
@@ -1078,7 +1079,7 @@ class PharmacyApiProvider {
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
-      'X-Device': prefs.getString("deviceData"),
+      'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
     };
 
     String url = Utils.BASE_URL + '/api/v1/check-region-polygon?lan=$lan';
@@ -1117,7 +1118,7 @@ class PharmacyApiProvider {
         Map<String, String> headers = {
           'content-type': 'application/json; charset=utf-8',
           HttpHeaders.authorizationHeader: "Bearer $token",
-          'X-Device': prefs.getString("deviceData"),
+          'X-Device': prefs.getString("deviceData").replaceAll('’', ''),
         };
         http.Response response = await http
             .post(url, headers: headers, body: json.encode(data))
