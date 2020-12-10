@@ -333,8 +333,7 @@ class PharmacyApiProvider {
           ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json; charset=utf-8');
-    request.headers
-        .set('X-Device', encoded);
+    request.headers.set('X-Device', encoded);
     HttpClientResponse response = await request.close();
 
     String reply = await response.transform(utf8.decoder).join();
@@ -853,7 +852,6 @@ class PharmacyApiProvider {
     String token = prefs.getString("token");
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
-
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
