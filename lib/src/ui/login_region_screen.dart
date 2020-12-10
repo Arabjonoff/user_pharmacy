@@ -74,7 +74,9 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
               Utils.saveRegion(value.region, value.msg, lat, lng),
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => MainScreen()),
+                MaterialPageRoute(
+                  builder: (context) => MainScreen(),
+                ),
               ),
             }
           else
@@ -235,7 +237,8 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => MainScreen()),
+                                        builder: (context) => MainScreen(),
+                                      ),
                                     );
                                   },
                                   child: Container(
@@ -352,8 +355,9 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                                                   Navigator.pushReplacement(
                                                     context,
                                                     MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            MainScreen()),
+                                                      builder: (context) =>
+                                                          MainScreen(),
+                                                    ),
                                                   );
                                                 },
                                                 child: Container(

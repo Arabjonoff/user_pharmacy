@@ -16,14 +16,6 @@ class CardBloc {
     _cardFetcher.sink.add(result);
   }
 
-//
-//  fetchPaymentType(String lan) async {
-//    OrderOptionsModel orderOptions = await _repository.fetchOrderOptions(lan);
-//    orderOptions.paymentTypes
-//        .add(PaymentTypes(id: -1, name: translate("orders.add_new_card")));
-//    _paymentTypeFetcher.sink.add(orderOptions);
-//  }
-
   dispose() {
     _cardFetcher.close();
   }

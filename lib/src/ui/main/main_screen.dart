@@ -395,6 +395,10 @@ class _MainScreenState extends State<MainScreen> {
                   "",
                 );
                 blocHome.fetchCityName();
+              } else if (index == 1) {
+                blocCategory.fetchAllCategory();
+                if (isOpenCategory) blocItemsList.updateCategory();
+                if (isOpenSearch) blocItemsList.updateSearch();
               } else if (index == 4) {
                 Utils.isLogin().then((value) => {
                       isLogin = value,
@@ -403,10 +407,6 @@ class _MainScreenState extends State<MainScreen> {
                           menuBack.fetchCashBack(),
                         }
                     });
-              } else if (index == 1) {
-                blocCategory.fetchAllCategory();
-                if (isOpenCategory) blocItemsList.updateCategory();
-                if (isOpenSearch) blocItemsList.updateSearch();
               }
               setState(() {
                 _selectedIndex = index;

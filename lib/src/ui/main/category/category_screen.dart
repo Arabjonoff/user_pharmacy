@@ -36,7 +36,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   void initState() {
     registerBus();
-    blocCategory.fetchAllCategory();
+    //blocCategory.fetchAllCategory();
     super.initState();
   }
 

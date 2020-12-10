@@ -481,9 +481,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       onTap: () {
                         Navigator.push(
                           context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            child: RegionScreen(),
+                          MaterialPageRoute(
+                            builder: (context) => RegionScreen(),
                           ),
                         );
                       },
@@ -681,9 +680,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         isLogin
                             ? Navigator.push(
                                 context,
-                                PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: HistoryOrderScreen(),
+                                MaterialPageRoute(
+                                  builder: (context) => HistoryOrderScreen(),
                                 ),
                               )
                             : BottomDialog.createBottomSheetHistory(context);
@@ -828,15 +826,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       onTap: () {
                         widget.onStore();
                       },
-                      // onTap: () {
-                      //   Navigator.push(
-                      //     context,
-                      //     PageTransition(
-                      //       type: PageTransitionType.rightToLeft,
-                      //       child: AddressAptekaScreen(),
-                      //     ),
-                      //   );
-                      // },
                       child: Container(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
@@ -1002,9 +991,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 if (url.drugs.length > 0) {
                                   Navigator.push(
                                     context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      child: ItemListScreen(
+                                    MaterialPageRoute(
+                                      builder: (context) => ItemListScreen(
                                         url.name,
                                         4,
                                         url.drugs
@@ -1068,99 +1056,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           },
                         ).toList(),
                       );
-                      // return ListView.builder(
-                      //   padding: const EdgeInsets.only(
-                      //     top: 0,
-                      //     bottom: 0,
-                      //     right: 12,
-                      //     left: 12,
-                      //   ),
-                      //   scrollDirection: Axis.horizontal,
-                      //   itemCount: snapshot.data.results.length,
-                      //   itemBuilder: (BuildContext context, int index) {
-                      //     return GestureDetector(
-                      //       onTap: () {
-                      //         if (snapshot.data.results[index].drugs
-                      //                 .length >
-                      //             0) {
-                      //           Navigator.push(
-                      //             context,
-                      //             PageTransition(
-                      //               type: PageTransitionType.fade,
-                      //               child: ItemListScreen(
-                      //                 translate("sale"),
-                      //                 4,
-                      //                 snapshot.data.results[index].drugs
-                      //                     .toString()
-                      //                     .replaceAll('[', '')
-                      //                     .replaceAll(']', '')
-                      //                     .replaceAll(' ', ''),
-                      //               ),
-                      //             ),
-                      //           );
-                      //         } else if (snapshot
-                      //                 .data.results[index].drug !=
-                      //             null) {
-                      //           Navigator.push(
-                      //             context,
-                      //             PageTransition(
-                      //               type: PageTransitionType.downToUp,
-                      //               alignment: Alignment.bottomCenter,
-                      //               child: ItemScreenNotIstruction(
-                      //                 snapshot.data.results[index].drug,
-                      //               ),
-                      //             ),
-                      //           );
-                      //         } else if (snapshot
-                      //                 .data.results[index].category !=
-                      //             null) {
-                      //           Navigator.push(
-                      //             context,
-                      //             PageTransition(
-                      //               type: PageTransitionType.fade,
-                      //               child: ItemListScreen(
-                      //                 translate("sale"),
-                      //                 1,
-                      //                 snapshot
-                      //                     .data.results[index].category
-                      //                     .toString(),
-                      //               ),
-                      //             ),
-                      //           );
-                      //         }
-                      //       },
-                      //       child: Container(
-                      //         child: ClipRRect(
-                      //           borderRadius:
-                      //               BorderRadius.circular(16.0),
-                      //           child: Container(
-                      //             color: AppTheme.white,
-                      //             width: 311,
-                      //             height: 154,
-                      //             child: CachedNetworkImage(
-                      //               imageUrl: snapshot
-                      //                   .data.results[index].image,
-                      //               placeholder: (context, url) =>
-                      //                   Container(
-                      //                 color: AppTheme.background,
-                      //               ),
-                      //               errorWidget:
-                      //                   (context, url, error) =>
-                      //                       Container(
-                      //                 color: AppTheme.background,
-                      //               ),
-                      //               fit: BoxFit.fitHeight,
-                      //             ),
-                      //           ),
-                      //         ),
-                      //         padding: EdgeInsets.only(
-                      //           right: 12,
-                      //         ),
-                      //         height: 154,
-                      //       ),
-                      //     );
-                      //   },
-                      // );
                     } else if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
                     }
@@ -1215,9 +1110,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       onTap: () {
                         Navigator.push(
                           context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            child: ItemListScreen(
+                          MaterialPageRoute(
+                            builder: (context) => ItemListScreen(
                               translate("home.best"),
                               2,
                               "0",
