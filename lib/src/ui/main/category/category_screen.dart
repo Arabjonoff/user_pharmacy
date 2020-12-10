@@ -36,7 +36,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   void initState() {
     registerBus();
-    //blocCategory.fetchAllCategory();
     super.initState();
   }
 
@@ -57,8 +56,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    // if (isOpenCategory)
-    //   RxBus.post(AllItemIsOpen(true), tag: "EVENT_ITEM_LIST_CATEGORY");
     if (isOpenItem) {
       blocItem.fetchAllUpdate(itemId);
     }
@@ -104,9 +101,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                               0) {
                             Navigator.push(
                               context,
-                              PageTransition(
-                                type: PageTransitionType.fade,
-                                child: SubCategoryScreen(
+                              MaterialPageRoute(
+                                builder: (context) => SubCategoryScreen(
                                   snapshot.data.results[position].name,
                                   snapshot.data.results[position].childs,
                                 ),
@@ -115,9 +111,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           } else {
                             Navigator.push(
                               context,
-                              PageTransition(
-                                type: PageTransitionType.fade,
-                                child: ItemListScreen(
+                              MaterialPageRoute(
+                                builder: (context) => ItemListScreen(
                                   snapshot.data.results[position].name,
                                   1,
                                   snapshot.data.results[position].id.toString(),

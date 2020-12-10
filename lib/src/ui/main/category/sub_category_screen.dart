@@ -81,9 +81,8 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                     if (widget.list[position].childs.length > 0) {
                       Navigator.push(
                         context,
-                        PageTransition(
-                          type: PageTransitionType.fade,
-                          child: SubCategoryScreen(
+                        MaterialPageRoute(
+                          builder: (context) => SubCategoryScreen(
                             widget.list[position].name,
                             widget.list[position].childs,
                           ),
@@ -92,9 +91,8 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                     } else {
                       Navigator.push(
                         context,
-                        PageTransition(
-                          type: PageTransitionType.fade,
-                          child: ItemListScreen(
+                        MaterialPageRoute(
+                          builder: (context) => ItemListScreen(
                             widget.list[position].name,
                             1,
                             widget.list[position].id.toString(),
@@ -102,18 +100,6 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                         ),
                       );
                     }
-
-//                    Navigator.push(
-//                      context,
-//                      PageTransition(
-//                        type: PageTransitionType.fade,
-//                        child: ItemListScreen(
-//                          widget.list[position].name,
-//                          1,
-//                          widget.list[position].id.toString(),
-//                        ),
-//                      ),
-//                    );
                   },
                   child: Column(
                     children: <Widget>[
