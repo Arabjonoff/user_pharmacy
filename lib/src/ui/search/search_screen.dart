@@ -42,9 +42,6 @@ class _SearchScreenState extends State<SearchScreen> {
   ScrollController _sc = new ScrollController();
   bool isLoading = false;
 
-  // List<ItemResult> users = new List();
-  // bool isShimmer = false;
-
   DatabaseHelperHistory dataHistory = new DatabaseHelperHistory();
 
   Timer _timer;
@@ -173,9 +170,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                   }
                                   Navigator.push(
                                     context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      child: ItemListScreen(
+                                    MaterialPageRoute(
+                                      builder: (context) => ItemListScreen(
                                         translate("search.result"),
                                         3,
                                         obj,

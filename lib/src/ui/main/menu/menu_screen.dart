@@ -55,14 +55,6 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   void initState() {
     registerBus();
-    // Utils.isLogin().then((value) => {
-    //       isLogin = value,
-    //       if (isLogin)
-    //         {
-    //           menuBack.fetchCashBack(),
-    //         }
-    //     });
-
     super.initState();
   }
 
@@ -283,9 +275,8 @@ class _MenuScreenState extends State<MenuScreen> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child: MyInfoScreen(),
+                      MaterialPageRoute(
+                        builder: (context) => MyInfoScreen(),
                       ),
                     );
                   },
@@ -361,9 +352,8 @@ class _MenuScreenState extends State<MenuScreen> {
             onTap: () async {
               Navigator.push(
                 context,
-                PageTransition(
-                  type: PageTransitionType.rightToLeft,
-                  child: RegionScreen(),
+                MaterialPageRoute(
+                  builder: (context) => RegionScreen(),
                 ),
               );
             },
@@ -421,9 +411,8 @@ class _MenuScreenState extends State<MenuScreen> {
             onTap: () async {
               Navigator.push(
                 context,
-                PageTransition(
-                  type: PageTransitionType.rightToLeft,
-                  child: FavAptekaScreen(),
+                MaterialPageRoute(
+                  builder: (context) => FavAptekaScreen(),
                 ),
               );
             },
@@ -472,9 +461,8 @@ class _MenuScreenState extends State<MenuScreen> {
             onTap: () async {
               Navigator.push(
                 context,
-                PageTransition(
-                  type: PageTransitionType.fade,
-                  child: NoteAllScreen(),
+                MaterialPageRoute(
+                  builder: (context) => NoteAllScreen(),
                 ),
               );
             },
@@ -525,9 +513,8 @@ class _MenuScreenState extends State<MenuScreen> {
                   onTap: () async {
                     Navigator.push(
                       context,
-                      PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child: HistoryOrderScreen(),
+                      MaterialPageRoute(
+                        builder: (context) => HistoryOrderScreen(),
                       ),
                     );
                   },
@@ -578,9 +565,8 @@ class _MenuScreenState extends State<MenuScreen> {
             onTap: () async {
               Navigator.push(
                 context,
-                PageTransition(
-                  type: PageTransitionType.rightToLeft,
-                  child: LanguageScreen(language_data),
+                MaterialPageRoute(
+                  builder: (context) => LanguageScreen(language_data),
                 ),
               );
             },
@@ -743,7 +729,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                         onTap: () {
                                           setState(() {
                                             _stars = 1;
-                                            menuBack.fetchVisible(_stars, commentController.text);
+                                            menuBack.fetchVisible(
+                                                _stars, commentController.text);
                                           });
                                         },
                                       ),
@@ -757,7 +744,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                         onTap: () {
                                           setState(() {
                                             _stars = 2;
-                                            menuBack.fetchVisible(_stars, commentController.text);
+                                            menuBack.fetchVisible(
+                                                _stars, commentController.text);
                                           });
                                         },
                                       ),
@@ -771,7 +759,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                         onTap: () {
                                           setState(() {
                                             _stars = 3;
-                                            menuBack.fetchVisible(_stars, commentController.text);
+                                            menuBack.fetchVisible(
+                                                _stars, commentController.text);
                                           });
                                         },
                                       ),
@@ -785,7 +774,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                         onTap: () {
                                           setState(() {
                                             _stars = 4;
-                                            menuBack.fetchVisible(_stars, commentController.text);
+                                            menuBack.fetchVisible(
+                                                _stars, commentController.text);
                                           });
                                         },
                                       ),
@@ -799,7 +789,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                         onTap: () {
                                           setState(() {
                                             _stars = 5;
-                                            menuBack.fetchVisible(_stars, commentController.text);
+                                            menuBack.fetchVisible(
+                                                _stars, commentController.text);
                                           });
                                         },
                                       ),
@@ -985,9 +976,8 @@ class _MenuScreenState extends State<MenuScreen> {
             onTap: () async {
               Navigator.push(
                 context,
-                PageTransition(
-                  type: PageTransitionType.rightToLeft,
-                  child: FaqAppScreen(),
+                MaterialPageRoute(
+                  builder: (context) => FaqAppScreen(),
                 ),
               );
             },
@@ -1036,9 +1026,8 @@ class _MenuScreenState extends State<MenuScreen> {
             onTap: () async {
               Navigator.push(
                 context,
-                PageTransition(
-                  type: PageTransitionType.rightToLeft,
-                  child: AboutAppScreen(),
+                MaterialPageRoute(
+                  builder: (context) => AboutAppScreen(),
                 ),
               );
             },
