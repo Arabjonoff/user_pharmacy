@@ -357,48 +357,6 @@ class _MenuScreenState extends State<MenuScreen> {
                   ),
                 )
               : Container(),
-//          GestureDetector(
-//            onTap: () async {},
-//            child: Container(
-//              margin: EdgeInsets.only(
-//                left: 16,
-//                right: 16,
-//              ),
-//              child: Row(
-//                children: <Widget>[
-//                  Container(
-//                    height: 25,
-//                    width: 25,
-//                    child: Center(
-//                      child: SvgPicture.asset("assets/images/bonus_card.svg"),
-//                    ),
-//                  ),
-//                  SizedBox(width: 15),
-//                  Expanded(
-//                    child: Text(
-//                      isLogin
-//                          ? translate("menu.bonus_card")
-//                          : translate("menu.bonus_card_not"),
-//                      style: TextStyle(
-//                        fontWeight: FontWeight.normal,
-//                        fontFamily: AppTheme.fontRoboto,
-//                        color: AppTheme.black_text,
-//                        fontSize: 15,
-//                      ),
-//                    ),
-//                  ),
-//                  Icon(
-//                    Icons.arrow_forward_ios,
-//                    size: 19,
-//                    color: AppTheme.arrow_catalog,
-//                  ),
-//                  SizedBox(width: 3),
-//                ],
-//              ),
-//              height: 48,
-//              color: AppTheme.white,
-//            ),
-//          ),
           GestureDetector(
             onTap: () async {
               Navigator.push(
@@ -562,52 +520,6 @@ class _MenuScreenState extends State<MenuScreen> {
               color: AppTheme.white,
             ),
           ),
-//          isLogin
-//              ? GestureDetector(
-//                  onTap: () async {},
-//                  child: Container(
-//                    margin: EdgeInsets.only(
-//                      left: 16,
-//                      right: 16,
-//                    ),
-//                    child: Row(
-//                      children: <Widget>[
-//                        Container(
-//                          height: 25,
-//                          width: 25,
-//                          child: Center(
-//                            child: SvgPicture.asset(
-//                                "assets/images/payment_card.svg"),
-//                          ),
-//                        ),
-//                        SizedBox(width: 15),
-//                        Expanded(
-//                          child: Text(
-//                            translate("menu.payment_card"),
-//                            style: TextStyle(
-//                              fontWeight: FontWeight.normal,
-//                              fontFamily: AppTheme.fontRoboto,
-//                              color: AppTheme.black_text,
-//                              fontSize: 15,
-//                            ),
-//                          ),
-//                        ),
-//                        SizedBox(
-//                          width: 15,
-//                        ),
-//                        Icon(
-//                          Icons.arrow_forward_ios,
-//                          size: 19,
-//                          color: AppTheme.arrow_catalog,
-//                        ),
-//                        SizedBox(width: 3),
-//                      ],
-//                    ),
-//                    height: 48,
-//                    color: AppTheme.white,
-//                  ),
-//                )
-//              : Container(),
           isLogin
               ? GestureDetector(
                   onTap: () async {
