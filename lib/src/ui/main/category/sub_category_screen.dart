@@ -165,7 +165,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                           context,
                           PageTransition(
                             type: PageTransitionType.fade,
-                            child: SearchScreen("", 0),
+                            child: SearchScreen("", 0, 2),
                           ),
                         );
                       },
@@ -203,7 +203,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                                     context,
                                     PageTransition(
                                       type: PageTransitionType.fade,
-                                      child: SearchScreen(result, 1),
+                                      child: SearchScreen(result, 1, 2),
                                     ),
                                   );
                                   await methodChannel.invokeMethod("stop");
@@ -242,7 +242,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                             context,
                             PageTransition(
                               type: PageTransitionType.fade,
-                              child: SearchScreen(value, 1),
+                              child: SearchScreen(value, 1, 2),
                             ),
                           )
                       },
