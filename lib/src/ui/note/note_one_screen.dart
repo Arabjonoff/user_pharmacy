@@ -133,10 +133,10 @@ class _NoteOneScreenState extends State<NoteOneScreen> {
                             onTap: () {
                               Navigator.push(
                                 context,
-                                PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: NotificationScreen(
-                                      snapshot.data[position].id),
+                                MaterialPageRoute(
+                                  builder: (context) => NotificationScreen(
+                                    snapshot.data[position].id,
+                                  ),
                                 ),
                               );
                             },

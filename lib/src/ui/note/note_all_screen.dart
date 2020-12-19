@@ -121,9 +121,8 @@ class _NoteAllScreenScreenState extends State<NoteAllScreen>
               onTap: () {
                 Navigator.push(
                   context,
-                  PageTransition(
-                    type: PageTransitionType.rightToLeft,
-                    child: AddNotfScreen(),
+                  MaterialPageRoute(
+                    builder: (context) => AddNotfScreen(),
                   ),
                 );
               },

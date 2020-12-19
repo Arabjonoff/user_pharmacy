@@ -116,8 +116,9 @@ class _MainScreenState extends State<MainScreen> {
                 await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        NotificationScreen(receivedNotification.id),
+                    builder: (context) => NotificationScreen(
+                      receivedNotification.id,
+                    ),
                   ),
                 );
               },
@@ -132,7 +133,9 @@ class _MainScreenState extends State<MainScreen> {
     selectNotificationSubject.stream.listen((String payload) async {
       await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => NotificationScreen(-1)),
+        MaterialPageRoute(
+          builder: (context) => NotificationScreen(-1),
+        ),
       );
     });
   }
