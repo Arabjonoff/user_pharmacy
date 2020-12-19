@@ -41,6 +41,7 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
   @override
   void initState() {
     super.initState();
+    _getMoreData(1, obj);
     _sc.addListener(() {
       if (_sc.position.pixels == _sc.position.maxScrollExtent) {
         _getMoreData(page, obj);
@@ -192,7 +193,6 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                         alignment: Alignment.centerLeft,
                         child: TextFormField(
                           textInputAction: TextInputAction.search,
-                          autofocus: true,
                           cursorColor: AppTheme.notWhite,
                           style: TextStyle(
                             color: AppTheme.black_text,

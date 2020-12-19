@@ -463,8 +463,9 @@ class _ItemListScreenState extends State<ItemListScreen> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => FilterScreen(),
+                        PageTransition(
+                          type: PageTransitionType.bottomToTop,
+                          child: FilterScreen(),
                         ),
                       );
                     },

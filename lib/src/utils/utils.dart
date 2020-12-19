@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Utils {
-  static String BASE_URL = "https://api.gopharm.uz";
-
-  ///static String BASE_URL = "https://test.gopharm.uz";
+  ///static String BASE_URL = "https://api.gopharm.uz";
+  static String BASE_URL = "https://test.gopharm.uz";
   static String BASE_URL_SOCET = "wss://api.gopharm.uz/ws/";
 
   static Future<void> saveData(int userId, String name, String surname,

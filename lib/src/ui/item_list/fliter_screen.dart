@@ -19,7 +19,6 @@ class FilterScreen extends StatefulWidget {
 
 List<FilterResults> internationalNameExamp = new List();
 List<FilterResults> manufacturerExamp = new List();
-//List<FilterResults> unitExamp = new List();
 double fromPrice;
 double toPrice;
 
@@ -295,95 +294,13 @@ class _FilterScreenState extends State<FilterScreen> {
                       ],
                     ),
                   ),
-//                  GestureDetector(
-//                    onTap: () {
-//                      Navigator.pushReplacement(
-//                        context,
-//                        PageTransition(
-//                          type: PageTransitionType.rightToLeft,
-//                          child: FilterItemScreen(1),
-//                        ),
-//                      );
-//                    },
-//                    child: Container(
-//                      margin: EdgeInsets.only(top: 16),
-//                      height: 56,
-//                      child: Column(
-//                        children: <Widget>[
-//                          Container(
-//                            color: AppTheme.white,
-//                            child: Container(
-//                              height: 55,
-//                              padding: EdgeInsets.only(top: 6, bottom: 6),
-//                              margin: EdgeInsets.only(left: 15, right: 15),
-//                              child: Row(
-//                                children: <Widget>[
-//                                  Expanded(
-//                                    child: Column(
-//                                      crossAxisAlignment:
-//                                          CrossAxisAlignment.start,
-//                                      mainAxisAlignment:
-//                                          MainAxisAlignment.start,
-//                                      children: [
-//                                        Expanded(
-//                                          child: Container(),
-//                                        ),
-//                                        Text(
-//                                          translate("release"),
-//                                          overflow: TextOverflow.ellipsis,
-//                                          maxLines: 1,
-//                                          style: TextStyle(
-//                                            fontSize: 15,
-//                                            fontWeight: FontWeight.normal,
-//                                            color: AppTheme.black_text,
-//                                            fontFamily: AppTheme.fontRoboto,
-//                                          ),
-//                                        ),
-//                                        Text(
-//                                          unitName,
-//                                          overflow: TextOverflow.ellipsis,
-//                                          maxLines: 1,
-//                                          style: TextStyle(
-//                                            fontSize: 13,
-//                                            fontWeight: FontWeight.normal,
-//                                            color:
-//                                                AppTheme.black_transparent_text,
-//                                            fontFamily: AppTheme.fontRoboto,
-//                                          ),
-//                                        ),
-//                                        Expanded(
-//                                          child: Container(),
-//                                        ),
-//                                      ],
-//                                    ),
-//                                  ),
-//                                  Icon(
-//                                    Icons.arrow_forward_ios,
-//                                    size: 16,
-//                                    color: AppTheme.arrow_catalog,
-//                                  )
-//                                ],
-//                              ),
-//                            ),
-//                          ),
-//                          Container(
-//                            margin: EdgeInsets.only(
-//                              left: 8,
-//                              right: 8,
-//                            ),
-//                            height: 1,
-//                            color: AppTheme.black_linear_category,
-//                          )
-//                        ],
-//                      ),
-//                    ),
-//                  ),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => FilterItemScreen(2),
+                        PageTransition(
+                          type: PageTransitionType.bottomToTop,
+                          child: FilterItemScreen(2),
                         ),
                       );
                     },
@@ -463,8 +380,9 @@ class _FilterScreenState extends State<FilterScreen> {
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => FilterItemScreen(3),
+                        PageTransition(
+                          type: PageTransitionType.bottomToTop,
+                          child: FilterItemScreen(3),
                         ),
                       );
                     },
