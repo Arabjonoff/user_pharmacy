@@ -26,6 +26,7 @@ class MenuScreen extends StatefulWidget {
   final Function onLanguage;
   final Function onFaq;
   final Function onAbout;
+  final Function onMyInfo;
 
   MenuScreen({
     this.onLogin,
@@ -36,6 +37,7 @@ class MenuScreen extends StatefulWidget {
     this.onLanguage,
     this.onFaq,
     this.onAbout,
+    this.onMyInfo,
   });
 
   @override
@@ -277,14 +279,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 ),
           isLogin
               ? GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MyInfoScreen(),
-                      ),
-                    );
-                  },
+                  onTap: widget.onMyInfo,
                   child: Container(
                     height: 60,
                     margin: EdgeInsets.only(

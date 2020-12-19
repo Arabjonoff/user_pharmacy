@@ -42,6 +42,7 @@ import 'package:pharmacy/src/ui/sub_menu/faq_app_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/fav_apteka_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/language_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/my_info_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/region_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
@@ -541,6 +542,7 @@ class _MainScreenState extends State<MainScreen> {
             onLanguage: _language,
             onFaq: _faq,
             onAbout: _about,
+            onMyInfo: _myInfo,
           ),
         ].elementAt(index);
       },
@@ -600,6 +602,15 @@ class _MainScreenState extends State<MainScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => RegionScreen(),
+      ),
+    );
+  }
+
+  void _myInfo() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MyInfoScreen(),
       ),
     );
   }
