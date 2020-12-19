@@ -14,10 +14,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../app_theme.dart';
 
 class LanguageScreen extends StatefulWidget {
-  String language;
-
-  LanguageScreen(this.language);
-
   @override
   State<StatefulWidget> createState() {
     return _LanguageScreenState();
@@ -25,23 +21,11 @@ class LanguageScreen extends StatefulWidget {
 }
 
 class _LanguageScreenState extends State<LanguageScreen> {
-  bool one, two, three;
+  String language = "ru";
 
   @override
   void initState() {
-    if (widget.language == "ru") {
-      one = false;
-      two = true;
-      three = false;
-    } else if (widget.language == "uz") {
-      one = true;
-      two = false;
-      three = false;
-    } else {
-      one = false;
-      two = false;
-      three = true;
-    }
+    getLanguage();
     super.initState();
   }
 
@@ -85,28 +69,12 @@ class _LanguageScreenState extends State<LanguageScreen> {
               onTap: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 var localizationDelegate = LocalizedApp.of(context).delegate;
-                if (one) {
-                  prefs.setString("language", "uz");
-                  prefs.commit();
-                  localizationDelegate.changeLocale(Locale("uz"));
-                  RxBus.post(BottomViewIdsModel("uz"),
-                      tag: "EVENT_BOTTOM_VIEW_LANGUAGE");
-                  Navigator.pop(context, 'uz');
-                } else if (two) {
-                  localizationDelegate.changeLocale(Locale("ru"));
-                  prefs.setString("language", "ru");
-                  prefs.commit();
-                  RxBus.post(BottomViewIdsModel("ru"),
-                      tag: "EVENT_BOTTOM_VIEW_LANGUAGE");
-                  Navigator.pop(context, 'ru');
-                } else {
-                  localizationDelegate.changeLocale(Locale("en"));
-                  prefs.setString("language", "en");
-                  prefs.commit();
-                  RxBus.post(BottomViewIdsModel("en"),
-                      tag: "EVENT_BOTTOM_VIEW_LANGUAGE");
-                  Navigator.pop(context, 'en');
-                }
+                prefs.setString("language", language);
+                prefs.commit();
+                localizationDelegate.changeLocale(Locale(language));
+                RxBus.post(BottomViewIdsModel(language),
+                    tag: "EVENT_BOTTOM_VIEW_LANGUAGE");
+                Navigator.pop(context, language);
               },
             ),
           )
@@ -133,14 +101,13 @@ class _LanguageScreenState extends State<LanguageScreen> {
           GestureDetector(
             onTap: () {
               setState(() {
-                one = true;
-                two = false;
-                three = false;
+                language = "uz";
               });
             },
             child: Container(
               height: 47,
               margin: EdgeInsets.only(left: 12, right: 12),
+              color: AppTheme.white,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -157,7 +124,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                       ),
                     ),
                   ),
-                  one
+                  language == "uz"
                       ? Container(
                           margin: EdgeInsets.only(left: 5, top: 5),
                           child: Icon(
@@ -178,13 +145,12 @@ class _LanguageScreenState extends State<LanguageScreen> {
           GestureDetector(
             onTap: () {
               setState(() {
-                one = false;
-                two = true;
-                three = false;
+                language = "ru";
               });
             },
             child: Container(
               height: 47,
+              color: AppTheme.white,
               margin: EdgeInsets.only(left: 12, right: 12),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -202,7 +168,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                       ),
                     ),
                   ),
-                  two
+                  language == "ru"
                       ? Container(
                           margin: EdgeInsets.only(left: 5, top: 5),
                           child: Icon(
@@ -223,13 +189,12 @@ class _LanguageScreenState extends State<LanguageScreen> {
           GestureDetector(
             onTap: () {
               setState(() {
-                one = false;
-                two = false;
-                three = true;
+                language = "en";
               });
             },
             child: Container(
               height: 47,
+              color: AppTheme.white,
               margin: EdgeInsets.only(left: 12, right: 12),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -247,7 +212,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                       ),
                     ),
                   ),
-                  three
+                  language == "en"
                       ? Container(
                           margin: EdgeInsets.only(left: 5, top: 5),
                           child: Icon(
@@ -264,5 +229,16 @@ class _LanguageScreenState extends State<LanguageScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> getLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if (prefs.getString('language') != null) {
+        language = prefs.getString('language');
+      } else {
+        language = "ru";
+      }
+    });
   }
 }

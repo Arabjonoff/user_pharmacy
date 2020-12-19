@@ -1,27 +1,16 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/menu_bloc.dart';
 import 'package:pharmacy/src/model/api/cash_back_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/auth/login_screen.dart';
-import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
-import 'package:pharmacy/src/ui/note/note_all_screen.dart';
-import 'package:pharmacy/src/ui/sub_menu/about_app_screen.dart';
-import 'package:pharmacy/src/ui/sub_menu/faq_app_screen.dart';
-import 'package:pharmacy/src/ui/sub_menu/fav_apteka_screen.dart';
-import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
-import 'package:pharmacy/src/ui/sub_menu/language_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/my_info_screen.dart';
-import 'package:pharmacy/src/ui/sub_menu/region_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,9 +18,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../app_theme.dart';
 
 class MenuScreen extends StatefulWidget {
-  Function onLogin;
+  final Function onLogin;
+  final Function onRegion;
+  final Function onFavStore;
+  final Function onNoteAll;
+  final Function onHistory;
+  final Function onLanguage;
+  final Function onFaq;
+  final Function onAbout;
 
-  MenuScreen({this.onLogin});
+  MenuScreen({
+    this.onLogin,
+    this.onRegion,
+    this.onFavStore,
+    this.onNoteAll,
+    this.onHistory,
+    this.onLanguage,
+    this.onFaq,
+    this.onAbout,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -349,14 +354,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 )
               : Container(),
           GestureDetector(
-            onTap: () async {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RegionScreen(),
-                ),
-              );
-            },
+            onTap: widget.onRegion,
             child: Container(
               margin: EdgeInsets.only(
                 left: 16,
@@ -408,14 +406,7 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
           ),
           GestureDetector(
-            onTap: () async {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => FavAptekaScreen(),
-                ),
-              );
-            },
+            onTap: widget.onFavStore,
             child: Container(
               margin: EdgeInsets.only(
                 left: 16,
@@ -458,14 +449,7 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
           ),
           GestureDetector(
-            onTap: () async {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => NoteAllScreen(),
-                ),
-              );
-            },
+            onTap: widget.onNoteAll,
             child: Container(
               margin: EdgeInsets.only(
                 left: 16,
@@ -510,14 +494,7 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
           isLogin
               ? GestureDetector(
-                  onTap: () async {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HistoryOrderScreen(),
-                      ),
-                    );
-                  },
+                  onTap: widget.onHistory,
                   child: Container(
                     margin: EdgeInsets.only(
                       left: 16,
@@ -562,14 +539,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 )
               : Container(),
           GestureDetector(
-            onTap: () async {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LanguageScreen(language_data),
-                ),
-              );
-            },
+            onTap: widget.onLanguage,
             child: Container(
               margin: EdgeInsets.only(
                 left: 16,
@@ -973,14 +943,7 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
           ),
           GestureDetector(
-            onTap: () async {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => FaqAppScreen(),
-                ),
-              );
-            },
+            onTap: widget.onFaq,
             child: Container(
               margin: EdgeInsets.only(
                 left: 16,
@@ -1023,14 +986,7 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
           ),
           GestureDetector(
-            onTap: () async {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AboutAppScreen(),
-                ),
-              );
-            },
+            onTap: widget.onAbout,
             child: Container(
               margin: EdgeInsets.only(
                 left: 16,

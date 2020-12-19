@@ -37,6 +37,12 @@ import 'package:pharmacy/src/ui/note/notification_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/curer_address_card.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
+import 'package:pharmacy/src/ui/sub_menu/about_app_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/faq_app_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/fav_apteka_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/language_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/region_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -528,6 +534,13 @@ class _MainScreenState extends State<MainScreen> {
           FavoritesScreen(),
           MenuScreen(
             onLogin: _login,
+            onRegion: _region,
+            onFavStore: _favStore,
+            onNoteAll: _noteAll,
+            onHistory: _history,
+            onLanguage: _language,
+            onFaq: _faq,
+            onAbout: _about,
           ),
         ].elementAt(index);
       },
@@ -578,6 +591,69 @@ class _MainScreenState extends State<MainScreen> {
       PageTransition(
         type: PageTransitionType.bottomToTop,
         child: LoginScreen(),
+      ),
+    );
+  }
+
+  void _region() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RegionScreen(),
+      ),
+    );
+  }
+
+  void _favStore() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FavAptekaScreen(),
+      ),
+    );
+  }
+
+  void _noteAll() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => NoteAllScreen(),
+      ),
+    );
+  }
+
+  void _history() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HistoryOrderScreen(),
+      ),
+    );
+  }
+
+  void _language() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LanguageScreen(),
+      ),
+    );
+  }
+
+  void _faq() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FaqAppScreen(),
+      ),
+    );
+  }
+
+  void _about() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AboutAppScreen(),
       ),
     );
   }
