@@ -11,13 +11,11 @@ import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
-import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
-import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
@@ -28,20 +26,20 @@ import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
 import '../../app_theme.dart';
 import 'order_card_pickup.dart';
 
-class AddressAptekaMapPickupScreen extends StatefulWidget {
-  List<ProductsStore> drugs;
+class AddressStoreMapPickupScreen extends StatefulWidget {
+  final List<ProductsStore> drugs;
 
-  AddressAptekaMapPickupScreen(this.drugs);
+  AddressStoreMapPickupScreen(this.drugs);
 
   @override
   State<StatefulWidget> createState() {
-    return _AddressAptekaMapPickupScreenState();
+    return _AddressStoreMapPickupScreenState();
   }
 }
 
-class _AddressAptekaMapPickupScreenState
-    extends State<AddressAptekaMapPickupScreen>
-    with AutomaticKeepAliveClientMixin<AddressAptekaMapPickupScreen> {
+class _AddressStoreMapPickupScreenState
+    extends State<AddressStoreMapPickupScreen>
+    with AutomaticKeepAliveClientMixin<AddressStoreMapPickupScreen> {
   @override
   bool get wantKeepAlive => true;
 
@@ -322,7 +320,7 @@ class _AddressAptekaMapPickupScreenState
                                         device:
                                             Platform.isIOS ? "IOS" : "Android",
                                         type: "self",
-                                        store_id: data[i].id,
+                                        storeId: data[i].id,
                                         drugs: drugs,
                                       ),
                                       Repository()
@@ -554,6 +552,7 @@ class _AddressAptekaMapPickupScreenState
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     if (_permissionStatus == PermissionStatus.granted) {
       if (isFirstGrant) {
@@ -600,8 +599,7 @@ class _AddressAptekaMapPickupScreenState
                     if (_permissionStatus == PermissionStatus.disabled) {
                       AppSettings.openLocationSettings();
                     } else if (_permissionStatus == PermissionStatus.denied) {
-                      bool isOpened =
-                          await PermissionHandler().openAppSettings();
+                      await PermissionHandler().openAppSettings();
                     }
                   },
                   child: Container(

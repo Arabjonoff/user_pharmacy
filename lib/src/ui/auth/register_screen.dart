@@ -11,9 +11,9 @@ import 'package:pharmacy/src/utils/utils.dart';
 import '../../app_theme.dart';
 
 class RegisterScreen extends StatefulWidget {
-  int id;
-  String token;
-  String number;
+  final int id;
+  final String token;
+  final String number;
 
   RegisterScreen(this.id, this.token, this.number);
 

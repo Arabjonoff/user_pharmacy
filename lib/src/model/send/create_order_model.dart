@@ -2,8 +2,8 @@ class CreateOrderModel {
   String type;
   String location;
   List<Drugs> drugs;
-  int shipping_time;
-  int store_id;
+  int shippingTime;
+  int storeId;
   String address;
   String device;
 
@@ -11,9 +11,9 @@ class CreateOrderModel {
     this.address,
     this.location,
     this.type,
-    this.shipping_time,
+    this.shippingTime,
     this.device,
-    this.store_id,
+    this.storeId,
     this.drugs,
   });
 
@@ -22,8 +22,8 @@ class CreateOrderModel {
     location = json['location'];
     type = json['type'];
     device = json['device'];
-    shipping_time = json['shipping_time'];
-    store_id = json['store_id'];
+    shippingTime = json['shipping_time'];
+    storeId = json['store_id'];
     if (json['drugs'] != null) {
       drugs = new List<Drugs>();
       json['drugs'].forEach((v) {
@@ -38,8 +38,8 @@ class CreateOrderModel {
     data['location'] = this.location;
     data['type'] = this.type;
     data['device'] = this.device;
-    data['store_id'] = this.store_id;
-    data['shipping_time'] = this.shipping_time;
+    data['store_id'] = this.storeId;
+    data['shipping_time'] = this.shippingTime;
     data['drugs'] = this.drugs.map((v) => v.toJson()).toList();
 
     return data;

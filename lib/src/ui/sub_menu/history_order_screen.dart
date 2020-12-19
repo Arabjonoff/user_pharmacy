@@ -4,14 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:lottie/lottie.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/history_bloc.dart';
-import 'package:pharmacy/src/database/database_helper_apteka.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
-import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
-import 'package:pharmacy/src/model/database/apteka_model.dart';
-import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
@@ -239,7 +234,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(4.0),
-                                            color: ColorStatus(snapshot
+                                            color: colorStatus(snapshot
                                                 .data.results[index].status),
                                           ),
                                           padding: EdgeInsets.only(
@@ -481,7 +476,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
     }
   }
 
-  Color ColorStatus(String status) {
+  Color colorStatus(String status) {
     switch (status) {
       case "pending":
         {

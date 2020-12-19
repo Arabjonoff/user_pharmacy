@@ -102,13 +102,13 @@ class _RegionScreenState extends State<RegionScreen> {
                     ),
                     child: Row(
                       children: [
-                        IconButton(
-                          icon: new Icon(
-                            Icons.search,
-                            size: 24,
-                            color: AppTheme.notWhite,
-                          ),
+                        SizedBox(width: 8),
+                        Icon(
+                          Icons.search,
+                          size: 24,
+                          color: AppTheme.notWhite,
                         ),
+                        SizedBox(width: 8),
                         Expanded(
                           child: Container(
                             height: 36,
@@ -173,7 +173,6 @@ class _RegionScreenState extends State<RegionScreen> {
                                       await SharedPreferences.getInstance();
                                   prefs.setString("city", users[index].name);
                                   prefs.setInt("cityId", users[index].id);
-                                  prefs.commit();
                                   blocHome.fetchAllHome(
                                     1,
                                     "",
@@ -315,7 +314,6 @@ class _RegionScreenState extends State<RegionScreen> {
                                                     users[index]
                                                         .childs[position]
                                                         .id);
-                                                prefs.commit();
                                                 blocHome.fetchAllHome(
                                                   1,
                                                   "",

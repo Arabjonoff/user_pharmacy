@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/blocs/region_bloc.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';

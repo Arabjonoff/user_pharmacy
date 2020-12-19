@@ -3,20 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/src/database/database_helper_apteka.dart';
-import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
-import 'package:pharmacy/src/resourses/repository.dart';
 
 import '../../app_theme.dart';
 
-class FavAptekaScreen extends StatefulWidget {
+class FavStoreScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _FavAptekaScreenState();
+    return _FavStoreScreenState();
   }
 }
 
-class _FavAptekaScreenState extends State<FavAptekaScreen> {
+class _FavStoreScreenState extends State<FavStoreScreen> {
   DatabaseHelperApteka db = new DatabaseHelperApteka();
 
   @override
@@ -142,12 +140,13 @@ class _FavAptekaScreenState extends State<FavAptekaScreen> {
                         color: AppTheme.white,
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      child:Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(top: 20, left: 16, right: 16),
+                            margin:
+                                EdgeInsets.only(top: 20, left: 16, right: 16),
                             child: Row(
                               children: [
                                 Expanded(
@@ -172,15 +171,15 @@ class _FavAptekaScreenState extends State<FavAptekaScreen> {
                                   child: Container(
                                     child: snapshot.data[index].fav
                                         ? Icon(
-                                      Icons.favorite,
-                                      size: 24,
-                                      color: AppTheme.red_fav_color,
-                                    )
+                                            Icons.favorite,
+                                            size: 24,
+                                            color: AppTheme.red_fav_color,
+                                          )
                                         : Icon(
-                                      Icons.favorite_border,
-                                      size: 24,
-                                      color: AppTheme.arrow_catalog,
-                                    ),
+                                            Icons.favorite_border,
+                                            size: 24,
+                                            color: AppTheme.arrow_catalog,
+                                          ),
                                   ),
                                   onTap: () {
                                     if (!snapshot.data[index].fav) {
@@ -189,7 +188,8 @@ class _FavAptekaScreenState extends State<FavAptekaScreen> {
                                         snapshot.data[index].fav = true;
                                       });
                                     } else {
-                                      db.deleteProducts(snapshot.data[index].id);
+                                      db.deleteProducts(
+                                          snapshot.data[index].id);
                                       setState(() {
                                         snapshot.data[index].fav = false;
                                       });
@@ -200,7 +200,8 @@ class _FavAptekaScreenState extends State<FavAptekaScreen> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 6, left: 16, right: 16),
+                            margin:
+                                EdgeInsets.only(top: 6, left: 16, right: 16),
                             child: Text(
                               snapshot.data[index].address,
                               textAlign: TextAlign.start,
@@ -216,7 +217,8 @@ class _FavAptekaScreenState extends State<FavAptekaScreen> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 19, left: 16, right: 16),
+                            margin:
+                                EdgeInsets.only(top: 19, left: 16, right: 16),
                             child: Row(
                               children: [
                                 Expanded(

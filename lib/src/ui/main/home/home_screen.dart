@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -26,8 +25,6 @@ import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
-import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
-import 'package:pharmacy/src/ui/sub_menu/region_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
@@ -562,13 +559,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 ),
                                 child: Row(
                                   children: [
-                                    IconButton(
-                                      icon: new Icon(
-                                        Icons.search,
-                                        size: 24,
-                                        color: AppTheme.notWhite,
-                                      ),
+                                    SizedBox(width: 8),
+                                    Icon(
+                                      Icons.search,
+                                      size: 24,
+                                      color: AppTheme.notWhite,
                                     ),
+                                    SizedBox(width: 8),
                                     Expanded(
                                       child: Text(
                                         translate("search_hint"),
@@ -603,6 +600,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 .invokeMethod("stop");
                                           }
                                         } on PlatformException catch (e) {
+                                          print(e.toString());
                                           Navigator.pop(context);
                                         }
                                       },
@@ -1001,7 +999,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     PageTransition(
                                       type: PageTransitionType.bottomToTop,
                                       alignment: Alignment.bottomCenter,
-                                      child: ItemScreenNotIstruction(
+                                      child: ItemScreenNotInstruction(
                                         url.drug,
                                       ),
                                     ),
@@ -1148,7 +1146,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 PageTransition(
                                   type: PageTransitionType.bottomToTop,
                                   alignment: Alignment.bottomCenter,
-                                  child: ItemScreenNotIstruction(
+                                  child: ItemScreenNotInstruction(
                                       snapshot.data.results[index].id),
                                 ),
                               );
@@ -1195,7 +1193,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       snapshot
                                                           .data
                                                           .results[index]
-                                                          .base_price
+                                                          .basePrice
                                                   ? Container()
                                                   : Container(
                                                       height: 18,
@@ -1210,13 +1208,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       child: Center(
                                                         child: Text(
                                                           "-" +
-                                                              (((snapshot.data.results[index].base_price - snapshot.data.results[index].price) *
+                                                              (((snapshot.data.results[index].basePrice - snapshot.data.results[index].price) *
                                                                           100) ~/
                                                                       snapshot
                                                                           .data
                                                                           .results[
                                                                               index]
-                                                                          .base_price)
+                                                                          .basePrice)
                                                                   .toString() +
                                                               "%",
                                                           style: TextStyle(
@@ -1278,7 +1276,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         width: 120,
                                         margin: EdgeInsets.only(top: 11),
                                         child: snapshot
-                                                .data.results[index].is_coming
+                                                .data.results[index].isComing
                                             ? Container(
                                                 child: Center(
                                                   child: Text(
@@ -1441,7 +1439,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                     .data
                                                                     .results[
                                                                         index]
-                                                                    .max_count)
+                                                                    .maxCount)
                                                               setState(() {
                                                                 snapshot
                                                                     .data

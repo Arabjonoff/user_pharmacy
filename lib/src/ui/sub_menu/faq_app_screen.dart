@@ -4,12 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/src/blocs/faq_bloc.dart';
-import 'package:pharmacy/src/database/database_helper_apteka.dart';
 import 'package:pharmacy/src/model/api/faq_model.dart';
-import 'package:pharmacy/src/model/api/region_model.dart';
-import 'package:pharmacy/src/model/database/apteka_model.dart';
-import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';

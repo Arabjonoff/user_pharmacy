@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
-import 'package:pharmacy/src/ui/main/category/category_screen.dart';
 import 'package:rxbus/rxbus.dart';
 
 class FavoriteEmptyScreen extends StatefulWidget {

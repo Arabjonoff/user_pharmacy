@@ -13,18 +13,18 @@ import 'package:pharmacy/src/utils/utils.dart';
 
 import '../../app_theme.dart';
 
-class VerfyScreen extends StatefulWidget {
-  String number;
+class VerifyScreen extends StatefulWidget {
+  final String number;
 
-  VerfyScreen(this.number);
+  VerifyScreen(this.number);
 
   @override
   State<StatefulWidget> createState() {
-    return _VerfyScreenState();
+    return _VerifyScreenState();
   }
 }
 
-class _VerfyScreenState extends State<VerfyScreen> {
+class _VerifyScreenState extends State<VerifyScreen> {
   var loading = false;
   var error = false;
   var errorText = "";

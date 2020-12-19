@@ -4,7 +4,6 @@ import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_apteka.dart';
 import 'package:pharmacy/src/database/database_helper_note.dart';
 import 'package:pharmacy/src/model/api/cash_back_model.dart';
-import 'package:pharmacy/src/model/api/chech_error.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
@@ -16,7 +15,6 @@ import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
-import 'package:pharmacy/src/model/api/min_sum.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
@@ -59,22 +57,22 @@ class Repository {
 
   Future<ItemModel> fetchBestItem(
     int page,
-    String international_name_ids,
-    String manufacturer_ids,
+    String internationalNameIds,
+    String manufacturerIds,
     String ordering,
-    String price_max,
-    String price_min,
-    String unit_ids,
+    String priceMax,
+    String priceMin,
+    String unitIds,
   ) =>
       pharmacyApiProvider.fetchBestItemList(
         page,
         20,
-        international_name_ids,
-        manufacturer_ids,
+        internationalNameIds,
+        manufacturerIds,
         ordering,
-        price_max,
-        price_min,
-        unit_ids,
+        priceMax,
+        priceMin,
+        unitIds,
       );
 
   Future<CategoryModel> fetchCategoryItem() =>
@@ -92,67 +90,67 @@ class Repository {
   Future<ItemModel> fetchCategryItemList(
     String id,
     int page,
-    String international_name_ids,
-    String manufacturer_ids,
+    String internationalNameIds,
+    String manufacturerIds,
     String ordering,
-    String price_max,
-    String price_min,
-    String unit_ids,
+    String priceMax,
+    String priceMin,
+    String unitIds,
   ) =>
       pharmacyApiProvider.fetchCategoryItemsList(
         id,
         page,
         20,
-        international_name_ids,
-        manufacturer_ids,
+        internationalNameIds,
+        manufacturerIds,
         ordering,
-        price_max,
-        price_min,
-        unit_ids,
+        priceMax,
+        priceMin,
+        unitIds,
       );
 
   Future<ItemModel> fetchIdsItemsList(
     String id,
     int page,
-    String international_name_ids,
-    String manufacturer_ids,
+    String internationalNameIds,
+    String manufacturerIds,
     String ordering,
-    String price_max,
-    String price_min,
-    String unit_ids,
+    String priceMax,
+    String priceMin,
+    String unitIds,
   ) =>
       pharmacyApiProvider.fetchIdsItemsList(
         id,
         page,
         20,
-        international_name_ids,
-        manufacturer_ids,
+        internationalNameIds,
+        manufacturerIds,
         ordering,
-        price_max,
-        price_min,
-        unit_ids,
+        priceMax,
+        priceMin,
+        unitIds,
       );
 
   Future<ItemModel> fetchSearchItemList(
     String obj,
     int page,
-    String international_name_ids,
-    String manufacturer_ids,
+    String internationalNameIds,
+    String manufacturerIds,
     String ordering,
-    String price_max,
-    String price_min,
-    String unit_ids,
+    String priceMax,
+    String priceMin,
+    String unitIds,
   ) =>
       pharmacyApiProvider.fetchSearchItemsList(
         obj,
         page,
         20,
-        international_name_ids,
-        manufacturer_ids,
+        internationalNameIds,
+        manufacturerIds,
         ordering,
-        price_max,
-        price_min,
-        unit_ids,
+        priceMax,
+        priceMin,
+        unitIds,
       );
 
   Future<ItemsAllModel> fetchItems(String id) =>
@@ -218,7 +216,7 @@ class Repository {
       pharmacyApiProvider.fetchOrderItemReview(comment, rating, orderId);
 
   Future<GetReviewModel> fetchGetNoReview() =>
-      pharmacyApiProvider.fetchGetNoReview();
+      pharmacyApiProvider.fetchGetNoReviews();
 
   Future<CashBackModel> fetchCashBack() => pharmacyApiProvider.fetchCashBack();
 

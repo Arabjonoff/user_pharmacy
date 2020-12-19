@@ -45,12 +45,12 @@ class ItemListBloc {
   fetchAllItemCategory(
     String id,
     int page,
-    String international_name_ids,
-    String manufacturer_ids,
+    String internationalNameIds,
+    String manufacturerIds,
     String ordering,
-    String price_max,
-    String price_min,
-    String unit_ids,
+    String priceMax,
+    String priceMin,
+    String unitIds,
   ) async {
     if (page == 1) {
       usersCategory = new List();
@@ -58,12 +58,12 @@ class ItemListBloc {
     ItemModel itemCategory = await _repository.fetchCategryItemList(
       id,
       page,
-      international_name_ids,
-      manufacturer_ids,
+      internationalNameIds,
+      manufacturerIds,
       ordering,
-      price_max,
-      price_min,
-      unit_ids,
+      priceMax,
+      priceMin,
+      unitIds,
     );
     if (itemCategory != null) {
       List<ItemResult> database = await _repository.databaseItem();
@@ -100,12 +100,12 @@ class ItemListBloc {
   fetchIdsItemsList(
     String id,
     int page,
-    String international_name_ids,
-    String manufacturer_ids,
+    String internationalNameIds,
+    String manufacturerIds,
     String ordering,
-    String price_max,
-    String price_min,
-    String unit_ids,
+    String priceMax,
+    String priceMin,
+    String unitIds,
   ) async {
     if (page == 1) {
       usersIds = new List();
@@ -113,12 +113,12 @@ class ItemListBloc {
     ItemModel itemCategory = await _repository.fetchIdsItemsList(
       id,
       page,
-      international_name_ids,
-      manufacturer_ids,
+      internationalNameIds,
+      manufacturerIds,
       ordering,
-      price_max,
-      price_min,
-      unit_ids,
+      priceMax,
+      priceMin,
+      unitIds,
     );
 
     List<ItemResult> database = await _repository.databaseItem();
@@ -153,12 +153,12 @@ class ItemListBloc {
 
   fetchAllItemCategoryBest(
     int page,
-    String international_name_ids,
-    String manufacturer_ids,
+    String internationalNameIds,
+    String manufacturerIds,
     String ordering,
-    String price_max,
-    String price_min,
-    String unit_ids,
+    String priceMax,
+    String priceMin,
+    String unitIds,
   ) async {
     if (page == 1) {
       usersBest = new List();
@@ -166,12 +166,12 @@ class ItemListBloc {
 
     ItemModel itemModelBest = await _repository.fetchBestItem(
       page,
-      international_name_ids,
-      manufacturer_ids,
+      internationalNameIds,
+      manufacturerIds,
       ordering,
-      price_max,
-      price_min,
-      unit_ids,
+      priceMax,
+      priceMin,
+      unitIds,
     );
     List<ItemResult> database = await _repository.databaseItem();
     for (var j = 0; j < database.length; j++) {
@@ -206,12 +206,12 @@ class ItemListBloc {
   fetchAllItemSearch(
     String obj,
     int page,
-    String international_name_ids,
-    String manufacturer_ids,
+    String internationalNameIds,
+    String manufacturerIds,
     String ordering,
-    String price_max,
-    String price_min,
-    String unit_ids,
+    String priceMax,
+    String priceMin,
+    String unitIds,
   ) async {
     if (page == 1) {
       usersSearch = new List();
@@ -219,12 +219,12 @@ class ItemListBloc {
     ItemModel itemModelSearch = await _repository.fetchSearchItemList(
       obj,
       page,
-      international_name_ids,
-      manufacturer_ids,
+      internationalNameIds,
+      manufacturerIds,
       ordering,
-      price_max,
-      price_min,
-      unit_ids,
+      priceMax,
+      priceMin,
+      unitIds,
     );
 
     if (itemModelSearch != null) {

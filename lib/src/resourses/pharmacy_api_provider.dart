@@ -43,7 +43,7 @@ class PharmacyApiProvider {
 
   ///Login
   Future<LoginModel> fetchLogin(String login) async {
-    String url = Utils.BASE_URL + '/api/v1/register';
+    String url = Utils.baseUrl + '/api/v1/register';
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final data = {
@@ -72,7 +72,7 @@ class PharmacyApiProvider {
 
   ///verfy
   Future<VerfyModel> fetchVerfy(String login, String code, String token) async {
-    String url = Utils.BASE_URL + '/api/v1/accept';
+    String url = Utils.baseUrl + '/api/v1/accept';
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final data = {
@@ -104,7 +104,7 @@ class PharmacyApiProvider {
   ///Register
   Future<LoginModel> fetchRegister(String name, String surname, String birthday,
       String gender, String token) async {
-    String url = Utils.BASE_URL + '/api/v1/register-profil';
+    String url = Utils.baseUrl + '/api/v1/register-profil';
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
@@ -142,7 +142,7 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
-    String url = Utils.BASE_URL + '/api/v1/sales?region=$regionId';
+    String url = Utils.baseUrl + '/api/v1/sales?region=$regionId';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
@@ -170,29 +170,29 @@ class PharmacyApiProvider {
   ///best items
   Future<ItemModel> fetchBestItemList(
     int page,
-    int per_page,
-    String international_name_ids,
-    String manufacturer_ids,
+    int perPage,
+    String internationalNameIds,
+    String manufacturerIds,
     String ordering,
-    String price_max,
-    String price_min,
-    String unit_ids,
+    String priceMax,
+    String priceMin,
+    String unitIds,
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
-    String url = Utils.BASE_URL +
+    String url = Utils.baseUrl +
         '/api/v1/drugs?'
             'is_home=1&'
             'page=$page&'
             'region=$regionId&'
-            'per_page=$per_page&'
-            'international_name_ids=$international_name_ids&'
-            'manufacturer_ids=$manufacturer_ids&'
+            'per_page=$perPage&'
+            'international_name_ids=$internationalNameIds&'
+            'manufacturer_ids=$manufacturerIds&'
             'ordering=$ordering&'
-            'price_max=$price_max&'
-            'price_min=$price_min&'
-            'unit_ids=$unit_ids';
+            'price_max=$priceMax&'
+            'price_min=$priceMin&'
+            'unit_ids=$unitIds';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
@@ -221,7 +221,7 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
-    String url = Utils.BASE_URL + '/api/v1/categories?region=$regionId';
+    String url = Utils.baseUrl + '/api/v1/categories?region=$regionId';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
@@ -248,29 +248,29 @@ class PharmacyApiProvider {
   Future<ItemModel> fetchCategoryItemsList(
     String id,
     int page,
-    int per_page,
-    String international_name_ids,
-    String manufacturer_ids,
+    int perPage,
+    String internationalNameIds,
+    String manufacturerIds,
     String ordering,
-    String price_max,
-    String price_min,
-    String unit_ids,
+    String priceMax,
+    String priceMin,
+    String unitIds,
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
-    String url = Utils.BASE_URL +
+    String url = Utils.baseUrl +
         '/api/v1/drugs?'
             'page=$page&'
             'region=$regionId&'
-            'per_page=$per_page&'
+            'per_page=$perPage&'
             'category=$id&'
-            'international_name_ids=$international_name_ids&'
-            'manufacturer_ids=$manufacturer_ids&'
+            'international_name_ids=$internationalNameIds&'
+            'manufacturer_ids=$manufacturerIds&'
             'ordering=$ordering&'
-            'price_max=$price_max&'
-            'price_min=$price_min&'
-            'unit_ids=$unit_ids';
+            'price_max=$priceMax&'
+            'price_min=$priceMin&'
+            'unit_ids=$unitIds';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
@@ -300,29 +300,29 @@ class PharmacyApiProvider {
   Future<ItemModel> fetchIdsItemsList(
     String id,
     int page,
-    int per_page,
-    String international_name_ids,
-    String manufacturer_ids,
+    int perPage,
+    String internationalNameIds,
+    String manufacturerIds,
     String ordering,
-    String price_max,
-    String price_min,
-    String unit_ids,
+    String priceMax,
+    String priceMin,
+    String unitIds,
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
-    String url = Utils.BASE_URL +
+    String url = Utils.baseUrl +
         '/api/v1/drugs?'
             'page=$page&'
             'region=$regionId&'
-            'per_page=$per_page&'
+            'per_page=$perPage&'
             'ids=$id&'
-            'international_name_ids=$international_name_ids&'
-            'manufacturer_ids=$manufacturer_ids&'
+            'international_name_ids=$internationalNameIds&'
+            'manufacturer_ids=$manufacturerIds&'
             'ordering=$ordering&'
-            'price_max=$price_max&'
-            'price_min=$price_min&'
-            'unit_ids=$unit_ids';
+            'price_max=$priceMax&'
+            'price_min=$priceMin&'
+            'unit_ids=$unitIds';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
@@ -346,29 +346,29 @@ class PharmacyApiProvider {
   Future<ItemModel> fetchSearchItemsList(
     String obj,
     int page,
-    int per_page,
-    String international_name_ids,
-    String manufacturer_ids,
+    int perPage,
+    String internationalNameIds,
+    String manufacturerIds,
     String ordering,
-    String price_max,
-    String price_min,
-    String unit_ids,
+    String priceMax,
+    String priceMin,
+    String unitIds,
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
-    String url = Utils.BASE_URL +
+    String url = Utils.baseUrl +
         '/api/v1/drugs?'
             'page=$page&'
             'region=$regionId&'
-            'per_page=$per_page&'
+            'per_page=$perPage&'
             'search=$obj&'
-            'international_name_ids=$international_name_ids&'
-            'manufacturer_ids=$manufacturer_ids&'
+            'international_name_ids=$internationalNameIds&'
+            'manufacturer_ids=$manufacturerIds&'
             'ordering=$ordering&'
-            'price_max=$price_max&'
-            'price_min=$price_min&'
-            'unit_ids=$unit_ids';
+            'price_max=$priceMax&'
+            'price_min=$priceMin&'
+            'unit_ids=$unitIds';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
@@ -398,7 +398,7 @@ class PharmacyApiProvider {
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
 
-    String url = Utils.BASE_URL + '/api/v1/drugs/$id?region=$regionId';
+    String url = Utils.baseUrl + '/api/v1/drugs/$id?region=$regionId';
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
       'X-Device': encoded,
@@ -426,7 +426,7 @@ class PharmacyApiProvider {
     int regionId = prefs.getInt("cityId");
 
     String url =
-        Utils.BASE_URL + '/api/v1/stores?lat=$lat&lng=$lng&region=$regionId';
+        Utils.baseUrl + '/api/v1/stores?lat=$lat&lng=$lng&region=$regionId';
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
 
@@ -457,7 +457,7 @@ class PharmacyApiProvider {
       lan = "ru";
     }
 
-    String url = Utils.BASE_URL + '/api/v1/regions?search=$obj&lan=$lan';
+    String url = Utils.baseUrl + '/api/v1/regions?search=$obj&lan=$lan';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
@@ -492,7 +492,7 @@ class PharmacyApiProvider {
       lan = "ru";
     }
 
-    String url = Utils.BASE_URL + '/api/v1/add-order?lan=$lan&region=$regionId';
+    String url = Utils.baseUrl + '/api/v1/add-order?lan=$lan&region=$regionId';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
@@ -519,7 +519,7 @@ class PharmacyApiProvider {
   }
 
   ///History
-  Future<HistoryModel> fetchOrderHistory(int page, int per_page) async {
+  Future<HistoryModel> fetchOrderHistory(int page, int perPage) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
     int regionId = prefs.getInt("cityId");
@@ -527,10 +527,10 @@ class PharmacyApiProvider {
     if (lan == null) {
       lan = "ru";
     }
-    String url = Utils.BASE_URL +
+    String url = Utils.baseUrl +
         '/api/v1/orders?'
             'page=$page&'
-            'per_page=$per_page&'
+            'per_page=$perPage&'
             'lan=$lan&'
             'region=$regionId';
 
@@ -560,16 +560,16 @@ class PharmacyApiProvider {
 
   /// Filter parametrs
   Future<FilterModel> fetchFilterParametrs(
-      int page, int per_page, int type, String search) async {
+      int page, int perPage, int type, String search) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String url = type == 1
-        ? Utils.BASE_URL +
-            '/api/v1/units?page=$page&per_page=$per_page&search=$search'
+        ? Utils.baseUrl +
+            '/api/v1/units?page=$page&per_page=$perPage&search=$search'
         : type == 2
-            ? Utils.BASE_URL +
-                '/api/v1/manufacturers?page=$page&per_page=$per_page&search=$search'
-            : Utils.BASE_URL +
-                '/api/v1/international-names?page=$page&per_page=$per_page&search=$search';
+            ? Utils.baseUrl +
+                '/api/v1/manufacturers?page=$page&per_page=$perPage&search=$search'
+            : Utils.baseUrl +
+                '/api/v1/international-names?page=$page&per_page=$perPage&search=$search';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
@@ -601,7 +601,7 @@ class PharmacyApiProvider {
     int regionId = prefs.getInt("cityId");
 
     String url =
-        Utils.BASE_URL + '/api/v1/order-options?lan=$lan&region=$regionId';
+        Utils.baseUrl + '/api/v1/order-options?lan=$lan&region=$regionId';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
@@ -638,7 +638,7 @@ class PharmacyApiProvider {
     }
 
     String url =
-        Utils.BASE_URL + '/api/v1/check-order?lan=$lan&region=$regionId';
+        Utils.baseUrl + '/api/v1/check-order?lan=$lan&region=$regionId';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
@@ -670,7 +670,7 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
-    String url = Utils.BASE_URL + '/api/v1/exists-stores?region=$regionId';
+    String url = Utils.baseUrl + '/api/v1/exists-stores?region=$regionId';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
@@ -697,9 +697,9 @@ class PharmacyApiProvider {
   }
 
   ///get all message
-  Future<ChatApiModel> fetchGetAppMessage(int page, int per_page) async {
+  Future<ChatApiModel> fetchGetAppMessage(int page, int perPage) async {
     String url =
-        Utils.BASE_URL + '/api/v1/chat/messages?page=$page&per_page=$per_page';
+        Utils.baseUrl + '/api/v1/chat/messages?page=$page&per_page=$perPage';
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
@@ -729,7 +729,7 @@ class PharmacyApiProvider {
 
   ///sent message
   Future<LoginModel> fetchSentMessage(String message) async {
-    String url = Utils.BASE_URL + '/api/v1/chat/send-message';
+    String url = Utils.baseUrl + '/api/v1/chat/send-message';
 
     final data = {"message": message};
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -763,7 +763,7 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
-    String url = Utils.BASE_URL + '/api/v1/order-minimum?region=$regionId';
+    String url = Utils.baseUrl + '/api/v1/order-minimum?region=$regionId';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
@@ -787,7 +787,7 @@ class PharmacyApiProvider {
     int regionId = prefs.getInt("cityId");
 
     String url =
-        Utils.BASE_URL + '/api/v1/check-error?lan=$language&region=$regionId';
+        Utils.baseUrl + '/api/v1/check-error?lan=$language&region=$regionId';
     String token = prefs.getString("token");
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
@@ -818,7 +818,7 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
-    String url = Utils.BASE_URL +
+    String url = Utils.baseUrl +
         '/api/v1/check-shipping-error?lan=$language&region=$regionId';
     String token = prefs.getString("token");
 
@@ -846,7 +846,7 @@ class PharmacyApiProvider {
 
   ///payment vetfy token
   Future<PaymentVerfy> fetchVerfyPaymentModel(VerdyPaymentModel verfy) async {
-    String url = Utils.BASE_URL + '/api/v1/verify-token';
+    String url = Utils.baseUrl + '/api/v1/verify-token';
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
@@ -867,17 +867,17 @@ class PharmacyApiProvider {
     } on TimeoutException catch (_) {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
       return PaymentVerfy(
-          error_code: -1, errorNote: translate("internet_error"));
+          errorCode: -1, errorNote: translate("internet_error"));
     } on SocketException catch (_) {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
       return PaymentVerfy(
-          error_code: -1, errorNote: translate("internet_error"));
+          errorCode: -1, errorNote: translate("internet_error"));
     }
   }
 
   ///check version
   Future<CheckVersion> fetchCheckVersion(String version) async {
-    String url = Utils.BASE_URL + '/api/v1/check-version';
+    String url = Utils.baseUrl + '/api/v1/check-version';
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final data = {
       "version": version,
@@ -902,7 +902,7 @@ class PharmacyApiProvider {
 
   ///send rating
   Future<CheckVersion> fetchSendRating(String comment, int rating) async {
-    String url = Utils.BASE_URL + '/api/v1/send-review';
+    String url = Utils.baseUrl + '/api/v1/send-review';
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
@@ -938,11 +938,12 @@ class PharmacyApiProvider {
   }
 
   ///get-no-reviews
-  Future<GetReviewModel> fetchGetNoReview() async {
+  // ignore: missing_return
+  Future<GetReviewModel> fetchGetNoReviews() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
-    String url = Utils.BASE_URL + '/api/v1/get-no-reviews?region=$regionId';
+    String url = Utils.baseUrl + '/api/v1/get-no-reviews?region=$regionId';
     String token = prefs.getString("token");
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
@@ -958,7 +959,6 @@ class PharmacyApiProvider {
           .timeout(const Duration(seconds: 120));
 
       final Map parsed = json.decode(response.body);
-
       return GetReviewModel.fromJson(parsed);
     }
   }
@@ -969,7 +969,7 @@ class PharmacyApiProvider {
     int rating,
     int orderId,
   ) async {
-    String url = Utils.BASE_URL + '/api/v1/send-order-reviews';
+    String url = Utils.baseUrl + '/api/v1/send-order-reviews';
 
     final data = {"review": comment, "rating": rating, "order_id": orderId};
 
@@ -1004,7 +1004,7 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
-    String url = Utils.BASE_URL + '/api/v1/user-cashback?region=$regionId';
+    String url = Utils.baseUrl + '/api/v1/user-cashback?region=$regionId';
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
     String token = prefs.getString("token");
@@ -1031,7 +1031,7 @@ class PharmacyApiProvider {
     if (lan == null) {
       lan = "ru";
     }
-    String url = Utils.BASE_URL + '/api/v1/faq?lan=$lan&region=$regionId';
+    String url = Utils.baseUrl + '/api/v1/faq?lan=$lan&region=$regionId';
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
       'X-Device': encoded,
@@ -1083,7 +1083,7 @@ class PharmacyApiProvider {
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
 
     String url =
-        Utils.BASE_URL + '/api/v1/create-order?lan=$lan&region=$regionId';
+        Utils.baseUrl + '/api/v1/create-order?lan=$lan&region=$regionId';
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -1121,7 +1121,7 @@ class PharmacyApiProvider {
     }
 
     String url =
-        Utils.BASE_URL + '/api/v1/activate-order?lan=$lan&region=$regionId';
+        Utils.baseUrl + '/api/v1/activate-order?lan=$lan&region=$regionId';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
@@ -1169,7 +1169,7 @@ class PharmacyApiProvider {
       'X-Device': encoded,
     };
 
-    String url = Utils.BASE_URL + '/api/v1/check-region-polygon?lan=$lan';
+    String url = Utils.baseUrl + '/api/v1/check-region-polygon?lan=$lan';
 
     try {
       http.Response response = await http
@@ -1201,7 +1201,7 @@ class PharmacyApiProvider {
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));
 
-    String url = Utils.BASE_URL + '/api/v1/add-region?lan=$lan';
+    String url = Utils.baseUrl + '/api/v1/add-region?lan=$lan';
     if (token != null) {
       try {
         Map<String, String> headers = {

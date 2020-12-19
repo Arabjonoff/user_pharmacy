@@ -9,13 +9,11 @@ import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/blocs/items_bloc.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
-import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/category/sub_category_screen.dart';
-import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
@@ -236,13 +234,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       },
                       child: Row(
                         children: [
-                          IconButton(
-                            icon: new Icon(
-                              Icons.search,
-                              size: 24,
-                              color: AppTheme.notWhite,
-                            ),
+                          SizedBox(width: 8),
+                          Icon(
+                            Icons.search,
+                            size: 24,
+                            color: AppTheme.notWhite,
                           ),
+                          SizedBox(width: 8),
                           Expanded(
                             child: Text(
                               translate("search_hint"),
@@ -274,6 +272,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                   await methodChannel.invokeMethod("stop");
                                 }
                               } on PlatformException catch (e) {
+                                print(e.toString());
                                 Navigator.pop(context);
                               }
                             },

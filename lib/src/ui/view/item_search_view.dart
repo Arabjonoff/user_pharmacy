@@ -32,7 +32,7 @@ class _ItemSearchViewState extends State<ItemSearchView> {
           PageTransition(
             type: PageTransitionType.bottomToTop,
             alignment: Alignment.bottomCenter,
-            child: ItemScreenNotIstruction(widget.item.id),
+            child: ItemScreenNotInstruction(widget.item.id),
           ),
         );
       },

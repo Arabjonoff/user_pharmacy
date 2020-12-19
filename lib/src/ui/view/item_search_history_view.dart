@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pharmacy/src/database/database_helper.dart';
 
 import '../../app_theme.dart';
 
-// ignore: must_be_immutable
 class ItemSearchHistoryView extends StatefulWidget {
-  String item;
+  final String item;
 
   ItemSearchHistoryView(this.item);
 
@@ -18,7 +16,6 @@ class ItemSearchHistoryView extends StatefulWidget {
 }
 
 class _ItemSearchHistoryViewState extends State<ItemSearchHistoryView> {
-
   @override
   Widget build(BuildContext context) {
     return InkWell(

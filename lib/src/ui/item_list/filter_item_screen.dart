@@ -1,16 +1,12 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/filter_block.dart';
-import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/ui/item_list/fliter_screen.dart';
-import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';

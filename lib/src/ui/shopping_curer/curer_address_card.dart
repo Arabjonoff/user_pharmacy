@@ -56,7 +56,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
 
   bool error = false;
   bool loading = false;
-  String error_text = "";
+  String errorText = "";
 
   DatabaseHelper dataBase = new DatabaseHelper();
   ScrollController _scrollController = new ScrollController();
@@ -310,10 +310,10 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                             i++) {
                           paymentTypes.add(PaymentTypesCheckBox(
                             id: i,
-                            payment_id: snapshot.data.paymentTypes[i].id,
-                            card_id: snapshot.data.paymentTypes[i].card_id,
-                            card_token:
-                                snapshot.data.paymentTypes[i].card_token,
+                            paymentId: snapshot.data.paymentTypes[i].id,
+                            cardId: snapshot.data.paymentTypes[i].cardId,
+                            cardToken:
+                                snapshot.data.paymentTypes[i].cardToken,
                             name: snapshot.data.paymentTypes[i].name,
                             pan: snapshot.data.paymentTypes[i].pan,
                             type: snapshot.data.paymentTypes[i].type,
@@ -491,7 +491,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                           width: double.infinity,
                           margin: EdgeInsets.only(top: 11, left: 16, right: 16),
                           child: Text(
-                            error_text,
+                            errorText,
                             textAlign: TextAlign.end,
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
@@ -530,7 +530,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                               device: Platform.isIOS ? "IOS" : "Android",
                               address: myAddress,
                               type: "shipping",
-                              shipping_time: shippingId,
+                              shippingTime: shippingId,
                               drugs: drugs,
                             ),
                             Repository()
@@ -593,7 +593,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                           setState(() {
                                             error = true;
                                             loading = false;
-                                            error_text = response.msg;
+                                            errorText = response.msg;
                                           }),
                                           Timer(Duration(milliseconds: 100),
                                               () {
@@ -611,7 +611,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                           setState(() {
                                             error = true;
                                             loading = false;
-                                            error_text = response.msg == ""
+                                            errorText = response.msg == ""
                                                 ? translate("error_distanse")
                                                 : response.msg;
                                           }),
@@ -631,13 +631,13 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                     } else {
                       setState(() {
                         error = true;
-                        error_text = translate("not_time");
+                        errorText = translate("not_time");
                       });
                     }
                   } else {
                     setState(() {
                       error = true;
-                      error_text = translate("not_address");
+                      errorText = translate("not_address");
                     });
                   }
                 }
@@ -683,12 +683,12 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
 
   Future<void> _getLanguage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var language_data;
+    var languageData;
     if (prefs.getString('language') != null) {
-      language_data = prefs.getString('language');
+      languageData = prefs.getString('language');
     } else {
-      language_data = "ru";
+      languageData = "ru";
     }
-    blocOrderOptions.fetchOrderOptions(language_data);
+    blocOrderOptions.fetchOrderOptions(languageData);
   }
 }

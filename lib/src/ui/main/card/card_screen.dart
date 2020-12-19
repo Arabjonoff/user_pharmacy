@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,19 +10,13 @@ import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
-import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
-import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
-import 'package:pharmacy/src/ui/shopping_curer/curer_address_card.dart';
-import 'package:pharmacy/src/ui/shopping_curer/map_address_screen.dart';
-import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
-import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shimmer/shimmer.dart';
@@ -35,8 +28,8 @@ import 'card_empty_screen.dart';
 final priceFormat = new NumberFormat("#,##0", "ru");
 
 class CardScreen extends StatefulWidget {
-  Function onPickup;
-  Function onCurer;
+  final Function onPickup;
+  final Function onCurer;
 
   CardScreen({this.onPickup, this.onCurer});
 
@@ -58,7 +51,7 @@ class _CardScreenState extends State<CardScreen> {
   var loadingPickup = false;
   var loadingDelivery = false;
   var error = false;
-  String error_text = "";
+  String errorText = "";
   bool isNext = false;
   List<CheckErroData> errorData = new List();
   int minSum = 0;
@@ -170,7 +163,7 @@ class _CardScreenState extends State<CardScreen> {
                                 PageTransition(
                                   type: PageTransitionType.bottomToTop,
                                   alignment: Alignment.bottomCenter,
-                                  child: ItemScreenNotIstruction(
+                                  child: ItemScreenNotInstruction(
                                       snapshot.data[index].id),
                                 ),
                               );
@@ -673,7 +666,7 @@ class _CardScreenState extends State<CardScreen> {
                               margin:
                                   EdgeInsets.only(top: 11, left: 16, right: 16),
                               child: Text(
-                                error_text,
+                                errorText,
                                 textAlign: TextAlign.end,
                                 style: TextStyle(
                                   fontWeight: FontWeight.normal,
@@ -711,7 +704,7 @@ class _CardScreenState extends State<CardScreen> {
                                               products: drugs),
                                           Repository()
                                               .fetchCheckErrorPickup(
-                                                  addModel, language_data)
+                                                  addModel, languageData)
                                               .then((value) => {
                                                     if (value.error == 0)
                                                       {
@@ -734,8 +727,7 @@ class _CardScreenState extends State<CardScreen> {
                                                               null)
                                                             errorData.addAll(
                                                                 value.errors);
-                                                          error_text =
-                                                              value.msg;
+                                                          errorText = value.msg;
                                                         }),
                                                       }
                                                   })
@@ -808,7 +800,7 @@ class _CardScreenState extends State<CardScreen> {
                                               products: drugs),
                                           Repository()
                                               .fetchCheckErrorDelivery(
-                                                  addModel, language_data)
+                                                  addModel, languageData)
                                               .then((value) => {
                                                     if (value.error == 0)
                                                       {
@@ -832,8 +824,7 @@ class _CardScreenState extends State<CardScreen> {
                                                               null)
                                                             errorData.addAll(
                                                                 value.errors);
-                                                          error_text =
-                                                              value.msg;
+                                                          errorText = value.msg;
                                                         }),
                                                       }
                                                   })

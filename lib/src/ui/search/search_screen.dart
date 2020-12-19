@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -7,14 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:lottie/lottie.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/search_bloc.dart';
 import 'package:pharmacy/src/database/database_helper_history.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
-import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/view/item_search_view.dart';
-import 'package:pharmacy/src/utils/utils.dart';
+
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
@@ -134,13 +131,13 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                     child: Row(
                       children: [
-                        IconButton(
-                          icon: new Icon(
-                            Icons.search,
-                            size: 24,
-                            color: AppTheme.notWhite,
-                          ),
+                        SizedBox(width: 8),
+                        Icon(
+                          Icons.search,
+                          size: 24,
+                          color: AppTheme.notWhite,
                         ),
+                        SizedBox(width: 8),
                         Expanded(
                           child: Container(
                             height: 36,

@@ -1,4 +1,3 @@
-import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:rxdart/rxdart.dart';

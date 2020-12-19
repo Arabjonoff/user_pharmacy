@@ -3,19 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/order_options_bloc.dart';
-import 'package:pharmacy/src/database/database_helper.dart';
-import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
-import 'package:pharmacy/src/model/database/address_model.dart';
-import 'package:pharmacy/src/model/database/apteka_model.dart';
-import 'package:pharmacy/src/model/send/check_order.dart';
-import 'package:pharmacy/src/model/send/replase_pay_model.dart';
-import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/main/home/home_screen.dart';
-import 'package:pharmacy/src/ui/shopping_curer/map_address_screen.dart';
-import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -23,7 +12,7 @@ import '../../app_theme.dart';
 
 // ignore: must_be_immutable
 class ReplacePaymentScreen extends StatefulWidget {
-  int orderId;
+  final int orderId;
 
   ReplacePaymentScreen(this.orderId);
 
@@ -160,10 +149,10 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                             i++) {
                           paymentTypeReplace.add(PaymentTypesCheckBox(
                             id: i,
-                            payment_id: snapshot.data.paymentTypes[i].id,
-                            card_id: snapshot.data.paymentTypes[i].card_id,
-                            card_token:
-                                snapshot.data.paymentTypes[i].card_token,
+                            paymentId: snapshot.data.paymentTypes[i].id,
+                            cardId: snapshot.data.paymentTypes[i].cardId,
+                            cardToken:
+                                snapshot.data.paymentTypes[i].cardToken,
                             name: snapshot.data.paymentTypes[i].name,
                             pan: snapshot.data.paymentTypes[i].pan,
                             type: snapshot.data.paymentTypes[i].type,
@@ -198,16 +187,16 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                                           paymentTypeReplace.length - 1) {
                                         setState(() {
                                           clickType = data.id;
-                                          paymentType = data.payment_id;
+                                          paymentType = data.paymentId;
                                           isEnd = true;
-                                          cardToken = data.card_token;
+                                          cardToken = data.cardToken;
                                         });
                                       } else {
                                         setState(() {
                                           clickType = data.id;
-                                          paymentType = data.payment_id;
+                                          paymentType = data.paymentId;
                                           isEnd = false;
-                                          cardToken = data.card_token;
+                                          cardToken = data.cardToken;
                                         });
                                       }
                                     },
@@ -414,24 +403,24 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                   setState(() {
                     loading = true;
                   });
-                  var cardNum = cardNumberController.text.replaceAll(' ', '');
-                  var cardDate = cardDateController.text
-                      .replaceAll(' ', '')
-                      .replaceAll('/', '');
-                  ReplacePayModel replace = new ReplacePayModel();
-                  isEnd
-                      ? replace = new ReplacePayModel(
-                          order_id: widget.orderId,
-                          payment_type: paymentType,
-                          card_pan: cardNum,
-                          card_exp: cardDate,
-                          card_save: checkBox ? 1 : 0,
-                        )
-                      : replace = new ReplacePayModel(
-                          order_id: widget.orderId,
-                          payment_type: paymentType,
-                          card_token: cardToken == "" ? null : cardToken,
-                        );
+                  // var cardNum = cardNumberController.text.replaceAll(' ', '');
+                  // var cardDate = cardDateController.text
+                  //     .replaceAll(' ', '')
+                  //     .replaceAll('/', '');
+                  // ReplacePayModel replace = new ReplacePayModel();
+                  // isEnd
+                  //     ? replace = new ReplacePayModel(
+                  //         order_id: widget.orderId,
+                  //         payment_type: paymentType,
+                  //         card_pan: cardNum,
+                  //         card_exp: cardDate,
+                  //         card_save: checkBox ? 1 : 0,
+                  //       )
+                  //     : replace = new ReplacePayModel(
+                  //         order_id: widget.orderId,
+                  //         payment_type: paymentType,
+                  //         card_token: cardToken == "" ? null : cardToken,
+                  //       );
                 }
               },
               child: Container(
@@ -475,12 +464,12 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
 
   Future<void> _getLanguage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var language_data;
+    var languageData;
     if (prefs.getString('language') != null) {
-      language_data = prefs.getString('language');
+      languageData = prefs.getString('language');
     } else {
-      language_data = "ru";
+      languageData = "ru";
     }
-    blocOrderOptions.fetchOrderOptions(language_data);
+    blocOrderOptions.fetchOrderOptions(languageData);
   }
 }

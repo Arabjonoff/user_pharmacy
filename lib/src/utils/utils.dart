@@ -7,8 +7,8 @@ import 'package:flutter/services.dart';
 
 class Utils {
   ///static String BASE_URL = "https://api.gopharm.uz";
-  static String BASE_URL = "https://test.gopharm.uz";
-  static String BASE_URL_SOCET = "wss://api.gopharm.uz/ws/";
+  static String baseUrl = "https://test.gopharm.uz";
+  static String baseUrlSocket = "wss://api.gopharm.uz/ws/";
 
   static Future<void> saveData(int userId, String name, String surname,
       String birthday, String gender, String token, String number) async {
@@ -21,13 +21,13 @@ class Utils {
     prefs.setString('gender', gender);
     prefs.setString('token', token);
     prefs.setString('number', number);
-    prefs.commit();
+    //  prefs.commit();
   }
 
   static Future<void> saveCashBack(double cashBack) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setDouble('cashBack', cashBack);
-    prefs.commit();
+    // prefs.commit();
   }
 
   static Future<double> getCashBack() async {
@@ -42,20 +42,20 @@ class Utils {
     prefs.setString('city', city);
     prefs.setDouble('coordLat', lat);
     prefs.setDouble('coordLng', lng);
-    prefs.commit();
+    //prefs.commit();
   }
 
   static Future<void> saveLocation(double lat, double lng) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setDouble('coordLat', lat);
     prefs.setDouble('coordLng', lng);
-    prefs.commit();
+    // prefs.commit();
   }
 
   static Future<void> clearData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
-    prefs.commit();
+    //prefs.commit();
   }
 
   static Future<int> getId() async {
@@ -80,7 +80,7 @@ class Utils {
   static Future<void> saveDeviceData(Map<String, dynamic> deviceData) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("deviceData", deviceData.toString());
-    prefs.commit();
+    //prefs.commit();
   }
 
   static Future<String> scanBarcodeNormal() async {
@@ -108,6 +108,7 @@ class Utils {
       else
         return result.rawContent;
     } on PlatformException catch (e) {
+      print(e.toString());
       return "-1";
     }
   }

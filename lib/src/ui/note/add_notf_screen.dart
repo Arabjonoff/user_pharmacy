@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,24 +7,21 @@ import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_translate/global.dart';
-import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_note.dart';
-import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/note/note_data_model.dart';
 import 'package:pharmacy/src/model/note/time_note.dart';
 import 'package:pharmacy/src/ui/note/note_all_screen.dart';
-import 'package:pharmacy/src/ui/note/notification_screen.dart';
 
 import '../../app_theme.dart';
 
-class AddNotfScreen extends StatefulWidget {
+class AddNotifyScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _AddNotfScreenState();
+    return _AddNotifyScreenState();
   }
 }
 
-class _AddNotfScreenState extends State<AddNotfScreen> {
+class _AddNotifyScreenState extends State<AddNotifyScreen> {
   TextEditingController nameController = TextEditingController();
 
   TextEditingController dozaController = TextEditingController();
@@ -36,7 +32,7 @@ class _AddNotfScreenState extends State<AddNotfScreen> {
 
   List<TimeNote> timeList = List();
 
-  _AddNotfScreenState() {
+  _AddNotifyScreenState() {
     durationController.addListener(() {
       if (durationController.text.isNotEmpty) {
         if (int.parse(durationController.text) > 365) {

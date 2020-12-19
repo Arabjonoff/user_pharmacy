@@ -3,15 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/app_theme.dart';
-import 'package:pharmacy/src/database/database_helper_note.dart';
-import 'package:pharmacy/src/ui/address_apteka/address_apteka_list.dart';
-import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/ui/note/add_notf_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_list_screen.dart';
 import 'package:pharmacy/src/ui/note/note_one_screen.dart';
-import 'package:pharmacy/src/ui/note/notification_screen.dart';
 import 'package:rxdart/subjects.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -122,7 +117,7 @@ class _NoteAllScreenScreenState extends State<NoteAllScreen>
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AddNotfScreen(),
+                    builder: (context) => AddNotifyScreen(),
                   ),
                 );
               },

@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -13,29 +11,21 @@ import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/order_options_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
-import 'package:pharmacy/src/model/database/apteka_model.dart';
-import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
-import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/model/send/create_payment_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/payment/verfy_payment_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
-import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
-import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
-import '../shopping_curer/curer_address_card.dart';
 
-// ignore: must_be_immutable
 class OrderCardPickupScreen extends StatefulWidget {
-  int orderId;
-  String message;
+  final int orderId;
+  final String message;
 
   OrderCardPickupScreen(this.orderId, this.message);
 
@@ -61,7 +51,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
   bool error = false;
   bool edit = true;
 
-  String error_text = "";
+  String errorText = "";
 
   DatabaseHelper dataBase = new DatabaseHelper();
   DateTime date = new DateTime.now();
@@ -296,9 +286,9 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                   for (int i = 0; i < snapshot.data.paymentTypes.length; i++) {
                     paymentTypes.add(PaymentTypesCheckBox(
                       id: i,
-                      payment_id: snapshot.data.paymentTypes[i].id,
-                      card_id: snapshot.data.paymentTypes[i].card_id,
-                      card_token: snapshot.data.paymentTypes[i].card_token,
+                      paymentId: snapshot.data.paymentTypes[i].id,
+                      cardId: snapshot.data.paymentTypes[i].cardId,
+                      cardToken: snapshot.data.paymentTypes[i].cardToken,
                       name: snapshot.data.paymentTypes[i].name,
                       pan: snapshot.data.paymentTypes[i].pan,
                       type: snapshot.data.paymentTypes[i].type,
@@ -332,16 +322,16 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                 if (data.id == paymentTypes.length - 1) {
                                   setState(() {
                                     clickType = data.id;
-                                    paymentType = data.payment_id;
+                                    paymentType = data.paymentId;
                                     isEnd = true;
-                                    cardToken = data.card_token;
+                                    cardToken = data.cardToken;
                                   });
                                 } else {
                                   setState(() {
                                     clickType = data.id;
-                                    paymentType = data.payment_id;
+                                    paymentType = data.paymentId;
                                     isEnd = false;
-                                    cardToken = data.card_token;
+                                    cardToken = data.cardToken;
                                   });
                                 }
                               },
@@ -767,7 +757,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                     width: double.infinity,
                     margin: EdgeInsets.only(top: 12, left: 16, right: 16),
                     child: Text(
-                      error_text,
+                      errorText,
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
@@ -829,37 +819,37 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
 
                       isEnd
                           ? addModel = new PaymentOrderModel(
-                              order_id: widget.orderId,
-                              cash_pay: cashPrice.toInt(),
-                              payment_type: paymentType,
-                              card_pan: cardNum,
-                              card_exp: cardDate,
-                              card_save: checkBox ? 1 : 0,
+                              orderId: widget.orderId,
+                              cashPay: cashPrice.toInt(),
+                              paymentType: paymentType,
+                              cardPan: cardNum,
+                              cardExp: cardDate,
+                              cardSave: checkBox ? 1 : 0,
                             )
                           : addModel = new PaymentOrderModel(
-                              order_id: widget.orderId,
-                              cash_pay: cashPrice.toInt(),
-                              payment_type: paymentType,
-                              card_token: cardToken == "" ? null : cardToken,
+                              orderId: widget.orderId,
+                              cashPay: cashPrice.toInt(),
+                              paymentType: paymentType,
+                              cardToken: cardToken == "" ? null : cardToken,
                             );
                       Repository().fetchPayment(addModel).then((response) => {
                             if (response.status == 1)
                               {
-                                if (response.data.error_code == 0)
+                                if (response.data.errorCode == 0)
                                   {
                                     setState(() {
                                       loading = false;
                                       error = false;
                                     }),
-                                    if (response.data.card_token != "")
+                                    if (response.data.cardToken != "")
                                       {
                                         Navigator.pushReplacement(
                                           context,
                                           PageTransition(
                                             type: PageTransitionType.fade,
-                                            child: VerfyPaymentScreen(
-                                                response.data.phone_number,
-                                                response.data.card_token),
+                                            child: VerifyPaymentScreen(
+                                                response.data.phoneNumber,
+                                                response.data.cardToken),
                                           ),
                                         )
                                       }
@@ -876,7 +866,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                     setState(() {
                                       error = true;
                                       loading = false;
-                                      error_text = response.data.error_note;
+                                      errorText = response.data.errorNote;
                                     }),
                                   }
                               }
@@ -885,7 +875,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                 setState(() {
                                   error = true;
                                   loading = false;
-                                  error_text = response.msg;
+                                  errorText = response.msg;
                                 }),
                               }
                             else
@@ -893,7 +883,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                 setState(() {
                                   error = true;
                                   loading = false;
-                                  error_text = response.msg == ""
+                                  errorText = response.msg == ""
                                       ? translate("error_distanse")
                                       : response.msg;
                                 }),
@@ -949,12 +939,12 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
   Future<void> getInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    var language_data;
+    var languageData;
     if (prefs.getString('language') != null) {
-      language_data = prefs.getString('language');
+      languageData = prefs.getString('language');
     } else {
-      language_data = "ru";
+      languageData = "ru";
     }
-    blocOrderOptions.fetchOrderOptions(language_data);
+    blocOrderOptions.fetchOrderOptions(languageData);
   }
 }

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:app_settings/app_settings.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,13 +8,8 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:pharmacy/src/blocs/order_options_bloc.dart';
-import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
-import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
-import 'package:pharmacy/src/model/database/apteka_model.dart';
-import 'package:pharmacy/src/model/send/check_order.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -26,7 +20,6 @@ import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
 
 import '../../app_theme.dart';
 import 'curer_address_card.dart';
-import 'order_card_curer.dart';
 
 class MapAddressScreen extends StatefulWidget {
   @override
@@ -40,11 +33,6 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
   placemark.Placemark lastPlaceMark;
   Point _point;
   PermissionStatus _permissionStatus = PermissionStatus.unknown;
-
-  // var geolocator = Geolocator();
-  // static StreamSubscription _getPosSub;
-
-  // TextEditingController homeController = TextEditingController();
 
   DatabaseHelperAddress db = new DatabaseHelperAddress();
 
@@ -316,8 +304,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                                 AppSettings.openLocationSettings();
                               } else if (_permissionStatus ==
                                   PermissionStatus.denied) {
-                                bool isOpened =
-                                    await PermissionHandler().openAppSettings();
+                                await PermissionHandler().openAppSettings();
                               }
                             },
                             child: Container(

@@ -163,6 +163,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     if (_permissionStatus == PermissionStatus.granted) {
       if (isFirstGrant) {
@@ -209,8 +210,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
                     if (_permissionStatus == PermissionStatus.disabled) {
                       AppSettings.openLocationSettings();
                     } else if (_permissionStatus == PermissionStatus.denied) {
-                      bool isOpened =
-                          await PermissionHandler().openAppSettings();
+                      await PermissionHandler().openAppSettings();
                     }
                   },
                   child: Container(

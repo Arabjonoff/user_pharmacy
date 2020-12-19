@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -579,7 +578,7 @@ class BottomDialog {
                         Navigator.pop(context);
                         MethodChannel methodChannel =
                             MethodChannel("flutter/MethodChannelDemoExam");
-                        var result = await methodChannel.invokeMethod("stop");
+                        await methodChannel.invokeMethod("stop");
                       },
                       child: Container(
                         margin: EdgeInsets.all(16),

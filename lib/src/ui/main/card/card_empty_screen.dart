@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
-import 'package:pharmacy/src/ui/main/category/category_screen.dart';
 import 'package:rxbus/rxbus.dart';
 
 import '../../../app_theme.dart';

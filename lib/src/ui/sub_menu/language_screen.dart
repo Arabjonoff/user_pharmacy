@@ -3,11 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_translate/global.dart';
-import 'package:pharmacy/src/database/database_helper_apteka.dart';
-import 'package:pharmacy/src/model/api/region_model.dart';
-import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
-import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -70,7 +66,6 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 var localizationDelegate = LocalizedApp.of(context).delegate;
                 prefs.setString("language", language);
-                prefs.commit();
                 localizationDelegate.changeLocale(Locale(language));
                 RxBus.post(BottomViewIdsModel(language),
                     tag: "EVENT_BOTTOM_VIEW_LANGUAGE");

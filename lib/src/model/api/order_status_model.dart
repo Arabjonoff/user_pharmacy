@@ -13,10 +13,10 @@ class OrderStatusModel {
     data = json['data'] != null
         ? new Data.fromJson(json['data'])
         : Data(
-            error_note: "",
-            error_code: 1,
-            phone_number: "",
-            card_token: "",
+            errorNote: "",
+            errorCode: 1,
+            phoneNumber: "",
+            cardToken: "",
           );
   }
 
@@ -33,29 +33,34 @@ class OrderStatusModel {
 }
 
 class Data {
-  int error_code;
-  String error_note;
-  int invoice_id;
-  String card_token;
-  String phone_number;
+  int errorCode;
+  String errorNote;
+  int invoiceId;
+  String cardToken;
+  String phoneNumber;
 
-  Data({this.error_code, this.error_note, this.card_token, this.phone_number});
+  Data({
+    this.errorCode,
+    this.errorNote,
+    this.cardToken,
+    this.phoneNumber,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
-    error_code = json['error_code'];
-    error_note = json['error_note'];
-    invoice_id = json['invoice_id'] == null ? 0 : json['invoice_id'];
-    card_token = json['card_token'] == null ? "" : json['card_token'];
-    phone_number = json['phone_number'] == null ? "" : json['phone_number'];
+    errorCode = json['error_code'];
+    errorNote = json['error_note'];
+    invoiceId = json['invoice_id'] == null ? 0 : json['invoice_id'];
+    cardToken = json['card_token'] == null ? "" : json['card_token'];
+    phoneNumber = json['phone_number'] == null ? "" : json['phone_number'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['error_code'] = this.error_code;
-    data['error_note'] = this.error_note;
-    data['invoice_id'] = this.invoice_id;
-    data['card_token'] = this.card_token;
-    data['phone_number'] = this.phone_number;
+    data['error_code'] = this.errorCode;
+    data['error_note'] = this.errorNote;
+    data['invoice_id'] = this.invoiceId;
+    data['card_token'] = this.cardToken;
+    data['phone_number'] = this.phoneNumber;
     return data;
   }
 }

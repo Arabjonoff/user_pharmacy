@@ -1,15 +1,20 @@
 class CheckOrderModel {
   String location;
   String type;
-  int shipping_time;
+  int shippingTime;
   List<Drugs> drugs;
 
-  CheckOrderModel({this.location, this.type, this.shipping_time, this.drugs});
+  CheckOrderModel({
+    this.location,
+    this.type,
+    this.shippingTime,
+    this.drugs,
+  });
 
   CheckOrderModel.fromJson(Map<String, dynamic> json) {
     location = json['location'];
     type = json['type'];
-    shipping_time = json['shipping_time'];
+    shippingTime = json['shipping_time'];
     if (json['drugs'] != null) {
       drugs = new List<Drugs>();
       json['drugs'].forEach((v) {
@@ -22,7 +27,7 @@ class CheckOrderModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['location'] = this.location;
     data['type'] = this.type;
-    data['shipping_time'] = this.shipping_time;
+    data['shipping_time'] = this.shippingTime;
     data['drugs'] = this.drugs.map((v) => v.toJson()).toList();
 
     return data;

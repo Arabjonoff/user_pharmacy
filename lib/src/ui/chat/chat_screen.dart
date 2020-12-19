@@ -9,11 +9,8 @@ import 'package:lottie/lottie.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/blocs/chat_bloc.dart';
 import 'package:pharmacy/src/model/chat/chat_api_model.dart';
-import 'package:pharmacy/src/model/chat_model.dart';
-import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/utils/utils.dart';
-import 'package:rxbus/rxbus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:web_socket_channel/io.dart';
 
@@ -503,12 +500,10 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> socket(String value) async {
-    var url = Utils.BASE_URL_SOCET + "messages?token=$value";
+    var url = Utils.baseUrlSocket + "messages?token=$value";
 
-    var channel = await IOWebSocketChannel.connect(url);
+    var channel = IOWebSocketChannel.connect(url);
     channel.stream.listen((message) {
-      //channel.sink.add("received!");
-
       final Map parsed = json.decode(message);
 
       var k = Message.fromJson(parsed);

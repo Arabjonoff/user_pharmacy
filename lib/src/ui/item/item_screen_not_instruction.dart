@@ -23,18 +23,18 @@ import '../../app_theme.dart';
 int itemId;
 bool isOpenItem = false;
 
-class ItemScreenNotIstruction extends StatefulWidget {
-  int id;
+class ItemScreenNotInstruction extends StatefulWidget {
+  final int id;
 
-  ItemScreenNotIstruction(this.id);
+  ItemScreenNotInstruction(this.id);
 
   @override
   State<StatefulWidget> createState() {
-    return _ItemScreenNotIstructionState();
+    return _ItemScreenNotInstructionState();
   }
 }
 
-class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
+class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
   DatabaseHelper dataBase = new DatabaseHelper();
 
   @override
@@ -221,7 +221,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                         ),
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: snapshot.data.price >= snapshot.data.base_price
+                          child: snapshot.data.price >= snapshot.data.basePrice
                               ? Container()
                               : Container(
                                   height: 18,
@@ -237,10 +237,10 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                   child: Center(
                                     child: Text(
                                       "-" +
-                                          (((snapshot.data.base_price -
+                                          (((snapshot.data.basePrice -
                                                           snapshot.data.price) *
                                                       100) ~/
-                                                  snapshot.data.base_price)
+                                                  snapshot.data.basePrice)
                                               .toString() +
                                           "%",
                                       style: TextStyle(
@@ -365,7 +365,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 24, left: 16),
-                          child: snapshot.data.price >= snapshot.data.base_price
+                          child: snapshot.data.price >= snapshot.data.basePrice
                               ? Text(
                                   priceFormat.format(snapshot.data.price) +
                                       translate("sum"),
@@ -396,7 +396,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                     RichText(
                                       text: new TextSpan(
                                         text: priceFormat.format(
-                                                snapshot.data.base_price) +
+                                                snapshot.data.basePrice) +
                                             translate("sum"),
                                         style: new TextStyle(
                                           fontStyle: FontStyle.normal,
@@ -603,7 +603,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                     PageTransition(
                                       type: PageTransitionType.bottomToTop,
                                       alignment: Alignment.bottomCenter,
-                                      child: ItemScreenNotIstruction(snapshot
+                                      child: ItemScreenNotInstruction(snapshot
                                           .data.recommendations[index].id),
                                     ),
                                   );
@@ -657,7 +657,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                                           .data
                                                           .recommendations[
                                                               index]
-                                                          .base_price
+                                                          .basePrice
                                                   ? Container()
                                                   : Container(
                                                       height: 18,
@@ -672,13 +672,13 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                                       child: Center(
                                                         child: Text(
                                                           "-" +
-                                                              (((snapshot.data.recommendations[index].base_price - snapshot.data.recommendations[index].price) *
+                                                              (((snapshot.data.recommendations[index].basePrice - snapshot.data.recommendations[index].price) *
                                                                           100) ~/
                                                                       snapshot
                                                                           .data
                                                                           .recommendations[
                                                                               index]
-                                                                          .base_price)
+                                                                          .basePrice)
                                                                   .toString() +
                                                               "%",
                                                           style: TextStyle(
@@ -747,7 +747,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                             child: snapshot
                                                     .data
                                                     .recommendations[index]
-                                                    .is_coming
+                                                    .isComing
                                                 ? Container(
                                                     child: Center(
                                                       child: Text(
@@ -913,7 +913,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                                                         .data
                                                                         .recommendations[
                                                                             index]
-                                                                        .max_count >
+                                                                        .maxCount >
                                                                     snapshot
                                                                         .data
                                                                         .recommendations[
@@ -1098,7 +1098,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                     PageTransition(
                                       type: PageTransitionType.bottomToTop,
                                       alignment: Alignment.bottomCenter,
-                                      child: ItemScreenNotIstruction(
+                                      child: ItemScreenNotInstruction(
                                           snapshot.data.analog[index].id),
                                     ),
                                   );
@@ -1148,7 +1148,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                                       snapshot
                                                           .data
                                                           .analog[index]
-                                                          .base_price
+                                                          .basePrice
                                                   ? Container()
                                                   : Container(
                                                       height: 18,
@@ -1163,13 +1163,13 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                                       child: Center(
                                                         child: Text(
                                                           "-" +
-                                                              (((snapshot.data.analog[index].base_price - snapshot.data.analog[index].price) *
+                                                              (((snapshot.data.analog[index].basePrice - snapshot.data.analog[index].price) *
                                                                           100) ~/
                                                                       snapshot
                                                                           .data
                                                                           .analog[
                                                                               index]
-                                                                          .base_price)
+                                                                          .basePrice)
                                                                   .toString() +
                                                               "%",
                                                           style: TextStyle(
@@ -1233,7 +1233,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                             margin: EdgeInsets.only(top: 11),
                                             child:
                                                 snapshot.data.analog[index]
-                                                        .is_coming
+                                                        .isComing
                                                     ? Container(
                                                         child: Center(
                                                           child: Text(
@@ -1391,7 +1391,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                                                             .data
                                                                             .analog[
                                                                                 index]
-                                                                            .max_count >
+                                                                            .maxCount >
                                                                         snapshot
                                                                             .data
                                                                             .analog[index]
@@ -1545,7 +1545,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                     height: 1,
                     color: AppTheme.black_linear_category,
                   ),
-                  snapshot.data.is_coming
+                  snapshot.data.isComing
                       ? Container(
                           padding: EdgeInsets.only(top: 12, bottom: 12),
                           child: Center(
@@ -1669,7 +1669,7 @@ class _ItemScreenNotIstructionState extends State<ItemScreenNotIstruction> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        if (snapshot.data.max_count >
+                                        if (snapshot.data.maxCount >
                                             snapshot.data.cardCount)
                                           setState(() {
                                             snapshot.data.cardCount =

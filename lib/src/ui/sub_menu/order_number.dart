@@ -3,19 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
-import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
 
 class OrderNumber extends StatefulWidget {
-  HistoryResults item;
+  final HistoryResults item;
 
   OrderNumber(this.item);
 
@@ -362,7 +357,7 @@ class _OrderNumberState extends State<OrderNumber> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4.0),
-                            color: ColorStatus(widget.item.status),
+                            color: colorStatus(widget.item.status),
                           ),
                           padding: EdgeInsets.only(
                             top: 4,
@@ -721,7 +716,7 @@ class _OrderNumberState extends State<OrderNumber> {
     );
   }
 
-  Color ColorStatus(String status) {
+  Color colorStatus(String status) {
     switch (status) {
       case "pending":
         {

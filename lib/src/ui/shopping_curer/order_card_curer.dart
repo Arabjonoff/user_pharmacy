@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -12,27 +11,22 @@ import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/order_options_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
-import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
-import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/model/send/create_payment_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/payment/verfy_payment_screen.dart';
-import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
-import 'curer_address_card.dart';
 
 class OrderCardCurerScreen extends StatefulWidget {
-  double price;
-  double cash;
-  double deliveryPrice;
-  int orderId;
+  final double price;
+  final double cash;
+  final double deliveryPrice;
+  final int orderId;
 
   OrderCardCurerScreen({
     this.orderId,
@@ -67,7 +61,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
   DatabaseHelper dataBase = new DatabaseHelper();
   DateTime date = new DateTime.now();
 
-  String error_text = "";
+  String errorText = "";
 
   TextEditingController cardNumberController =
       TextEditingController(text: "8600");
@@ -92,13 +86,13 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
 
   Future<void> _getLanguage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var language_data;
+    var languageData;
     if (prefs.getString('language') != null) {
-      language_data = prefs.getString('language');
+      languageData = prefs.getString('language');
     } else {
-      language_data = "ru";
+      languageData = "ru";
     }
-    blocOrderOptions.fetchOrderOptions(language_data);
+    blocOrderOptions.fetchOrderOptions(languageData);
   }
 
   _OrderCardCurerScreenState() {
@@ -315,9 +309,9 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                   for (int i = 0; i < snapshot.data.paymentTypes.length; i++) {
                     paymentTypes.add(PaymentTypesCheckBox(
                       id: i,
-                      payment_id: snapshot.data.paymentTypes[i].id,
-                      card_id: snapshot.data.paymentTypes[i].card_id,
-                      card_token: snapshot.data.paymentTypes[i].card_token,
+                      paymentId: snapshot.data.paymentTypes[i].id,
+                      cardId: snapshot.data.paymentTypes[i].cardId,
+                      cardToken: snapshot.data.paymentTypes[i].cardToken,
                       name: snapshot.data.paymentTypes[i].name,
                       pan: snapshot.data.paymentTypes[i].pan,
                       type: snapshot.data.paymentTypes[i].type,
@@ -351,16 +345,16 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                 if (data.id == paymentTypes.length - 1) {
                                   setState(() {
                                     clickType = data.id;
-                                    paymentType = data.payment_id;
+                                    paymentType = data.paymentId;
                                     isEnd = true;
-                                    cardToken = data.card_token;
+                                    cardToken = data.cardToken;
                                   });
                                 } else {
                                   setState(() {
                                     clickType = data.id;
-                                    paymentType = data.payment_id;
+                                    paymentType = data.paymentId;
                                     isEnd = false;
-                                    cardToken = data.card_token;
+                                    cardToken = data.cardToken;
                                   });
                                 }
                               },
@@ -815,7 +809,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     width: double.infinity,
                     margin: EdgeInsets.only(top: 11, left: 16, right: 16),
                     child: Text(
-                      error_text,
+                      errorText,
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
@@ -850,25 +844,25 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
 
                       isEnd
                           ? addModel = new PaymentOrderModel(
-                              order_id: widget.orderId,
-                              cash_pay: cashPrice.toInt(),
-                              payment_type: paymentType,
-                              card_token: cardToken == "" ? null : cardToken,
-                              card_pan: cardNum,
-                              card_exp: cardDate,
-                              card_save: checkBox ? 1 : 0,
+                              orderId: widget.orderId,
+                              cashPay: cashPrice.toInt(),
+                              paymentType: paymentType,
+                              cardToken: cardToken == "" ? null : cardToken,
+                              cardPan: cardNum,
+                              cardExp: cardDate,
+                              cardSave: checkBox ? 1 : 0,
                             )
                           : addModel = new PaymentOrderModel(
-                              order_id: widget.orderId,
-                              cash_pay: cashPrice.toInt(),
-                              payment_type: paymentType,
-                              card_token: cardToken == "" ? null : cardToken,
+                              orderId: widget.orderId,
+                              cashPay: cashPrice.toInt(),
+                              paymentType: paymentType,
+                              cardToken: cardToken == "" ? null : cardToken,
                             );
 
                       Repository().fetchPayment(addModel).then((response) => {
                             if (response.status == 1)
                               {
-                                if (response.data.error_code == 0)
+                                if (response.data.errorCode == 0)
                                   {
                                     setState(() {
                                       loading = false;
@@ -876,15 +870,15 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                     }),
                                     RxBus.post(CardItemChangeModel(true),
                                         tag: "EVENT_CARD"),
-                                    if (response.data.card_token != "")
+                                    if (response.data.cardToken != "")
                                       {
                                         Navigator.pushReplacement(
                                           context,
                                           PageTransition(
                                             type: PageTransitionType.fade,
-                                            child: VerfyPaymentScreen(
-                                                response.data.phone_number,
-                                                response.data.card_token),
+                                            child: VerifyPaymentScreen(
+                                                response.data.phoneNumber,
+                                                response.data.cardToken),
                                           ),
                                         )
                                       }
@@ -901,7 +895,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                     setState(() {
                                       error = true;
                                       loading = false;
-                                      error_text = response.data.error_note;
+                                      errorText = response.data.errorNote;
                                     }),
                                   }
                               }
@@ -910,7 +904,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                 setState(() {
                                   error = true;
                                   loading = false;
-                                  error_text = response.msg;
+                                  errorText = response.msg;
                                 }),
                               }
                             else
@@ -918,7 +912,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                 setState(() {
                                   error = true;
                                   loading = false;
-                                  error_text = response.msg == ""
+                                  errorText = response.msg == ""
                                       ? translate("error_distanse")
                                       : response.msg;
                                 }),

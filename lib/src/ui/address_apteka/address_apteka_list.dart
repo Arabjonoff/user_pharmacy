@@ -6,7 +6,6 @@ import 'package:flutter_translate/global.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/blocs/aptek_block.dart';
-import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/database/database_helper_apteka.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
@@ -45,6 +44,7 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen>
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     if (_permissionStatus == PermissionStatus.granted) {
       _getLocation();

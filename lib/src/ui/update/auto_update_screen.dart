@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -11,8 +10,8 @@ import '../../app_theme.dart';
 
 // ignore: must_be_immutable
 class AutoUpdateScreen extends StatefulWidget {
-  String package;
-  String desk;
+ final String package;
+ final String desk;
 
   AutoUpdateScreen({this.package, this.desk});
 

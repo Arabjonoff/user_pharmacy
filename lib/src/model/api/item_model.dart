@@ -36,10 +36,10 @@ class ItemResult {
   String image;
   String imageThumbnail;
   double price;
-  double base_price;
+  double basePrice;
   Manifacture manufacturer;
-  int max_count;
-  bool is_coming;
+  int maxCount;
+  bool isComing;
   bool favourite = false;
   int cardCount = 0;
   String msg = "";
@@ -54,7 +54,7 @@ class ItemResult {
     this.manufacturer,
     this.favourite,
     this.cardCount, {
-    this.base_price,
+    this.basePrice,
   });
 
   int get getId => id;
@@ -81,10 +81,10 @@ class ItemResult {
     this.barcode = map["barcode"];
     this.image = map["image"];
     this.imageThumbnail = map["image_thumbnail"];
-    this.max_count = map["max_count"];
-    this.is_coming = map["is_coming"];
+    this.maxCount = map["max_count"];
+    this.isComing = map["is_coming"];
     this.price = map["price"].toDouble();
-    this.base_price = map["base_price"].toDouble();
+    this.basePrice = map["base_price"].toDouble();
     this.manufacturer = map['manufacturer'] != null
         ? new Manifacture.fromMap(map['manufacturer'])
         : Manifacture("");
@@ -123,9 +123,9 @@ class ItemResult {
         "name": name,
         "barcode": barcode,
         "image": image,
-        "max_count": max_count,
-        "base_price": base_price,
-        "is_coming": is_coming,
+        "max_count": maxCount,
+        "base_price": basePrice,
+        "is_coming": isComing,
         "image_thumbnail": imageThumbnail,
         "price": price,
         "manufacturer": manufacturer.toJson(),

@@ -10,7 +10,6 @@ import 'package:pharmacy/src/model/api/cash_back_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
-import 'package:pharmacy/src/ui/sub_menu/my_info_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,7 +46,7 @@ class MenuScreen extends StatefulWidget {
 }
 
 String language = "";
-String language_data = "";
+String languageData = "";
 
 class _MenuScreenState extends State<MenuScreen> {
   Size size;
@@ -1048,7 +1047,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
     setState(() {
       if (prefs.getString('language') != null) {
-        language_data = prefs.getString('language');
+        languageData = prefs.getString('language');
         if (prefs.getString('language') == "ru")
           language = translate("language.ru");
         else if (prefs.getString('language') == "uz")
@@ -1056,7 +1055,7 @@ class _MenuScreenState extends State<MenuScreen> {
         else if (prefs.getString('language') == "en")
           language = translate("language.en");
       } else {
-        language_data = "ru";
+        languageData = "ru";
         language = translate("language.ru");
       }
       if (prefs.getString("city") != null) {

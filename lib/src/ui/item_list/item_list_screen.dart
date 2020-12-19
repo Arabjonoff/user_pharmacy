@@ -6,12 +6,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:pharmacy/src/blocs/filter_block.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
-import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/sort_radio_btn.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
@@ -202,13 +200,13 @@ class _ItemListScreenState extends State<ItemListScreen> {
                       },
                       child: Row(
                         children: [
-                          IconButton(
-                            icon: new Icon(
-                              Icons.search,
-                              size: 24,
-                              color: AppTheme.notWhite,
-                            ),
+                          SizedBox(width: 8),
+                          Icon(
+                            Icons.search,
+                            size: 24,
+                            color: AppTheme.notWhite,
                           ),
+                          SizedBox(width: 8),
                           Expanded(
                             child: Text(
                               widget.type == 3
@@ -242,6 +240,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                   await methodChannel.invokeMethod("stop");
                                 }
                               } on PlatformException catch (e) {
+                                print(e.toString());
                                 Navigator.pop(context);
                               }
                             },
@@ -531,7 +530,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                       PageTransition(
                                         type: PageTransitionType.bottomToTop,
                                         alignment: Alignment.bottomCenter,
-                                        child: ItemScreenNotIstruction(
+                                        child: ItemScreenNotInstruction(
                                             snapshot.data.results[index].id),
                                       ),
                                     );
@@ -590,55 +589,51 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                     Align(
                                                       alignment:
                                                           Alignment.topRight,
-                                                      child: snapshot
-                                                                  .data
-                                                                  .results[
-                                                                      index]
-                                                                  .price >=
-                                                              snapshot
-                                                                  .data
-                                                                  .results[
-                                                                      index]
-                                                                  .base_price
-                                                          ? Container()
-                                                          : Container(
-                                                              height: 18,
-                                                              width: 39,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: AppTheme
-                                                                    .red_fav_color,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            9),
-                                                              ),
-                                                              child: Center(
-                                                                child: Text(
-                                                                  "-" +
-                                                                      (((snapshot.data.results[index].base_price - snapshot.data.results[index].price) * 100) ~/
-                                                                              snapshot.data.results[index].base_price)
-                                                                          .toString() +
-                                                                      "%",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontStyle:
-                                                                        FontStyle
-                                                                            .normal,
-                                                                    fontSize:
-                                                                        12,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    fontFamily:
-                                                                        AppTheme
-                                                                            .fontRoboto,
+                                                      child:
+                                                          snapshot
+                                                                      .data
+                                                                      .results[
+                                                                          index]
+                                                                      .price >=
+                                                                  snapshot
+                                                                      .data
+                                                                      .results[
+                                                                          index]
+                                                                      .basePrice
+                                                              ? Container()
+                                                              : Container(
+                                                                  height: 18,
+                                                                  width: 39,
+                                                                  decoration:
+                                                                      BoxDecoration(
                                                                     color: AppTheme
-                                                                        .white,
+                                                                        .red_fav_color,
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(9),
+                                                                  ),
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "-" +
+                                                                          (((snapshot.data.results[index].basePrice - snapshot.data.results[index].price) * 100) ~/ snapshot.data.results[index].basePrice)
+                                                                              .toString() +
+                                                                          "%",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontStyle:
+                                                                            FontStyle.normal,
+                                                                        fontSize:
+                                                                            12,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        fontFamily:
+                                                                            AppTheme.fontRoboto,
+                                                                        color: AppTheme
+                                                                            .white,
+                                                                      ),
+                                                                    ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                            ),
                                                     )
                                                   ],
                                                 ),
@@ -715,7 +710,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                       .data
                                                                       .results[
                                                                           index]
-                                                                      .base_price
+                                                                      .basePrice
                                                               ? Text(
                                                                   priceFormat.format(snapshot
                                                                           .data
@@ -774,7 +769,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                     RichText(
                                                                       text:
                                                                           new TextSpan(
-                                                                        text: priceFormat.format(snapshot.data.results[index].base_price) +
+                                                                        text: priceFormat.format(snapshot.data.results[index].basePrice) +
                                                                             translate("sum"),
                                                                         style:
                                                                             new TextStyle(
@@ -809,7 +804,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                       .data
                                                                       .results[
                                                                           index]
-                                                                      .is_coming
+                                                                      .isComing
                                                                   ? Container(
                                                                       child:
                                                                           Center(
@@ -908,7 +903,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                               ),
                                                                               GestureDetector(
                                                                                 onTap: () {
-                                                                                  if (snapshot.data.results[index].cardCount < snapshot.data.results[index].max_count)
+                                                                                  if (snapshot.data.results[index].cardCount < snapshot.data.results[index].maxCount)
                                                                                     setState(() {
                                                                                       snapshot.data.results[index].cardCount = snapshot.data.results[index].cardCount + 1;
                                                                                       dataBase.updateProduct(snapshot.data.results[index]);

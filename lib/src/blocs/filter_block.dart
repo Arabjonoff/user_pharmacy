@@ -1,10 +1,6 @@
-import 'package:pharmacy/src/model/api/item_model.dart';
-import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/item_list/filter_item_screen.dart';
 import 'package:pharmacy/src/ui/item_list/fliter_screen.dart';
-import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
 class FilterBloc {

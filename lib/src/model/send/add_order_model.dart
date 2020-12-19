@@ -2,54 +2,55 @@ class AddOrderModel {
   String address;
   String location;
   String type;
-  String full_name;
+  String fullName;
   String phone;
-  int shipping_time;
-  int payment_type;
-  int store_id;
-  int cash_pay;
-  String card_pan;
-  String card_exp;
-  int card_save;
-  String card_token;
-  String phone_number;
+  int shippingTime;
+  int paymentType;
+  int storeId;
+  int cashPay;
+  String cardPan;
+  String cardExp;
+  int cardSave;
+  String cardToken;
+  String phoneNumber;
   String device;
   List<Drugs> drugs;
 
-  AddOrderModel(
-      {this.address,
-      this.location,
-      this.type,
-      this.full_name,
-      this.phone,
-      this.shipping_time,
-      this.device,
-      this.payment_type,
-      this.store_id,
-      this.cash_pay,
-      this.drugs,
-      this.card_pan,
-      this.card_exp,
-      this.card_save,
-      this.phone_number,
-      this.card_token});
+  AddOrderModel({
+    this.address,
+    this.location,
+    this.type,
+    this.fullName,
+    this.phone,
+    this.shippingTime,
+    this.device,
+    this.paymentType,
+    this.storeId,
+    this.cashPay,
+    this.drugs,
+    this.cardPan,
+    this.cardExp,
+    this.cardSave,
+    this.phoneNumber,
+    this.cardToken,
+  });
 
   AddOrderModel.fromJson(Map<String, dynamic> json) {
     address = json['address'];
     location = json['location'];
     type = json['type'];
-    cash_pay = json['cash_pay'];
+    cashPay = json['cash_pay'];
     device = json['device'];
-    full_name = json['full_name'];
+    fullName = json['full_name'];
     phone = json['phone'];
-    shipping_time = json['shipping_time'];
-    payment_type = json['payment_type'];
-    store_id = json['store_id'];
-    card_pan = json['card_pan'];
-    card_exp = json['card_exp'];
-    card_save = json['card_save'];
-    card_token = json['card_token'];
-    phone_number = json['phone_number'];
+    shippingTime = json['shipping_time'];
+    paymentType = json['payment_type'];
+    storeId = json['store_id'];
+    cardPan = json['card_pan'];
+    cardExp = json['card_exp'];
+    cardSave = json['card_save'];
+    cardToken = json['card_token'];
+    phoneNumber = json['phone_number'];
     if (json['drugs'] != null) {
       drugs = new List<Drugs>();
       json['drugs'].forEach((v) {
@@ -64,17 +65,17 @@ class AddOrderModel {
     data['location'] = this.location;
     data['type'] = this.type;
     data['device'] = this.device;
-    data['cash_pay'] = this.cash_pay;
-    data['full_name'] = this.full_name;
+    data['cash_pay'] = this.cashPay;
+    data['full_name'] = this.fullName;
     data['phone'] = this.phone;
-    data['store_id'] = this.store_id;
-    data['payment_type'] = this.payment_type;
-    data['shipping_time'] = this.shipping_time;
-    data['card_pan'] = this.card_pan;
-    data['card_exp'] = this.card_exp;
-    data['card_save'] = this.card_save;
-    data['card_token'] = this.card_token;
-    data['phone_number'] = this.phone_number;
+    data['store_id'] = this.storeId;
+    data['payment_type'] = this.paymentType;
+    data['shipping_time'] = this.shippingTime;
+    data['card_pan'] = this.cardPan;
+    data['card_exp'] = this.cardExp;
+    data['card_save'] = this.cardSave;
+    data['card_token'] = this.cardToken;
+    data['phone_number'] = this.phoneNumber;
     data['drugs'] = this.drugs.map((v) => v.toJson()).toList();
 
     return data;

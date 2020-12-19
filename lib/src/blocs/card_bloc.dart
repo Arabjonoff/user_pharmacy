@@ -1,7 +1,4 @@
-import 'package:flutter_translate/flutter_translate.dart';
-import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
-import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:rxdart/rxdart.dart';
 

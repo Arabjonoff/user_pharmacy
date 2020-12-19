@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/auth/verfy_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -267,7 +266,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => VerfyScreen(number),
+                          builder: (context) => VerifyScreen(number),
                         ),
                       );
                     } else {

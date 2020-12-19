@@ -11,7 +11,6 @@ import 'package:pharmacy/src/database/database_helper_history.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/sort_radio_btn.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';

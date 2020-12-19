@@ -1,5 +1,3 @@
-import 'package:pharmacy/src/utils/utils.dart';
-
 class SearchModel {
   SearchModel({
     this.count,

@@ -1,4 +1,3 @@
-import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';

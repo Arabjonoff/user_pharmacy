@@ -3,11 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_translate/global.dart';
-import 'package:pharmacy/src/database/database_helper_apteka.dart';
-import 'package:pharmacy/src/model/api/region_model.dart';
-import 'package:pharmacy/src/model/database/apteka_model.dart';
-import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app_theme.dart';
 

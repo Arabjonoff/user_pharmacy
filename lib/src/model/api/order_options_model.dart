@@ -74,19 +74,25 @@ class ShippingTimes {
 
 class PaymentTypes {
   int id;
-  int card_id;
+  int cardId;
   String name;
-  String card_token;
+  String cardToken;
   String pan;
   String type;
 
-  PaymentTypes(
-      {this.id, this.card_id, this.card_token, this.name, this.pan, this.type});
+  PaymentTypes({
+    this.id,
+    this.cardId,
+    this.cardToken,
+    this.name,
+    this.pan,
+    this.type,
+  });
 
   PaymentTypes.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    card_id = json['card_id'];
-    card_token = json['card_token'];
+    cardId = json['card_id'];
+    cardToken = json['card_token'];
     name = json['name'];
     pan = json['pan'];
     type = json['type'];
@@ -95,8 +101,8 @@ class PaymentTypes {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['card_id'] = this.card_id;
-    data['card_token'] = this.card_token;
+    data['card_id'] = this.cardId;
+    data['card_token'] = this.cardToken;
     data['name'] = this.name;
     data['pan'] = this.pan;
     data['type'] = this.type;
@@ -106,19 +112,20 @@ class PaymentTypes {
 
 class PaymentTypesCheckBox {
   int id;
-  int payment_id;
-  int card_id;
+  int paymentId;
+  int cardId;
   String name;
-  String card_token;
+  String cardToken;
   String pan;
   String type;
 
-  PaymentTypesCheckBox(
-      {this.id,
-      this.payment_id,
-      this.card_token,
-      this.card_id,
-      this.name,
-      this.pan,
-      this.type});
+  PaymentTypesCheckBox({
+    this.id,
+    this.paymentId,
+    this.cardToken,
+    this.cardId,
+    this.name,
+    this.pan,
+    this.type,
+  });
 }

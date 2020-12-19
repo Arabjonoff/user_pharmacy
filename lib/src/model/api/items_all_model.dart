@@ -11,7 +11,7 @@ class ItemsAllModel {
   String dose;
   bool status;
   double price;
-  double base_price;
+  double basePrice;
   String expirationDate;
   bool isRecept;
   Category unit;
@@ -21,8 +21,8 @@ class ItemsAllModel {
   Category category;
   List<ItemResult> analog;
   List<ItemResult> recommendations;
-  int max_count;
-  bool is_coming;
+  int maxCount;
+  bool isComing;
   bool favourite = false;
   int cardCount = 0;
   bool sale = false;
@@ -38,7 +38,7 @@ class ItemsAllModel {
     this.dose,
     this.status,
     this.price,
-    this.base_price,
+    this.basePrice,
     this.expirationDate,
     this.isRecept,
     this.unit,
@@ -58,11 +58,11 @@ class ItemsAllModel {
     image = json['image'];
     imageThumbnail = json['image_thumbnail'];
     piece = json['piece'];
-    base_price = json['base_price'];
+    basePrice = json['base_price'];
     dose = json['dose'];
     status = json['status'];
-    max_count = json["max_count"];
-    is_coming = json["is_coming"];
+    maxCount = json["max_count"];
+    isComing = json["is_coming"];
     price = json['price'];
     expirationDate = json['expiration_date'];
     isRecept = json['is_recept'];
@@ -103,13 +103,13 @@ class ItemsAllModel {
     data['image'] = this.image;
     data['image_thumbnail'] = this.imageThumbnail;
     data['piece'] = this.piece;
-    data['base_price'] = this.base_price;
+    data['base_price'] = this.basePrice;
     data['dose'] = this.dose;
     data['status'] = this.status;
     data['price'] = this.price;
     data['expiration_date'] = this.expirationDate;
-    data['max_count'] = this.max_count;
-    data['is_coming'] = this.is_coming;
+    data['max_count'] = this.maxCount;
+    data['is_coming'] = this.isComing;
     data['is_recept'] = this.isRecept;
     if (this.unit != null) {
       data['unit'] = this.unit.toJson();

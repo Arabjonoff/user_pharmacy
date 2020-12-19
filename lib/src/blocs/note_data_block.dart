@@ -1,5 +1,3 @@
-import 'package:pharmacy/src/model/api/category_model.dart';
-import 'package:pharmacy/src/model/chat/chat_api_model.dart';
 import 'package:pharmacy/src/model/note/note_data_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:rxdart/rxdart.dart';

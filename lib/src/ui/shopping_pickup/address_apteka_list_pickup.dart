@@ -9,7 +9,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/blocs/aptek_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
-import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/database/database_helper_apteka.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
@@ -20,26 +19,25 @@ import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
 import 'order_card_pickup.dart';
 
-class AddressAptekaListPickupScreen extends StatefulWidget {
-  List<ProductsStore> drugs;
+class AddressStoreListPickupScreen extends StatefulWidget {
+  final List<ProductsStore> drugs;
 
-  AddressAptekaListPickupScreen(this.drugs);
+  AddressStoreListPickupScreen(this.drugs);
 
   @override
   State<StatefulWidget> createState() {
-    return _AddressAptekaListPickupScreenState();
+    return _AddressStoreListPickupScreenState();
   }
 }
 
-class _AddressAptekaListPickupScreenState
-    extends State<AddressAptekaListPickupScreen>
-    with AutomaticKeepAliveClientMixin<AddressAptekaListPickupScreen> {
+class _AddressStoreListPickupScreenState
+    extends State<AddressStoreListPickupScreen>
+    with AutomaticKeepAliveClientMixin<AddressStoreListPickupScreen> {
   @override
   bool get wantKeepAlive => true;
 
@@ -65,6 +63,7 @@ class _AddressAptekaListPickupScreenState
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     if (_permissionStatus == PermissionStatus.granted) {
       _getLocation();
@@ -254,7 +253,7 @@ class _AddressAptekaListPickupScreenState
                                 createOrder = new CreateOrderModel(
                                   device: Platform.isIOS ? "IOS" : "Android",
                                   type: "self",
-                                  store_id: snapshot.data[index].id,
+                                  storeId: snapshot.data[index].id,
                                   drugs: drugs,
                                 ),
                                 Repository()
