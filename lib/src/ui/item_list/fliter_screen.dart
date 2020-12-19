@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/blocs/filter_block.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/ui/item_list/filter_item_screen.dart';
@@ -17,10 +18,8 @@ class FilterScreen extends StatefulWidget {
   }
 }
 
-List<FilterResults> internationalNameExamp = new List();
-List<FilterResults> manufacturerExamp = new List();
-double fromPrice;
-double toPrice;
+List<FilterResults> internationalNameFilter = new List();
+List<FilterResults> manufacturerFilter = new List();
 
 class _FilterScreenState extends State<FilterScreen> {
   TextEditingController minController = TextEditingController();
@@ -29,33 +28,24 @@ class _FilterScreenState extends State<FilterScreen> {
   String interName = "";
   String manufacName = "";
 
-  String interIds = "";
-  String manufacIds = "";
-
   @override
   void initState() {
     interName = "";
     manufacName = "";
-    interIds = "";
-    manufacIds = "";
-    minController.text = price_min;
-    maxController.text = price_max;
-    for (int i = 0; i < internationalNameExamp.length; i++) {
-      if (i < internationalNameExamp.length - 1) {
-        interName += internationalNameExamp[i].name + ", ";
-        interIds += internationalNameExamp[i].id.toString() + ",";
+    minController.text = priceMin;
+    maxController.text = priceMax;
+    for (int i = 0; i < internationalNameFilter.length; i++) {
+      if (i < internationalNameFilter.length - 1) {
+        interName += internationalNameFilter[i].name + ", ";
       } else {
-        interName += internationalNameExamp[i].name;
-        interIds += internationalNameExamp[i].id.toString();
+        interName += internationalNameFilter[i].name;
       }
     }
-    for (int i = 0; i < manufacturerExamp.length; i++) {
-      if (i < manufacturerExamp.length - 1) {
-        manufacName += manufacturerExamp[i].name + ", ";
-        manufacIds += manufacturerExamp[i].id.toString() + ",";
+    for (int i = 0; i < manufacturerFilter.length; i++) {
+      if (i < manufacturerFilter.length - 1) {
+        manufacName += manufacturerFilter[i].name + ", ";
       } else {
-        manufacName += manufacturerExamp[i].name;
-        manufacIds += manufacturerExamp[i].id.toString();
+        manufacName += manufacturerFilter[i].name;
       }
     }
     super.initState();
@@ -63,10 +53,10 @@ class _FilterScreenState extends State<FilterScreen> {
 
   _FilterScreenState() {
     minController.addListener(() {
-      price_min = minController.text;
+      priceMin = minController.text;
     });
     maxController.addListener(() {
-      price_max = maxController.text;
+      priceMax = maxController.text;
     });
   }
 
@@ -296,7 +286,7 @@ class _FilterScreenState extends State<FilterScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
                         PageTransition(
                           type: PageTransitionType.bottomToTop,
@@ -304,81 +294,88 @@ class _FilterScreenState extends State<FilterScreen> {
                         ),
                       );
                     },
-                    child: Container(
-                      height: 56,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            color: AppTheme.white,
-                            child: Container(
-                              height: 55,
-                              padding: EdgeInsets.only(top: 6, bottom: 6),
-                              margin: EdgeInsets.only(left: 15, right: 15),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          child: Container(),
+                    child: StreamBuilder(
+                      stream: blocFilter.filterManItem,
+                      builder: (context, AsyncSnapshot<String> snapshot) {
+                        return Container(
+                          height: 56,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                color: AppTheme.white,
+                                child: Container(
+                                  height: 55,
+                                  padding: EdgeInsets.only(top: 6, bottom: 6),
+                                  margin: EdgeInsets.only(left: 15, right: 15),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: Container(),
+                                            ),
+                                            Text(
+                                              translate("manifac"),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.normal,
+                                                color: AppTheme.black_text,
+                                                fontFamily: AppTheme.fontRoboto,
+                                              ),
+                                            ),
+                                            Text(
+                                              snapshot.hasData
+                                                  ? snapshot.data
+                                                  : manufacName,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.normal,
+                                                color: AppTheme
+                                                    .black_transparent_text,
+                                                fontFamily: AppTheme.fontRoboto,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Container(),
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          translate("manifac"),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.normal,
-                                            color: AppTheme.black_text,
-                                            fontFamily: AppTheme.fontRoboto,
-                                          ),
-                                        ),
-                                        Text(
-                                          manufacName,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.normal,
-                                            color:
-                                                AppTheme.black_transparent_text,
-                                            fontFamily: AppTheme.fontRoboto,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward_ios,
+                                        size: 16,
+                                        color: AppTheme.arrow_catalog,
+                                      )
+                                    ],
                                   ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 16,
-                                    color: AppTheme.arrow_catalog,
-                                  )
-                                ],
+                                ),
                               ),
-                            ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  left: 8,
+                                  right: 8,
+                                ),
+                                height: 1,
+                                color: AppTheme.black_linear_category,
+                              )
+                            ],
                           ),
-                          Container(
-                            margin: EdgeInsets.only(
-                              left: 8,
-                              right: 8,
-                            ),
-                            height: 1,
-                            color: AppTheme.black_linear_category,
-                          )
-                        ],
-                      ),
+                        );
+                      },
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
                         PageTransition(
                           type: PageTransitionType.bottomToTop,
@@ -386,76 +383,83 @@ class _FilterScreenState extends State<FilterScreen> {
                         ),
                       );
                     },
-                    child: Container(
-                      height: 56,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            color: AppTheme.white,
-                            child: Container(
-                              height: 55,
-                              padding: EdgeInsets.only(top: 6, bottom: 6),
-                              margin: EdgeInsets.only(left: 15, right: 15),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          child: Container(),
+                    child: StreamBuilder(
+                      stream: blocFilter.filterInterNameItem,
+                      builder: (context, AsyncSnapshot<String> snapshot) {
+                        return Container(
+                          height: 56,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                color: AppTheme.white,
+                                child: Container(
+                                  height: 55,
+                                  padding: EdgeInsets.only(top: 6, bottom: 6),
+                                  margin: EdgeInsets.only(left: 15, right: 15),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: Container(),
+                                            ),
+                                            Text(
+                                              translate("mnn"),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.normal,
+                                                color: AppTheme.black_text,
+                                                fontFamily: AppTheme.fontRoboto,
+                                              ),
+                                            ),
+                                            Text(
+                                              snapshot.hasData
+                                                  ? snapshot.data
+                                                  : interName,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.normal,
+                                                color: AppTheme
+                                                    .black_transparent_text,
+                                                fontFamily: AppTheme.fontRoboto,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Container(),
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          translate("mnn"),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.normal,
-                                            color: AppTheme.black_text,
-                                            fontFamily: AppTheme.fontRoboto,
-                                          ),
-                                        ),
-                                        Text(
-                                          interName,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.normal,
-                                            color:
-                                                AppTheme.black_transparent_text,
-                                            fontFamily: AppTheme.fontRoboto,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward_ios,
+                                        size: 16,
+                                        color: AppTheme.arrow_catalog,
+                                      )
+                                    ],
                                   ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 16,
-                                    color: AppTheme.arrow_catalog,
-                                  )
-                                ],
+                                ),
                               ),
-                            ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  left: 8,
+                                  right: 8,
+                                ),
+                                height: 1,
+                                color: AppTheme.black_linear_category,
+                              )
+                            ],
                           ),
-                          Container(
-                            margin: EdgeInsets.only(
-                              left: 8,
-                              right: 8,
-                            ),
-                            height: 1,
-                            color: AppTheme.black_linear_category,
-                          )
-                        ],
-                      ),
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -468,48 +472,65 @@ class _FilterScreenState extends State<FilterScreen> {
             GestureDetector(
               onTap: () {
                 page = 2;
+                for (int i = 0; i < internationalNameFilter.length; i++) {
+                  if (i < internationalNameFilter.length - 1) {
+                    internationalNameIds +=
+                        internationalNameFilter[i].id.toString() + ",";
+                  } else {
+                    internationalNameIds +=
+                        internationalNameFilter[i].id.toString();
+                  }
+                }
+                for (int i = 0; i < manufacturerFilter.length; i++) {
+                  if (i < manufacturerFilter.length - 1) {
+                    manufacturerIds +=
+                        manufacturerFilter[i].id.toString() + ",";
+                  } else {
+                    manufacturerIds += manufacturerFilter[i].id.toString();
+                  }
+                }
 
                 if (type == 4) {
                   blocItemsList.fetchIdsItemsList(
                     id,
                     1,
-                    interIds,
-                    manufacIds,
+                    internationalNameIds,
+                    manufacturerIds,
                     sortFilter,
-                    price_max,
-                    price_min,
+                    priceMax,
+                    priceMin,
                     "",
                   );
                 } else {
                   type == 2
                       ? blocItemsList.fetchAllItemCategoryBest(
                           1,
-                          interIds,
-                          manufacIds,
+                          internationalNameIds,
+                          manufacturerIds,
                           sortFilter,
-                          price_max,
-                          price_min,
+                          priceMax,
+                          priceMin,
                           "",
                         )
                       : type == 3
                           ? blocItemsList.fetchAllItemSearch(
                               id,
                               1,
-                              interIds,
-                              manufacIds,
+                              internationalNameIds,
+                              manufacturerIds,
                               sortFilter,
-                              price_max,
-                              price_min,
+                              priceMax,
+                              priceMin,
                               "",
                             )
                           : blocItemsList.fetchAllItemCategory(
                               id,
                               1,
-                              interIds,
-                              manufacIds,
+                              internationalNameIds,
+                              manufacturerIds,
                               sortFilter,
-                              price_max,
-                              price_min,
+                              priceMax,
+                              priceMin,
                               "",
                             );
                 }

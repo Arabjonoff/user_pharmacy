@@ -16,7 +16,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../app_theme.dart';
 
 class FilterItemScreen extends StatefulWidget {
-  int type;
+  final int type;
 
   FilterItemScreen(this.type);
 
@@ -147,13 +147,7 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                     alignment: Alignment.centerLeft,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => FilterScreen(),
-                          ),
-                        );
-//                        Navigator.pop(context);
+                        Navigator.pop(context);
                       },
                       child: Container(
                         height: 36,
@@ -288,11 +282,12 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                                               if (k == dataM.length) {
                                                 dataM.add(
                                                   FilterResults(
-                                                      id: snapshot.data
-                                                          .results[index].id,
-                                                      name: snapshot.data
-                                                          .results[index].name,
-                                                      isClick: true),
+                                                    id: snapshot
+                                                        .data.results[index].id,
+                                                    name: snapshot.data
+                                                        .results[index].name,
+                                                    isClick: true,
+                                                  ),
                                                 );
                                               }
                                             } else {
@@ -313,15 +308,15 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                                               if (k == dataI.length) {
                                                 dataI.add(
                                                   FilterResults(
-                                                      id: snapshot.data
-                                                          .results[index].id,
-                                                      name: snapshot.data
-                                                          .results[index].name,
-                                                      isClick: true),
+                                                    id: snapshot
+                                                        .data.results[index].id,
+                                                    name: snapshot.data
+                                                        .results[index].name,
+                                                    isClick: true,
+                                                  ),
                                                 );
                                               }
                                             }
-
                                             setState(() {
                                               snapshot.data.results[index]
                                                       .isClick =
@@ -418,45 +413,23 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
             GestureDetector(
               onTap: () {
                 if (widget.type == 2) {
-                  manufacturerExamp = new List();
-                  manufacturer_ids = "";
+                  manufacturerFilter = new List();
                   for (int i = 0; i < dataM.length; i++) {
                     if (dataM[i].isClick) {
-                      manufacturerExamp.add(dataM[i]);
-                    }
-                  }
-                  for (int i = 0; i < manufacturerExamp.length; i++) {
-                    if (i < manufacturerExamp.length - 1) {
-                      manufacturer_ids +=
-                          manufacturerExamp[i].id.toString() + ",";
-                    } else {
-                      manufacturer_ids += manufacturerExamp[i].id.toString();
+                      manufacturerFilter.add(dataM[i]);
                     }
                   }
                 } else {
-                  internationalNameExamp = new List();
-                  international_name_ids = "";
+                  internationalNameFilter = new List();
                   for (int i = 0; i < dataI.length; i++) {
                     if (dataI[i].isClick) {
-                      internationalNameExamp.add(dataI[i]);
-                    }
-                  }
-                  for (int i = 0; i < internationalNameExamp.length; i++) {
-                    if (i < internationalNameExamp.length - 1) {
-                      international_name_ids +=
-                          internationalNameExamp[i].id.toString() + ",";
-                    } else {
-                      international_name_ids +=
-                          internationalNameExamp[i].id.toString();
+                      internationalNameFilter.add(dataI[i]);
                     }
                   }
                 }
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FilterScreen(),
-                  ),
-                );
+                blocFilter.fitchInterName();
+                blocFilter.fitchMan();
+                Navigator.pop(context);
               },
               child: Container(
                 decoration: BoxDecoration(

@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pharmacy/src/blocs/filter_block.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
@@ -45,11 +46,11 @@ class ItemListScreen extends StatefulWidget {
 int sort = 1;
 int page = 1;
 String sortFilter = "";
-String international_name_ids = "";
-String manufacturer_ids = "";
-String price_max = "";
-String price_min = "";
-String unit_ids = "";
+String internationalNameIds = "";
+String manufacturerIds = "";
+String priceMax = "";
+String priceMin = "";
+String unitIds = "";
 int type;
 String id;
 
@@ -66,8 +67,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
   @override
   void initState() {
     super.initState();
-    internationalNameExamp = new List();
-    manufacturerExamp = new List();
+    internationalNameFilter = new List();
+    manufacturerFilter = new List();
     dataM = new List();
     dataI = new List();
     if (widget.type == 4) {
@@ -78,7 +79,6 @@ class _ItemListScreenState extends State<ItemListScreen> {
           : widget.type == 3 ? isOpenSearch = true : isOpenCategory = true;
     }
     _getMoreData(1);
-    //registerBus();
     _sc.addListener(() {
       if (_sc.position.pixels == _sc.position.maxScrollExtent) {
         _getMoreData(page);
@@ -88,42 +88,16 @@ class _ItemListScreenState extends State<ItemListScreen> {
 
   bool title = false;
 
-  void registerBus() {
-    // RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST").listen((event) {
-    //   if (event.title) {
-    //     blocItemsList.updateBest();
-    //   }
-    // });
-    // RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_SEARCH")
-    //     .listen((event) {
-    //   if (event.title) {
-    //     blocItemsList.updateSearch();
-    //   }
-    // });
-
-    // RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_CATEGORY")
-    //     .listen((event) {
-    //   if (event.title) {
-    //     blocItemsList.updateCategory();
-    //   }
-    // });
-    // RxBus.register<AllItemIsOpen>(tag: "EVENT_ITEM_LIST_IDS").listen((event) {
-    //   if (event.title) {
-    //     blocItemsList.updateIds();
-    //   }
-    // });
-  }
-
   @override
   void dispose() {
     page = 1;
     sort = 1;
     sortFilter = "";
-    international_name_ids = "";
-    manufacturer_ids = "";
-    price_max = "";
-    price_min = "";
-    unit_ids = "";
+    internationalNameIds = "";
+    manufacturerIds = "";
+    priceMax = "";
+    priceMin = "";
+    unitIds = "";
     _sc.dispose();
     isOpenBest = false;
     isOpenCategory = false;
@@ -461,6 +435,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
+                      blocFilter.fitchInterName();
+                      blocFilter.fitchMan();
                       Navigator.push(
                         context,
                         PageTransition(
@@ -1208,44 +1184,44 @@ class _ItemListScreenState extends State<ItemListScreen> {
           blocItemsList.fetchIdsItemsList(
             widget.id,
             index,
-            international_name_ids,
-            manufacturer_ids,
+            internationalNameIds,
+            manufacturerIds,
             sortFilter,
-            price_max,
-            price_min,
-            unit_ids,
+            priceMax,
+            priceMin,
+            unitIds,
           );
         } else {
           widget.type == 2
               ? blocItemsList.fetchAllItemCategoryBest(
                   index,
-                  international_name_ids,
-                  manufacturer_ids,
+                  internationalNameIds,
+                  manufacturerIds,
                   sortFilter,
-                  price_max,
-                  price_min,
-                  unit_ids,
+                  priceMax,
+                  priceMin,
+                  unitIds,
                 )
               : widget.type == 3
                   ? blocItemsList.fetchAllItemSearch(
                       widget.id,
                       index,
-                      international_name_ids,
-                      manufacturer_ids,
+                      internationalNameIds,
+                      manufacturerIds,
                       sortFilter,
-                      price_max,
-                      price_min,
-                      unit_ids,
+                      priceMax,
+                      priceMin,
+                      unitIds,
                     )
                   : blocItemsList.fetchAllItemCategory(
                       widget.id,
                       index,
-                      international_name_ids,
-                      manufacturer_ids,
+                      internationalNameIds,
+                      manufacturerIds,
                       sortFilter,
-                      price_max,
-                      price_min,
-                      unit_ids,
+                      priceMax,
+                      priceMin,
+                      unitIds,
                     );
         }
         page++;

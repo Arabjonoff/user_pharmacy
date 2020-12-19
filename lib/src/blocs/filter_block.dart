@@ -10,10 +10,16 @@ import 'package:rxdart/rxdart.dart';
 class FilterBloc {
   final _repository = Repository();
   final _filterFetcher = PublishSubject<FilterModel>();
+  final _filterInterNameFetcher = PublishSubject<String>();
+  final _filterManFetcher = PublishSubject<String>();
 
   List<FilterResults> filterItems = new List();
 
   Observable<FilterModel> get filterItem => _filterFetcher.stream;
+
+  Observable<String> get filterInterNameItem => _filterInterNameFetcher.stream;
+
+  Observable<String> get filterManItem => _filterManFetcher.stream;
 
   fetchAllFilter(int type, int page, String obj) async {
     FilterModel itemModelResponse =
@@ -27,17 +33,17 @@ class FilterBloc {
 
       if (type == 2) {
         for (int i = 0; i < filterItems.length; i++) {
-          for (int j = 0; j < dataM.length; j++) {
-            if (filterItems[i].id == dataM[j].id) {
-              filterItems[i].isClick = dataM[j].isClick;
+          for (int j = 0; j < manufacturerFilter.length; j++) {
+            if (filterItems[i].id == manufacturerFilter[j].id) {
+              filterItems[i].isClick = manufacturerFilter[j].isClick;
             }
           }
         }
       } else {
         for (int i = 0; i < filterItems.length; i++) {
-          for (int j = 0; j < dataI.length; j++) {
-            if (filterItems[i].id == dataI[j].id) {
-              filterItems[i].isClick = dataI[j].isClick;
+          for (int j = 0; j < internationalNameFilter.length; j++) {
+            if (filterItems[i].id == internationalNameFilter[j].id) {
+              filterItems[i].isClick = internationalNameFilter[j].isClick;
             }
           }
         }
@@ -54,8 +60,34 @@ class FilterBloc {
     }
   }
 
+  fitchInterName() {
+    String interName = "";
+    for (int i = 0; i < internationalNameFilter.length; i++) {
+      if (i < internationalNameFilter.length - 1) {
+        interName += internationalNameFilter[i].name + ", ";
+      } else {
+        interName += internationalNameFilter[i].name;
+      }
+    }
+    _filterInterNameFetcher.sink.add(interName);
+  }
+
+  fitchMan() {
+    String manufacName = "";
+    for (int i = 0; i < manufacturerFilter.length; i++) {
+      if (i < manufacturerFilter.length - 1) {
+        manufacName += manufacturerFilter[i].name + ", ";
+      } else {
+        manufacName += manufacturerFilter[i].name;
+      }
+    }
+    _filterManFetcher.sink.add(manufacName);
+  }
+
   dispose() {
     _filterFetcher.close();
+    _filterInterNameFetcher.close();
+    _filterManFetcher.close();
   }
 }
 
