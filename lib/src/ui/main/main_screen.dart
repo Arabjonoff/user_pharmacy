@@ -465,14 +465,6 @@ class _MainScreenState extends State<MainScreen> {
                           ? SvgPicture.asset("assets/menu/card_selected.svg")
                           : SvgPicture.asset("assets/menu/card_unselected.svg"),
                     ),
-//                  Center(
-//                    child: Container(
-//                      margin: EdgeInsets.only(bottom: 15,left: 15),
-//                      height: 5,
-//                      width: 5,
-//                      color: Colors.red,
-//                    ),
-//                  )
                   ],
                 ),
                 title: Text(
@@ -529,6 +521,8 @@ class _MainScreenState extends State<MainScreen> {
         return [
           HomeScreen(
             onStore: _store,
+            onRegion: _region,
+            onHistory: _history,
           ),
           CategoryScreen(),
           CardScreen(

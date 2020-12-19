@@ -35,6 +35,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   @override
   void initState() {
+    blocCategory.fetchAllCategory();
+    if (isOpenCategory) blocItemsList.updateCategory();
+    if (isOpenSearch) blocItemsList.updateSearch();
     registerBus();
     super.initState();
   }

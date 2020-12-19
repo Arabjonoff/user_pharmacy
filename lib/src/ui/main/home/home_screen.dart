@@ -40,9 +40,15 @@ import '../../../app_theme.dart';
 final priceFormat = new NumberFormat("#,##0", "ru");
 
 class HomeScreen extends StatefulWidget {
-  Function onStore;
+  final Function onStore;
+  final Function onRegion;
+  final Function onHistory;
 
-  HomeScreen({this.onStore});
+  HomeScreen({
+    this.onStore,
+    this.onRegion,
+    this.onHistory,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -478,14 +484,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           SvgPicture.asset("assets/images/logo_new_design.svg"),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RegionScreen(),
-                          ),
-                        );
-                      },
+                      onTap: widget.onRegion,
                       child: Container(
                         height: 28,
                         color: AppTheme.white,
@@ -678,12 +677,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     GestureDetector(
                       onTap: () {
                         isLogin
-                            ? Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => HistoryOrderScreen(),
-                                ),
-                              )
+                            ? widget.onHistory()
                             : BottomDialog.createBottomSheetHistory(context);
                       },
                       child: Container(
@@ -823,9 +817,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        widget.onStore();
-                      },
+                      onTap: widget.onStore,
                       child: Container(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
