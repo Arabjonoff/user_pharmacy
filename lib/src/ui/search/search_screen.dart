@@ -59,7 +59,7 @@ class _SearchScreenState extends State<SearchScreen> {
     if (widget.searchPosition == 1) {
       height = 130.0;
     } else {
-      height = 100.0;
+      height = 80.0;
     }
     Timer(Duration(milliseconds: 1), () {
       setState(() {
@@ -140,7 +140,7 @@ class _SearchScreenState extends State<SearchScreen> {
           if (widget.searchPosition == 1) {
             height = 130.0;
           } else {
-            height = 100.0;
+            height = 80.0;
           }
           width = 38;
         });
@@ -270,7 +270,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             if (widget.searchPosition == 1) {
                               height = 130.0;
                             } else {
-                              height = 100.0;
+                              height = 80.0;
                             }
                             width = 38;
                           });
