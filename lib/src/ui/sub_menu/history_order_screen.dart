@@ -116,50 +116,54 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                   "payment_waiting") {
                                 if (snapshot.data.results[index].type ==
                                     "self") {
-                                  Utils.getCashBack().then((value) => {
-                                        cashData = new CashBackData(
-                                          total: snapshot
-                                              .data.results[index].total,
-                                          cash: value == null ? 0.0 : value,
-                                        ),
-                                        Navigator.push(
-                                          context,
-                                          PageTransition(
-                                            type: PageTransitionType.fade,
-                                            child: OrderCardPickupScreen(
-                                              snapshot.data.results[index].id,
-                                              snapshot.data.results[index]
-                                                  .expireSelfOrder,
-                                            ),
+                                  Utils.getCashBack().then(
+                                    (value) => {
+                                      cashData = new CashBackData(
+                                        total:
+                                            snapshot.data.results[index].total,
+                                        cash: value == null ? 0.0 : value,
+                                      ),
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              OrderCardPickupScreen(
+                                            snapshot.data.results[index].id,
+                                            snapshot.data.results[index]
+                                                .expireSelfOrder,
                                           ),
                                         ),
-                                      });
+                                      ),
+                                    },
+                                  );
                                 } else {
-                                  Utils.getCashBack().then((value) => {
-                                        Navigator.push(
-                                          context,
-                                          PageTransition(
-                                            type: PageTransitionType.fade,
-                                            child: OrderCardCurerScreen(
-                                              orderId: snapshot
-                                                  .data.results[index].id,
-                                              price: snapshot.data
-                                                  .results[index].realTotal,
-                                              cash: value == null ? 0.0 : value,
-                                              deliveryPrice: snapshot.data
-                                                  .results[index].deliveryTotal,
-                                            ),
+                                  Utils.getCashBack().then(
+                                    (value) => {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              OrderCardCurerScreen(
+                                            orderId:
+                                                snapshot.data.results[index].id,
+                                            price: snapshot
+                                                .data.results[index].realTotal,
+                                            cash: value == null ? 0.0 : value,
+                                            deliveryPrice: snapshot.data
+                                                .results[index].deliveryTotal,
                                           ),
                                         ),
-                                      });
+                                      ),
+                                    },
+                                  );
                                 }
                               } else {
                                 Navigator.push(
                                   context,
-                                  PageTransition(
-                                    type: PageTransitionType.fade,
-                                    child: OrderNumber(
-                                        snapshot.data.results[index]),
+                                  MaterialPageRoute(
+                                    builder: (context) => OrderNumber(
+                                      snapshot.data.results[index],
+                                    ),
                                   ),
                                 );
                               }
