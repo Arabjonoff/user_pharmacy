@@ -9,6 +9,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/filter_block.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/sort_radio_btn.dart';
@@ -435,15 +436,18 @@ class _ItemListScreenState extends State<ItemListScreen> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      blocFilter.fitchInterName();
-                      blocFilter.fitchMan();
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.bottomToTop,
-                          child: FilterScreen(),
-                        ),
+                      RxBus.post(
+                        LoginModel(status: 1, msg: "Yes"),
+                        tag: "EVENT_FILTER_SCREEN",
                       );
+
+                      // Navigator.push(
+                      //   context,
+                      //   PageTransition(
+                      //     type: PageTransitionType.bottomToTop,
+                      //     child: FilterScreen(),
+                      //   ),
+                      // );
                     },
                     child: Container(
                       height: 55,

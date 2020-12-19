@@ -28,6 +28,7 @@ import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/chat/chat_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
+import 'package:pharmacy/src/ui/item_list/fliter_screen.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/favorite/favorites_screen.dart';
@@ -164,119 +165,144 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void registerBus() {
-    RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_VIEW")
-        .listen((event) => setState(() {
-              _selectedIndex = event.position;
-            }));
+    RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_VIEW").listen(
+      (event) => setState(
+        () {
+          _selectedIndex = event.position;
+        },
+      ),
+    );
 
-    RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_VIEW_ERROR")
-        .listen((event) => {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                    contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                    content: Container(
-                      width: 239.0,
-                      height: 64.0,
-                      child: Center(
-                        child: Text(
-                          translate("internet_error"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                            color: AppTheme.black_text,
-                          ),
-                        ),
-                      ),
+    RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_VIEW_ERROR").listen(
+      (event) => {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+              content: Container(
+                width: 239.0,
+                height: 64.0,
+                child: Center(
+                  child: Text(
+                    translate("internet_error"),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRoboto,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      color: AppTheme.black_text,
                     ),
-                  );
-                },
-              )
-            });
+                  ),
+                ),
+              ),
+            );
+          },
+        )
+      },
+    );
 
     RxBus.register<BottomViewIdsModel>(tag: "EVENT_BOTTOM_VIEW_LANGUAGE")
-        .listen((event) => setState(() {
-              var localizationDelegate = LocalizedApp.of(context).delegate;
-              localizationDelegate.changeLocale(Locale(event.position));
-            }));
+        .listen(
+      (event) => setState(
+        () {
+          var localizationDelegate = LocalizedApp.of(context).delegate;
+          localizationDelegate.changeLocale(Locale(event.position));
+        },
+      ),
+    );
 
-    RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_ITEM_NOTF")
-        .listen((event) => {
-              Navigator.push(
-                context,
-                PageTransition(
-                  type: PageTransitionType.bottomToTop,
-                  alignment: Alignment.bottomCenter,
-                  child: ItemScreenNotIstruction(
-                    event.position,
-                  ),
-                ),
-              ),
-            });
-
-    RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_CATEGORY_NOTF")
-        .listen((event) => {
-              Navigator.push(
-                context,
-                PageTransition(
-                  type: PageTransitionType.bottomToTop,
-                  alignment: Alignment.bottomCenter,
-                  child: ItemListScreen(
-                    translate("sale"),
-                    1,
-                    event.position.toString(),
-                  ),
-                ),
-              ),
-            });
-
-    RxBus.register<BottomViewIdsModel>(tag: "EVENT_BOTTOM_IDS_NOTF")
-        .listen((event) => {
-              Navigator.push(
-                context,
-                PageTransition(
-                  type: PageTransitionType.bottomToTop,
-                  alignment: Alignment.bottomCenter,
-                  child: ItemListScreen(
-                    translate("sale"),
-                    4,
-                    event.position
-                        .toString()
-                        .replaceAll('[', '')
-                        .replaceAll(']', '')
-                        .replaceAll(' ', ''),
-                  ),
-                ),
-              ),
-            });
-
-    RxBus.register<LoginModel>(tag: "EVENT_CHAT_SCREEN").listen((event) => {
-          Navigator.push(
-            context,
-            PageTransition(
-              type: PageTransitionType.rightToLeft,
-              child: ChatScreen(),
+    RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_ITEM_NOTF").listen(
+      (event) => {
+        Navigator.push(
+          context,
+          PageTransition(
+            type: PageTransitionType.bottomToTop,
+            alignment: Alignment.bottomCenter,
+            child: ItemScreenNotIstruction(
+              event.position,
             ),
           ),
-        });
-    RxBus.register<CheckVersionModel>(tag: "EVENT_ITEM_CHECK")
-        .listen((event) => {
-              Navigator.pushReplacement(
-                context,
-                PageTransition(
-                  type: PageTransitionType.bottomToTop,
-                  child: AutoUpdateScreen(
-                    package: event.packageName,
-                    desk: event.desk,
-                  ),
-                ),
-              )
-            });
+        ),
+      },
+    );
+
+    RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_CATEGORY_NOTF").listen(
+      (event) => {
+        Navigator.push(
+          context,
+          PageTransition(
+            type: PageTransitionType.bottomToTop,
+            alignment: Alignment.bottomCenter,
+            child: ItemListScreen(
+              translate("sale"),
+              1,
+              event.position.toString(),
+            ),
+          ),
+        ),
+      },
+    );
+
+    RxBus.register<BottomViewIdsModel>(tag: "EVENT_BOTTOM_IDS_NOTF").listen(
+      (event) => {
+        Navigator.push(
+          context,
+          PageTransition(
+            type: PageTransitionType.bottomToTop,
+            alignment: Alignment.bottomCenter,
+            child: ItemListScreen(
+              translate("sale"),
+              4,
+              event.position
+                  .toString()
+                  .replaceAll('[', '')
+                  .replaceAll(']', '')
+                  .replaceAll(' ', ''),
+            ),
+          ),
+        ),
+      },
+    );
+
+    RxBus.register<LoginModel>(tag: "EVENT_CHAT_SCREEN").listen(
+      (event) => {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatScreen(),
+          ),
+        ),
+      },
+    );
+
+    RxBus.register<LoginModel>(tag: "EVENT_FILTER_SCREEN").listen(
+      (event) => {
+        Navigator.push(
+          context,
+          PageTransition(
+            type: PageTransitionType.bottomToTop,
+            child: FilterScreen(),
+          ),
+        ),
+      },
+    );
+    RxBus.register<CheckVersionModel>(tag: "EVENT_ITEM_CHECK").listen(
+      (event) => {
+        Navigator.pushReplacement(
+          context,
+          PageTransition(
+            type: PageTransitionType.bottomToTop,
+            child: AutoUpdateScreen(
+              package: event.packageName,
+              desk: event.desk,
+            ),
+          ),
+        )
+      },
+    );
   }
 
   Future<void> _initPlatformState(BuildContext context) async {
