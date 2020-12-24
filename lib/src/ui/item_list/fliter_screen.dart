@@ -484,6 +484,8 @@ class _FilterScreenState extends State<FilterScreen> {
             ),
             GestureDetector(
               onTap: () {
+                internationalNameIds = "";
+                manufacturerIds = "";
                 page = 2;
                 for (int i = 0; i < internationalNameFilter.length; i++) {
                   if (i < internationalNameFilter.length - 1) {

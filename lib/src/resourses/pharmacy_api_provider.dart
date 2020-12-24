@@ -568,18 +568,6 @@ class PharmacyApiProvider {
     String id,
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    // Ishxona Oybek, [24.12.20 10:37]
-    // {{domain}}/api/v1/manufacturers?is_home=1
-    //
-    // Ishxona Oybek, [24.12.20 10:37]
-    // {{domain}}/api/v1/international-names?category_id=789
-    //
-    // Ishxona Oybek, [24.12.20 10:38]
-    // {{domain}}/api/v1/manufacturers?name=para
-    //
-    // Ishxona Oybek, [24.12.20 10:39]
-    // {{domain}}/api/v1/manufacturers?ids=45641,46547,48645
     String filter = type == 1
         ? "&category_id=$id"
         : type == 2
