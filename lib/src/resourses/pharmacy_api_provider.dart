@@ -559,17 +559,41 @@ class PharmacyApiProvider {
   }
 
   /// Filter parametrs
-  Future<FilterModel> fetchFilterParametrs(
-      int page, int perPage, int type, String search) async {
+  Future<FilterModel> fetchFilterParameters(
+    int page,
+    int perPage,
+    int filterType,
+    String search,
+    int type,
+    String id,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String url = type == 1
-        ? Utils.baseUrl +
-            '/api/v1/units?page=$page&per_page=$perPage&search=$search'
+
+    // Ishxona Oybek, [24.12.20 10:37]
+    // {{domain}}/api/v1/manufacturers?is_home=1
+    //
+    // Ishxona Oybek, [24.12.20 10:37]
+    // {{domain}}/api/v1/international-names?category_id=789
+    //
+    // Ishxona Oybek, [24.12.20 10:38]
+    // {{domain}}/api/v1/manufacturers?name=para
+    //
+    // Ishxona Oybek, [24.12.20 10:39]
+    // {{domain}}/api/v1/manufacturers?ids=45641,46547,48645
+    String filter = type == 1
+        ? "&category_id=$id"
         : type == 2
+            ? "&is_home=1"
+            : type == 3 ? "&name=$id" : type == 4 ? "&ids=$id" : "";
+
+    String url = filterType == 1
+        ? Utils.baseUrl +
+            '/api/v1/units?page=$page&per_page=$perPage&search=$search$filter'
+        : filterType == 2
             ? Utils.baseUrl +
-                '/api/v1/manufacturers?page=$page&per_page=$perPage&search=$search'
+                '/api/v1/manufacturers?page=$page&per_page=$perPage&search=$search$filter'
             : Utils.baseUrl +
-                '/api/v1/international-names?page=$page&per_page=$perPage&search=$search';
+                '/api/v1/international-names?page=$page&per_page=$perPage&search=$search$filter';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(prefs.getString("deviceData"));

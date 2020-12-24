@@ -12,9 +12,11 @@ import 'package:shimmer/shimmer.dart';
 import '../../app_theme.dart';
 
 class FilterItemScreen extends StatefulWidget {
+  final int filterType;
   final int type;
+  final String id;
 
-  FilterItemScreen(this.type);
+  FilterItemScreen({this.filterType, this.type, this.id});
 
   @override
   State<StatefulWidget> createState() {
@@ -125,9 +127,9 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      widget.type == 1
+                      widget.filterType == 1
                           ? translate("release")
-                          : widget.type == 2
+                          : widget.filterType == 2
                               ? translate("manifac")
                               : translate("mnn"),
                       style: TextStyle(
@@ -260,7 +262,7 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                                           value: snapshot
                                               .data.results[index].isClick,
                                           onChanged: (bool value) {
-                                            if (widget.type == 2) {
+                                            if (widget.filterType == 2) {
                                               int k = 0;
                                               for (int i = 0;
                                                   i < dataM.length;
@@ -408,7 +410,7 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (widget.type == 2) {
+                if (widget.filterType == 2) {
                   manufacturerFilter = new List();
                   for (int i = 0; i < dataM.length; i++) {
                     if (dataM[i].isClick) {
@@ -462,7 +464,13 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
 
   void _getMoreData(int index, String search) async {
     if (!isLoading) {
-      blocFilter.fetchAllFilter(widget.type, index, search);
+      blocFilter.fetchAllFilter(
+        widget.filterType,
+        index,
+        search,
+        widget.type,
+        widget.id,
+      );
       isLoading = false;
       page++;
     }

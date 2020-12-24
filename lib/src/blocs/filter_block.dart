@@ -17,9 +17,20 @@ class FilterBloc {
 
   Observable<String> get filterManItem => _filterManFetcher.stream;
 
-  fetchAllFilter(int type, int page, String obj) async {
-    FilterModel itemModelResponse =
-        await _repository.fetchFilterParametrs(page, type, obj);
+  fetchAllFilter(
+    int filterType,
+    int page,
+    String obj,
+    int type,
+    String id,
+  ) async {
+    FilterModel itemModelResponse = await _repository.fetchFilterParameters(
+      page,
+      filterType,
+      obj,
+      type,
+      id,
+    );
 
     if (itemModelResponse != null) {
       if (page == 1) {
@@ -27,7 +38,7 @@ class FilterBloc {
       }
       filterItems.addAll(itemModelResponse.results);
 
-      if (type == 2) {
+      if (filterType == 2) {
         for (int i = 0; i < filterItems.length; i++) {
           for (int j = 0; j < manufacturerFilter.length; j++) {
             if (filterItems[i].id == manufacturerFilter[j].id) {

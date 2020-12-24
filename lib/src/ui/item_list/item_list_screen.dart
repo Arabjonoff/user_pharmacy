@@ -10,6 +10,7 @@ import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/eventBus/filter_open_model.dart';
 import 'package:pharmacy/src/model/sort_radio_btn.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
@@ -28,11 +29,10 @@ bool isOpenCategory = false;
 bool isOpenSearch = false;
 bool isOpenIds = false;
 
-// ignore: must_be_immutable
 class ItemListScreen extends StatefulWidget {
-  String name;
-  int type;
-  String id;
+  final String name;
+  final int type;
+  final String id;
 
   ItemListScreen(this.name, this.type, this.id);
 
@@ -436,17 +436,13 @@ class _ItemListScreenState extends State<ItemListScreen> {
                   child: GestureDetector(
                     onTap: () {
                       RxBus.post(
-                        LoginModel(status: 1, msg: "Yes"),
+                        FilterOpenModel(
+                          name: widget.name,
+                          type: widget.type,
+                          id: widget.id,
+                        ),
                         tag: "EVENT_FILTER_SCREEN",
                       );
-
-                      // Navigator.push(
-                      //   context,
-                      //   PageTransition(
-                      //     type: PageTransitionType.bottomToTop,
-                      //     child: FilterScreen(),
-                      //   ),
-                      // );
                     },
                     child: Container(
                       height: 55,

@@ -406,17 +406,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
 
     _fcm.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
-      },
+      onMessage: (Map<String, dynamic> message) async {},
       onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-
         _notifiData(message);
       },
       onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-
         _notifiData(message);
       },
     );

@@ -20,6 +20,7 @@ import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/check_version.dart';
+import 'package:pharmacy/src/model/eventBus/filter_open_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
@@ -274,13 +275,16 @@ class _MainScreenState extends State<MainScreen> {
       },
     );
 
-    RxBus.register<LoginModel>(tag: "EVENT_FILTER_SCREEN").listen(
+    RxBus.register<FilterOpenModel>(tag: "EVENT_FILTER_SCREEN").listen(
       (event) => {
         Navigator.push(
           context,
           PageTransition(
             type: PageTransitionType.bottomToTop,
-            child: FilterScreen(),
+            child: FilterScreen(
+              type: event.type,
+              id: event.id,
+            ),
           ),
         ),
       },

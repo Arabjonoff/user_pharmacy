@@ -12,6 +12,11 @@ import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import '../../app_theme.dart';
 
 class FilterScreen extends StatefulWidget {
+  final int type;
+  final String id;
+
+  FilterScreen({this.type, this.id});
+
   @override
   State<StatefulWidget> createState() {
     return _FilterScreenState();
@@ -290,7 +295,11 @@ class _FilterScreenState extends State<FilterScreen> {
                         context,
                         PageTransition(
                           type: PageTransitionType.bottomToTop,
-                          child: FilterItemScreen(2),
+                          child: FilterItemScreen(
+                            filterType: 2,
+                            type: widget.type,
+                            id: widget.id,
+                          ),
                         ),
                       );
                     },
@@ -379,7 +388,11 @@ class _FilterScreenState extends State<FilterScreen> {
                         context,
                         PageTransition(
                           type: PageTransitionType.bottomToTop,
-                          child: FilterItemScreen(3),
+                          child: FilterItemScreen(
+                            filterType: 3,
+                            type: widget.type,
+                            id: widget.id,
+                          ),
                         ),
                       );
                     },
