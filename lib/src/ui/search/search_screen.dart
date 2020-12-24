@@ -82,31 +82,47 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   _SearchScreenState() {
-    const oneSec = const Duration(seconds: 1);
+    const oneSec = const Duration(milliseconds: 500);
     searchController.addListener(() {
       if (searchController.text.length > 2) {
         if (_timer == null) {
           _timer = new Timer(oneSec, () {
-            setState(() {
-              _timer.cancel();
-              page = 1;
-              obj = searchController.text;
-              isLoading = false;
-              isSearchText = true;
-              this._getMoreData(1);
-            });
+            obj = searchController.text;
+            if (obj.length > 2) {
+              setState(() {
+                _timer.cancel();
+                page = 1;
+                isLoading = false;
+                isSearchText = true;
+                this._getMoreData(1);
+              });
+            } else {
+              setState(() {
+                page = 1;
+                obj = "";
+                isSearchText = false;
+              });
+            }
           });
         } else {
           _timer.cancel();
           _timer = new Timer(oneSec, () {
-            setState(() {
-              _timer.cancel();
-              page = 1;
-              obj = searchController.text;
-              isSearchText = true;
-              isLoading = false;
-              this._getMoreData(1);
-            });
+            obj = searchController.text;
+            if (obj.length > 2) {
+              setState(() {
+                _timer.cancel();
+                page = 1;
+                isSearchText = true;
+                isLoading = false;
+                this._getMoreData(1);
+              });
+            } else {
+              setState(() {
+                page = 1;
+                obj = "";
+                isSearchText = false;
+              });
+            }
           });
         }
       } else {
