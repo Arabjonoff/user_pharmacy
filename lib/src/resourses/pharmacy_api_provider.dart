@@ -51,7 +51,9 @@ class PharmacyApiProvider {
     };
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
       'X-Device': encoded,
@@ -82,7 +84,9 @@ class PharmacyApiProvider {
     };
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
@@ -118,7 +122,9 @@ class PharmacyApiProvider {
     };
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -145,7 +151,9 @@ class PharmacyApiProvider {
     String url = Utils.baseUrl + '/api/v1/sales?region=$regionId';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
       'X-Device': encoded,
@@ -195,7 +203,9 @@ class PharmacyApiProvider {
             'unit_ids=$unitIds';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
@@ -224,7 +234,9 @@ class PharmacyApiProvider {
     String url = Utils.baseUrl + '/api/v1/categories?region=$regionId';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
@@ -273,7 +285,9 @@ class PharmacyApiProvider {
             'unit_ids=$unitIds';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
@@ -325,7 +339,9 @@ class PharmacyApiProvider {
             'unit_ids=$unitIds';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     HttpClient httpClient = new HttpClient();
     httpClient
@@ -371,7 +387,9 @@ class PharmacyApiProvider {
             'unit_ids=$unitIds';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
@@ -396,7 +414,9 @@ class PharmacyApiProvider {
     int regionId = prefs.getInt("cityId");
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     String url = Utils.baseUrl + '/api/v1/drugs/$id?region=$regionId';
     Map<String, String> headers = {
@@ -428,7 +448,9 @@ class PharmacyApiProvider {
     String url =
         Utils.baseUrl + '/api/v1/stores?lat=$lat&lng=$lng&region=$regionId';
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
@@ -460,7 +482,9 @@ class PharmacyApiProvider {
     String url = Utils.baseUrl + '/api/v1/regions?search=$obj&lan=$lan';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
@@ -495,7 +519,9 @@ class PharmacyApiProvider {
     String url = Utils.baseUrl + '/api/v1/add-order?lan=$lan&region=$regionId';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -535,7 +561,9 @@ class PharmacyApiProvider {
             'region=$regionId';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -572,7 +600,11 @@ class PharmacyApiProvider {
         ? "&category_id=$id"
         : type == 2
             ? "&is_home=1"
-            : type == 3 ? "&name=$id" : type == 4 ? "&ids=$id" : "";
+            : type == 3
+                ? "&name=$id"
+                : type == 4
+                    ? "&ids=$id"
+                    : "";
 
     String url = filterType == 1
         ? Utils.baseUrl +
@@ -584,7 +616,9 @@ class PharmacyApiProvider {
                 '/api/v1/international-names?page=$page&per_page=$perPage&search=$search$filter';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
@@ -616,7 +650,9 @@ class PharmacyApiProvider {
         Utils.baseUrl + '/api/v1/order-options?lan=$lan&region=$regionId';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -653,7 +689,9 @@ class PharmacyApiProvider {
         Utils.baseUrl + '/api/v1/check-order?lan=$lan&region=$regionId';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -685,7 +723,9 @@ class PharmacyApiProvider {
     String url = Utils.baseUrl + '/api/v1/exists-stores?region=$regionId';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
@@ -717,7 +757,9 @@ class PharmacyApiProvider {
     String token = prefs.getString("token");
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -748,7 +790,9 @@ class PharmacyApiProvider {
     String token = prefs.getString("token");
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -778,7 +822,9 @@ class PharmacyApiProvider {
     String url = Utils.baseUrl + '/api/v1/order-minimum?region=$regionId';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
@@ -803,7 +849,9 @@ class PharmacyApiProvider {
     String token = prefs.getString("token");
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -835,7 +883,9 @@ class PharmacyApiProvider {
     String token = prefs.getString("token");
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'content-type': 'application/json; charset=utf-8',
@@ -863,7 +913,9 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -897,7 +949,9 @@ class PharmacyApiProvider {
     };
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       'X-Device': encoded,
@@ -919,7 +973,9 @@ class PharmacyApiProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
     Map<String, String> headers;
     if (token == null) {
       headers = {
@@ -958,7 +1014,9 @@ class PharmacyApiProvider {
     String url = Utils.baseUrl + '/api/v1/get-no-reviews?region=$regionId';
     String token = prefs.getString("token");
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
     if (token != null) {
       Map<String, String> headers = {
         HttpHeaders.authorizationHeader: "Bearer $token",
@@ -989,7 +1047,9 @@ class PharmacyApiProvider {
     String token = prefs.getString("token");
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -1018,7 +1078,9 @@ class PharmacyApiProvider {
 
     String url = Utils.baseUrl + '/api/v1/user-cashback?region=$regionId';
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
     String token = prefs.getString("token");
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -1039,7 +1101,9 @@ class PharmacyApiProvider {
     String lan = prefs.getString('language');
     int regionId = prefs.getInt("cityId");
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
     if (lan == null) {
       lan = "ru";
     }
@@ -1092,7 +1156,9 @@ class PharmacyApiProvider {
     }
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     String url =
         Utils.baseUrl + '/api/v1/create-order?lan=$lan&region=$regionId';
@@ -1136,7 +1202,9 @@ class PharmacyApiProvider {
         Utils.baseUrl + '/api/v1/activate-order?lan=$lan&region=$regionId';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
@@ -1174,7 +1242,9 @@ class PharmacyApiProvider {
     };
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
@@ -1211,7 +1281,9 @@ class PharmacyApiProvider {
       "region": regionId.toString(),
     };
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(prefs.getString("deviceData"));
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     String url = Utils.baseUrl + '/api/v1/add-region?lan=$lan';
     if (token != null) {

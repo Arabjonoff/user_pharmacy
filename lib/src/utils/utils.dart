@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Utils {
-  static String baseUrl = "https://api.gopharm.uz";
+  //static String baseUrl = "https://api.gopharm.uz";
 
-  //static String baseUrl = "https://test.gopharm.uz";
+  static String baseUrl = "https://test.gopharm.uz";
   static String baseUrlSocket = "wss://api.gopharm.uz/ws/";
 
   static Future<void> saveData(int userId, String name, String surname,
@@ -36,8 +36,8 @@ class Utils {
     return prefs.getDouble("cashBack");
   }
 
-  static Future<void> saveRegion(
-      int id, String city, double lat, double lng) async {
+  static Future<void> saveRegion(int id, String city, double lat,
+      double lng) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt('cityId', id);
     prefs.setString('city', city);
