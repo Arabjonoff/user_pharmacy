@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -623,195 +622,196 @@ class BottomDialog {
       builder: (context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
-            return ClipRRect(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0)),
-              child: Container(
-                height: 240,
-                color: AppTheme.white,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(top: 12),
-                      height: 4,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        color: AppTheme.bottom_dialog,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 12, right: 12, top: 25),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              locationItem.name,
-                              textAlign: TextAlign.start,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                fontStyle: FontStyle.normal,
-                                color: AppTheme.black_text,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 7,
-                          ),
-                          Text(
-                            locationItem.distance.toInt() == 0
-                                ? ""
-                                : locationItem.distance.toString() + " m",
-                            textAlign: TextAlign.start,
-                            maxLines: 1,
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 11,
-                              fontStyle: FontStyle.normal,
-                              color: AppTheme.black_transparent_text,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 12, right: 12, top: 8),
-                      width: double.infinity,
-                      child: Text(
-                        locationItem.address,
-                        textAlign: TextAlign.start,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 15,
-                          fontStyle: FontStyle.normal,
-                          color: AppTheme.black_text,
+            return Container(
+              margin: EdgeInsets.only(left: 8, right: 8, bottom: 16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                child: Container(
+                  height: 252,
+                  color: AppTheme.white,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(top: 12),
+                        height: 4,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          color: AppTheme.bottom_dialog,
+                          borderRadius: BorderRadius.circular(4),
                         ),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 12, right: 12, top: 17),
-                      child: Row(
-                        children: [
-                          Text(
-                            translate("map.work") + " : ",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 12,
-                              fontStyle: FontStyle.normal,
-                              color: AppTheme.black_transparent_text,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 7,
-                          ),
-                          Expanded(
-                            child: Text(
-                              locationItem.mode,
-                              textAlign: TextAlign.start,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 15,
-                                fontStyle: FontStyle.normal,
-                                color: AppTheme.black_text,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 12, right: 12, top: 12),
-                      child: Row(
-                        children: [
-                          Text(
-                            translate("auth.number_auth") + " : ",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 12,
-                              fontStyle: FontStyle.normal,
-                              color: AppTheme.black_transparent_text,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 7,
-                          ),
-                          Expanded(
-                            child: Text(
-                              locationItem.phone,
-                              textAlign: TextAlign.start,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 15,
-                                fontStyle: FontStyle.normal,
-                                color: AppTheme.blue_app_color,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 24),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: GestureDetector(
-                          onTap: () async {
-                            var pharmacyLat =
-                                locationItem.location.coordinates[1];
-                            var pharmacyLng =
-                                locationItem.location.coordinates[0];
-                            var url =
-                                'http://maps.google.com/maps?saddr=$lat,$lng&daddr=$pharmacyLat,$pharmacyLng';
-                            if (await canLaunch(url)) {
-                              await launch(url);
-                            } else {
-                              throw 'Could not launch $url';
-                            }
-                          },
-                          child: Container(
-                            width: double.infinity,
-                            height: 44,
-                            margin: EdgeInsets.only(left: 16, right: 16),
-                            decoration: BoxDecoration(
-                              color: AppTheme.blue_app_color,
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: Center(
+                      Container(
+                        margin: EdgeInsets.only(left: 12, right: 12, top: 25),
+                        child: Row(
+                          children: [
+                            Expanded(
                               child: Text(
-                                translate("map.maps"),
+                                locationItem.name,
+                                textAlign: TextAlign.start,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  fontSize: 17,
-                                  color: AppTheme.white,
                                   fontFamily: AppTheme.fontRoboto,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
                                   fontStyle: FontStyle.normal,
+                                  color: AppTheme.black_text,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 7,
+                            ),
+                            Text(
+                              locationItem.distance.toInt() == 0
+                                  ? ""
+                                  : locationItem.distance.toString() + " m",
+                              textAlign: TextAlign.start,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 11,
+                                fontStyle: FontStyle.normal,
+                                color: AppTheme.black_transparent_text,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 12, right: 12, top: 8),
+                        width: double.infinity,
+                        child: Text(
+                          locationItem.address,
+                          textAlign: TextAlign.start,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRoboto,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 15,
+                            fontStyle: FontStyle.normal,
+                            color: AppTheme.black_text,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 12, right: 12, top: 17),
+                        child: Row(
+                          children: [
+                            Text(
+                              translate("map.work") + " : ",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12,
+                                fontStyle: FontStyle.normal,
+                                color: AppTheme.black_transparent_text,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 7,
+                            ),
+                            Expanded(
+                              child: Text(
+                                locationItem.mode,
+                                textAlign: TextAlign.start,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.normal,
+                                  color: AppTheme.black_text,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 12, right: 12, top: 12),
+                        child: Row(
+                          children: [
+                            Text(
+                              translate("auth.number_auth") + " : ",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12,
+                                fontStyle: FontStyle.normal,
+                                color: AppTheme.black_transparent_text,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 7,
+                            ),
+                            Expanded(
+                              child: Text(
+                                locationItem.phone,
+                                textAlign: TextAlign.start,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.normal,
+                                  color: AppTheme.blue_app_color,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 24),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: GestureDetector(
+                            onTap: () async {
+                              var pharmacyLat =
+                                  locationItem.location.coordinates[1];
+                              var pharmacyLng =
+                                  locationItem.location.coordinates[0];
+                              var url =
+                                  'http://maps.google.com/maps?saddr=$lat,$lng&daddr=$pharmacyLat,$pharmacyLng';
+                              if (await canLaunch(url)) {
+                                await launch(url);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              height: 44,
+                              margin: EdgeInsets.only(left: 16, right: 16),
+                              decoration: BoxDecoration(
+                                color: AppTheme.blue_app_color,
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  translate("map.maps"),
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    color: AppTheme.white,
+                                    fontFamily: AppTheme.fontRoboto,
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FontStyle.normal,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             );

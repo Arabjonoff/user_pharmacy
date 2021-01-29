@@ -144,12 +144,11 @@ class _AddressStoreMapPickupScreenState
         opacity: 1,
         iconName: 'assets/map/selected_order.png',
         onTap: (Point point) => {
-          //BottomDialog.mapBottom(data[i], context),
           showModalBottomSheet(
             context: context,
             builder: (context) {
               return Container(
-                margin: EdgeInsets.only(left: 4, right: 4, bottom: 12),
+                margin: EdgeInsets.only(left: 8, right: 8, bottom: 16),
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(16.0)),
                   child: Container(
