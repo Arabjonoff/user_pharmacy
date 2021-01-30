@@ -457,6 +457,7 @@ class _MainScreenState extends State<MainScreen> {
                 icon: _selectedIndex == 0
                     ? SvgPicture.asset("assets/menu/home_selected.svg")
                     : SvgPicture.asset("assets/menu/home_unselected.svg"),
+                // ignore: deprecated_member_use
                 title: Text(
                   translate('main.home'),
                   maxLines: 1,
@@ -472,6 +473,7 @@ class _MainScreenState extends State<MainScreen> {
                 icon: _selectedIndex == 1
                     ? SvgPicture.asset("assets/menu/catalog_selected.svg")
                     : SvgPicture.asset("assets/menu/catalog_unselected.svg"),
+                // ignore: deprecated_member_use
                 title: Text(
                   translate('main.catalog'),
                   maxLines: 1,
@@ -493,6 +495,7 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                   ],
                 ),
+                // ignore: deprecated_member_use
                 title: Text(
                   translate('main.card'),
                   maxLines: 1,
@@ -508,6 +511,7 @@ class _MainScreenState extends State<MainScreen> {
                 icon: _selectedIndex == 3
                     ? SvgPicture.asset("assets/menu/favourite_selected.svg")
                     : SvgPicture.asset("assets/menu/favourite_unselected.svg"),
+                // ignore: deprecated_member_use
                 title: Text(
                   translate('main.favourite'),
                   maxLines: 1,
@@ -523,6 +527,7 @@ class _MainScreenState extends State<MainScreen> {
                 icon: _selectedIndex == 4
                     ? SvgPicture.asset("assets/menu/menu_selected.svg")
                     : SvgPicture.asset("assets/menu/menu_unselected.svg"),
+                // ignore: deprecated_member_use
                 title: Text(
                   translate('main.menu'),
                   maxLines: 1,
