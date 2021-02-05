@@ -13,6 +13,7 @@ import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app_theme.dart';
 
@@ -977,21 +978,53 @@ class _MenuScreenState extends State<MenuScreen> {
               color: AppTheme.white,
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 32, left: 16, right: 16, bottom: 24),
-            child: Center(
-              child: Text(
-                translate("menu.number"),
-                style: TextStyle(
-                  fontFamily: AppTheme.fontRoboto,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
-                  fontStyle: FontStyle.normal,
-                  color: AppTheme.black_text,
+          GestureDetector(
+            onTap: () async {
+              var url = "tel:+998712050888";
+              if (await canLaunch(url)) {
+                await launch(url);
+              } else {
+                throw 'Could not launch $url';
+              }
+            },
+            child: Container(
+              margin: EdgeInsets.only(
+                top: 32,
+                left: 16,
+                right: 16,
+                bottom: 24,
+              ),
+              color: AppTheme.white,
+              child: Center(
+                child: Text.rich(
+                  TextSpan(
+                    children: <InlineSpan>[
+                      TextSpan(
+                        text: translate("menu.number"),
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRoboto,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          fontStyle: FontStyle.normal,
+                          color: AppTheme.black_text,
+                        ),
+                      ),
+                      TextSpan(
+                        text: "+998 71 205 08 88",
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRoboto,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          fontStyle: FontStyle.normal,
+                          color: AppTheme.blue,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
