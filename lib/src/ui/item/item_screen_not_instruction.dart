@@ -148,47 +148,6 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                       ],
                     ),
                   ),
-                  // Align(
-                  //   alignment: Alignment.topRight,
-                  //   child: GestureDetector(
-                  //     onTap: () {
-                  //       if (isOpenBest)
-                  //         RxBus.post(AllItemIsOpen(true),
-                  //             tag: "EVENT_ITEM_LIST");
-                  //       if (isOpenIds)
-                  //         RxBus.post(AllItemIsOpen(true),
-                  //             tag: "EVENT_ITEM_LIST_IDS");
-                  //       if (isOpenSearch)
-                  //         RxBus.post(AllItemIsOpen(true),
-                  //             tag: "EVENT_ITEM_LIST_SEARCH");
-                  //       if (isOpenCategory)
-                  //         RxBus.post(AllItemIsOpen(true),
-                  //             tag: "EVENT_ITEM_LIST_CATEGORY");
-                  //       blocCard.fetchAllCard();
-                  //       Navigator.pop(context);
-                  //     },
-                  //     child: Container(
-                  //       height: 48,
-                  //       width: 48,
-                  //       margin: EdgeInsets.only(right: 4),
-                  //       color: AppTheme.arrow_examp_back,
-                  //       child: Align(
-                  //         alignment: Alignment.center,
-                  //         child: Container(
-                  //           height: 24,
-                  //           width: 24,
-                  //           padding: EdgeInsets.all(7),
-                  //           decoration: BoxDecoration(
-                  //             color: AppTheme.arrow_back,
-                  //             borderRadius: BorderRadius.circular(12),
-                  //           ),
-                  //           child: SvgPicture.asset(
-                  //               "assets/images/arrow_close.svg"),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   Expanded(
                     child: ListView(
                       children: [
@@ -205,14 +164,16 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                   padding: EdgeInsets.all(25),
                                   child: Center(
                                     child: SvgPicture.asset(
-                                        "assets/images/place_holder.svg"),
+                                      "assets/images/place_holder.svg",
+                                    ),
                                   ),
                                 ),
                                 errorWidget: (context, url, error) => Container(
                                   padding: EdgeInsets.all(25),
                                   child: Center(
                                     child: SvgPicture.asset(
-                                        "assets/images/place_holder.svg"),
+                                      "assets/images/place_holder.svg",
+                                    ),
                                   ),
                                 ),
                               ),
@@ -273,78 +234,6 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                               ),
                               Expanded(
                                 child: Container(),
-                              ),
-                              GestureDetector(
-                                child: snapshot.data.favourite
-                                    ? Icon(
-                                        Icons.favorite,
-                                        size: 24,
-                                        color: AppTheme.red_fav_color,
-                                      )
-                                    : Icon(
-                                        Icons.favorite_border,
-                                        size: 24,
-                                        color: AppTheme.arrow_catalog,
-                                      ),
-                                onTap: () {
-                                  setState(() {
-                                    if (snapshot.data.favourite) {
-                                      snapshot.data.favourite = false;
-                                      if (snapshot.data.cardCount == 0) {
-                                        dataBase
-                                            .deleteProducts(snapshot.data.id);
-                                      } else {
-                                        dataBase.updateProduct(
-                                          ItemResult(
-                                            snapshot.data.id,
-                                            snapshot.data.name,
-                                            snapshot.data.barcode,
-                                            snapshot.data.image,
-                                            snapshot.data.imageThumbnail,
-                                            snapshot.data.price,
-                                            Manifacture(snapshot
-                                                .data.manufacturer.name),
-                                            snapshot.data.favourite,
-                                            snapshot.data.cardCount,
-                                          ),
-                                        );
-                                      }
-                                    } else {
-                                      snapshot.data.favourite = true;
-                                      if (snapshot.data.cardCount == 0) {
-                                        dataBase.saveProducts(
-                                          ItemResult(
-                                            snapshot.data.id,
-                                            snapshot.data.name,
-                                            snapshot.data.barcode,
-                                            snapshot.data.image,
-                                            snapshot.data.imageThumbnail,
-                                            snapshot.data.price,
-                                            Manifacture(snapshot
-                                                .data.manufacturer.name),
-                                            snapshot.data.favourite,
-                                            snapshot.data.cardCount,
-                                          ),
-                                        );
-                                      } else {
-                                        dataBase.updateProduct(
-                                          ItemResult(
-                                            snapshot.data.id,
-                                            snapshot.data.name,
-                                            snapshot.data.barcode,
-                                            snapshot.data.image,
-                                            snapshot.data.imageThumbnail,
-                                            snapshot.data.price,
-                                            Manifacture(snapshot
-                                                .data.manufacturer.name),
-                                            snapshot.data.favourite,
-                                            snapshot.data.cardCount,
-                                          ),
-                                        );
-                                      }
-                                    }
-                                  });
-                                },
                               ),
                             ],
                           ),
@@ -441,36 +330,6 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                             ),
                           ),
                         ),
-//                        Container(
-//                          margin: EdgeInsets.only(left: 16, right: 16, top: 21),
-//                          child: Text(
-//                            snapshot.data.isRecept
-//                                ? translate("item.yes")
-//                                : translate("item.no"),
-//                            style: TextStyle(
-//                              fontSize: 16,
-//                              fontFamily: AppTheme.fontRoboto,
-//                              fontWeight: FontWeight.normal,
-//                              color: AppTheme.black_catalog,
-//                            ),
-//                          ),
-//                        ),
-//                        Container(
-//                          margin: EdgeInsets.only(
-//                            top: 3,
-//                            left: 16,
-//                            right: 16,
-//                          ),
-//                          child: Text(
-//                            translate("item.recipe"),
-//                            style: TextStyle(
-//                              fontSize: 13,
-//                              fontFamily: AppTheme.fontRoboto,
-//                              fontWeight: FontWeight.normal,
-//                              color: AppTheme.black_transparent_text,
-//                            ),
-//                          ),
-//                        ),
                         Container(
                           margin: EdgeInsets.only(
                             top: 21,
@@ -603,8 +462,9 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                     PageTransition(
                                       type: PageTransitionType.bottomToTop,
                                       alignment: Alignment.bottomCenter,
-                                      child: ItemScreenNotInstruction(snapshot
-                                          .data.recommendations[index].id),
+                                      child: ItemScreenNotInstruction(
+                                        snapshot.data.recommendations[index].id,
+                                      ),
                                     ),
                                   );
                                 },
@@ -629,19 +489,25 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                                   .getImageThumbnail,
                                               placeholder: (context, url) =>
                                                   Container(
-                                                padding: EdgeInsets.all(25),
+                                                padding: EdgeInsets.all(
+                                                  25,
+                                                ),
                                                 child: Center(
                                                   child: SvgPicture.asset(
-                                                      "assets/images/place_holder.svg"),
+                                                    "assets/images/place_holder.svg",
+                                                  ),
                                                 ),
                                               ),
                                               errorWidget:
                                                   (context, url, error) =>
                                                       Container(
-                                                padding: EdgeInsets.all(25),
+                                                padding: EdgeInsets.all(
+                                                  25,
+                                                ),
                                                 child: Center(
                                                   child: SvgPicture.asset(
-                                                      "assets/images/place_holder.svg"),
+                                                    "assets/images/place_holder.svg",
+                                                  ),
                                                 ),
                                               ),
                                               fit: BoxFit.fitHeight,
@@ -974,21 +840,10 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                                                 .recommendations[
                                                                     index]
                                                                 .cardCount = 1;
-                                                            if (snapshot
-                                                                .data
-                                                                .recommendations[
-                                                                    index]
-                                                                .favourite) {
-                                                              dataBase.updateProduct(
-                                                                  snapshot.data
-                                                                          .recommendations[
-                                                                      index]);
-                                                            } else {
-                                                              dataBase.saveProducts(
-                                                                  snapshot.data
-                                                                          .recommendations[
-                                                                      index]);
-                                                            }
+                                                            dataBase.saveProducts(
+                                                                snapshot.data
+                                                                        .recommendations[
+                                                                    index]);
                                                           });
                                                         },
                                                         child: Container(
@@ -1452,21 +1307,10 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                                                     .analog[
                                                                         index]
                                                                     .cardCount = 1;
-                                                                if (snapshot
-                                                                    .data
-                                                                    .analog[
-                                                                        index]
-                                                                    .favourite) {
-                                                                  dataBase.updateProduct(
-                                                                      snapshot
-                                                                          .data
-                                                                          .analog[index]);
-                                                                } else {
-                                                                  dataBase.saveProducts(
-                                                                      snapshot
-                                                                          .data
-                                                                          .analog[index]);
-                                                                }
+                                                                dataBase.saveProducts(
+                                                                    snapshot.data
+                                                                            .analog[
+                                                                        index]);
                                                               });
                                                             },
                                                             child: Container(
@@ -1624,25 +1468,9 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                           setState(() {
                                             snapshot.data.cardCount =
                                                 snapshot.data.cardCount - 1;
-                                            if (snapshot.data.favourite) {
-                                              dataBase.updateProduct(
-                                                ItemResult(
-                                                  snapshot.data.id,
-                                                  snapshot.data.name,
-                                                  snapshot.data.barcode,
-                                                  snapshot.data.image,
-                                                  snapshot.data.imageThumbnail,
-                                                  snapshot.data.price,
-                                                  Manifacture(snapshot
-                                                      .data.manufacturer.name),
-                                                  snapshot.data.favourite,
-                                                  snapshot.data.cardCount,
-                                                ),
-                                              );
-                                            } else {
-                                              dataBase.deleteProducts(
-                                                  snapshot.data.id);
-                                            }
+                                            dataBase.deleteProducts(
+                                              snapshot.data.id,
+                                            );
                                           });
                                         }
                                       },
@@ -1717,37 +1545,20 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                               onTap: () async {
                                 setState(() {
                                   snapshot.data.cardCount = 1;
-                                  if (snapshot.data.favourite) {
-                                    dataBase.updateProduct(
-                                      ItemResult(
-                                        snapshot.data.id,
-                                        snapshot.data.name,
-                                        snapshot.data.barcode,
-                                        snapshot.data.image,
-                                        snapshot.data.imageThumbnail,
-                                        snapshot.data.price,
-                                        Manifacture(
-                                            snapshot.data.manufacturer.name),
-                                        snapshot.data.favourite,
-                                        snapshot.data.cardCount,
-                                      ),
-                                    );
-                                  } else {
-                                    dataBase.saveProducts(
-                                      ItemResult(
-                                        snapshot.data.id,
-                                        snapshot.data.name,
-                                        snapshot.data.barcode,
-                                        snapshot.data.image,
-                                        snapshot.data.imageThumbnail,
-                                        snapshot.data.price,
-                                        Manifacture(
-                                            snapshot.data.manufacturer.name),
-                                        snapshot.data.favourite,
-                                        snapshot.data.cardCount,
-                                      ),
-                                    );
-                                  }
+                                  dataBase.saveProducts(
+                                    ItemResult(
+                                      snapshot.data.id,
+                                      snapshot.data.name,
+                                      snapshot.data.barcode,
+                                      snapshot.data.image,
+                                      snapshot.data.imageThumbnail,
+                                      snapshot.data.price,
+                                      Manifacture(
+                                          snapshot.data.manufacturer.name),
+                                      snapshot.data.favourite,
+                                      snapshot.data.cardCount,
+                                    ),
+                                  );
                                 });
                               },
                               child: Container(

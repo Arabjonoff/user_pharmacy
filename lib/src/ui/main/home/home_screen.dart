@@ -1488,20 +1488,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             .data
                                                             .results[index]
                                                             .cardCount = 1;
-                                                        if (snapshot
-                                                            .data
-                                                            .results[index]
-                                                            .favourite) {
-                                                          dataBase.updateProduct(
-                                                              snapshot.data
-                                                                      .results[
-                                                                  index]);
-                                                        } else {
-                                                          dataBase.saveProducts(
-                                                              snapshot.data
-                                                                      .results[
-                                                                  index]);
-                                                        }
+
+                                                        dataBase.saveProducts(
+                                                            snapshot.data
+                                                                    .results[
+                                                                index]);
                                                       });
                                                     },
                                                     child: Container(

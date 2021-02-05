@@ -164,7 +164,8 @@ class _CardScreenState extends State<CardScreen> {
                                   type: PageTransitionType.bottomToTop,
                                   alignment: Alignment.bottomCenter,
                                   child: ItemScreenNotInstruction(
-                                      snapshot.data[index].id),
+                                    snapshot.data[index].id,
+                                  ),
                                 ),
                               );
                             },
@@ -196,7 +197,8 @@ class _CardScreenState extends State<CardScreen> {
                                                 padding: EdgeInsets.all(25),
                                                 child: Center(
                                                   child: SvgPicture.asset(
-                                                      "assets/images/place_holder.svg"),
+                                                    "assets/images/place_holder.svg",
+                                                  ),
                                                 ),
                                               ),
                                               errorWidget:
@@ -205,7 +207,8 @@ class _CardScreenState extends State<CardScreen> {
                                                 padding: EdgeInsets.all(25),
                                                 child: Center(
                                                   child: SvgPicture.asset(
-                                                      "assets/images/place_holder.svg"),
+                                                    "assets/images/place_holder.svg",
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -309,7 +312,8 @@ class _CardScreenState extends State<CardScreen> {
                                                 ),
                                                 Container(
                                                   margin: EdgeInsets.only(
-                                                      bottom: 7),
+                                                    bottom: 7,
+                                                  ),
                                                   height: 30,
                                                   child: Row(
                                                     children: <Widget>[
@@ -332,13 +336,15 @@ class _CardScreenState extends State<CardScreen> {
                                                                       ? AppTheme
                                                                           .red_fav_color
                                                                           .withOpacity(
-                                                                              0.1)
+                                                                          0.1,
+                                                                        )
                                                                       : AppTheme
                                                                           .blue_transparent,
                                                                   borderRadius:
                                                                       BorderRadius
                                                                           .circular(
-                                                                              10.0),
+                                                                    10.0,
+                                                                  ),
                                                                 ),
                                                                 width: 120,
                                                                 child: Row(
@@ -390,11 +396,7 @@ class _CardScreenState extends State<CardScreen> {
                                                                               () {
                                                                             snapshot.data[index].cardCount =
                                                                                 snapshot.data[index].cardCount - 1;
-                                                                            if (snapshot.data[index].favourite) {
-                                                                              dataBase.updateProduct(snapshot.data[index]);
-                                                                            } else {
-                                                                              dataBase.deleteProducts(snapshot.data[index].id);
-                                                                            }
+                                                                            dataBase.deleteProducts(snapshot.data[index].id);
                                                                           });
                                                                         }
                                                                       },
@@ -531,68 +533,6 @@ class _CardScreenState extends State<CardScreen> {
                                                       ),
                                                       Expanded(
                                                         child: Container(),
-                                                      ),
-                                                      GestureDetector(
-                                                        child: snapshot
-                                                                .data[index]
-                                                                .favourite
-                                                            ? Icon(
-                                                                Icons.favorite,
-                                                                size: 24,
-                                                                color: AppTheme
-                                                                    .red_fav_color,
-                                                              )
-                                                            : Icon(
-                                                                Icons
-                                                                    .favorite_border,
-                                                                size: 24,
-                                                                color: AppTheme
-                                                                    .arrow_catalog,
-                                                              ),
-                                                        onTap: () {
-                                                          setState(() {
-                                                            if (snapshot
-                                                                .data[index]
-                                                                .favourite) {
-                                                              snapshot
-                                                                      .data[index]
-                                                                      .favourite =
-                                                                  false;
-                                                              if (snapshot
-                                                                      .data[
-                                                                          index]
-                                                                      .cardCount ==
-                                                                  0) {
-                                                                dataBase.deleteProducts(
-                                                                    snapshot
-                                                                        .data[
-                                                                            index]
-                                                                        .id);
-                                                              } else {
-                                                                dataBase.updateProduct(
-                                                                    snapshot.data[
-                                                                        index]);
-                                                              }
-                                                            } else {
-                                                              snapshot
-                                                                  .data[index]
-                                                                  .favourite = true;
-                                                              if (snapshot
-                                                                      .data[
-                                                                          index]
-                                                                      .cardCount ==
-                                                                  0) {
-                                                                dataBase.saveProducts(
-                                                                    snapshot.data[
-                                                                        index]);
-                                                              } else {
-                                                                dataBase.updateProduct(
-                                                                    snapshot.data[
-                                                                        index]);
-                                                              }
-                                                            }
-                                                          });
-                                                        },
                                                       ),
                                                     ],
                                                   ),

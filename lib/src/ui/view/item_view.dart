@@ -125,7 +125,7 @@ class _ItemViewState extends State<ItemView> {
                                   priceFormat.format(widget.item.price) +
                                       translate("sum"),
                                   style: TextStyle(
-                                    color:  AppTheme.black_text,
+                                    color: AppTheme.black_text,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
                                     fontFamily: AppTheme.fontRoboto,
@@ -264,13 +264,8 @@ class _ItemViewState extends State<ItemView> {
                                           onTap: () {
                                             setState(() {
                                               widget.item.cardCount = 1;
-                                              if (widget.item.favourite) {
-                                                dataBase
-                                                    .updateProduct(widget.item);
-                                              } else {
-                                                dataBase
-                                                    .saveProducts(widget.item);
-                                              }
+                                              dataBase
+                                                  .saveProducts(widget.item);
                                             });
                                           },
                                           child: Container(

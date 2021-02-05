@@ -74,7 +74,9 @@ class _ItemListScreenState extends State<ItemListScreen> {
     } else {
       widget.type == 2
           ? isOpenBest = true
-          : widget.type == 3 ? isOpenSearch = true : isOpenCategory = true;
+          : widget.type == 3
+              ? isOpenSearch = true
+              : isOpenCategory = true;
     }
     _getMoreData(1);
     _sc.addListener(() {
@@ -526,7 +528,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                         type: PageTransitionType.bottomToTop,
                                         alignment: Alignment.bottomCenter,
                                         child: ItemScreenNotInstruction(
-                                            snapshot.data.results[index].id),
+                                          snapshot.data.results[index].id,
+                                        ),
                                       ),
                                     );
                                   },
@@ -564,8 +567,10 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                               EdgeInsets.all(
                                                                   25),
                                                           child: Center(
-                                                            child: SvgPicture.asset(
-                                                                "assets/images/place_holder.svg"),
+                                                            child: SvgPicture
+                                                                .asset(
+                                                              "assets/images/place_holder.svg",
+                                                            ),
                                                           ),
                                                         ),
                                                         errorWidget: (context,
@@ -575,8 +580,10 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                               EdgeInsets.all(
                                                                   25),
                                                           child: Center(
-                                                            child: SvgPicture.asset(
-                                                                "assets/images/place_holder.svg"),
+                                                            child: SvgPicture
+                                                                .asset(
+                                                              "assets/images/place_holder.svg",
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -871,11 +878,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                                   } else if (snapshot.data.results[index].cardCount == 1) {
                                                                                     setState(() {
                                                                                       snapshot.data.results[index].cardCount = snapshot.data.results[index].cardCount - 1;
-                                                                                      if (snapshot.data.results[index].favourite) {
-                                                                                        dataBase.updateProduct(snapshot.data.results[index]);
-                                                                                      } else {
-                                                                                        dataBase.deleteProducts(snapshot.data.results[index].id);
-                                                                                      }
+                                                                                      dataBase.deleteProducts(snapshot.data.results[index].id);
                                                                                     });
                                                                                   }
                                                                                 },
@@ -931,11 +934,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                               () {
                                                                             setState(() {
                                                                               snapshot.data.results[index].cardCount = 1;
-                                                                              if (snapshot.data.results[index].favourite) {
-                                                                                dataBase.updateProduct(snapshot.data.results[index]);
-                                                                              } else {
-                                                                                dataBase.saveProducts(snapshot.data.results[index]);
-                                                                              }
+                                                                              dataBase.saveProducts(snapshot.data.results[index]);
                                                                             });
                                                                           },
                                                                           child:
@@ -969,76 +968,6 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                             Expanded(
                                                               child:
                                                                   Container(),
-                                                            ),
-                                                            GestureDetector(
-                                                              child: snapshot
-                                                                      .data
-                                                                      .results[
-                                                                          index]
-                                                                      .favourite
-                                                                  ? Icon(
-                                                                      Icons
-                                                                          .favorite,
-                                                                      size: 24,
-                                                                      color: AppTheme
-                                                                          .red_fav_color,
-                                                                    )
-                                                                  : Icon(
-                                                                      Icons
-                                                                          .favorite_border,
-                                                                      size: 24,
-                                                                      color: AppTheme
-                                                                          .arrow_catalog,
-                                                                    ),
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  if (snapshot
-                                                                      .data
-                                                                      .results[
-                                                                          index]
-                                                                      .favourite) {
-                                                                    snapshot
-                                                                        .data
-                                                                        .results[
-                                                                            index]
-                                                                        .favourite = false;
-                                                                    if (snapshot
-                                                                            .data
-                                                                            .results[index]
-                                                                            .cardCount ==
-                                                                        0) {
-                                                                      dataBase.deleteProducts(snapshot
-                                                                          .data
-                                                                          .results[
-                                                                              index]
-                                                                          .id);
-                                                                    } else {
-                                                                      dataBase.updateProduct(snapshot
-                                                                          .data
-                                                                          .results[index]);
-                                                                    }
-                                                                  } else {
-                                                                    snapshot
-                                                                        .data
-                                                                        .results[
-                                                                            index]
-                                                                        .favourite = true;
-                                                                    if (snapshot
-                                                                            .data
-                                                                            .results[index]
-                                                                            .cardCount ==
-                                                                        0) {
-                                                                      dataBase.saveProducts(snapshot
-                                                                          .data
-                                                                          .results[index]);
-                                                                    } else {
-                                                                      dataBase.updateProduct(snapshot
-                                                                          .data
-                                                                          .results[index]);
-                                                                    }
-                                                                  }
-                                                                });
-                                                              },
                                                             ),
                                                           ],
                                                         ),
