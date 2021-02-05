@@ -37,7 +37,6 @@ import 'package:pharmacy/src/ui/shopping_curer/curer_address_card.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/about_app_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/faq_app_screen.dart';
-import 'package:pharmacy/src/ui/sub_menu/fav_apteka_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/language_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/my_info_screen.dart';
@@ -564,7 +563,6 @@ class _MainScreenState extends State<MainScreen> {
           MenuScreen(
             onLogin: _login,
             onRegion: _region,
-            onFavStore: _favStore,
             onNoteAll: _noteAll,
             onHistory: _history,
             onLanguage: _language,
@@ -643,14 +641,6 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  void _favStore() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => FavStoreScreen(),
-      ),
-    );
-  }
 
   void _noteAll() {
     Navigator.push(

@@ -6,7 +6,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:flutter_translate/localized_app.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
-import 'package:pharmacy/src/database/database_helper_apteka.dart';
 import 'package:pharmacy/src/database/database_helper_history.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/sort_radio_btn.dart';
@@ -39,7 +38,6 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
 
   DatabaseHelperHistory dbHistory = new DatabaseHelperHistory();
   DatabaseHelperAddress dbAddress = new DatabaseHelperAddress();
-  DatabaseHelperApteka dbApteka = new DatabaseHelperApteka();
 
   String radioItemHolder = translate("auth.male");
   int id = 1;
@@ -150,7 +148,6 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                             localizationDelegate.changeLocale(Locale("ru"));
                             Navigator.pop(context, 'ru');
                             RxBus.post(BottomView(true), tag: "MENU_VIEW");
-                            dbApteka.clear();
                             dbAddress.clear();
                             dbHistory.clear();
                             Utils.clearData();

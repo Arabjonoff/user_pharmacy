@@ -19,7 +19,6 @@ import '../../../app_theme.dart';
 class MenuScreen extends StatefulWidget {
   final Function onLogin;
   final Function onRegion;
-  final Function onFavStore;
   final Function onNoteAll;
   final Function onHistory;
   final Function onLanguage;
@@ -30,7 +29,6 @@ class MenuScreen extends StatefulWidget {
   MenuScreen({
     this.onLogin,
     this.onRegion,
-    this.onFavStore,
     this.onNoteAll,
     this.onHistory,
     this.onLanguage,
@@ -382,49 +380,6 @@ class _MenuScreenState extends State<MenuScreen> {
                       fontFamily: AppTheme.fontRoboto,
                       color: AppTheme.black_transparent_text,
                       fontSize: 15,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: 19,
-                    color: AppTheme.arrow_catalog,
-                  ),
-                  SizedBox(width: 3),
-                ],
-              ),
-              height: 48,
-              color: AppTheme.white,
-            ),
-          ),
-          GestureDetector(
-            onTap: widget.onFavStore,
-            child: Container(
-              margin: EdgeInsets.only(
-                left: 16,
-                right: 16,
-              ),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    height: 25,
-                    width: 25,
-                    child: Center(
-                      child: SvgPicture.asset("assets/images/address_apt.svg"),
-                    ),
-                  ),
-                  SizedBox(width: 15),
-                  Expanded(
-                    child: Text(
-                      translate("menu.address_apteka"),
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontFamily: AppTheme.fontRoboto,
-                        color: AppTheme.black_text,
-                        fontSize: 15,
-                      ),
                     ),
                   ),
                   SizedBox(

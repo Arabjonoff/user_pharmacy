@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:pharmacy/src/database/database_helper.dart';
-import 'package:pharmacy/src/database/database_helper_apteka.dart';
 import 'package:pharmacy/src/database/database_helper_note.dart';
 import 'package:pharmacy/src/model/api/cash_back_model.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
@@ -22,7 +21,6 @@ import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/chat/chat_api_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/create_order_status_model.dart';
-import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/note/note_data_model.dart';
 import 'package:pharmacy/src/model/payment_verfy.dart';
@@ -41,7 +39,6 @@ class Repository {
 
   DatabaseHelper databaseHelper = new DatabaseHelper();
   DatabaseHelperNote databaseHelperNote = new DatabaseHelperNote();
-  DatabaseHelperApteka dbApteka = new DatabaseHelperApteka();
 
   Future<LoginModel> fetchLogin(String login) =>
       pharmacyApiProvider.fetchLogin(login);
@@ -82,7 +79,6 @@ class Repository {
 
   Future<List<NoteModel>> databaseNote() => databaseHelperNote.getProduct();
 
-  Future<List<AptekaModel>> dbAptekaItems() => dbApteka.getProduct();
 
   Future<List<ItemResult>> databaseCardItem(bool isCard) =>
       databaseHelper.getProdu(isCard);

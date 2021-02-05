@@ -40,6 +40,8 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
   @override
   void initState() {
     isOpenItem = true;
+    blocItem.fetchAllCategory(widget.id.toString());
+    itemId = widget.id;
     super.initState();
   }
 
@@ -51,8 +53,6 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
 
   @override
   Widget build(BuildContext context) {
-    blocItem.fetchAllCategory(widget.id.toString());
-    itemId = widget.id;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(

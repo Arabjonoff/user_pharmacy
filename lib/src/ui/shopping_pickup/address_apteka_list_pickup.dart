@@ -9,7 +9,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/blocs/aptek_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
-import 'package:pharmacy/src/database/database_helper_apteka.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
@@ -41,7 +40,6 @@ class _AddressStoreListPickupScreenState
   @override
   bool get wantKeepAlive => true;
 
-  DatabaseHelperApteka db = new DatabaseHelperApteka();
   DatabaseHelper dataBase = new DatabaseHelper();
 
   PermissionStatus _permissionStatus = PermissionStatus.unknown;
@@ -91,55 +89,18 @@ class _AddressStoreListPickupScreenState
                     children: [
                       Container(
                         margin: EdgeInsets.only(top: 20, left: 16, right: 16),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                snapshot.data[index].name,
-                                textAlign: TextAlign.start,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.normal,
-                                  color: AppTheme.black_text,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 7,
-                            ),
-                            GestureDetector(
-                              child: Container(
-                                child: snapshot.data[index].fav
-                                    ? Icon(
-                                        Icons.favorite,
-                                        size: 24,
-                                        color: AppTheme.red_fav_color,
-                                      )
-                                    : Icon(
-                                        Icons.favorite_border,
-                                        size: 24,
-                                        color: AppTheme.arrow_catalog,
-                                      ),
-                              ),
-                              onTap: () {
-                                if (!snapshot.data[index].fav) {
-                                  db.saveProducts(snapshot.data[index]);
-                                  setState(() {
-                                    snapshot.data[index].fav = true;
-                                  });
-                                } else {
-                                  db.deleteProducts(snapshot.data[index].id);
-                                  setState(() {
-                                    snapshot.data[index].fav = false;
-                                  });
-                                }
-                              },
-                            ),
-                          ],
+                        child: Text(
+                          snapshot.data[index].name,
+                          textAlign: TextAlign.start,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRoboto,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            fontStyle: FontStyle.normal,
+                            color: AppTheme.black_text,
+                          ),
                         ),
                       ),
                       Container(

@@ -16,7 +16,7 @@ class AptekaBloc {
 
   fetchAllApteka(double lat, double lng) async {
     List<LocationModel> orderModel = await _repository.fetchApteka(lat, lng);
-    List<AptekaModel> aptekadatabase = await _repository.dbAptekaItems();
+
     List<AptekaModel> aptekadata = new List();
 
     if (orderModel != null) {
@@ -33,14 +33,6 @@ class AptekaBloc {
         ));
       }
 
-      for (int i = 0; i < aptekadata.length; i++) {
-        for (int j = 0; j < aptekadatabase.length; j++) {
-          if (aptekadata[i].id == aptekadatabase[j].id) {
-            aptekadata[i].fav = true;
-          }
-        }
-      }
-
       _aptekaFetcher.sink.add(aptekadata);
     }
   }
@@ -50,7 +42,6 @@ class AptekaBloc {
         await _repository.fetchAccessApteka(accessStore);
 
     if (saleModel != null) {
-      List<AptekaModel> aptekadatabase = await _repository.dbAptekaItems();
       List<AptekaModel> aptekadata = new List();
 
       for (int i = 0; i < saleModel.length; i++) {
@@ -66,13 +57,6 @@ class AptekaBloc {
         ));
       }
 
-      for (int i = 0; i < aptekadata.length; i++) {
-        for (int j = 0; j < aptekadatabase.length; j++) {
-          if (aptekadata[i].id == aptekadatabase[j].id) {
-            aptekadata[i].fav = true;
-          }
-        }
-      }
       _existStoreFetcher.sink.add(aptekadata);
     }
   }
