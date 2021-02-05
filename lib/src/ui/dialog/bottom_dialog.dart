@@ -732,40 +732,55 @@ class BottomDialog {
                           ],
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(left: 12, right: 12, top: 12),
-                        child: Row(
-                          children: [
-                            Text(
-                              translate("auth.number_auth") + " : ",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 12,
-                                fontStyle: FontStyle.normal,
-                                color: AppTheme.black_transparent_text,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 7,
-                            ),
-                            Expanded(
-                              child: Text(
-                                locationItem.phone,
+                      GestureDetector(
+                        onTap: () async {
+                          var url = "tel:" +
+                              locationItem.phone
+                                  .replaceAll(" ", "")
+                                  .replaceAll("-", "")
+                                  .replaceAll("(", "")
+                                  .replaceAll(")", "");
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 12, right: 12, top: 12),
+                          child: Row(
+                            children: [
+                              Text(
+                                translate("auth.number_auth") + " : ",
                                 textAlign: TextAlign.start,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontFamily: AppTheme.fontRoboto,
                                   fontWeight: FontWeight.normal,
-                                  fontSize: 15,
+                                  fontSize: 12,
                                   fontStyle: FontStyle.normal,
-                                  color: AppTheme.blue_app_color,
+                                  color: AppTheme.black_transparent_text,
                                 ),
                               ),
-                            )
-                          ],
+                              SizedBox(
+                                width: 7,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  locationItem.phone,
+                                  textAlign: TextAlign.start,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRoboto,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.normal,
+                                    color: AppTheme.blue_app_color,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(height: 24),

@@ -11,6 +11,7 @@ import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
 
@@ -125,17 +126,32 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen>
                               width: 7,
                             ),
                             Expanded(
-                              child: Text(
-                                snapshot.data[index].number,
-                                textAlign: TextAlign.start,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.normal,
-                                  color: AppTheme.black_text,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  var url = "tel:" +
+                                      snapshot.data[index].number
+                                          .replaceAll(" ", "")
+                                          .replaceAll("-", "")
+                                          .replaceAll("(", "")
+                                          .replaceAll(")", "");
+                                  if (await canLaunch(url)) {
+                                    await launch(url);
+                                  } else {
+                                    throw 'Could not launch $url';
+                                  }
+                                },
+                                child: Text(
+                                  snapshot.data[index].number,
+                                  textAlign: TextAlign.start,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRoboto,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.normal,
+                                    color: AppTheme.blue,
+                                  ),
                                 ),
                               ),
                             ),

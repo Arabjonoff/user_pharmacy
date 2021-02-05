@@ -21,6 +21,8 @@ import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
 import '../../app_theme.dart';
@@ -276,17 +278,32 @@ class _AddressStoreMapPickupScreenState
                                 width: 7,
                               ),
                               Expanded(
-                                child: Text(
-                                  data[i].phone,
-                                  textAlign: TextAlign.start,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontRoboto,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 15,
-                                    fontStyle: FontStyle.normal,
-                                    color: AppTheme.blue_app_color,
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    var url = "tel:" +
+                                        data[i].phone
+                                            .replaceAll(" ", "")
+                                            .replaceAll("-", "")
+                                            .replaceAll("(", "")
+                                            .replaceAll(")", "");
+                                    if (await canLaunch(url)) {
+                                      await launch(url);
+                                    } else {
+                                      throw 'Could not launch $url';
+                                    }
+                                  },
+                                  child: Text(
+                                    data[i].phone,
+                                    textAlign: TextAlign.start,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 15,
+                                      fontStyle: FontStyle.normal,
+                                      color: AppTheme.blue_app_color,
+                                    ),
                                   ),
                                 ),
                               )

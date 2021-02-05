@@ -19,6 +19,7 @@ import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
 import 'order_card_pickup.dart';
@@ -142,17 +143,32 @@ class _AddressStoreListPickupScreenState
                               width: 7,
                             ),
                             Expanded(
-                              child: Text(
-                                snapshot.data[index].number,
-                                textAlign: TextAlign.start,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.normal,
-                                  color: AppTheme.black_text,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  var url = "tel:" +
+                                      snapshot.data[index].number
+                                          .replaceAll(" ", "")
+                                          .replaceAll("-", "")
+                                          .replaceAll("(", "")
+                                          .replaceAll(")", "");
+                                  if (await canLaunch(url)) {
+                                    await launch(url);
+                                  } else {
+                                    throw 'Could not launch $url';
+                                  }
+                                },
+                                child: Text(
+                                  snapshot.data[index].number,
+                                  textAlign: TextAlign.start,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRoboto,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.normal,
+                                    color: AppTheme.blue,
+                                  ),
                                 ),
                               ),
                             ),
