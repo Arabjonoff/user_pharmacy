@@ -542,23 +542,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                             loading = false;
                                             error = false;
                                           }),
-                                          for (int i = 0;
-                                              i < dataBaseValue.length;
-                                              i++)
-                                            {
-                                              if (dataBaseValue[i].favourite)
-                                                {
-                                                  dataBaseValue[i].cardCount =
-                                                      0,
-                                                  dataBase.updateProduct(
-                                                      dataBaseValue[i])
-                                                }
-                                              else
-                                                {
-                                                  dataBase.deleteProducts(
-                                                      dataBaseValue[i].id)
-                                                }
-                                            },
+                                          dataBase.clear(),
                                           if (isOpenCategory)
                                             RxBus.post(AllItemIsOpen(true),
                                                 tag:

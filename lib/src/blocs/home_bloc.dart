@@ -43,7 +43,6 @@ class HomeBloc {
         for (var j = 0; j < database.length; j++) {
           if (itemModelResponse.results[i].id == database[j].id) {
             itemModelResponse.results[i].cardCount = database[j].cardCount;
-            itemModelResponse.results[i].favourite = database[j].favourite;
           }
         }
       }

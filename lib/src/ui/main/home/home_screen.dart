@@ -1372,23 +1372,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                             index]
                                                                         .cardCount -
                                                                     1;
-                                                                if (snapshot
-                                                                    .data
-                                                                    .results[
-                                                                        index]
-                                                                    .favourite) {
-                                                                  dataBase.updateProduct(
-                                                                      snapshot
-                                                                          .data
-                                                                          .results[index]);
-                                                                } else {
-                                                                  dataBase.deleteProducts(
-                                                                      snapshot
-                                                                          .data
-                                                                          .results[
-                                                                              index]
-                                                                          .id);
-                                                                }
+
+                                                                dataBase.deleteProducts(
+                                                                    snapshot
+                                                                        .data
+                                                                        .results[
+                                                                            index]
+                                                                        .id);
                                                               });
                                                             }
                                                           },

@@ -720,21 +720,12 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                                                             .recommendations[index]
                                                                             .cardCount -
                                                                         1;
-                                                                    if (snapshot
+
+                                                                    dataBase.deleteProducts(snapshot
                                                                         .data
                                                                         .recommendations[
                                                                             index]
-                                                                        .favourite) {
-                                                                      dataBase.updateProduct(snapshot
-                                                                          .data
-                                                                          .recommendations[index]);
-                                                                    } else {
-                                                                      dataBase.deleteProducts(snapshot
-                                                                          .data
-                                                                          .recommendations[
-                                                                              index]
-                                                                          .id);
-                                                                    }
+                                                                        .id);
                                                                   });
                                                                 }
                                                               },
@@ -1086,289 +1077,283 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                             height: 30,
                                             width: 120,
                                             margin: EdgeInsets.only(top: 11),
-                                            child:
-                                                snapshot.data.analog[index]
-                                                        .isComing
+                                            child: snapshot
+                                                    .data.analog[index].isComing
+                                                ? Container(
+                                                    child: Center(
+                                                      child: Text(
+                                                        translate("fast"),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                          color: AppTheme
+                                                              .black_text,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontFamily: AppTheme
+                                                              .fontRoboto,
+                                                          fontSize: 13,
+                                                        ),
+                                                        maxLines: 2,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : snapshot.data.analog[index]
+                                                            .cardCount >
+                                                        0
                                                     ? Container(
-                                                        child: Center(
-                                                          child: Text(
-                                                            translate("fast"),
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style: TextStyle(
-                                                              color: AppTheme
-                                                                  .black_text,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontFamily: AppTheme
-                                                                  .fontRoboto,
-                                                              fontSize: 13,
+                                                        height: 30,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: AppTheme
+                                                              .blue_transparent,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10.0),
+                                                        ),
+                                                        width: 120,
+                                                        child: Row(
+                                                          children: <Widget>[
+                                                            GestureDetector(
+                                                              child: Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color:
+                                                                      AppTheme
+                                                                          .blue,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                    10.0,
+                                                                  ),
+                                                                ),
+                                                                margin:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            2.0),
+                                                                height: 26,
+                                                                width: 26,
+                                                                child: Center(
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .remove,
+                                                                    color: AppTheme
+                                                                        .white,
+                                                                    size: 19,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              onTap: () {
+                                                                if (snapshot
+                                                                        .data
+                                                                        .analog[
+                                                                            index]
+                                                                        .cardCount >
+                                                                    1) {
+                                                                  setState(() {
+                                                                    snapshot
+                                                                        .data
+                                                                        .analog[
+                                                                            index]
+                                                                        .cardCount = snapshot
+                                                                            .data
+                                                                            .analog[index]
+                                                                            .cardCount -
+                                                                        1;
+                                                                    dataBase.updateProduct(
+                                                                        snapshot
+                                                                            .data
+                                                                            .analog[index]);
+                                                                  });
+                                                                } else if (snapshot
+                                                                        .data
+                                                                        .analog[
+                                                                            index]
+                                                                        .cardCount ==
+                                                                    1) {
+                                                                  setState(() {
+                                                                    snapshot
+                                                                        .data
+                                                                        .analog[
+                                                                            index]
+                                                                        .cardCount = snapshot
+                                                                            .data
+                                                                            .analog[index]
+                                                                            .cardCount -
+                                                                        1;
+                                                                    dataBase.deleteProducts(snapshot
+                                                                        .data
+                                                                        .analog[
+                                                                            index]
+                                                                        .id);
+                                                                  });
+                                                                }
+                                                              },
                                                             ),
-                                                            maxLines: 2,
-                                                          ),
+                                                            Container(
+                                                              height: 30,
+                                                              width: 60,
+                                                              child: Center(
+                                                                child: Text(
+                                                                  snapshot
+                                                                          .data
+                                                                          .analog[
+                                                                              index]
+                                                                          .cardCount
+                                                                          .toString() +
+                                                                      " " +
+                                                                      translate(
+                                                                          "item.sht"),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        15.0,
+                                                                    color:
+                                                                        AppTheme
+                                                                            .blue,
+                                                                    fontFamily:
+                                                                        AppTheme
+                                                                            .fontRoboto,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                if (snapshot
+                                                                        .data
+                                                                        .analog[
+                                                                            index]
+                                                                        .maxCount >
+                                                                    snapshot
+                                                                        .data
+                                                                        .analog[
+                                                                            index]
+                                                                        .cardCount)
+                                                                  setState(() {
+                                                                    snapshot
+                                                                        .data
+                                                                        .analog[
+                                                                            index]
+                                                                        .cardCount = snapshot
+                                                                            .data
+                                                                            .analog[index]
+                                                                            .cardCount +
+                                                                        1;
+                                                                    dataBase.updateProduct(
+                                                                        snapshot
+                                                                            .data
+                                                                            .analog[index]);
+                                                                  });
+                                                              },
+                                                              child: Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color:
+                                                                      AppTheme
+                                                                          .blue,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                    10.0,
+                                                                  ),
+                                                                ),
+                                                                height: 26,
+                                                                width: 26,
+                                                                margin:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            2.0),
+                                                                child: Center(
+                                                                  child: Icon(
+                                                                    Icons.add,
+                                                                    color: AppTheme
+                                                                        .white,
+                                                                    size: 19,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
                                                       )
-                                                    : snapshot
+                                                    : GestureDetector(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            snapshot
                                                                 .data
                                                                 .analog[index]
-                                                                .cardCount >
-                                                            0
-                                                        ? Container(
-                                                            height: 30,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: AppTheme
-                                                                  .blue_transparent,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10.0),
+                                                                .cardCount = 1;
+                                                            dataBase.saveProducts(
+                                                                snapshot.data
+                                                                        .analog[
+                                                                    index]);
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          height: 30,
+                                                          width: 140,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  10.0),
                                                             ),
-                                                            width: 120,
-                                                            child: Row(
-                                                              children: <
-                                                                  Widget>[
-                                                                GestureDetector(
-                                                                  child:
-                                                                      Container(
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color: AppTheme
-                                                                          .blue,
-                                                                      borderRadius:
-                                                                          BorderRadius
-                                                                              .circular(
-                                                                        10.0,
-                                                                      ),
-                                                                    ),
-                                                                    margin: EdgeInsets
-                                                                        .all(
-                                                                            2.0),
-                                                                    height: 26,
-                                                                    width: 26,
-                                                                    child:
-                                                                        Center(
-                                                                      child:
-                                                                          Icon(
-                                                                        Icons
-                                                                            .remove,
-                                                                        color: AppTheme
-                                                                            .white,
-                                                                        size:
-                                                                            19,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  onTap: () {
-                                                                    if (snapshot
-                                                                            .data
-                                                                            .analog[index]
-                                                                            .cardCount >
-                                                                        1) {
-                                                                      setState(
-                                                                          () {
-                                                                        snapshot
-                                                                            .data
-                                                                            .analog[
-                                                                                index]
-                                                                            .cardCount = snapshot
-                                                                                .data.analog[index].cardCount -
-                                                                            1;
-                                                                        dataBase.updateProduct(snapshot
-                                                                            .data
-                                                                            .analog[index]);
-                                                                      });
-                                                                    } else if (snapshot
-                                                                            .data
-                                                                            .analog[index]
-                                                                            .cardCount ==
-                                                                        1) {
-                                                                      setState(
-                                                                          () {
-                                                                        snapshot
-                                                                            .data
-                                                                            .analog[
-                                                                                index]
-                                                                            .cardCount = snapshot
-                                                                                .data.analog[index].cardCount -
-                                                                            1;
-                                                                        if (snapshot
-                                                                            .data
-                                                                            .analog[index]
-                                                                            .favourite) {
-                                                                          dataBase.updateProduct(snapshot
-                                                                              .data
-                                                                              .analog[index]);
-                                                                        } else {
-                                                                          dataBase.deleteProducts(snapshot
-                                                                              .data
-                                                                              .analog[index]
-                                                                              .id);
-                                                                        }
-                                                                      });
-                                                                    }
-                                                                  },
-                                                                ),
-                                                                Container(
-                                                                  height: 30,
-                                                                  width: 60,
-                                                                  child: Center(
-                                                                    child: Text(
-                                                                      snapshot
-                                                                              .data
-                                                                              .analog[index]
-                                                                              .cardCount
-                                                                              .toString() +
-                                                                          " " +
-                                                                          translate("item.sht"),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            15.0,
-                                                                        color: AppTheme
-                                                                            .blue,
-                                                                        fontFamily:
-                                                                            AppTheme.fontRoboto,
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                GestureDetector(
-                                                                  onTap: () {
-                                                                    if (snapshot
-                                                                            .data
-                                                                            .analog[
-                                                                                index]
-                                                                            .maxCount >
-                                                                        snapshot
-                                                                            .data
-                                                                            .analog[index]
-                                                                            .cardCount)
-                                                                      setState(
-                                                                          () {
-                                                                        snapshot
-                                                                            .data
-                                                                            .analog[
-                                                                                index]
-                                                                            .cardCount = snapshot
-                                                                                .data.analog[index].cardCount +
-                                                                            1;
-                                                                        dataBase.updateProduct(snapshot
-                                                                            .data
-                                                                            .analog[index]);
-                                                                      });
-                                                                  },
-                                                                  child:
-                                                                      Container(
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color: AppTheme
-                                                                          .blue,
-                                                                      borderRadius:
-                                                                          BorderRadius
-                                                                              .circular(
-                                                                        10.0,
-                                                                      ),
-                                                                    ),
-                                                                    height: 26,
-                                                                    width: 26,
-                                                                    margin: EdgeInsets
-                                                                        .all(
-                                                                            2.0),
-                                                                    child:
-                                                                        Center(
-                                                                      child:
-                                                                          Icon(
-                                                                        Icons
-                                                                            .add,
-                                                                        color: AppTheme
-                                                                            .white,
-                                                                        size:
-                                                                            19,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          )
-                                                        : GestureDetector(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                snapshot
-                                                                    .data
-                                                                    .analog[
-                                                                        index]
-                                                                    .cardCount = 1;
-                                                                dataBase.saveProducts(
-                                                                    snapshot.data
-                                                                            .analog[
-                                                                        index]);
-                                                              });
-                                                            },
-                                                            child: Container(
-                                                              height: 30,
-                                                              width: 140,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          10.0),
-                                                                ),
-                                                                color: AppTheme
-                                                                    .blue,
-                                                              ),
-                                                              child: Row(
-                                                                children: [
-                                                                  SizedBox(
-                                                                    width: 12,
-                                                                  ),
-                                                                  Expanded(
-                                                                    child: Text(
-                                                                      priceFormat.format(snapshot
-                                                                              .data
-                                                                              .analog[index]
-                                                                              .price) +
-                                                                          translate("sum"),
-                                                                      maxLines:
-                                                                          1,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: AppTheme
-                                                                            .white,
-                                                                        fontWeight:
-                                                                            FontWeight.w500,
-                                                                        fontFamily:
-                                                                            AppTheme.fontRoboto,
-                                                                        fontSize:
-                                                                            12,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  SvgPicture
-                                                                      .asset(
-                                                                    "assets/images/card_icon.svg",
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 8.11,
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            ),
+                                                            color:
+                                                                AppTheme.blue,
                                                           ),
+                                                          child: Row(
+                                                            children: [
+                                                              SizedBox(
+                                                                width: 12,
+                                                              ),
+                                                              Expanded(
+                                                                child: Text(
+                                                                  priceFormat.format(snapshot
+                                                                          .data
+                                                                          .analog[
+                                                                              index]
+                                                                          .price) +
+                                                                      translate(
+                                                                          "sum"),
+                                                                  maxLines: 1,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: AppTheme
+                                                                        .white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontFamily:
+                                                                        AppTheme
+                                                                            .fontRoboto,
+                                                                    fontSize:
+                                                                        12,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SvgPicture.asset(
+                                                                "assets/images/card_icon.svg",
+                                                              ),
+                                                              SizedBox(
+                                                                width: 8.11,
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
                                           ),
                                         ),
                                       ),

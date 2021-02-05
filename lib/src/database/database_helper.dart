@@ -114,14 +114,8 @@ class DatabaseHelper {
         list[i][columnCount],
       );
 
-      if (card) {
-        if (items.cardCount > 0) {
-          products.add(items);
-        }
-      } else {
-        if (items.favourite) {
-          products.add(items);
-        }
+      if (items.cardCount > 0) {
+        products.add(items);
       }
     }
     return products;

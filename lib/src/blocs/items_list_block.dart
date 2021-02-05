@@ -71,7 +71,6 @@ class ItemListBloc {
         for (var i = 0; i < itemCategory.results.length; i++) {
           if (itemCategory.results[i].id == database[j].id) {
             itemCategory.results[i].cardCount = database[j].cardCount;
-            itemCategory.results[i].favourite = database[j].favourite;
           }
         }
       }
@@ -126,7 +125,6 @@ class ItemListBloc {
       for (var i = 0; i < itemCategory.results.length; i++) {
         if (itemCategory.results[i].id == database[j].id) {
           itemCategory.results[i].cardCount = database[j].cardCount;
-          itemCategory.results[i].favourite = database[j].favourite;
         }
       }
     }
@@ -178,7 +176,6 @@ class ItemListBloc {
       for (var i = 0; i < itemModelBest.results.length; i++) {
         if (itemModelBest.results[i].id == database[j].id) {
           itemModelBest.results[i].cardCount = database[j].cardCount;
-          itemModelBest.results[i].favourite = database[j].favourite;
         }
       }
     }
@@ -233,7 +230,6 @@ class ItemListBloc {
         for (var i = 0; i < itemModelSearch.results.length; i++) {
           if (itemModelSearch.results[i].id == database[j].id) {
             itemModelSearch.results[i].cardCount = database[j].cardCount;
-            itemModelSearch.results[i].favourite = database[j].favourite;
           }
         }
       }
@@ -262,7 +258,6 @@ class ItemListBloc {
     if (usersBest != null) {
       for (var i = 0; i < usersBest.length; i++) {
         usersBest[i].cardCount = 0;
-        usersBest[i].favourite = false;
       }
 
       ///best
@@ -271,7 +266,6 @@ class ItemListBloc {
           for (var i = 0; i < usersBest.length; i++) {
             if (usersBest[i].id == database[j].id) {
               usersBest[i].cardCount = database[j].cardCount;
-              usersBest[i].favourite = database[j].favourite;
             }
           }
         }
@@ -294,7 +288,6 @@ class ItemListBloc {
     if (usersSearch != null) {
       for (var i = 0; i < usersSearch.length; i++) {
         usersSearch[i].cardCount = 0;
-        usersSearch[i].favourite = false;
       }
 
       ///search
@@ -303,7 +296,6 @@ class ItemListBloc {
           for (var i = 0; i < usersSearch.length; i++) {
             if (usersSearch[i].id == database[j].id) {
               usersSearch[i].cardCount = database[j].cardCount;
-              usersSearch[i].favourite = database[j].favourite;
             }
           }
         }
@@ -325,7 +317,6 @@ class ItemListBloc {
     if (usersCategory != null) {
       for (var i = 0; i < usersCategory.length; i++) {
         usersCategory[i].cardCount = 0;
-        usersCategory[i].favourite = false;
       }
 
       ///category
@@ -334,7 +325,6 @@ class ItemListBloc {
           for (var i = 0; i < usersCategory.length; i++) {
             if (usersCategory[i].id == database[j].id) {
               usersCategory[i].cardCount = database[j].cardCount;
-              usersCategory[i].favourite = database[j].favourite;
             }
           }
         }
@@ -356,7 +346,6 @@ class ItemListBloc {
     if (usersIds != null) {
       for (var i = 0; i < usersIds.length; i++) {
         usersIds[i].cardCount = 0;
-        usersIds[i].favourite = false;
       }
 
       ///ids
@@ -365,7 +354,6 @@ class ItemListBloc {
           for (var i = 0; i < usersIds.length; i++) {
             if (usersIds[i].id == database[j].id) {
               usersIds[i].cardCount = database[j].cardCount;
-              usersIds[i].favourite = database[j].favourite;
             }
           }
         }

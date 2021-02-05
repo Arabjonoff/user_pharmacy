@@ -481,18 +481,10 @@ class _CardScreenState extends State<CardScreen> {
                                                                         .data[
                                                                             index]
                                                                         .cardCount = 1;
-                                                                    if (snapshot
-                                                                        .data[
-                                                                            index]
-                                                                        .favourite) {
-                                                                      dataBase.updateProduct(
-                                                                          snapshot
-                                                                              .data[index]);
-                                                                    } else {
-                                                                      dataBase.saveProducts(
-                                                                          snapshot
-                                                                              .data[index]);
-                                                                    }
+
+                                                                    dataBase.saveProducts(
+                                                                        snapshot
+                                                                            .data[index]);
                                                                   });
                                                                 },
                                                                 child:

@@ -18,14 +18,12 @@ class ItemBloc {
       for (var j = 0; j < database.length; j++) {
         if (items.id == database[j].id) {
           items.cardCount = database[j].cardCount;
-          items.favourite = database[j].favourite;
         }
       }
       for (var i = 0; i < items.analog.length; i++) {
         for (var j = 0; j < database.length; j++) {
           if (items.analog[i].id == database[j].id) {
             items.analog[i].cardCount = database[j].cardCount;
-            items.analog[i].favourite = database[j].favourite;
           }
         }
       }
@@ -33,7 +31,6 @@ class ItemBloc {
         for (var j = 0; j < database.length; j++) {
           if (items.recommendations[i].id == database[j].id) {
             items.recommendations[i].cardCount = database[j].cardCount;
-            items.recommendations[i].favourite = database[j].favourite;
           }
         }
       }
@@ -48,7 +45,6 @@ class ItemBloc {
         for (var j = 0; j < database.length; j++) {
           if (items.id == database[j].id) {
             items.cardCount = database[j].cardCount;
-            items.favourite = database[j].favourite;
           }
         }
       } else {
@@ -59,7 +55,6 @@ class ItemBloc {
         for (var j = 0; j < database.length; j++) {
           if (items.analog[i].id == database[j].id) {
             items.analog[i].cardCount = database[j].cardCount;
-            items.analog[i].favourite = database[j].favourite;
           }
         }
       }
@@ -67,7 +62,6 @@ class ItemBloc {
         for (var j = 0; j < database.length; j++) {
           if (items.recommendations[i].id == database[j].id) {
             items.recommendations[i].cardCount = database[j].cardCount;
-            items.recommendations[i].favourite = database[j].favourite;
           }
         }
       }
