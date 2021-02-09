@@ -146,11 +146,12 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                             var localizationDelegate =
                                 LocalizedApp.of(context).delegate;
                             localizationDelegate.changeLocale(Locale("ru"));
-                            Navigator.pop(context, 'ru');
-                            RxBus.post(BottomView(true), tag: "MENU_VIEW");
                             dbAddress.clear();
                             dbHistory.clear();
                             Utils.clearData();
+                            RxBus.post(BottomView(true), tag: "MENU_VIEW");
+                            Navigator.of(context)
+                                .popUntil((route) => route.isFirst);
                           },
                         ),
                       ],
