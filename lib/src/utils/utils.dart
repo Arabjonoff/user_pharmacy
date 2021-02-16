@@ -4,11 +4,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:convert';
 
 class Utils {
-  //static String baseUrl = "https://api.gopharm.uz";
+  static String baseUrl = "https://api.gopharm.uz";
 
-  static String baseUrl = "https://test.gopharm.uz";
+  //static String baseUrl = "https://test.gopharm.uz";
   static String baseUrlSocket = "wss://api.gopharm.uz/ws/";
 
   static Future<void> saveData(int userId, String name, String surname,
@@ -36,8 +37,8 @@ class Utils {
     return prefs.getDouble("cashBack");
   }
 
-  static Future<void> saveRegion(int id, String city, double lat,
-      double lng) async {
+  static Future<void> saveRegion(
+      int id, String city, double lat, double lng) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt('cityId', id);
     prefs.setString('city', city);
@@ -80,7 +81,8 @@ class Utils {
 
   static Future<void> saveDeviceData(Map<String, dynamic> deviceData) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("deviceData", deviceData.toString());
+    final msg = jsonEncode(deviceData);
+    prefs.setString("deviceData", msg);
     //prefs.commit();
   }
 

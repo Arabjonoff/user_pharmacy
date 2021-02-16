@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:flutter_udid/flutter_udid.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/blocs/region_bloc.dart';
@@ -100,8 +101,8 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
           deviceData = _readAndroidBuildData(
               await deviceInfoPlugin.androidInfo, context);
         } else if (Platform.isIOS) {
-          deviceData =
-              _readIosDeviceInfo(await deviceInfoPlugin.iosInfo, context);
+          deviceData = _readIosDeviceInfo(
+              await deviceInfoPlugin.iosInfo, context, await FlutterUdid.udid);
         }
         Utils.saveDeviceData(deviceData);
       } on PlatformException {
@@ -126,23 +127,31 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
       'device': build.device,
       'product': build.product,
       'version.incremental': build.version.incremental,
-      'displaySize': MediaQuery.of(context).size,
-      'displayPixel': window.physicalSize,
+      'displaySize': MediaQuery.of(context).size.width.toString() +
+          "x" +
+          MediaQuery.of(context).size.height.toString(),
+      'displayPixel': window.physicalSize.width.toString() +
+          "x" +
+          window.physicalSize.height.toString(),
     };
   }
 
   Map<String, dynamic> _readIosDeviceInfo(
-      IosDeviceInfo data, BuildContext context) {
+      IosDeviceInfo data, BuildContext context, String udid) {
     return <String, dynamic>{
       'platform': "IOS",
       'model': data.name,
       'systemVersion': data.systemVersion,
       'brand': data.model,
       'isPhysicalDevice': data.isPhysicalDevice,
-      'identifierForVendor': data.identifierForVendor,
+      'identifierForVendor': udid,
       'systemName': data.systemName,
-      'displaySize': MediaQuery.of(context).size,
-      'displayPixel': window.physicalSize,
+      'displaySize': MediaQuery.of(context).size.width.toString() +
+          "x" +
+          MediaQuery.of(context).size.height.toString(),
+      'displayPixel': window.physicalSize.width.toString() +
+          "x" +
+          window.physicalSize.height.toString(),
     };
   }
 
