@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,6 +23,7 @@ class OrderNumber extends StatefulWidget {
 
 class _OrderNumberState extends State<OrderNumber> {
   bool itemClick = false;
+  bool one = false, two = false, three = false, four = false;
 
   @override
   void initState() {
@@ -30,6 +32,25 @@ class _OrderNumberState extends State<OrderNumber> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.item.status == "payment_waiting" ||
+        widget.item.status == "pending") {
+      one = true;
+    } else if (widget.item.status == "accept") {
+      one = true;
+      two = true;
+    } else if (widget.item.status == "pick_up" ||
+        widget.item.status == "waiting_deliverer" ||
+        widget.item.status == "delivering") {
+      one = true;
+      two = true;
+      three = true;
+    } else if (widget.item.status == "delivered" ||
+        widget.item.status == "picked_up") {
+      one = true;
+      two = true;
+      three = true;
+      four = true;
+    }
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: AppBar(
@@ -68,8 +89,435 @@ class _OrderNumberState extends State<OrderNumber> {
       ),
       body: ListView(
         children: [
+          widget.item.status == "not_paid" ||
+                  widget.item.status == "cancelled_by_store" ||
+                  widget.item.status == "cancelled_by_admin"
+              ? Container()
+              : Container(
+                  margin: EdgeInsets.only(
+                    top: 16,
+                    left: 16,
+                    right: 16,
+                    bottom: 20,
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: AppTheme.white,
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0, 2),
+                          blurRadius: 24,
+                          spreadRadius: 0,
+                          color: Color.fromRGBO(0, 0, 0, 0.08),
+                        ),
+                        BoxShadow(
+                          offset: Offset(0, 0),
+                          blurRadius: 2,
+                          spreadRadius: 0,
+                          color: Color.fromRGBO(0, 0, 0, 0.08),
+                        )
+                      ]),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: 16,
+                          left: 16,
+                          right: 16,
+                        ),
+                        child: Text(
+                          translate("history.status"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRoboto,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                            height: 1.2,
+                            color: AppTheme.black_text,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      widget.item.status == "payment_waiting" ||
+                              widget.item.status == "pending"
+                          ? Container(
+                              height: 44,
+                              width: double.infinity,
+                              padding: EdgeInsets.only(left: 18, right: 16),
+                              child: Row(
+                                children: [
+                                  Column(
+                                    children: [
+                                      Expanded(child: Container()),
+                                      Container(
+                                        height: 24,
+                                        width: 24,
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.blue.withOpacity(0.7),
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          width: 2,
+                                          color: Color(0xFFEBEDF0),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    translate("history.status_pending"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                      color: AppTheme.blue,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          : Container(
+                              height: 44,
+                              width: double.infinity,
+                              padding: EdgeInsets.only(left: 24, right: 16),
+                              child: Row(
+                                children: [
+                                  Column(
+                                    children: [
+                                      Expanded(child: Container()),
+                                      Container(
+                                        height: 12,
+                                        width: 12,
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.blue,
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          width: 2,
+                                          color: AppTheme.blue,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 14),
+                                  Text(
+                                    translate("history.status_pending"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: AppTheme.black_text,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                      widget.item.status == "accept"
+                          ? Container(
+                              height: 44,
+                              width: double.infinity,
+                              padding: EdgeInsets.only(left: 18, right: 16),
+                              child: Row(
+                                children: [
+                                  Column(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          width: 2,
+                                          color: AppTheme.blue,
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 24,
+                                        width: 24,
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.blue.withOpacity(0.7),
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          width: 2,
+                                          color: Color(0xFFEBEDF0),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    translate("history.status_accept"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                      color: AppTheme.blue,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          : Container(
+                              height: 44,
+                              width: double.infinity,
+                              padding: EdgeInsets.only(left: 24, right: 24),
+                              child: Row(
+                                children: [
+                                  Column(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          width: 2,
+                                          color: two
+                                              ? AppTheme.blue
+                                              : Color(0xFFEBEDF0),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 12,
+                                        width: 12,
+                                        decoration: BoxDecoration(
+                                          color: two
+                                              ? AppTheme.blue
+                                              : Color(0xFFEBEDF0),
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          width: 2,
+                                          color: three
+                                              ? AppTheme.blue
+                                              : Color(0xFFEBEDF0),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 14),
+                                  Text(
+                                    translate("history.status_accept"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: AppTheme.black_text,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                      widget.item.status == "pick_up" ||
+                              widget.item.status == "waiting_deliverer" ||
+                              widget.item.status == "delivering"
+                          ? Container(
+                              height: 44,
+                              width: double.infinity,
+                              padding: EdgeInsets.only(left: 18, right: 16),
+                              child: Row(
+                                children: [
+                                  Column(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          width: 2,
+                                          color: AppTheme.blue,
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 24,
+                                        width: 24,
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.blue.withOpacity(0.7),
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          width: 2,
+                                          color: Color(0xFFEBEDF0),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                      widget.item.type == "self"?translate("history.status_packed"):translate("history.status_way"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                      color: AppTheme.blue,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          : Container(
+                              height: 44,
+                              width: double.infinity,
+                              padding: EdgeInsets.only(left: 24, right: 24),
+                              child: Row(
+                                children: [
+                                  Column(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          width: 2,
+                                          color: three
+                                              ? AppTheme.blue
+                                              : Color(0xFFEBEDF0),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 12,
+                                        width: 12,
+                                        decoration: BoxDecoration(
+                                          color: three
+                                              ? AppTheme.blue
+                                              : Color(0xFFEBEDF0),
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          width: 2,
+                                          color: three
+                                              ? AppTheme.blue
+                                              : Color(0xFFEBEDF0),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 14),
+                                  Text(
+                                    widget.item.type == "self"?translate("history.status_packed"):translate("history.status_way"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: AppTheme.black_text,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                      widget.item.status == "delivered"||widget.item.status == "picked_up"
+                          ? Container(
+                        height: 44,
+                        width: double.infinity,
+                        padding: EdgeInsets.only(left: 18, right: 16),
+                        child: Row(
+                          children: [
+                            Column(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    width: 2,
+                                    color: AppTheme.blue,
+                                  ),
+                                ),
+                                Container(
+                                  height: 24,
+                                  width: 24,
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.blue.withOpacity(0.7),
+                                    borderRadius:
+                                    BorderRadius.circular(24),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              widget.item.type == "self"?translate("history.status_received"):translate("history.status_delivered"),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                color: AppTheme.blue,
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                          : Container(
+                        height: 44,
+                        width: double.infinity,
+                        padding: EdgeInsets.only(left: 24, right: 24),
+                        child: Row(
+                          children: [
+                            Column(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    width: 2,
+                                    color: four
+                                        ? AppTheme.blue
+                                        : Color(0xFFEBEDF0),
+                                  ),
+                                ),
+                                Container(
+                                  height: 12,
+                                  width: 12,
+                                  decoration: BoxDecoration(
+                                    color: four
+                                        ? AppTheme.blue
+                                        : Color(0xFFEBEDF0),
+                                    borderRadius:
+                                    BorderRadius.circular(24),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(width: 14),
+                            Text(
+                              widget.item.type == "self"?translate("history.status_received"):translate("history.status_delivered"),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                color: AppTheme.black_text,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
           Container(
-            margin: EdgeInsets.all(16.0),
+            margin: EdgeInsets.only(
+              top: 16,
+              left: 16,
+              right: 16,
+            ),
             child: Text(
               translate("zakaz.poluchatel"),
               style: TextStyle(
@@ -303,10 +751,11 @@ class _OrderNumberState extends State<OrderNumber> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10)),
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
+              ),
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.2),
