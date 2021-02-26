@@ -248,7 +248,17 @@
     "picked_up": "Mijoz olib ketdi",
     "payment_waiting": "To'lovni kutmoqda",
     "payment_type": "naqd to'lov",
-    "not_paid": "To'lanmagan"
+    "not_paid": "To'lanmagan",
+    "status": "Buyurtma holati",
+    "status_pending": "Jarayonda",
+    "status_accept": "Qabul qilindi",
+    "status_way": "Yo'lda",
+    "status_delivered": "Yetkazib berilgan",
+    "status_packed": "Buyurtma joylandi",
+    "status_received": "Qabul qilingan",
+    "order_cancel": "Bekor qilish",
+    "order_not_cancel": "Bekor qilish imkoni yo'q",
+    "courier": "Kuryer"
   },
   "voice": {
     "voice_search": "Ovozli qidiruv",

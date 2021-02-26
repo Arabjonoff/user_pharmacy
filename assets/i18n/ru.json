@@ -248,7 +248,17 @@
     "picked_up": "Клиент забрал",
     "payment_waiting": "Ожидается оплата",
     "payment_type": "наличными",
-    "not_paid": "Не оплачен"
+    "not_paid": "Не оплачен",
+    "status": "Статус заказа",
+    "status_pending": "Заказ в ожидании",
+    "status_accept": "Заказ принят",
+    "status_way": "Заказ в пути",
+    "status_delivered": "Заказ доставлен",
+    "status_packed": "Заказ упакован",
+    "status_received": "Заказ получен",
+    "order_cancel": "Отменить заказ",
+    "order_not_cancel": "Не может быть отменен",
+    "courier": "Курьер"
   },
   "voice": {
     "voice_search": "Голосовой поиск",

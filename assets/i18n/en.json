@@ -248,7 +248,17 @@
     "picked_up": "Picked up",
     "payment_waiting": "Payment is waiting",
     "payment_type": "cash",
-    "not_paid": "Not paid"
+    "not_paid": "Not paid",
+    "status": "Order status",
+    "status_pending": "Order pending",
+    "status_accept": "Order accepted",
+    "status_way": "Order on the way",
+    "status_delivered": "Order is delivered",
+    "status_packed": "The order is packed",
+    "status_received": "The order has been received",
+    "order_cancel": "Cancel the order",
+    "order_not_cancel": "Can't be canceled",
+    "courier": "Courier"
   },
   "voice": {
     "voice_search": "Voice search",
