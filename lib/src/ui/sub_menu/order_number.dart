@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
@@ -30,10 +31,11 @@ class _OrderNumberState extends State<OrderNumber> {
   var durationTime = Duration(
     milliseconds: 1000,
   );
+  Timer _timer;
 
   @override
   void initState() {
-    Timer.periodic(durationTime, (timer) {
+    _timer = Timer.periodic(durationTime, (timer) {
       setState(() {
         if (size == 24)
           size = 12;
@@ -42,6 +44,12 @@ class _OrderNumberState extends State<OrderNumber> {
       });
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (_timer != null) _timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -171,7 +179,8 @@ class _OrderNumberState extends State<OrderNumber> {
                                         child: Stack(
                                           children: [
                                             Container(
-                                              margin: EdgeInsets.only(top: 12,left: 11),
+                                              margin: EdgeInsets.only(
+                                                  top: 12, left: 11),
                                               width: 2,
                                               height: 12,
                                               color: Color(0xFFEBEDF0),
@@ -200,7 +209,6 @@ class _OrderNumberState extends State<OrderNumber> {
                                                 ),
                                               ),
                                             ),
-
                                           ],
                                         ),
                                       ),
@@ -286,15 +294,15 @@ class _OrderNumberState extends State<OrderNumber> {
                                         width: 24,
                                         child: Stack(
                                           children: [
-
                                             Container(
                                               margin: EdgeInsets.only(left: 11),
                                               width: 2,
                                               height: 12,
-                                              color:  AppTheme.blue,
+                                              color: AppTheme.blue,
                                             ),
                                             Container(
-                                              margin: EdgeInsets.only(top: 12,left: 11),
+                                              margin: EdgeInsets.only(
+                                                  top: 12, left: 11),
                                               width: 2,
                                               height: 12,
                                               color: Color(0xFFEBEDF0),
@@ -308,7 +316,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                                   color: AppTheme.blue
                                                       .withOpacity(0.3),
                                                   borderRadius:
-                                                  BorderRadius.circular(24),
+                                                      BorderRadius.circular(24),
                                                 ),
                                               ),
                                             ),
@@ -319,7 +327,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                                 decoration: BoxDecoration(
                                                   color: AppTheme.blue,
                                                   borderRadius:
-                                                  BorderRadius.circular(24),
+                                                      BorderRadius.circular(24),
                                                 ),
                                               ),
                                             ),
@@ -421,15 +429,15 @@ class _OrderNumberState extends State<OrderNumber> {
                                         width: 24,
                                         child: Stack(
                                           children: [
-
                                             Container(
                                               margin: EdgeInsets.only(left: 11),
                                               width: 2,
                                               height: 12,
-                                              color:  AppTheme.blue,
+                                              color: AppTheme.blue,
                                             ),
                                             Container(
-                                              margin: EdgeInsets.only(top: 12,left: 11),
+                                              margin: EdgeInsets.only(
+                                                  top: 12, left: 11),
                                               width: 2,
                                               height: 12,
                                               color: Color(0xFFEBEDF0),
@@ -443,7 +451,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                                   color: AppTheme.blue
                                                       .withOpacity(0.3),
                                                   borderRadius:
-                                                  BorderRadius.circular(24),
+                                                      BorderRadius.circular(24),
                                                 ),
                                               ),
                                             ),
@@ -454,7 +462,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                                 decoration: BoxDecoration(
                                                   color: AppTheme.blue,
                                                   borderRadius:
-                                                  BorderRadius.circular(24),
+                                                      BorderRadius.circular(24),
                                                 ),
                                               ),
                                             ),
@@ -563,7 +571,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                               margin: EdgeInsets.only(left: 11),
                                               width: 2,
                                               height: 12,
-                                              color:  AppTheme.blue,
+                                              color: AppTheme.blue,
                                             ),
                                             Center(
                                               child: AnimatedContainer(
@@ -574,7 +582,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                                   color: AppTheme.blue
                                                       .withOpacity(0.3),
                                                   borderRadius:
-                                                  BorderRadius.circular(24),
+                                                      BorderRadius.circular(24),
                                                 ),
                                               ),
                                             ),
@@ -585,7 +593,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                                 decoration: BoxDecoration(
                                                   color: AppTheme.blue,
                                                   borderRadius:
-                                                  BorderRadius.circular(24),
+                                                      BorderRadius.circular(24),
                                                 ),
                                               ),
                                             ),
@@ -760,7 +768,7 @@ class _OrderNumberState extends State<OrderNumber> {
           Container(
             margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 3),
             child: Text(
-              widget.item.phone,
+              Utils.numberFormat(widget.item.phone),
               style: TextStyle(
                 fontFamily: AppTheme.fontRoboto,
                 fontStyle: FontStyle.normal,
@@ -770,80 +778,101 @@ class _OrderNumberState extends State<OrderNumber> {
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(
-              top: 43,
-              left: 16,
-              right: 16,
-            ),
-            child: Text(
-              translate("history.courier"),
-              style: TextStyle(
-                fontFamily: AppTheme.fontRoboto,
-                fontStyle: FontStyle.normal,
-                fontSize: 20,
-                height: 1.2,
-                fontWeight: FontWeight.w600,
-                color: AppTheme.black_text,
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(
-              left: 16.0,
-              right: 16.0,
-              top: 16.0,
-            ),
-            child: Text(
-              translate("zakaz.name"),
-              style: TextStyle(
-                fontFamily: AppTheme.fontRoboto,
-                fontStyle: FontStyle.normal,
-                fontSize: 13,
-                fontWeight: FontWeight.normal,
-                color: AppTheme.black_transparent_text,
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 3),
-            child: Text(
-              widget.item.fullName,
-              style: TextStyle(
-                fontFamily: AppTheme.fontRoboto,
-                fontStyle: FontStyle.normal,
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-                color: Colors.black,
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 23),
-            child: Text(
-              translate("zakaz.number"),
-              style: TextStyle(
-                fontFamily: AppTheme.fontRoboto,
-                fontStyle: FontStyle.normal,
-                fontSize: 13,
-                fontWeight: FontWeight.normal,
-                color: AppTheme.black_transparent_text,
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 3),
-            child: Text(
-              widget.item.phone,
-              style: TextStyle(
-                fontFamily: AppTheme.fontRoboto,
-                fontStyle: FontStyle.normal,
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-                color: Colors.black,
-              ),
-            ),
-          ),
+          widget.item.delivery == null
+              ? Container()
+              : Container(
+                  margin: EdgeInsets.only(
+                    top: 43,
+                    left: 16,
+                    right: 16,
+                  ),
+                  child: Text(
+                    translate("history.courier"),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRoboto,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 20,
+                      height: 1.2,
+                      fontWeight: FontWeight.w600,
+                      color: AppTheme.black_text,
+                    ),
+                  ),
+                ),
+          widget.item.delivery == null
+              ? Container()
+              : Container(
+                  margin: EdgeInsets.only(
+                    left: 16.0,
+                    right: 16.0,
+                    top: 16.0,
+                  ),
+                  child: Text(
+                    translate("zakaz.name"),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRoboto,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal,
+                      color: AppTheme.black_transparent_text,
+                    ),
+                  ),
+                ),
+          widget.item.delivery == null
+              ? Container()
+              : Container(
+                  margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 3),
+                  child: Text(
+                    widget.item.delivery.firstName +
+                        " " +
+                        widget.item.delivery.lastName,
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRoboto,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+          widget.item.delivery == null
+              ? Container()
+              : Container(
+                  margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 23),
+                  child: Text(
+                    translate("zakaz.number"),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRoboto,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal,
+                      color: AppTheme.black_transparent_text,
+                    ),
+                  ),
+                ),
+          widget.item.delivery == null
+              ? Container()
+              : GestureDetector(
+                  onTap: () async {
+                    var url = "tel:" + widget.item.delivery.login;
+                    if (await canLaunch(url)) {
+                      await launch(url);
+                    } else {
+                      throw 'Could not launch $url';
+                    }
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 3),
+                    child: Text(
+                      Utils.numberFormat(widget.item.delivery.login),
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontRoboto,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                      ),
+                    ),
+                  )),
           Container(
             height: 36,
             margin: EdgeInsets.only(left: 16, right: 16, top: 43),
@@ -1376,7 +1405,14 @@ class _OrderNumberState extends State<OrderNumber> {
                                   }
                                 },
                                 child: Text(
-                                  widget.item.store.phone,
+                                  Utils.numberFormat(
+                                    widget.item.store.phone
+                                        .replaceAll(" ", "")
+                                        .replaceAll("+", "")
+                                        .replaceAll("-", "")
+                                        .replaceAll("(", "")
+                                        .replaceAll(")", ""),
+                                  ),
                                   textAlign: TextAlign.start,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

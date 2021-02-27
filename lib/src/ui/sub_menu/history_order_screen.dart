@@ -277,22 +277,30 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                   ),
                                   snapshot.data.results[index].type ==
                                           "shipping"
-                                      ? Container(
-                                          margin: EdgeInsets.only(
-                                              left: 16, right: 16, top: 16),
-                                          child: Text(
-                                            translate("history.courier") +
-                                                ": " +
-                                                "Cureyer name",
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontRoboto,
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 13,
-                                              fontStyle: FontStyle.normal,
-                                              color: AppTheme.black_text,
-                                            ),
-                                          ),
-                                        )
+                                      ? snapshot.data.results[index].delivery ==
+                                              null
+                                          ? Container()
+                                          : Container(
+                                              margin: EdgeInsets.only(
+                                                  left: 16, right: 16, top: 16),
+                                              child: Text(
+                                                translate("history.courier") +
+                                                    ": " +
+                                                    snapshot.data.results[index]
+                                                        .delivery.firstName +
+                                                    " " +
+                                                    snapshot.data.results[index]
+                                                        .delivery.lastName,
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.fontRoboto,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 13,
+                                                  fontStyle: FontStyle.normal,
+                                                  color: AppTheme.black_text,
+                                                ),
+                                              ),
+                                            )
                                       : Container(
                                           margin: EdgeInsets.only(
                                               left: 16, right: 16, top: 16),
@@ -310,32 +318,47 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                         ),
                                   snapshot.data.results[index].type ==
                                           "shipping"
-                                      ? GestureDetector(
-                                          onTap: () async {
-                                            var url = "tel:" + "number";
-                                            if (await canLaunch(url)) {
-                                              await launch(url);
-                                            } else {
-                                              throw 'Could not launch $url';
-                                            }
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.only(
-                                                left: 16, right: 16, top: 4),
-                                            child: Text(
-                                              translate("zakaz.number") +
-                                                  ": " +
-                                                  "Cureyer number",
-                                              style: TextStyle(
-                                                fontFamily: AppTheme.fontRoboto,
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 13,
-                                                fontStyle: FontStyle.normal,
-                                                color: AppTheme.black_text,
+                                      ? snapshot.data.results[index].delivery ==
+                                              null
+                                          ? Container()
+                                          : GestureDetector(
+                                              onTap: () async {
+                                                var url = "tel:" +
+                                                    snapshot.data.results[index]
+                                                        .delivery.login;
+                                                if (await canLaunch(url)) {
+                                                  await launch(url);
+                                                } else {
+                                                  throw 'Could not launch $url';
+                                                }
+                                              },
+                                              child: Container(
+                                                margin: EdgeInsets.only(
+                                                    left: 16,
+                                                    right: 16,
+                                                    top: 4),
+                                                child: Text(
+                                                  translate("zakaz.number") +
+                                                      ": " +
+                                                      Utils.numberFormat(
+                                                        snapshot
+                                                            .data
+                                                            .results[index]
+                                                            .delivery
+                                                            .login,
+                                                      ),
+                                                  style: TextStyle(
+                                                    fontFamily:
+                                                        AppTheme.fontRoboto,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontSize: 13,
+                                                    fontStyle: FontStyle.normal,
+                                                    color: AppTheme.black_text,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                        )
+                                            )
                                       : GestureDetector(
                                           onTap: () async {
                                             var url = "tel:" +
@@ -357,8 +380,15 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                             child: Text(
                                               translate("zakaz.number") +
                                                   ": " +
-                                                  snapshot.data.results[index]
-                                                      .store.phone,
+                                                  Utils.numberFormat(
+                                                    snapshot.data.results[index]
+                                                        .store.phone
+                                                      .replaceAll(" ", "")
+                                                          .replaceAll("-", "")
+                                                          .replaceAll("+", "")
+                                                          .replaceAll("(", "")
+                                                          .replaceAll(")", ""),
+                                                  ),
                                               style: TextStyle(
                                                 fontFamily: AppTheme.fontRoboto,
                                                 fontWeight: FontWeight.normal,

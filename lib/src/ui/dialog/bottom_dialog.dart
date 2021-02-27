@@ -10,6 +10,7 @@ import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BottomDialog {
@@ -766,7 +767,14 @@ class BottomDialog {
                               ),
                               Expanded(
                                 child: Text(
-                                  locationItem.phone,
+                                  Utils.numberFormat(
+                                    locationItem.phone
+                                        .replaceAll(" ", "")
+                                        .replaceAll("+", "")
+                                        .replaceAll("-", "")
+                                        .replaceAll("(", "")
+                                        .replaceAll(")", ""),
+                                  ),
                                   textAlign: TextAlign.start,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

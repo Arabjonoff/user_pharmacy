@@ -1,4 +1,3 @@
-// ignore: must_be_immutable
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +13,8 @@ import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:rxbus/rxbus.dart';
-import 'package:selectable_autolink_text/selectable_autolink_text.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:simple_html_css/simple_html_css.dart';
 
 import '../../app_theme.dart';
 
@@ -395,31 +393,53 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                           ),
                         ),
 
+                        // snapshot.data.description != null
+                        //     ? Container(
+                        //         margin: EdgeInsets.only(
+                        //             left: 16, right: 16, top: 21),
+                        //         child: SelectableAutoLinkText(
+                        //           " " + snapshot.data.description,
+                        //           style: TextStyle(
+                        //             fontSize: 15,
+                        //             fontFamily: AppTheme.fontRoboto,
+                        //             fontWeight: FontWeight.normal,
+                        //             color: AppTheme.black_catalog,
+                        //           ),
+                        //           linkStyle: TextStyle(
+                        //             color: Colors.blueAccent,
+                        //             fontSize: 15,
+                        //             fontFamily: AppTheme.fontRoboto,
+                        //             fontWeight: FontWeight.normal,
+                        //           ),
+                        //           highlightedLinkStyle: TextStyle(
+                        //             color: Colors.blueAccent,
+                        //             backgroundColor:
+                        //                 Colors.blueAccent.withAlpha(0x33),
+                        //           ),
+                        //           onTap: (url) =>
+                        //               launch(url, forceSafariVC: false),
+                        //         ),
+                        //       )
+                        //     : Container(),
+
                         snapshot.data.description != null
                             ? Container(
                                 margin: EdgeInsets.only(
-                                    left: 16, right: 16, top: 21),
-                                child: SelectableAutoLinkText(
-                                  " " + snapshot.data.description,
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: AppTheme.fontRoboto,
-                                    fontWeight: FontWeight.normal,
-                                    color: AppTheme.black_catalog,
+                                  left: 16,
+                                  right: 16,
+                                  top: 21,
+                                ),
+                                child: RichText(
+                                  text: HTML.toTextSpan(
+                                    context,
+                                    " " + snapshot.data.description,
+                                    defaultTextStyle: TextStyle(
+                                      fontSize: 15,
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontWeight: FontWeight.normal,
+                                      color: AppTheme.black_catalog,
+                                    ),
                                   ),
-                                  linkStyle: TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontSize: 15,
-                                    fontFamily: AppTheme.fontRoboto,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  highlightedLinkStyle: TextStyle(
-                                    color: Colors.blueAccent,
-                                    backgroundColor:
-                                        Colors.blueAccent.withAlpha(0x33),
-                                  ),
-                                  onTap: (url) =>
-                                      launch(url, forceSafariVC: false),
                                 ),
                               )
                             : Container(),

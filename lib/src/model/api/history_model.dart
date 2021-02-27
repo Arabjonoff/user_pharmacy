@@ -38,6 +38,7 @@ class HistoryResults {
   double deliveryTotal;
   PaymentType paymentType;
   Store store;
+  Delivery delivery;
   String createdAt;
   double total;
   double realTotal;
@@ -56,6 +57,7 @@ class HistoryResults {
       this.deliveryTotal,
       this.paymentType,
       this.store,
+      this.delivery,
       this.createdAt,
       this.total,
       this.realTotal,
@@ -82,12 +84,15 @@ class HistoryResults {
         ? new PaymentType.fromJson(json['payment_type'])
         : PaymentType(id: 0, name: "", type: "");
     store = json['store'] != null ? new Store.fromJson(json['store']) : null;
+    delivery =
+        json['delivery'] != null ? Delivery.fromJson(json['delivery']) : null;
     createdAt = json['created_at'];
     total = json['total'] == null ? 0.0 : json['total'];
     realTotal = json['real_total'] == null ? 0.0 : json['real_total'];
     status = json['status'];
     type = json['type'] == null ? "" : json['type'];
-    expireSelfOrder = json['expire_self_order'] == null ? "" : json['expire_self_order'];
+    expireSelfOrder =
+        json['expire_self_order'] == null ? "" : json['expire_self_order'];
     fullName = json['full_name'] == null ? "" : json['full_name'];
     phone = json['phone'] == null ? "" : json['phone'];
     if (json['items'] != null) {
@@ -113,6 +118,9 @@ class HistoryResults {
     }
     if (this.store != null) {
       data['store'] = this.store.toJson();
+    }
+    if (this.delivery != null) {
+      data['delivery'] = this.delivery.toJson();
     }
     data['created_at'] = this.createdAt;
     data['total'] = this.total;
@@ -202,6 +210,32 @@ class Store {
     if (this.location != null) {
       data['location'] = this.location.toJson();
     }
+    return data;
+  }
+}
+
+class Delivery {
+  String login;
+  String firstName;
+  String lastName;
+
+  Delivery({
+    this.login,
+    this.firstName,
+    this.lastName,
+  });
+
+  Delivery.fromJson(Map<String, dynamic> json) {
+    login = json['login'];
+    firstName = json['first_name'];
+    lastName = json['last_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['login'] = this.login;
+    data['first_name'] = this.firstName;
+    data['last_name'] = this.lastName;
     return data;
   }
 }
