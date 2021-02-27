@@ -258,6 +258,7 @@
     "status_received": "The order has been received",
     "order_cancel": "Cancel the order",
     "order_not_cancel": "Can't be canceled",
+    "cancelled_by_user": "Cancelled",
     "courier": "Courier"
   },
   "voice": {

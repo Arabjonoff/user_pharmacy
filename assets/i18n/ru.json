@@ -258,6 +258,7 @@
     "status_received": "Заказ получен",
     "order_cancel": "Отменить заказ",
     "order_not_cancel": "Не может быть отменен",
+    "cancelled_by_user": "Отменен",
     "courier": "Курьер"
   },
   "voice": {

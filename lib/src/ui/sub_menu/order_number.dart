@@ -1302,43 +1302,47 @@ class _OrderNumberState extends State<OrderNumber> {
     switch (status) {
       case "pending":
         {
-          return Color(0xFF00B0DC);
+          return Color(0xFF0A6CFF);
         }
       case "accept":
         {
-          return Color(0xFF43A047);
+          return Color(0xFF3F8AE0);
         }
       case "cancelled_by_store":
         {
-          return Color(0xFFE53935);
+          return Color(0xFF5F4B18);
         }
       case "waiting_deliverer":
         {
-          return Color(0xFF0288D1);
+          return Color(0xFFEDCC57);
         }
       case "delivering":
         {
-          return Color(0xFF0288D1);
+          return Color(0xFFE4E75B);
         }
       case "delivered":
         {
-          return Colors.green;
+          return Color(0xFF4BB34B);
         }
       case "cancelled_by_admin":
         {
-          return Color(0xFF616161);
+          return Color(0xFF818C99);
         }
       case "pick_up":
         {
-          return Color(0xFFB39DDB);
+          return Color(0xFF00B0DC);
         }
       case "picked_up":
         {
-          return Color(0xFF4CAF50);
+          return Color(0xFF4BB34B);
         }
       case "payment_waiting":
         {
-          return Colors.pink;
+          return Color(0xFFF94FB5);
+        }
+      case "cancelled_by_user":
+        {
+          return Color(0xFF1C1C1E);
         }
       default:
         {

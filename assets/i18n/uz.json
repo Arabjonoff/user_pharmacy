@@ -258,6 +258,7 @@
     "status_received": "Qabul qilingan",
     "order_cancel": "Bekor qilish",
     "order_not_cancel": "Bekor qilish imkoni yo'q",
+    "cancelled_by_user": "Bekor qilingan",
     "courier": "Kuryer"
   },
   "voice": {
