@@ -28,6 +28,8 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
   bool isLoading = false;
   int page = 1;
   ScrollController _sc = new ScrollController();
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -78,8 +80,11 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
           ],
         ),
       ),
-      body: Container(
-        color: AppTheme.white,
+      body: RefreshIndicator(
+        backgroundColor: AppTheme.white,
+        color: AppTheme.blue,
+        key: _refreshIndicatorKey,
+        onRefresh: _refreshRegion,
         child: StreamBuilder(
           stream: blocHistory.allHistory,
           builder: (context, AsyncSnapshot<HistoryModel> snapshot) {
@@ -520,8 +525,10 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
     );
   }
 
-  String _toTwoDigitString(int value) {
-    return value.toString().padLeft(2, '0');
+  Future<Null> _refreshRegion() async {
+    isLoading = false;
+    page = 1;
+    _getMoreData(1);
   }
 
   void _getMoreData(int index) async {
