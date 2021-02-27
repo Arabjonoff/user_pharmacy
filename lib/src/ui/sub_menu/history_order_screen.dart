@@ -7,11 +7,13 @@ import 'package:lottie/lottie.dart';
 import 'package:pharmacy/src/blocs/history_bloc.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
 import 'package:pharmacy/src/ui/sub_menu/order_number.dart';
 import 'package:pharmacy/src/utils/utils.dart';
+import 'package:rxbus/rxbus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,21 +26,25 @@ class HistoryOrderScreen extends StatefulWidget {
   }
 }
 
+int pageHistory = 1;
+
 class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
   bool isLoading = false;
-  int page = 1;
+
   ScrollController _sc = new ScrollController();
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
+    _registerBus();
     _getMoreData(1);
     _sc.addListener(() {
       if (_sc.position.pixels == _sc.position.maxScrollExtent) {
-        _getMoreData(page);
+        _getMoreData(pageHistory);
       }
     });
+
     super.initState();
   }
 
@@ -383,11 +389,11 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                                   Utils.numberFormat(
                                                     snapshot.data.results[index]
                                                         .store.phone
-                                                      .replaceAll(" ", "")
-                                                          .replaceAll("-", "")
-                                                          .replaceAll("+", "")
-                                                          .replaceAll("(", "")
-                                                          .replaceAll(")", ""),
+                                                        .replaceAll(" ", "")
+                                                        .replaceAll("-", "")
+                                                        .replaceAll("+", "")
+                                                        .replaceAll("(", "")
+                                                        .replaceAll(")", ""),
                                                   ),
                                               style: TextStyle(
                                                 fontFamily: AppTheme.fontRoboto,
@@ -556,9 +562,17 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
     );
   }
 
+  void _registerBus() {
+    RxBus.register<BottomViewIdsModel>(tag: "EVENT_HISTORY_CANCEL").listen(
+      (event) {
+        print(event.position);
+      },
+    );
+  }
+
   Future<Null> _refreshRegion() async {
     isLoading = false;
-    page = 1;
+    pageHistory = 1;
     _getMoreData(1);
   }
 
@@ -566,7 +580,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
     if (!isLoading) {
       setState(() {
         blocHistory.fetchAllHistory(index);
-        page++;
+        pageHistory++;
       });
     }
   }

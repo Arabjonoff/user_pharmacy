@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_note.dart';
+import 'package:pharmacy/src/model/api/cancel_order.dart';
 import 'package:pharmacy/src/model/api/cash_back_model.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
@@ -175,6 +176,9 @@ class Repository {
 
   Future<HistoryModel> fetchHistory(int page) =>
       pharmacyApiProvider.fetchOrderHistory(page, 20);
+
+  Future<CancelOrder> fetchCancelOrder(int orderId) =>
+      pharmacyApiProvider.fetchCancelOrder(orderId);
 
   Future<FilterModel> fetchFilterParameters(
     int page,

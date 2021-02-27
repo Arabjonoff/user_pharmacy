@@ -5,9 +5,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:pharmacy/src/blocs/history_bloc.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
+import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
+import 'package:rxbus/rxbus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
@@ -24,7 +29,7 @@ class OrderNumber extends StatefulWidget {
 }
 
 class _OrderNumberState extends State<OrderNumber> {
-  bool itemClick = false;
+  bool isLoading = false;
   bool one = false, two = false, three = false, four = false;
 
   double size = 24;
@@ -113,7 +118,8 @@ class _OrderNumberState extends State<OrderNumber> {
         children: [
           widget.item.status == "not_paid" ||
                   widget.item.status == "cancelled_by_store" ||
-                  widget.item.status == "cancelled_by_admin"
+                  widget.item.status == "cancelled_by_admin" ||
+                  widget.item.status == "cancelled_by_user"
               ? Container()
               : Container(
                   margin: EdgeInsets.only(
@@ -669,35 +675,65 @@ class _OrderNumberState extends State<OrderNumber> {
                                 ],
                               ),
                             ),
-                      Container(
-                        height: 44,
-                        width: double.infinity,
-                        margin: EdgeInsets.only(
-                          top: 2,
-                          left: 24,
-                          right: 24,
-                          bottom: 24,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: three || four
-                              ? Color.fromRGBO(129, 140, 153, 0.15)
-                              : AppTheme.red_fav_color,
-                        ),
-                        child: Center(
-                          child: Text(
-                            three || four
-                                ? translate("history.order_not_cancel")
-                                : translate("history.order_cancel"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                              color: three || four
-                                  ? AppTheme.search_empty
-                                  : AppTheme.white,
-                            ),
+                      GestureDetector(
+                        onTap: () {
+                          if (three || four) {
+                          } else {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            Repository().fetchCancelOrder(widget.item.id).then(
+                                  (value) => {
+                                    setState(() {
+                                      isLoading = false;
+                                    }),
+                                    blocHistory.fetchAllHistory(1),
+                                    pageHistory = 2,
+                                    Navigator.pop(context),
+                                    RxBus.post(
+                                        BottomViewIdsModel(value.payment),
+                                        tag: "EVENT_HISTORY_CANCEL"),
+                                  },
+                                );
+                          }
+                        },
+                        child: Container(
+                          height: 44,
+                          width: double.infinity,
+                          margin: EdgeInsets.only(
+                            top: 2,
+                            left: 24,
+                            right: 24,
+                            bottom: 24,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: three || four
+                                ? Color.fromRGBO(129, 140, 153, 0.15)
+                                : AppTheme.red_fav_color,
+                          ),
+                          child: Center(
+                            child: isLoading
+                                ? CircularProgressIndicator(
+                                    value: null,
+                                    strokeWidth: 3.0,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        AppTheme.white),
+                                  )
+                                : Text(
+                                    three || four
+                                        ? translate("history.order_not_cancel")
+                                        : translate("history.order_cancel"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                      color: three || four
+                                          ? AppTheme.search_empty
+                                          : AppTheme.white,
+                                    ),
+                                  ),
                           ),
                         ),
                       )
