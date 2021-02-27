@@ -13,6 +13,7 @@ import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
 import 'package:pharmacy/src/ui/sub_menu/order_number.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
 
@@ -84,7 +85,6 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
           builder: (context, AsyncSnapshot<HistoryModel> snapshot) {
             if (snapshot.hasData) {
               snapshot.data.next == null ? isLoading = true : isLoading = false;
-
               return snapshot.data.results.length > 0
                   ? ListView.builder(
                       controller: _sc,
@@ -268,34 +268,15 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       ],
                                     ),
                                   ),
-                                  snapshot.data.results[index].endShiptime !=
-                                          null
+                                  snapshot.data.results[index].type ==
+                                          "shipping"
                                       ? Container(
                                           margin: EdgeInsets.only(
                                               left: 16, right: 16, top: 16),
                                           child: Text(
-                                            translate("history.date") +
-                                                snapshot.data.results[index]
-                                                    .endShiptime.year
-                                                    .toString() +
-                                                "-" +
-                                                snapshot.data.results[index]
-                                                    .endShiptime.month
-                                                    .toString() +
-                                                "-" +
-                                                snapshot.data.results[index]
-                                                    .endShiptime.day
-                                                    .toString() +
-                                                " " +
-                                                snapshot.data.results[index]
-                                                    .endShiptime.hour
-                                                    .toString() +
-                                                ":" +
-                                                _toTwoDigitString(snapshot
-                                                    .data
-                                                    .results[index]
-                                                    .endShiptime
-                                                    .minute),
+                                            translate("history.courier") +
+                                                ": " +
+                                                "Cureyer name",
                                             style: TextStyle(
                                               fontFamily: AppTheme.fontRoboto,
                                               fontWeight: FontWeight.normal,
@@ -305,7 +286,83 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                             ),
                                           ),
                                         )
-                                      : Container(),
+                                      : Container(
+                                          margin: EdgeInsets.only(
+                                              left: 16, right: 16, top: 16),
+                                          child: Text(
+                                            snapshot
+                                                .data.results[index].store.name,
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontRoboto,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 13,
+                                              fontStyle: FontStyle.normal,
+                                              color: AppTheme.black_text,
+                                            ),
+                                          ),
+                                        ),
+                                  snapshot.data.results[index].type ==
+                                          "shipping"
+                                      ? GestureDetector(
+                                          onTap: () async {
+                                            var url = "tel:" + "number";
+                                            if (await canLaunch(url)) {
+                                              await launch(url);
+                                            } else {
+                                              throw 'Could not launch $url';
+                                            }
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                left: 16, right: 16, top: 4),
+                                            child: Text(
+                                              translate("zakaz.number") +
+                                                  ": " +
+                                                  "Cureyer number",
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRoboto,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 13,
+                                                fontStyle: FontStyle.normal,
+                                                color: AppTheme.black_text,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : GestureDetector(
+                                          onTap: () async {
+                                            var url = "tel:" +
+                                                snapshot.data.results[index]
+                                                    .store.phone
+                                                    .replaceAll(" ", "")
+                                                    .replaceAll("+", "")
+                                                    .replaceAll("-", "")
+                                                    .replaceAll("(", "")
+                                                    .replaceAll(")", "");
+                                            if (await canLaunch(url)) {
+                                              await launch(url);
+                                            } else {
+                                              throw 'Could not launch $url';
+                                            }
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                left: 16, right: 16, top: 4),
+                                            child: Text(
+                                              translate("zakaz.number") +
+                                                  ": " +
+                                                  snapshot.data.results[index]
+                                                      .store.phone,
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRoboto,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 13,
+                                                fontStyle: FontStyle.normal,
+                                                color: AppTheme.black_text,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                   Container(
                                     margin: EdgeInsets.only(
                                         left: 16, right: 16, top: 4),

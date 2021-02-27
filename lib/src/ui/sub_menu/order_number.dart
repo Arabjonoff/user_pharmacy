@@ -600,7 +600,7 @@ class _OrderNumberState extends State<OrderNumber> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 16.0, right: 16.0,top: 23),
+            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 23),
             child: Text(
               translate("zakaz.number"),
               style: TextStyle(
@@ -613,8 +613,7 @@ class _OrderNumberState extends State<OrderNumber> {
             ),
           ),
           Container(
-            margin:
-                EdgeInsets.only(left: 16.0, right: 16.0, top: 3),
+            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 3),
             child: Text(
               widget.item.phone,
               style: TextStyle(
@@ -626,7 +625,6 @@ class _OrderNumberState extends State<OrderNumber> {
               ),
             ),
           ),
-
           Container(
             margin: EdgeInsets.only(
               top: 43,
@@ -676,7 +674,7 @@ class _OrderNumberState extends State<OrderNumber> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 16.0, right: 16.0,top: 23),
+            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 23),
             child: Text(
               translate("zakaz.number"),
               style: TextStyle(
@@ -689,8 +687,7 @@ class _OrderNumberState extends State<OrderNumber> {
             ),
           ),
           Container(
-            margin:
-            EdgeInsets.only(left: 16.0, right: 16.0, top: 3),
+            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 3),
             child: Text(
               widget.item.phone,
               style: TextStyle(
@@ -702,7 +699,6 @@ class _OrderNumberState extends State<OrderNumber> {
               ),
             ),
           ),
-
           Container(
             height: 36,
             margin: EdgeInsets.only(left: 16, right: 16, top: 43),
@@ -926,7 +922,8 @@ class _OrderNumberState extends State<OrderNumber> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4.0),
-                            color: colorStatus(widget.item.status).withOpacity(0.15),
+                            color: colorStatus(widget.item.status)
+                                .withOpacity(0.15),
                           ),
                           padding: EdgeInsets.only(
                             top: 4,
@@ -1219,17 +1216,33 @@ class _OrderNumberState extends State<OrderNumber> {
                               width: 7,
                             ),
                             Expanded(
-                              child: Text(
-                                widget.item.store.phone,
-                                textAlign: TextAlign.start,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.normal,
-                                  color: AppTheme.blue_app_color,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  var url = "tel:" +
+                                      widget.item.store.phone
+                                          .replaceAll(" ", "")
+                                          .replaceAll("+", "")
+                                          .replaceAll("-", "")
+                                          .replaceAll("(", "")
+                                          .replaceAll(")", "");
+                                  if (await canLaunch(url)) {
+                                    await launch(url);
+                                  } else {
+                                    throw 'Could not launch $url';
+                                  }
+                                },
+                                child: Text(
+                                  widget.item.store.phone,
+                                  textAlign: TextAlign.start,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRoboto,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.normal,
+                                    color: AppTheme.blue_app_color,
+                                  ),
                                 ),
                               ),
                             )
