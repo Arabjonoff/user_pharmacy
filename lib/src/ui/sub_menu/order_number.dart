@@ -1,9 +1,10 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:lottie/lottie.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -25,8 +26,21 @@ class _OrderNumberState extends State<OrderNumber> {
   bool itemClick = false;
   bool one = false, two = false, three = false, four = false;
 
+  double size = 24;
+  var durationTime = Duration(
+    milliseconds: 1000,
+  );
+
   @override
   void initState() {
+    Timer.periodic(durationTime, (timer) {
+      setState(() {
+        if (size == 24)
+          size = 12;
+        else
+          size = 24;
+      });
+    });
     super.initState();
   }
 
@@ -154,10 +168,40 @@ class _OrderNumberState extends State<OrderNumber> {
                                       Container(
                                         height: 24,
                                         width: 24,
-                                        decoration: BoxDecoration(
-                                          color: AppTheme.blue.withOpacity(0.7),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.only(top: 12,left: 11),
+                                              width: 2,
+                                              height: 12,
+                                              color: Color(0xFFEBEDF0),
+                                            ),
+                                            Center(
+                                              child: AnimatedContainer(
+                                                duration: durationTime,
+                                                height: size,
+                                                width: size,
+                                                decoration: BoxDecoration(
+                                                  color: AppTheme.blue
+                                                      .withOpacity(0.3),
+                                                  borderRadius:
+                                                      BorderRadius.circular(24),
+                                                ),
+                                              ),
+                                            ),
+                                            Center(
+                                              child: Container(
+                                                height: 12,
+                                                width: 12,
+                                                decoration: BoxDecoration(
+                                                  color: AppTheme.blue,
+                                                  borderRadius:
+                                                      BorderRadius.circular(24),
+                                                ),
+                                              ),
+                                            ),
+
+                                          ],
                                         ),
                                       ),
                                       Expanded(
@@ -240,10 +284,46 @@ class _OrderNumberState extends State<OrderNumber> {
                                       Container(
                                         height: 24,
                                         width: 24,
-                                        decoration: BoxDecoration(
-                                          color: AppTheme.blue.withOpacity(0.7),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                        child: Stack(
+                                          children: [
+
+                                            Container(
+                                              margin: EdgeInsets.only(left: 11),
+                                              width: 2,
+                                              height: 12,
+                                              color:  AppTheme.blue,
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 12,left: 11),
+                                              width: 2,
+                                              height: 12,
+                                              color: Color(0xFFEBEDF0),
+                                            ),
+                                            Center(
+                                              child: AnimatedContainer(
+                                                duration: durationTime,
+                                                height: size,
+                                                width: size,
+                                                decoration: BoxDecoration(
+                                                  color: AppTheme.blue
+                                                      .withOpacity(0.3),
+                                                  borderRadius:
+                                                  BorderRadius.circular(24),
+                                                ),
+                                              ),
+                                            ),
+                                            Center(
+                                              child: Container(
+                                                height: 12,
+                                                width: 12,
+                                                decoration: BoxDecoration(
+                                                  color: AppTheme.blue,
+                                                  borderRadius:
+                                                  BorderRadius.circular(24),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                       Expanded(
@@ -339,10 +419,46 @@ class _OrderNumberState extends State<OrderNumber> {
                                       Container(
                                         height: 24,
                                         width: 24,
-                                        decoration: BoxDecoration(
-                                          color: AppTheme.blue.withOpacity(0.7),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                        child: Stack(
+                                          children: [
+
+                                            Container(
+                                              margin: EdgeInsets.only(left: 11),
+                                              width: 2,
+                                              height: 12,
+                                              color:  AppTheme.blue,
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 12,left: 11),
+                                              width: 2,
+                                              height: 12,
+                                              color: Color(0xFFEBEDF0),
+                                            ),
+                                            Center(
+                                              child: AnimatedContainer(
+                                                duration: durationTime,
+                                                height: size,
+                                                width: size,
+                                                decoration: BoxDecoration(
+                                                  color: AppTheme.blue
+                                                      .withOpacity(0.3),
+                                                  borderRadius:
+                                                  BorderRadius.circular(24),
+                                                ),
+                                              ),
+                                            ),
+                                            Center(
+                                              child: Container(
+                                                height: 12,
+                                                width: 12,
+                                                decoration: BoxDecoration(
+                                                  color: AppTheme.blue,
+                                                  borderRadius:
+                                                  BorderRadius.circular(24),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                       Expanded(
@@ -441,10 +557,39 @@ class _OrderNumberState extends State<OrderNumber> {
                                       Container(
                                         height: 24,
                                         width: 24,
-                                        decoration: BoxDecoration(
-                                          color: AppTheme.blue.withOpacity(0.7),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.only(left: 11),
+                                              width: 2,
+                                              height: 12,
+                                              color:  AppTheme.blue,
+                                            ),
+                                            Center(
+                                              child: AnimatedContainer(
+                                                duration: durationTime,
+                                                height: size,
+                                                width: size,
+                                                decoration: BoxDecoration(
+                                                  color: AppTheme.blue
+                                                      .withOpacity(0.3),
+                                                  borderRadius:
+                                                  BorderRadius.circular(24),
+                                                ),
+                                              ),
+                                            ),
+                                            Center(
+                                              child: Container(
+                                                height: 12,
+                                                width: 12,
+                                                decoration: BoxDecoration(
+                                                  color: AppTheme.blue,
+                                                  borderRadius:
+                                                  BorderRadius.circular(24),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                       Expanded(
