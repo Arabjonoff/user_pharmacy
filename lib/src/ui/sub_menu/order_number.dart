@@ -1366,7 +1366,6 @@ class _OrderNumberState extends State<OrderNumber> {
                                   var url = "tel:" +
                                       widget.item.store.phone
                                           .replaceAll(" ", "")
-                                          .replaceAll("+", "")
                                           .replaceAll("-", "")
                                           .replaceAll("(", "")
                                           .replaceAll(")", "");

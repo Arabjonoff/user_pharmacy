@@ -342,7 +342,6 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                                 snapshot.data.results[index]
                                                     .store.phone
                                                     .replaceAll(" ", "")
-                                                    .replaceAll("+", "")
                                                     .replaceAll("-", "")
                                                     .replaceAll("(", "")
                                                     .replaceAll(")", "");

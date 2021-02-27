@@ -31,6 +31,7 @@ import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app_theme.dart';
 
@@ -1600,6 +1601,81 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   },
                 ),
               ),
+              GestureDetector(
+                onTap: () async {
+                  var url = "tel:+998712050888";
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  } else {
+                    throw 'Could not launch $url';
+                  }
+                },
+                child: Container(
+                  height: 88,
+                  width: double.infinity,
+                  margin: EdgeInsets.only(
+                    left: 12,
+                    right: 12,
+                    top: 32,
+                    bottom: 32,
+                  ),
+                  padding: EdgeInsets.only(
+                    left: 24,
+                    right: 16,
+                    top: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFFE2EEFB),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              translate("call_center"),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontWeight: FontWeight.w600,
+                                fontSize: MediaQuery.of(context).size.width > 350
+                                    ? 18
+                                    : 14,
+                                color: AppTheme.black_text,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SvgPicture.asset("assets/images/call.svg"),
+                                SizedBox(width: 8),
+                                Text(
+                                  "+998 (71) 205-0-888",
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRoboto,
+                                    fontSize: MediaQuery.of(context).size.width > 350
+                                        ? 18
+                                        : 14,
+                                    height: 1.6,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppTheme.blue,
+                                  ),
+
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      SvgPicture.asset("assets/images/call_center.svg")
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),
