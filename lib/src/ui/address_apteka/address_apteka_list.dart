@@ -141,7 +141,14 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen>
                                   }
                                 },
                                 child: Text(
-                                  snapshot.data[index].number,
+                                  Utils.numberFormat(
+                                    snapshot.data[index].number
+                                        .replaceAll(" ", "")
+                                        .replaceAll("-", "")
+                                        .replaceAll("+", "")
+                                        .replaceAll("(", "")
+                                        .replaceAll(")", ""),
+                                  ),
                                   textAlign: TextAlign.start,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,

@@ -23,7 +23,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
 import '../../app_theme.dart';
 import 'order_card_pickup.dart';
@@ -281,7 +280,8 @@ class _AddressStoreMapPickupScreenState
                                 child: GestureDetector(
                                   onTap: () async {
                                     var url = "tel:" +
-                                        data[i].phone
+                                        data[i]
+                                            .phone
                                             .replaceAll(" ", "")
                                             .replaceAll("-", "")
                                             .replaceAll("(", "")
@@ -293,7 +293,15 @@ class _AddressStoreMapPickupScreenState
                                     }
                                   },
                                   child: Text(
-                                    data[i].phone,
+                                    Utils.numberFormat(
+                                      data[i]
+                                          .phone
+                                          .replaceAll(" ", "")
+                                          .replaceAll("+", "")
+                                          .replaceAll("-", "")
+                                          .replaceAll("(", "")
+                                          .replaceAll(")", ""),
+                                    ),
                                     textAlign: TextAlign.start,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,

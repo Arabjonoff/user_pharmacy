@@ -226,9 +226,9 @@ class Delivery {
   });
 
   Delivery.fromJson(Map<String, dynamic> json) {
-    login = json['login'];
-    firstName = json['first_name'];
-    lastName = json['last_name'];
+    login = json['login']??"";
+    firstName = json['first_name']??"";
+    lastName = json['last_name']??"";
   }
 
   Map<String, dynamic> toJson() {
