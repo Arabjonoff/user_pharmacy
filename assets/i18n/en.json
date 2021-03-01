@@ -263,7 +263,10 @@
     "courier": "Courier",
     "cancel_text": "Cancelled",
     "cancel_message": "For a refund, please contact us at +998 71 205 12 09",
-    "call": "Call"
+    "call": "Call",
+    "cancel_bottom_text": "Do you really want to cancel this order?",
+    "yes": "I don't want to cancel",
+    "no": "Cancel"
   },
   "voice": {
     "voice_search": "Voice search",

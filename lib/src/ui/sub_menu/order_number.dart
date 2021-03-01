@@ -7,12 +7,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/blocs/history_bloc.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
-import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
+import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
-import 'package:rxbus/rxbus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
@@ -30,6 +29,7 @@ class OrderNumber extends StatefulWidget {
 
 class _OrderNumberState extends State<OrderNumber> {
   bool isLoading = false;
+  bool isCancel = false;
   bool one = false, two = false, three = false, four = false;
 
   double size = 24;
@@ -59,6 +59,23 @@ class _OrderNumberState extends State<OrderNumber> {
 
   @override
   Widget build(BuildContext context) {
+    if (isCancel) {
+      Repository().fetchCancelOrder(widget.item.id).then(
+            (value) => {
+              setState(() {
+                isLoading = false;
+                widget.item.status = "cancelled_by_user";
+              }),
+              blocHistory.fetchAllHistory(1),
+              pageHistory = 2,
+              if (value.payment == "Onlayn")
+                {
+                  BottomDialog.historyCancelOrder(context),
+                }
+            },
+          );
+      isCancel = false;
+    }
     if (widget.item.status == "payment_waiting" ||
         widget.item.status == "pending") {
       one = true;
@@ -679,22 +696,178 @@ class _OrderNumberState extends State<OrderNumber> {
                         onTap: () {
                           if (three || four) {
                           } else {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            Repository().fetchCancelOrder(widget.item.id).then(
-                                  (value) => {
-                                    setState(() {
-                                      isLoading = false;
-                                    }),
-                                    blocHistory.fetchAllHistory(1),
-                                    pageHistory = 2,
-                                    Navigator.pop(context),
-                                    RxBus.post(
-                                        BottomViewIdsModel(value.payment),
-                                        tag: "EVENT_HISTORY_CANCEL"),
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (context) {
+                                return StatefulBuilder(
+                                  builder: (BuildContext context,
+                                      StateSetter setState) {
+                                    return Container(
+                                      height: 450,
+                                      padding: EdgeInsets.only(
+                                          bottom: 24, left: 8, right: 8),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(18.0),
+                                          color: AppTheme.white,
+                                        ),
+                                        child: Column(
+                                          children: <Widget>[
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  top: 12, bottom: 16),
+                                              height: 4,
+                                              width: 60,
+                                              decoration: BoxDecoration(
+                                                color: AppTheme.bottom_dialog,
+                                                borderRadius:
+                                                    BorderRadius.circular(4),
+                                              ),
+                                            ),
+                                            Center(
+                                              child: Container(
+                                                height: 153,
+                                                width: 153,
+                                                child: SvgPicture.asset(
+                                                    "assets/images/order_is_cancel.svg"),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  top: 8, left: 16, right: 16),
+                                              child: Center(
+                                                child: Text(
+                                                  translate(
+                                                      "history.order_cancel"),
+                                                  style: TextStyle(
+                                                    fontSize: 17,
+                                                    fontStyle: FontStyle.normal,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontFamily:
+                                                        AppTheme.fontRoboto,
+                                                    height: 1.65,
+                                                    color: AppTheme.black_text,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  top: 8, left: 32, right: 32),
+                                              child: Center(
+                                                child: Text(
+                                                  translate(
+                                                      "history.cancel_bottom_text"),
+                                                  textAlign: TextAlign.center,
+                                                  maxLines: 3,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    height: 1.6,
+                                                    fontStyle: FontStyle.normal,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontFamily:
+                                                        AppTheme.fontRoboto,
+                                                    color: AppTheme
+                                                        .black_transparent_text,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(child: Container()),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                                setState(() {
+                                                  isLoading = true;
+                                                  isCancel = true;
+                                                });
+                                              },
+                                              child: Container(
+                                                margin: EdgeInsets.only(
+                                                  left: 16,
+                                                  right: 16,
+                                                  bottom: 16,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: AppTheme.white,
+                                                  border: Border.all(
+                                                    color: AppTheme.blue,
+                                                    width: 2,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                ),
+                                                height: 44,
+                                                width: double.infinity,
+                                                child: Center(
+                                                  child: Text(
+                                                    translate("history.yes"),
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          AppTheme.fontRoboto,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontSize: 17,
+                                                      height: 1.3,
+                                                      color: AppTheme.blue,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Container(
+                                                margin: EdgeInsets.only(
+                                                  left: 16,
+                                                  right: 16,
+                                                  bottom: 20,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      AppTheme.blue_app_color,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                ),
+                                                height: 44,
+                                                width: double.infinity,
+                                                child: Center(
+                                                  child: Text(
+                                                    translate("history.no"),
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          AppTheme.fontRoboto,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontSize: 17,
+                                                      height: 1.3,
+                                                      color: AppTheme.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
                                   },
                                 );
+                              },
+                            );
                           }
                         },
                         child: Container(

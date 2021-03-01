@@ -263,7 +263,10 @@
     "courier": "Kuryer",
     "cancel_text": "Bekor qilindi",
     "cancel_message": "Pulni qaytarish uchun +998 71 205 12 09 telefon orqali biz bilan bog'laning",
-    "call": "Qo'ng'iroq qilish"
+    "call": "Qo'ng'iroq qilish",
+    "cancel_bottom_text": "Siz ushbu buyurtmani bekor qilishni xohlaysizmi?",
+    "yes": "Yo'q, bekor qilmayman",
+    "no": "Bekor qilish"
   },
   "voice": {
     "voice_search": "Ovozli qidiruv",
