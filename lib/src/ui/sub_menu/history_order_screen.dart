@@ -8,6 +8,7 @@ import 'package:pharmacy/src/blocs/history_bloc.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
+import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
@@ -30,6 +31,7 @@ int pageHistory = 1;
 
 class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
   bool isLoading = false;
+  bool isMessage = false;
 
   ScrollController _sc = new ScrollController();
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
@@ -49,7 +51,17 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
   }
 
   @override
+  void dispose() {
+    RxBus.destroy();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (isMessage) {
+      BottomDialog.historyCancelOrder(context);
+      isMessage = false;
+    }
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: AppBar(
@@ -565,7 +577,11 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
   void _registerBus() {
     RxBus.register<BottomViewIdsModel>(tag: "EVENT_HISTORY_CANCEL").listen(
       (event) {
-        print(event.position);
+        if (event.position == "Onlayn") {
+          setState(() {
+            isMessage = true;
+          });
+        }
       },
     );
   }

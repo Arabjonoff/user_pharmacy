@@ -1640,9 +1640,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               style: TextStyle(
                                 fontFamily: AppTheme.fontRoboto,
                                 fontWeight: FontWeight.w600,
-                                fontSize: MediaQuery.of(context).size.width > 350
+                                fontSize: MediaQuery.of(context).size.width > 375
                                     ? 18
-                                    : 14,
+                                    : 12,
                                 color: AppTheme.black_text,
                               ),
                             ),
@@ -1657,9 +1657,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   "+998 (71) 205-0-888",
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontRoboto,
-                                    fontSize: MediaQuery.of(context).size.width > 350
+                                    fontSize: MediaQuery.of(context).size.width > 375
                                         ? 18
-                                        : 14,
+                                        : 12,
                                     height: 1.6,
                                     fontWeight: FontWeight.w600,
                                     color: AppTheme.blue,

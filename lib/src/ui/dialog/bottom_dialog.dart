@@ -335,173 +335,6 @@ class BottomDialog {
     );
   }
 
-  // static void createBottomVoiceAssistant(BuildContext context) async {
-  //   String lastWords = "";
-  //   showModalBottomSheet(
-  //     context: context,
-  //     isScrollControlled: true,
-  //     builder: (context) {
-  //       return StatefulBuilder(
-  //         builder: (BuildContext context, StateSetter setState) {
-  //           speechText.listen(
-  //               onResult: (result) => {
-  //                     setState(() {
-  //                       if (result.finalResult) {
-  //                         speechText.cancel();
-  //                         setState(() {
-  //                           level = 0.0;
-  //                         });
-  //                         Navigator.pop(context);
-  //                         lastWords = "${result.recognizedWords}";
-  //                         Navigator.push(
-  //                           context,
-  //                           PageTransition(
-  //                             type: PageTransitionType.fade,
-  //                             child: SearchScreen(lastWords, 1),
-  //                           ),
-  //                         );
-  //                       }
-  //                     })
-  //                   },
-  //               listenFor: Duration(seconds: 10),
-  //               localeId: "ru_RU",
-  //               onSoundLevelChange: (lev) => {
-  //                     minSoundLevel = min(minSoundLevel, lev),
-  //                     maxSoundLevel = max(maxSoundLevel, lev),
-  //                     setState(() {
-  //                       level = lev;
-  //                     }),
-  //                   },
-  //               cancelOnError: true,
-  //               partialResults: true,
-  //               onDevice: true,
-  //               listenMode: ListenMode.confirmation);
-  //
-  //           return Container(
-  //             height: 340,
-  //             padding: EdgeInsets.only(bottom: 5, left: 5, right: 5),
-  //             child: Container(
-  //               decoration: BoxDecoration(
-  //                 borderRadius: BorderRadius.circular(10.0),
-  //                 color: AppTheme.white,
-  //               ),
-  //               child: Column(
-  //                 children: <Widget>[
-  //                   Container(
-  //                     margin: EdgeInsets.only(top: 12),
-  //                     height: 4,
-  //                     width: 60,
-  //                     decoration: BoxDecoration(
-  //                       color: AppTheme.bottom_dialog,
-  //                       borderRadius: BorderRadius.circular(4),
-  //                     ),
-  //                   ),
-  //                   Container(
-  //                     margin: EdgeInsets.only(top: 16, left: 16, right: 16),
-  //                     child: Center(
-  //                       child: Text(
-  //                         translate("voice.voice_search"),
-  //                         style: TextStyle(
-  //                           fontSize: 17,
-  //                           fontStyle: FontStyle.normal,
-  //                           fontWeight: FontWeight.w600,
-  //                           fontFamily: AppTheme.fontRoboto,
-  //                           color: AppTheme.black_text,
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   Container(
-  //                     margin: EdgeInsets.only(top: 8, left: 32, right: 32),
-  //                     child: Center(
-  //                       child: Text(
-  //                         translate("voice.title"),
-  //                         textAlign: TextAlign.center,
-  //                         style: TextStyle(
-  //                           fontSize: 13,
-  //                           fontStyle: FontStyle.normal,
-  //                           fontWeight: FontWeight.normal,
-  //                           fontFamily: AppTheme.fontRoboto,
-  //                           color: AppTheme.black_transparent_text,
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   Expanded(
-  //                     child: Container(
-  //                       child: Align(
-  //                         alignment: Alignment.center,
-  //                         child: Container(
-  //                           width: 103,
-  //                           height: 103,
-  //                           child: Stack(
-  //                             children: [
-  //                               Container(
-  //                                 decoration: BoxDecoration(
-  //                                   boxShadow: [
-  //                                     BoxShadow(
-  //                                         blurRadius: .26,
-  //                                         spreadRadius: level * 1.5,
-  //                                         color: Colors.black.withOpacity(.05))
-  //                                   ],
-  //                                   color: Colors.white,
-  //                                   borderRadius:
-  //                                       BorderRadius.all(Radius.circular(50)),
-  //                                 ),
-  //                                 child: Center(
-  //                                   child: SvgPicture.asset(
-  //                                       "assets/images/voice_blue.svg"),
-  //                                 ),
-  //                               ),
-  //                             ],
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   GestureDetector(
-  //                     onTap: () {
-  //                       Navigator.pop(context);
-  //                       speechText.cancel();
-  //                       setState(() {
-  //                         level = 0.0;
-  //                       });
-  //                     },
-  //                     child: Container(
-  //                       margin: EdgeInsets.all(16),
-  //                       decoration: BoxDecoration(
-  //                         color: AppTheme.white,
-  //                         borderRadius: BorderRadius.circular(10.0),
-  //                         border: Border.all(
-  //                           color: AppTheme.blue_app_color,
-  //                           width: 2.0,
-  //                         ),
-  //                       ),
-  //                       height: 56,
-  //                       width: double.infinity,
-  //                       child: Center(
-  //                         child: Text(
-  //                           translate("voice.cancel"),
-  //                           style: TextStyle(
-  //                               fontFamily: AppTheme.fontRoboto,
-  //                               fontWeight: FontWeight.w600,
-  //                               fontStyle: FontStyle.normal,
-  //                               fontSize: 17,
-  //                               color: AppTheme.blue_app_color),
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   )
-  //                 ],
-  //               ),
-  //             ),
-  //           );
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
-
   static void voiceAssistantDialog(BuildContext context) async {
     showModalBottomSheet(
       context: context,
@@ -601,6 +434,123 @@ class BottomDialog {
                                 fontStyle: FontStyle.normal,
                                 fontSize: 17,
                                 color: AppTheme.blue_app_color),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  static void historyCancelOrder(BuildContext context) async {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              height: 400,
+              padding: EdgeInsets.only(bottom: 24, left: 8, right: 8),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18.0),
+                  color: AppTheme.white,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(top: 12,bottom: 16),
+                      height: 4,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        color: AppTheme.bottom_dialog,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                    Center(
+                      child: Container(
+                        height: 153,
+                        width: 153,
+                        child:
+                            SvgPicture.asset("assets/images/cancel_order.svg"),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 8, left: 16, right: 16),
+                      child: Center(
+                        child: Text(
+                          translate("history.cancel_text"),
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: AppTheme.fontRoboto,
+                            height: 1.65,
+                            color: AppTheme.black_text,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 8, left: 32, right: 32),
+                      child: Center(
+                        child: Text(
+                          translate("history.cancel_message"),
+                          textAlign: TextAlign.center,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 15,
+                            height: 1.6,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: AppTheme.fontRoboto,
+                            color: AppTheme.black_transparent_text,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(child: Container()),
+                    GestureDetector(
+                      onTap: () async {
+                        var url = "tel:+998712050888";
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          left: 16,
+                          right: 16,
+                          bottom: 20,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppTheme.blue_app_color,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        height: 44,
+                        width: double.infinity,
+                        child: Center(
+                          child: Text(
+                            translate("history.call"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.w600,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 17,
+                              height: 1.3,
+                              color: AppTheme.white,
+                            ),
                           ),
                         ),
                       ),
