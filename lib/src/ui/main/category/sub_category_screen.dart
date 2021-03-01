@@ -203,7 +203,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                                     context,
                                     PageTransition(
                                       type: PageTransitionType.fade,
-                                      child: SearchScreen(result, 1, 2),
+                                      child: SearchScreen(result, 0, 2),
                                     ),
                                   );
                                   await methodChannel.invokeMethod("stop");

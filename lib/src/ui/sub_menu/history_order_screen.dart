@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +61,9 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
   @override
   Widget build(BuildContext context) {
     if (isMessage) {
-      BottomDialog.historyCancelOrder(context);
+      Timer(Duration(milliseconds: 750), () {
+        BottomDialog.historyCancelOrder(context);
+      });
       isMessage = false;
     }
     return Scaffold(
@@ -581,6 +585,11 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
           setState(() {
             isMessage = true;
           });
+          // Timer(Duration(milliseconds: 500), () {
+          //   setState(() {
+          //     isMessage = true;
+          //   });
+          // });
         }
       },
     );

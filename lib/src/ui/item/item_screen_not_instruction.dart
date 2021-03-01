@@ -18,8 +18,8 @@ import 'package:simple_html_css/simple_html_css.dart';
 
 import '../../app_theme.dart';
 
-int itemId;
-bool isOpenItem = false;
+// int itemId;
+// bool isOpenItem = false;
 
 class ItemScreenNotInstruction extends StatefulWidget {
   final int id;
@@ -37,17 +37,17 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
 
   @override
   void initState() {
-    isOpenItem = true;
+    // isOpenItem = true;
     blocItem.fetchAllCategory(widget.id.toString());
-    itemId = widget.id;
+    // itemId = widget.id;
     super.initState();
   }
 
-  @override
-  void dispose() {
-    isOpenItem = false;
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   isOpenItem = false;
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -1660,9 +1660,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                       highlightColor: Colors.grey[100],
                       child: Container(
                         height: double.infinity,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
+                        child: ListView(
                           children: [
                             Center(
                               child: Container(

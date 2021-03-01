@@ -370,16 +370,19 @@ class PharmacyApiProvider {
     String priceMax,
     String priceMin,
     String unitIds,
+    int barcode,
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
+
+    String search = barcode == 1 ? "barcode=$obj" : "search=$obj";
 
     String url = Utils.baseUrl +
         '/api/v1/drugs?'
             'page=$page&'
             'region=$regionId&'
             'per_page=$perPage&'
-            'search=$obj&'
+            '$search&'
             'international_name_ids=$internationalNameIds&'
             'manufacturer_ids=$manufacturerIds&'
             'ordering=$ordering&'

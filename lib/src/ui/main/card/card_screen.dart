@@ -11,6 +11,7 @@ import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
@@ -158,16 +159,19 @@ class _CardScreenState extends State<CardScreen> {
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                PageTransition(
-                                  type: PageTransitionType.bottomToTop,
-                                  alignment: Alignment.bottomCenter,
-                                  child: ItemScreenNotInstruction(
-                                    snapshot.data[index].id,
-                                  ),
-                                ),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   PageTransition(
+                              //     type: PageTransitionType.bottomToTop,
+                              //     alignment: Alignment.bottomCenter,
+                              //     child: ItemScreenNotInstruction(
+                              //       snapshot.data[index].id,
+                              //     ),
+                              //   ),
+                              // );
+                              RxBus.post(
+                                  BottomViewModel(snapshot.data[index].id),
+                                  tag: "EVENT_BOTTOM_ITEM_ALL");
                             },
                             child: Container(
                               height: 160,

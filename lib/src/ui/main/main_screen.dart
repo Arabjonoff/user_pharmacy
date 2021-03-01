@@ -169,6 +169,21 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
 
+    RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_ITEM_ALL").listen(
+      (event) {
+        Navigator.push(
+          context,
+          PageTransition(
+            type: PageTransitionType.bottomToTop,
+            alignment: Alignment.bottomCenter,
+            child: ItemScreenNotInstruction(
+              event.position,
+            ),
+          ),
+        );
+      },
+    );
+
     RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_VIEW_ERROR").listen(
       (event) => {
         showDialog(
@@ -314,8 +329,8 @@ class _MainScreenState extends State<MainScreen> {
           deviceData = _readAndroidBuildData(
               await deviceInfoPlugin.androidInfo, context);
         } else if (Platform.isIOS) {
-          deviceData =
-              _readIosDeviceInfo(await deviceInfoPlugin.iosInfo, context, await FlutterUdid.udid);
+          deviceData = _readIosDeviceInfo(
+              await deviceInfoPlugin.iosInfo, context, await FlutterUdid.udid);
         }
         Utils.saveDeviceData(deviceData);
       } on PlatformException {

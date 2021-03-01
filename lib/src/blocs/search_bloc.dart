@@ -10,7 +10,7 @@ class SearchBloc {
 
   List<ItemResult> allResult;
 
-  fetchSearch(int page, String obj) async {
+  fetchSearch(int page, String obj, int barcode) async {
     if (obj.length > 2) {
       ItemModel itemModel = await _repository.fetchSearchItemList(
         obj,
@@ -21,6 +21,7 @@ class SearchBloc {
         "",
         "",
         "",
+        barcode,
       );
       if (page == 1) {
         allResult = new List();

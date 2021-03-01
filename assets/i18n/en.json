@@ -260,7 +260,10 @@
     "order_cancel": "Cancel the order",
     "order_not_cancel": "Can't be canceled",
     "cancelled_by_user": "Cancelled",
-    "courier": "Courier"
+    "courier": "Courier",
+    "cancel_text": "Cancelled",
+    "cancel_message": "For a refund, please contact us at +998 71 205 12 09",
+    "call": "Call"
   },
   "voice": {
     "voice_search": "Voice search",

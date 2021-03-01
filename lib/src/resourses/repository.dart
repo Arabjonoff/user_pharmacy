@@ -80,7 +80,6 @@ class Repository {
 
   Future<List<NoteModel>> databaseNote() => databaseHelperNote.getProduct();
 
-
   Future<List<ItemResult>> databaseCardItem(bool isCard) =>
       databaseHelper.getProdu(isCard);
 
@@ -137,6 +136,7 @@ class Repository {
     String priceMax,
     String priceMin,
     String unitIds,
+    int barcode,
   ) =>
       pharmacyApiProvider.fetchSearchItemsList(
         obj,
@@ -148,6 +148,7 @@ class Repository {
         priceMax,
         priceMin,
         unitIds,
+        barcode,
       );
 
   Future<ItemsAllModel> fetchItems(String id) =>

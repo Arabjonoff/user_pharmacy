@@ -520,7 +520,7 @@ class BottomDialog {
                     Expanded(child: Container()),
                     GestureDetector(
                       onTap: () async {
-                        var url = "tel:+998712050888";
+                        var url = "tel:+998712051209";
                         if (await canLaunch(url)) {
                           await launch(url);
                         } else {

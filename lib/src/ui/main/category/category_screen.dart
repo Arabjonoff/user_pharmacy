@@ -57,9 +57,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    if (isOpenItem) {
-      blocItem.fetchAllUpdate(itemId);
-    }
+    // if (isOpenItem) {
+    //   blocItem.fetchAllUpdate(itemId);
+    // }
 
     return Scaffold(
       backgroundColor: AppTheme.white,
@@ -266,7 +266,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                     context,
                                     PageTransition(
                                       type: PageTransitionType.fade,
-                                      child: SearchScreen(result, 1, 2),
+                                      child: SearchScreen(result, 0, 2),
                                     ),
                                   );
                                   await methodChannel.invokeMethod("stop");

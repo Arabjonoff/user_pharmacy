@@ -16,6 +16,8 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
 
+int barcode;
+
 class SearchScreen extends StatefulWidget {
   final String name;
   final int barcode;
@@ -56,6 +58,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
+    barcode = widget.barcode;
     if (widget.searchPosition == 1) {
       height = 130.0;
     } else {
@@ -587,7 +590,7 @@ class _SearchScreenState extends State<SearchScreen> {
   void _getMoreData(int index) async {
     if (obj.length > 2) {
       if (!isLoading) {
-        blocSearch.fetchSearch(index, obj);
+        blocSearch.fetchSearch(index, obj, widget.barcode);
         page++;
       }
     }

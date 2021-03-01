@@ -1,5 +1,6 @@
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
 List<ItemResult> usersCategory;
@@ -222,6 +223,7 @@ class ItemListBloc {
       priceMax,
       priceMin,
       unitIds,
+      barcode,
     );
 
     if (itemModelSearch != null) {

@@ -9,6 +9,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/filter_open_model.dart';
 import 'package:pharmacy/src/model/sort_radio_btn.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
@@ -235,7 +236,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                     context,
                                     PageTransition(
                                       type: PageTransitionType.fade,
-                                      child: SearchScreen(result, 1, 2),
+                                      child: SearchScreen(result, 0, 2),
                                     ),
                                   );
                                   await methodChannel.invokeMethod("stop");
@@ -522,16 +523,20 @@ class _ItemListScreenState extends State<ItemListScreen> {
                               } else {
                                 return InkWell(
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        type: PageTransitionType.bottomToTop,
-                                        alignment: Alignment.bottomCenter,
-                                        child: ItemScreenNotInstruction(
-                                          snapshot.data.results[index].id,
-                                        ),
-                                      ),
-                                    );
+                                    // Navigator.push(
+                                    //   context,
+                                    //   PageTransition(
+                                    //     type: PageTransitionType.bottomToTop,
+                                    //     alignment: Alignment.bottomCenter,
+                                    //     child: ItemScreenNotInstruction(
+                                    //       snapshot.data.results[index].id,
+                                    //     ),
+                                    //   ),
+                                    // );
+                                    RxBus.post(
+                                        BottomViewModel(
+                                            snapshot.data.results[index].id),
+                                        tag: "EVENT_BOTTOM_ITEM_ALL");
                                   },
                                   child: Container(
                                     height: 160,
