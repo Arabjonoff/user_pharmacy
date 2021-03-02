@@ -4,7 +4,12 @@ class HistoryModel {
   String previous;
   List<HistoryResults> results;
 
-  HistoryModel({this.count, this.next, this.previous, this.results});
+  HistoryModel({
+    this.count,
+    this.next,
+    this.previous,
+    this.results,
+  });
 
   HistoryModel.fromJson(Map<String, dynamic> json) {
     count = json['count'];
@@ -226,9 +231,9 @@ class Delivery {
   });
 
   Delivery.fromJson(Map<String, dynamic> json) {
-    login = json['login']??"";
-    firstName = json['first_name']??"";
-    lastName = json['last_name']??"";
+    login = json['login'] ?? "";
+    firstName = json['first_name'] ?? "";
+    lastName = json['last_name'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
