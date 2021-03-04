@@ -1606,6 +1606,83 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   },
                 ),
               ),
+              Container(
+                margin: EdgeInsets.only(top: 32),
+                child: Stack(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 12,
+                        left: 12,
+                        right: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10.0),
+                        ),
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color(0xFFEEEEFF),
+                            Color(0xFFF8F8FF),
+                          ],
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 25,
+                            width: double.infinity,
+                          ),
+                          Image.asset(
+                            "assets/images/home_bonus.png",
+                            width: 124,
+                            height: 124,
+                          ),
+                          SizedBox(
+                            height: 32,
+                            width: double.infinity,
+                          ),
+                          Text(
+                            translate("home.bonus"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20,
+                              height: 1.1,
+                              color: AppTheme.black_text,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: 16,
+                              left: 26,
+                              right: 26,
+                              bottom: 24,
+                            ),
+                            child: Center(
+                              child: Text(
+                                translate("home.bonus_txt"),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 14,
+                                  height: 1.6,
+                                  color: Color(0xFF6E80B0),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(),
+                  ],
+                ),
+              ),
               GestureDetector(
                 onTap: () async {
                   var url = "tel:+998712050888";
@@ -1621,7 +1698,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   margin: EdgeInsets.only(
                     left: 12,
                     right: 12,
-                    top: 32,
+                    top: 24,
                     bottom: 32,
                   ),
                   padding: EdgeInsets.only(
