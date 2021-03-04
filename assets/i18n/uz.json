@@ -266,7 +266,8 @@
     "call": "Qo'ng'iroq qilish",
     "cancel_bottom_text": "Siz ushbu buyurtmani bekor qilishni xohlaysizmi?",
     "yes": "Yo'q, bekor qilmayman",
-    "no": "Bekor qilish"
+    "no": "Bekor qilish",
+    "all": "Batafsil"
   },
   "voice": {
     "voice_search": "Ovozli qidiruv",

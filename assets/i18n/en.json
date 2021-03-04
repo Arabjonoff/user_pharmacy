@@ -266,7 +266,8 @@
     "call": "Call",
     "cancel_bottom_text": "Do you really want to cancel this order?",
     "yes": "I don't want to cancel",
-    "no": "Cancel"
+    "no": "Cancel",
+    "all": "More"
   },
   "voice": {
     "voice_search": "Voice search",

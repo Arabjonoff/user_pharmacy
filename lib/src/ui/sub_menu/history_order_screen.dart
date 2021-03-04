@@ -206,17 +206,42 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                   Container(
                                     margin: EdgeInsets.only(
                                         left: 16, right: 16, top: 16),
-                                    child: Text(
-                                      "№" +
-                                          snapshot.data.results[index].id
-                                              .toString(),
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontRoboto,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 17,
-                                        fontStyle: FontStyle.normal,
-                                        color: AppTheme.black_text,
-                                      ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                            child: Text(
+                                          "№" +
+                                              snapshot.data.results[index].id
+                                                  .toString(),
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontRoboto,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 17,
+                                            fontStyle: FontStyle.normal,
+                                            color: AppTheme.black_text,
+                                          ),
+                                        )),
+                                        Text(
+                                          translate("history.all"),
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontRoboto,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14,
+                                            height: 1.71,
+                                            fontStyle: FontStyle.normal,
+                                            color: AppTheme.blue,
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 24,
+                                          width: 18,
+                                          margin: EdgeInsets.only(top: 3),
+                                          padding: EdgeInsets.all(1),
+                                          child: SvgPicture.asset(
+                                            "assets/images/icon_arrow_blue.svg",
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
                                   Container(
@@ -346,12 +371,29 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                               },
                                               child: Container(
                                                 margin: EdgeInsets.only(
-                                                    left: 16,
-                                                    right: 16,
-                                                    top: 4),
-                                                child: Text(
-                                                  translate("zakaz.number") +
-                                                      ": " +
+                                                  left: 16,
+                                                  right: 16,
+                                                  top: 4,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      translate(
+                                                              "zakaz.number") +
+                                                          ": ",
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            AppTheme.fontRoboto,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontSize: 13,
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                        color:
+                                                            AppTheme.black_text,
+                                                      ),
+                                                    ),
+                                                    Text(
                                                       Utils.numberFormat(
                                                         snapshot
                                                             .data
@@ -359,15 +401,18 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                                             .delivery
                                                             .login,
                                                       ),
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        AppTheme.fontRoboto,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 13,
-                                                    fontStyle: FontStyle.normal,
-                                                    color: AppTheme.black_text,
-                                                  ),
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            AppTheme.fontRoboto,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontSize: 13,
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                        color: AppTheme.blue,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             )
@@ -389,9 +434,22 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                           child: Container(
                                             margin: EdgeInsets.only(
                                                 left: 16, right: 16, top: 4),
-                                            child: Text(
-                                              translate("zakaz.number") +
-                                                  ": " +
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  translate("zakaz.number") +
+                                                      ": ",
+                                                  style: TextStyle(
+                                                    fontFamily:
+                                                        AppTheme.fontRoboto,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontSize: 13,
+                                                    fontStyle: FontStyle.normal,
+                                                    color: AppTheme.black_text,
+                                                  ),
+                                                ),
+                                                Text(
                                                   Utils.numberFormat(
                                                     snapshot.data.results[index]
                                                         .store.phone
@@ -401,13 +459,17 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                                         .replaceAll("(", "")
                                                         .replaceAll(")", ""),
                                                   ),
-                                              style: TextStyle(
-                                                fontFamily: AppTheme.fontRoboto,
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 13,
-                                                fontStyle: FontStyle.normal,
-                                                color: AppTheme.black_text,
-                                              ),
+                                                  style: TextStyle(
+                                                    fontFamily:
+                                                        AppTheme.fontRoboto,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontSize: 13,
+                                                    fontStyle: FontStyle.normal,
+                                                    color: AppTheme.blue,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
