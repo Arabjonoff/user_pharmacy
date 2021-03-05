@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/ui/login_region_screen.dart';
+import 'package:pharmacy/src/utils/utils.dart';
 
 class OnBoarding extends StatefulWidget {
   @override
@@ -40,6 +41,7 @@ class _OnBoardingState extends State<OnBoarding> {
             height: 56,
             child: GestureDetector(
               onTap: () {
+                Utils.saveFirstOpen("yes");
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -187,6 +189,7 @@ class _OnBoardingState extends State<OnBoarding> {
                   //_pageController.jumpToPage(2);
                 });
               } else if (currentIndex == 5) {
+                Utils.saveFirstOpen("yes");
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

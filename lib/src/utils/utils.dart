@@ -23,13 +23,16 @@ class Utils {
     prefs.setString('gender', gender);
     prefs.setString('token', token);
     prefs.setString('number', number);
-    //  prefs.commit();
   }
 
   static Future<void> saveCashBack(double cashBack) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setDouble('cashBack', cashBack);
-    // prefs.commit();
+  }
+
+  static Future<void> saveFirstOpen(String string) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('firstOpen', string);
   }
 
   static Future<double> getCashBack() async {
@@ -44,20 +47,17 @@ class Utils {
     prefs.setString('city', city);
     prefs.setDouble('coordLat', lat);
     prefs.setDouble('coordLng', lng);
-    //prefs.commit();
   }
 
   static Future<void> saveLocation(double lat, double lng) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setDouble('coordLat', lat);
     prefs.setDouble('coordLng', lng);
-    // prefs.commit();
   }
 
   static Future<void> clearData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
-    //prefs.commit();
   }
 
   static Future<int> getId() async {

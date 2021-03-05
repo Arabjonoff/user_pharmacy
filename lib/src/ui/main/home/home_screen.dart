@@ -1607,12 +1607,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 32),
+                margin: EdgeInsets.only(top: 20),
                 child: Stack(
                   children: [
                     Container(
                       margin: EdgeInsets.only(
-                        top: 12,
+                        top: 24,
                         left: 12,
                         right: 12,
                       ),
@@ -1679,7 +1679,57 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ],
                       ),
                     ),
-                    Container(),
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 8,
+                        left: MediaQuery.of(context).size.width / 4.15,
+                      ),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Image.asset(
+                          "assets/images/bonus_one.png",
+                          width: 46,
+                          height: 46,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        right: MediaQuery.of(context).size.width / 9.375,
+                      ),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: Image.asset(
+                          "assets/images/bonus_two.png",
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 110,
+                        left: MediaQuery.of(context).size.width / 7.5,
+                      ),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Image.asset(
+                          "assets/images/bonus_three.png",
+                          width: 46,
+                          height: 46,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 104,
+                        right: 2,
+                      ),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: Image.asset(
+                          "assets/images/bonus_four.png",
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

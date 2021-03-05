@@ -31,7 +31,6 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
   PermissionStatus _permissionStatus;
   Position position;
 
-  //List<RegionModel> users = new List();
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
   bool isFirstData = true;

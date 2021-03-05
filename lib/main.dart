@@ -7,7 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/localization_delegate.dart';
 import 'package:flutter_translate/localization_provider.dart';
 import 'package:flutter_translate/localized_app.dart';
-import 'package:pharmacy/src/ui/login_region_screen.dart';
+import 'package:pharmacy/src/ui/auth/onboarding_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -58,7 +58,7 @@ void main() async {
   HttpOverrides.global = new MyHttpOverrides();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  if (prefs.getInt("cityId") != null) {
+  if (prefs.getInt("firstOpen") != null) {
     isLoginPage = true;
   } else {
     isLoginPage = false;
@@ -106,7 +106,8 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: isLoginPage ? MainScreen() : LoginRegionScreen(),
+        home: isLoginPage ? MainScreen() : OnBoarding(),
+        // home: OnBoarding(),
       ),
     );
   }
