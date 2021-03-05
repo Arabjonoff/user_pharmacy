@@ -263,7 +263,12 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                               : translate("history.dostavka"),
                                           style: TextStyle(
                                             fontStyle: FontStyle.normal,
-                                            fontSize: 17,
+                                            fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width >
+                                                    375
+                                                ? 17
+                                                : 13,
                                             fontWeight: FontWeight.w600,
                                             fontFamily: AppTheme.fontRoboto,
                                             color: AppTheme.black_text,
@@ -301,7 +306,12 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                                             .status ==
                                                         "waiting_deliverer"
                                                     ? 7
-                                                    : 11,
+                                                    : MediaQuery.of(context)
+                                                                .size
+                                                                .width >
+                                                            375
+                                                        ? 11
+                                                        : 7,
                                                 color: colorStatus(snapshot.data
                                                     .results[index].status),
                                                 fontStyle: FontStyle.normal,

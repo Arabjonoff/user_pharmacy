@@ -58,7 +58,7 @@ void main() async {
   HttpOverrides.global = new MyHttpOverrides();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  if (prefs.getInt("firstOpen") != null) {
+  if (prefs.getString("firstOpen") != null) {
     isLoginPage = true;
   } else {
     isLoginPage = false;

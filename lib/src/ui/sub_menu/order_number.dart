@@ -782,10 +782,6 @@ class _OrderNumberState extends State<OrderNumber> {
                                             GestureDetector(
                                               onTap: () {
                                                 Navigator.pop(context);
-                                                setState(() {
-                                                  isLoading = true;
-                                                  isCancel = true;
-                                                });
                                               },
                                               child: Container(
                                                 margin: EdgeInsets.only(
@@ -826,6 +822,10 @@ class _OrderNumberState extends State<OrderNumber> {
                                             GestureDetector(
                                               onTap: () {
                                                 Navigator.pop(context);
+                                                setState(() {
+                                                  isLoading = true;
+                                                  isCancel = true;
+                                                });
                                               },
                                               child: Container(
                                                 margin: EdgeInsets.only(

@@ -56,7 +56,9 @@
     "set": "Savol",
     "question": "so'rash",
     "show_all": "To'liq ko'rish",
-    "comment": "Комментарии"
+    "comment": "Комментарии",
+    "bonus": "Bonus dasturi",
+    "bonus_txt": "Har bir xaridingizda keyingi xaridlaringiz uchun ballar yig'ib boring.Ballaringiz <Menyu> bo'limidagi bonus kartangizda to'planadi."
   },
   "language": {
     "en": "English",
@@ -237,7 +239,7 @@
     "date": "Yetkazish vaqti: ",
     "price": "To'lov miqdori",
     "somviz": "Olib ketish",
-    "dostavka": "Kuryer xizmati orqali",
+    "dostavka": "Kuryer orqali",
     "pending": "Kutish jarayonida",
     "accept": "Qabul qilindi",
     "cancelled_by_store": "Dorixona qabul qilmadi",

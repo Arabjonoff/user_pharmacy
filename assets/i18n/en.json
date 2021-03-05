@@ -56,7 +56,9 @@
     "set": "Ask",
     "question": "Question",
     "show_all": "See more",
-    "comment": "Комментарии"
+    "comment": "Комментарии",
+    "bonus": "Bonus Program",
+    "bonus_txt": "With each purchase, you have the opportunity to earn points that you can spend on your next purchases. Points are credited to your Bonus Card in the <Menu> section"
   },
   "language": {
     "en": "English",
@@ -239,7 +241,7 @@
     "somviz": "Pickup",
     "dostavka": "By delivery service",
     "pending": "Pending",
-    "accept": "Accept",
+    "accept": "Accepted",
     "cancelled_by_store": "Cancelled by store",
     "waiting_deliverer": "Waiting for deliverer",
     "delivering": "Delivering",
