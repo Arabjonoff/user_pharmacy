@@ -953,7 +953,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
               ),
               Container(
-                height: 175.0,
+                height: (MediaQuery.of(context).size.width - 30) / 2.0,
                 width: double.infinity,
                 margin: EdgeInsets.only(top: 32),
                 child: StreamBuilder(
@@ -989,16 +989,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                   );
                                 } else if (url.drug != null) {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   PageTransition(
-                                  //     type: PageTransitionType.bottomToTop,
-                                  //     alignment: Alignment.bottomCenter,
-                                  //     child: ItemScreenNotInstruction(
-                                  //       url.drug,
-                                  //     ),
-                                  //   ),
-                                  // );
                                   RxBus.post(BottomViewModel(url.drug),
                                       tag: "EVENT_BOTTOM_ITEM_ALL");
                                 } else if (url.category != null) {
@@ -1017,6 +1007,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               },
                               child: Container(
                                 width: double.infinity,
+                                padding: EdgeInsets.only(
+                                  left: 6,
+                                  right: 6,
+                                ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(16.0),
                                   child: Container(
@@ -1034,10 +1028,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                   ),
                                 ),
-                                padding: EdgeInsets.only(
-                                  right: 12,
-                                ),
-                                height: 154,
+                                // padding: EdgeInsets.only(
+                                //   right: 12,
+                                // ),
                               ),
                             );
                           },
