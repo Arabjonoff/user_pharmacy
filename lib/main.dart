@@ -106,6 +106,12 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
+        builder: (BuildContext context, Widget child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+            child: child,
+          );
+        },
         home: isLoginPage ? MainScreen() : OnBoarding(),
         // home: OnBoarding(),
       ),
