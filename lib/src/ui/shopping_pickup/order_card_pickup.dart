@@ -27,7 +27,10 @@ class OrderCardPickupScreen extends StatefulWidget {
   final int orderId;
   final String message;
 
-  OrderCardPickupScreen(this.orderId, this.message);
+  OrderCardPickupScreen(
+    this.orderId,
+    this.message,
+  );
 
   @override
   State<StatefulWidget> createState() {
@@ -71,12 +74,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
   void initState() {
     getInfo();
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // aptekaModel = null;
-    super.dispose();
   }
 
   _OrderCardPickupScreenState() {
