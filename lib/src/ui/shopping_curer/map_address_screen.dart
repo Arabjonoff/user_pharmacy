@@ -133,18 +133,6 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
     await controller.addPlacemark(
       lastPlaceMark,
     );
-    // var responce =
-    //     Repository().fetchLocationAddress(point.latitude, point.longitude);
-    // responce.then((value) => {
-    //       if (responce != null)
-    //         {
-    //           if (value.response.geoObjectCollection.featureMember.length > 0)
-    //             setState(() {
-    //               address = value.response.geoObjectCollection.featureMember[0]
-    //                   .geoObject.metaDataProperty.geocoderMetaData.text;
-    //             }),
-    //         }
-    //     });
   }
 
   @override
@@ -220,7 +208,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              height: 48,
+              height: 44,
               margin: EdgeInsets.only(bottom: 4),
               child: Stack(
                 children: [
@@ -231,8 +219,8 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                         Navigator.pop(context);
                       },
                       child: Container(
-                        height: 48,
-                        width: 48,
+                        height: 44,
+                        width: 44,
                         color: AppTheme.arrow_examp_back,
                         margin: EdgeInsets.only(right: 4),
                         child: Center(
@@ -264,8 +252,8 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                         );
                       },
                       child: Container(
-                        height: 48,
-                        width: 48,
+                        height: 44,
+                        width: 44,
                         color: AppTheme.arrow_examp_back,
                         child: Center(
                           child: Container(
@@ -296,13 +284,13 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
               ),
             ),
             Container(
-              height: 56,
+              height: 44,
               margin: EdgeInsets.only(
-                top: 8,
                 left: 16,
                 right: 16,
                 bottom: 8,
               ),
+              padding: EdgeInsets.only(left: 6, right: 6),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 color: AppTheme.auth_login,
@@ -311,43 +299,33 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                   width: 1.0,
                 ),
               ),
-              child: Padding(
-                padding:
-                    EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 12),
-                child: TextFormField(
-                  style: TextStyle(
-                    fontFamily: AppTheme.fontRoboto,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.normal,
-                    color: AppTheme.black_text,
-                    fontSize: 15,
-                  ),
-                  controller: addressController,
-                  decoration: InputDecoration(
-                    labelText: translate('address.delivery_address'),
-                    labelStyle: TextStyle(
+              child: Container(
+                padding: EdgeInsets.only(
+                  bottom: 2,
+                ),
+                child: Center(
+                  child: TextFormField(
+                    textInputAction: TextInputAction.done,
+                    autofocus: false,
+                    style: TextStyle(
                       fontFamily: AppTheme.fontRoboto,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.normal,
-                      color: Color(0xFF6D7885),
-                      fontSize: 11,
+                      color: AppTheme.black_text,
+                      fontSize: 15,
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: AppTheme.auth_login,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: translate("address.delivery_address"),
+                      hintStyle: TextStyle(
+                        fontFamily: AppTheme.fontRoboto,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xFF6D7885),
+                        fontSize: 15,
                       ),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: AppTheme.auth_login,
-                      ),
-                    ),
+                    controller: addressController,
                   ),
                 ),
               ),
