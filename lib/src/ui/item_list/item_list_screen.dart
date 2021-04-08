@@ -717,29 +717,57 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                                       .results[
                                                                           index]
                                                                       .basePrice
-                                                              ? Text(
-                                                                  priceFormat.format(snapshot
-                                                                          .data
-                                                                          .results[
-                                                                              index]
-                                                                          .price) +
-                                                                      translate(
-                                                                          "sum"),
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: AppTheme
-                                                                        .black_text,
-                                                                    fontSize:
-                                                                        15,
-                                                                    height:
-                                                                        1.33,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    fontFamily:
-                                                                        AppTheme
-                                                                            .fontRoboto,
-                                                                  ),
+                                                              ? Row(
+                                                                  children: [
+                                                                    translate("lan") !=
+                                                                            "2"
+                                                                        ? Text(
+                                                                            translate("from"),
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: AppTheme.black_text,
+                                                                              fontSize: 14,
+                                                                              height: 1.33,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              fontFamily: AppTheme.fontRoboto,
+                                                                            ),
+                                                                          )
+                                                                        : Container(),
+                                                                    Text(
+                                                                      priceFormat.format(snapshot
+                                                                              .data
+                                                                              .results[index]
+                                                                              .price) +
+                                                                          translate("sum"),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: AppTheme
+                                                                            .black_text,
+                                                                        fontSize:
+                                                                            15,
+                                                                        height:
+                                                                            1.33,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        fontFamily:
+                                                                            AppTheme.fontRoboto,
+                                                                      ),
+                                                                    ),
+                                                                    translate("lan") ==
+                                                                            "2"
+                                                                        ? Text(
+                                                                            translate("from"),
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: AppTheme.black_text,
+                                                                              fontSize: 14,
+                                                                              height: 1.33,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              fontFamily: AppTheme.fontRoboto,
+                                                                            ),
+                                                                          )
+                                                                        : Container(),
+                                                                  ],
                                                                 )
                                                               : Row(
                                                                   crossAxisAlignment:

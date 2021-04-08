@@ -18,9 +18,6 @@ import 'package:simple_html_css/simple_html_css.dart';
 
 import '../../app_theme.dart';
 
-// int itemId;
-// bool isOpenItem = false;
-
 class ItemScreenNotInstruction extends StatefulWidget {
   final int id;
 
@@ -37,17 +34,9 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
 
   @override
   void initState() {
-    // isOpenItem = true;
     blocItem.fetchAllCategory(widget.id.toString());
-    // itemId = widget.id;
     super.initState();
   }
-
-  // @override
-  // void dispose() {
-  //   isOpenItem = false;
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -253,21 +242,61 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                         Container(
                           margin: EdgeInsets.only(top: 24, left: 16),
                           child: snapshot.data.price >= snapshot.data.basePrice
-                              ? Text(
-                                  priceFormat.format(snapshot.data.price) +
-                                      translate("sum"),
-                                  style: TextStyle(
-                                    color: AppTheme.black_text,
-                                    fontSize: 24,
-                                    height: 1.17,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: AppTheme.fontRoboto,
-                                  ),
+                              ? Row(
+                                  children: [
+                                    translate("lan") != "2"
+                                        ? Text(
+                                            translate("from"),
+                                            style: TextStyle(
+                                              color: AppTheme.black_text,
+                                              fontSize: 24,
+                                              height: 1.17,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: AppTheme.fontRoboto,
+                                            ),
+                                          )
+                                        : Container(),
+                                    Text(
+                                      priceFormat.format(snapshot.data.price) +
+                                          translate("sum"),
+                                      style: TextStyle(
+                                        color: AppTheme.black_text,
+                                        fontSize: 24,
+                                        height: 1.17,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: AppTheme.fontRoboto,
+                                      ),
+                                    ),
+                                    translate("lan") == "2"
+                                        ? Text(
+                                            translate("from"),
+                                            style: TextStyle(
+                                              color: AppTheme.black_text,
+                                              fontSize: 24,
+                                              height: 1.17,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: AppTheme.fontRoboto,
+                                            ),
+                                          )
+                                        : Container(),
+                                  ],
                                 )
                               : Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
+                                    translate("lan") != "2"
+                                        ? Text(
+                                      translate("from"),
+                                      style: TextStyle(
+                                        color: AppTheme.red_fav_color,
+                                        fontSize: 24,
+                                        height: 1.17,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: AppTheme.fontRoboto,
+                                      ),
+                                    )
+                                        : Container(),
                                     Text(
                                       priceFormat.format(snapshot.data.price) +
                                           translate("sum"),
@@ -279,6 +308,18 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                         fontFamily: AppTheme.fontRoboto,
                                       ),
                                     ),
+                                    translate("lan") == "2"
+                                        ? Text(
+                                      translate("from"),
+                                      style: TextStyle(
+                                        color: AppTheme.red_fav_color,
+                                        fontSize: 24,
+                                        height: 1.17,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: AppTheme.fontRoboto,
+                                      ),
+                                    )
+                                        : Container(),
                                     SizedBox(width: 12),
                                     RichText(
                                       text: new TextSpan(
@@ -392,36 +433,6 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                             ),
                           ),
                         ),
-
-                        // snapshot.data.description != null
-                        //     ? Container(
-                        //         margin: EdgeInsets.only(
-                        //             left: 16, right: 16, top: 21),
-                        //         child: SelectableAutoLinkText(
-                        //           " " + snapshot.data.description,
-                        //           style: TextStyle(
-                        //             fontSize: 15,
-                        //             fontFamily: AppTheme.fontRoboto,
-                        //             fontWeight: FontWeight.normal,
-                        //             color: AppTheme.black_catalog,
-                        //           ),
-                        //           linkStyle: TextStyle(
-                        //             color: Colors.blueAccent,
-                        //             fontSize: 15,
-                        //             fontFamily: AppTheme.fontRoboto,
-                        //             fontWeight: FontWeight.normal,
-                        //           ),
-                        //           highlightedLinkStyle: TextStyle(
-                        //             color: Colors.blueAccent,
-                        //             backgroundColor:
-                        //                 Colors.blueAccent.withAlpha(0x33),
-                        //           ),
-                        //           onTap: (url) =>
-                        //               launch(url, forceSafariVC: false),
-                        //         ),
-                        //       )
-                        //     : Container(),
-
                         snapshot.data.description != null
                             ? Container(
                                 margin: EdgeInsets.only(
@@ -1581,6 +1592,8 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                   right: 16,
                                 ),
                                 child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
                                       translate("item.card_add"),
@@ -1595,6 +1608,18 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                     Expanded(
                                       child: Container(),
                                     ),
+                                    translate("lan") != "2"
+                                        ? Text(
+                                            translate("from"),
+                                            style: TextStyle(
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: AppTheme.fontRoboto,
+                                              fontSize: 17,
+                                              color: AppTheme.white,
+                                            ),
+                                          )
+                                        : Container(),
                                     Text(
                                       priceFormat.format(snapshot.data.price) +
                                           translate("sum"),
@@ -1605,7 +1630,19 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                         fontSize: 17,
                                         color: AppTheme.white,
                                       ),
-                                    )
+                                    ),
+                                    translate("lan") == "2"
+                                        ? Text(
+                                            translate("from"),
+                                            style: TextStyle(
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: AppTheme.fontRoboto,
+                                              fontSize: 17,
+                                              color: AppTheme.white,
+                                            ),
+                                          )
+                                        : Container()
                                   ],
                                 ),
                               ),

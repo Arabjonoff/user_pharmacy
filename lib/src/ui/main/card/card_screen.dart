@@ -157,16 +157,6 @@ class _CardScreenState extends State<CardScreen> {
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
-                              // Navigator.push(
-                              //   context,
-                              //   PageTransition(
-                              //     type: PageTransitionType.bottomToTop,
-                              //     alignment: Alignment.bottomCenter,
-                              //     child: ItemScreenNotInstruction(
-                              //       snapshot.data[index].id,
-                              //     ),
-                              //   ),
-                              // );
                               RxBus.post(
                                   BottomViewModel(snapshot.data[index].id),
                                   tag: "EVENT_BOTTOM_ITEM_ALL");
@@ -273,26 +263,57 @@ class _CardScreenState extends State<CardScreen> {
                                                         CrossAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Expanded(
-                                                        child: Text(
-                                                          priceFormat.format(
-                                                                  snapshot
-                                                                      .data[
-                                                                          index]
-                                                                      .price) +
-                                                              translate("sum"),
-                                                          style: TextStyle(
-                                                            color: AppTheme
-                                                                .black_text,
-                                                            height: 1.33,
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontFamily: AppTheme
-                                                                .fontRoboto,
-                                                          ),
+                                                      translate("lan") != "2"
+                                                          ? Text(
+                                                              translate("from"),
+                                                              style: TextStyle(
+                                                                color: AppTheme
+                                                                    .black_text,
+                                                                height: 1.33,
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontFamily: AppTheme
+                                                                    .fontRoboto,
+                                                              ),
+                                                            )
+                                                          : Container(),
+                                                      Text(
+                                                        priceFormat.format(
+                                                                snapshot
+                                                                    .data[index]
+                                                                    .price) +
+                                                            translate("sum"),
+                                                        style: TextStyle(
+                                                          color: AppTheme
+                                                              .black_text,
+                                                          height: 1.33,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontFamily: AppTheme
+                                                              .fontRoboto,
                                                         ),
                                                       ),
+                                                      translate("lan") == "2"
+                                                          ? Text(
+                                                              translate("from"),
+                                                              style: TextStyle(
+                                                                color: AppTheme
+                                                                    .black_text,
+                                                                height: 1.33,
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontFamily: AppTheme
+                                                                    .fontRoboto,
+                                                              ),
+                                                            )
+                                                          : Container(),
+                                                      Expanded(
+                                                          child: Container()),
                                                       SizedBox(
                                                         width: 7,
                                                       ),
@@ -549,51 +570,51 @@ class _CardScreenState extends State<CardScreen> {
                           );
                         },
                       ),
-                      Container(
-                        child: Text(
-                          translate("card.my_card"),
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: AppTheme.fontRoboto,
-                            fontWeight: FontWeight.w600,
-                            color: AppTheme.black_text,
-                          ),
-                        ),
-                        margin: EdgeInsets.only(top: 24, left: 16, right: 16),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: 26,
-                          left: 16,
-                          right: 16,
-                        ),
-                        child: Row(
-                          children: [
-                            Text(
-                              translate("card.all"),
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontFamily: AppTheme.fontRoboto,
-                                fontWeight: FontWeight.w600,
-                                color: AppTheme.black_text,
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(),
-                            ),
-                            Text(
-                              priceFormat.format(allPrice) +
-                                  translate(translate("sum")),
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontFamily: AppTheme.fontRoboto,
-                                fontWeight: FontWeight.w600,
-                                color: AppTheme.black_text,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // Container(
+                      //   child: Text(
+                      //     translate("card.my_card"),
+                      //     style: TextStyle(
+                      //       fontSize: 20,
+                      //       fontFamily: AppTheme.fontRoboto,
+                      //       fontWeight: FontWeight.w600,
+                      //       color: AppTheme.black_text,
+                      //     ),
+                      //   ),
+                      //   margin: EdgeInsets.only(top: 24, left: 16, right: 16),
+                      // ),
+                      // Container(
+                      //   margin: EdgeInsets.only(
+                      //     top: 26,
+                      //     left: 16,
+                      //     right: 16,
+                      //   ),
+                      //   child: Row(
+                      //     children: [
+                      //       Text(
+                      //         translate("card.all"),
+                      //         style: TextStyle(
+                      //           fontSize: 15,
+                      //           fontFamily: AppTheme.fontRoboto,
+                      //           fontWeight: FontWeight.w600,
+                      //           color: AppTheme.black_text,
+                      //         ),
+                      //       ),
+                      //       Expanded(
+                      //         child: Container(),
+                      //       ),
+                      //       Text(
+                      //         priceFormat.format(allPrice) +
+                      //             translate(translate("sum")),
+                      //         style: TextStyle(
+                      //           fontSize: 15,
+                      //           fontFamily: AppTheme.fontRoboto,
+                      //           fontWeight: FontWeight.w600,
+                      //           color: AppTheme.black_text,
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       error
                           ? Container(
                               width: double.infinity,

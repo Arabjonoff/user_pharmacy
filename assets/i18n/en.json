@@ -1,4 +1,5 @@
 {
+  "lan": "1",
   "sum": " UZS",
   "sum_km": " UZS/km",
   "search_hint": "Search for drugs",
@@ -7,6 +8,7 @@
   "sale": "Discounts",
   "not_product": "Not enough quantity",
   "name": "Name",
+  "from": "from ",
   "ot": "From",
   "do": "To",
   "apply": "Show",

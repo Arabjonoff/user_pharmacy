@@ -1,4 +1,5 @@
 {
+  "lan": "2",
   "sum": " so'm",
   "sum_km": " UZS/km",
   "search_hint": "Dori izlash",
@@ -7,6 +8,7 @@
   "sale": "Chegirma",
   "not_product": "Yetarli miqdor yo'q",
   "name": "Nomi",
+  "from": " dan",
   "ot": "dan",
   "do": "gacha",
   "apply": "Ko'rsatish",
