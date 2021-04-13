@@ -35,6 +35,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../app_theme.dart';
 
 final priceFormat = new NumberFormat("#,##0", "ru");
+String fcToken = "";
 
 class HomeScreen extends StatefulWidget {
   final Function onStore;
@@ -418,6 +419,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
     _fcm.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, badge: true, alert: true));
+    _fcm.getToken().then((value) => {
+          fcToken = value,
+        });
   }
 
   void registerBus() {
@@ -447,9 +451,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         desk: value.description),
                     tag: "EVENT_ITEM_CHECK")
               }
-            else if (value.winner)
+            else if (!value.winner)
               {
-                print(value.konkursText),
+                Utils.showWitter(context, value.konkursText),
               }
           });
     }

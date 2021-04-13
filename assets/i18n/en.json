@@ -339,6 +339,10 @@
     "history": "View order details",
     "close": "Close"
   },
+  "winner": {
+    "title": "Congratulations!",
+    "button": "Okay"
+  },
   "eda": {
     "empty": "To an empty stomach",
     "before": "Before a meal",

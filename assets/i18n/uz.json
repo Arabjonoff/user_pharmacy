@@ -339,6 +339,10 @@
     "history": "Buyurtma ma'lumotlarini ko'rish",
     "close": "Chiqish"
   },
+  "winner": {
+    "title": "Tabriklaymiz!",
+    "button": "Tushunarli"
+  },
   "eda": {
     "empty": "Och qoringa",
     "before": "Ovqatdan oldin",
