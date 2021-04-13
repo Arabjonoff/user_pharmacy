@@ -87,7 +87,8 @@ class BottomDialog {
     );
   }
 
-  static void createBottomSheetHistory(BuildContext context) async {
+  static void createBottomSheetHistory(
+      BuildContext context, Function _onLogin) async {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -117,13 +118,15 @@ class BottomDialog {
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.pushReplacement(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.bottomToTop,
-                                child: LoginScreen(),
-                              ),
-                            );
+                            Navigator.pop(context);
+                            _onLogin();
+                            // Navigator.pushReplacement(
+                            //   context,
+                            //   PageTransition(
+                            //     type: PageTransitionType.bottomToTop,
+                            //     child: LoginScreen(),
+                            //   ),
+                            // );
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -466,7 +469,7 @@ class BottomDialog {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(top: 12,bottom: 16),
+                      margin: EdgeInsets.only(top: 12, bottom: 16),
                       height: 4,
                       width: 60,
                       decoration: BoxDecoration(

@@ -737,13 +737,13 @@ class _AddressStoreMapPickupScreenState
           lng: position.longitude,
           products: widget.drugs);
       Utils.saveLocation(position.latitude, position.longitude);
-      _addMarkers(Repository().fetchAccessApteka(addModel));
+      _addMarkers(Repository().fetchAccessStore(addModel));
       _point =
           new Point(latitude: position.latitude, longitude: position.longitude);
     } else {
       addModel = new AccessStore(
           lat: 41.311081, lng: 69.240562, products: widget.drugs);
-      _addMarkers(Repository().fetchAccessApteka(addModel));
+      _addMarkers(Repository().fetchAccessStore(addModel));
     }
   }
 
@@ -752,7 +752,7 @@ class _AddressStoreMapPickupScreenState
     if (prefs.getDouble("coordLat") != null) {
       AccessStore addModel = new AccessStore();
       addModel = new AccessStore(products: widget.drugs);
-      _addMarkers(Repository().fetchAccessApteka(addModel));
+      _addMarkers(Repository().fetchAccessStore(addModel));
       if (mapController != null) {
         mapController.move(
           point: Point(
@@ -765,7 +765,7 @@ class _AddressStoreMapPickupScreenState
     } else {
       AccessStore addModel = new AccessStore();
       addModel = new AccessStore(products: widget.drugs);
-      _addMarkers(Repository().fetchAccessApteka(addModel));
+      _addMarkers(Repository().fetchAccessStore(addModel));
       if (mapController != null) {
         mapController.move(
           point: Point(latitude: 41.311081, longitude: 69.240562),

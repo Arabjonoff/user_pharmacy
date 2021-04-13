@@ -77,7 +77,7 @@ class _MainScreenState extends State<MainScreen> {
     _requestIOSPermissions();
     _configureDidReceiveLocalNotificationSubject();
     _configureSelectNotificationSubject();
-    registerBus();
+    _registerBus();
     _setLanguage();
   }
 
@@ -160,7 +160,12 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-  void registerBus() {
+  void _registerBus() {
+    RxBus.register<BottomView>(tag: "EVENT_AKSIYA").listen((event) {
+      if (event.title) {
+        print(56);
+      }
+    });
     RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_VIEW").listen(
       (event) => setState(
         () {
@@ -557,11 +562,13 @@ class _MainScreenState extends State<MainScreen> {
             onStore: _store,
             onRegion: _region,
             onHistory: _history,
+            onLogin: _login,
           ),
           CategoryScreen(),
           CardScreen(
             onPickup: _pickup,
             onCurer: _curer,
+            onLogin: _login,
           ),
           MenuScreen(
             onLogin: _login,

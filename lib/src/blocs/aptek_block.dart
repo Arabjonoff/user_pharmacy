@@ -15,7 +15,7 @@ class AptekaBloc {
   Observable<List<AptekaModel>> get allExistStorea => _existStoreFetcher.stream;
 
   fetchAllApteka(double lat, double lng) async {
-    List<LocationModel> orderModel = await _repository.fetchApteka(lat, lng);
+    List<LocationModel> orderModel = await _repository.fetchStore(lat, lng);
 
     List<AptekaModel> aptekadata = new List();
 
@@ -39,7 +39,7 @@ class AptekaBloc {
 
   fetchAccessApteka(AccessStore accessStore) async {
     List<LocationModel> saleModel =
-        await _repository.fetchAccessApteka(accessStore);
+        await _repository.fetchAccessStore(accessStore);
 
     if (saleModel != null) {
       List<AptekaModel> aptekadata = new List();

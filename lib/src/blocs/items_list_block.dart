@@ -56,7 +56,7 @@ class ItemListBloc {
     if (page == 1) {
       usersCategory = new List();
     }
-    ItemModel itemCategory = await _repository.fetchCategryItemList(
+    ItemModel itemCategory = await _repository.fetchCategoryItemList(
       id,
       page,
       internationalNameIds,

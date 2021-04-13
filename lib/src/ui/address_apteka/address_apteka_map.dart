@@ -153,12 +153,12 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
       lat = position.latitude;
       lng = position.longitude;
       _addMarkers(
-          Repository().fetchApteka(position.latitude, position.longitude));
+          Repository().fetchStore(position.latitude, position.longitude));
       Utils.saveLocation(position.latitude, position.longitude);
       _point =
           new Point(latitude: position.latitude, longitude: position.longitude);
     } else {
-      _addMarkers(Repository().fetchApteka(41.311081, 69.240562));
+      _addMarkers(Repository().fetchStore(41.311081, 69.240562));
     }
   }
 
@@ -329,7 +329,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
   Future<void> _defaultLocation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getDouble("coordLat") != null) {
-      _addMarkers(Repository().fetchApteka(null, null));
+      _addMarkers(Repository().fetchStore(null, null));
       if (mapController != null) {
         mapController.move(
           point: Point(
@@ -340,7 +340,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
         );
       }
     } else {
-      _addMarkers(Repository().fetchApteka(null, null));
+      _addMarkers(Repository().fetchStore(null, null));
       if (mapController != null) {
         mapController.move(
           point: Point(latitude: 41.311081, longitude: 69.240562),

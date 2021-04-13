@@ -29,8 +29,13 @@ final priceFormat = new NumberFormat("#,##0", "ru");
 class CardScreen extends StatefulWidget {
   final Function onPickup;
   final Function onCurer;
+  final Function onLogin;
 
-  CardScreen({this.onPickup, this.onCurer});
+  CardScreen({
+    this.onPickup,
+    this.onCurer,
+    this.onLogin,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -690,7 +695,9 @@ class _CardScreenState extends State<CardScreen> {
                                   }
                                 } else {
                                   BottomDialog.createBottomSheetHistory(
-                                      context);
+                                    context,
+                                    widget.onLogin,
+                                  );
                                 }
                               },
                               child: Container(
@@ -787,7 +794,9 @@ class _CardScreenState extends State<CardScreen> {
                                   }
                                 } else {
                                   BottomDialog.createBottomSheetHistory(
-                                      context);
+                                    context,
+                                    widget.onLogin,
+                                  );
                                 }
                               },
                               child: Container(

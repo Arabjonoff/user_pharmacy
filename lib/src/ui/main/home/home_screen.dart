@@ -40,11 +40,13 @@ class HomeScreen extends StatefulWidget {
   final Function onStore;
   final Function onRegion;
   final Function onHistory;
+  final Function onLogin;
 
   HomeScreen({
     this.onStore,
     this.onRegion,
     this.onHistory,
+    this.onLogin,
   });
 
   @override
@@ -445,6 +447,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         desk: value.description),
                     tag: "EVENT_ITEM_CHECK")
               }
+            else if (value.winner)
+              {
+                print(value.konkursText),
+              }
           });
     }
   }
@@ -671,7 +677,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       onTap: () {
                         isLogin
                             ? widget.onHistory()
-                            : BottomDialog.createBottomSheetHistory(context);
+                            : BottomDialog.createBottomSheetHistory(
+                                context,
+                                widget.onLogin,
+                              );
                       },
                       child: Container(
                         child: ClipRRect(
@@ -881,7 +890,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         isLogin
                             ? RxBus.post(LoginModel(status: 1, msg: "Yes"),
                                 tag: "EVENT_CHAT_SCREEN")
-                            : BottomDialog.createBottomSheetHistory(context);
+                            : BottomDialog.createBottomSheetHistory(
+                                context,
+                                widget.onLogin,
+                              );
                       },
                       child: Container(
                         child: ClipRRect(

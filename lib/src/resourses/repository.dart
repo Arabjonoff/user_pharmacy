@@ -83,7 +83,7 @@ class Repository {
   Future<List<ItemResult>> databaseCardItem(bool isCard) =>
       databaseHelper.getProdu(isCard);
 
-  Future<ItemModel> fetchCategryItemList(
+  Future<ItemModel> fetchCategoryItemList(
     String id,
     int page,
     String internationalNameIds,
@@ -154,16 +154,16 @@ class Repository {
   Future<ItemsAllModel> fetchItems(String id) =>
       pharmacyApiProvider.fetchItems(id);
 
-  Future<List<LocationModel>> fetchApteka(double lat, double lng) =>
+  Future<List<LocationModel>> fetchStore(double lat, double lng) =>
       pharmacyApiProvider.fetchApteka(lat, lng);
 
-  Future<List<LocationModel>> fetchAccessApteka(AccessStore accessStore) =>
+  Future<List<LocationModel>> fetchAccessStore(AccessStore accessStore) =>
       pharmacyApiProvider.fetchAccessApteka(accessStore);
 
   Future<List<RegionModel>> fetchRegions(String obj) =>
       pharmacyApiProvider.fetchRegions(obj);
 
-  Future<OrderStatusModel> fetchRAddOrder(AddOrderModel order) =>
+  Future<OrderStatusModel> fetchAddOrder(AddOrderModel order) =>
       pharmacyApiProvider.fetchAddOrder(order);
 
   Future<OrderStatusModel> fetchPayment(PaymentOrderModel order) =>
@@ -214,8 +214,8 @@ class Repository {
           AccessStore accessStore, String language) =>
       pharmacyApiProvider.fetchCheckErrorDelivery(accessStore, language);
 
-  Future<PaymentVerfy> fetchVerfyPaymentModel(VerdyPaymentModel verfy) =>
-      pharmacyApiProvider.fetchVerfyPaymentModel(verfy);
+  Future<PaymentVerfy> fetchVerifyPaymentModel(VerdyPaymentModel verify) =>
+      pharmacyApiProvider.fetchVerfyPaymentModel(verify);
 
   Future<int> fetchMinSum() => pharmacyApiProvider.fetchMinSum();
 

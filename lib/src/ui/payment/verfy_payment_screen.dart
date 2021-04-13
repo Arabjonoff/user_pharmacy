@@ -284,7 +284,7 @@ class _VerifyPaymentScreenState extends State<VerifyPaymentScreen> {
                       smsCode: int.parse(verfyController.text.toString()));
 
                   var responce =
-                      await Repository().fetchVerfyPaymentModel(verfy);
+                      await Repository().fetchVerifyPaymentModel(verfy);
 
                   if (responce.errorCode != null) {
                     if (responce.errorCode == 0) {
