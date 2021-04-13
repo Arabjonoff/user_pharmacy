@@ -44,12 +44,29 @@ class Repository {
   Future<LoginModel> fetchLogin(String login) =>
       pharmacyApiProvider.fetchLogin(login);
 
-  Future<VerfyModel> fetchVetfy(String login, String code, String token) =>
+  Future<VerifyModel> fetchVetfy(String login, String code, String token) =>
       pharmacyApiProvider.fetchVerfy(login, code, token);
 
-  Future<LoginModel> fetchRegister(String name, String surname, String birthday,
-          String gender, String token) =>
-      pharmacyApiProvider.fetchRegister(name, surname, birthday, gender, token);
+  Future<LoginModel> fetchRegister(
+    String name,
+    String surname,
+    String birthday,
+    String gender,
+    String token,
+    String city,
+    String ads,
+    String fctoken,
+  ) =>
+      pharmacyApiProvider.fetchRegister(
+        name,
+        surname,
+        birthday,
+        gender,
+        token,
+        city,
+        ads,
+        fctoken,
+      );
 
   Future<SaleModel> fetchAllSales() => pharmacyApiProvider.fetchSaleList();
 

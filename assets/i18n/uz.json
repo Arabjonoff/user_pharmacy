@@ -341,7 +341,13 @@
   },
   "winner": {
     "title": "Tabriklaymiz!",
-    "button": "Tushunarli"
+    "button": "Tushunarli",
+    "register_title": "Konkursga qatnashish uchun quyidagi ma'lumotlarni to'ldiring",
+    "city": "Qayerda yashaysiz",
+    "ads": "Biz haqimizda qaysi manba orqali bilib oldingiz? ",
+    "ads_choose": "Reklama",
+    "fr": "Tanishlardan",
+    "other": "Boshqalar"
   },
   "eda": {
     "empty": "Och qoringa",

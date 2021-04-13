@@ -76,7 +76,8 @@ class PharmacyApiProvider {
   }
 
   ///verfy
-  Future<VerfyModel> fetchVerfy(String login, String code, String token) async {
+  Future<VerifyModel> fetchVerfy(
+      String login, String code, String token) async {
     String url = Utils.baseUrl + '/api/v1/accept';
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -99,18 +100,27 @@ class PharmacyApiProvider {
       http.Response response = await http
           .post(url, headers: headers, body: json.encode(data))
           .timeout(duration);
+
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      return VerfyModel.fromJson(responseJson);
+      return VerifyModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
-      return VerfyModel(status: -1, msg: translate("internet_error"));
+      return VerifyModel(status: -1, msg: translate("internet_error"));
     } on SocketException catch (_) {
-      return VerfyModel(status: -1, msg: translate("internet_error"));
+      return VerifyModel(status: -1, msg: translate("internet_error"));
     }
   }
 
   ///Register
-  Future<LoginModel> fetchRegister(String name, String surname, String birthday,
-      String gender, String token) async {
+  Future<LoginModel> fetchRegister(
+    String name,
+    String surname,
+    String birthday,
+    String gender,
+    String token,
+    String city,
+    String ads,
+    String fctoken,
+  ) async {
     String url = Utils.baseUrl + '/api/v1/register-profil';
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -121,6 +131,9 @@ class PharmacyApiProvider {
       "last_name": surname,
       "gender": gender,
       "birth_date": birthday,
+      "city": city,
+      "ads": ads,
+      "fctoken": fctoken,
       "region": regionId.toString(),
     };
 
@@ -134,9 +147,8 @@ class PharmacyApiProvider {
       'X-Device': encoded,
     };
     try {
-      http.Response response = await http
-          .post(url, headers: headers, body: data)
-          .timeout(duration);
+      http.Response response =
+          await http.post(url, headers: headers, body: data).timeout(duration);
       final Map parsed = json.decode(response.body);
       return LoginModel.fromJson(parsed);
     } on TimeoutException catch (_) {
@@ -163,9 +175,8 @@ class PharmacyApiProvider {
     };
 
     try {
-      http.Response response = await http
-          .get(url, headers: headers)
-          .timeout(duration);
+      http.Response response =
+          await http.get(url, headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return SaleModel.fromJson(responseJson);
@@ -179,14 +190,16 @@ class PharmacyApiProvider {
   }
 
   ///best items
-  Future<ItemModel> fetchBestItemList(int page,
-      int perPage,
-      String internationalNameIds,
-      String manufacturerIds,
-      String ordering,
-      String priceMax,
-      String priceMin,
-      String unitIds,) async {
+  Future<ItemModel> fetchBestItemList(
+    int page,
+    int perPage,
+    String internationalNameIds,
+    String manufacturerIds,
+    String ordering,
+    String priceMax,
+    String priceMin,
+    String unitIds,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
@@ -214,9 +227,8 @@ class PharmacyApiProvider {
     };
 
     try {
-      http.Response response = await http
-          .get(url, headers: headers)
-          .timeout(duration);
+      http.Response response =
+          await http.get(url, headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return ItemModel.fromJson(responseJson);
@@ -244,9 +256,8 @@ class PharmacyApiProvider {
       'X-Device': encoded,
     };
     try {
-      http.Response response = await http
-          .get(url, headers: headers)
-          .timeout(duration);
+      http.Response response =
+          await http.get(url, headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return CategoryModel.fromJson(responseJson);
@@ -258,15 +269,17 @@ class PharmacyApiProvider {
   }
 
   ///category's by item
-  Future<ItemModel> fetchCategoryItemsList(String id,
-      int page,
-      int perPage,
-      String internationalNameIds,
-      String manufacturerIds,
-      String ordering,
-      String priceMax,
-      String priceMin,
-      String unitIds,) async {
+  Future<ItemModel> fetchCategoryItemsList(
+    String id,
+    int page,
+    int perPage,
+    String internationalNameIds,
+    String manufacturerIds,
+    String ordering,
+    String priceMax,
+    String priceMin,
+    String unitIds,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
@@ -294,9 +307,8 @@ class PharmacyApiProvider {
     };
 
     try {
-      http.Response response = await http
-          .get(url, headers: headers)
-          .timeout(duration);
+      http.Response response =
+          await http.get(url, headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return ItemModel.fromJson(responseJson);
@@ -310,15 +322,17 @@ class PharmacyApiProvider {
   }
 
   ///ids's by item
-  Future<ItemModel> fetchIdsItemsList(String id,
-      int page,
-      int perPage,
-      String internationalNameIds,
-      String manufacturerIds,
-      String ordering,
-      String priceMax,
-      String priceMin,
-      String unitIds,) async {
+  Future<ItemModel> fetchIdsItemsList(
+    String id,
+    int page,
+    int perPage,
+    String internationalNameIds,
+    String manufacturerIds,
+    String ordering,
+    String priceMax,
+    String priceMin,
+    String unitIds,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
@@ -343,7 +357,7 @@ class PharmacyApiProvider {
     HttpClient httpClient = new HttpClient();
     httpClient
       ..badCertificateCallback =
-      ((X509Certificate cert, String host, int port) => true);
+          ((X509Certificate cert, String host, int port) => true);
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json; charset=utf-8');
     request.headers.set('X-Device', encoded);
@@ -356,16 +370,18 @@ class PharmacyApiProvider {
   }
 
   ///search's by item
-  Future<ItemModel> fetchSearchItemsList(String obj,
-      int page,
-      int perPage,
-      String internationalNameIds,
-      String manufacturerIds,
-      String ordering,
-      String priceMax,
-      String priceMin,
-      String unitIds,
-      int barcode,) async {
+  Future<ItemModel> fetchSearchItemsList(
+    String obj,
+    int page,
+    int perPage,
+    String internationalNameIds,
+    String manufacturerIds,
+    String ordering,
+    String priceMax,
+    String priceMin,
+    String unitIds,
+    int barcode,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
@@ -394,9 +410,8 @@ class PharmacyApiProvider {
       'X-Device': encoded,
     };
     try {
-      http.Response response = await http
-          .get(url, headers: headers)
-          .timeout(duration);
+      http.Response response =
+          await http.get(url, headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return ItemModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -423,9 +438,8 @@ class PharmacyApiProvider {
     };
 
     try {
-      http.Response response = await http
-          .get(url, headers: headers)
-          .timeout(duration);
+      http.Response response =
+          await http.get(url, headers: headers).timeout(duration);
 
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return ItemsAllModel.fromJson(responseJson);
@@ -455,9 +469,8 @@ class PharmacyApiProvider {
       'X-Device': encoded,
     };
     try {
-      http.Response response = await http
-          .get(url, headers: headers)
-          .timeout(duration);
+      http.Response response =
+          await http.get(url, headers: headers).timeout(duration);
       var responseJson = utf8.decode(response.bodyBytes);
       return locationModelFromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -490,9 +503,8 @@ class PharmacyApiProvider {
     };
 
     try {
-      http.Response response = await http
-          .get(url, headers: headers)
-          .timeout(duration);
+      http.Response response =
+          await http.get(url, headers: headers).timeout(duration);
       var responseJson = utf8.decode(response.bodyBytes);
       return regionModelFromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -570,9 +582,8 @@ class PharmacyApiProvider {
     };
 
     try {
-      http.Response response = await http
-          .get(url, headers: headers)
-          .timeout(duration);
+      http.Response response =
+          await http.get(url, headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return HistoryModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -616,10 +627,10 @@ class PharmacyApiProvider {
     try {
       http.Response response = await http
           .post(
-        url,
-        body: msg,
-        headers: headers,
-      )
+            url,
+            body: msg,
+            headers: headers,
+          )
           .timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return CancelOrder.fromJson(responseJson);
@@ -633,31 +644,33 @@ class PharmacyApiProvider {
   }
 
   /// Filter parametrs
-  Future<FilterModel> fetchFilterParameters(int page,
-      int perPage,
-      int filterType,
-      String search,
-      int type,
-      String id,) async {
+  Future<FilterModel> fetchFilterParameters(
+    int page,
+    int perPage,
+    int filterType,
+    String search,
+    int type,
+    String id,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String filter = type == 1
         ? "&category_id=$id"
         : type == 2
-        ? "&is_home=1"
-        : type == 3
-        ? "&name=$id"
-        : type == 4
-        ? "&ids=$id"
-        : "";
+            ? "&is_home=1"
+            : type == 3
+                ? "&name=$id"
+                : type == 4
+                    ? "&ids=$id"
+                    : "";
 
     String url = filterType == 1
         ? Utils.baseUrl +
-        '/api/v1/units?page=$page&per_page=$perPage&search=$search$filter'
+            '/api/v1/units?page=$page&per_page=$perPage&search=$search$filter'
         : filterType == 2
-        ? Utils.baseUrl +
-        '/api/v1/manufacturers?page=$page&per_page=$perPage&search=$search$filter'
-        : Utils.baseUrl +
-        '/api/v1/international-names?page=$page&per_page=$perPage&search=$search$filter';
+            ? Utils.baseUrl +
+                '/api/v1/manufacturers?page=$page&per_page=$perPage&search=$search$filter'
+            : Utils.baseUrl +
+                '/api/v1/international-names?page=$page&per_page=$perPage&search=$search$filter';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = prefs.getString("deviceData") != null
@@ -670,9 +683,8 @@ class PharmacyApiProvider {
     };
 
     try {
-      http.Response response = await http
-          .get(url, headers: headers)
-          .timeout(duration);
+      http.Response response =
+          await http.get(url, headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return FilterModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -704,9 +716,8 @@ class PharmacyApiProvider {
       'X-Device': encoded,
     };
     try {
-      http.Response response = await http
-          .get(url, headers: headers)
-          .timeout(duration);
+      http.Response response =
+          await http.get(url, headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return OrderOptionsModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -811,9 +822,8 @@ class PharmacyApiProvider {
       'X-Device': encoded,
     };
     try {
-      http.Response response = await http
-          .get(url, headers: headers)
-          .timeout(duration);
+      http.Response response =
+          await http.get(url, headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return ChatApiModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -843,9 +853,8 @@ class PharmacyApiProvider {
       'X-Device': encoded,
     };
     try {
-      http.Response response = await http
-          .post(url, headers: headers, body: data)
-          .timeout(duration);
+      http.Response response =
+          await http.post(url, headers: headers, body: data).timeout(duration);
       final Map parsed = json.decode(response.body);
 
       return LoginModel.fromJson(parsed);
@@ -879,14 +888,12 @@ class PharmacyApiProvider {
     String reply = await response.transform(utf8.decoder).join();
     final Map parsed = json.decode(reply);
 
-    return MinSum
-        .fromJson(parsed)
-        .min;
+    return MinSum.fromJson(parsed).min;
   }
 
   ///Check error pickup
-  Future<CheckErrorModel> fetchCheckErrorPickup(AccessStore accessStore,
-      String language) async {
+  Future<CheckErrorModel> fetchCheckErrorPickup(
+      AccessStore accessStore, String language) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
@@ -919,8 +926,8 @@ class PharmacyApiProvider {
   }
 
   ///Check error delivery
-  Future<CheckErrorModel> fetchCheckErrorDelivery(AccessStore accessStore,
-      String language) async {
+  Future<CheckErrorModel> fetchCheckErrorDelivery(
+      AccessStore accessStore, String language) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
@@ -1003,9 +1010,8 @@ class PharmacyApiProvider {
       'X-Device': encoded,
     };
 
-    http.Response response = await http
-        .post(url, body: data, headers: headers)
-        .timeout(duration);
+    http.Response response =
+        await http.post(url, body: data, headers: headers).timeout(duration);
 
     final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
@@ -1070,9 +1076,8 @@ class PharmacyApiProvider {
         'X-Device': encoded,
       };
 
-      http.Response response = await http
-          .get(url, headers: headers)
-          .timeout(duration);
+      http.Response response =
+          await http.get(url, headers: headers).timeout(duration);
 
       final Map parsed = json.decode(response.body);
       return GetReviewModel.fromJson(parsed);
@@ -1080,9 +1085,11 @@ class PharmacyApiProvider {
   }
 
   ///order item review
-  Future<CheckVersion> fetchOrderItemReview(String comment,
-      int rating,
-      int orderId,) async {
+  Future<CheckVersion> fetchOrderItemReview(
+    String comment,
+    int rating,
+    int orderId,
+  ) async {
     String url = Utils.baseUrl + '/api/v1/send-order-reviews';
 
     final data = {"review": comment, "rating": rating, "order_id": orderId};
@@ -1131,9 +1138,8 @@ class PharmacyApiProvider {
       'content-type': 'application/json; charset=utf-8',
       'X-Device': encoded,
     };
-    http.Response response = await http
-        .get(url, headers: headers)
-        .timeout(duration);
+    http.Response response =
+        await http.get(url, headers: headers).timeout(duration);
     final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
     return CashBackModel.fromJson(responseJson);
@@ -1157,9 +1163,8 @@ class PharmacyApiProvider {
       'X-Device': encoded,
     };
     try {
-      http.Response response = await http
-          .get(url, headers: headers)
-          .timeout(duration);
+      http.Response response =
+          await http.get(url, headers: headers).timeout(duration);
       return faqModelFromJson(utf8.decode(response.bodyBytes));
     } on TimeoutException catch (_) {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
@@ -1170,14 +1175,14 @@ class PharmacyApiProvider {
     }
   }
 
-  Future<CurrentLocationAddressModel> fetchLocationAddress(double lat,
-      double lng) async {
+  Future<CurrentLocationAddressModel> fetchLocationAddress(
+      double lat, double lng) async {
     String url =
         'https://geocode-maps.yandex.ru/1.x/?apikey=b4985736-e176-472f-af14-36678b5d6aaa&geocode=$lng,$lat&format=json';
 
     try {
       http.Response response =
-      await http.get(url).timeout(const Duration(seconds: 10));
+          await http.get(url).timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return CurrentLocationAddressModel.fromJson(responseJson);

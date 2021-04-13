@@ -10,6 +10,7 @@ import 'package:pharmacy/src/database/database_helper_history.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/sort_radio_btn.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -508,6 +509,9 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                   birthday,
                   jins,
                   token,
+                  "",
+                  "",
+                  fcToken,
                 );
                 if (response.status == 1) {
                   Utils.saveData(

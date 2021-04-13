@@ -310,7 +310,11 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => RegisterScreen(
-                              responce.user.id, responce.token, widget.number),
+                            responce.user.id,
+                            responce.token,
+                            widget.number,
+                            responce.konkurs,
+                          ),
                         ),
                       );
                     } else {

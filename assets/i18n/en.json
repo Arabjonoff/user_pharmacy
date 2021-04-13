@@ -341,7 +341,13 @@
   },
   "winner": {
     "title": "Congratulations!",
-    "button": "Okay"
+    "button": "Okay",
+    "register_title": "To participate in the competition, fill out the additional fields",
+    "city": "Where do you live?",
+    "ads": "Through what source did you find out about us?",
+    "ads_choose": "Advertisement",
+    "fr": "From friends",
+    "other": "Other"
   },
   "eda": {
     "empty": "To an empty stomach",

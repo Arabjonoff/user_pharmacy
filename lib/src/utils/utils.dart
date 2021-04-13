@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
+import 'package:pharmacy/src/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
@@ -129,6 +131,106 @@ class Utils {
       print(e.toString());
       return "-1";
     }
+  }
+
+  static void showWitter(BuildContext context, String text) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Container(
+          height: 375,
+          padding: EdgeInsets.only(bottom: 4, left: 8, right: 8),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18.0),
+              color: AppTheme.white,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Container(
+                    margin: EdgeInsets.only(top: 12),
+                    height: 4,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      color: AppTheme.bottom_dialog,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 16,
+                    bottom: 8,
+                  ),
+                  height: 150,
+                  width: 150,
+                  child: Image.asset("assets/images/winner.png"),
+                ),
+                Text(
+                  translate("winner.title"),
+                  style: TextStyle(
+                    fontFamily: AppTheme.fontRoboto,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 17,
+                    height: 1.65,
+                    color: AppTheme.black_text,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 24, right: 24, top: 8),
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRoboto,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      height: 1.6,
+                      color: AppTheme.grey,
+                    ),
+                  ),
+                ),
+                Expanded(child: Container()),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                      bottom: 20,
+                    ),
+                    width: double.infinity,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: AppTheme.blue,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        translate("winner.button"),
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRoboto,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                          height: 1.3,
+                          color: AppTheme.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   static void showDemoActionSheet({BuildContext context, Widget child}) {

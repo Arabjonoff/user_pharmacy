@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
-import 'package:pharmacy/src/model/sort_radio_btn.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
+import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 
 import '../../app_theme.dart';
@@ -14,8 +14,9 @@ class RegisterScreen extends StatefulWidget {
   final int id;
   final String token;
   final String number;
+  final bool konkurs;
 
-  RegisterScreen(this.id, this.token, this.number);
+  RegisterScreen(this.id, this.token, this.number, this.konkurs);
 
   @override
   State<StatefulWidget> createState() {
@@ -31,23 +32,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController surNameController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController birthdayController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
 
-  String radioItemHolder = translate("auth.male");
   int id = 1;
   String birthday = "";
-
-  List<RadioGroup> nList = [
-    RadioGroup(
-      index: 1,
-      name: translate("auth.male"),
-    ),
-    RadioGroup(
-      index: 2,
-      name: translate("auth.female"),
-    ),
-  ];
-
   DateTime now = new DateTime.now();
+
+  String selectedUser;
+  List<String> users = <String>[
+    'Facebook/Instagram',
+    'Google/Yandex Поиск',
+    translate("winner.ads_choose"),
+    'Telegram',
+    translate("winner.fr"),
+    translate("winner.other"),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 physics: ClampingScrollPhysics(),
                 children: [
                   Container(
-                    height: 56,
+                    height: 52,
                     margin: EdgeInsets.only(top: 30, left: 16, right: 16),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
@@ -146,52 +145,49 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         width: 1.0,
                       ),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          top: 8, bottom: 8, left: 12, right: 12),
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(
+                    padding: EdgeInsets.all(8),
+                    child: TextFormField(
+                      keyboardType: TextInputType.text,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontRoboto,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.normal,
+                        color: AppTheme.black_text,
+                        fontSize: 15,
+                      ),
+                      maxLength: 50,
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        counterText: "",
+                        labelText: translate('auth.name'),
+                        labelStyle: TextStyle(
                           fontFamily: AppTheme.fontRoboto,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.normal,
-                          color: AppTheme.black_text,
-                          fontSize: 15,
+                          color: Color(0xFF6D7885),
+                          fontSize: 11,
                         ),
-                        maxLength: 50,
-                        controller: nameController,
-                        decoration: InputDecoration(
-                          counterText: "",
-                          labelText: translate('auth.name'),
-                          labelStyle: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.normal,
-                            color: Color(0xFF6D7885),
-                            fontSize: 11,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: AppTheme.auth_login,
                           ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: AppTheme.auth_login,
-                            ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: AppTheme.auth_login,
-                            ),
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: AppTheme.auth_login,
                           ),
                         ),
                       ),
                     ),
                   ),
                   Container(
-                    height: 56,
+                    height: 52,
                     margin: EdgeInsets.only(top: 12, left: 16, right: 16),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
@@ -201,45 +197,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         width: 1.0,
                       ),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          top: 8, bottom: 8, left: 12, right: 12),
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(
+                    padding: EdgeInsets.all(8),
+                    child: TextFormField(
+                      keyboardType: TextInputType.text,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontRoboto,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.normal,
+                        color: AppTheme.black_text,
+                        fontSize: 15,
+                      ),
+                      maxLength: 50,
+                      controller: surNameController,
+                      decoration: InputDecoration(
+                        counterText: "",
+                        labelText: translate('auth.sur_name'),
+                        labelStyle: TextStyle(
                           fontFamily: AppTheme.fontRoboto,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.normal,
-                          color: AppTheme.black_text,
-                          fontSize: 15,
+                          color: Color(0xFF6D7885),
+                          fontSize: 11,
                         ),
-                        maxLength: 50,
-                        controller: surNameController,
-                        decoration: InputDecoration(
-                          counterText: "",
-                          labelText: translate('auth.sur_name'),
-                          labelStyle: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.normal,
-                            color: Color(0xFF6D7885),
-                            fontSize: 11,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: AppTheme.auth_login,
                           ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: AppTheme.auth_login,
-                            ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: AppTheme.auth_login,
-                            ),
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: AppTheme.auth_login,
                           ),
                         ),
                       ),
@@ -270,7 +263,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       );
                     },
                     child: Container(
-                      height: 56,
+                      height: 52,
                       margin: EdgeInsets.only(top: 12, left: 16, right: 16),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
@@ -280,12 +273,171 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           width: 1.0,
                         ),
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            top: 8, bottom: 8, left: 12, right: 12),
-                        child: IgnorePointer(
+                      padding: EdgeInsets.all(8),
+                      child: IgnorePointer(
+                        child: TextFormField(
+                          readOnly: true,
+                          keyboardType: TextInputType.text,
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRoboto,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.normal,
+                            color: AppTheme.black_text,
+                            fontSize: 15,
+                          ),
+                          controller: birthdayController,
+                          decoration: InputDecoration(
+                            labelText: translate('auth.birthday'),
+                            labelStyle: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.normal,
+                              color: Color(0xFF6D7885),
+                              fontSize: 11,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: AppTheme.auth_login,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: AppTheme.auth_login,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 44,
+                    width: double.infinity,
+                    margin: EdgeInsets.only(
+                      top: 12,
+                      left: 16,
+                      right: 16,
+                    ),
+                    padding: EdgeInsets.only(top: 11, bottom: 11),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              if (id != 1)
+                                setState(() {
+                                  id = 1;
+                                });
+                            },
+                            child: Row(
+                              children: [
+                                id == 1
+                                    ? SvgPicture.asset(
+                                        "assets/images/radio_on_24.svg")
+                                    : SvgPicture.asset(
+                                        "assets/images/radio_off_24.svg"),
+                                SizedBox(width: 16),
+                                Text(
+                                  translate("auth.male"),
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: AppTheme.fontRoboto,
+                                    color: AppTheme.black_text,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              if (id != 2)
+                                setState(() {
+                                  id = 2;
+                                });
+                            },
+                            child: Row(
+                              children: [
+                                id == 2
+                                    ? SvgPicture.asset(
+                                        "assets/images/radio_on_24.svg")
+                                    : SvgPicture.asset(
+                                        "assets/images/radio_off_24.svg"),
+                                SizedBox(width: 16),
+                                Text(
+                                  translate("auth.female"),
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: AppTheme.fontRoboto,
+                                    color: AppTheme.black_text,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  error
+                      ? Container(
+                          margin: EdgeInsets.only(left: 16, right: 16, top: 9),
+                          width: double.infinity,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              errorText,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontSize: 13,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.red_fav_color,
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
+                  widget.konkurs
+                      ? Container(
+                          margin: EdgeInsets.only(top: 36, left: 16, right: 16),
+                          child: Text(
+                            translate("winner.register_title"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                              height: 1.33,
+                              color: AppTheme.darkText,
+                            ),
+                          ),
+                        )
+                      : Container(),
+                  widget.konkurs
+                      ? Container(
+                          height: 52,
+                          margin: EdgeInsets.only(top: 12, left: 16, right: 16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: AppTheme.auth_login,
+                            border: Border.all(
+                              color: AppTheme.auth_border,
+                              width: 1.0,
+                            ),
+                          ),
+                          padding: EdgeInsets.all(8),
                           child: TextFormField(
-                            readOnly: true,
                             keyboardType: TextInputType.text,
                             style: TextStyle(
                               fontFamily: AppTheme.fontRoboto,
@@ -294,9 +446,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: AppTheme.black_text,
                               fontSize: 15,
                             ),
-                            controller: birthdayController,
+                            maxLength: 50,
+                            controller: cityController,
                             decoration: InputDecoration(
-                              labelText: translate('auth.birthday'),
+                              counterText: "",
+                              labelText: translate('winner.city'),
                               labelStyle: TextStyle(
                                 fontFamily: AppTheme.fontRoboto,
                                 fontStyle: FontStyle.normal,
@@ -323,60 +477,76 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  error
-                      ? Container(
-                          margin: EdgeInsets.only(left: 16, right: 16, top: 9),
-                          width: double.infinity,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              errorText,
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
-                                fontSize: 13,
-                                fontWeight: FontWeight.normal,
-                                color: AppTheme.red_fav_color,
+                        )
+                      : Container(),
+                  widget.konkurs
+                      ? Theme(
+                          data: ThemeData(
+                            primaryColor: const Color(0xFF02BB9F),
+                            primaryColorDark: const Color(0xFF167F67),
+                            accentColor: const Color(0xFF167F67),
+                          ),
+                          child: Container(
+                            height: 52,
+                            width: double.infinity,
+                            margin:
+                                EdgeInsets.only(top: 12, left: 16, right: 16),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: AppTheme.auth_login,
+                              border: Border.all(
+                                color: AppTheme.auth_border,
+                                width: 1.0,
+                              ),
+                            ),
+                            padding: EdgeInsets.all(8),
+                            child: DropdownButtonHideUnderline(
+                              child: ButtonTheme(
+                                alignedDropdown: true,
+                                child: DropdownButton(
+                                  hint: Text(
+                                    translate('winner.ads'),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.normal,
+                                      color: Color(0xFF6D7885),
+                                      fontSize: 11,
+                                    ),
+                                  ),
+                                  value: selectedUser,
+                                  onChanged: (String Value) {
+                                    setState(() {
+                                      selectedUser = Value;
+                                    });
+                                  },
+                                  items: users.map((String user) {
+                                    return DropdownMenuItem<String>(
+                                      value: user,
+                                      child: Text(
+                                        user,
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRoboto,
+                                          fontStyle: FontStyle.normal,
+                                          fontWeight: FontWeight.normal,
+                                          color: AppTheme.black_text,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_down,
+                                    size: 24,
+                                    color: Color(0xFF6D7885),
+                                  ),
+                                  style: Theme.of(context).textTheme.title,
+                                ),
                               ),
                             ),
                           ),
                         )
                       : Container(),
-                  Container(
-                    margin: EdgeInsets.only(top: 25),
-                    child: GridView(
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2),
-                      physics: ClampingScrollPhysics(),
-                      children: nList
-                          .map((data) => RadioListTile(
-                                title: Text(
-                                  "${data.name}",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontStyle: FontStyle.normal,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: AppTheme.fontRoboto,
-                                    color: AppTheme.black_text,
-                                  ),
-                                ),
-                                activeColor: AppTheme.blue_app_color,
-                                groupValue: id,
-                                value: data.index,
-                                onChanged: (val) {
-                                  setState(() {
-                                    radioItemHolder = data.name;
-                                    id = data.index;
-                                  });
-                                },
-                              ))
-                          .toList(),
-                    ),
-                  )
                 ],
               ),
             ),
@@ -389,12 +559,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   setState(() {
                     loading = true;
                   });
+                  String ads = selectedUser == null ? "" : selectedUser;
                   var response = await Repository().fetchRegister(
                     nameController.text.toString(),
                     surNameController.text.toString(),
                     birthday,
                     jins,
                     widget.token,
+                    cityController.text,
+                    ads,
+                    fcToken,
                   );
                   if (response.status == 1) {
                     isLogin = true;

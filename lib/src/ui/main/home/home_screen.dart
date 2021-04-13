@@ -451,7 +451,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         desk: value.description),
                     tag: "EVENT_ITEM_CHECK")
               }
-            else if (!value.winner)
+            else if (value.winner)
               {
                 Utils.showWitter(context, value.konkursText),
               }

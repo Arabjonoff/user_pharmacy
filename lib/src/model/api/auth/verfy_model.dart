@@ -1,16 +1,18 @@
-class VerfyModel {
+class VerifyModel {
   String msg;
   int status;
   User user;
   String token;
+  bool konkurs;
 
-  VerfyModel({this.msg, this.status, this.user, this.token});
+  VerifyModel({this.msg, this.status, this.user, this.token, this.konkurs});
 
-  VerfyModel.fromJson(Map<String, dynamic> json) {
+  VerifyModel.fromJson(Map<String, dynamic> json) {
     msg = json['msg'];
     status = json['status'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     token = json['token'];
+    konkurs = json['konkurs'] ?? false;
   }
 
   Map<String, dynamic> toJson() {
