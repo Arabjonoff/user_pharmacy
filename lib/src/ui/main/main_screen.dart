@@ -16,6 +16,7 @@ import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/blocs/menu_bloc.dart';
+import 'package:pharmacy/src/blocs/fav_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
@@ -30,6 +31,7 @@ import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/item_list/fliter_screen.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
+import 'package:pharmacy/src/ui/main/fav/favourite_screen.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 import 'package:pharmacy/src/ui/note/notification_screen.dart';
@@ -410,6 +412,7 @@ class _MainScreenState extends State<MainScreen> {
             _buildOffstageNavigator(1),
             _buildOffstageNavigator(2),
             _buildOffstageNavigator(3),
+            _buildOffstageNavigator(4),
           ],
         ),
         bottomNavigationBar: Theme(
@@ -460,6 +463,8 @@ class _MainScreenState extends State<MainScreen> {
                 if (isOpenCategory) blocItemsList.updateCategory();
                 if (isOpenSearch) blocItemsList.updateSearch();
               } else if (index == 3) {
+                blocFav.fetchAllFav();
+              } else if (index == 4) {
                 Utils.isLogin().then((value) => {
                       isLogin = value,
                       if (isLogin)
@@ -533,6 +538,22 @@ class _MainScreenState extends State<MainScreen> {
               ),
               BottomNavigationBarItem(
                 icon: _selectedIndex == 3
+                    ? SvgPicture.asset("assets/menu/favourite_selected.svg")
+                    : SvgPicture.asset("assets/menu/favourite_unselected.svg"),
+                // ignore: deprecated_member_use
+                title: Text(
+                  translate('main.favourite'),
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: AppTheme.fontRoboto,
+                  ),
+                ),
+              ),
+              BottomNavigationBarItem(
+                icon: _selectedIndex == 4
                     ? SvgPicture.asset("assets/menu/menu_selected.svg")
                     : SvgPicture.asset("assets/menu/menu_unselected.svg"),
                 // ignore: deprecated_member_use
@@ -546,7 +567,7 @@ class _MainScreenState extends State<MainScreen> {
                     fontFamily: AppTheme.fontRoboto,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -570,6 +591,7 @@ class _MainScreenState extends State<MainScreen> {
             onCurer: _curer,
             onLogin: _login,
           ),
+          FavouriteScreen(),
           MenuScreen(
             onLogin: _login,
             onRegion: _region,

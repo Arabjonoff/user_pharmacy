@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/database/database_helper_fav.dart';
 import 'package:pharmacy/src/database/database_helper_note.dart';
 import 'package:pharmacy/src/model/api/cancel_order.dart';
 import 'package:pharmacy/src/model/api/cash_back_model.dart';
@@ -39,6 +40,7 @@ class Repository {
   final pharmacyApiProvider = PharmacyApiProvider();
 
   DatabaseHelper databaseHelper = new DatabaseHelper();
+  DatabaseHelperFav databaseHelperFav = new DatabaseHelperFav();
   DatabaseHelperNote databaseHelperNote = new DatabaseHelperNote();
 
   Future<LoginModel> fetchLogin(String login) =>
@@ -99,6 +101,8 @@ class Repository {
 
   Future<List<ItemResult>> databaseCardItem(bool isCard) =>
       databaseHelper.getProdu(isCard);
+
+  Future<List<ItemResult>> databaseFavItem() => databaseHelperFav.getProduct();
 
   Future<ItemModel> fetchCategoryItemList(
     String id,

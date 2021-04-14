@@ -7,6 +7,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/items_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/database/database_helper_fav.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
@@ -31,10 +32,11 @@ class ItemScreenNotInstruction extends StatefulWidget {
 
 class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
   DatabaseHelper dataBase = new DatabaseHelper();
+  DatabaseHelperFav dataBaseFav = new DatabaseHelperFav();
 
   @override
   void initState() {
-    blocItem.fetchAllCategory(widget.id.toString());
+    blocItem.fetchAllInfoItem(widget.id.toString());
     super.initState();
   }
 
@@ -222,6 +224,39 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                               Expanded(
                                 child: Container(),
                               ),
+                              GestureDetector(
+                                onTap: () {
+                                  if (snapshot.data.favourite) {
+                                    dataBaseFav
+                                        .deleteProducts(snapshot.data.id);
+                                  } else {
+                                    dataBaseFav.saveProducts(
+                                      ItemResult(
+                                        snapshot.data.id,
+                                        snapshot.data.name,
+                                        snapshot.data.barcode,
+                                        snapshot.data.image,
+                                        snapshot.data.imageThumbnail,
+                                        snapshot.data.price,
+                                        Manifacture(
+                                            snapshot.data.manufacturer.name),
+                                        true,
+                                        0,
+                                      ),
+                                    );
+                                  }
+                                  blocItem.fetchAllInfoUpdate();
+                                },
+                                child: Icon(
+                                  snapshot.data.favourite
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  size: 24,
+                                  color: snapshot.data.favourite
+                                      ? AppTheme.red_fav_color
+                                      : AppTheme.arrow_catalog,
+                                ),
+                              )
                             ],
                           ),
                         ),
@@ -287,15 +322,15 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                   children: [
                                     translate("lan") != "2"
                                         ? Text(
-                                      translate("from"),
-                                      style: TextStyle(
-                                        color: AppTheme.red_fav_color,
-                                        fontSize: 24,
-                                        height: 1.17,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: AppTheme.fontRoboto,
-                                      ),
-                                    )
+                                            translate("from"),
+                                            style: TextStyle(
+                                              color: AppTheme.red_fav_color,
+                                              fontSize: 24,
+                                              height: 1.17,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: AppTheme.fontRoboto,
+                                            ),
+                                          )
                                         : Container(),
                                     Text(
                                       priceFormat.format(snapshot.data.price) +
@@ -310,15 +345,15 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                     ),
                                     translate("lan") == "2"
                                         ? Text(
-                                      translate("from"),
-                                      style: TextStyle(
-                                        color: AppTheme.red_fav_color,
-                                        fontSize: 24,
-                                        height: 1.17,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: AppTheme.fontRoboto,
-                                      ),
-                                    )
+                                            translate("from"),
+                                            style: TextStyle(
+                                              color: AppTheme.red_fav_color,
+                                              fontSize: 24,
+                                              height: 1.17,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: AppTheme.fontRoboto,
+                                            ),
+                                          )
                                         : Container(),
                                     SizedBox(width: 12),
                                     RichText(
