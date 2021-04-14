@@ -35,7 +35,7 @@ class ItemListBloc {
   final _idsItemsFetcher = PublishSubject<ItemModel>();
   final _itemSearchFetcher = PublishSubject<ItemModel>();
 
-  Observable<ItemModel> get allItemsCategoty => _categoryItemsFetcher.stream;
+  Observable<ItemModel> get allItemsCategory => _categoryItemsFetcher.stream;
 
   Observable<ItemModel> get allIds => _idsItemsFetcher.stream;
 
@@ -75,6 +75,14 @@ class ItemListBloc {
           }
         }
       }
+      List<ItemResult> databaseFav = await _repository.databaseFavItem();
+      for (var j = 0; j < databaseFav.length; j++) {
+        for (var i = 0; i < itemCategory.results.length; i++) {
+          if (itemCategory.results[i].id == databaseFav[j].id) {
+            itemCategory.results[i].favourite = true;
+          }
+        }
+      }
 
       if (page == 1) {
         usersCategory = new List();
@@ -110,7 +118,7 @@ class ItemListBloc {
     if (page == 1) {
       usersIds = new List();
     }
-    ItemModel itemCategory = await _repository.fetchIdsItemsList(
+    ItemModel itemIds = await _repository.fetchIdsItemsList(
       id,
       page,
       internationalNameIds,
@@ -123,28 +131,37 @@ class ItemListBloc {
 
     List<ItemResult> database = await _repository.databaseItem();
     for (var j = 0; j < database.length; j++) {
-      for (var i = 0; i < itemCategory.results.length; i++) {
-        if (itemCategory.results[i].id == database[j].id) {
-          itemCategory.results[i].cardCount = database[j].cardCount;
+      for (var i = 0; i < itemIds.results.length; i++) {
+        if (itemIds.results[i].id == database[j].id) {
+          itemIds.results[i].cardCount = database[j].cardCount;
+        }
+      }
+    }
+
+    List<ItemResult> databaseFav = await _repository.databaseFavItem();
+    for (var j = 0; j < databaseFav.length; j++) {
+      for (var i = 0; i < itemIds.results.length; i++) {
+        if (itemIds.results[i].id == databaseFav[j].id) {
+          itemIds.results[i].favourite = true;
         }
       }
     }
 
     if (page == 1) {
       usersIds = new List();
-      usersIds = itemCategory.results;
+      usersIds = itemIds.results;
     } else {
-      usersIds.addAll(itemCategory.results);
+      usersIds.addAll(itemIds.results);
     }
 
-    itemIdsCount = itemCategory.count;
-    itemIdsNext = itemCategory.next;
-    itemIdsPrevious = itemCategory.previous;
+    itemIdsCount = itemIds.count;
+    itemIdsNext = itemIds.next;
+    itemIdsPrevious = itemIds.previous;
 
     itemIdsData = new ItemModel(
-      count: itemCategory.count,
-      next: itemCategory.next,
-      previous: itemCategory.previous,
+      count: itemIds.count,
+      next: itemIds.next,
+      previous: itemIds.previous,
       results: usersIds,
     );
     _idsItemsFetcher.sink.add(itemIdsData);
@@ -177,6 +194,15 @@ class ItemListBloc {
       for (var i = 0; i < itemModelBest.results.length; i++) {
         if (itemModelBest.results[i].id == database[j].id) {
           itemModelBest.results[i].cardCount = database[j].cardCount;
+        }
+      }
+    }
+
+    List<ItemResult> databaseFav = await _repository.databaseFavItem();
+    for (var j = 0; j < databaseFav.length; j++) {
+      for (var i = 0; i < itemModelBest.results.length; i++) {
+        if (itemModelBest.results[i].id == databaseFav[j].id) {
+          itemModelBest.results[i].favourite = true;
         }
       }
     }
@@ -235,6 +261,16 @@ class ItemListBloc {
           }
         }
       }
+
+      List<ItemResult> databaseFav = await _repository.databaseFavItem();
+      for (var j = 0; j < databaseFav.length; j++) {
+        for (var i = 0; i < itemModelSearch.results.length; i++) {
+          if (itemModelSearch.results[i].id == databaseFav[j].id) {
+            itemModelSearch.results[i].favourite = true;
+          }
+        }
+      }
+
       if (page == 1) {
         usersSearch = new List();
         usersSearch = itemModelSearch.results;
@@ -260,14 +296,27 @@ class ItemListBloc {
     if (usersBest != null) {
       for (var i = 0; i < usersBest.length; i++) {
         usersBest[i].cardCount = 0;
+        usersBest[i].favourite = false;
       }
 
-      ///best
+      ///card
       if (database.length != 0) {
         for (var j = 0; j < database.length; j++) {
           for (var i = 0; i < usersBest.length; i++) {
             if (usersBest[i].id == database[j].id) {
               usersBest[i].cardCount = database[j].cardCount;
+            }
+          }
+        }
+      }
+
+      List<ItemResult> databaseFav = await _repository.databaseFavItem();
+      ///favourite
+      if (databaseFav.length != 0) {
+        for (var j = 0; j < databaseFav.length; j++) {
+          for (var i = 0; i < usersBest.length; i++) {
+            if (usersBest[i].id == databaseFav[j].id) {
+              usersBest[i].favourite = true;
             }
           }
         }
@@ -290,6 +339,7 @@ class ItemListBloc {
     if (usersSearch != null) {
       for (var i = 0; i < usersSearch.length; i++) {
         usersSearch[i].cardCount = 0;
+        usersSearch[i].favourite = false;
       }
 
       ///search
@@ -298,6 +348,18 @@ class ItemListBloc {
           for (var i = 0; i < usersSearch.length; i++) {
             if (usersSearch[i].id == database[j].id) {
               usersSearch[i].cardCount = database[j].cardCount;
+            }
+          }
+        }
+      }
+
+      List<ItemResult> databaseFav = await _repository.databaseFavItem();
+      ///favourite
+      if (databaseFav.length != 0) {
+        for (var j = 0; j < databaseFav.length; j++) {
+          for (var i = 0; i < usersSearch.length; i++) {
+            if (usersSearch[i].id == databaseFav[j].id) {
+              usersSearch[i].favourite = true;
             }
           }
         }
@@ -319,6 +381,7 @@ class ItemListBloc {
     if (usersCategory != null) {
       for (var i = 0; i < usersCategory.length; i++) {
         usersCategory[i].cardCount = 0;
+        usersCategory[i].favourite = false;
       }
 
       ///category
@@ -327,6 +390,18 @@ class ItemListBloc {
           for (var i = 0; i < usersCategory.length; i++) {
             if (usersCategory[i].id == database[j].id) {
               usersCategory[i].cardCount = database[j].cardCount;
+            }
+          }
+        }
+      }
+
+      List<ItemResult> databaseFav = await _repository.databaseFavItem();
+      ///favourite
+      if (databaseFav.length != 0) {
+        for (var j = 0; j < databaseFav.length; j++) {
+          for (var i = 0; i < usersCategory.length; i++) {
+            if (usersCategory[i].id == databaseFav[j].id) {
+              usersCategory[i].favourite = true;
             }
           }
         }
@@ -348,6 +423,7 @@ class ItemListBloc {
     if (usersIds != null) {
       for (var i = 0; i < usersIds.length; i++) {
         usersIds[i].cardCount = 0;
+        usersIds[i].favourite = false;
       }
 
       ///ids
@@ -356,6 +432,18 @@ class ItemListBloc {
           for (var i = 0; i < usersIds.length; i++) {
             if (usersIds[i].id == database[j].id) {
               usersIds[i].cardCount = database[j].cardCount;
+            }
+          }
+        }
+      }
+
+      List<ItemResult> databaseFav = await _repository.databaseFavItem();
+      ///favourite
+      if (databaseFav.length != 0) {
+        for (var j = 0; j < databaseFav.length; j++) {
+          for (var i = 0; i < usersIds.length; i++) {
+            if (usersIds[i].id == databaseFav[j].id) {
+              usersIds[i].favourite = true;
             }
           }
         }

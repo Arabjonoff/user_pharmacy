@@ -8,6 +8,7 @@ import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/database/database_helper_fav.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/filter_open_model.dart';
@@ -56,6 +57,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
   Size size;
 
   DatabaseHelper dataBase = new DatabaseHelper();
+  DatabaseHelperFav dataBaseFav = new DatabaseHelperFav();
   int itemSize = 0;
   int lastPosition;
 
@@ -492,7 +494,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                         ? blocItemsList.getItemSearch
                         : widget.type == 4
                             ? blocItemsList.allIds
-                            : blocItemsList.allItemsCategoty,
+                            : blocItemsList.allItemsCategory,
                 builder: (context, AsyncSnapshot<ItemModel> snapshot) {
                   if (snapshot.hasData) {
                     snapshot.data.next == null
@@ -522,20 +524,11 @@ class _ItemListScreenState extends State<ItemListScreen> {
                               } else {
                                 return InkWell(
                                   onTap: () {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   PageTransition(
-                                    //     type: PageTransitionType.bottomToTop,
-                                    //     alignment: Alignment.bottomCenter,
-                                    //     child: ItemScreenNotInstruction(
-                                    //       snapshot.data.results[index].id,
-                                    //     ),
-                                    //   ),
-                                    // );
                                     RxBus.post(
-                                        BottomViewModel(
-                                            snapshot.data.results[index].id),
-                                        tag: "EVENT_BOTTOM_ITEM_ALL");
+                                      BottomViewModel(
+                                          snapshot.data.results[index].id),
+                                      tag: "EVENT_BOTTOM_ITEM_ALL",
+                                    );
                                   },
                                   child: Container(
                                     height: 160,
@@ -1001,6 +994,59 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                                               child:
                                                                   Container(),
                                                             ),
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                if (snapshot
+                                                                    .data
+                                                                    .results[
+                                                                        index]
+                                                                    .favourite) {
+                                                                  dataBaseFav.deleteProducts(
+                                                                      snapshot
+                                                                          .data
+                                                                          .results[
+                                                                              index]
+                                                                          .id);
+                                                                } else {
+                                                                  dataBaseFav.saveProducts(
+                                                                      snapshot
+                                                                          .data
+                                                                          .results[index]);
+                                                                }
+                                                                widget.type == 2
+                                                                    ? blocItemsList
+                                                                        .updateBest()
+                                                                    : widget.type ==
+                                                                            3
+                                                                        ? blocItemsList
+                                                                            .updateSearch()
+                                                                        : widget.type ==
+                                                                                4
+                                                                            ? blocItemsList.updateIds()
+                                                                            : blocItemsList.updateCategory();
+                                                              },
+                                                              child: Icon(
+                                                                snapshot
+                                                                        .data
+                                                                        .results[
+                                                                            index]
+                                                                        .favourite
+                                                                    ? Icons
+                                                                        .favorite
+                                                                    : Icons
+                                                                        .favorite_border,
+                                                                size: 24,
+                                                                color: snapshot
+                                                                        .data
+                                                                        .results[
+                                                                            index]
+                                                                        .favourite
+                                                                    ? AppTheme
+                                                                        .red_fav_color
+                                                                    : AppTheme
+                                                                        .arrow_catalog,
+                                                              ),
+                                                            )
                                                           ],
                                                         ),
                                                       ),
