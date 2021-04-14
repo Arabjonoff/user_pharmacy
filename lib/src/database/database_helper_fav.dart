@@ -90,7 +90,7 @@ class DatabaseHelperFav {
         list[i][columnPrice],
         Manifacture(list[i][columnManufacturer]),
         true,
-        list[i][columnCount],
+        0,
       );
       products.add(items);
     }
