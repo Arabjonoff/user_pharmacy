@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/database/database_helper_fav.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
@@ -61,6 +62,7 @@ class _CardScreenState extends State<CardScreen> {
   int minSum = 0;
 
   DatabaseHelper dataBase = new DatabaseHelper();
+  DatabaseHelperFav dataBaseFav = new DatabaseHelperFav();
 
   @override
   void initState() {
@@ -554,6 +556,42 @@ class _CardScreenState extends State<CardScreen> {
                                                       Expanded(
                                                         child: Container(),
                                                       ),
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          if (snapshot
+                                                              .data[index]
+                                                              .favourite) {
+                                                            dataBaseFav
+                                                                .deleteProducts(
+                                                                    snapshot
+                                                                        .data[
+                                                                            index]
+                                                                        .id);
+                                                          } else {
+                                                            dataBaseFav
+                                                                .saveProducts(
+                                                                    snapshot.data[
+                                                                        index]);
+                                                          }
+                                                          blocCard
+                                                              .fetchAllCard();
+                                                        },
+                                                        child: Icon(
+                                                          snapshot.data[index]
+                                                                  .favourite
+                                                              ? Icons.favorite
+                                                              : Icons
+                                                                  .favorite_border,
+                                                          size: 24,
+                                                          color: snapshot
+                                                                  .data[index]
+                                                                  .favourite
+                                                              ? AppTheme
+                                                                  .red_fav_color
+                                                              : AppTheme
+                                                                  .arrow_catalog,
+                                                        ),
+                                                      )
                                                     ],
                                                   ),
                                                 ),
@@ -575,51 +613,6 @@ class _CardScreenState extends State<CardScreen> {
                           );
                         },
                       ),
-                      // Container(
-                      //   child: Text(
-                      //     translate("card.my_card"),
-                      //     style: TextStyle(
-                      //       fontSize: 20,
-                      //       fontFamily: AppTheme.fontRoboto,
-                      //       fontWeight: FontWeight.w600,
-                      //       color: AppTheme.black_text,
-                      //     ),
-                      //   ),
-                      //   margin: EdgeInsets.only(top: 24, left: 16, right: 16),
-                      // ),
-                      // Container(
-                      //   margin: EdgeInsets.only(
-                      //     top: 26,
-                      //     left: 16,
-                      //     right: 16,
-                      //   ),
-                      //   child: Row(
-                      //     children: [
-                      //       Text(
-                      //         translate("card.all"),
-                      //         style: TextStyle(
-                      //           fontSize: 15,
-                      //           fontFamily: AppTheme.fontRoboto,
-                      //           fontWeight: FontWeight.w600,
-                      //           color: AppTheme.black_text,
-                      //         ),
-                      //       ),
-                      //       Expanded(
-                      //         child: Container(),
-                      //       ),
-                      //       Text(
-                      //         priceFormat.format(allPrice) +
-                      //             translate(translate("sum")),
-                      //         style: TextStyle(
-                      //           fontSize: 15,
-                      //           fontFamily: AppTheme.fontRoboto,
-                      //           fontWeight: FontWeight.w600,
-                      //           color: AppTheme.black_text,
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
                       error
                           ? Container(
                               width: double.infinity,

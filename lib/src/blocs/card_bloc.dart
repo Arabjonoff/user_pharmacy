@@ -10,6 +10,15 @@ class CardBloc {
 
   fetchAllCard() async {
     List<ItemResult> result = await _repository.databaseCardItem(true);
+    List<ItemResult> resultFav = await _repository.databaseFavItem();
+    for (int i = 0; i < result.length; i++) {
+      for (int j = 0; j < resultFav.length; j++) {
+        if (result[i].id == resultFav[j].id) {
+          result[i].favourite = true;
+          break;
+        }
+      }
+    }
     _cardFetcher.sink.add(result);
   }
 
