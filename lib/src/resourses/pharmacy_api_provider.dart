@@ -996,6 +996,7 @@ class PharmacyApiProvider {
   Future<CheckVersion> fetchCheckVersion(String version) async {
     String url = Utils.baseUrl + '/api/v1/check-version';
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
     final data = {
       "version": version,
       "device": Platform.isIOS ? "ios" : "android"
@@ -1006,9 +1007,14 @@ class PharmacyApiProvider {
         ? stringToBase64.encode(prefs.getString("deviceData"))
         : "";
 
-    Map<String, String> headers = {
-      'X-Device': encoded,
-    };
+    Map<String, String> headers = token == null
+        ? {
+            'X-Device': encoded,
+          }
+        : {
+            'X-Device': encoded,
+            HttpHeaders.authorizationHeader: "Bearer $token",
+          };
 
     http.Response response =
         await http.post(url, body: data, headers: headers).timeout(duration);

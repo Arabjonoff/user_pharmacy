@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
