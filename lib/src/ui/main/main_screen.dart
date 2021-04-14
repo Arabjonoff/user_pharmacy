@@ -462,8 +462,6 @@ class _MainScreenState extends State<MainScreen> {
                 blocCategory.fetchAllCategory();
                 if (isOpenCategory) blocItemsList.updateCategory();
                 if (isOpenSearch) blocItemsList.updateSearch();
-              } else if (index == 3) {
-                blocFav.fetchAllFav();
               } else if (index == 4) {
                 Utils.isLogin().then((value) => {
                       isLogin = value,

@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/src/blocs/fav_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/database/database_helper_fav.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
@@ -24,15 +25,11 @@ class FavouriteScreen extends StatefulWidget {
 
 class _FavouriteScreenState extends State<FavouriteScreen> {
   DatabaseHelper dataBaseCard = new DatabaseHelper();
-
-  @override
-  void initState() {
-    blocFav.fetchAllFav();
-    super.initState();
-  }
+  DatabaseHelperFav dataBaseFav = new DatabaseHelperFav();
 
   @override
   Widget build(BuildContext context) {
+    blocFav.fetchAllFav();
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: AppBar(
@@ -464,6 +461,41 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                       Expanded(
                                                         child: Container(),
                                                       ),
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          if (snapshot
+                                                              .data[index]
+                                                              .favourite) {
+                                                            dataBaseFav
+                                                                .deleteProducts(
+                                                                    snapshot
+                                                                        .data[
+                                                                            index]
+                                                                        .id);
+                                                          } else {
+                                                            dataBaseFav
+                                                                .saveProducts(
+                                                                    snapshot.data[
+                                                                        index]);
+                                                          }
+                                                          blocFav.fetchAllFav();
+                                                        },
+                                                        child: Icon(
+                                                          snapshot.data[index]
+                                                                  .favourite
+                                                              ? Icons.favorite
+                                                              : Icons
+                                                                  .favorite_border,
+                                                          size: 24,
+                                                          color: snapshot
+                                                                  .data[index]
+                                                                  .favourite
+                                                              ? AppTheme
+                                                                  .red_fav_color
+                                                              : AppTheme
+                                                                  .arrow_catalog,
+                                                        ),
+                                                      )
                                                     ],
                                                   ),
                                                 ),
