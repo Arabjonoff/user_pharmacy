@@ -3,6 +3,7 @@ class CheckVersion {
   String description;
   int version;
   bool winner;
+  bool requestForm;
   String konkursText;
 
   CheckVersion({
@@ -10,6 +11,7 @@ class CheckVersion {
     this.description,
     this.version,
     this.winner,
+    this.requestForm,
     this.konkursText,
   });
 
@@ -19,6 +21,7 @@ class CheckVersion {
     version = json['version'];
     konkursText = json['konkurs_text'] ?? "";
     winner = json['winner'] ?? false;
+    requestForm = json['is_request_form'] ?? false;
   }
 
   Map<String, dynamic> toJson() {
@@ -28,6 +31,7 @@ class CheckVersion {
     data['version'] = this.version;
     data['konkurs_text'] = this.konkursText;
     data['winner'] = this.winner;
+    data['is_request_form'] = this.requestForm;
     return data;
   }
 }

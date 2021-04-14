@@ -440,6 +440,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Future<void> _initPackageInfo() async {
     final PackageInfo info = await PackageInfo.fromPlatform();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     if (info.buildNumber != null) {
       Repository().fetchCheckVersion(info.buildNumber).then((value) => {
             if (value.status != null && value.status != 0)
@@ -454,6 +455,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             else if (value.winner)
               {
                 Utils.showWitter(context, value.konkursText),
+              },
+            if (value.requestForm)
+              {
+                if (prefs.getString("is_request_form") == null)
+                  {
+                    BottomDialog.showRamadan(context),
+                  },
+                prefs.setString("is_request_form", "value"),
               }
           });
     }

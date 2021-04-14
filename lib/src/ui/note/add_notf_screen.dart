@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -522,11 +521,13 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                                         groupName,
                                         nameController.text.toString(),
                                         dozaController.text.toString(),
-                                        time.add(Duration(
-                                          days: j,
-                                          hours: timeList[i].hour,
-                                          minutes: timeList[i].minute,
-                                        )),
+                                        time.add(
+                                          Duration(
+                                            days: j,
+                                            hours: timeList[i].hour,
+                                            minutes: timeList[i].minute,
+                                          ),
+                                        ),
                                       ),
                                     });
                           }
