@@ -40,6 +40,10 @@
   "free": "free",
   "disabled": "Allow access to your geo location to determine your location",
   "call_center": "24-hour call center",
+  "choose_store": "Choose a pharmacy",
+  "order": "Order amount",
+  "delivery": "Delivery amount",
+  "time": "Delivery time",
   "main": {
     "home": "Home",
     "catalog": "Catalog",

@@ -8,6 +8,7 @@ import 'package:pharmacy/src/model/api/cash_back_model.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
+import 'package:pharmacy/src/model/api/check_order_model_new.dart';
 import 'package:pharmacy/src/model/api/check_order_responce.dart';
 import 'package:pharmacy/src/model/api/check_version.dart';
 import 'package:pharmacy/src/model/api/current_location_address_model.dart';
@@ -193,7 +194,7 @@ class Repository {
   Future<CreateOrderStatusModel> fetchCreateOrder(CreateOrderModel order) =>
       pharmacyApiProvider.fetchCreateOrder(order);
 
-  Future<CheckOrderResponceModel> fetchCheckOrder(CheckOrderModel order) =>
+  Future<CheckOrderModelNew> fetchCheckOrder(CreateOrderModel order) =>
       pharmacyApiProvider.fetchCheckOrder(order);
 
   Future<HistoryModel> fetchHistory(int page) =>

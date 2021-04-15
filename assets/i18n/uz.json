@@ -40,6 +40,10 @@
   "free": "bepul",
   "disabled": "Joylashuvingizni aniqlash uchun geojoylashuvga kirishga ruxsat bering",
   "call_center": "24 soatlik qo'ng'iroq markazi",
+  "choose_store": "Dorixonani tanlang",
+  "order": "Buyurtma narxi",
+  "delivery": "Yetkazib berish narxi",
+  "time": "Yetkazib berish vaqti",
   "main": {
     "home": "Asosiy",
     "catalog": "Katalog",

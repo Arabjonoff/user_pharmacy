@@ -18,6 +18,7 @@ import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/map_address_screen.dart';
+import 'package:pharmacy/src/ui/shopping_curer/store_list_screen.dart';
 import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
@@ -312,8 +313,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                             id: i,
                             paymentId: snapshot.data.paymentTypes[i].id,
                             cardId: snapshot.data.paymentTypes[i].cardId,
-                            cardToken:
-                                snapshot.data.paymentTypes[i].cardToken,
+                            cardToken: snapshot.data.paymentTypes[i].cardToken,
                             name: snapshot.data.paymentTypes[i].name,
                             pan: snapshot.data.paymentTypes[i].pan,
                             type: snapshot.data.paymentTypes[i].type,
@@ -534,7 +534,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                               drugs: drugs,
                             ),
                             Repository()
-                                .fetchCreateOrder(createOrder)
+                                .fetchCheckOrder(createOrder)
                                 .then((response) => {
                                       if (response.status == 1)
                                         {
@@ -542,62 +542,23 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                             loading = false;
                                             error = false;
                                           }),
-                                          dataBase.clear(),
-                                          if (isOpenCategory)
-                                            RxBus.post(AllItemIsOpen(true),
-                                                tag:
-                                                    "EVENT_ITEM_LIST_CATEGORY"),
-                                          if (isOpenBest)
-                                            RxBus.post(AllItemIsOpen(true),
-                                                tag: "EVENT_ITEM_LIST"),
-                                          if (isOpenIds)
-                                            RxBus.post(AllItemIsOpen(true),
-                                                tag: "EVENT_ITEM_LIST_IDS"),
-                                          if (isOpenSearch)
-                                            RxBus.post(AllItemIsOpen(true),
-                                                tag: "EVENT_ITEM_LIST_SEARCH"),
                                           Navigator.push(
                                             context,
                                             PageTransition(
                                               type: PageTransitionType.fade,
-                                              child: OrderCardCurerScreen(
-                                                orderId: response.orderId,
-                                                price: response.data.total,
-                                                cash: response.data.cash,
-                                                deliveryPrice: response
-                                                        .data.isUserPay
-                                                    ? response.data.deliverySum
-                                                    : 0.0,
+                                              child: StoreListScreen(
+                                                createOrder: createOrder,
+                                                checkOrderModel: response,
                                               ),
                                             ),
                                           ),
-                                        }
-                                      else if (response.status == -1)
-                                        {
-                                          setState(() {
-                                            error = true;
-                                            loading = false;
-                                            errorText = response.msg;
-                                          }),
-                                          Timer(Duration(milliseconds: 100),
-                                              () {
-                                            _scrollController.animateTo(
-                                              _scrollController
-                                                  .position.maxScrollExtent,
-                                              curve: Curves.easeOut,
-                                              duration: const Duration(
-                                                  milliseconds: 200),
-                                            );
-                                          }),
                                         }
                                       else
                                         {
                                           setState(() {
                                             error = true;
                                             loading = false;
-                                            errorText = response.msg == ""
-                                                ? translate("error_distanse")
-                                                : response.msg;
+                                            errorText = response.msg;
                                           }),
                                           Timer(Duration(milliseconds: 100),
                                               () {

@@ -9,6 +9,7 @@ import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/cancel_order.dart';
 import 'package:pharmacy/src/model/api/cash_back_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
+import 'package:pharmacy/src/model/api/check_order_model_new.dart';
 import 'package:pharmacy/src/model/api/check_order_responce.dart';
 import 'package:pharmacy/src/model/api/check_version.dart';
 import 'package:pharmacy/src/model/api/current_location_address_model.dart';
@@ -729,47 +730,6 @@ class PharmacyApiProvider {
     }
   }
 
-  /// Check order endi ishlatilmaydi
-  Future<CheckOrderResponceModel> fetchCheckOrder(CheckOrderModel order) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token");
-    int regionId = prefs.getInt("cityId");
-    String lan = prefs.getString('language');
-
-    if (lan == null) {
-      lan = "ru";
-    }
-
-    String url =
-        Utils.baseUrl + '/api/v1/check-order?lan=$lan&region=$regionId';
-
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-    try {
-      http.Response response = await http
-          .post(url, body: json.encode(order), headers: headers)
-          .timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      return CheckOrderResponceModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return CheckOrderResponceModel(
-          status: -1, msg: translate("internet_error"));
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return CheckOrderResponceModel(
-          status: -1, msg: translate("internet_error"));
-    }
-  }
-
   ///Exist store
   Future<List<LocationModel>> fetchAccessApteka(AccessStore accessStore) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -1241,6 +1201,47 @@ class PharmacyApiProvider {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
       return CreateOrderStatusModel(
           status: -1, msg: translate("internet_error"));
+    }
+  }
+
+  ///check order
+  Future<CheckOrderModelNew> fetchCheckOrder(CreateOrderModel order) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
+    String lan = prefs.getString('language');
+    int regionId = prefs.getInt("cityId");
+    if (lan == null) {
+      lan = "ru";
+    }
+
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
+
+    String url =
+        Utils.baseUrl + '/api/v1/check-order?lan=$lan&region=$regionId';
+
+    Map<String, String> headers = {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+      'content-type': 'application/json',
+      'X-Device': encoded,
+    };
+
+    try {
+      http.Response response = await http
+          .post(url, headers: headers, body: json.encode(order))
+          .timeout(duration);
+
+      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+
+      return CheckOrderModelNew.fromJson(responseJson);
+    } on TimeoutException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return CheckOrderModelNew(status: -1, msg: translate("internet_error"));
+    } on SocketException catch (_) {
+      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+      return CheckOrderModelNew(status: -1, msg: translate("internet_error"));
     }
   }
 
