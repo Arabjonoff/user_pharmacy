@@ -959,7 +959,7 @@ class PharmacyApiProvider {
     }
   }
 
-  ///payment vetfy token
+  ///payment verify token
   Future<PaymentVerfy> fetchVerfyPaymentModel(VerdyPaymentModel verfy) async {
     String url = Utils.baseUrl + '/api/v1/verify-token';
 
@@ -994,13 +994,14 @@ class PharmacyApiProvider {
 
   ///check version
   Future<CheckVersion> fetchCheckVersion(String version) async {
-    String url = Utils.baseUrl + '/api/v1/check-version';
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
     final data = {
       "version": version,
       "device": Platform.isIOS ? "ios" : "android"
     };
+    String lan = prefs.getString('language') ?? "ru";
+    String url = Utils.baseUrl + '/api/v1/check-version?lan=$lan';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = prefs.getString("deviceData") != null

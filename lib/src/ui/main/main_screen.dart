@@ -16,7 +16,6 @@ import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/blocs/menu_bloc.dart';
-import 'package:pharmacy/src/blocs/fav_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
@@ -27,6 +26,7 @@ import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/chat/chat_screen.dart';
+import 'package:pharmacy/src/ui/dialog/universal_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/item_list/fliter_screen.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
@@ -111,15 +111,16 @@ class _MainScreenState extends State<MainScreen> {
               isDefaultAction: true,
               child: Text('Ok'),
               onPressed: () async {
-                Navigator.of(context, rootNavigator: true).pop();
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NotificationScreen(
-                      receivedNotification.id,
-                    ),
-                  ),
-                );
+                ///keyingi updateda ob tasha komentni
+                // Navigator.of(context, rootNavigator: true).pop();
+                // await Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => NotificationScreen(
+                //       receivedNotification.id,
+                //     ),
+                //   ),
+                // );
               },
             )
           ],
@@ -130,12 +131,13 @@ class _MainScreenState extends State<MainScreen> {
 
   void _configureSelectNotificationSubject() {
     selectNotificationSubject.stream.listen((String payload) async {
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => NotificationScreen(-1),
-        ),
-      );
+      ///keyingi updateda ob tasha komentni
+      // await Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => NotificationScreen(-1),
+      //   ),
+      // );
     });
   }
 
@@ -582,6 +584,7 @@ class _MainScreenState extends State<MainScreen> {
             onRegion: _region,
             onHistory: _history,
             onLogin: _login,
+            onUnversal: _universal,
           ),
           CategoryScreen(),
           CardScreen(
@@ -639,6 +642,20 @@ class _MainScreenState extends State<MainScreen> {
       PageTransition(
         type: PageTransitionType.bottomToTop,
         child: CurerAddressCardScreen(false),
+      ),
+    );
+  }
+
+  void _universal(String title, String uri) {
+    print(uri);
+    Navigator.push(
+      context,
+      PageTransition(
+        type: PageTransitionType.bottomToTop,
+        child: UniversalScreen(
+          title: title,
+          uri: uri,
+        ),
       ),
     );
   }

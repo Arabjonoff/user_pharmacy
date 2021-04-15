@@ -502,7 +502,7 @@ class Utils {
       id,
       title,
       body,
-      time,
+      DateTime(time.year, time.month, time.day, time.hour, time.minute - 20),
       platformChannelSpecifics,
     );
   }

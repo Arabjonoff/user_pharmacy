@@ -42,12 +42,14 @@ class HomeScreen extends StatefulWidget {
   final Function onRegion;
   final Function onHistory;
   final Function onLogin;
+  final Function(String title, String uri) onUnversal;
 
   HomeScreen({
     this.onStore,
     this.onRegion,
     this.onHistory,
     this.onLogin,
+    this.onUnversal,
   });
 
   @override
@@ -70,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void initState() {
     _setLanguage();
     _initPackageInfo();
-    registerBus();
+    _registerBus();
     _notificationFirebase();
     _getNoReview();
     blocHome.fetchCityName();
@@ -424,7 +426,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         });
   }
 
-  void registerBus() {
+  void _registerBus() {
     RxBus.register<BottomView>(tag: "HOME_VIEW").listen((event) {
       if (event.title) {
         Navigator.of(context).popUntil((route) => route.isFirst);
@@ -442,29 +444,36 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final PackageInfo info = await PackageInfo.fromPlatform();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (info.buildNumber != null) {
-      Repository().fetchCheckVersion(info.buildNumber).then((value) => {
-            if (value.status != null && value.status != 0)
-              {
-                RxBus.post(
-                    CheckVersionModel(
-                        title: true,
-                        packageName: info.packageName,
-                        desk: value.description),
-                    tag: "EVENT_ITEM_CHECK")
-              }
-            else if (value.winner)
-              {
-                Utils.showWitter(context, value.konkursText),
-              },
-            if (value.requestForm)
-              {
-                if (prefs.getString("is_request_form") == null)
-                  {
-                    BottomDialog.showRamadan(context),
-                  },
-                prefs.setString("is_request_form", "value"),
-              }
-          });
+      Repository().fetchCheckVersion(info.buildNumber).then(
+            (value) => {
+              if (value.status != null && value.status != 0)
+                {
+                  RxBus.post(
+                      CheckVersionModel(
+                          title: true,
+                          packageName: info.packageName,
+                          desk: value.description),
+                      tag: "EVENT_ITEM_CHECK")
+                }
+              else if (value.winner)
+                {
+                  Utils.showWitter(context, value.konkursText),
+                },
+              if (value.isRequestForm)
+                {
+                  if (prefs.getString("is_request_form") == null)
+                    {
+                      BottomDialog.showRamadan(context),
+                    },
+                  prefs.setString("is_request_form", "value"),
+                },
+              if (value.requestForm)
+                {
+                  print("object"),
+                  widget.onUnversal(value.requestTitle, value.requestUrl),
+                }
+            },
+          );
     }
   }
 
