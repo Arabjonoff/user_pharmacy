@@ -474,13 +474,30 @@ class Utils {
         dateTime: DateTime(2021, 5, 12, 19, 34),
       ),
     ];
+    var dateTime = DateTime.now();
     for (int i = 0; i < list.length; i++) {
-      scheduleNotification(
-        list[i].id,
-        list[i].title,
-        list[i].message,
-        list[i].dateTime,
-      );
+      if (dateTime.month < list[i].dateTime.month) {
+        scheduleNotification(
+          list[i].id,
+          list[i].title,
+          list[i].message,
+          list[i].dateTime,
+        );
+      } else if (dateTime.day < list[i].dateTime.day) {
+        scheduleNotification(
+          list[i].id,
+          list[i].title,
+          list[i].message,
+          list[i].dateTime,
+        );
+      } else if (dateTime.hour < list[i].dateTime.hour) {
+        scheduleNotification(
+          list[i].id,
+          list[i].title,
+          list[i].message,
+          list[i].dateTime,
+        );
+      }
     }
   }
 
