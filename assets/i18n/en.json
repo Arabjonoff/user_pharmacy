@@ -349,6 +349,12 @@
     "fr": "From friends",
     "other": "Other"
   },
+  "ramadan": {
+    "title": "Ramadan Schedule",
+    "message": "Would you like to receive the schedule of suhoor and iftar every day?",
+    "yes": "Yes, I want to receive",
+    "no": "No"
+  },
   "eda": {
     "empty": "To an empty stomach",
     "before": "Before a meal",

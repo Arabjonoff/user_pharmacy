@@ -349,6 +349,12 @@
     "fr": "Tanishlardan",
     "other": "Boshqalar"
   },
+  "ramadan": {
+    "title": "Ramazon taqvimi",
+    "message": "GoPharm sizga har kuni saharlik va iftorlik vaqtlarini eslatib turishini xohlaysizmi?",
+    "yes": "Ha",
+    "no": "Yo'q"
+  },
   "eda": {
     "empty": "Och qoringa",
     "before": "Ovqatdan oldin",

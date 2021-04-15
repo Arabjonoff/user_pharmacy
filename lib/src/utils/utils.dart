@@ -500,8 +500,11 @@ class Utils {
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.schedule(
       id,
-      title,
-      body,
+      id % 2 == 0 ? "Iftorlik vaqti" : "Saharlik vaqti",
+      "Bugun Toshkent vaqti bilan: " +
+          time.hour.toString() +
+          ":" +
+          time.minute.toString(),
       DateTime(time.year, time.month, time.day, time.hour, time.minute - 20),
       platformChannelSpecifics,
     );
