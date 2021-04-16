@@ -697,13 +697,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // isLogin
-                        //     ? widget.onHistory()
-                        //     : BottomDialog.createBottomSheetHistory(
-                        //         context,
-                        //         widget.onLogin,
-                        //       );
-                        Utils.setRamadan();
+                        isLogin
+                            ? widget.onHistory()
+                            : BottomDialog.createBottomSheetHistory(
+                                context,
+                                widget.onLogin,
+                              );
                       },
                       child: Container(
                         child: ClipRRect(
