@@ -379,10 +379,11 @@ class _AddressStoreMapPickupScreenState
                                                           tag:
                                                               "EVENT_ITEM_LIST_SEARCH"),
                                                     cashData = CashBackData(
-                                                      total: response.data.total,
+                                                      total:
+                                                          response.data.total,
                                                       cash: response.data.cash,
-                                                      isTotalCash:
-                                                      response.data.isTotalCash,
+                                                      isTotalCash: response
+                                                          .data.isTotalCash,
                                                     ),
                                                     Navigator.pop(context),
                                                     Navigator.push(
@@ -391,7 +392,8 @@ class _AddressStoreMapPickupScreenState
                                                         type: PageTransitionType
                                                             .fade,
                                                         child: OrderCardPickupScreen(
-                                                            response.orderId,
+                                                            response
+                                                                .data.orderId,
                                                             response.data
                                                                 .expireSelfOrder),
                                                       ),

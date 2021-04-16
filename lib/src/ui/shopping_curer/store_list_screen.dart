@@ -181,7 +181,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                         PageTransition(
                                           type: PageTransitionType.fade,
                                           child: OrderCardCurerScreen(
-                                            orderId: response.orderId,
+                                            orderId: response.data.orderId,
                                             price: response.data.total,
                                             cash: response.data.cash,
                                             deliveryPrice:

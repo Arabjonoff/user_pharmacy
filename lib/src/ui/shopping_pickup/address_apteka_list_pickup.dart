@@ -258,7 +258,7 @@ class _AddressStoreListPickupScreenState
                                                 PageTransition(
                                                   type: PageTransitionType.fade,
                                                   child: OrderCardPickupScreen(
-                                                    response.orderId,
+                                                    response.data.orderId,
                                                     response
                                                         .data.expireSelfOrder,
                                                   ),
