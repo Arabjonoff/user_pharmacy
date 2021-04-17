@@ -155,7 +155,7 @@ class _AddressStoreMapPickupScreenState
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(16.0)),
                   child: Container(
-                    height: 252,
+                    height: 272,
                     color: AppTheme.white,
                     child: Column(
                       children: <Widget>[
@@ -191,9 +191,7 @@ class _AddressStoreMapPickupScreenState
                                 width: 7,
                               ),
                               Text(
-                                data[i].distance.toInt() == 0
-                                    ? ""
-                                    : data[i].distance.toString() + " m",
+                                ((data[i].distance~/100)/10.0).toString() + " km",
                                 textAlign: TextAlign.start,
                                 maxLines: 1,
                                 style: TextStyle(
@@ -319,6 +317,39 @@ class _AddressStoreMapPickupScreenState
                               )
                             ],
                           ),
+                        ),
+                        SizedBox(height: 12),
+                        Row(
+                          children: [
+                            SizedBox(width: 12),
+                            Text(
+                              translate("order"),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRoboto,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 13,
+                                height: 1.3,
+                                color: AppTheme.search_empty,
+                              ),
+                            ),
+                            SizedBox(width: 4),
+                            Expanded(
+                              child: Align(
+                                child: Text(
+                                  priceFormat.format(data[i].total) +
+                                      translate("sum"),
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRoboto,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                    color: AppTheme.black_text,
+                                  ),
+                                ),
+                                alignment: Alignment.centerRight,
+                              ),
+                            ),
+                            SizedBox(width: 12),
+                          ],
                         ),
                         SizedBox(height: 12),
                         Expanded(

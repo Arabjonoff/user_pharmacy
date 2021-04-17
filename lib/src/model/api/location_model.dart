@@ -17,6 +17,7 @@ class LocationModel {
     this.mode,
     this.location,
     this.distance,
+    this.total,
   });
 
   int id;
@@ -27,6 +28,7 @@ class LocationModel {
   String mode;
   Location location;
   double distance;
+  double total;
 
   factory LocationModel.fromJson(Map<String, dynamic> json) => LocationModel(
         id: json["id"],
@@ -37,6 +39,7 @@ class LocationModel {
         mode: json["mode"],
         location: Location.fromJson(json["location"]),
         distance: json["distance"] == null ? 0.0 : json["distance"],
+        total: json["total"] == null ? 0.0 : json["total"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -48,6 +51,7 @@ class LocationModel {
         "mode": mode,
         "location": location.toJson(),
         "distance": distance,
+        "total": total,
       };
 }
 

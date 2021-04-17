@@ -8,11 +8,12 @@ class AptekaBloc {
   final _repository = Repository();
 
   final _aptekaFetcher = PublishSubject<List<AptekaModel>>();
-  final _existStoreFetcher = PublishSubject<List<AptekaModel>>();
+  final _existStoreFetcher = PublishSubject<List<LocationModel>>();
 
   Observable<List<AptekaModel>> get allApteka => _aptekaFetcher.stream;
 
-  Observable<List<AptekaModel>> get allExistStorea => _existStoreFetcher.stream;
+  Observable<List<LocationModel>> get allExistStorea =>
+      _existStoreFetcher.stream;
 
   fetchAllApteka(double lat, double lng) async {
     List<LocationModel> orderModel = await _repository.fetchStore(lat, lng);
@@ -42,22 +43,7 @@ class AptekaBloc {
         await _repository.fetchAccessStore(accessStore);
 
     if (saleModel != null) {
-      List<AptekaModel> aptekadata = new List();
-
-      for (int i = 0; i < saleModel.length; i++) {
-        aptekadata.add(AptekaModel(
-          saleModel[i].id,
-          saleModel[i].name,
-          saleModel[i].address,
-          saleModel[i].mode,
-          saleModel[i].phone,
-          saleModel[i].location.coordinates[1],
-          saleModel[i].location.coordinates[0],
-          false,
-        ));
-      }
-
-      _existStoreFetcher.sink.add(aptekadata);
+      _existStoreFetcher.sink.add(saleModel);
     }
   }
 

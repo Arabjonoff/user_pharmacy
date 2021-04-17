@@ -9,6 +9,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/blocs/aptek_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
@@ -75,7 +76,7 @@ class _AddressStoreListPickupScreenState
       backgroundColor: AppTheme.background,
       body: StreamBuilder(
         stream: blocApteka.allExistStorea,
-        builder: (context, AsyncSnapshot<List<AptekaModel>> snapshot) {
+        builder: (context, AsyncSnapshot<List<LocationModel>> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
               itemCount: snapshot.data.length,
@@ -128,7 +129,7 @@ class _AddressStoreListPickupScreenState
                           children: [
                             Expanded(
                               child: Text(
-                                snapshot.data[index].open,
+                                snapshot.data[index].mode,
                                 textAlign: TextAlign.start,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
@@ -148,7 +149,7 @@ class _AddressStoreListPickupScreenState
                               child: GestureDetector(
                                 onTap: () async {
                                   var url = "tel:" +
-                                      snapshot.data[index].number
+                                      snapshot.data[index].phone
                                           .replaceAll(" ", "")
                                           .replaceAll("-", "")
                                           .replaceAll("(", "")
@@ -161,7 +162,7 @@ class _AddressStoreListPickupScreenState
                                 },
                                 child: Text(
                                   Utils.numberFormat(
-                                    snapshot.data[index].number
+                                    snapshot.data[index].phone
                                         .replaceAll(" ", "")
                                         .replaceAll("+", "")
                                         .replaceAll("-", "")
@@ -221,6 +222,39 @@ class _AddressStoreListPickupScreenState
                           ],
                         ),
                       ),
+                      Row(
+                        children: [
+                          SizedBox(width: 16),
+                          Text(
+                            translate("order"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 13,
+                              height: 1.3,
+                              color: AppTheme.search_empty,
+                            ),
+                          ),
+                          SizedBox(width: 4),
+                          Expanded(
+                            child: Align(
+                              child: Text(
+                                priceFormat.format(snapshot.data[index].total) +
+                                    translate("sum"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRoboto,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: AppTheme.black_text,
+                                ),
+                              ),
+                              alignment: Alignment.centerRight,
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                        ],
+                      ),
+                      SizedBox(height: 16),
                       GestureDetector(
                         onTap: () {
                           setState(() {

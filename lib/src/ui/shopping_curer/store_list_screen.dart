@@ -30,6 +30,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
   DatabaseHelper dataBase = new DatabaseHelper();
   bool loading = false;
   ScrollController _scrollController = new ScrollController();
+  String error = "";
 
   @override
   void dispose() {
@@ -94,8 +95,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                         color: AppTheme.arrow_examp_back,
                         padding: EdgeInsets.all(13),
                         margin: EdgeInsets.only(left: 4),
-                        child:SvgPicture.asset(
-                            "assets/images/arrow_back.svg"),
+                        child: SvgPicture.asset("assets/images/arrow_back.svg"),
                       ),
                     ),
                   ),
@@ -146,240 +146,271 @@ class _StoreListScreenState extends State<StoreListScreen> {
             Expanded(
               child: Stack(
                 children: [
-                  ListView.builder(
-                    controller: _scrollController,
-                    itemCount: widget.checkOrderModel.data.stores.length,
-                    itemBuilder: (BuildContext ctxt, int index) {
-                      return GestureDetector(
-                        onTap: () {
-                          widget.createOrder.storeId =
-                              widget.checkOrderModel.data.stores[index].id;
-                          setState(() {
-                            loading = true;
-                          });
-                          Repository()
-                              .fetchCreateOrder(widget.createOrder)
-                              .then(
-                                (response) => {
-                                  if (response.status == 1)
-                                    {
-                                      dataBase.clear(),
-                                      if (isOpenCategory)
-                                        RxBus.post(AllItemIsOpen(true),
-                                            tag: "EVENT_ITEM_LIST_CATEGORY"),
-                                      if (isOpenBest)
-                                        RxBus.post(AllItemIsOpen(true),
-                                            tag: "EVENT_ITEM_LIST"),
-                                      if (isOpenIds)
-                                        RxBus.post(AllItemIsOpen(true),
-                                            tag: "EVENT_ITEM_LIST_IDS"),
-                                      if (isOpenSearch)
-                                        RxBus.post(AllItemIsOpen(true),
-                                            tag: "EVENT_ITEM_LIST_SEARCH"),
-                                      Navigator.push(
-                                        context,
-                                        PageTransition(
-                                          type: PageTransitionType.fade,
-                                          child: OrderCardCurerScreen(
-                                            orderId: response.data.orderId,
-                                            price: response.data.total,
-                                            cash: response.data.cash,
-                                            deliveryPrice:
-                                                response.data.isUserPay
+                  ListView(
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        controller: _scrollController,
+                        itemCount: widget.checkOrderModel.data.stores.length,
+                        itemBuilder: (BuildContext ctxt, int index) {
+                          return GestureDetector(
+                            onTap: () {
+                              widget.createOrder.storeId =
+                                  widget.checkOrderModel.data.stores[index].id;
+                              setState(() {
+                                loading = true;
+                              });
+                              Repository()
+                                  .fetchCreateOrder(widget.createOrder)
+                                  .then(
+                                    (response) => {
+                                      if (response.status == 1)
+                                        {
+                                          dataBase.clear(),
+                                          if (isOpenCategory)
+                                            RxBus.post(AllItemIsOpen(true),
+                                                tag:
+                                                    "EVENT_ITEM_LIST_CATEGORY"),
+                                          if (isOpenBest)
+                                            RxBus.post(AllItemIsOpen(true),
+                                                tag: "EVENT_ITEM_LIST"),
+                                          if (isOpenIds)
+                                            RxBus.post(AllItemIsOpen(true),
+                                                tag: "EVENT_ITEM_LIST_IDS"),
+                                          if (isOpenSearch)
+                                            RxBus.post(AllItemIsOpen(true),
+                                                tag: "EVENT_ITEM_LIST_SEARCH"),
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType.fade,
+                                              child: OrderCardCurerScreen(
+                                                orderId: response.data.orderId,
+                                                price: response.data.total,
+                                                cash: response.data.cash,
+                                                deliveryPrice: response
+                                                        .data.isUserPay
                                                     ? response.data.deliverySum
                                                     : 0.0,
+                                              ),
+                                            ),
+                                          ),
+                                        }
+                                      else
+                                        {
+                                          setState(() {
+                                            loading = false;
+                                            error = response.msg;
+                                          }),
+                                        }
+                                    },
+                                  );
+                            },
+                            child: Container(
+                              margin:
+                                  EdgeInsets.only(top: 24, left: 12, right: 12),
+                              decoration: BoxDecoration(
+                                color: AppTheme.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    offset: Offset(0, 2),
+                                    blurRadius: 24,
+                                    spreadRadius: 0,
+                                    color: Color.fromRGBO(0, 0, 0, 0.08),
+                                  ),
+                                  BoxShadow(
+                                    offset: Offset(0, 0),
+                                    blurRadius: 2,
+                                    spreadRadius: 0,
+                                    color: Color.fromRGBO(0, 0, 0, 0.08),
+                                  ),
+                                ],
+                              ),
+                              padding: EdgeInsets.only(
+                                top: 20,
+                                left: 16,
+                                right: 16,
+                                bottom: 20,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          widget.checkOrderModel.data
+                                              .stores[index].name,
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontRoboto,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                            color: AppTheme.black_text,
                                           ),
                                         ),
                                       ),
-                                    }
-                                  else
-                                    {
-                                      setState(() {
-                                        loading = false;
-                                      }),
-                                    }
-                                },
-                              );
+                                      SizedBox(width: 4),
+                                      Text(
+                                        ((widget
+                                                            .checkOrderModel
+                                                            .data
+                                                            .stores[index]
+                                                            .distance ~/
+                                                        100) /
+                                                    10.0)
+                                                .toString() +
+                                            " km",
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRoboto,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 11,
+                                          height: 1.3,
+                                          color: AppTheme.search_empty,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    widget.checkOrderModel.data.stores[index]
+                                        .address,
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRoboto,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 13,
+                                      color: AppTheme.black_text,
+                                    ),
+                                  ),
+                                  SizedBox(height: 16),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        translate("order"),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRoboto,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 13,
+                                          height: 1.3,
+                                          color: AppTheme.search_empty,
+                                        ),
+                                      ),
+                                      SizedBox(width: 4),
+                                      Expanded(
+                                        child: Align(
+                                          child: Text(
+                                            priceFormat.format(widget
+                                                    .checkOrderModel
+                                                    .data
+                                                    .stores[index]
+                                                    .total) +
+                                                translate("sum"),
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontRoboto,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                              color: AppTheme.black_text,
+                                            ),
+                                          ),
+                                          alignment: Alignment.centerRight,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 16),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        translate("delivery"),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRoboto,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 13,
+                                          height: 1.3,
+                                          color: AppTheme.search_empty,
+                                        ),
+                                      ),
+                                      SizedBox(width: 4),
+                                      Expanded(
+                                        child: Align(
+                                          child: Text(
+                                            priceFormat.format(widget
+                                                    .checkOrderModel
+                                                    .data
+                                                    .stores[index]
+                                                    .deliverySum) +
+                                                translate("sum"),
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontRoboto,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                              color: AppTheme.black_text,
+                                            ),
+                                          ),
+                                          alignment: Alignment.centerRight,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 16),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        translate("time"),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRoboto,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 13,
+                                          height: 1.3,
+                                          color: AppTheme.search_empty,
+                                        ),
+                                      ),
+                                      SizedBox(width: 4),
+                                      Expanded(
+                                        child: Align(
+                                          child: Text(
+                                            widget.checkOrderModel.data
+                                                .stores[index].text,
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontRoboto,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                              color: AppTheme.black_text,
+                                            ),
+                                          ),
+                                          alignment: Alignment.centerRight,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
                         },
-                        child: Container(
-                          margin: EdgeInsets.only(top: 24, left: 12, right: 12),
-                          decoration: BoxDecoration(
-                            color: AppTheme.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(0, 2),
-                                blurRadius: 24,
-                                spreadRadius: 0,
-                                color: Color.fromRGBO(0, 0, 0, 0.08),
-                              ),
-                              BoxShadow(
-                                offset: Offset(0, 0),
-                                blurRadius: 2,
-                                spreadRadius: 0,
-                                color: Color.fromRGBO(0, 0, 0, 0.08),
-                              ),
-                            ],
-                          ),
-                          padding: EdgeInsets.only(
-                            top: 20,
-                            left: 16,
-                            right: 16,
-                            bottom: 20,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      widget.checkOrderModel.data.stores[index]
-                                          .name,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontRoboto,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: AppTheme.black_text,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    ((widget.checkOrderModel.data.stores[index]
-                                                        .distance ~/
-                                                    100) /
-                                                10.0)
-                                            .toString() +
-                                        " km",
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 11,
-                                      height: 1.3,
-                                      color: AppTheme.search_empty,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                widget
-                                    .checkOrderModel.data.stores[index].address,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 13,
-                                  color: AppTheme.black_text,
-                                ),
-                              ),
-                              SizedBox(height: 16),
-                              Row(
-                                children: [
-                                  Text(
-                                    translate("order"),
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 13,
-                                      height: 1.3,
-                                      color: AppTheme.search_empty,
-                                    ),
-                                  ),
-                                  SizedBox(width: 4),
-                                  Expanded(
-                                    child: Align(
-                                      child: Text(
-                                        priceFormat.format(widget
-                                                .checkOrderModel
-                                                .data
-                                                .stores[index]
-                                                .total) +
-                                            translate("sum"),
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontRoboto,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                          color: AppTheme.black_text,
-                                        ),
-                                      ),
-                                      alignment: Alignment.centerRight,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 16),
-                              Row(
-                                children: [
-                                  Text(
-                                    translate("delivery"),
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 13,
-                                      height: 1.3,
-                                      color: AppTheme.search_empty,
-                                    ),
-                                  ),
-                                  SizedBox(width: 4),
-                                  Expanded(
-                                    child: Align(
-                                      child: Text(
-                                        priceFormat.format(widget
-                                                .checkOrderModel
-                                                .data
-                                                .stores[index]
-                                                .deliverySum) +
-                                            translate("sum"),
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontRoboto,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                          color: AppTheme.black_text,
-                                        ),
-                                      ),
-                                      alignment: Alignment.centerRight,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 16),
-                              Row(
-                                children: [
-                                  Text(
-                                    translate("time"),
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 13,
-                                      height: 1.3,
-                                      color: AppTheme.search_empty,
-                                    ),
-                                  ),
-                                  SizedBox(width: 4),
-                                  Expanded(
-                                    child: Align(
-                                      child: Text(
-                                        widget.checkOrderModel.data
-                                            .stores[index].text,
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontRoboto,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                          color: AppTheme.black_text,
-                                        ),
-                                      ),
-                                      alignment: Alignment.centerRight,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: 24,
+                          left: 12,
+                          right: 12,
+                        ),
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            error,
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRoboto,
+                              color: AppTheme.red_fav_color,
+                              fontSize: 13,
+                            ),
                           ),
                         ),
-                      );
-                    },
+                      )
+                    ],
                   ),
                   loading
                       ? Container(
