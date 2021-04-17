@@ -490,7 +490,8 @@ class Utils {
           list[i].message,
           list[i].dateTime,
         );
-      } else if (dateTime.hour < list[i].dateTime.hour) {
+      } else if (dateTime.day == list[i].dateTime.day &&
+          dateTime.hour < list[i].dateTime.hour) {
         scheduleNotification(
           list[i].id,
           list[i].title,
@@ -519,12 +520,20 @@ class Utils {
       id,
       id % 2 == 0 ? "Iftorlik vaqti" : "Saharlik vaqti",
       "Bugun Toshkent vaqti bilan: " +
-          time.hour.toString() +
+          format(time.hour) +
           ":" +
-          time.minute.toString(),
+          format(time.minute),
       DateTime(time.year, time.month, time.day, time.hour, time.minute - 20),
       platformChannelSpecifics,
     );
+  }
+
+  static String format(int k) {
+    if (k < 10) {
+      return "0" + k.toString();
+    } else {
+      return k.toString();
+    }
   }
 
   static void showWitter(BuildContext context, String text) {

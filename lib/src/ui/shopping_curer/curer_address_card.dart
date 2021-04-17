@@ -208,39 +208,65 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                         child: Column(
                                           children: [
                                             Expanded(
-                                              child: RadioListTile(
-                                                title: Align(
-                                                  child: Text(
-                                                    "${data.street}",
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontFamily:
-                                                          AppTheme.fontRoboto,
-                                                      color:
-                                                          AppTheme.black_text,
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                      child: RadioListTile(
+                                                    title: Align(
+                                                      child: Text(
+                                                        "${data.street}",
+                                                        style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontFamily: AppTheme
+                                                              .fontRoboto,
+                                                          color: AppTheme
+                                                              .black_text,
+                                                        ),
+                                                      ),
+                                                      alignment:
+                                                          Alignment.centerLeft,
                                                     ),
-                                                  ),
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                ),
-                                                activeColor:
-                                                    AppTheme.blue_app_color,
-                                                groupValue: id,
-                                                value: data.id,
-                                                onChanged: (val) {
-                                                  setState(() {
-                                                    myAddress = data.street;
-                                                    chooseLat =
-                                                        double.parse(data.lat);
-                                                    chooseLng =
-                                                        double.parse(data.lng);
-                                                    id = data.id;
-                                                  });
-                                                },
+                                                    activeColor:
+                                                        AppTheme.blue_app_color,
+                                                    groupValue: id,
+                                                    value: data.id,
+                                                    onChanged: (val) {
+                                                      setState(() {
+                                                        myAddress = data.street;
+                                                        chooseLat =
+                                                            double.parse(
+                                                                data.lat);
+                                                        chooseLng =
+                                                            double.parse(
+                                                                data.lng);
+                                                        id = data.id;
+                                                      });
+                                                    },
+                                                  )),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        db.deleteProducts(data.id);
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      height: 48,
+                                                      margin: EdgeInsets.only(
+                                                          right: 4),
+                                                      width: 48,
+                                                      padding:
+                                                          EdgeInsets.all(12),
+                                                      color: AppTheme.white,
+                                                      child: SvgPicture.asset(
+                                                        "assets/images/trash.svg",
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
                                               ),
                                             ),
                                             Container(
