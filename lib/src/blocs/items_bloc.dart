@@ -13,7 +13,7 @@ class ItemBloc {
   fetchAllInfoItem(String id) async {
     items = await _repository.fetchItems(id);
 
-    if (items != null) {
+    if (items.id != null) {
       List<ItemResult> database = await _repository.databaseItem();
       List<ItemResult> databaseFav = await _repository.databaseFavItem();
       for (int i = 0; i < databaseFav.length; i++) {
@@ -55,7 +55,7 @@ class ItemBloc {
           k = true;
         }
       }
-      if(!k){
+      if (!k) {
         items.favourite = false;
       }
       for (var j = 0; j < database.length; j++) {
