@@ -37,12 +37,14 @@ class Result {
     this.drug,
     this.category,
     this.drugs,
+    this.url,
   });
 
   int id;
   String name;
   String image;
   String description;
+  String url;
   bool status;
   int drug;
   int category;
@@ -54,6 +56,7 @@ class Result {
         image: json["image"],
         description: json["description"],
         status: json["status"],
+        url: json["url"] ?? "",
         drug: json["drug"] == null ? null : json["drug"],
         category: json["category"] == null ? null : json["drug"],
         drugs: List<int>.from(json["drugs"].map((x) => x)),
@@ -65,6 +68,7 @@ class Result {
         "image": image,
         "description": description,
         "status": status,
+        "url": url,
         "drug": drug,
         "category": category,
         "drugs": List<dynamic>.from(drugs.map((x) => x)),

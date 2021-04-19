@@ -469,7 +469,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 },
               if (value.requestForm)
                 {
-                  print("object"),
                   widget.onUnversal(value.requestTitle, value.requestUrl),
                 }
             },
@@ -1006,7 +1005,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         items: snapshot.data.results.map(
                           (url) {
                             return GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 if (url.drugs.length > 0) {
                                   Navigator.push(
                                     context,
@@ -1037,6 +1036,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ),
                                     ),
                                   );
+                                } else if (url.url.length > 0) {
+                                  if (await canLaunch(url.url)) {
+                                    await launch(
+                                      url.url,
+                                    );
+                                  } else {
+                                    throw 'Could not launch $url';
+                                  }
                                 }
                               },
                               child: Container(

@@ -165,11 +165,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _registerBus() {
-    RxBus.register<BottomView>(tag: "EVENT_AKSIYA").listen((event) {
-      if (event.title) {
-        print(56);
-      }
-    });
     RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_VIEW").listen(
       (event) => setState(
         () {
@@ -647,7 +642,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _universal(String title, String uri) {
-    print(uri);
     Navigator.push(
       context,
       PageTransition(
