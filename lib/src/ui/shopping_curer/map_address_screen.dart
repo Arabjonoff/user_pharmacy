@@ -399,28 +399,6 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                               ),
                             ),
                           ),
-                    // Container(
-                    //   margin:
-                    //       EdgeInsets.only(left: 24, right: 24, top: height / 5),
-                    //   padding: EdgeInsets.all(4),
-                    //   width: double.infinity,
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(12),
-                    //     color: Color(0xFFE6E8FA).withOpacity(0.6),
-                    //   ),
-                    //   child: Text(
-                    //     address,
-                    //     textAlign: TextAlign.center,
-                    //     style: TextStyle(
-                    //       fontStyle: FontStyle.normal,
-                    //       fontFamily: AppTheme.fontRoboto,
-                    //       fontSize: 15,
-                    //       height: 1.4,
-                    //       fontWeight: FontWeight.bold,
-                    //       color: AppTheme.black_text,
-                    //     ),
-                    //   ),
-                    // ),
                     Align(
                       alignment: Alignment.bottomRight,
                       child: GestureDetector(
