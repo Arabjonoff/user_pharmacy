@@ -19,6 +19,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   var loading = false;
+  var isNext = false;
+  var isCheck = false;
+  var isPrivacy = false;
   var errorText = "";
   final PhoneNumberTextInputFormatter _phoneNumber =
       new PhoneNumberTextInputFormatter();
@@ -31,174 +34,200 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Color(0xFFF4F5F7),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        elevation: 0.0,
+        elevation: 1.0,
         backgroundColor: AppTheme.white,
         brightness: Brightness.light,
-        title: Column(),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          color: Color(0xFFF4F5F7),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(14.0),
-            topRight: Radius.circular(14.0),
+        actions: [
+          Container(
+            height: 56,
+            width: 56,
+            color: AppTheme.white,
+          ),
+        ],
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Container(
+            height: 56,
+            width: 56,
+            color: AppTheme.white,
+            child: Center(
+              child: SvgPicture.asset("assets/icons/arrow_left_blue.svg"),
+            ),
           ),
         ),
-        padding: EdgeInsets.only(top: 8),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView(
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                children: [
-                  Container(
-                    height: 72,
-                    width: double.infinity,
-                    margin: EdgeInsets.only(
-                      top: 30,
-                    ),
-                    child: Center(
-                      child: SvgPicture.asset("assets/images/login_logo.svg"),
-                    ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.only(
-                      top: 22.37,
-                    ),
-                    child: Center(
-                      child: SvgPicture.asset("assets/images/grandpharm.svg"),
-                    ),
-                  ),
-                  Container(
-                    height: 56,
-                    margin: EdgeInsets.only(top: 24, left: 16, right: 16),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: AppTheme.auth_login,
-                      border: Border.all(
-                        color: AppTheme.auth_border,
-                        width: 1.0,
-                      ),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          top: 8, bottom: 8, left: 12, right: 12),
-                      child: TextFormField(
-                        keyboardType: TextInputType.phone,
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.normal,
-                          color: AppTheme.black_text,
-                          fontSize: 15,
-                        ),
-                        inputFormatters: [
-                          // ignore: deprecated_member_use
-                          WhitelistingTextInputFormatter.digitsOnly,
-                          _phoneNumber,
-                        ],
-                        controller: loginController,
-                        decoration: InputDecoration(
-                          labelText: translate('auth.number'),
-                          labelStyle: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.normal,
-                            color: Color(0xFF6D7885),
-                            fontSize: 11,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: AppTheme.auth_login,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: AppTheme.auth_login,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  errorText != ""
-                      ? Container(
-                          margin: EdgeInsets.only(left: 16, right: 16, top: 9),
-                          width: double.infinity,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              errorText,
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
-                                fontSize: 13,
-                                fontWeight: FontWeight.normal,
-                                color: AppTheme.red_fav_color,
-                              ),
-                            ),
-                          ),
-                        )
-                      : Container(),
-                ],
+        title: Center(
+          child: Text(
+            translate("auth.login_title"),
+            style: TextStyle(
+              fontFamily: AppTheme.fontRubik,
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+              height: 1.2,
+              color: AppTheme.text_dark,
+            ),
+          ),
+        ),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Center(
+              child: Image.asset(
+                "assets/img/logo.png",
               ),
             ),
-            GestureDetector(
-              onTap: () async {
-                var url = 'https://api.gopharm.uz/privacy';
-                if (await canLaunch(url)) {
-                  await launch(url);
-                } else {
-                  throw 'Could not launch $url';
-                }
-              },
-              child: Container(
-                height: 45,
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      child: Text(
-                        translate("dialog.soglas"),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppTheme.black_transparent_text,
-                          fontFamily: AppTheme.fontRoboto,
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 11,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 8),
-                      child: Text(
-                        translate("dialog.danniy"),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppTheme.blue_app_color,
-                          fontFamily: AppTheme.fontRoboto,
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 11,
-                        ),
-                      ),
-                    ),
-                  ],
+          ),
+          Container(
+            margin: EdgeInsets.only(
+              left: 16,
+              right: 16,
+            ),
+            child: Text(
+              translate("auth.login_number"),
+              style: TextStyle(
+                fontFamily: AppTheme.fontRubik,
+                fontWeight: FontWeight.normal,
+                fontSize: 14,
+                height: 1.2,
+                color: AppTheme.textGray,
+              ),
+            ),
+          ),
+          Container(
+            height: 44,
+            width: double.infinity,
+            margin: EdgeInsets.only(
+              left: 16,
+              right: 16,
+              top: 8,
+            ),
+            padding: EdgeInsets.only(
+              left: 12,
+              right: 12,
+            ),
+            decoration: BoxDecoration(
+              color: AppTheme.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: TextField(
+              keyboardType: TextInputType.phone,
+              style: TextStyle(
+                  fontFamily: AppTheme.fontRubik,
+                  fontWeight: FontWeight.normal,
+                  color: AppTheme.text_dark,
+                  fontSize: 14,
+                  height: 1.2),
+              inputFormatters: [
+                WhitelistingTextInputFormatter.digitsOnly,
+                _phoneNumber,
+              ],
+              controller: loginController,
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    width: 0,
+                    color: AppTheme.white,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    width: 0,
+                    color: AppTheme.white,
+                  ),
                 ),
               ),
             ),
-            GestureDetector(
+          ),
+          errorText != ""
+              ? Container(
+                  margin: EdgeInsets.only(left: 16, right: 16, top: 9),
+                  width: double.infinity,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      errorText,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontRubik,
+                        fontSize: 13,
+                        fontWeight: FontWeight.normal,
+                        color: AppTheme.red,
+                      ),
+                    ),
+                  ),
+                )
+              : Container(),
+          Container(
+            margin: EdgeInsets.all(32),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isPrivacy = !isPrivacy;
+                    });
+                  },
+                  child: Container(
+                    height: 24,
+                    width: 24,
+                    color: Color(0xFFF4F5F7),
+                    padding: EdgeInsets.all(3),
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 270),
+                      curve: Curves.easeInOut,
+                      height: 18,
+                      width: 18,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(3),
+                          border: Border.all(
+                            color:
+                                isPrivacy ? AppTheme.blue : AppTheme.textGray,
+                            width: 1.5,
+                          ),
+                          color: isPrivacy ? AppTheme.blue : Color(0xFFF4F5F7)),
+                      child: Center(
+                        child: SvgPicture.asset(
+                          "assets/icons/check.svg",
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: GestureDetector(
+                    child: Text(
+                      translate("auth.privacy"),
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontRubik,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 12,
+                        height: 1.6,
+                        color: AppTheme.textGray,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            height: 1,
+            width: double.infinity,
+            color: AppTheme.background,
+          ),
+          Container(
+            padding: EdgeInsets.only(
+              top: 12,
+              left: 22,
+              right: 22,
+              bottom: 24,
+            ),
+            color: AppTheme.white,
+            child: GestureDetector(
               onTap: () async {
                 if (loginController.text.isNotEmpty) {
                   var number = loginController.text
@@ -232,17 +261,11 @@ class _LoginScreenState extends State<LoginScreen> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: AppTheme.blue_app_color,
+                  borderRadius: BorderRadius.circular(12.0),
+                  color: isNext ? AppTheme.blue : AppTheme.gray,
                 ),
                 height: 44,
                 width: double.infinity,
-                margin: EdgeInsets.only(
-                  top: 12,
-                  bottom: 40,
-                  left: 16,
-                  right: 16,
-                ),
                 child: Center(
                   child: loading
                       ? CircularProgressIndicator(
@@ -252,20 +275,20 @@ class _LoginScreenState extends State<LoginScreen> {
                               AlwaysStoppedAnimation<Color>(AppTheme.white),
                         )
                       : Text(
-                          translate("next"),
+                          translate("auth.next"),
                           style: TextStyle(
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: AppTheme.fontRoboto,
-                            fontSize: 17,
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
                             color: AppTheme.white,
                           ),
                         ),
                 ),
               ),
             ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

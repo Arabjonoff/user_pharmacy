@@ -5,7 +5,6 @@ class AppTheme {
 
   static const Color notWhite = Color(0xFF818C99);
   static const Color nearlyWhite = Color(0xFFFEFEFE);
-  static const Color white = Color(0xFFFFFFFF);
   static const Color nearlyBlack = Color(0xFF213333);
   static const Color grey = Color(0xFF3A5160);
   static const Color dark_grey = Color(0xFF313A44);
@@ -24,10 +23,10 @@ class AppTheme {
   static const Color spacer = Color(0xFFF2F2F2);
 
   static const String fontCommons = 'TTCommons';
+  static const String fontRubik = 'Rubik';
   static const String fontRoboto = 'Roboto';
   static const String fontSFProDisplay = 'SFProDisplay';
 
-  static const Color blue = Color(0xFF3F8AE0);
   static const Color blue_transparent = Color.fromRGBO(63, 138, 224, 0.1);
   static const Color black_transparent = Color(0xFFEBEDF0);
   static const Color tab_transparent = Color(0xFFF2F3F5);
@@ -44,14 +43,19 @@ class AppTheme {
   static const Color blue_app_color = Color(0xFF3F8AE0);
   static const Color blue_app_color_transparent = Color(0xFFB6CFEB);
   static const Color menu_unselected = Color(0xFF99A2AD);
-  static const Color background = Color(0xFFF2F3F8);
-
   static const Color bottom_dialog = Color(0xFFE5E5EA);
-
   static const Color auth_border = Color(0xFFD5D6D8);
   static const Color auth_login = Color(0xFFF2F3F5);
-
   static const Color arrow_examp_back = Colors.white;
+
+  ///new app
+  static const Color text_dark = Color(0xFF172B4D);
+  static const Color gray = Color(0xFFC1C7D0);
+  static const Color textGray = Color(0xFF6E80B0);
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color blue = Color(0xFF3F8AE0);
+  static const Color background = Color(0xFFF4F5F7);
+  static const Color red = Color(0xFFFF3347);
 
   static const TextTheme textTheme = TextTheme(
     headline4: display1,
