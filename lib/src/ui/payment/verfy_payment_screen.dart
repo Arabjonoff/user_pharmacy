@@ -1,16 +1,14 @@
 import 'dart:async';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_translate/global.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/verfy_payment_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:rxbus/rxbus.dart';
+import 'package:pharmacy/src/utils/rx_bus.dart';
 
 class VerifyPaymentScreen extends StatefulWidget {
   final String number;
@@ -30,7 +28,7 @@ class _VerifyPaymentScreenState extends State<VerifyPaymentScreen> {
   var errorText = "";
   var timerLoad = true;
 
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  //FirebaseMessaging _firebaseMessaging;
   String deviceToken = "";
   String number;
 
@@ -38,8 +36,9 @@ class _VerifyPaymentScreenState extends State<VerifyPaymentScreen> {
   int _start = 120;
 
   TextEditingController verfyController = TextEditingController();
-  var maskFormatter = new MaskTextInputFormatter(
-      mask: '#####', filter: {"#": RegExp(r'[0-9]')});
+
+  // var maskFormatter = new MaskTextInputFormatter(
+  //     mask: '#####', filter: {"#": RegExp(r'[0-9]')});
 
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
@@ -75,7 +74,8 @@ class _VerifyPaymentScreenState extends State<VerifyPaymentScreen> {
     String kod = widget.number.substring(3, 5);
     String last = widget.number.substring(10, 12);
     number = "+998 " + kod + " *** ** " + last;
-    _firebaseMessaging.getToken().then((value) => deviceToken = value);
+
+    ///_firebaseMessaging.getToken().then((value) => deviceToken = value);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
@@ -200,7 +200,7 @@ class _VerifyPaymentScreenState extends State<VerifyPaymentScreen> {
                                 fontSize: 15,
                               ),
                               controller: verfyController,
-                              inputFormatters: [maskFormatter],
+                              // inputFormatters: [maskFormatter],
                               decoration: InputDecoration(
                                 labelText: translate('auth.verfy'),
                                 labelStyle: TextStyle(

@@ -6,7 +6,7 @@ class OrderOptionBloc {
   final _repository = Repository();
   final _orderOptionsFetcher = PublishSubject<OrderOptionsModel>();
 
-  Observable<OrderOptionsModel> get orderOptions => _orderOptionsFetcher.stream;
+  Stream<OrderOptionsModel> get orderOptions => _orderOptionsFetcher.stream;
 
   fetchOrderOptions(String lan) async {
     OrderOptionsModel orderOptions = await _repository.fetchOrderOptions(lan);

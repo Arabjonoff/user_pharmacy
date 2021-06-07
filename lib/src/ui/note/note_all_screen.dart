@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_translate/global.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/ui/note/add_notf_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_list_screen.dart';

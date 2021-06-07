@@ -10,11 +10,11 @@ class HomeBloc {
   final _cityNameFetcher = PublishSubject<String>();
   final _bestItemFetcher = PublishSubject<ItemModel>();
 
-  Observable<SaleModel> get allSale => _saleFetcher.stream;
+  Stream<SaleModel> get allSale => _saleFetcher.stream;
 
-  Observable<String> get allCityName => _cityNameFetcher.stream;
+  Stream<String> get allCityName => _cityNameFetcher.stream;
 
-  Observable<ItemModel> get getBestItem => _bestItemFetcher.stream;
+  Stream<ItemModel> get getBestItem => _bestItemFetcher.stream;
 
   fetchAllHome(
     int page,

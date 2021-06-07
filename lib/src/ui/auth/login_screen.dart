@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_translate/global.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/auth/verfy_screen.dart';
+import 'package:pharmacy/src/utils/number_mask.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
@@ -18,44 +19,26 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   var loading = false;
-  var error = false;
   var errorText = "";
+  final PhoneNumberTextInputFormatter _phoneNumber =
+      new PhoneNumberTextInputFormatter();
 
   TextEditingController loginController = TextEditingController(text: "+998");
-  var maskFormatter = new MaskTextInputFormatter(
-      mask: '+998 ## ### ## ##', filter: {"#": RegExp(r'[0-9]')});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(20.0),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            elevation: 0.0,
-            backgroundColor: Colors.black,
-            brightness: Brightness.dark,
-            title: Container(
-              height: 20,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 10,
-                  decoration: BoxDecoration(
-                    color: AppTheme.item_navigation,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.0),
-                      topRight: Radius.circular(10.0),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          )),
+      backgroundColor: Color(0xFFF4F5F7),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 0.0,
+        backgroundColor: AppTheme.white,
+        brightness: Brightness.light,
+        title: Column(),
+      ),
       body: Container(
         decoration: BoxDecoration(
-          color: AppTheme.white,
+          color: Color(0xFFF4F5F7),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(14.0),
             topRight: Radius.circular(14.0),
@@ -64,41 +47,6 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: EdgeInsets.only(top: 8),
         child: Column(
           children: [
-            Container(
-              height: 36,
-              width: double.infinity,
-              child: Stack(
-                children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      height: 36,
-                      width: 36,
-                      margin: EdgeInsets.only(right: 6),
-                      color: AppTheme.arrow_examp_back,
-                      child: Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            height: 24,
-                            width: 24,
-                            padding: EdgeInsets.all(7),
-                            decoration: BoxDecoration(
-                              color: AppTheme.arrow_back,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: SvgPicture.asset(
-                                "assets/images/arrow_close.svg"),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
             Expanded(
               child: ListView(
                 shrinkWrap: true,
@@ -139,7 +87,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           top: 8, bottom: 8, left: 12, right: 12),
                       child: TextFormField(
                         keyboardType: TextInputType.phone,
-//                        cursorColor:  AppTheme.auth_login,
                         style: TextStyle(
                           fontFamily: AppTheme.fontRoboto,
                           fontStyle: FontStyle.normal,
@@ -147,8 +94,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: AppTheme.black_text,
                           fontSize: 15,
                         ),
+                        inputFormatters: [
+                          // ignore: deprecated_member_use
+                          WhitelistingTextInputFormatter.digitsOnly,
+                          _phoneNumber,
+                        ],
                         controller: loginController,
-                        inputFormatters: [maskFormatter],
                         decoration: InputDecoration(
                           labelText: translate('auth.number'),
                           labelStyle: TextStyle(
@@ -178,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  error
+                  errorText != ""
                       ? Container(
                           margin: EdgeInsets.only(left: 16, right: 16, top: 9),
                           width: double.infinity,
@@ -259,6 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   if (number.length == 12) {
                     setState(() {
+                      errorText = "";
                       loading = true;
                     });
                     var responce = await Repository().fetchLogin(number);
@@ -271,7 +223,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                     } else {
                       setState(() {
-                        error = true;
                         errorText = responce.msg;
                         loading = false;
                       });

@@ -1,11 +1,9 @@
 import 'dart:async';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_translate/global.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/auth/register_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
@@ -30,7 +28,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
   var errorText = "";
   var timerLoad = true;
 
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   String deviceToken = "";
   String number;
 
@@ -38,8 +35,9 @@ class _VerifyScreenState extends State<VerifyScreen> {
   int _start = 120;
 
   TextEditingController verfyController = TextEditingController();
-  var maskFormatter =
-      new MaskTextInputFormatter(mask: '####', filter: {"#": RegExp(r'[0-9]')});
+
+  // var maskFormatter =
+  //     new MaskTextInputFormatter(mask: '####', filter: {"#": RegExp(r'[0-9]')});
 
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
@@ -75,7 +73,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
     String kod = widget.number.substring(3, 5);
     String last = widget.number.substring(10, 12);
     number = "+998 " + kod + " *** ** " + last;
-    _firebaseMessaging.getToken().then((value) => deviceToken = value);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
@@ -199,7 +196,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                                 fontSize: 15,
                               ),
                               controller: verfyController,
-                              inputFormatters: [maskFormatter],
+                              // inputFormatters: [maskFormatter],
                               decoration: InputDecoration(
                                 labelText: translate('auth.verfy'),
                                 labelStyle: TextStyle(

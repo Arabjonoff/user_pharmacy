@@ -6,7 +6,7 @@ class FavBloc {
   final _repository = Repository();
   final _favFetcher = PublishSubject<List<ItemResult>>();
 
-  Observable<List<ItemResult>> get allFav => _favFetcher.stream;
+  Stream<List<ItemResult>> get allFav => _favFetcher.stream;
 
   fetchAllFav() async {
     List<ItemResult> result = await _repository.databaseFavItem();

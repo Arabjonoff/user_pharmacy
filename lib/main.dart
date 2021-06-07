@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_translate/localization_delegate.dart';
-import 'package:flutter_translate/localization_provider.dart';
-import 'package:flutter_translate/localized_app.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/ui/auth/onboarding_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_screen.dart';
@@ -32,7 +30,6 @@ void main() async {
   notificationAppLaunchDetails =
       await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
 
-  var initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
   var initializationSettingsIOS = IOSInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
@@ -43,7 +40,9 @@ void main() async {
             id: id, title: title, body: body, payload: payload));
       });
   var initializationSettings = InitializationSettings(
-      initializationSettingsAndroid, initializationSettingsIOS);
+    android: AndroidInitializationSettings('app_icon'),
+    iOS: initializationSettingsIOS,
+  );
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: (String payload) async {
     if (payload != null) {
@@ -112,8 +111,8 @@ class MyApp extends StatelessWidget {
             child: child,
           );
         },
-        // home: isLoginPage ? MainScreen() : OnBoarding(),
-        home: OnBoarding(),
+        home: isLoginPage ? MainScreen() : OnBoarding(),
+        // home: OnBoarding(),
       ),
     );
   }

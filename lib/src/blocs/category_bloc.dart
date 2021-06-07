@@ -6,7 +6,7 @@ class CategoryBloc {
   final _repository = Repository();
   final _categoryFetcher = PublishSubject<CategoryModel>();
 
-  Observable<CategoryModel> get allCategory => _categoryFetcher.stream;
+  Stream<CategoryModel> get allCategory => _categoryFetcher.stream;
 
   fetchAllCategory() async {
     CategoryModel saleModel = await _repository.fetchCategoryItem();

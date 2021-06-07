@@ -8,8 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_translate/global.dart';
-import 'package:flutter_translate/localized_app.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
@@ -42,8 +41,8 @@ import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/language_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/my_info_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/region_screen.dart';
+import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:pharmacy/src/utils/utils.dart';
-import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app_theme.dart';
@@ -110,16 +109,15 @@ class _MainScreenState extends State<MainScreen> {
               isDefaultAction: true,
               child: Text('Ok'),
               onPressed: () async {
-                ///keyingi updateda ob tasha komentni
-                // Navigator.of(context, rootNavigator: true).pop();
-                // await Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => NotificationScreen(
-                //       receivedNotification.id,
-                //     ),
-                //   ),
-                // );
+                Navigator.of(context, rootNavigator: true).pop();
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NotificationScreen(
+                      receivedNotification.id,
+                    ),
+                  ),
+                );
               },
             )
           ],

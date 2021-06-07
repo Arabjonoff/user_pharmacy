@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_translate/global.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pharmacy/src/blocs/history_bloc.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
@@ -14,7 +14,6 @@ import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
 import 'package:pharmacy/src/ui/sub_menu/order_number.dart';
 import 'package:pharmacy/src/utils/utils.dart';
-import 'package:rxbus/rxbus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -46,12 +45,6 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
     });
 
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    RxBus.destroy();
-    super.dispose();
   }
 
   @override

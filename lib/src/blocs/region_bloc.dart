@@ -6,7 +6,7 @@ class RegionBloc {
   final _repository = Repository();
   final _regionFetcher = PublishSubject<List<RegionModel>>();
 
-  Observable<List<RegionModel>> get allRegion => _regionFetcher.stream;
+  Stream<List<RegionModel>> get allRegion => _regionFetcher.stream;
 
   fetchAllRegion() async {
     List<RegionModel> regionModel = await _repository.fetchRegions("");

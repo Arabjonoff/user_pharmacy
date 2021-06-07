@@ -6,7 +6,7 @@ class FaqBloc {
   final _repository = Repository();
   final _faqFetcher = PublishSubject<List<FaqModel>>();
 
-  Observable<List<FaqModel>> get allFaq => _faqFetcher.stream;
+  Stream<List<FaqModel>> get allFaq => _faqFetcher.stream;
 
   fetchAllFaq() async {
     List<FaqModel> result = await _repository.fetchFAQ();

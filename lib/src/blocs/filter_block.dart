@@ -11,11 +11,11 @@ class FilterBloc {
 
   List<FilterResults> filterItems = new List();
 
-  Observable<FilterModel> get filterItem => _filterFetcher.stream;
+  Stream<FilterModel> get filterItem => _filterFetcher.stream;
 
-  Observable<String> get filterInterNameItem => _filterInterNameFetcher.stream;
+  Stream<String> get filterInterNameItem => _filterInterNameFetcher.stream;
 
-  Observable<String> get filterManItem => _filterManFetcher.stream;
+  Stream<String> get filterManItem => _filterManFetcher.stream;
 
   fetchAllFilter(
     int filterType,

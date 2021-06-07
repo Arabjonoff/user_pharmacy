@@ -7,9 +7,9 @@ class MenuBloc {
   final _cashBackFetcher = PublishSubject<CashBackModel>();
   final _visibleFetcher = PublishSubject<bool>();
 
-  Observable<CashBackModel> get cashBackOptions => _cashBackFetcher.stream;
+  Stream<CashBackModel> get cashBackOptions => _cashBackFetcher.stream;
 
-  Observable<bool> get visibleOptions => _visibleFetcher.stream;
+  Stream<bool> get visibleOptions => _visibleFetcher.stream;
 
   fetchCashBack() async {
     CashBackModel cashBackOptions = await _repository.fetchCashBack();

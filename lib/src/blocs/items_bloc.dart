@@ -7,7 +7,7 @@ class ItemBloc {
   final _repository = Repository();
   final _itemFetcher = PublishSubject<ItemsAllModel>();
 
-  Observable<ItemsAllModel> get allItems => _itemFetcher.stream;
+  Stream<ItemsAllModel> get allItems => _itemFetcher.stream;
   ItemsAllModel items;
 
   fetchAllInfoItem(String id) async {

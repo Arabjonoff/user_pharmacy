@@ -2,9 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
-import 'package:rxbus/rxbus.dart';
+import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app_theme.dart';

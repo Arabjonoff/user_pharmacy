@@ -8,7 +8,7 @@ class HistoryBloc {
   List<HistoryResults> results = new List();
   HistoryModel model = new HistoryModel();
 
-  Observable<HistoryModel> get allHistory => _historyFetcher.stream;
+  Stream<HistoryModel> get allHistory => _historyFetcher.stream;
 
   fetchAllHistory(int page) async {
     HistoryModel historyModel = await _repository.fetchHistory(page);

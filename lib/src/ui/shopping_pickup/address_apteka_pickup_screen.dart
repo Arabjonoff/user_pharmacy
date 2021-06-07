@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_translate/global.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_list_pickup.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_map_pickup.dart';

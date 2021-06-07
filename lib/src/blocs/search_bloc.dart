@@ -6,7 +6,7 @@ class SearchBloc {
   final _repository = Repository();
   final _searchFetcher = PublishSubject<ItemModel>();
 
-  Observable<ItemModel> get searchOptions => _searchFetcher.stream;
+  Stream<ItemModel> get searchOptions => _searchFetcher.stream;
 
   List<ItemResult> allResult;
 

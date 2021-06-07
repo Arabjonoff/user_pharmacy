@@ -6,7 +6,7 @@ class ChatBloc {
   final _repository = Repository();
   final _chatFetcher = PublishSubject<ChatApiModel>();
 
-  Observable<ChatApiModel> get allChat => _chatFetcher.stream;
+  Stream<ChatApiModel> get allChat => _chatFetcher.stream;
 
   ChatApiModel model;
 

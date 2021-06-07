@@ -4,8 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_translate/global.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/order_options_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
@@ -16,7 +15,7 @@ import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/payment/verfy_payment_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
-import 'package:rxbus/rxbus.dart';
+import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -64,10 +63,10 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
 
   TextEditingController cashPriceController = TextEditingController();
 
-  var maskCardNumberFormatter = new MaskTextInputFormatter(
-      mask: '8600 #### #### ####', filter: {"#": RegExp(r'[0-9]')});
-  var maskCardDateFormatter = new MaskTextInputFormatter(
-      mask: '##/##', filter: {"#": RegExp(r'[0-9]')});
+  // var maskCardNumberFormatter = new MaskTextInputFormatter(
+  //     mask: '8600 #### #### ####', filter: {"#": RegExp(r'[0-9]')});
+  // var maskCardDateFormatter = new MaskTextInputFormatter(
+  //     mask: '##/##', filter: {"#": RegExp(r'[0-9]')});
 
   @override
   void initState() {
@@ -396,7 +395,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                 fontSize: 15,
                               ),
                               controller: cardNumberController,
-                              inputFormatters: [maskCardNumberFormatter],
+                              //inputFormatters: [maskCardNumberFormatter],
                               decoration: InputDecoration(
                                 labelText: translate('cardNumber'),
                                 labelStyle: TextStyle(
@@ -451,7 +450,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                 fontSize: 15,
                               ),
                               controller: cardDateController,
-                              inputFormatters: [maskCardDateFormatter],
+                              // inputFormatters: [maskCardDateFormatter],
                               decoration: InputDecoration(
                                 labelText: translate('cardDate'),
                                 labelStyle: TextStyle(

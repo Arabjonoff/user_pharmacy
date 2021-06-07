@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_translate/global.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/blocs/note_data_block.dart';
 import 'package:pharmacy/src/model/note/note_data_model.dart';
 import 'package:shimmer/shimmer.dart';

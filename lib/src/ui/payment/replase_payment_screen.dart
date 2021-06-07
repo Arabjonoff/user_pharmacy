@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_translate/global.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/blocs/order_options_bloc.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,10 +34,10 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
   TextEditingController cardNumberController = TextEditingController();
   TextEditingController cardDateController = TextEditingController();
 
-  var maskCardNumberFormatter = new MaskTextInputFormatter(
-      mask: '#### #### #### ####', filter: {"#": RegExp(r'[0-9]')});
-  var maskCardDateFormatter = new MaskTextInputFormatter(
-      mask: '##/##', filter: {"#": RegExp(r'[0-9]')});
+  // var maskCardNumberFormatter = new MaskTextInputFormatter(
+  //     mask: '#### #### #### ####', filter: {"#": RegExp(r'[0-9]')});
+  // var maskCardDateFormatter = new MaskTextInputFormatter(
+  //     mask: '##/##', filter: {"#": RegExp(r'[0-9]')});
 
   @override
   void initState() {
@@ -151,8 +150,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                             id: i,
                             paymentId: snapshot.data.paymentTypes[i].id,
                             cardId: snapshot.data.paymentTypes[i].cardId,
-                            cardToken:
-                                snapshot.data.paymentTypes[i].cardToken,
+                            cardToken: snapshot.data.paymentTypes[i].cardToken,
                             name: snapshot.data.paymentTypes[i].name,
                             pan: snapshot.data.paymentTypes[i].pan,
                             type: snapshot.data.paymentTypes[i].type,
@@ -266,7 +264,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                                       fontSize: 15,
                                     ),
                                     controller: cardNumberController,
-                                    inputFormatters: [maskCardNumberFormatter],
+                                    // inputFormatters: [maskCardNumberFormatter],
                                     decoration: InputDecoration(
                                       labelText: translate('cardNumber'),
                                       labelStyle: TextStyle(
@@ -322,7 +320,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                                       fontSize: 15,
                                     ),
                                     controller: cardDateController,
-                                    inputFormatters: [maskCardDateFormatter],
+                                    // inputFormatters: [maskCardDateFormatter],
                                     decoration: InputDecoration(
                                       labelText: translate('cardDate'),
                                       labelStyle: TextStyle(

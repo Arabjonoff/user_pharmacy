@@ -1,8 +1,8 @@
 import UIKit
 import Flutter
 import YandexMapKit
-import Firebase
-import FirebaseCore
+//import Firebase
+//import FirebaseCore
 import Speech
 import AVKit
 
@@ -17,7 +17,7 @@ import AVKit
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    FirebaseApp.configure()
+//    FirebaseApp.configure()
     YMKMapKit.setApiKey("c2270c63-ab7b-463b-b6d7-20821d098826")
     
     let controller : FlutterViewController = window?.rootViewController as! FlutterViewController

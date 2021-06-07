@@ -10,7 +10,6 @@ import 'package:pharmacy/src/model/api/cancel_order.dart';
 import 'package:pharmacy/src/model/api/cash_back_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/check_order_model_new.dart';
-import 'package:pharmacy/src/model/api/check_order_responce.dart';
 import 'package:pharmacy/src/model/api/check_version.dart';
 import 'package:pharmacy/src/model/api/current_location_address_model.dart';
 import 'package:pharmacy/src/model/api/faq_model.dart';
@@ -32,12 +31,11 @@ import 'package:pharmacy/src/model/payment_verfy.dart';
 import 'package:pharmacy/src/model/review/get_review.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
-import 'package:pharmacy/src/model/send/check_order.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/model/send/create_payment_model.dart';
 import 'package:pharmacy/src/model/send/verfy_payment_model.dart';
+import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:pharmacy/src/utils/utils.dart';
-import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PharmacyApiProvider {
@@ -65,7 +63,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response = await http
-          .post(url, headers: headers, body: json.encode(data))
+          .post(Uri.parse(url), headers: headers, body: json.encode(data))
           .timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return LoginModel.fromJson(responseJson);
@@ -99,7 +97,7 @@ class PharmacyApiProvider {
     };
     try {
       http.Response response = await http
-          .post(url, headers: headers, body: json.encode(data))
+          .post(Uri.parse(url), headers: headers, body: json.encode(data))
           .timeout(duration);
 
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
@@ -148,8 +146,9 @@ class PharmacyApiProvider {
       'X-Device': encoded,
     };
     try {
-      http.Response response =
-          await http.post(url, headers: headers, body: data).timeout(duration);
+      http.Response response = await http
+          .post(Uri.parse(url), headers: headers, body: data)
+          .timeout(duration);
       final Map parsed = json.decode(response.body);
       return LoginModel.fromJson(parsed);
     } on TimeoutException catch (_) {
@@ -177,7 +176,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response =
-          await http.get(url, headers: headers).timeout(duration);
+          await http.get(Uri.parse(url), headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return SaleModel.fromJson(responseJson);
@@ -229,7 +228,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response =
-          await http.get(url, headers: headers).timeout(duration);
+          await http.get(Uri.parse(url), headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return ItemModel.fromJson(responseJson);
@@ -258,7 +257,7 @@ class PharmacyApiProvider {
     };
     try {
       http.Response response =
-          await http.get(url, headers: headers).timeout(duration);
+          await http.get(Uri.parse(url), headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return CategoryModel.fromJson(responseJson);
@@ -309,7 +308,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response =
-          await http.get(url, headers: headers).timeout(duration);
+          await http.get(Uri.parse(url), headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return ItemModel.fromJson(responseJson);
@@ -412,7 +411,7 @@ class PharmacyApiProvider {
     };
     try {
       http.Response response =
-          await http.get(url, headers: headers).timeout(duration);
+          await http.get(Uri.parse(url), headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return ItemModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -440,7 +439,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response =
-          await http.get(url, headers: headers).timeout(duration);
+          await http.get(Uri.parse(url), headers: headers).timeout(duration);
 
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return ItemsAllModel.fromJson(responseJson);
@@ -471,7 +470,7 @@ class PharmacyApiProvider {
     };
     try {
       http.Response response =
-          await http.get(url, headers: headers).timeout(duration);
+          await http.get(Uri.parse(url), headers: headers).timeout(duration);
       var responseJson = utf8.decode(response.bodyBytes);
       return locationModelFromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -505,7 +504,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response =
-          await http.get(url, headers: headers).timeout(duration);
+          await http.get(Uri.parse(url), headers: headers).timeout(duration);
       var responseJson = utf8.decode(response.bodyBytes);
       return regionModelFromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -542,7 +541,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response = await http
-          .post(url, headers: headers, body: json.encode(order))
+          .post(Uri.parse(url), headers: headers, body: json.encode(order))
           .timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return OrderStatusModel.fromJson(responseJson);
@@ -584,7 +583,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response =
-          await http.get(url, headers: headers).timeout(duration);
+          await http.get(Uri.parse(url), headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return HistoryModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -628,7 +627,7 @@ class PharmacyApiProvider {
     try {
       http.Response response = await http
           .post(
-            url,
+            Uri.parse(url),
             body: msg,
             headers: headers,
           )
@@ -685,7 +684,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response =
-          await http.get(url, headers: headers).timeout(duration);
+          await http.get(Uri.parse(url), headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return FilterModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -718,7 +717,7 @@ class PharmacyApiProvider {
     };
     try {
       http.Response response =
-          await http.get(url, headers: headers).timeout(duration);
+          await http.get(Uri.parse(url), headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return OrderOptionsModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -749,7 +748,8 @@ class PharmacyApiProvider {
 
     try {
       http.Response response = await http
-          .post(url, body: json.encode(accessStore), headers: headers)
+          .post(Uri.parse(url),
+              body: json.encode(accessStore), headers: headers)
           .timeout(duration);
       var responseJson = utf8.decode(response.bodyBytes);
 
@@ -783,7 +783,7 @@ class PharmacyApiProvider {
     };
     try {
       http.Response response =
-          await http.get(url, headers: headers).timeout(duration);
+          await http.get(Uri.parse(url), headers: headers).timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return ChatApiModel.fromJson(responseJson);
     } on TimeoutException catch (_) {
@@ -813,8 +813,9 @@ class PharmacyApiProvider {
       'X-Device': encoded,
     };
     try {
-      http.Response response =
-          await http.post(url, headers: headers, body: data).timeout(duration);
+      http.Response response = await http
+          .post(Uri.parse(url), headers: headers, body: data)
+          .timeout(duration);
       final Map parsed = json.decode(response.body);
 
       return LoginModel.fromJson(parsed);
@@ -873,7 +874,8 @@ class PharmacyApiProvider {
     };
     try {
       http.Response response = await http
-          .post(url, headers: headers, body: json.encode(accessStore))
+          .post(Uri.parse(url),
+              headers: headers, body: json.encode(accessStore))
           .timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return CheckErrorModel.fromJson(responseJson);
@@ -907,7 +909,8 @@ class PharmacyApiProvider {
 
     try {
       http.Response response = await http
-          .post(url, headers: headers, body: json.encode(accessStore))
+          .post(Uri.parse(url),
+              headers: headers, body: json.encode(accessStore))
           .timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return CheckErrorModel.fromJson(responseJson);
@@ -937,7 +940,7 @@ class PharmacyApiProvider {
     };
     try {
       http.Response response = await http
-          .post(url, headers: headers, body: json.encode(verfy))
+          .post(Uri.parse(url), headers: headers, body: json.encode(verfy))
           .timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return PaymentVerfy.fromJson(responseJson);
@@ -977,8 +980,9 @@ class PharmacyApiProvider {
             HttpHeaders.authorizationHeader: "Bearer $token",
           };
 
-    http.Response response =
-        await http.post(url, body: data, headers: headers).timeout(duration);
+    http.Response response = await http
+        .post(Uri.parse(url), body: data, headers: headers)
+        .timeout(duration);
 
     final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
@@ -1011,7 +1015,7 @@ class PharmacyApiProvider {
     final data = {"comment": comment, "rating": rating.toString()};
     try {
       http.Response response = await http
-          .post(url, headers: headers, body: json.encode(data))
+          .post(Uri.parse(url), headers: headers, body: json.encode(data))
           .timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return CheckVersion.fromJson(responseJson);
@@ -1044,7 +1048,7 @@ class PharmacyApiProvider {
       };
 
       http.Response response =
-          await http.get(url, headers: headers).timeout(duration);
+          await http.get(Uri.parse(url), headers: headers).timeout(duration);
 
       final Map parsed = json.decode(response.body);
       return GetReviewModel.fromJson(parsed);
@@ -1076,7 +1080,7 @@ class PharmacyApiProvider {
     };
     try {
       http.Response response = await http
-          .post(url, headers: headers, body: json.encode(data))
+          .post(Uri.parse(url), headers: headers, body: json.encode(data))
           .timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return CheckVersion.fromJson(responseJson);
@@ -1106,7 +1110,7 @@ class PharmacyApiProvider {
       'X-Device': encoded,
     };
     http.Response response =
-        await http.get(url, headers: headers).timeout(duration);
+        await http.get(Uri.parse(url), headers: headers).timeout(duration);
     final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
     return CashBackModel.fromJson(responseJson);
@@ -1131,7 +1135,7 @@ class PharmacyApiProvider {
     };
     try {
       http.Response response =
-          await http.get(url, headers: headers).timeout(duration);
+          await http.get(Uri.parse(url), headers: headers).timeout(duration);
       return faqModelFromJson(utf8.decode(response.bodyBytes));
     } on TimeoutException catch (_) {
       RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
@@ -1149,7 +1153,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response =
-          await http.get(url).timeout(const Duration(seconds: 10));
+          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 10));
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
       return CurrentLocationAddressModel.fromJson(responseJson);
@@ -1187,7 +1191,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response = await http
-          .post(url, headers: headers, body: json.encode(order))
+          .post(Uri.parse(url), headers: headers, body: json.encode(order))
           .timeout(duration);
 
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
@@ -1230,7 +1234,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response = await http
-          .post(url, headers: headers, body: json.encode(order))
+          .post(Uri.parse(url), headers: headers, body: json.encode(order))
           .timeout(duration);
 
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
@@ -1271,7 +1275,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response = await http
-          .post(url, headers: headers, body: json.encode(order))
+          .post(Uri.parse(url), headers: headers, body: json.encode(order))
           .timeout(duration);
 
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
@@ -1312,7 +1316,7 @@ class PharmacyApiProvider {
 
     try {
       http.Response response = await http
-          .post(url, headers: headers, body: json.encode(data))
+          .post(Uri.parse(url), headers: headers, body: json.encode(data))
           .timeout(duration);
       final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
       return OrderStatusModel.fromJson(responseJson);
@@ -1351,7 +1355,7 @@ class PharmacyApiProvider {
           'X-Device': encoded,
         };
         http.Response response = await http
-            .post(url, headers: headers, body: json.encode(data))
+            .post(Uri.parse(url), headers: headers, body: json.encode(data))
             .timeout(duration);
         final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 

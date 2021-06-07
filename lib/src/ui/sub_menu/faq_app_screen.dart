@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:flutter_translate/global.dart';
 import 'package:pharmacy/src/blocs/faq_bloc.dart';
 import 'package:pharmacy/src/model/api/faq_model.dart';
 import 'package:shimmer/shimmer.dart';

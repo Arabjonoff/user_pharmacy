@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,10 +21,10 @@ import 'package:pharmacy/src/model/eventBus/check_version.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
+import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
-import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -61,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   DatabaseHelper dataBase = new DatabaseHelper();
   int page = 1;
   String city = "";
-  final FirebaseMessaging _fcm = FirebaseMessaging();
+ // FirebaseMessaging _fcm;
 
   int _stars = 0;
   var loading = false;
@@ -405,24 +403,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   void _notificationFirebase() {
-    if (Platform.isIOS) {
-      _fcm.requestNotificationPermissions(IosNotificationSettings());
-    }
-
-    _fcm.configure(
-      onMessage: (Map<String, dynamic> message) async {},
-      onLaunch: (Map<String, dynamic> message) async {
-        _notifiData(message);
-      },
-      onResume: (Map<String, dynamic> message) async {
-        _notifiData(message);
-      },
-    );
-    _fcm.requestNotificationPermissions(
-        const IosNotificationSettings(sound: true, badge: true, alert: true));
-    _fcm.getToken().then((value) => {
-          fcToken = value,
-        });
+    // if (Platform.isIOS) {
+    //   _fcm.requestNotificationPermissions(IosNotificationSettings());
+    // }
+    //
+    // _fcm.configure(
+    //   onMessage: (Map<String, dynamic> message) async {},
+    //   onLaunch: (Map<String, dynamic> message) async {
+    //     _notifiData(message);
+    //   },
+    //   onResume: (Map<String, dynamic> message) async {
+    //     _notifiData(message);
+    //   },
+    // );
+    // _fcm.requestNotificationPermissions(
+    //     const IosNotificationSettings(sound: true, badge: true, alert: true));
+    // _fcm.getToken().then((value) => {
+    //       fcToken = value,
+    //     });
   }
 
   void _registerBus() {

@@ -7,9 +7,9 @@ class NoteDataBloc {
   final _noteFetcher = PublishSubject<List<NoteModel>>();
   final _noteOneFetcher = PublishSubject<List<NoteModel>>();
 
-  Observable<List<NoteModel>> get allNote => _noteFetcher.stream;
+  Stream<List<NoteModel>> get allNote => _noteFetcher.stream;
 
-  Observable<List<NoteModel>> get oneNote => _noteOneFetcher.stream;
+  Stream<List<NoteModel>> get oneNote => _noteOneFetcher.stream;
 
   fetchAllNote() async {
     List<NoteModel> note = await _repository.databaseNote();

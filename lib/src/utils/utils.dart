@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_translate/global.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/model/ramadan_model.dart';
 import 'package:pharmacy/src/ui/note/note_all_screen.dart';
@@ -515,7 +515,9 @@ class Utils {
     );
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+      android: androidPlatformChannelSpecifics,
+      iOS: iOSPlatformChannelSpecifics,
+    );
     await flutterLocalNotificationsPlugin.schedule(
       id,
       id % 2 == 0 ? "Iftorlik vaqti" : "Saharlik vaqti",

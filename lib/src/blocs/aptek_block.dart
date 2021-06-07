@@ -10,9 +10,9 @@ class AptekaBloc {
   final _aptekaFetcher = PublishSubject<List<AptekaModel>>();
   final _existStoreFetcher = PublishSubject<List<LocationModel>>();
 
-  Observable<List<AptekaModel>> get allApteka => _aptekaFetcher.stream;
+  Stream<List<AptekaModel>> get allApteka => _aptekaFetcher.stream;
 
-  Observable<List<LocationModel>> get allExistStorea =>
+  Stream<List<LocationModel>> get allExistStorea =>
       _existStoreFetcher.stream;
 
   fetchAllApteka(double lat, double lng) async {

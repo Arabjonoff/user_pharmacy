@@ -11,7 +11,7 @@ import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
-import 'package:rxbus/rxbus.dart';
+import 'package:pharmacy/src/utils/rx_bus.dart';
 
 class StoreListScreen extends StatefulWidget {
   final CreateOrderModel createOrder;

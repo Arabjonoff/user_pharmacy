@@ -35,13 +35,13 @@ class ItemListBloc {
   final _idsItemsFetcher = PublishSubject<ItemModel>();
   final _itemSearchFetcher = PublishSubject<ItemModel>();
 
-  Observable<ItemModel> get allItemsCategory => _categoryItemsFetcher.stream;
+  Stream<ItemModel> get allItemsCategory => _categoryItemsFetcher.stream;
 
-  Observable<ItemModel> get allIds => _idsItemsFetcher.stream;
+  Stream<ItemModel> get allIds => _idsItemsFetcher.stream;
 
-  Observable<ItemModel> get getBestItem => _bestItemFetcher.stream;
+  Stream<ItemModel> get getBestItem => _bestItemFetcher.stream;
 
-  Observable<ItemModel> get getItemSearch => _itemSearchFetcher.stream;
+  Stream<ItemModel> get getItemSearch => _itemSearchFetcher.stream;
 
   fetchAllItemCategory(
     String id,

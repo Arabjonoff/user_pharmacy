@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
-import 'package:rxbus/rxbus.dart';
+import 'package:pharmacy/src/utils/rx_bus.dart';
 
 import '../../app_theme.dart';
 
@@ -27,14 +27,6 @@ class _ItemSearchViewState extends State<ItemSearchView> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   PageTransition(
-        //     type: PageTransitionType.bottomToTop,
-        //     alignment: Alignment.bottomCenter,
-        //     child: ItemScreenNotInstruction(widget.item.id),
-        //   ),
-        // );
         RxBus.post(BottomViewModel(widget.item.id),
             tag: "EVENT_BOTTOM_ITEM_ALL");
       },

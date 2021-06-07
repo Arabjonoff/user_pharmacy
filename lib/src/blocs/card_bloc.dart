@@ -6,7 +6,7 @@ class CardBloc {
   final _repository = Repository();
   final _cardFetcher = PublishSubject<List<ItemResult>>();
 
-  Observable<List<ItemResult>> get allCard => _cardFetcher.stream;
+  Stream<List<ItemResult>> get allCard => _cardFetcher.stream;
 
   fetchAllCard() async {
     List<ItemResult> result = await _repository.databaseCardItem(true);
