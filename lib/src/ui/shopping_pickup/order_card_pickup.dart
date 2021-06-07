@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/order_options_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
@@ -842,11 +841,12 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                       {
                                         Navigator.pushReplacement(
                                           context,
-                                          PageTransition(
-                                            type: PageTransitionType.fade,
-                                            child: VerifyPaymentScreen(
-                                                response.data.phoneNumber,
-                                                response.data.cardToken),
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                VerifyPaymentScreen(
+                                              response.data.phoneNumber,
+                                              response.data.cardToken,
+                                            ),
                                           ),
                                         )
                                       }

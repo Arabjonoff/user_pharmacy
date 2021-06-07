@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/items_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
@@ -525,10 +524,9 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    PageTransition(
-                                      type: PageTransitionType.bottomToTop,
-                                      alignment: Alignment.bottomCenter,
-                                      child: ItemScreenNotInstruction(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ItemScreenNotInstruction(
                                         snapshot.data.recommendations[index].id,
                                       ),
                                     ),
@@ -1007,11 +1005,10 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    PageTransition(
-                                      type: PageTransitionType.bottomToTop,
-                                      alignment: Alignment.bottomCenter,
-                                      child: ItemScreenNotInstruction(
-                                          snapshot.data.analog[index].id),
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ItemScreenNotInstruction(
+                                              snapshot.data.analog[index].id),
                                     ),
                                   );
                                 },

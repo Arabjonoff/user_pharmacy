@@ -11,7 +11,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:flutter_translate/localized_app.dart';
 import 'package:flutter_udid/flutter_udid.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
@@ -131,13 +130,12 @@ class _MainScreenState extends State<MainScreen> {
 
   void _configureSelectNotificationSubject() {
     selectNotificationSubject.stream.listen((String payload) async {
-      ///keyingi updateda ob tasha komentni
-      // await Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => NotificationScreen(-1),
-      //   ),
-      // );
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => NotificationScreen(-1),
+        ),
+      );
     });
   }
 
@@ -177,10 +175,8 @@ class _MainScreenState extends State<MainScreen> {
       (event) {
         Navigator.push(
           context,
-          PageTransition(
-            type: PageTransitionType.bottomToTop,
-            alignment: Alignment.bottomCenter,
-            child: ItemScreenNotInstruction(
+          MaterialPageRoute(
+            builder: (context) => ItemScreenNotInstruction(
               event.position,
             ),
           ),
@@ -233,14 +229,12 @@ class _MainScreenState extends State<MainScreen> {
       (event) => {
         Navigator.push(
           context,
-          PageTransition(
-            type: PageTransitionType.bottomToTop,
-            alignment: Alignment.bottomCenter,
-            child: ItemScreenNotInstruction(
+          MaterialPageRoute(
+            builder: (context) => ItemScreenNotInstruction(
               event.position,
             ),
           ),
-        ),
+        )
       },
     );
 
@@ -248,16 +242,14 @@ class _MainScreenState extends State<MainScreen> {
       (event) => {
         Navigator.push(
           context,
-          PageTransition(
-            type: PageTransitionType.bottomToTop,
-            alignment: Alignment.bottomCenter,
-            child: ItemListScreen(
+          MaterialPageRoute(
+            builder: (context) => ItemListScreen(
               translate("sale"),
               1,
               event.position.toString(),
             ),
           ),
-        ),
+        )
       },
     );
 
@@ -265,10 +257,8 @@ class _MainScreenState extends State<MainScreen> {
       (event) => {
         Navigator.push(
           context,
-          PageTransition(
-            type: PageTransitionType.bottomToTop,
-            alignment: Alignment.bottomCenter,
-            child: ItemListScreen(
+          MaterialPageRoute(
+            builder: (context) => ItemListScreen(
               translate("sale"),
               4,
               event.position
@@ -297,9 +287,8 @@ class _MainScreenState extends State<MainScreen> {
       (event) => {
         Navigator.push(
           context,
-          PageTransition(
-            type: PageTransitionType.bottomToTop,
-            child: FilterScreen(
+          MaterialPageRoute(
+            builder: (context) => FilterScreen(
               type: event.type,
               id: event.id,
             ),
@@ -311,9 +300,8 @@ class _MainScreenState extends State<MainScreen> {
       (event) => {
         Navigator.pushReplacement(
           context,
-          PageTransition(
-            type: PageTransitionType.bottomToTop,
-            child: AutoUpdateScreen(
+          MaterialPageRoute(
+            builder: (context) => AutoUpdateScreen(
               package: event.packageName,
               desk: event.desk,
             ),
@@ -605,28 +593,28 @@ class _MainScreenState extends State<MainScreen> {
 
   void _pickup() {
     List<ProductsStore> drugs = new List();
-    dataBase.getProdu(true).then((value) => {
-          for (int i = 0; i < value.length; i++)
-            {
-              drugs.add(
-                  ProductsStore(drugId: value[i].id, qty: value[i].cardCount))
-            },
-          Navigator.push(
-            context,
-            PageTransition(
-              type: PageTransitionType.bottomToTop,
-              child: AddressStorePickupScreen(drugs),
+    dataBase.getProdu(true).then(
+          (value) => {
+            for (int i = 0; i < value.length; i++)
+              {
+                drugs.add(
+                    ProductsStore(drugId: value[i].id, qty: value[i].cardCount))
+              },
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddressStorePickupScreen(drugs),
+              ),
             ),
-          ),
-        });
+          },
+        );
   }
 
   void _store() {
     Navigator.push(
       context,
-      PageTransition(
-        type: PageTransitionType.rightToLeft,
-        child: AddressAptekaScreen(),
+      MaterialPageRoute(
+        builder: (context) => AddressAptekaScreen(),
       ),
     );
   }
@@ -634,9 +622,8 @@ class _MainScreenState extends State<MainScreen> {
   void _curer() {
     Navigator.push(
       context,
-      PageTransition(
-        type: PageTransitionType.bottomToTop,
-        child: CurerAddressCardScreen(false),
+      MaterialPageRoute(
+        builder: (context) => CurerAddressCardScreen(false),
       ),
     );
   }
@@ -644,9 +631,8 @@ class _MainScreenState extends State<MainScreen> {
   void _universal(String title, String uri) {
     Navigator.push(
       context,
-      PageTransition(
-        type: PageTransitionType.bottomToTop,
-        child: UniversalScreen(
+      MaterialPageRoute(
+        builder: (context) => UniversalScreen(
           title: title,
           uri: uri,
         ),
@@ -657,9 +643,8 @@ class _MainScreenState extends State<MainScreen> {
   void _login() {
     Navigator.push(
       context,
-      PageTransition(
-        type: PageTransitionType.bottomToTop,
-        child: LoginScreen(),
+      MaterialPageRoute(
+        builder: (context) => LoginScreen(),
       ),
     );
   }

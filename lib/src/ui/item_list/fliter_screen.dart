@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/filter_block.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
@@ -293,9 +292,8 @@ class _FilterScreenState extends State<FilterScreen> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        PageTransition(
-                          type: PageTransitionType.bottomToTop,
-                          child: FilterItemScreen(
+                        MaterialPageRoute(
+                          builder: (context) => FilterItemScreen(
                             filterType: 2,
                             type: widget.type,
                             id: widget.id,
@@ -386,9 +384,8 @@ class _FilterScreenState extends State<FilterScreen> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        PageTransition(
-                          type: PageTransitionType.bottomToTop,
-                          child: FilterItemScreen(
+                        MaterialPageRoute(
+                          builder: (context) => FilterItemScreen(
                             filterType: 3,
                             type: widget.type,
                             id: widget.id,

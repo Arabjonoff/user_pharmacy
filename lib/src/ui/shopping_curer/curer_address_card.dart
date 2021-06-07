@@ -5,21 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/global.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/order_options_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
-import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
-
-//import 'package:pharmacy/src/model/send/check_order.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/map_address_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/store_list_screen.dart';
-import 'package:rxbus/rxbus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -250,7 +244,8 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                                   GestureDetector(
                                                     onTap: () {
                                                       setState(() {
-                                                        db.deleteProducts(data.id);
+                                                        db.deleteProducts(
+                                                            data.id);
                                                       });
                                                     },
                                                     child: Container(
@@ -288,9 +283,8 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        PageTransition(
-                          type: PageTransitionType.fade,
-                          child: MapAddressScreen(),
+                        MaterialPageRoute(
+                          builder: (context) => MapAddressScreen(),
                         ),
                       );
                     },
@@ -570,9 +564,9 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                           }),
                                           Navigator.push(
                                             context,
-                                            PageTransition(
-                                              type: PageTransitionType.fade,
-                                              child: StoreListScreen(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  StoreListScreen(
                                                 createOrder: createOrder,
                                                 checkOrderModel: response,
                                               ),

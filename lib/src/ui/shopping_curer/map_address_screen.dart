@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
@@ -245,9 +244,8 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                       onTap: () {
                         Navigator.pushReplacement(
                           context,
-                          PageTransition(
-                            type: PageTransitionType.bottomToTop,
-                            child: CurerAddressCardScreen(false),
+                          MaterialPageRoute(
+                            builder: (context) => CurerAddressCardScreen(false),
                           ),
                         );
                       },
@@ -460,9 +458,8 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                   );
                   Navigator.pushReplacement(
                     context,
-                    PageTransition(
-                      type: PageTransitionType.bottomToTop,
-                      child: CurerAddressCardScreen(true),
+                    MaterialPageRoute(
+                      builder: (context) => CurerAddressCardScreen(true),
                     ),
                   );
                 } else {

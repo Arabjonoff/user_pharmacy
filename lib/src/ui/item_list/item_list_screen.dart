@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:lottie/lottie.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_fav.dart';
@@ -195,9 +194,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
                             ? Navigator.pop(context)
                             : Navigator.push(
                                 context,
-                                PageTransition(
-                                  type: PageTransitionType.fade,
-                                  child: SearchScreen("", 0, 2),
+                                MaterialPageRoute(
+                                  builder: (context) => SearchScreen("", 0, 2),
                                 ),
                               );
                       },
@@ -235,9 +233,9 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                   Navigator.pop(context);
                                   Navigator.push(
                                     context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      child: SearchScreen(result, 0, 2),
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          SearchScreen(result, 0, 2),
                                     ),
                                   );
                                   await methodChannel.invokeMethod("stop");
@@ -274,9 +272,8 @@ class _ItemListScreenState extends State<ItemListScreen> {
                         if (value != "-1")
                           Navigator.push(
                             context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              child: SearchScreen(value, 1, 2),
+                            MaterialPageRoute(
+                              builder: (context) => SearchScreen(value, 1, 2),
                             ),
                           )
                       },

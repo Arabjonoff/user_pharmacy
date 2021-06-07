@@ -4,11 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:lottie/lottie.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
-import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -405,9 +403,8 @@ class BottomDialog {
                         Navigator.pop(context);
                         Navigator.push(
                           context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            child: HistoryOrderScreen(),
+                          MaterialPageRoute(
+                            builder: (context) => HistoryOrderScreen(),
                           ),
                         );
                       },

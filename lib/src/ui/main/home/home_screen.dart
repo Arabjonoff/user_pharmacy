@@ -11,7 +11,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/blocs/menu_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
@@ -564,9 +563,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         onTap: () {
                           Navigator.push(
                             context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              child: SearchScreen("", 0, 1),
+                            MaterialPageRoute(
+                              builder: (context) => SearchScreen("", 0, 1),
                             ),
                           );
                         },
@@ -612,9 +610,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             Navigator.pop(context);
                                             Navigator.push(
                                               context,
-                                              PageTransition(
-                                                type: PageTransitionType.fade,
-                                                child:
+                                              MaterialPageRoute(
+                                                builder: (context) =>
                                                     SearchScreen(result, 0, 1),
                                               ),
                                             );
@@ -653,9 +650,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     if (value != "-1")
                                       Navigator.push(
                                         context,
-                                        PageTransition(
-                                          type: PageTransitionType.fade,
-                                          child: SearchScreen(value, 1, 1),
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              SearchScreen(value, 1, 1),
                                         ),
                                       )
                                   },
@@ -1027,9 +1024,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 } else if (url.category != null) {
                                   Navigator.push(
                                     context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      child: ItemListScreen(
+                                    MaterialPageRoute(
+                                      builder: (context) => ItemListScreen(
                                         url.name,
                                         1,
                                         url.category.toString(),

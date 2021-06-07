@@ -5,13 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/blocs/aptek_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
-import 'package:pharmacy/src/model/database/apteka_model.dart';
 import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
@@ -289,9 +287,9 @@ class _AddressStoreListPickupScreenState
                                               ),
                                               Navigator.push(
                                                 context,
-                                                PageTransition(
-                                                  type: PageTransitionType.fade,
-                                                  child: OrderCardPickupScreen(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      OrderCardPickupScreen(
                                                     response.data.orderId,
                                                     response
                                                         .data.expireSelfOrder,

@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
@@ -191,7 +190,8 @@ class _AddressStoreMapPickupScreenState
                                 width: 7,
                               ),
                               Text(
-                                ((data[i].distance~/100)/10.0).toString() + " km",
+                                ((data[i].distance ~/ 100) / 10.0).toString() +
+                                    " km",
                                 textAlign: TextAlign.start,
                                 maxLines: 1,
                                 style: TextStyle(
@@ -419,14 +419,13 @@ class _AddressStoreMapPickupScreenState
                                                     Navigator.pop(context),
                                                     Navigator.push(
                                                       context,
-                                                      PageTransition(
-                                                        type: PageTransitionType
-                                                            .fade,
-                                                        child: OrderCardPickupScreen(
-                                                            response
-                                                                .data.orderId,
-                                                            response.data
-                                                                .expireSelfOrder),
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            OrderCardPickupScreen(
+                                                          response.data.orderId,
+                                                          response.data
+                                                              .expireSelfOrder,
+                                                        ),
                                                       ),
                                                     ),
                                                   }

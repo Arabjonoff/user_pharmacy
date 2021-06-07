@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/check_order_model_new.dart';
@@ -183,9 +182,9 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                                 tag: "EVENT_ITEM_LIST_SEARCH"),
                                           Navigator.push(
                                             context,
-                                            PageTransition(
-                                              type: PageTransitionType.fade,
-                                              child: OrderCardCurerScreen(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  OrderCardCurerScreen(
                                                 orderId: response.data.orderId,
                                                 price: response.data.total,
                                                 cash: response.data.cash,
