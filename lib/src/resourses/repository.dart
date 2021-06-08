@@ -6,7 +6,6 @@ import 'package:pharmacy/src/database/database_helper_note.dart';
 import 'package:pharmacy/src/model/api/cancel_order.dart';
 import 'package:pharmacy/src/model/api/cash_back_model.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
-import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/check_order_model_new.dart';
 import 'package:pharmacy/src/model/api/check_version.dart';
@@ -46,8 +45,8 @@ class Repository {
   Future<HttpResult> fetchLogin(String login) =>
       pharmacyApiProvider.fetchLogin(login);
 
-  Future<VerifyModel> fetchVetfy(String login, String code, String token) =>
-      pharmacyApiProvider.fetchVerfy(login, code, token);
+  Future<HttpResult> fetchVerify(String login, String code, String token) =>
+      pharmacyApiProvider.fetchVerify(login, code, token);
 
   Future<LoginModel> fetchRegister(
     String name,

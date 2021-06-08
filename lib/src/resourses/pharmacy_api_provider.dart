@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:http/http.dart' as http;
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
-import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/cancel_order.dart';
 import 'package:pharmacy/src/model/api/cash_back_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
@@ -148,62 +147,22 @@ class PharmacyApiProvider {
       "login": login,
     };
     return await postRequest(url, data);
-
-    // Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    // String encoded = prefs.getString("deviceData") != null
-    //     ? stringToBase64.encode(prefs.getString("deviceData"))
-    //     : "";
-    // Map<String, String> headers = {
-    //   'content-type': 'application/json; charset=utf-8',
-    //   'X-Device': encoded,
-    // };
-    //
-    // try {
-    //   http.Response response = await http
-    //       .post(Uri.parse(url), headers: headers, body: json.encode(data))
-    //       .timeout(duration);
-    //   final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-    //   return LoginModel.fromJson(responseJson);
-    // } on TimeoutException catch (_) {
-    //   return LoginModel(status: -1, msg: translate("internet_error"));
-    // } on SocketException catch (_) {
-    //   return LoginModel(status: -1, msg: translate("internet_error"));
-    // }
   }
 
-  ///verfy
-  Future<VerifyModel> fetchVerfy(
-      String login, String code, String token) async {
+  ///verify
+  Future<HttpResult> fetchVerify(
+    String login,
+    String code,
+    String token,
+  ) async {
     String url = Utils.baseUrl + '/api/v1/accept';
-    SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final data = {
       "login": login,
       "smscode": code,
       "device_token": token,
     };
-
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-    try {
-      http.Response response = await http
-          .post(Uri.parse(url), headers: headers, body: json.encode(data))
-          .timeout(duration);
-
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      return VerifyModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      return VerifyModel(status: -1, msg: translate("internet_error"));
-    } on SocketException catch (_) {
-      return VerifyModel(status: -1, msg: translate("internet_error"));
-    }
+    return await postRequest(url, data);
   }
 
   ///Register

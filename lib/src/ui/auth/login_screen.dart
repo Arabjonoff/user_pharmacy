@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/auth/verfy_screen.dart';
+import 'package:pharmacy/src/ui/auth/verify_screen.dart';
 import 'package:pharmacy/src/utils/number_mask.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -268,7 +268,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (response.isSuccess) {
                       var result = LoginModel.fromJson(response.result);
                       if (result.status == 1) {
-                        Navigator.pushReplacement(
+                        setState(() {
+                          errorText = "";
+                          loading = false;
+                        });
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => VerifyScreen(number),
