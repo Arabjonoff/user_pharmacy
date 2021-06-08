@@ -9,7 +9,6 @@ import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/check_order_model_new.dart';
-import 'package:pharmacy/src/model/api/check_order_responce.dart';
 import 'package:pharmacy/src/model/api/check_version.dart';
 import 'package:pharmacy/src/model/api/current_location_address_model.dart';
 import 'package:pharmacy/src/model/api/faq_model.dart';
@@ -25,12 +24,12 @@ import 'package:pharmacy/src/model/chat/chat_api_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/create_order_status_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
+import 'package:pharmacy/src/model/http_result.dart';
 import 'package:pharmacy/src/model/note/note_data_model.dart';
 import 'package:pharmacy/src/model/payment_verfy.dart';
 import 'package:pharmacy/src/model/review/get_review.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
-import 'package:pharmacy/src/model/send/check_order.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/model/send/create_payment_model.dart';
 import 'package:pharmacy/src/model/send/verfy_payment_model.dart';
@@ -44,7 +43,7 @@ class Repository {
   DatabaseHelperFav databaseHelperFav = new DatabaseHelperFav();
   DatabaseHelperNote databaseHelperNote = new DatabaseHelperNote();
 
-  Future<LoginModel> fetchLogin(String login) =>
+  Future<HttpResult> fetchLogin(String login) =>
       pharmacyApiProvider.fetchLogin(login);
 
   Future<VerifyModel> fetchVetfy(String login, String code, String token) =>

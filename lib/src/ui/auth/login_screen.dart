@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/auth/verfy_screen.dart';
 import 'package:pharmacy/src/utils/number_mask.dart';
@@ -20,13 +21,12 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   var loading = false;
   var isNext = false;
-  var isCheck = false;
   var isPrivacy = false;
   var errorText = "";
   final PhoneNumberTextInputFormatter _phoneNumber =
       new PhoneNumberTextInputFormatter();
 
-  TextEditingController loginController = TextEditingController(text: "+998");
+  TextEditingController loginController = TextEditingController(text: "+998 ");
 
   @override
   Widget build(BuildContext context) {
@@ -116,17 +116,31 @@ class _LoginScreenState extends State<LoginScreen> {
             child: TextField(
               keyboardType: TextInputType.phone,
               style: TextStyle(
-                  fontFamily: AppTheme.fontRubik,
-                  fontWeight: FontWeight.normal,
-                  color: AppTheme.text_dark,
-                  fontSize: 14,
-                  height: 1.2),
+                fontFamily: AppTheme.fontRubik,
+                fontWeight: FontWeight.normal,
+                color: AppTheme.text_dark,
+                fontSize: 14,
+                height: 1.2,
+              ),
+              maxLength: 17,
               inputFormatters: [
                 WhitelistingTextInputFormatter.digitsOnly,
                 _phoneNumber,
               ],
               controller: loginController,
+              onChanged: (value) {
+                if (value.length == 17 && isPrivacy) {
+                  setState(() {
+                    isNext = true;
+                  });
+                } else {
+                  setState(() {
+                    isNext = false;
+                  });
+                }
+              },
               decoration: InputDecoration(
+                counterText: "",
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     width: 0,
@@ -166,9 +180,17 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      isPrivacy = !isPrivacy;
-                    });
+                    isPrivacy = !isPrivacy;
+
+                    if (isPrivacy && loginController.text.length == 17) {
+                      setState(() {
+                        isNext = true;
+                      });
+                    } else {
+                      setState(() {
+                        isNext = false;
+                      });
+                    }
                   },
                   child: Container(
                     height: 24,
@@ -242,17 +264,30 @@ class _LoginScreenState extends State<LoginScreen> {
                       errorText = "";
                       loading = true;
                     });
-                    var responce = await Repository().fetchLogin(number);
-                    if (responce.status == 1) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => VerifyScreen(number),
-                        ),
-                      );
+                    var response = await Repository().fetchLogin(number);
+                    if (response.isSuccess) {
+                      var result = LoginModel.fromJson(response.result);
+                      if (result.status == 1) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => VerifyScreen(number),
+                          ),
+                        );
+                      } else {
+                        setState(() {
+                          errorText = response.result["msg"];
+                          loading = false;
+                        });
+                      }
+                    } else if (response.status == -1) {
+                      setState(() {
+                        errorText = translate("internet_error");
+                        loading = false;
+                      });
                     } else {
                       setState(() {
-                        errorText = responce.msg;
+                        errorText = response.result["msg"];
                         loading = false;
                       });
                     }

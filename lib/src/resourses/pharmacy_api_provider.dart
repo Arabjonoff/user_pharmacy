@@ -27,6 +27,7 @@ import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/create_order_status_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
+import 'package:pharmacy/src/model/http_result.dart';
 import 'package:pharmacy/src/model/payment_verfy.dart';
 import 'package:pharmacy/src/model/review/get_review.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
@@ -42,36 +43,132 @@ class PharmacyApiProvider {
   HttpClient httpClient = new HttpClient();
 
   Duration duration = new Duration(seconds: 30);
+  static Duration durationTimeout = new Duration(seconds: 30);
 
-  ///Login
-  Future<LoginModel> fetchLogin(String login) async {
-    String url = Utils.baseUrl + '/api/v1/register';
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  static Future<HttpResult> postRequest(url, body) async {
+    final dynamic headers = await _getReqHeader();
+    print(url);
+    try {
+      http.Response response = await http
+          .post(
+            Uri.parse(url),
+            headers: headers,
+            body: body,
+          )
+          .timeout(durationTimeout);
+      print(response.body);
+      return _result(response);
+    } on TimeoutException catch (_) {
+      return HttpResult(
+        isSuccess: false,
+        status: -1,
+        result: null,
+      );
+    } on SocketException catch (_) {
+      return HttpResult(
+        isSuccess: false,
+        status: -1,
+        result: null,
+      );
+    }
+  }
 
-    final data = {
-      "login": login,
-    };
+  static Future<HttpResult> getRequest(url) async {
+    final dynamic headers = await _getReqHeader();
+    try {
+      print(url);
+      http.Response response = await http
+          .get(
+            Uri.parse(url),
+            headers: headers,
+          )
+          .timeout(durationTimeout);
+      print(response.body);
+      return _result(response);
+    } on TimeoutException catch (_) {
+      return HttpResult(
+        isSuccess: false,
+        status: -1,
+        result: null,
+      );
+    } on SocketException catch (_) {
+      return HttpResult(
+        isSuccess: false,
+        status: -1,
+        result: null,
+      );
+    }
+  }
 
+  static HttpResult _result(response) {
+    var result;
+    int status = response.statusCode ?? 404;
+
+    if (response.statusCode >= 200 && response.statusCode <= 299) {
+      result = json.decode(utf8.decode(response.bodyBytes));
+      return HttpResult(
+        isSuccess: true,
+        status: status,
+        result: result,
+      );
+    } else {
+      return HttpResult(
+        isSuccess: false,
+        status: status,
+        result: null,
+      );
+    }
+  }
+
+  static _getReqHeader() async {
+    final prefs = await SharedPreferences.getInstance();
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = prefs.getString("deviceData") != null
         ? stringToBase64.encode(prefs.getString("deviceData"))
         : "";
-    Map<String, String> headers = {
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
 
-    try {
-      http.Response response = await http
-          .post(Uri.parse(url), headers: headers, body: json.encode(data))
-          .timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      return LoginModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      return LoginModel(status: -1, msg: translate("internet_error"));
-    } on SocketException catch (_) {
-      return LoginModel(status: -1, msg: translate("internet_error"));
+    if (prefs.getString('access') == null) {
+      return {
+        "Accept": "application/json",
+        'X-Device': encoded,
+      };
+    } else {
+      return {
+        "Accept": "application/json",
+        'X-Device': encoded,
+        "Authorization": "Bearer " + prefs.getString('access')
+      };
     }
+  }
+
+  ///Login
+  Future<HttpResult> fetchLogin(String login) async {
+    String url = Utils.baseUrl + '/api/v1/register';
+    final data = {
+      "login": login,
+    };
+    return await postRequest(url, data);
+
+    // Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    // String encoded = prefs.getString("deviceData") != null
+    //     ? stringToBase64.encode(prefs.getString("deviceData"))
+    //     : "";
+    // Map<String, String> headers = {
+    //   'content-type': 'application/json; charset=utf-8',
+    //   'X-Device': encoded,
+    // };
+    //
+    // try {
+    //   http.Response response = await http
+    //       .post(Uri.parse(url), headers: headers, body: json.encode(data))
+    //       .timeout(duration);
+    //   final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+    //   return LoginModel.fromJson(responseJson);
+    // } on TimeoutException catch (_) {
+    //   return LoginModel(status: -1, msg: translate("internet_error"));
+    // } on SocketException catch (_) {
+    //   return LoginModel(status: -1, msg: translate("internet_error"));
+    // }
   }
 
   ///verfy
