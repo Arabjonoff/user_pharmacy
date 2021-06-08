@@ -166,7 +166,7 @@ class PharmacyApiProvider {
   }
 
   ///Register
-  Future<LoginModel> fetchRegister(
+  Future<HttpResult> fetchRegister(
     String name,
     String surname,
     String birthday,
@@ -180,6 +180,10 @@ class PharmacyApiProvider {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = prefs.getString("deviceData") != null
+        ? stringToBase64.encode(prefs.getString("deviceData"))
+        : "";
 
     final data = {
       "first_name": name,
@@ -192,25 +196,34 @@ class PharmacyApiProvider {
       "region": regionId.toString(),
     };
 
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
+    final dynamic headers = {
+      "Accept": "application/json",
       'X-Device': encoded,
+      "Authorization": "Bearer " + token
     };
+    print(url);
     try {
       http.Response response = await http
-          .post(Uri.parse(url), headers: headers, body: data)
-          .timeout(duration);
-      final Map parsed = json.decode(response.body);
-      return LoginModel.fromJson(parsed);
+          .post(
+            Uri.parse(url),
+            headers: headers,
+            body: data,
+          )
+          .timeout(durationTimeout);
+      print(response.body);
+      return _result(response);
     } on TimeoutException catch (_) {
-      return LoginModel(status: -1, msg: translate("internet_error"));
+      return HttpResult(
+        isSuccess: false,
+        status: -1,
+        result: null,
+      );
     } on SocketException catch (_) {
-      return LoginModel(status: -1, msg: translate("internet_error"));
+      return HttpResult(
+        isSuccess: false,
+        status: -1,
+        result: null,
+      );
     }
   }
 

@@ -48,7 +48,7 @@ class Repository {
   Future<HttpResult> fetchVerify(String login, String code, String token) =>
       pharmacyApiProvider.fetchVerify(login, code, token);
 
-  Future<LoginModel> fetchRegister(
+  Future<HttpResult> fetchRegister(
     String name,
     String surname,
     String birthday,

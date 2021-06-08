@@ -174,10 +174,10 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     child: Text(
                       errorText,
                       style: TextStyle(
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontSize: 13,
                         fontWeight: FontWeight.normal,
-                        color: AppTheme.red_fav_color,
+                        color: AppTheme.red,
                       ),
                     ),
                   ),

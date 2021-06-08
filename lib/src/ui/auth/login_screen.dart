@@ -158,7 +158,12 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           errorText != ""
               ? Container(
-                  margin: EdgeInsets.only(left: 16, right: 16, top: 9),
+                  margin: EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                    top: 8,
+                    bottom: 8,
+                  ),
                   width: double.infinity,
                   child: Align(
                     alignment: Alignment.centerRight,

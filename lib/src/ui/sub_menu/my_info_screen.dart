@@ -531,7 +531,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                 } else if (response.status == -1) {
                   setState(() {
                     error = true;
-                    errorText = response.msg;
+                    errorText = response.toString();
                     loading = false;
                   });
                 } else {
