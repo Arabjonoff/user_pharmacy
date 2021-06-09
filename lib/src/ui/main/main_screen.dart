@@ -182,37 +182,6 @@ class _MainScreenState extends State<MainScreen> {
       },
     );
 
-    RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_VIEW_ERROR").listen(
-      (event) => {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-              contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-              content: Container(
-                width: 239.0,
-                height: 64.0,
-                child: Center(
-                  child: Text(
-                    translate("internet_error"),
-                    style: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: AppTheme.black_text,
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
-        )
-      },
-    );
-
     RxBus.register<BottomViewIdsModel>(tag: "EVENT_BOTTOM_VIEW_LANGUAGE")
         .listen(
       (event) => setState(
@@ -428,23 +397,9 @@ class _MainScreenState extends State<MainScreen> {
                     }
                 }
               } else if (index == 0) {
-                if (isOpenBest) blocItemsList.updateBest();
-                if (isOpenSearch) blocItemsList.updateSearch();
-                if (isOpenIds) blocItemsList.updateIds();
-                blocHome.fetchAllHome(
-                  1,
-                  "",
-                  "",
-                  "",
-                  "",
-                  "",
-                  "",
-                );
-                blocHome.fetchCityName();
               } else if (index == 1) {
-                blocCategory.fetchAllCategory();
-                if (isOpenCategory) blocItemsList.updateCategory();
-                if (isOpenSearch) blocItemsList.updateSearch();
+              } else if (index == 2) {
+              } else if (index == 3) {
               } else if (index == 4) {
                 Utils.isLogin().then((value) => {
                       isLogin = value,

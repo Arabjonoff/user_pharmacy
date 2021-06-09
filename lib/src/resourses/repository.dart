@@ -69,9 +69,9 @@ class Repository {
         fctoken,
       );
 
-  Future<SaleModel> fetchAllSales() => pharmacyApiProvider.fetchSaleList();
+  Future<HttpResult> fetchAllSales() => pharmacyApiProvider.fetchBanner();
 
-  Future<ItemModel> fetchBestItem(
+  Future<HttpResult> fetchBestItem(
     int page,
     String internationalNameIds,
     String manufacturerIds,

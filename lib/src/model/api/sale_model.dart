@@ -1,5 +1,5 @@
-class SaleModel {
-  SaleModel({
+class BannerModel {
+  BannerModel({
     this.count,
     this.next,
     this.previous,
@@ -11,7 +11,7 @@ class SaleModel {
   dynamic previous;
   List<Result> results;
 
-  factory SaleModel.fromJson(Map<String, dynamic> json) => SaleModel(
+  factory BannerModel.fromJson(Map<String, dynamic> json) => BannerModel(
         count: json["count"],
         next: json["next"],
         previous: json["previous"],

@@ -180,7 +180,8 @@ class ItemListBloc {
       usersBest = new List();
     }
 
-    ItemModel itemModelBest = await _repository.fetchBestItem(
+    ItemModel itemModelBest =
+        ItemModel.fromJson((await _repository.fetchBestItem(
       page,
       internationalNameIds,
       manufacturerIds,
@@ -188,7 +189,8 @@ class ItemListBloc {
       priceMax,
       priceMin,
       unitIds,
-    );
+    ))
+            .result);
     List<ItemResult> database = await _repository.databaseItem();
     for (var j = 0; j < database.length; j++) {
       for (var i = 0; i < itemModelBest.results.length; i++) {
@@ -311,6 +313,7 @@ class ItemListBloc {
       }
 
       List<ItemResult> databaseFav = await _repository.databaseFavItem();
+
       ///favourite
       if (databaseFav.length != 0) {
         for (var j = 0; j < databaseFav.length; j++) {
@@ -354,6 +357,7 @@ class ItemListBloc {
       }
 
       List<ItemResult> databaseFav = await _repository.databaseFavItem();
+
       ///favourite
       if (databaseFav.length != 0) {
         for (var j = 0; j < databaseFav.length; j++) {
@@ -396,6 +400,7 @@ class ItemListBloc {
       }
 
       List<ItemResult> databaseFav = await _repository.databaseFavItem();
+
       ///favourite
       if (databaseFav.length != 0) {
         for (var j = 0; j < databaseFav.length; j++) {
@@ -438,6 +443,7 @@ class ItemListBloc {
       }
 
       List<ItemResult> databaseFav = await _repository.databaseFavItem();
+
       ///favourite
       if (databaseFav.length != 0) {
         for (var j = 0; j < databaseFav.length; j++) {

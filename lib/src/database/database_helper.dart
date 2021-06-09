@@ -55,8 +55,28 @@ class DatabaseHelper {
 
   Future<int> saveProducts(ItemResult item) async {
     var dbClient = await db;
-    var result = await dbClient.insert(tableNote, item.toMap());
-    return result;
+    List<Map> result = await dbClient.query(
+      tableNote,
+      columns: [
+        columnId,
+      ],
+      where: '$columnId = ?',
+      whereArgs: [item.id],
+    );
+    if (result.length > 0) {
+      return await dbClient.update(
+        tableNote,
+        item.toMap(),
+        where: "$columnId = ?",
+        whereArgs: [item.id],
+      );
+    } else {
+      var result = await dbClient.insert(
+        tableNote,
+        item.toMap(),
+      );
+      return result;
+    }
   }
 
   Future<List> getAllProducts() async {

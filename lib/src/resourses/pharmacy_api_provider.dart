@@ -227,39 +227,18 @@ class PharmacyApiProvider {
     }
   }
 
-  ///Sale
-  Future<SaleModel> fetchSaleList() async {
+  ///Banner
+  Future<HttpResult> fetchBanner() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
     String url = Utils.baseUrl + '/api/v1/sales?region=$regionId';
 
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-    Map<String, String> headers = {
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-
-    try {
-      http.Response response =
-          await http.get(Uri.parse(url), headers: headers).timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-
-      return SaleModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return SaleModel();
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return SaleModel();
-    }
+    return await getRequest(url);
   }
 
   ///best items
-  Future<ItemModel> fetchBestItemList(
+  Future<HttpResult> fetchBestItemList(
     int page,
     int perPage,
     String internationalNameIds,
@@ -284,28 +263,7 @@ class PharmacyApiProvider {
             'price_max=$priceMax&'
             'price_min=$priceMin&'
             'unit_ids=$unitIds';
-
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-
-    try {
-      http.Response response =
-          await http.get(Uri.parse(url), headers: headers).timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-
-      return ItemModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      return ItemModel();
-    } on SocketException catch (_) {
-      return ItemModel();
-    }
+    return await getRequest(url);
   }
 
   ///category
