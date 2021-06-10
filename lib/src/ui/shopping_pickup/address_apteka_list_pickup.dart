@@ -10,14 +10,11 @@ import 'package:pharmacy/src/blocs/aptek_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
-import 'package:pharmacy/src/model/eventBus/all_item_isopen.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/address_apteka/address_apteka_map.dart';
-import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
-import 'package:pharmacy/src/ui/main/card/card_screen.dart';
-import 'package:pharmacy/src/utils/rx_bus.dart';
+import 'package:pharmacy/src/ui/main/home/home_screen.dart';
+import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -279,12 +276,6 @@ class _AddressStoreListPickupScreenState
                                     .then((response) => {
                                           if (response.status == 1)
                                             {
-                                              cashData = CashBackData(
-                                                total: response.data.total,
-                                                cash: response.data.cash,
-                                                isTotalCash:
-                                                    response.data.isTotalCash,
-                                              ),
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(

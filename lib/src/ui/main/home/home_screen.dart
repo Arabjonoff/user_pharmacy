@@ -37,14 +37,12 @@ final priceFormat = new NumberFormat("#,##0", "ru");
 String fcToken = "";
 
 class HomeScreen extends StatefulWidget {
-  final Function onStore;
   final Function onRegion;
   final Function onHistory;
   final Function onLogin;
   final Function(String title, String uri) onUnversal;
 
   HomeScreen({
-    this.onStore,
     this.onRegion,
     this.onHistory,
     this.onLogin,

@@ -11,8 +11,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:pharmacy/src/blocs/category_bloc.dart';
-import 'package:pharmacy/src/blocs/home_bloc.dart';
-import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/blocs/menu_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
@@ -20,7 +18,6 @@ import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/check_version.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
-import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/chat/chat_screen.dart';
 import 'package:pharmacy/src/ui/dialog/universal_screen.dart';
@@ -47,6 +44,8 @@ import '../../app_theme.dart';
 import '../update/auto_update_screen.dart';
 import 'category/category_screen.dart';
 import 'home/home_screen.dart';
+
+double lat = 41.0, lng = 69.0;
 
 class MainScreen extends StatefulWidget {
   @override
@@ -508,7 +507,6 @@ class _MainScreenState extends State<MainScreen> {
       '/': (context) {
         return [
           HomeScreen(
-            onStore: _store,
             onRegion: _region,
             onHistory: _history,
             onLogin: _login,
@@ -553,15 +551,6 @@ class _MainScreenState extends State<MainScreen> {
             ),
           },
         );
-  }
-
-  void _store() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AddressAptekaScreen(),
-      ),
-    );
   }
 
   void _curer() {
