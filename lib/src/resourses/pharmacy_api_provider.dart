@@ -236,7 +236,7 @@ class PharmacyApiProvider {
     return await getRequest(url);
   }
 
-  ///Banner
+  ///Blog
   Future<HttpResult> fetchBlog() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
@@ -244,6 +244,17 @@ class PharmacyApiProvider {
 
     String url = Utils.baseUrl +
         '/api/v1/pages?choice=blog&region=$regionId&lan=$language';
+
+    return await getRequest(url);
+  }
+  ///CashBack
+  Future<HttpResult> fetchCashBackTitle() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+    String language = prefs.getString('language') ?? "ru";
+
+    String url = Utils.baseUrl +
+        '/api/v1/pages?choice=cashback&region=$regionId&lan=$language';
 
     return await getRequest(url);
   }

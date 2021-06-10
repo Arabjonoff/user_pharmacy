@@ -78,6 +78,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     blocHome.fetchCategory();
     blocHome.fetchBestItem();
     blocHome.fetchSlimmingItem();
+    blocHome.fetchCashBack();
     blocHome.fetchCityName();
     super.initState();
   }
@@ -90,7 +91,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    blocHome.fetchBlog();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(0.0),
@@ -1962,8 +1962,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               ),
                                             ),
                                             SizedBox(height: 4),
-                                            snapshot.data.drugs[index]
-                                                    .isComing
+                                            snapshot.data.drugs[index].isComing
                                                 ? Container(
                                                     height: 29,
                                                     width: double.infinity,
@@ -2324,13 +2323,97 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     );
                   },
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: 24),
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: AppTheme.white,
-                    borderRadius: BorderRadius.circular(24),
-                  ),
+                StreamBuilder(
+                  stream: blocHome.cashBack,
+                  builder: (context, AsyncSnapshot<BlogModel> snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data.results.length > 0) {
+                        return Container(
+                          padding: EdgeInsets.all(16),
+                          margin: EdgeInsets.only(
+                            top: 24,
+                            left: 16,
+                            right: 16,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppTheme.white,
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              ClipRRect(
+                                child: CachedNetworkImage(
+                                  imageUrl: snapshot.data.results[0].image,
+                                  placeholder: (context, url) =>
+                                      SvgPicture.asset(
+                                    "assets/images/place_holder.svg",
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      SvgPicture.asset(
+                                    "assets/images/place_holder.svg",
+                                  ),
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              SizedBox(height: 16),
+                              Text(
+                                snapshot.data.results[0].title,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  height: 1.2,
+                                  color: AppTheme.text_dark,
+                                ),
+                              ),
+                              SizedBox(height: 16),
+                              GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  child: Center(
+                                    child: Text(
+                                      translate("home.bonus_all"),
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontRubik,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        height: 1.25,
+                                        color: AppTheme.white,
+                                      ),
+                                    ),
+                                  ),
+                                  height: 44,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.blue,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    }
+                    return Shimmer.fromColors(
+                      baseColor: Colors.grey[300],
+                      highlightColor: Colors.grey[100],
+                      child: Container(
+                        margin: EdgeInsets.only(top: 24, left: 16, right: 16),
+                        width: double.infinity,
+                        height: 210,
+                        decoration: BoxDecoration(
+                            color: AppTheme.white,
+                            borderRadius: BorderRadius.circular(24)),
+                      ),
+                    );
+                  },
                 ),
                 StreamBuilder(
                   stream: blocHome.blog,
@@ -2547,6 +2630,74 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     );
                   },
                 ),
+                GestureDetector(
+                  onTap: () async {
+                    var url = "tel:+998712050888";
+                    if (await canLaunch(url)) {
+                      await launch(url);
+                    } else {
+                      throw 'Could not launch $url';
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    margin: EdgeInsets.only(
+                      top: 24,
+                      left: 16,
+                      right: 16,
+                    ),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppTheme.white,
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 48,
+                          width: 48,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: AppTheme.blue.withOpacity(0.2),
+                          ),
+                          child: Center(
+                            child: SvgPicture.asset("assets/icons/phone.svg"),
+                          ),
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
+                            child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              translate("home.call_center"),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                height: 1.2,
+                                color: AppTheme.textGray,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              "+998 (71) 205-0-888",
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                                height: 1.1,
+                                color: AppTheme.text_dark,
+                              ),
+                            ),
+                          ],
+                        )),
+                        SizedBox(width: 16),
+                        SvgPicture.asset("assets/icons/arrow_right_grey.svg")
+                      ],
+                    ),
+                  ),
+                )
               ],
             ),
           ),

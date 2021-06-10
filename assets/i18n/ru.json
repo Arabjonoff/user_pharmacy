@@ -252,20 +252,6 @@
     "app_name": "GoPharm",
     "sent_hint": "Введите ваше сообщение ..."
   },
-  "month": {
-    "january": "январь",
-    "february": "февраль",
-    "march": "март",
-    "april": "апрель",
-    "may": "май",
-    "june": "июнь",
-    "july": "июль",
-    "august": "август",
-    "september": "сентябрь",
-    "october": "октябрь",
-    "november": "ноябрь",
-    "december": "декабрь"
-  },
   "auto_update": {
     "title": "Доступны обновления",
     "button": "Обновить",
@@ -369,5 +355,19 @@
     "bonus_all": "Узнать подробнее",
     "articles": "Полезные статьи",
     "call_center": "Круглосуточный колл-центр"
+  },
+  "month": {
+    "january": "январь",
+    "february": "февраль",
+    "march": "март",
+    "april": "апрель",
+    "may": "май",
+    "june": "июнь",
+    "july": "июль",
+    "august": "август",
+    "september": "сентябрь",
+    "october": "октябрь",
+    "november": "ноябрь",
+    "december": "декабрь"
   }
 }

@@ -12,6 +12,7 @@ class HomeBloc {
   final _repository = Repository();
   final _bannerFetcher = PublishSubject<BannerModel>();
   final _blogFetcher = PublishSubject<BlogModel>();
+  final _cashBackFetcher = PublishSubject<BlogModel>();
   final _cityNameFetcher = PublishSubject<String>();
   final _bestItemFetcher = PublishSubject<ItemModel>();
   final _recentlyFetcher = PublishSubject<ItemModel>();
@@ -21,6 +22,8 @@ class HomeBloc {
   Stream<BannerModel> get banner => _bannerFetcher.stream;
 
   Stream<BlogModel> get blog => _blogFetcher.stream;
+
+  Stream<BlogModel> get cashBack => _cashBackFetcher.stream;
 
   Stream<String> get allCityName => _cityNameFetcher.stream;
 
@@ -47,6 +50,15 @@ class HomeBloc {
       _blogFetcher.sink.add(BlogModel.fromJson(response.result));
     } else {
       _blogFetcher.sink.add(BlogModel(results: []));
+    }
+  }
+
+  fetchCashBack() async {
+    var response = await _repository.fetchCashBackTitle();
+    if (response.isSuccess) {
+      _cashBackFetcher.sink.add(BlogModel.fromJson(response.result));
+    } else {
+      _cashBackFetcher.sink.add(BlogModel(results: []));
     }
   }
 
@@ -273,6 +285,7 @@ class HomeBloc {
   dispose() {
     _bannerFetcher.close();
     _blogFetcher.close();
+    _cashBackFetcher.close();
     _cityNameFetcher.close();
     _bestItemFetcher.close();
     _slimmingFetcher.close();
