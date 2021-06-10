@@ -18,7 +18,7 @@ dependencies:
   shared_preferences: ^2.0.6
   flutter_svg:
   http: ^0.13.3
-  shimmer: ^1.1.1
+  shimmer: ^2.0.0
   rxdart: ^0.27.1
   yandex_mapkit: ^0.4.1
   permission_handler: ^3.2.2
@@ -28,11 +28,10 @@ dependencies:
   cupertino_icons: ^0.1.2
   web_socket_channel: ^1.1.0
   lottie: ^1.0.1
-  package_info: ^0.4.1
+  package_info: ^2.0.2
   flutter_local_notifications:
   flutter_picker: ^1.1.5
-  carousel_slider: ^2.3.1
-  android_intent: ^0.3.7+6
+  carousel_slider: ^3.0.0
   device_info: ^2.0.2
   app_settings: ^4.0.4
   flutter_udid: ^1.0.1
@@ -70,12 +69,3 @@ flutter:
           weight: 500
         - asset: assets/fonts/Rubik-Regular.ttf
           weight: 400
-    - family: Roboto
-      fonts:
-        - asset: assets/fonts/Roboto.ttf
-    - family: SFProDisplay
-      fonts:
-        - asset: assets/fonts/SFProDisplay-Regular.ttf
-    - family: TTCommons
-      fonts:
-        - asset: assets/fonts/TTCommons-DemiBold.ttf

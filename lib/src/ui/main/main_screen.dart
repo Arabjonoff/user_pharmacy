@@ -19,14 +19,12 @@ import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/check_version.dart';
-import 'package:pharmacy/src/model/eventBus/filter_open_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/ui/address_apteka/address_apteka_screen.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/chat/chat_screen.dart';
 import 'package:pharmacy/src/ui/dialog/universal_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
-import 'package:pharmacy/src/ui/item_list/fliter_screen.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/fav/favourite_screen.dart';
@@ -61,6 +59,7 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   DatabaseHelper dataBase = new DatabaseHelper();
   bool isFirstData = true;
+  var duration = Duration(milliseconds: 270);
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
   List<GlobalKey<NavigatorState>> _navigatorKeys = [
@@ -250,19 +249,6 @@ class _MainScreenState extends State<MainScreen> {
       },
     );
 
-    RxBus.register<FilterOpenModel>(tag: "EVENT_FILTER_SCREEN").listen(
-      (event) => {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => FilterScreen(
-              type: event.type,
-              id: event.id,
-            ),
-          ),
-        ),
-      },
-    );
     RxBus.register<CheckVersionModel>(tag: "EVENT_ITEM_CHECK").listen(
       (event) => {
         Navigator.pushReplacement(
@@ -415,8 +401,8 @@ class _MainScreenState extends State<MainScreen> {
               });
             },
             type: BottomNavigationBarType.fixed,
-            unselectedItemColor: AppTheme.menu_unselected,
-            selectedItemColor: AppTheme.blue_app_color,
+            unselectedItemColor: AppTheme.white,
+            selectedItemColor: AppTheme.blue,
             currentIndex: _selectedIndex,
             items: [
               BottomNavigationBarItem(
@@ -424,14 +410,15 @@ class _MainScreenState extends State<MainScreen> {
                     ? SvgPicture.asset("assets/menu/home_selected.svg")
                     : SvgPicture.asset("assets/menu/home_unselected.svg"),
                 // ignore: deprecated_member_use
-                title: Text(
-                  translate('main.home'),
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.normal,
-                    fontFamily: AppTheme.fontRubik,
+                title: AnimatedContainer(
+                  duration: duration,
+                  curve: Curves.easeInOut,
+                  height: 4,
+                  width: 4,
+                  margin: EdgeInsets.only(top: 8),
+                  decoration: BoxDecoration(
+                    color: _selectedIndex == 0 ? AppTheme.blue : AppTheme.white,
+                    borderRadius: BorderRadius.circular(4),
                   ),
                 ),
               ),
@@ -440,14 +427,15 @@ class _MainScreenState extends State<MainScreen> {
                     ? SvgPicture.asset("assets/menu/catalog_selected.svg")
                     : SvgPicture.asset("assets/menu/catalog_unselected.svg"),
                 // ignore: deprecated_member_use
-                title: Text(
-                  translate('main.catalog'),
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.normal,
-                    fontFamily: AppTheme.fontRubik,
+                title: AnimatedContainer(
+                  duration: duration,
+                  curve: Curves.easeInOut,
+                  height: 4,
+                  width: 4,
+                  margin: EdgeInsets.only(top: 8),
+                  decoration: BoxDecoration(
+                    color: _selectedIndex == 1 ? AppTheme.blue : AppTheme.white,
+                    borderRadius: BorderRadius.circular(4),
                   ),
                 ),
               ),
@@ -462,14 +450,15 @@ class _MainScreenState extends State<MainScreen> {
                   ],
                 ),
                 // ignore: deprecated_member_use
-                title: Text(
-                  translate('main.card'),
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.normal,
-                    fontFamily: AppTheme.fontRubik,
+                title: AnimatedContainer(
+                  duration: duration,
+                  curve: Curves.easeInOut,
+                  height: 4,
+                  width: 4,
+                  margin: EdgeInsets.only(top: 8),
+                  decoration: BoxDecoration(
+                    color: _selectedIndex == 2 ? AppTheme.blue : AppTheme.white,
+                    borderRadius: BorderRadius.circular(4),
                   ),
                 ),
               ),
@@ -478,14 +467,15 @@ class _MainScreenState extends State<MainScreen> {
                     ? SvgPicture.asset("assets/menu/favourite_selected.svg")
                     : SvgPicture.asset("assets/menu/favourite_unselected.svg"),
                 // ignore: deprecated_member_use
-                title: Text(
-                  translate('main.favourite'),
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.normal,
-                    fontFamily: AppTheme.fontRubik,
+                title: AnimatedContainer(
+                  duration: duration,
+                  curve: Curves.easeInOut,
+                  height: 4,
+                  width: 4,
+                  margin: EdgeInsets.only(top: 8),
+                  decoration: BoxDecoration(
+                    color: _selectedIndex == 3 ? AppTheme.blue : AppTheme.white,
+                    borderRadius: BorderRadius.circular(4),
                   ),
                 ),
               ),
@@ -494,14 +484,15 @@ class _MainScreenState extends State<MainScreen> {
                     ? SvgPicture.asset("assets/menu/menu_selected.svg")
                     : SvgPicture.asset("assets/menu/menu_unselected.svg"),
                 // ignore: deprecated_member_use
-                title: Text(
-                  translate('main.menu'),
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.normal,
-                    fontFamily: AppTheme.fontRubik,
+                title: AnimatedContainer(
+                  duration: duration,
+                  curve: Curves.easeInOut,
+                  height: 4,
+                  width: 4,
+                  margin: EdgeInsets.only(top: 8),
+                  decoration: BoxDecoration(
+                    color: _selectedIndex == 4 ? AppTheme.blue : AppTheme.white,
+                    borderRadius: BorderRadius.circular(4),
                   ),
                 ),
               ),

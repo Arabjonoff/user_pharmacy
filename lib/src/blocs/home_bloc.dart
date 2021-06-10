@@ -44,7 +44,7 @@ class HomeBloc {
     }
   }
 
-  fetchBlog() async {
+  fetchBlog(int page) async {
     var response = await _repository.fetchBlog();
     if (response.isSuccess) {
       _blogFetcher.sink.add(BlogModel.fromJson(response.result));

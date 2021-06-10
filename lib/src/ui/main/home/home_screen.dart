@@ -22,6 +22,7 @@ import 'package:pharmacy/src/model/eventBus/check_version.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/dialog/top_dialog.dart';
+import 'package:pharmacy/src/ui/item_list/blog_list_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -95,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _notificationFirebase();
     _getNoReview();
     blocHome.fetchBanner();
-    blocHome.fetchBlog();
+    blocHome.fetchBlog(1);
     blocHome.fetchRecently();
     blocHome.fetchCategory();
     blocHome.fetchBestItem();
@@ -1122,7 +1123,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW");
+                                  RxBus.post(BottomViewModel(1),
+                                      tag: "EVENT_BOTTOM_VIEW");
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(left: 16, right: 16),
@@ -2514,7 +2516,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                     Expanded(child: Container()),
                                     GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                BlogListScreen(),
+                                          ),
+                                        );
+                                      },
                                       child: Text(
                                         translate("home.all"),
                                         style: TextStyle(

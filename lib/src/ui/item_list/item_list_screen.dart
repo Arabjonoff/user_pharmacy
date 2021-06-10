@@ -11,19 +11,11 @@ import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_fav.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
-import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
-import 'package:pharmacy/src/model/eventBus/filter_open_model.dart';
-import 'package:pharmacy/src/model/sort_radio_btn.dart';
-import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
-import 'package:pharmacy/src/ui/item_list/filter_item_screen.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
-import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
-import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
-import 'fliter_screen.dart';
 
 class ItemListScreen extends StatefulWidget {
   final String name;
