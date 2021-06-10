@@ -13,6 +13,7 @@ import 'package:pharmacy/src/database/database_helper_fav.dart';
 import 'package:pharmacy/src/model/api/blog_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
+import 'package:pharmacy/src/ui/item/blog_item_screen.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -99,14 +100,25 @@ class _BlogListScreenState extends State<BlogListScreen> {
               itemCount: snapshot.data.results.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BlogItemScreen(
+                          image: snapshot.data.results[index].image,
+                          dateTime: snapshot.data.results[index].updatedAt,
+                          title: snapshot.data.results[index].title,
+                          message: snapshot.data.results[index].body,
+                        ),
+                      ),
+                    );
+                  },
                   child: Container(
                     width: double.infinity,
                     height: 246,
                     decoration: BoxDecoration(
                       color: AppTheme.white,
-                      borderRadius:
-                      BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     margin: EdgeInsets.only(
                       right: 16,
@@ -114,25 +126,20 @@ class _BlogListScreenState extends State<BlogListScreen> {
                       top: 16,
                     ),
                     child: Column(
-                      crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                      mainAxisAlignment:
-                      MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Expanded(
                           child: ClipRRect(
                             child: CachedNetworkImage(
-                              imageUrl: snapshot.data
-                                  .results[index].image,
-                              placeholder: (context, url) =>
+                              imageUrl: snapshot.data.results[index].image,
+                              placeholder: (context, url) => SvgPicture.asset(
+                                "assets/images/place_holder.svg",
+                              ),
+                              errorWidget: (context, url, error) =>
                                   SvgPicture.asset(
-                                    "assets/images/place_holder.svg",
-                                  ),
-                              errorWidget:
-                                  (context, url, error) =>
-                                  SvgPicture.asset(
-                                    "assets/images/place_holder.svg",
-                                  ),
+                                "assets/images/place_holder.svg",
+                              ),
                               width: double.infinity,
                               fit: BoxFit.cover,
                             ),
@@ -144,13 +151,12 @@ class _BlogListScreenState extends State<BlogListScreen> {
                         ),
                         Container(
                           child: Text(
-                            Utils.dateFormat(snapshot.data
-                                .results[index].updatedAt),
+                            Utils.dateFormat(
+                                snapshot.data.results[index].updatedAt),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontFamily:
-                              AppTheme.fontRubik,
+                              fontFamily: AppTheme.fontRubik,
                               fontWeight: FontWeight.normal,
                               fontSize: 12,
                               height: 1.2,
@@ -166,13 +172,11 @@ class _BlogListScreenState extends State<BlogListScreen> {
                         ),
                         Container(
                           child: Text(
-                            snapshot
-                                .data.results[index].title,
+                            snapshot.data.results[index].title,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontFamily:
-                              AppTheme.fontRubik,
+                              fontFamily: AppTheme.fontRubik,
                               fontWeight: FontWeight.normal,
                               fontSize: 14,
                               height: 1.6,
@@ -202,11 +206,10 @@ class _BlogListScreenState extends State<BlogListScreen> {
                 return Container(
                   height: 246,
                   width: double.infinity,
-                  margin: EdgeInsets.only(top:16,left: 16,right: 16 ),
+                  margin: EdgeInsets.only(top: 16, left: 16, right: 16),
                   decoration: BoxDecoration(
-                    color: AppTheme.white,
-                    borderRadius: BorderRadius.circular(16)
-                  ),
+                      color: AppTheme.white,
+                      borderRadius: BorderRadius.circular(16)),
                 );
               },
             ),

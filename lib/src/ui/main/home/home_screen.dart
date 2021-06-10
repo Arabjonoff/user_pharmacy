@@ -22,6 +22,7 @@ import 'package:pharmacy/src/model/eventBus/check_version.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/dialog/top_dialog.dart';
+import 'package:pharmacy/src/ui/item/blog_item_screen.dart';
 import 'package:pharmacy/src/ui/item_list/blog_list_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
@@ -2439,7 +2440,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ),
                               SizedBox(height: 16),
                               GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => BlogItemScreen(
+                                        image: snapshot.data.results[0].image,
+                                        dateTime: snapshot.data.results[0].updatedAt,
+                                        title: snapshot.data.results[0].title,
+                                        message: snapshot.data.results[0].body,
+                                      ),
+                                    ),
+                                  );
+                                },
                                 child: Container(
                                   child: Center(
                                     child: Text(
@@ -2554,7 +2567,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   itemBuilder: (context, index) => Padding(
                                     padding: const EdgeInsets.only(bottom: 0.0),
                                     child: GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => BlogItemScreen(
+                                              image: snapshot.data.results[index].image,
+                                              dateTime: snapshot.data.results[index].updatedAt,
+                                              title: snapshot.data.results[index].title,
+                                              message: snapshot.data.results[index].body,
+                                            ),
+                                          ),
+                                        );
+                                      },
                                       child: Container(
                                         width: 253,
                                         height: 246,
