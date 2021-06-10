@@ -1,3 +1,4 @@
+import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
@@ -12,6 +13,7 @@ class HomeBloc {
   final _cityNameFetcher = PublishSubject<String>();
   final _bestItemFetcher = PublishSubject<ItemModel>();
   final _recentlyFetcher = PublishSubject<ItemModel>();
+  final _categoryFetcher = PublishSubject<CategoryModel>();
 
   Stream<BannerModel> get banner => _bannerFetcher.stream;
 
@@ -20,6 +22,8 @@ class HomeBloc {
   Stream<ItemModel> get getBestItem => _bestItemFetcher.stream;
 
   Stream<ItemModel> get recentlyItem => _recentlyFetcher.stream;
+
+  Stream<CategoryModel> get categoryItem => _categoryFetcher.stream;
 
   fetchBanner() async {
     var response = await _repository.fetchAllSales();
@@ -102,6 +106,15 @@ class HomeBloc {
     }
   }
 
+  fetchCategory() async {
+    var response = await _repository.fetchTopCategory();
+    if (response.isSuccess) {
+      _categoryFetcher.sink.add(CategoryModel.fromJson(response.result));
+    } else {
+      _categoryFetcher.sink.add(CategoryModel(results: []));
+    }
+  }
+
   fetchAllHome() async {
     ItemModel itemModelResponse =
         ItemModel.fromJson((await _repository.fetchBestItem(
@@ -139,6 +152,7 @@ class HomeBloc {
     _cityNameFetcher.close();
     _bestItemFetcher.close();
     _recentlyFetcher.close();
+    _categoryFetcher.close();
   }
 }
 

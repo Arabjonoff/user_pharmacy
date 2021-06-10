@@ -10,9 +10,9 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
-import 'package:pharmacy/src/blocs/menu_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_fav.dart';
+import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
@@ -24,7 +24,6 @@ import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
-import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -74,6 +73,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _getNoReview();
     blocHome.fetchBanner();
     blocHome.fetchRecently();
+    blocHome.fetchCategory();
     blocHome.fetchCityName();
     blocHome.fetchAllHome();
     super.initState();
@@ -448,6 +448,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    blocHome.fetchCategory();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(0.0),
@@ -1318,6 +1319,164 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ),
                           ],
                         ),
+                      ),
+                    );
+                  },
+                ),
+                StreamBuilder(
+                  stream: blocHome.categoryItem,
+                  builder: (context, AsyncSnapshot<CategoryModel> snapshot) {
+                    if (snapshot.hasData) {
+                      print(snapshot.data.results.length);
+                      if (snapshot.data.results.length > 0) {
+                        return Container(
+                          margin: EdgeInsets.only(top: 24, left: 16, right: 16),
+                          padding: EdgeInsets.only(top: 16, bottom: 16),
+                          decoration: BoxDecoration(
+                            color: AppTheme.white,
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                child: Text(
+                                  translate("home.popular_category"),
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRubik,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    height: 1.2,
+                                    color: AppTheme.text_dark,
+                                  ),
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: 24,
+                                  right: 24,
+                                ),
+                              ),
+                              Container(
+                                height: 1,
+                                margin: EdgeInsets.only(top: 16, bottom: 16),
+                                color: AppTheme.background,
+                                width: double.infinity,
+                              ),
+                              ListView.builder(
+                                padding: EdgeInsets.only(
+                                    top: 0, left: 16, right: 16, bottom: 4),
+                                itemCount: snapshot.data.results.length,
+                                itemBuilder: (context, position) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) => ItemListScreen(
+                                      //       snapshot
+                                      //           .data.results[position].name,
+                                      //       1,
+                                      //       snapshot.data.results[position].id
+                                      //           .toString(),
+                                      //     ),
+                                      //   ),
+                                      // );
+                                    },
+                                    child: Container(
+                                      margin: EdgeInsets.only(bottom: 12),
+                                      color: AppTheme.white,
+                                      child: Row(
+                                        children: <Widget>[
+                                          Container(
+                                            color: AppTheme.white,
+                                            width: 42,
+                                            height: 42,
+                                            child: CachedNetworkImage(
+                                              imageUrl: snapshot
+                                                  .data.results[position].image,
+                                              placeholder: (context, url) =>
+                                                  Container(
+                                                child: Center(
+                                                  child: SvgPicture.asset(
+                                                    "assets/images/place_holder.svg",
+                                                  ),
+                                                ),
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Container(
+                                                child: Center(
+                                                  child: SvgPicture.asset(
+                                                    "assets/images/place_holder.svg",
+                                                  ),
+                                                ),
+                                              ),
+                                              fit: BoxFit.fitHeight,
+                                            ),
+                                          ),
+                                          SizedBox(width: 12),
+                                          Expanded(
+                                            child: Text(
+                                              snapshot
+                                                  .data.results[position].name,
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 16,
+                                                height: 1.37,
+                                                color: AppTheme.text_dark,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                              ),
+                              GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 16, right: 16),
+                                  height: 44,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.blue,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      translate("home.all_category"),
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontRubik,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        height: 1.25,
+                                        color: AppTheme.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    }
+                    return Shimmer.fromColors(
+                      baseColor: Colors.grey[300],
+                      highlightColor: Colors.grey[100],
+                      child: Container(
+                        height: 225,
+                        width: double.infinity,
+                        margin: EdgeInsets.only(top: 24),
+                        decoration: BoxDecoration(
+                            color: AppTheme.white,
+                            borderRadius: BorderRadius.circular(24)),
                       ),
                     );
                   },

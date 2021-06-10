@@ -70,6 +70,7 @@ class Repository {
       );
 
   Future<HttpResult> fetchAllSales() => pharmacyApiProvider.fetchBanner();
+  Future<HttpResult> fetchTopCategory() => pharmacyApiProvider.fetchTopCategory();
 
   Future<HttpResult> fetchBestItem(
     int page,

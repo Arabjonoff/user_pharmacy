@@ -266,6 +266,16 @@ class PharmacyApiProvider {
     return await getRequest(url);
   }
 
+  ///Banner
+  Future<HttpResult> fetchTopCategory() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+
+    String url = Utils.baseUrl + '/api/v1/categories?popular=true&region=$regionId';
+
+    return await getRequest(url);
+  }
+
   ///category
   Future<CategoryModel> fetchCategoryList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
