@@ -5,15 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/blocs/category_bloc.dart';
-import 'package:pharmacy/src/blocs/items_list_block.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
-import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/category/sub_category_screen.dart';
-import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
-import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../app_theme.dart';
@@ -26,21 +22,11 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  Size size;
-
   @override
   void initState() {
     blocCategory.fetchAllCategory();
-    registerBus();
+    _registerBus();
     super.initState();
-  }
-
-  void registerBus() {
-    RxBus.register<BottomView>(tag: "CATEGORY_VIEW").listen((event) {
-      if (event.title) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
-      }
-    });
   }
 
   @override
@@ -51,13 +37,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    size = MediaQuery.of(context).size;
-    // if (isOpenItem) {
-    //   blocItem.fetchAllUpdate(itemId);
-    // }
-
     return Scaffold(
-      backgroundColor: AppTheme.white,
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0.0,
@@ -68,248 +49,142 @@ class _CategoryScreenState extends State<CategoryScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              translate("main.catalog"),
+              translate("category.title"),
               style: TextStyle(
-                fontFamily: AppTheme.fontCommons,
+                fontFamily: AppTheme.fontRubik,
                 fontWeight: FontWeight.w500,
-                fontSize: 17,
-                color: AppTheme.black_text,
+                fontSize: 16,
+                height: 1.2,
+                color: AppTheme.text_dark,
               ),
             ),
           ],
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            width: size.width,
-            margin: EdgeInsets.only(top: 48),
-            child: StreamBuilder(
-              stream: blocCategory.allCategory,
-              builder: (context, AsyncSnapshot<CategoryModel> snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemCount: snapshot.data.results.length,
-                    itemBuilder: (context, position) {
-                      return GestureDetector(
-                        onTap: () {
-                          if (snapshot.data.results[position].childs.length >
-                              0) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SubCategoryScreen(
-                                  snapshot.data.results[position].name,
-                                  snapshot.data.results[position].childs,
-                                ),
-                              ),
-                            );
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ItemListScreen(
-                                  name: snapshot.data.results[position].name,
-                                  type: 2,
-                                  id: snapshot.data.results[position].id.toString(),
-                                ),
-                              ),
-                            );
-                          }
-                        },
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              color: AppTheme.white,
-                              child: Container(
-                                height: 64,
-                                margin: EdgeInsets.only(left: 12, right: 12),
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          top: 11, bottom: 11, right: 12),
-                                      color: AppTheme.white,
-                                      width: 42,
-                                      height: 42,
-                                      child: CachedNetworkImage(
-                                        imageUrl: snapshot
-                                            .data.results[position].image,
-                                        placeholder: (context, url) =>
-                                            Container(
-                                          child: Center(
-                                            child: SvgPicture.asset(
-                                              "assets/images/place_holder.svg",
-                                            ),
-                                          ),
-                                        ),
-                                        errorWidget: (context, url, error) =>
-                                            Container(
-                                          child: Center(
-                                            child: SvgPicture.asset(
-                                              "assets/images/place_holder.svg",
-                                            ),
-                                          ),
-                                        ),
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        snapshot.data.results[position].name,
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.normal,
-                                          color: AppTheme.black_catalog,
-                                          fontFamily: AppTheme.fontRoboto,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+      body: StreamBuilder(
+        stream: blocCategory.allCategory,
+        builder: (context, AsyncSnapshot<CategoryModel> snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              padding: EdgeInsets.all(16),
+              itemCount: snapshot.data.results.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    if (snapshot.data.results[index].childs.length > 0) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SubCategoryScreen(
+                            snapshot.data.results[index].name,
+                            snapshot.data.results[index].childs,
+                          ),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ItemListScreen(
+                            name: snapshot.data.results[index].name,
+                            type: 2,
+                            id: snapshot.data.results[index].id.toString(),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      top: index == 0 ? 16 : 8,
+                      bottom:
+                          index == snapshot.data.results.length - 1 ? 16 : 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppTheme.white,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(index == 0 ? 24 : 0),
+                        topLeft: Radius.circular(index == 0 ? 24 : 0),
+                        bottomLeft: Radius.circular(
+                          index == snapshot.data.results.length - 1 ? 24 : 0,
+                        ),
+                        bottomRight: Radius.circular(
+                          index == snapshot.data.results.length - 1 ? 24 : 0,
+                        ),
+                      ),
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(left: 16, right: 12),
+                          color: AppTheme.white,
+                          width: 40,
+                          height: 40,
+                          child: CachedNetworkImage(
+                            imageUrl: snapshot.data.results[index].image,
+                            placeholder: (context, url) => Container(
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  "assets/images/place_holder.svg",
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                } else if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                }
-                return Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
-                  highlightColor: Colors.grey[100],
-                  child: ListView.builder(
-                    itemBuilder: (_, __) => Container(
-                      height: 48,
-                      padding: EdgeInsets.only(top: 6, bottom: 6),
-                      margin: EdgeInsets.only(left: 15, right: 15),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            height: 15,
-                            width: 250,
-                            color: AppTheme.white,
+                            errorWidget: (context, url, error) => Container(
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  "assets/images/place_holder.svg",
+                                ),
+                              ),
+                            ),
+                            fit: BoxFit.fitHeight,
                           ),
-                        ],
-                      ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            snapshot.data.results[index].name,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16,
+                              height: 1.37,
+                              color: AppTheme.text_dark,
+                            ),
+                          ),
+                        ),
+                        SvgPicture.asset(
+                          "assets/icons/arrow_right_grey.svg",
+                        ),
+                        SizedBox(width: 16),
+                      ],
                     ),
-                    itemCount: 20,
                   ),
                 );
               },
+            );
+          }
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[300],
+            highlightColor: Colors.grey[100],
+            child: Container(
+              height: 575,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: AppTheme.white,
+                borderRadius: BorderRadius.circular(24),
+              ),
+              margin: EdgeInsets.all(16),
             ),
-          ),
-          Container(
-            color: AppTheme.white,
-            height: 36,
-            width: size.width,
-            padding: EdgeInsets.only(
-              left: 12,
-              right: 18,
-            ),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(9.0),
-                      color: AppTheme.black_transparent,
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SearchScreen("", 0, 2),
-                          ),
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          SizedBox(width: 8),
-                          Icon(
-                            Icons.search,
-                            size: 24,
-                            color: AppTheme.notWhite,
-                          ),
-                          SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              translate("search_hint"),
-                              style: TextStyle(
-                                color: AppTheme.notWhite,
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: AppTheme.fontRoboto,
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () async {
-                              BottomDialog.voiceAssistantDialog(context);
-                              try {
-                                MethodChannel methodChannel = MethodChannel(
-                                    "flutter/MethodChannelDemoExam");
-                                var result =
-                                    await methodChannel.invokeMethod("start");
-                                if (result.toString().length > 0) {
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          SearchScreen(result, 0, 2),
-                                    ),
-                                  );
-                                  await methodChannel.invokeMethod("stop");
-                                }
-                              } on PlatformException catch (_) {
-                                Navigator.pop(context);
-                              }
-                            },
-                            child: Container(
-                              height: 36,
-                              width: 36,
-                              padding: EdgeInsets.all(7),
-                              child:
-                                  SvgPicture.asset("assets/images/voice.svg"),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  child: Container(
-                    margin: EdgeInsets.only(left: 17),
-                    child: Center(
-                      child: SvgPicture.asset("assets/images/scanner.svg"),
-                    ),
-                  ),
-                  onTap: () {
-                    var response = Utils.scanBarcodeNormal();
-
-                    response.then(
-                      (value) => {
-                        if (value != "-1")
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SearchScreen(value, 1, 2),
-                            ),
-                          )
-                      },
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
+          );
+        },
       ),
     );
+  }
+
+  void _registerBus() {
+    RxBus.register<BottomView>(tag: "CATEGORY_VIEW").listen((event) {
+      if (event.title) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
+    });
   }
 }

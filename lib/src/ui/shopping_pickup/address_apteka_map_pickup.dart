@@ -178,7 +178,7 @@ class _AddressStoreMapPickupScreenState
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    fontFamily: AppTheme.fontRoboto,
+                                    fontFamily: AppTheme.fontRubik,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
                                     fontStyle: FontStyle.normal,
@@ -195,7 +195,7 @@ class _AddressStoreMapPickupScreenState
                                 textAlign: TextAlign.start,
                                 maxLines: 1,
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.normal,
                                   fontSize: 11,
                                   fontStyle: FontStyle.normal,
@@ -214,7 +214,7 @@ class _AddressStoreMapPickupScreenState
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontWeight: FontWeight.normal,
                               fontSize: 15,
                               fontStyle: FontStyle.normal,
@@ -230,7 +230,7 @@ class _AddressStoreMapPickupScreenState
                                 translate("map.work") + " : ",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.normal,
                                   fontSize: 12,
                                   fontStyle: FontStyle.normal,
@@ -247,7 +247,7 @@ class _AddressStoreMapPickupScreenState
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    fontFamily: AppTheme.fontRoboto,
+                                    fontFamily: AppTheme.fontRubik,
                                     fontWeight: FontWeight.normal,
                                     fontSize: 15,
                                     fontStyle: FontStyle.normal,
@@ -266,7 +266,7 @@ class _AddressStoreMapPickupScreenState
                                 translate("auth.number_auth") + " : ",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.normal,
                                   fontSize: 12,
                                   fontStyle: FontStyle.normal,
@@ -306,7 +306,7 @@ class _AddressStoreMapPickupScreenState
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontWeight: FontWeight.normal,
                                       fontSize: 15,
                                       fontStyle: FontStyle.normal,
@@ -325,7 +325,7 @@ class _AddressStoreMapPickupScreenState
                             Text(
                               translate("order"),
                               style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 13,
                                 height: 1.3,
@@ -339,7 +339,7 @@ class _AddressStoreMapPickupScreenState
                                   priceFormat.format(data[i].total) +
                                       translate("sum"),
                                   style: TextStyle(
-                                    fontFamily: AppTheme.fontRoboto,
+                                    fontFamily: AppTheme.fontRubik,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
                                     color: AppTheme.black_text,
@@ -446,7 +446,7 @@ class _AddressStoreMapPickupScreenState
                                                                         TextStyle(
                                                                       fontFamily:
                                                                           AppTheme
-                                                                              .fontRoboto,
+                                                                              .fontRubik,
                                                                       fontStyle:
                                                                           FontStyle
                                                                               .normal,
@@ -507,7 +507,7 @@ class _AddressStoreMapPickupScreenState
                                                                         TextStyle(
                                                                       fontFamily:
                                                                           AppTheme
-                                                                              .fontRoboto,
+                                                                              .fontRubik,
                                                                       fontStyle:
                                                                           FontStyle
                                                                               .normal,
@@ -552,7 +552,7 @@ class _AddressStoreMapPickupScreenState
                                           style: TextStyle(
                                             fontSize: 17,
                                             color: AppTheme.white,
-                                            fontFamily: AppTheme.fontRoboto,
+                                            fontFamily: AppTheme.fontRubik,
                                             fontWeight: FontWeight.w600,
                                             fontStyle: FontStyle.normal,
                                           ),
@@ -663,7 +663,7 @@ class _AddressStoreMapPickupScreenState
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontStyle: FontStyle.normal,
                               fontSize: 14,
                               fontWeight: FontWeight.normal,
@@ -709,7 +709,7 @@ class _AddressStoreMapPickupScreenState
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 15,
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontStyle: FontStyle.normal,
                         color: AppTheme.black_text,
                       ),

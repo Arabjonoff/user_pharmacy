@@ -503,7 +503,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 fontSize: 15,
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.normal,
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                                 color: AppTheme.black_text,
                               ),
                             ),
@@ -557,7 +557,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 fontSize: 15,
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.normal,
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                                 color: AppTheme.black_text,
                               ),
                             ),
@@ -597,7 +597,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Text(
                         translate("winner.register_title"),
                         style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
                           height: 1.33,
@@ -622,7 +622,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: TextFormField(
                         keyboardType: TextInputType.text,
                         style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.normal,
                           color: AppTheme.black_text,
@@ -634,7 +634,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           counterText: "",
                           labelText: translate('winner.city'),
                           labelStyle: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.normal,
                             color: Color(0xFF6D7885),
@@ -687,7 +687,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               hint: Text(
                                 translate('winner.ads'),
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.normal,
                                   color: Color(0xFF6D7885),
@@ -706,7 +706,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   child: Text(
                                     user,
                                     style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.normal,
                                       color: AppTheme.black_text,
@@ -815,7 +815,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           style: TextStyle(
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.w600,
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontSize: 17,
                             color: AppTheme.white,
                           ),

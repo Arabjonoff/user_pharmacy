@@ -125,7 +125,7 @@ class BottomDialog {
                 Text(
                   translate("ramadan.title"),
                   style: TextStyle(
-                    fontFamily: AppTheme.fontRoboto,
+                    fontFamily: AppTheme.fontRubik,
                     fontWeight: FontWeight.w600,
                     fontSize: 17,
                     height: 1.65,
@@ -138,7 +138,7 @@ class BottomDialog {
                     translate("ramadan.message"),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
                       height: 1.6,
@@ -168,7 +168,7 @@ class BottomDialog {
                       child: Text(
                         translate("winner.button"),
                         style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontWeight: FontWeight.bold,
                           fontSize: 17,
                           height: 1.3,
@@ -202,7 +202,7 @@ class BottomDialog {
                       child: Text(
                         translate("ramadan.no"),
                         style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontWeight: FontWeight.w600,
                           fontSize: 17,
                           height: 1.3,
@@ -279,7 +279,7 @@ class BottomDialog {
                                 translate("dialog.enter"),
                                 style: TextStyle(
                                   fontWeight: FontWeight.normal,
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontSize: 17,
                                   color: AppTheme.white,
                                 ),
@@ -296,7 +296,7 @@ class BottomDialog {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: AppTheme.black_transparent_text,
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.normal,
                           fontSize: 11,
@@ -319,7 +319,7 @@ class BottomDialog {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: AppTheme.blue_app_color,
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.normal,
                             fontSize: 11,
@@ -375,7 +375,7 @@ class BottomDialog {
                         translate("dialog_rat.order_title"),
                         style: TextStyle(
                           fontStyle: FontStyle.normal,
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontSize: 17,
                           height: 1.65,
                           fontWeight: FontWeight.w600,
@@ -390,7 +390,7 @@ class BottomDialog {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontStyle: FontStyle.normal,
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontSize: 13,
                           height: 1.38,
                           fontWeight: FontWeight.normal,
@@ -425,7 +425,7 @@ class BottomDialog {
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 17,
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontStyle: FontStyle.normal,
                               height: 1.29,
                               color: AppTheme.blue_app_color,
@@ -451,7 +451,7 @@ class BottomDialog {
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 17,
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontStyle: FontStyle.normal,
                               height: 1.29,
                               color: AppTheme.white,
@@ -505,7 +505,7 @@ class BottomDialog {
                             fontSize: 17,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.w600,
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             color: AppTheme.black_text,
                           ),
                         ),
@@ -521,7 +521,7 @@ class BottomDialog {
                             fontSize: 13,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.normal,
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             color: AppTheme.black_transparent_text,
                           ),
                         ),
@@ -564,7 +564,7 @@ class BottomDialog {
                           child: Text(
                             translate("voice.cancel"),
                             style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.w600,
                                 fontStyle: FontStyle.normal,
                                 fontSize: 17,
@@ -626,7 +626,7 @@ class BottomDialog {
                             fontSize: 17,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.w600,
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             height: 1.65,
                             color: AppTheme.black_text,
                           ),
@@ -646,7 +646,7 @@ class BottomDialog {
                             height: 1.6,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.normal,
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             color: AppTheme.black_transparent_text,
                           ),
                         ),
@@ -679,7 +679,7 @@ class BottomDialog {
                           child: Text(
                             translate("history.call"),
                             style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontWeight: FontWeight.w600,
                               fontStyle: FontStyle.normal,
                               fontSize: 17,
@@ -737,7 +737,7 @@ class BottomDialog {
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15,
                                   fontStyle: FontStyle.normal,
@@ -755,7 +755,7 @@ class BottomDialog {
                               textAlign: TextAlign.start,
                               maxLines: 1,
                               style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 11,
                                 fontStyle: FontStyle.normal,
@@ -774,7 +774,7 @@ class BottomDialog {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.normal,
                             fontSize: 15,
                             fontStyle: FontStyle.normal,
@@ -790,7 +790,7 @@ class BottomDialog {
                               translate("map.work") + " : ",
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 12,
                                 fontStyle: FontStyle.normal,
@@ -807,7 +807,7 @@ class BottomDialog {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.normal,
                                   fontSize: 15,
                                   fontStyle: FontStyle.normal,
@@ -840,7 +840,7 @@ class BottomDialog {
                                 translate("auth.number_auth") + " : ",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.normal,
                                   fontSize: 12,
                                   fontStyle: FontStyle.normal,
@@ -864,7 +864,7 @@ class BottomDialog {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    fontFamily: AppTheme.fontRoboto,
+                                    fontFamily: AppTheme.fontRubik,
                                     fontWeight: FontWeight.normal,
                                     fontSize: 15,
                                     fontStyle: FontStyle.normal,
@@ -908,7 +908,7 @@ class BottomDialog {
                                   style: TextStyle(
                                     fontSize: 17,
                                     color: AppTheme.white,
-                                    fontFamily: AppTheme.fontRoboto,
+                                    fontFamily: AppTheme.fontRubik,
                                     fontWeight: FontWeight.w600,
                                     fontStyle: FontStyle.normal,
                                   ),

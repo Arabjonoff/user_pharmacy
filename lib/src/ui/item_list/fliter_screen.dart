@@ -104,7 +104,7 @@ class _FilterScreenState extends State<FilterScreen> {
                       translate("item.filter"),
                       style: TextStyle(
                         color: AppTheme.black_text,
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.w600,
                         fontSize: 17,
@@ -151,7 +151,7 @@ class _FilterScreenState extends State<FilterScreen> {
                       style: TextStyle(
                         fontStyle: FontStyle.normal,
                         fontSize: 14,
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontWeight: FontWeight.normal,
                         color: AppTheme.black_transparent_text,
                       ),
@@ -180,7 +180,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                 controller: minController,
                                 keyboardType: TextInputType.phone,
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.normal,
                                   color: AppTheme.black_text,
@@ -189,7 +189,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                 decoration: InputDecoration(
                                   labelText: translate('ot'),
                                   labelStyle: TextStyle(
-                                    fontFamily: AppTheme.fontRoboto,
+                                    fontFamily: AppTheme.fontRubik,
                                     fontStyle: FontStyle.normal,
                                     fontWeight: FontWeight.normal,
                                     color: Color(0xFF6D7885),
@@ -237,7 +237,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                 controller: maxController,
                                 keyboardType: TextInputType.phone,
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.normal,
                                   color: AppTheme.black_text,
@@ -246,7 +246,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                 decoration: InputDecoration(
                                   labelText: translate('do'),
                                   labelStyle: TextStyle(
-                                    fontFamily: AppTheme.fontRoboto,
+                                    fontFamily: AppTheme.fontRubik,
                                     fontStyle: FontStyle.normal,
                                     fontWeight: FontWeight.normal,
                                     color: Color(0xFF6D7885),
@@ -323,7 +323,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.normal,
                                                 color: AppTheme.black_text,
-                                                fontFamily: AppTheme.fontRoboto,
+                                                fontFamily: AppTheme.fontRubik,
                                               ),
                                             ),
                                             Text(
@@ -337,7 +337,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                                 fontWeight: FontWeight.normal,
                                                 color: AppTheme
                                                     .black_transparent_text,
-                                                fontFamily: AppTheme.fontRoboto,
+                                                fontFamily: AppTheme.fontRubik,
                                               ),
                                             ),
                                             Expanded(
@@ -415,7 +415,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.normal,
                                                 color: AppTheme.black_text,
-                                                fontFamily: AppTheme.fontRoboto,
+                                                fontFamily: AppTheme.fontRubik,
                                               ),
                                             ),
                                             Text(
@@ -429,7 +429,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                                 fontWeight: FontWeight.normal,
                                                 color: AppTheme
                                                     .black_transparent_text,
-                                                fontFamily: AppTheme.fontRoboto,
+                                                fontFamily: AppTheme.fontRubik,
                                               ),
                                             ),
                                             Expanded(
@@ -491,7 +491,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     style: TextStyle(
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w600,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontSize: 17,
                       color: AppTheme.white,
                     ),

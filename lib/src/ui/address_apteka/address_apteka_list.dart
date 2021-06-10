@@ -79,7 +79,7 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen>
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                             fontStyle: FontStyle.normal,
@@ -95,7 +95,7 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen>
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.normal,
                             fontSize: 15,
                             fontStyle: FontStyle.normal,
@@ -114,7 +114,7 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen>
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.normal,
                                   fontSize: 15,
                                   fontStyle: FontStyle.normal,
@@ -153,7 +153,7 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen>
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    fontFamily: AppTheme.fontRoboto,
+                                    fontFamily: AppTheme.fontRubik,
                                     fontWeight: FontWeight.normal,
                                     fontSize: 15,
                                     fontStyle: FontStyle.normal,
@@ -175,7 +175,7 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen>
                                 translate("map.work"),
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.normal,
                                   fontSize: 12,
                                   fontStyle: FontStyle.normal,
@@ -191,7 +191,7 @@ class _AddressAptekaListScreenState extends State<AddressAptekaListScreen>
                                 translate("auth.number_auth"),
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.normal,
                                   fontSize: 12,
                                   fontStyle: FontStyle.normal,

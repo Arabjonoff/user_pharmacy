@@ -53,7 +53,7 @@ class _FaqAppScreenState extends State<FaqAppScreen> {
               style: TextStyle(
                 color: AppTheme.black_text,
                 fontWeight: FontWeight.w500,
-                fontFamily: AppTheme.fontCommons,
+                fontFamily: AppTheme.fontRubik,
                 fontSize: 17,
               ),
             ),
@@ -82,7 +82,7 @@ class _FaqAppScreenState extends State<FaqAppScreen> {
                       Text(
                         (index + 1).toString() +" "+ snapshot.data[index].question,
                         style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontSize: 17,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.w600,
@@ -93,7 +93,7 @@ class _FaqAppScreenState extends State<FaqAppScreen> {
                       Text(
                         snapshot.data[index].answer,
                         style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontSize: 14,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.normal,

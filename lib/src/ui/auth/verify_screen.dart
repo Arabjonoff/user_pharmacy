@@ -299,7 +299,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                           style: TextStyle(
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.w600,
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontSize: 17,
                             color: AppTheme.white,
                           ),

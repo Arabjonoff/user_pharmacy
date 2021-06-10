@@ -184,7 +184,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                         fontStyle: FontStyle.normal,
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         color: AppTheme.white,
                                       ),
                                     ),
@@ -203,7 +203,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                 snapshot.data.manufacturer.name,
                                 style: TextStyle(
                                   fontSize: 12,
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   color: AppTheme.blue_app_color,
                                   fontWeight: FontWeight.normal,
                                 ),
@@ -255,7 +255,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                             style: TextStyle(
                               color: AppTheme.black_text,
                               fontWeight: FontWeight.w600,
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontSize: 20,
                             ),
                             maxLines: 2,
@@ -274,7 +274,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                               fontSize: 24,
                                               height: 1.17,
                                               fontWeight: FontWeight.w500,
-                                              fontFamily: AppTheme.fontRoboto,
+                                              fontFamily: AppTheme.fontRubik,
                                             ),
                                           )
                                         : Container(),
@@ -286,7 +286,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                         fontSize: 24,
                                         height: 1.17,
                                         fontWeight: FontWeight.w600,
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                       ),
                                     ),
                                     translate("lan") == "2"
@@ -297,7 +297,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                               fontSize: 24,
                                               height: 1.17,
                                               fontWeight: FontWeight.w500,
-                                              fontFamily: AppTheme.fontRoboto,
+                                              fontFamily: AppTheme.fontRubik,
                                             ),
                                           )
                                         : Container(),
@@ -315,7 +315,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                               fontSize: 24,
                                               height: 1.17,
                                               fontWeight: FontWeight.w500,
-                                              fontFamily: AppTheme.fontRoboto,
+                                              fontFamily: AppTheme.fontRubik,
                                             ),
                                           )
                                         : Container(),
@@ -327,7 +327,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                         fontSize: 24,
                                         height: 1.17,
                                         fontWeight: FontWeight.w600,
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                       ),
                                     ),
                                     translate("lan") == "2"
@@ -338,7 +338,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                               fontSize: 24,
                                               height: 1.17,
                                               fontWeight: FontWeight.w500,
-                                              fontFamily: AppTheme.fontRoboto,
+                                              fontFamily: AppTheme.fontRubik,
                                             ),
                                           )
                                         : Container(),
@@ -369,7 +369,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                             snapshot.data.internationalName.name,
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontWeight: FontWeight.normal,
                               color: AppTheme.black_catalog,
                             ),
@@ -385,7 +385,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                             translate("item.substance"),
                             style: TextStyle(
                               fontSize: 13,
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontWeight: FontWeight.normal,
                               color: AppTheme.black_transparent_text,
                             ),
@@ -401,7 +401,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                             snapshot.data.unit.name,
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontWeight: FontWeight.normal,
                               color: AppTheme.black_catalog,
                             ),
@@ -417,7 +417,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                             translate("item.release"),
                             style: TextStyle(
                               fontSize: 13,
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontWeight: FontWeight.normal,
                               color: AppTheme.black_transparent_text,
                             ),
@@ -433,7 +433,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                             snapshot.data.category.name,
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontWeight: FontWeight.normal,
                               color: AppTheme.black_catalog,
                             ),
@@ -449,7 +449,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                             translate("item.category"),
                             style: TextStyle(
                               fontSize: 13,
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontWeight: FontWeight.normal,
                               color: AppTheme.black_transparent_text,
                             ),
@@ -468,7 +468,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                     " " + snapshot.data.description,
                                     defaultTextStyle: TextStyle(
                                       fontSize: 15,
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontWeight: FontWeight.normal,
                                       color: AppTheme.black_catalog,
                                     ),
@@ -486,7 +486,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                   translate("item.recomendation"),
                                   style: TextStyle(
                                     fontSize: 20,
-                                    fontFamily: AppTheme.fontRoboto,
+                                    fontFamily: AppTheme.fontRubik,
                                     fontWeight: FontWeight.w600,
                                     color: AppTheme.black_catalog,
                                   ),
@@ -606,7 +606,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                                             fontWeight:
                                                                 FontWeight.w600,
                                                             fontFamily: AppTheme
-                                                                .fontRoboto,
+                                                                .fontRubik,
                                                             color:
                                                                 AppTheme.white,
                                                           ),
@@ -626,7 +626,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                           style: TextStyle(
                                             color: AppTheme.black_text,
                                             fontWeight: FontWeight.w600,
-                                            fontFamily: AppTheme.fontRoboto,
+                                            fontFamily: AppTheme.fontRubik,
                                             fontSize: 13,
                                           ),
                                           maxLines: 2,
@@ -649,7 +649,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                             color:
                                                 AppTheme.black_transparent_text,
                                             fontWeight: FontWeight.normal,
-                                            fontFamily: AppTheme.fontRoboto,
+                                            fontFamily: AppTheme.fontRubik,
                                             fontSize: 12,
                                           ),
                                           maxLines: 1,
@@ -678,7 +678,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           fontFamily: AppTheme
-                                                              .fontRoboto,
+                                                              .fontRubik,
                                                           fontSize: 13,
                                                         ),
                                                         maxLines: 2,
@@ -808,7 +808,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                                                             .blue,
                                                                     fontFamily:
                                                                         AppTheme
-                                                                            .fontRoboto,
+                                                                            .fontRubik,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w600,
@@ -930,7 +930,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                                                             .w500,
                                                                     fontFamily:
                                                                         AppTheme
-                                                                            .fontRoboto,
+                                                                            .fontRubik,
                                                                     fontSize:
                                                                         12,
                                                                   ),
@@ -969,7 +969,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                   translate("item.analog"),
                                   style: TextStyle(
                                     fontSize: 20,
-                                    fontFamily: AppTheme.fontRoboto,
+                                    fontFamily: AppTheme.fontRubik,
                                     fontWeight: FontWeight.w600,
                                     color: AppTheme.black_catalog,
                                   ),
@@ -1076,7 +1076,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                                             fontWeight:
                                                                 FontWeight.w600,
                                                             fontFamily: AppTheme
-                                                                .fontRoboto,
+                                                                .fontRubik,
                                                             color:
                                                                 AppTheme.white,
                                                           ),
@@ -1095,7 +1095,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                           style: TextStyle(
                                             color: AppTheme.black_text,
                                             fontWeight: FontWeight.w600,
-                                            fontFamily: AppTheme.fontRoboto,
+                                            fontFamily: AppTheme.fontRubik,
                                             fontSize: 13,
                                           ),
                                           maxLines: 2,
@@ -1115,7 +1115,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                             color:
                                                 AppTheme.black_transparent_text,
                                             fontWeight: FontWeight.normal,
-                                            fontFamily: AppTheme.fontRoboto,
+                                            fontFamily: AppTheme.fontRubik,
                                             fontSize: 12,
                                           ),
                                           maxLines: 1,
@@ -1142,7 +1142,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           fontFamily: AppTheme
-                                                              .fontRoboto,
+                                                              .fontRubik,
                                                           fontSize: 13,
                                                         ),
                                                         maxLines: 2,
@@ -1268,7 +1268,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                                                             .blue,
                                                                     fontFamily:
                                                                         AppTheme
-                                                                            .fontRoboto,
+                                                                            .fontRubik,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w600,
@@ -1389,7 +1389,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                                                             .w500,
                                                                     fontFamily:
                                                                         AppTheme
-                                                                            .fontRoboto,
+                                                                            .fontRubik,
                                                                     fontSize:
                                                                         12,
                                                                   ),
@@ -1435,7 +1435,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                               style: TextStyle(
                                 color: AppTheme.black_text,
                                 fontWeight: FontWeight.w600,
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                                 fontSize: 13,
                               ),
                               maxLines: 2,
@@ -1524,7 +1524,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                             style: TextStyle(
                                               fontSize: 17.0,
                                               color: AppTheme.blue,
-                                              fontFamily: AppTheme.fontRoboto,
+                                              fontFamily: AppTheme.fontRubik,
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),
@@ -1620,7 +1620,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                       style: TextStyle(
                                         fontStyle: FontStyle.normal,
                                         fontWeight: FontWeight.w600,
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         fontSize: 17,
                                         color: AppTheme.white,
                                       ),
@@ -1634,7 +1634,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                             style: TextStyle(
                                               fontStyle: FontStyle.normal,
                                               fontWeight: FontWeight.w500,
-                                              fontFamily: AppTheme.fontRoboto,
+                                              fontFamily: AppTheme.fontRubik,
                                               fontSize: 17,
                                               color: AppTheme.white,
                                             ),
@@ -1646,7 +1646,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                       style: TextStyle(
                                         fontStyle: FontStyle.normal,
                                         fontWeight: FontWeight.w600,
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         fontSize: 17,
                                         color: AppTheme.white,
                                       ),
@@ -1657,7 +1657,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                             style: TextStyle(
                                               fontStyle: FontStyle.normal,
                                               fontWeight: FontWeight.w500,
-                                              fontFamily: AppTheme.fontRoboto,
+                                              fontFamily: AppTheme.fontRubik,
                                               fontSize: 17,
                                               color: AppTheme.white,
                                             ),

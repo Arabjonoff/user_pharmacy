@@ -244,7 +244,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontStyle: FontStyle.normal,
                               fontSize: 14,
                               fontWeight: FontWeight.normal,
@@ -290,7 +290,7 @@ class _AddressAptekaMapScreenState extends State<AddressAptekaMapScreen>
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 15,
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontStyle: FontStyle.normal,
                         color: AppTheme.black_text,
                       ),

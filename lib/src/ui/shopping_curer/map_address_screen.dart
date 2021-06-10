@@ -271,7 +271,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                       translate("orders.new_add_address"),
                       style: TextStyle(
                         fontStyle: FontStyle.normal,
-                        fontFamily: AppTheme.fontCommons,
+                        fontFamily: AppTheme.fontRubik,
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: AppTheme.black_text,
@@ -306,7 +306,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                     textInputAction: TextInputAction.done,
                     autofocus: false,
                     style: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.normal,
                       color: AppTheme.black_text,
@@ -316,7 +316,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                       border: InputBorder.none,
                       hintText: translate("address.delivery_address"),
                       hintStyle: TextStyle(
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.normal,
                         color: Color(0xFF6D7885),
@@ -384,7 +384,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                                       maxLines: 3,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         fontStyle: FontStyle.normal,
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal,
@@ -432,7 +432,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 15,
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontStyle: FontStyle.normal,
                                   color: AppTheme.black_text,
                                 ),
@@ -489,7 +489,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                     style: TextStyle(
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w600,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontSize: 17,
                       color: AppTheme.white,
                     ),

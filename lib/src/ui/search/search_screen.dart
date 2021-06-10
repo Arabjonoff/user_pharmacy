@@ -251,7 +251,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                     style: TextStyle(
                                       color: AppTheme.black_text,
                                       fontSize: 15,
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontWeight: FontWeight.w600,
                                     ),
                                     decoration: InputDecoration(
@@ -260,7 +260,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                       hintStyle: TextStyle(
                                         color: AppTheme.notWhite,
                                         fontSize: 15,
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         fontWeight: FontWeight.normal,
                                       ),
                                     ),
@@ -304,7 +304,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
                               color: AppTheme.blue_app_color,
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontSize: 17,
                             ),
                           ),
@@ -369,7 +369,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                           translate("search.empty"),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                            fontFamily: AppTheme.fontRoboto,
+                                            fontFamily: AppTheme.fontRubik,
                                             fontSize: 17,
                                             fontWeight: FontWeight.normal,
                                             color: AppTheme.search_empty,
@@ -436,7 +436,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   color: AppTheme.black_text,
                                 ),
                               ),
@@ -535,7 +535,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                                                     FontWeight
                                                                         .normal,
                                                                 fontFamily: AppTheme
-                                                                    .fontRoboto,
+                                                                    .fontRubik,
                                                                 fontSize: 15,
                                                               ),
                                                               maxLines: 1,

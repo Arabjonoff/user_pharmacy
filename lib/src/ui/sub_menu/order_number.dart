@@ -124,7 +124,7 @@ class _OrderNumberState extends State<OrderNumber> {
               style: TextStyle(
                 color: AppTheme.black_text,
                 fontWeight: FontWeight.w500,
-                fontFamily: AppTheme.fontCommons,
+                fontFamily: AppTheme.fontRubik,
                 fontSize: 17,
               ),
             ),
@@ -175,7 +175,7 @@ class _OrderNumberState extends State<OrderNumber> {
                         child: Text(
                           translate("history.status"),
                           style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.w600,
                             fontSize: 20,
@@ -247,7 +247,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                   Text(
                                     translate("history.status_pending"),
                                     style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
@@ -287,7 +287,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                   Text(
                                     translate("history.status_pending"),
                                     style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16,
@@ -369,7 +369,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                   Text(
                                     translate("history.status_accept"),
                                     style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
@@ -420,7 +420,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                   Text(
                                     translate("history.status_accept"),
                                     style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16,
@@ -506,7 +506,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                         ? translate("history.status_packed")
                                         : translate("history.status_way"),
                                     style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
@@ -559,7 +559,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                         ? translate("history.status_packed")
                                         : translate("history.status_way"),
                                     style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16,
@@ -634,7 +634,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                         ? translate("history.status_received")
                                         : translate("history.status_delivered"),
                                     style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
@@ -682,7 +682,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                         ? translate("history.status_received")
                                         : translate("history.status_delivered"),
                                     style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16,
@@ -746,7 +746,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                                     fontStyle: FontStyle.normal,
                                                     fontWeight: FontWeight.w600,
                                                     fontFamily:
-                                                        AppTheme.fontRoboto,
+                                                        AppTheme.fontRubik,
                                                     height: 1.65,
                                                     color: AppTheme.black_text,
                                                   ),
@@ -771,7 +771,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                                     fontWeight:
                                                         FontWeight.normal,
                                                     fontFamily:
-                                                        AppTheme.fontRoboto,
+                                                        AppTheme.fontRubik,
                                                     color: AppTheme
                                                         .black_transparent_text,
                                                   ),
@@ -806,7 +806,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                                     translate("history.yes"),
                                                     style: TextStyle(
                                                       fontFamily:
-                                                          AppTheme.fontRoboto,
+                                                          AppTheme.fontRubik,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                       fontStyle:
@@ -847,7 +847,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                                     translate("history.no"),
                                                     style: TextStyle(
                                                       fontFamily:
-                                                          AppTheme.fontRoboto,
+                                                          AppTheme.fontRubik,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                       fontStyle:
@@ -898,7 +898,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                         ? translate("history.order_not_cancel")
                                         : translate("history.order_cancel"),
                                     style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
@@ -922,7 +922,7 @@ class _OrderNumberState extends State<OrderNumber> {
             child: Text(
               translate("zakaz.poluchatel"),
               style: TextStyle(
-                fontFamily: AppTheme.fontRoboto,
+                fontFamily: AppTheme.fontRubik,
                 fontStyle: FontStyle.normal,
                 fontSize: 20,
                 height: 1.2,
@@ -940,7 +940,7 @@ class _OrderNumberState extends State<OrderNumber> {
             child: Text(
               translate("zakaz.name"),
               style: TextStyle(
-                fontFamily: AppTheme.fontRoboto,
+                fontFamily: AppTheme.fontRubik,
                 fontStyle: FontStyle.normal,
                 fontSize: 13,
                 fontWeight: FontWeight.normal,
@@ -953,7 +953,7 @@ class _OrderNumberState extends State<OrderNumber> {
             child: Text(
               widget.item.fullName,
               style: TextStyle(
-                fontFamily: AppTheme.fontRoboto,
+                fontFamily: AppTheme.fontRubik,
                 fontStyle: FontStyle.normal,
                 fontSize: 16,
                 fontWeight: FontWeight.normal,
@@ -966,7 +966,7 @@ class _OrderNumberState extends State<OrderNumber> {
             child: Text(
               translate("zakaz.number"),
               style: TextStyle(
-                fontFamily: AppTheme.fontRoboto,
+                fontFamily: AppTheme.fontRubik,
                 fontStyle: FontStyle.normal,
                 fontSize: 13,
                 fontWeight: FontWeight.normal,
@@ -979,7 +979,7 @@ class _OrderNumberState extends State<OrderNumber> {
             child: Text(
               Utils.numberFormat(widget.item.phone),
               style: TextStyle(
-                fontFamily: AppTheme.fontRoboto,
+                fontFamily: AppTheme.fontRubik,
                 fontStyle: FontStyle.normal,
                 fontSize: 16,
                 fontWeight: FontWeight.normal,
@@ -998,7 +998,7 @@ class _OrderNumberState extends State<OrderNumber> {
                   child: Text(
                     translate("history.courier"),
                     style: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontStyle: FontStyle.normal,
                       fontSize: 20,
                       height: 1.2,
@@ -1018,7 +1018,7 @@ class _OrderNumberState extends State<OrderNumber> {
                   child: Text(
                     translate("zakaz.name"),
                     style: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontStyle: FontStyle.normal,
                       fontSize: 13,
                       fontWeight: FontWeight.normal,
@@ -1035,7 +1035,7 @@ class _OrderNumberState extends State<OrderNumber> {
                         " " +
                         widget.item.delivery.lastName,
                     style: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontStyle: FontStyle.normal,
                       fontSize: 16,
                       fontWeight: FontWeight.normal,
@@ -1050,7 +1050,7 @@ class _OrderNumberState extends State<OrderNumber> {
                   child: Text(
                     translate("zakaz.number"),
                     style: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontStyle: FontStyle.normal,
                       fontSize: 13,
                       fontWeight: FontWeight.normal,
@@ -1074,7 +1074,7 @@ class _OrderNumberState extends State<OrderNumber> {
                     child: Text(
                       Utils.numberFormat(widget.item.delivery.login),
                       style: TextStyle(
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontStyle: FontStyle.normal,
                         fontSize: 16,
                         fontWeight: FontWeight.normal,
@@ -1093,7 +1093,7 @@ class _OrderNumberState extends State<OrderNumber> {
                     fontWeight: FontWeight.w600,
                     fontSize: 20,
                     fontStyle: FontStyle.normal,
-                    fontFamily: AppTheme.fontRoboto,
+                    fontFamily: AppTheme.fontRubik,
                     color: AppTheme.black_text,
                   ),
                 ),
@@ -1107,7 +1107,7 @@ class _OrderNumberState extends State<OrderNumber> {
                           fontWeight: FontWeight.normal,
                           fontSize: 13,
                           fontStyle: FontStyle.normal,
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           color: AppTheme.black_text,
                         ),
                       )
@@ -1133,7 +1133,7 @@ class _OrderNumberState extends State<OrderNumber> {
                           fontWeight: FontWeight.normal,
                           fontSize: 13,
                           fontStyle: FontStyle.normal,
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           color: AppTheme.black_text,
                         ),
                       )
@@ -1154,7 +1154,7 @@ class _OrderNumberState extends State<OrderNumber> {
                         translate("card.tovar_sum"),
                         style: TextStyle(
                           fontSize: 13,
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontWeight: FontWeight.normal,
                           color: AppTheme.black_transparent_text,
                         ),
@@ -1167,7 +1167,7 @@ class _OrderNumberState extends State<OrderNumber> {
                             translate(translate("sum")),
                         style: TextStyle(
                           fontSize: 13,
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontWeight: FontWeight.normal,
                           color: AppTheme.black_transparent_text,
                         ),
@@ -1189,7 +1189,7 @@ class _OrderNumberState extends State<OrderNumber> {
                         translate("card.dostavka"),
                         style: TextStyle(
                           fontSize: 13,
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontWeight: FontWeight.normal,
                           color: AppTheme.black_transparent_text,
                         ),
@@ -1204,7 +1204,7 @@ class _OrderNumberState extends State<OrderNumber> {
                             : translate("free"),
                         style: TextStyle(
                           fontSize: 13,
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontWeight: FontWeight.normal,
                           color: AppTheme.black_transparent_text,
                         ),
@@ -1225,7 +1225,7 @@ class _OrderNumberState extends State<OrderNumber> {
                   translate("card.all"),
                   style: TextStyle(
                     fontSize: 15,
-                    fontFamily: AppTheme.fontRoboto,
+                    fontFamily: AppTheme.fontRubik,
                     fontWeight: FontWeight.w600,
                     color: AppTheme.black_text,
                   ),
@@ -1239,7 +1239,7 @@ class _OrderNumberState extends State<OrderNumber> {
                       translate(translate("sum")),
                   style: TextStyle(
                     fontSize: 15,
-                    fontFamily: AppTheme.fontRoboto,
+                    fontFamily: AppTheme.fontRubik,
                     fontWeight: FontWeight.w600,
                     color: AppTheme.black_text,
                   ),
@@ -1292,7 +1292,7 @@ class _OrderNumberState extends State<OrderNumber> {
                               ? translate("history.somviz")
                               : translate("history.dostavka"),
                           style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontStyle: FontStyle.normal,
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
@@ -1320,7 +1320,7 @@ class _OrderNumberState extends State<OrderNumber> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.w600,
                                 fontSize:
                                     widget.item.status == "waiting_deliverer"
@@ -1346,7 +1346,7 @@ class _OrderNumberState extends State<OrderNumber> {
                               fontStyle: FontStyle.normal,
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               color: AppTheme.black_text,
                             ),
                           ),
@@ -1362,7 +1362,7 @@ class _OrderNumberState extends State<OrderNumber> {
                               fontStyle: FontStyle.normal,
                               fontSize: 13,
                               fontWeight: FontWeight.normal,
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               color: AppTheme.black_text,
                             ),
                             maxLines: 2,
@@ -1428,7 +1428,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
-                                          fontFamily: AppTheme.fontRoboto,
+                                          fontFamily: AppTheme.fontRubik,
                                           fontWeight: FontWeight.normal,
                                           fontSize: 11,
                                           fontStyle: FontStyle.normal,
@@ -1450,7 +1450,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                             fontStyle: FontStyle.normal,
                                             fontSize: 15,
                                             fontWeight: FontWeight.w600,
-                                            fontFamily: AppTheme.fontRoboto,
+                                            fontFamily: AppTheme.fontRubik,
                                             color: AppTheme.black_text,
                                           ),
                                         ),
@@ -1462,7 +1462,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                             fontStyle: FontStyle.normal,
                                             fontSize: 15,
                                             fontWeight: FontWeight.w600,
-                                            fontFamily: AppTheme.fontRoboto,
+                                            fontFamily: AppTheme.fontRubik,
                                             color:
                                                 AppTheme.black_transparent_text,
                                           ),
@@ -1519,7 +1519,7 @@ class _OrderNumberState extends State<OrderNumber> {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                             fontStyle: FontStyle.normal,
@@ -1536,7 +1536,7 @@ class _OrderNumberState extends State<OrderNumber> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.normal,
                             fontSize: 15,
                             fontStyle: FontStyle.normal,
@@ -1552,7 +1552,7 @@ class _OrderNumberState extends State<OrderNumber> {
                               translate("map.work") + " : ",
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 12,
                                 fontStyle: FontStyle.normal,
@@ -1569,7 +1569,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.normal,
                                   fontSize: 15,
                                   fontStyle: FontStyle.normal,
@@ -1588,7 +1588,7 @@ class _OrderNumberState extends State<OrderNumber> {
                               translate("auth.number_auth") + " : ",
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 12,
                                 fontStyle: FontStyle.normal,
@@ -1626,7 +1626,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    fontFamily: AppTheme.fontRoboto,
+                                    fontFamily: AppTheme.fontRubik,
                                     fontWeight: FontWeight.normal,
                                     fontSize: 15,
                                     fontStyle: FontStyle.normal,
@@ -1668,7 +1668,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                   style: TextStyle(
                                     fontSize: 17,
                                     color: AppTheme.white,
-                                    fontFamily: AppTheme.fontRoboto,
+                                    fontFamily: AppTheme.fontRubik,
                                     fontWeight: FontWeight.w600,
                                     fontStyle: FontStyle.normal,
                                   ),

@@ -42,8 +42,6 @@ class ItemListScreen extends StatefulWidget {
   }
 }
 
-String sortFilter = "";
-
 class _ItemListScreenState extends State<ItemListScreen> {
   int page = 1;
   String priceMax = "";
@@ -85,9 +83,9 @@ class _ItemListScreenState extends State<ItemListScreen> {
           child: Container(
             height: 56,
             width: 56,
-            color: AppTheme.arrow_examp_back,
-            padding: EdgeInsets.all(19),
-            child: SvgPicture.asset("assets/images/arrow_back.svg"),
+            color: AppTheme.white,
+            padding: EdgeInsets.all(13),
+            child: SvgPicture.asset("assets/icons/arrow_left_blue.svg"),
           ),
           onTap: () {
             Navigator.pop(context);
@@ -100,7 +98,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
             Text(
               widget.name,
               style: TextStyle(
-                fontFamily: AppTheme.fontCommons,
+                fontFamily: AppTheme.fontRubik,
                 fontWeight: FontWeight.w500,
                 fontSize: 17,
                 color: AppTheme.black_text,
@@ -490,7 +488,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                           translate("search.empty"),
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontSize: 17,
                             fontWeight: FontWeight.normal,
                             color: AppTheme.search_empty,
@@ -582,7 +580,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
             );
             break;
           }
-          case 5:
+        case 5:
           {
             ///IDS
             blocItemsList.fetchAllIdsItem(

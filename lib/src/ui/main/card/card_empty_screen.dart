@@ -35,7 +35,7 @@ class _CardEmptyScreenState extends State<CardEmptyScreen> {
               translate("card.empty_name"),
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: AppTheme.fontRoboto,
+                fontFamily: AppTheme.fontRubik,
                 fontSize: 20,
                 fontWeight: FontWeight.normal,
                 color: AppTheme.black_text,
@@ -48,7 +48,7 @@ class _CardEmptyScreenState extends State<CardEmptyScreen> {
               translate("card.empty_title"),
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: AppTheme.fontRoboto,
+                fontFamily: AppTheme.fontRubik,
                 fontSize: 15,
                 fontWeight: FontWeight.normal,
                 color: AppTheme.black_transparent_text,
@@ -73,7 +73,7 @@ class _CardEmptyScreenState extends State<CardEmptyScreen> {
                 translate("card.all_catalog"),
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontFamily: AppTheme.fontSFProDisplay,
+                  fontFamily: AppTheme.fontRubik,
                   fontSize: 15,
                   color: AppTheme.blue_app_color,
                 ),

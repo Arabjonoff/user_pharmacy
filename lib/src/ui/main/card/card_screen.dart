@@ -120,7 +120,7 @@ class _CardScreenState extends State<CardScreen> {
               style: TextStyle(
                 color: AppTheme.black_text,
                 fontWeight: FontWeight.w500,
-                fontFamily: AppTheme.fontCommons,
+                fontFamily: AppTheme.fontRubik,
                 fontSize: 17,
               ),
             ),
@@ -233,7 +233,7 @@ class _CardScreenState extends State<CardScreen> {
                                                     color: AppTheme.black_text,
                                                     fontWeight: FontWeight.w600,
                                                     fontFamily:
-                                                        AppTheme.fontRoboto,
+                                                        AppTheme.fontRubik,
                                                     fontSize: 13,
                                                   ),
                                                   maxLines: 2,
@@ -259,7 +259,7 @@ class _CardScreenState extends State<CardScreen> {
                                                     fontWeight:
                                                         FontWeight.normal,
                                                     fontFamily:
-                                                        AppTheme.fontRoboto,
+                                                        AppTheme.fontRubik,
                                                   ),
                                                 ),
                                                 Expanded(
@@ -282,7 +282,7 @@ class _CardScreenState extends State<CardScreen> {
                                                                     FontWeight
                                                                         .w500,
                                                                 fontFamily: AppTheme
-                                                                    .fontRoboto,
+                                                                    .fontRubik,
                                                               ),
                                                             )
                                                           : Container(),
@@ -300,7 +300,7 @@ class _CardScreenState extends State<CardScreen> {
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           fontFamily: AppTheme
-                                                              .fontRoboto,
+                                                              .fontRubik,
                                                         ),
                                                       ),
                                                       translate("lan") == "2"
@@ -315,7 +315,7 @@ class _CardScreenState extends State<CardScreen> {
                                                                     FontWeight
                                                                         .w500,
                                                                 fontFamily: AppTheme
-                                                                    .fontRoboto,
+                                                                    .fontRubik,
                                                               ),
                                                             )
                                                           : Container(),
@@ -332,7 +332,7 @@ class _CardScreenState extends State<CardScreen> {
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           fontFamily: AppTheme
-                                                              .fontRoboto,
+                                                              .fontRubik,
                                                           color: AppTheme
                                                               .red_fav_color,
                                                         ),
@@ -452,7 +452,7 @@ class _CardScreenState extends State<CardScreen> {
                                                                                 ? AppTheme.red_fav_color
                                                                                 : AppTheme.blue,
                                                                             fontFamily:
-                                                                                AppTheme.fontRoboto,
+                                                                                AppTheme.fontRubik,
                                                                             fontWeight:
                                                                                 FontWeight.w600,
                                                                           ),
@@ -544,7 +544,7 @@ class _CardScreenState extends State<CardScreen> {
                                                                         fontWeight:
                                                                             FontWeight.w600,
                                                                         fontFamily:
-                                                                            AppTheme.fontRoboto,
+                                                                            AppTheme.fontRubik,
                                                                         color: AppTheme
                                                                             .white,
                                                                       ),
@@ -623,7 +623,7 @@ class _CardScreenState extends State<CardScreen> {
                                 textAlign: TextAlign.end,
                                 style: TextStyle(
                                   fontWeight: FontWeight.normal,
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontSize: 13,
                                   color: AppTheme.red_fav_color,
                                 ),
@@ -721,7 +721,7 @@ class _CardScreenState extends State<CardScreen> {
                                           translate("orders.pickup"),
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
-                                            fontFamily: AppTheme.fontRoboto,
+                                            fontFamily: AppTheme.fontRubik,
                                             fontSize: 17,
                                             color: AppTheme.white,
                                           ),
@@ -820,7 +820,7 @@ class _CardScreenState extends State<CardScreen> {
                                           translate("orders.courier"),
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
-                                            fontFamily: AppTheme.fontRoboto,
+                                            fontFamily: AppTheme.fontRubik,
                                             fontSize: 17,
                                             color: AppTheme.white,
                                           ),

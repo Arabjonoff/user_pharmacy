@@ -88,7 +88,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
               style: TextStyle(
                 color: AppTheme.black_text,
                 fontWeight: FontWeight.w500,
-                fontFamily: AppTheme.fontCommons,
+                fontFamily: AppTheme.fontRubik,
                 fontSize: 17,
               ),
             ),
@@ -119,7 +119,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                     child: TextFormField(
                       keyboardType: TextInputType.text,
                       style: TextStyle(
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.normal,
                         color: AppTheme.black_text,
@@ -129,7 +129,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                       decoration: InputDecoration(
                         labelText: translate('note.name'),
                         labelStyle: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.normal,
                           color: Color(0xFF6D7885),
@@ -163,7 +163,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                       fontStyle: FontStyle.normal,
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       height: 1.2,
                     ),
                   ),
@@ -187,7 +187,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                     child: TextFormField(
                       keyboardType: TextInputType.text,
                       style: TextStyle(
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.normal,
                         color: AppTheme.black_text,
@@ -197,7 +197,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                       decoration: InputDecoration(
                         labelText: translate('note.doza'),
                         labelStyle: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.normal,
                           color: Color(0xFF6D7885),
@@ -267,7 +267,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                                     fontStyle: FontStyle.normal,
                                     fontSize: 11,
                                     fontWeight: FontWeight.normal,
-                                    fontFamily: AppTheme.fontRoboto,
+                                    fontFamily: AppTheme.fontRubik,
                                     color: Color(0xFF6D7885),
                                     height: 1.27,
                                   ),
@@ -278,7 +278,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                                     child: Text(
                                       edaController.text,
                                       style: TextStyle(
-                                          fontFamily: AppTheme.fontRoboto,
+                                          fontFamily: AppTheme.fontRubik,
                                           fontWeight: FontWeight.normal,
                                           fontSize: 15,
                                           fontStyle: FontStyle.normal,
@@ -318,7 +318,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                     child: TextFormField(
                       keyboardType: TextInputType.number,
                       style: TextStyle(
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.normal,
                         color: AppTheme.black_text,
@@ -328,7 +328,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                       decoration: InputDecoration(
                         labelText: translate('note.duration'),
                         labelStyle: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.normal,
                           color: Color(0xFF6D7885),
@@ -362,7 +362,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                       fontStyle: FontStyle.normal,
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       height: 1.2,
                     ),
                   ),
@@ -398,7 +398,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                                 fontStyle: FontStyle.normal,
                                 fontSize: 11,
                                 fontWeight: FontWeight.normal,
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                                 color: Color(0xFF6D7885),
                                 height: 1.27,
                               ),
@@ -411,7 +411,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                                       ":" +
                                       _toTwoDigitString(timeList[index].minute),
                                   style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontWeight: FontWeight.normal,
                                       fontSize: 15,
                                       fontStyle: FontStyle.normal,
@@ -570,7 +570,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                 child: Text(
                   translate("note.add"),
                   style: TextStyle(
-                    fontFamily: AppTheme.fontRoboto,
+                    fontFamily: AppTheme.fontRubik,
                     fontWeight: FontWeight.w500,
                     fontSize: 17,
                     fontStyle: FontStyle.normal,

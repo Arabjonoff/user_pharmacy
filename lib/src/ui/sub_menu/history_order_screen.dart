@@ -78,7 +78,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
               style: TextStyle(
                 color: AppTheme.black_text,
                 fontWeight: FontWeight.w500,
-                fontFamily: AppTheme.fontCommons,
+                fontFamily: AppTheme.fontRubik,
                 fontSize: 17,
               ),
             ),
@@ -207,7 +207,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                               snapshot.data.results[index].id
                                                   .toString(),
                                           style: TextStyle(
-                                            fontFamily: AppTheme.fontRoboto,
+                                            fontFamily: AppTheme.fontRubik,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 17,
                                             fontStyle: FontStyle.normal,
@@ -217,7 +217,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                         Text(
                                           translate("history.all"),
                                           style: TextStyle(
-                                            fontFamily: AppTheme.fontRoboto,
+                                            fontFamily: AppTheme.fontRubik,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 14,
                                             height: 1.71,
@@ -263,7 +263,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                                 ? 17
                                                 : 13,
                                             fontWeight: FontWeight.w600,
-                                            fontFamily: AppTheme.fontRoboto,
+                                            fontFamily: AppTheme.fontRubik,
                                             color: AppTheme.black_text,
                                           ),
                                         ),
@@ -291,7 +291,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
-                                                fontFamily: AppTheme.fontRoboto,
+                                                fontFamily: AppTheme.fontRubik,
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: snapshot
                                                             .data
@@ -333,7 +333,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                                         .delivery.lastName,
                                                 style: TextStyle(
                                                   fontFamily:
-                                                      AppTheme.fontRoboto,
+                                                      AppTheme.fontRubik,
                                                   fontWeight: FontWeight.normal,
                                                   fontSize: 13,
                                                   fontStyle: FontStyle.normal,
@@ -348,7 +348,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                             snapshot
                                                 .data.results[index].store.name,
                                             style: TextStyle(
-                                              fontFamily: AppTheme.fontRoboto,
+                                              fontFamily: AppTheme.fontRubik,
                                               fontWeight: FontWeight.normal,
                                               fontSize: 13,
                                               fontStyle: FontStyle.normal,
@@ -386,7 +386,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                                           ": ",
                                                       style: TextStyle(
                                                         fontFamily:
-                                                            AppTheme.fontRoboto,
+                                                            AppTheme.fontRubik,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontSize: 13,
@@ -406,7 +406,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                                       ),
                                                       style: TextStyle(
                                                         fontFamily:
-                                                            AppTheme.fontRoboto,
+                                                            AppTheme.fontRubik,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontSize: 13,
@@ -444,7 +444,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                                       ": ",
                                                   style: TextStyle(
                                                     fontFamily:
-                                                        AppTheme.fontRoboto,
+                                                        AppTheme.fontRubik,
                                                     fontWeight:
                                                         FontWeight.normal,
                                                     fontSize: 13,
@@ -464,7 +464,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                                   ),
                                                   style: TextStyle(
                                                     fontFamily:
-                                                        AppTheme.fontRoboto,
+                                                        AppTheme.fontRubik,
                                                     fontWeight:
                                                         FontWeight.normal,
                                                     fontSize: 13,
@@ -488,7 +488,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                                   .deliveryTotal) +
                                           translate("sum"),
                                       style: TextStyle(
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         fontWeight: FontWeight.normal,
                                         fontSize: 13,
                                         fontStyle: FontStyle.normal,
@@ -573,7 +573,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                           child: Text(
                             translate("menu_sub.history_title"),
                             style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontSize: 20,
                               fontWeight: FontWeight.normal,
                               color: AppTheme.black_text,
@@ -586,7 +586,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                             translate("menu_sub.history_message"),
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontSize: 15,
                               fontWeight: FontWeight.normal,
                               color: AppTheme.black_transparent_text,

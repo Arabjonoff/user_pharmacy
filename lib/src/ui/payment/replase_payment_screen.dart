@@ -129,7 +129,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                     child: Text(
                       translate("orders.payment_type"),
                       style: TextStyle(
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontWeight: FontWeight.w600,
                         fontStyle: FontStyle.normal,
                         fontSize: 20,
@@ -168,7 +168,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                                             maxLines: 2,
                                             style: TextStyle(
                                               fontWeight: FontWeight.normal,
-                                              fontFamily: AppTheme.fontRoboto,
+                                              fontFamily: AppTheme.fontRubik,
                                               fontSize: 15,
                                               fontStyle: FontStyle.normal,
                                               color: Colors.black,
@@ -257,7 +257,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                                   child: TextFormField(
                                     keyboardType: TextInputType.phone,
                                     style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.normal,
                                       color: AppTheme.black_text,
@@ -268,7 +268,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                                     decoration: InputDecoration(
                                       labelText: translate('cardNumber'),
                                       labelStyle: TextStyle(
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         fontStyle: FontStyle.normal,
                                         fontWeight: FontWeight.normal,
                                         color: Color(0xFF6D7885),
@@ -313,7 +313,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                                   child: TextFormField(
                                     keyboardType: TextInputType.phone,
                                     style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.normal,
                                       color: AppTheme.black_text,
@@ -324,7 +324,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                                     decoration: InputDecoration(
                                       labelText: translate('cardDate'),
                                       labelStyle: TextStyle(
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         fontStyle: FontStyle.normal,
                                         fontWeight: FontWeight.normal,
                                         color: Color(0xFF6D7885),
@@ -371,7 +371,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                                           fontSize: 15,
                                           fontStyle: FontStyle.normal,
                                           fontWeight: FontWeight.w600,
-                                          fontFamily: AppTheme.fontRoboto,
+                                          fontFamily: AppTheme.fontRubik,
                                           color: AppTheme.black_text,
                                         ),
                                       ),
@@ -446,7 +446,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                           translate("next"),
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontSize: 17,
                             color: AppTheme.white,
                           ),

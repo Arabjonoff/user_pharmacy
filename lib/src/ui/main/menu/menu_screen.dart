@@ -136,7 +136,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                         fontStyle: FontStyle.normal,
                                         fontSize: 24,
                                         height: 1.17,
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         color: AppTheme.white,
                                       ),
                                     ),
@@ -151,7 +151,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                         fontWeight: FontWeight.normal,
                                         fontStyle: FontStyle.normal,
                                         fontSize: 12,
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         color: AppTheme.white,
                                       ),
                                     ),
@@ -196,7 +196,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                       fontStyle: FontStyle.normal,
                                       fontSize: 24,
                                       height: 1.17,
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       color: AppTheme.white,
                                     ),
                                   ),
@@ -211,7 +211,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                       fontWeight: FontWeight.normal,
                                       fontStyle: FontStyle.normal,
                                       fontSize: 12,
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       color: AppTheme.white,
                                     ),
                                   ),
@@ -240,7 +240,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         child: Text(
                           translate("menu.menu_about_message"),
                           style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.normal,
                             fontSize: 13,
                             fontStyle: FontStyle.normal,
@@ -266,7 +266,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                 fontWeight: FontWeight.w600,
                                 fontStyle: FontStyle.normal,
                                 fontSize: 15,
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                               ),
                             ),
                           ),
@@ -303,7 +303,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         fontSize: 17,
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         fontWeight: FontWeight.w600,
                                         color: AppTheme.black_text,
                                       ),
@@ -315,7 +315,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                       translate("menu.all_info"),
                                       style: TextStyle(
                                         fontSize: 13,
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         fontWeight: FontWeight.normal,
                                         color: AppTheme.black_transparent_text,
                                       ),
@@ -368,7 +368,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       translate("menu.city"),
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         color: AppTheme.black_text,
                         fontSize: 15,
                       ),
@@ -378,7 +378,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     city,
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       color: AppTheme.black_transparent_text,
                       fontSize: 15,
                     ),
@@ -421,7 +421,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       translate("note.screen_name"),
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         color: AppTheme.black_text,
                         fontSize: 15,
                       ),
@@ -466,7 +466,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             translate("menu.history"),
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               color: AppTheme.black_text,
                               fontSize: 15,
                             ),
@@ -510,7 +510,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       translate("menu.language"),
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         color: AppTheme.black_text,
                         fontSize: 15,
                       ),
@@ -520,7 +520,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     language,
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       color: AppTheme.black_transparent_text,
                       fontSize: 15,
                     ),
@@ -605,7 +605,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                     child: Text(
                                       translate("dialog_rat.title"),
                                       style: TextStyle(
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 17,
                                         fontStyle: FontStyle.normal,
@@ -622,7 +622,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                     translate("dialog_rat.message"),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontWeight: FontWeight.normal,
                                       fontSize: 15,
                                       fontStyle: FontStyle.normal,
@@ -731,7 +731,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                     keyboardType: TextInputType.multiline,
                                     maxLines: 3,
                                     style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.normal,
                                       color: AppTheme.black_text,
@@ -744,7 +744,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                         fontWeight: FontWeight.normal,
                                         fontSize: 16,
                                         fontStyle: FontStyle.normal,
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         color: AppTheme.grey,
                                       ),
                                       enabledBorder: OutlineInputBorder(
@@ -830,7 +830,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                                     fontSize: 17,
                                                     fontWeight: FontWeight.w600,
                                                     fontFamily:
-                                                        AppTheme.fontRoboto,
+                                                        AppTheme.fontRubik,
                                                     color: AppTheme.white,
                                                     height: 1.29,
                                                   ),
@@ -871,7 +871,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       translate("menu.rating"),
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         color: AppTheme.black_text,
                         fontSize: 15,
                       ),
@@ -914,7 +914,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       translate("menu.faq"),
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         color: AppTheme.black_text,
                         fontSize: 15,
                       ),
@@ -957,7 +957,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       translate("menu.about"),
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         color: AppTheme.black_text,
                         fontSize: 15,
                       ),
@@ -1002,7 +1002,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       TextSpan(
                         text: translate("menu.number"),
                         style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontWeight: FontWeight.w500,
                           fontSize: 15,
                           fontStyle: FontStyle.normal,
@@ -1012,7 +1012,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       TextSpan(
                         text: "+998 71 205 08 88",
                         style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontWeight: FontWeight.w500,
                           fontSize: 15,
                           fontStyle: FontStyle.normal,

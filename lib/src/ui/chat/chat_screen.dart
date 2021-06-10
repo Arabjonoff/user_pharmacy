@@ -88,7 +88,7 @@ class _ChatScreenState extends State<ChatScreen> {
               style: TextStyle(
                 color: AppTheme.black_text,
                 fontWeight: FontWeight.w500,
-                fontFamily: AppTheme.fontCommons,
+                fontFamily: AppTheme.fontRubik,
                 fontSize: 17,
               ),
             ),
@@ -98,7 +98,7 @@ class _ChatScreenState extends State<ChatScreen> {
               style: TextStyle(
                 color: AppTheme.black_transparent_text,
                 fontWeight: FontWeight.normal,
-                fontFamily: AppTheme.fontRoboto,
+                fontFamily: AppTheme.fontRubik,
                 fontSize: 13,
               ),
             ),
@@ -252,7 +252,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                               ? TextAlign.right
                                               : TextAlign.left,
                                       style: TextStyle(
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         fontWeight: FontWeight.w500,
                                         fontStyle: FontStyle.normal,
                                         fontSize: 16,
@@ -271,7 +271,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                               ? TextAlign.right
                                               : TextAlign.left,
                                       style: TextStyle(
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         fontWeight: FontWeight.normal,
                                         fontStyle: FontStyle.normal,
                                         fontSize: 12,
@@ -362,7 +362,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,
                           fontSize: 16,
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                         ),
                         controller: chatController,
                         decoration: InputDecoration.collapsed(
@@ -371,7 +371,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             fontWeight: FontWeight.normal,
                             fontStyle: FontStyle.normal,
                             fontSize: 15,
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             color: AppTheme.black_transparent_text,
                           ),
                         ),

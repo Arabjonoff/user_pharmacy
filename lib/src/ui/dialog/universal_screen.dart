@@ -86,7 +86,7 @@ class _UniversalScreenState extends State<UniversalScreen> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: AppTheme.black_text,
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.w600,
                           fontSize: 17,

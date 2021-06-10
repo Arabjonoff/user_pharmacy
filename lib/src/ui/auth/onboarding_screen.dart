@@ -54,7 +54,7 @@ class _OnBoardingState extends State<OnBoarding> {
                 child: Text(
                   "Пропустить",
                   style: TextStyle(
-                    fontFamily: AppTheme.fontRoboto,
+                    fontFamily: AppTheme.fontRubik,
                     fontWeight: FontWeight.normal,
                     fontStyle: FontStyle.normal,
                     fontSize: 16,
@@ -214,7 +214,7 @@ class _OnBoardingState extends State<OnBoarding> {
                 child: Text(
                   currentIndex == 5 ? "Начать поиск" : "Далее",
                   style: TextStyle(
-                    fontFamily: AppTheme.fontRoboto,
+                    fontFamily: AppTheme.fontRubik,
                     fontWeight: FontWeight.w600,
                     fontStyle: FontStyle.normal,
                     fontSize: 18,
@@ -248,7 +248,7 @@ class _OnBoardingState extends State<OnBoarding> {
         Text(
           title,
           style: TextStyle(
-            fontFamily: AppTheme.fontRoboto,
+            fontFamily: AppTheme.fontRubik,
             fontWeight: FontWeight.w600,
             fontStyle: FontStyle.normal,
             fontSize: 20,
@@ -261,7 +261,7 @@ class _OnBoardingState extends State<OnBoarding> {
             content,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontFamily: AppTheme.fontRoboto,
+              fontFamily: AppTheme.fontRubik,
               fontWeight: FontWeight.w600,
               fontStyle: FontStyle.normal,
               fontSize: 14,

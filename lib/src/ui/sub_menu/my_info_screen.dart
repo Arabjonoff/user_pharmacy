@@ -81,7 +81,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                 child: Text(
                   translate("menu.logout"),
                   style: TextStyle(
-                    fontFamily: AppTheme.fontRoboto,
+                    fontFamily: AppTheme.fontRubik,
                     fontWeight: FontWeight.normal,
                     fontStyle: FontStyle.normal,
                     fontSize: 15,
@@ -98,7 +98,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                       title: Text(
                         translate("menu.exit_title"),
                         style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontWeight: FontWeight.w600,
                           fontStyle: FontStyle.normal,
                           fontSize: 19,
@@ -108,7 +108,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                       content: Text(
                         translate("menu.exit_message"),
                         style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontWeight: FontWeight.normal,
                           fontStyle: FontStyle.normal,
                           fontSize: 16,
@@ -120,7 +120,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                           child: Text(
                             translate("menu.exit_no"),
                             style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontWeight: FontWeight.w600,
                               fontStyle: FontStyle.normal,
                               fontSize: 19,
@@ -135,7 +135,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                           child: Text(
                             translate("menu.exit_yes"),
                             style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontWeight: FontWeight.w600,
                               fontStyle: FontStyle.normal,
                               fontSize: 19,
@@ -184,7 +184,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
               style: TextStyle(
                 color: AppTheme.black_text,
                 fontWeight: FontWeight.w500,
-                fontFamily: AppTheme.fontCommons,
+                fontFamily: AppTheme.fontRubik,
                 fontSize: 17,
               ),
             ),
@@ -214,7 +214,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                     child: TextFormField(
                       keyboardType: TextInputType.text,
                       style: TextStyle(
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.normal,
                         color: AppTheme.black_text,
@@ -226,7 +226,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                         labelText: translate('auth.name'),
                         counterText: "",
                         labelStyle: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.normal,
                           color: Color(0xFF6D7885),
@@ -268,7 +268,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                     child: TextFormField(
                       keyboardType: TextInputType.text,
                       style: TextStyle(
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.normal,
                         color: AppTheme.black_text,
@@ -280,7 +280,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                         counterText: "",
                         labelText: translate('auth.sur_name'),
                         labelStyle: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.normal,
                           color: Color(0xFF6D7885),
@@ -323,7 +323,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                       readOnly: true,
                       keyboardType: TextInputType.text,
                       style: TextStyle(
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.normal,
                         color: AppTheme.black_text,
@@ -333,7 +333,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                       decoration: InputDecoration(
                         labelText: translate('auth.number_auth'),
                         labelStyle: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.normal,
                           color: Color(0xFF6D7885),
@@ -401,7 +401,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                           readOnly: true,
                           keyboardType: TextInputType.text,
                           style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.normal,
                             color: AppTheme.black_text,
@@ -411,7 +411,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                           decoration: InputDecoration(
                             labelText: translate('auth.birthday'),
                             labelStyle: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontStyle: FontStyle.normal,
                               fontWeight: FontWeight.normal,
                               color: Color(0xFF6D7885),
@@ -449,7 +449,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                           child: Text(
                             errorText,
                             style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontSize: 13,
                               fontWeight: FontWeight.normal,
                               color: AppTheme.red_fav_color,
@@ -473,7 +473,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                                   fontSize: 15,
                                   fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.normal,
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   color: AppTheme.black_text,
                                 ),
                               ),
@@ -568,7 +568,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                         style: TextStyle(
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.w600,
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontSize: 17,
                           color: AppTheme.white,
                         ),

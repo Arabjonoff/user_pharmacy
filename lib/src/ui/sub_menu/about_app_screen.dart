@@ -44,7 +44,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
               style: TextStyle(
                 color: AppTheme.black_text,
                 fontWeight: FontWeight.w500,
-                fontFamily: AppTheme.fontCommons,
+                fontFamily: AppTheme.fontRubik,
                 fontSize: 17,
               ),
             ),
@@ -60,7 +60,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
             fontSize: 15,
             height: 1.6,
             fontWeight: FontWeight.normal,
-            fontFamily: AppTheme.fontSFProDisplay,
+            fontFamily: AppTheme.fontRubik,
             color: AppTheme.black_text,
           ),
         ),

@@ -219,7 +219,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                           widget.orderId.toString(),
                       style: TextStyle(
                         fontStyle: FontStyle.normal,
-                        fontFamily: AppTheme.fontCommons,
+                        fontFamily: AppTheme.fontRubik,
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: AppTheme.black_text,
@@ -264,7 +264,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
               child: Text(
                 translate("orders.payment_type"),
                 style: TextStyle(
-                  fontFamily: AppTheme.fontRoboto,
+                  fontFamily: AppTheme.fontRubik,
                   fontWeight: FontWeight.w600,
                   fontStyle: FontStyle.normal,
                   fontSize: 20,
@@ -301,7 +301,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                       maxLines: 2,
                                       style: TextStyle(
                                         fontWeight: FontWeight.normal,
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         fontSize: 15,
                                         fontStyle: FontStyle.normal,
                                         color: Colors.black,
@@ -388,7 +388,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                             child: TextFormField(
                               keyboardType: TextInputType.phone,
                               style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.normal,
                                 color: AppTheme.black_text,
@@ -399,7 +399,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                               decoration: InputDecoration(
                                 labelText: translate('cardNumber'),
                                 labelStyle: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.normal,
                                   color: Color(0xFF6D7885),
@@ -443,7 +443,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                             child: TextFormField(
                               keyboardType: TextInputType.phone,
                               style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.normal,
                                 color: AppTheme.black_text,
@@ -454,7 +454,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                               decoration: InputDecoration(
                                 labelText: translate('cardDate'),
                                 labelStyle: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.normal,
                                   color: Color(0xFF6D7885),
@@ -499,7 +499,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                     fontSize: 13,
                                     fontStyle: FontStyle.normal,
                                     fontWeight: FontWeight.w600,
-                                    fontFamily: AppTheme.fontRoboto,
+                                    fontFamily: AppTheme.fontRubik,
                                     color: AppTheme.black_text,
                                   ),
                                 ),
@@ -536,7 +536,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                   Text(
                     translate("cash_price_title"),
                     style: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontSize: 16,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w600,
@@ -547,7 +547,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                   Text(
                     translate("cash_pay"),
                     style: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontSize: 16,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.normal,
@@ -561,7 +561,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                             : (cashData.cash).toInt().toDouble()) +
                         translate("sum"),
                     style: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontSize: 16,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.normal,
@@ -589,7 +589,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   style: TextStyle(
-                    fontFamily: AppTheme.fontRoboto,
+                    fontFamily: AppTheme.fontRubik,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.normal,
                     color: AppTheme.black_text,
@@ -599,7 +599,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                   decoration: InputDecoration(
                     labelText: translate('cash_price'),
                     labelStyle: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.normal,
                       color: Color(0xFF6D7885),
@@ -634,7 +634,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
               child: Text(
                 translate("orders.type_payment"),
                 style: TextStyle(
-                  fontFamily: AppTheme.fontRoboto,
+                  fontFamily: AppTheme.fontRubik,
                   fontWeight: FontWeight.w600,
                   fontStyle: FontStyle.normal,
                   fontSize: 20,
@@ -654,7 +654,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                     translate("price_item"),
                     style: TextStyle(
                       fontSize: 15,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontWeight: FontWeight.normal,
                       color: AppTheme.search_empty,
                     ),
@@ -666,7 +666,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                     priceFormat.format(itemPrice) + translate(translate("sum")),
                     style: TextStyle(
                       fontSize: 15,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontWeight: FontWeight.normal,
                       color: AppTheme.search_empty,
                     ),
@@ -686,7 +686,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                     translate("price_cash_item"),
                     style: TextStyle(
                       fontSize: 15,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontWeight: FontWeight.normal,
                       color: AppTheme.search_empty,
                     ),
@@ -707,7 +707,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                             ),
                     style: TextStyle(
                       fontSize: 15,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontWeight: FontWeight.normal,
                       color: AppTheme.search_empty,
                     ),
@@ -727,7 +727,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                     translate("card.all"),
                     style: TextStyle(
                       fontSize: 15,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontWeight: FontWeight.w600,
                       color: AppTheme.black_text,
                     ),
@@ -739,7 +739,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                     priceFormat.format(allPrice) + translate(translate("sum")),
                     style: TextStyle(
                       fontSize: 15,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontWeight: FontWeight.w600,
                       color: AppTheme.black_text,
                     ),
@@ -756,7 +756,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontSize: 13,
                         color: AppTheme.red_fav_color,
                       ),
@@ -777,7 +777,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                             widget.message,
                             maxLines: 5,
                             style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontSize: 13,
                               height: 1.6,
                               fontStyle: FontStyle.normal,
@@ -918,7 +918,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                           translate("orders.oplat"),
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontSize: 17,
                             color: AppTheme.white,
                           ),

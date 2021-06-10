@@ -131,7 +131,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                   fontSize: 13,
                                   height: 1.23,
                                   fontWeight: FontWeight.w600,
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   color: AppTheme.black_text,
                                 ),
                               ),
@@ -143,7 +143,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                   fontSize: 11,
                                   height: 1.23,
                                   fontWeight: FontWeight.normal,
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   color: AppTheme.black_transparent_text,
                                 ),
                               )
@@ -157,7 +157,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                             fontStyle: FontStyle.normal,
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             color: AppTheme.black_text,
                           ),
                         )
@@ -171,7 +171,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                           ? translate("note.one_title")
                           : fullName + ", " + translate("note.one_title"),
                       style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
                           fontStyle: FontStyle.normal,
@@ -185,7 +185,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                       child: Text(
                         translate("note.one_message"),
                         style: TextStyle(
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.normal,
                             fontSize: 13,
                             fontStyle: FontStyle.normal,
@@ -218,7 +218,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                               child: Text(
                                 translate("note.next"),
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 17,
                                   fontStyle: FontStyle.normal,
@@ -254,7 +254,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                               child: Text(
                                 translate("note.now"),
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 17,
                                   fontStyle: FontStyle.normal,

@@ -1121,7 +1121,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 physics: NeverScrollableScrollPhysics(),
                               ),
                               GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW");
+                                },
                                 child: Container(
                                   margin: EdgeInsets.only(left: 16, right: 16),
                                   height: 44,
@@ -2884,7 +2886,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 translate("dialog_rat.title"),
                                                 style: TextStyle(
                                                   fontFamily:
-                                                      AppTheme.fontRoboto,
+                                                      AppTheme.fontRubik,
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 17,
                                                   fontStyle: FontStyle.normal,
@@ -2901,7 +2903,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               translate("dialog_rat.message"),
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                fontFamily: AppTheme.fontRoboto,
+                                                fontFamily: AppTheme.fontRubik,
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 15,
                                                 fontStyle: FontStyle.normal,
@@ -3004,7 +3006,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   TextInputType.multiline,
                                               maxLines: 3,
                                               style: TextStyle(
-                                                fontFamily: AppTheme.fontRoboto,
+                                                fontFamily: AppTheme.fontRubik,
                                                 fontStyle: FontStyle.normal,
                                                 fontWeight: FontWeight.normal,
                                                 color: AppTheme.black_text,
@@ -3019,7 +3021,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   fontSize: 16,
                                                   fontStyle: FontStyle.normal,
                                                   fontFamily:
-                                                      AppTheme.fontRoboto,
+                                                      AppTheme.fontRubik,
                                                   color: AppTheme.grey,
                                                 ),
                                                 enabledBorder:
@@ -3108,7 +3110,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           fontFamily: AppTheme
-                                                              .fontRoboto,
+                                                              .fontRubik,
                                                           color: AppTheme.white,
                                                           height: 1.29,
                                                         ),

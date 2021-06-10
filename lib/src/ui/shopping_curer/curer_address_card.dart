@@ -146,7 +146,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                       translate("orders.choose_address"),
                       style: TextStyle(
                         fontStyle: FontStyle.normal,
-                        fontFamily: AppTheme.fontCommons,
+                        fontFamily: AppTheme.fontRubik,
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: AppTheme.black_text,
@@ -167,7 +167,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 20,
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontStyle: FontStyle.normal,
                         color: AppTheme.black_text,
                       ),
@@ -216,7 +216,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontFamily: AppTheme
-                                                              .fontRoboto,
+                                                              .fontRubik,
                                                           color: AppTheme
                                                               .black_text,
                                                         ),
@@ -309,7 +309,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                           Text(
                             translate("orders.new_address"),
                             style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontStyle: FontStyle.normal,
                               fontWeight: FontWeight.normal,
                               fontSize: 15,
@@ -357,7 +357,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                     child: Text(
                                       translate("address.choose_time"),
                                       style: TextStyle(
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 20,
                                         fontStyle: FontStyle.normal,
@@ -375,7 +375,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.normal,
                                                   fontFamily:
-                                                      AppTheme.fontRoboto,
+                                                      AppTheme.fontRubik,
                                                   fontSize: 15,
                                                   fontStyle: FontStyle.normal,
                                                   color: Colors.black,
@@ -415,7 +415,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                               child: Text(
                                 translate("type_time"),
                                 style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 20,
                                   fontStyle: FontStyle.normal,
@@ -455,7 +455,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                                   fontSize: 15,
                                                   height: 1.33,
                                                   fontFamily:
-                                                      AppTheme.fontRoboto,
+                                                      AppTheme.fontRubik,
                                                   color: AppTheme.black_text,
                                                 ),
                                               ),
@@ -515,7 +515,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                             textAlign: TextAlign.end,
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontSize: 13,
                               color: AppTheme.red_fav_color,
                             ),
@@ -632,7 +632,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                           translate("next"),
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontSize: 17,
                             color: AppTheme.white,
                           ),

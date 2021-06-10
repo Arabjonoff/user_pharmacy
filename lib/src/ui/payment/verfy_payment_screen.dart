@@ -148,7 +148,7 @@ class _VerifyPaymentScreenState extends State<VerifyPaymentScreen> {
               child: Text(
                 translate("auth.verfy_title"),
                 style: TextStyle(
-                  fontFamily: AppTheme.fontRoboto,
+                  fontFamily: AppTheme.fontRubik,
                   fontSize: 13,
                   fontWeight: FontWeight.normal,
                   fontStyle: FontStyle.normal,
@@ -161,7 +161,7 @@ class _VerifyPaymentScreenState extends State<VerifyPaymentScreen> {
               child: Text(
                 number,
                 style: TextStyle(
-                  fontFamily: AppTheme.fontRoboto,
+                  fontFamily: AppTheme.fontRubik,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   fontStyle: FontStyle.normal,
@@ -193,7 +193,7 @@ class _VerifyPaymentScreenState extends State<VerifyPaymentScreen> {
                             child: TextFormField(
                               keyboardType: TextInputType.phone,
                               style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.normal,
                                 color: AppTheme.black_text,
@@ -204,7 +204,7 @@ class _VerifyPaymentScreenState extends State<VerifyPaymentScreen> {
                               decoration: InputDecoration(
                                 labelText: translate('auth.verfy'),
                                 labelStyle: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.normal,
                                   color: Color(0xFF6D7885),
@@ -237,7 +237,7 @@ class _VerifyPaymentScreenState extends State<VerifyPaymentScreen> {
                                   child: Text(
                                     _start.toString(),
                                     style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.normal,
                                       fontSize: 15,
@@ -259,7 +259,7 @@ class _VerifyPaymentScreenState extends State<VerifyPaymentScreen> {
                             child: Text(
                               errorText,
                               style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                                 fontSize: 13,
                                 fontWeight: FontWeight.normal,
                                 color: AppTheme.red_fav_color,
@@ -344,7 +344,7 @@ class _VerifyPaymentScreenState extends State<VerifyPaymentScreen> {
                           style: TextStyle(
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.w600,
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontSize: 17,
                             color: AppTheme.white,
                           ),

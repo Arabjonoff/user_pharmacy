@@ -61,7 +61,7 @@ class _ItemSearchHistoryViewState extends State<ItemSearchHistoryView> {
                         style: TextStyle(
                           color: AppTheme.black_text,
                           fontWeight: FontWeight.normal,
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontSize: 15,
                         ),
                         maxLines: 1,

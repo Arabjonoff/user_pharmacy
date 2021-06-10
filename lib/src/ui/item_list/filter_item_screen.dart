@@ -134,7 +134,7 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                               : translate("mnn"),
                       style: TextStyle(
                         color: AppTheme.black_text,
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.w600,
                         fontSize: 17,
@@ -189,7 +189,7 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                           style: TextStyle(
                             color: AppTheme.black_text,
                             fontSize: 15,
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.w600,
                           ),
                           decoration: InputDecoration(
@@ -198,7 +198,7 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                             hintStyle: TextStyle(
                               color: AppTheme.notWhite,
                               fontSize: 15,
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               fontWeight: FontWeight.normal,
                             ),
                           ),
@@ -252,7 +252,7 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
                                             style: TextStyle(
-                                              fontFamily: AppTheme.fontRoboto,
+                                              fontFamily: AppTheme.fontRubik,
                                               fontWeight: FontWeight.normal,
                                               fontSize: 15,
                                               fontStyle: FontStyle.normal,
@@ -354,7 +354,7 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                                       translate("search.empty"),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         fontSize: 17,
                                         fontWeight: FontWeight.normal,
                                         color: AppTheme.search_empty,
@@ -448,7 +448,7 @@ class _FilterItemScreenState extends State<FilterItemScreen> {
                     style: TextStyle(
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w600,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontSize: 17,
                       color: AppTheme.white,
                     ),

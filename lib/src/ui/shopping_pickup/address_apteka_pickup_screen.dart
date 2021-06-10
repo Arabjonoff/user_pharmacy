@@ -96,7 +96,7 @@ class _AddressStoreScreenState extends State<AddressStorePickupScreen>
                               style: TextStyle(
                                 color: AppTheme.black_text,
                                 fontWeight: FontWeight.w500,
-                                fontFamily: AppTheme.fontCommons,
+                                fontFamily: AppTheme.fontRubik,
                                 fontSize: 17,
                               ),
                             ),
@@ -150,7 +150,7 @@ class _AddressStoreScreenState extends State<AddressStorePickupScreen>
                   indicatorSize: TabBarIndicatorSize.tab,
                   labelStyle: TextStyle(
                     fontWeight: FontWeight.w600,
-                    fontFamily: AppTheme.fontRoboto,
+                    fontFamily: AppTheme.fontRubik,
                     fontSize: 13,
                     color: AppTheme.blue_app_color,
                   ),

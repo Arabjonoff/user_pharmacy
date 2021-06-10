@@ -79,7 +79,7 @@ class _RegionScreenState extends State<RegionScreen> {
               style: TextStyle(
                 color: AppTheme.black_text,
                 fontWeight: FontWeight.w500,
-                fontFamily: AppTheme.fontCommons,
+                fontFamily: AppTheme.fontRubik,
                 fontSize: 17,
               ),
             ),
@@ -120,7 +120,7 @@ class _RegionScreenState extends State<RegionScreen> {
                                 style: TextStyle(
                                   color: AppTheme.black_text,
                                   fontSize: 15,
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.w600,
                                 ),
                                 decoration: InputDecoration(
@@ -129,7 +129,7 @@ class _RegionScreenState extends State<RegionScreen> {
                                   hintStyle: TextStyle(
                                     color: AppTheme.notWhite,
                                     fontSize: 15,
-                                    fontFamily: AppTheme.fontRoboto,
+                                    fontFamily: AppTheme.fontRubik,
                                     fontWeight: FontWeight.normal,
                                   ),
                                 ),
@@ -201,7 +201,7 @@ class _RegionScreenState extends State<RegionScreen> {
                                                   fontStyle: FontStyle.normal,
                                                   fontWeight: FontWeight.normal,
                                                   fontFamily:
-                                                      AppTheme.fontRoboto,
+                                                      AppTheme.fontRubik,
                                                   fontSize: 15,
                                                   color: AppTheme.black_text,
                                                 ),
@@ -251,7 +251,7 @@ class _RegionScreenState extends State<RegionScreen> {
                                             style: TextStyle(
                                               fontStyle: FontStyle.normal,
                                               fontWeight: FontWeight.normal,
-                                              fontFamily: AppTheme.fontRoboto,
+                                              fontFamily: AppTheme.fontRubik,
                                               fontSize: 15,
                                               color: AppTheme.black_text,
                                             ),
@@ -330,7 +330,7 @@ class _RegionScreenState extends State<RegionScreen> {
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontFamily:
-                                                            AppTheme.fontRoboto,
+                                                            AppTheme.fontRubik,
                                                         fontSize: 15,
                                                         color:
                                                             AppTheme.black_text,

@@ -217,7 +217,7 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                   style: TextStyle(
                     color: AppTheme.black_text,
                     fontWeight: FontWeight.w500,
-                    fontFamily: AppTheme.fontCommons,
+                    fontFamily: AppTheme.fontRubik,
                     fontSize: 17,
                   ),
                 ),
@@ -267,7 +267,7 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                                                   fontStyle: FontStyle.normal,
                                                   fontWeight: FontWeight.normal,
                                                   fontFamily:
-                                                      AppTheme.fontRoboto,
+                                                      AppTheme.fontRubik,
                                                   fontSize: 15,
                                                   color: AppTheme.black_text,
                                                 ),
@@ -312,7 +312,7 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                                                   fontStyle: FontStyle.normal,
                                                   fontWeight: FontWeight.normal,
                                                   fontFamily:
-                                                      AppTheme.fontRoboto,
+                                                      AppTheme.fontRubik,
                                                   fontSize: 15,
                                                   color: AppTheme.black_text,
                                                 ),
@@ -387,7 +387,7 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontFamily:
-                                                            AppTheme.fontRoboto,
+                                                            AppTheme.fontRubik,
                                                         fontSize: 15,
                                                         color:
                                                             AppTheme.black_text,

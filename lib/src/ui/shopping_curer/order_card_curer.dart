@@ -245,7 +245,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                           widget.orderId.toString(),
                       style: TextStyle(
                         fontStyle: FontStyle.normal,
-                        fontFamily: AppTheme.fontCommons,
+                        fontFamily: AppTheme.fontRubik,
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: AppTheme.black_text,
@@ -290,7 +290,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
               child: Text(
                 translate("orders.payment_type"),
                 style: TextStyle(
-                  fontFamily: AppTheme.fontRoboto,
+                  fontFamily: AppTheme.fontRubik,
                   fontWeight: FontWeight.w600,
                   fontStyle: FontStyle.normal,
                   fontSize: 20,
@@ -327,7 +327,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                       maxLines: 2,
                                       style: TextStyle(
                                         fontWeight: FontWeight.normal,
-                                        fontFamily: AppTheme.fontRoboto,
+                                        fontFamily: AppTheme.fontRubik,
                                         fontSize: 15,
                                         fontStyle: FontStyle.normal,
                                         color: Colors.black,
@@ -414,7 +414,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                             child: TextFormField(
                               keyboardType: TextInputType.phone,
                               style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.normal,
                                 color: AppTheme.black_text,
@@ -425,7 +425,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                               decoration: InputDecoration(
                                 labelText: translate('cardNumber'),
                                 labelStyle: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.normal,
                                   color: Color(0xFF6D7885),
@@ -469,7 +469,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                             child: TextFormField(
                               keyboardType: TextInputType.phone,
                               style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
+                                fontFamily: AppTheme.fontRubik,
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.normal,
                                 color: AppTheme.black_text,
@@ -480,7 +480,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                               decoration: InputDecoration(
                                 labelText: translate('cardDate'),
                                 labelStyle: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
+                                  fontFamily: AppTheme.fontRubik,
                                   fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.normal,
                                   color: Color(0xFF6D7885),
@@ -525,7 +525,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                     fontSize: 13,
                                     fontStyle: FontStyle.normal,
                                     fontWeight: FontWeight.w600,
-                                    fontFamily: AppTheme.fontRoboto,
+                                    fontFamily: AppTheme.fontRubik,
                                     color: AppTheme.black_text,
                                   ),
                                 ),
@@ -562,7 +562,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                   Text(
                     translate("cash_price_title"),
                     style: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontSize: 16,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w600,
@@ -573,7 +573,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                   Text(
                     translate("cash_pay"),
                     style: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontSize: 16,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.normal,
@@ -585,7 +585,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                         priceFormat.format((widget.cash.toInt()).toDouble()) +
                         translate("sum"),
                     style: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontSize: 16,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.normal,
@@ -613,7 +613,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   style: TextStyle(
-                    fontFamily: AppTheme.fontRoboto,
+                    fontFamily: AppTheme.fontRubik,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.normal,
                     color: AppTheme.black_text,
@@ -623,7 +623,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                   decoration: InputDecoration(
                     labelText: translate('cash_price'),
                     labelStyle: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.normal,
                       color: Color(0xFF6D7885),
@@ -658,7 +658,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
               child: Text(
                 translate("orders.type_payment"),
                 style: TextStyle(
-                  fontFamily: AppTheme.fontRoboto,
+                  fontFamily: AppTheme.fontRubik,
                   fontWeight: FontWeight.w600,
                   fontStyle: FontStyle.normal,
                   fontSize: 20,
@@ -678,7 +678,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     translate("card.tovar_sum"),
                     style: TextStyle(
                       fontSize: 13,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontWeight: FontWeight.normal,
                       color: AppTheme.black_transparent_text,
                     ),
@@ -691,7 +691,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                         translate(translate("sum")),
                     style: TextStyle(
                       fontSize: 13,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontWeight: FontWeight.normal,
                       color: AppTheme.black_transparent_text,
                     ),
@@ -711,7 +711,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     translate("card.dostavka"),
                     style: TextStyle(
                       fontSize: 13,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontWeight: FontWeight.normal,
                       color: AppTheme.black_transparent_text,
                     ),
@@ -726,7 +726,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                         : translate("free"),
                     style: TextStyle(
                       fontSize: 13,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontWeight: FontWeight.normal,
                       color: AppTheme.black_transparent_text,
                     ),
@@ -746,7 +746,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     translate("price_cash_item"),
                     style: TextStyle(
                       fontSize: 13,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontWeight: FontWeight.normal,
                       color: AppTheme.black_transparent_text,
                     ),
@@ -762,7 +762,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                             translate(translate("sum")),
                     style: TextStyle(
                       fontSize: 13,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontWeight: FontWeight.normal,
                       color: AppTheme.black_transparent_text,
                     ),
@@ -782,7 +782,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     translate("card.all"),
                     style: TextStyle(
                       fontSize: 15,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontWeight: FontWeight.w600,
                       color: AppTheme.black_text,
                     ),
@@ -794,7 +794,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     priceFormat.format(allPrice) + translate(translate("sum")),
                     style: TextStyle(
                       fontSize: 15,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontWeight: FontWeight.w600,
                       color: AppTheme.black_text,
                     ),
@@ -811,7 +811,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontSize: 13,
                         color: AppTheme.red_fav_color,
                       ),
@@ -950,7 +950,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                           translate("orders.oplat"),
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontFamily: AppTheme.fontRoboto,
+                            fontFamily: AppTheme.fontRubik,
                             fontSize: 17,
                             color: AppTheme.white,
                           ),

@@ -398,6 +398,7 @@ class _MainScreenState extends State<MainScreen> {
                 }
               } else if (index == 0) {
               } else if (index == 1) {
+                blocCategory.fetchAllCategory();
               } else if (index == 2) {
               } else if (index == 3) {
               } else if (index == 4) {
@@ -430,7 +431,7 @@ class _MainScreenState extends State<MainScreen> {
                     fontSize: 10,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.normal,
-                    fontFamily: AppTheme.fontRoboto,
+                    fontFamily: AppTheme.fontRubik,
                   ),
                 ),
               ),
@@ -446,7 +447,7 @@ class _MainScreenState extends State<MainScreen> {
                     fontSize: 10,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.normal,
-                    fontFamily: AppTheme.fontRoboto,
+                    fontFamily: AppTheme.fontRubik,
                   ),
                 ),
               ),
@@ -468,7 +469,7 @@ class _MainScreenState extends State<MainScreen> {
                     fontSize: 10,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.normal,
-                    fontFamily: AppTheme.fontRoboto,
+                    fontFamily: AppTheme.fontRubik,
                   ),
                 ),
               ),
@@ -484,7 +485,7 @@ class _MainScreenState extends State<MainScreen> {
                     fontSize: 10,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.normal,
-                    fontFamily: AppTheme.fontRoboto,
+                    fontFamily: AppTheme.fontRubik,
                   ),
                 ),
               ),
@@ -500,7 +501,7 @@ class _MainScreenState extends State<MainScreen> {
                     fontSize: 10,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.normal,
-                    fontFamily: AppTheme.fontRoboto,
+                    fontFamily: AppTheme.fontRubik,
                   ),
                 ),
               ),

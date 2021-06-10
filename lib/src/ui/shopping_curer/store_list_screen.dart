@@ -104,7 +104,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                       translate("choose_store"),
                       style: TextStyle(
                         fontStyle: FontStyle.normal,
-                        fontFamily: AppTheme.fontCommons,
+                        fontFamily: AppTheme.fontRubik,
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: AppTheme.black_text,
@@ -231,7 +231,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                           widget.checkOrderModel.data
                                               .stores[index].name,
                                           style: TextStyle(
-                                            fontFamily: AppTheme.fontRoboto,
+                                            fontFamily: AppTheme.fontRubik,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15,
                                             color: AppTheme.black_text,
@@ -250,7 +250,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                                 .toString() +
                                             " km",
                                         style: TextStyle(
-                                          fontFamily: AppTheme.fontRoboto,
+                                          fontFamily: AppTheme.fontRubik,
                                           fontWeight: FontWeight.normal,
                                           fontSize: 11,
                                           height: 1.3,
@@ -264,7 +264,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                     widget.checkOrderModel.data.stores[index]
                                         .address,
                                     style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
+                                      fontFamily: AppTheme.fontRubik,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 13,
                                       color: AppTheme.black_text,
@@ -276,7 +276,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                       Text(
                                         translate("order"),
                                         style: TextStyle(
-                                          fontFamily: AppTheme.fontRoboto,
+                                          fontFamily: AppTheme.fontRubik,
                                           fontWeight: FontWeight.normal,
                                           fontSize: 13,
                                           height: 1.3,
@@ -294,7 +294,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                                     .total) +
                                                 translate("sum"),
                                             style: TextStyle(
-                                              fontFamily: AppTheme.fontRoboto,
+                                              fontFamily: AppTheme.fontRubik,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 15,
                                               color: AppTheme.black_text,
@@ -311,7 +311,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                       Text(
                                         translate("delivery"),
                                         style: TextStyle(
-                                          fontFamily: AppTheme.fontRoboto,
+                                          fontFamily: AppTheme.fontRubik,
                                           fontWeight: FontWeight.normal,
                                           fontSize: 13,
                                           height: 1.3,
@@ -329,7 +329,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                                     .deliverySum) +
                                                 translate("sum"),
                                             style: TextStyle(
-                                              fontFamily: AppTheme.fontRoboto,
+                                              fontFamily: AppTheme.fontRubik,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 15,
                                               color: AppTheme.black_text,
@@ -346,7 +346,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                       Text(
                                         translate("time"),
                                         style: TextStyle(
-                                          fontFamily: AppTheme.fontRoboto,
+                                          fontFamily: AppTheme.fontRubik,
                                           fontWeight: FontWeight.normal,
                                           fontSize: 13,
                                           height: 1.3,
@@ -360,7 +360,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                             widget.checkOrderModel.data
                                                 .stores[index].text,
                                             style: TextStyle(
-                                              fontFamily: AppTheme.fontRoboto,
+                                              fontFamily: AppTheme.fontRubik,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 15,
                                               color: AppTheme.black_text,
@@ -389,7 +389,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                             error,
                             textAlign: TextAlign.right,
                             style: TextStyle(
-                              fontFamily: AppTheme.fontRoboto,
+                              fontFamily: AppTheme.fontRubik,
                               color: AppTheme.red_fav_color,
                               fontSize: 13,
                             ),

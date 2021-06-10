@@ -44,7 +44,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
             Text(
               translate("main.favourite"),
               style: TextStyle(
-                fontFamily: AppTheme.fontCommons,
+                fontFamily: AppTheme.fontRubik,
                 fontWeight: FontWeight.w500,
                 fontSize: 17,
                 color: AppTheme.black_text,
@@ -138,7 +138,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                     color: AppTheme.black_text,
                                                     fontWeight: FontWeight.w600,
                                                     fontFamily:
-                                                        AppTheme.fontRoboto,
+                                                        AppTheme.fontRubik,
                                                     fontSize: 13,
                                                   ),
                                                   maxLines: 2,
@@ -164,7 +164,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                     fontWeight:
                                                         FontWeight.normal,
                                                     fontFamily:
-                                                        AppTheme.fontRoboto,
+                                                        AppTheme.fontRubik,
                                                   ),
                                                 ),
                                                 Expanded(
@@ -187,7 +187,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                                     FontWeight
                                                                         .w500,
                                                                 fontFamily: AppTheme
-                                                                    .fontRoboto,
+                                                                    .fontRubik,
                                                               ),
                                                             )
                                                           : Container(),
@@ -205,7 +205,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           fontFamily: AppTheme
-                                                              .fontRoboto,
+                                                              .fontRubik,
                                                         ),
                                                       ),
                                                       translate("lan") == "2"
@@ -220,7 +220,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                                     FontWeight
                                                                         .w500,
                                                                 fontFamily: AppTheme
-                                                                    .fontRoboto,
+                                                                    .fontRubik,
                                                               ),
                                                             )
                                                           : Container(),
@@ -237,7 +237,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           fontFamily: AppTheme
-                                                              .fontRoboto,
+                                                              .fontRubik,
                                                           color: AppTheme
                                                               .red_fav_color,
                                                         ),
@@ -357,7 +357,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                                                 ? AppTheme.red_fav_color
                                                                                 : AppTheme.blue,
                                                                             fontFamily:
-                                                                                AppTheme.fontRoboto,
+                                                                                AppTheme.fontRubik,
                                                                             fontWeight:
                                                                                 FontWeight.w600,
                                                                           ),
@@ -449,7 +449,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                                         fontWeight:
                                                                             FontWeight.w600,
                                                                         fontFamily:
-                                                                            AppTheme.fontRoboto,
+                                                                            AppTheme.fontRubik,
                                                                         color: AppTheme
                                                                             .white,
                                                                       ),

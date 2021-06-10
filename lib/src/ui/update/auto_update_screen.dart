@@ -96,7 +96,7 @@ class _AutoUpdateScreenState extends State<AutoUpdateScreen> {
                         fontWeight: FontWeight.normal,
                         fontSize: 15,
                         height: 1.47,
-                        fontFamily: AppTheme.fontRoboto,
+                        fontFamily: AppTheme.fontRubik,
                         fontStyle: FontStyle.normal,
                       ),
                     ),
@@ -121,7 +121,7 @@ class _AutoUpdateScreenState extends State<AutoUpdateScreen> {
                           height: 1.6,
                           color: AppTheme.black_text,
                           fontWeight: FontWeight.normal,
-                          fontFamily: AppTheme.fontSFProDisplay
+                          fontFamily: AppTheme.fontRubik
                         ),
                       ),
                     ),
@@ -163,7 +163,7 @@ class _AutoUpdateScreenState extends State<AutoUpdateScreen> {
                       fontSize: 16,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w600,
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       color: AppTheme.blue_app_color,
                     ),
                   ),

@@ -672,7 +672,7 @@ class Utils {
                 Text(
                   translate("winner.title"),
                   style: TextStyle(
-                    fontFamily: AppTheme.fontRoboto,
+                    fontFamily: AppTheme.fontRubik,
                     fontWeight: FontWeight.w600,
                     fontSize: 17,
                     height: 1.65,
@@ -685,7 +685,7 @@ class Utils {
                     text,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontFamily: AppTheme.fontRoboto,
+                      fontFamily: AppTheme.fontRubik,
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
                       height: 1.6,
@@ -714,7 +714,7 @@ class Utils {
                       child: Text(
                         translate("winner.button"),
                         style: TextStyle(
-                          fontFamily: AppTheme.fontRoboto,
+                          fontFamily: AppTheme.fontRubik,
                           fontWeight: FontWeight.bold,
                           fontSize: 17,
                           height: 1.3,
