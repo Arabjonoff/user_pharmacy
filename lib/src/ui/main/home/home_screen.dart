@@ -74,8 +74,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     blocHome.fetchBanner();
     blocHome.fetchRecently();
     blocHome.fetchCategory();
+    blocHome.fetchBestItem();
     blocHome.fetchCityName();
-    blocHome.fetchAllHome();
     super.initState();
   }
 
@@ -1481,751 +1481,606 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     );
                   },
                 ),
-                Container(
-                  margin: EdgeInsets.only(left: 12, right: 12, top: 32),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        translate("home.best"),
-                        style: TextStyle(
-                          color: AppTheme.black_text,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: AppTheme.fontRoboto,
-                          fontSize: 20,
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ItemListScreen(
-                                translate("home.best"),
-                                2,
-                                "0",
-                              ),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          translate("home.show_all"),
-                          style: TextStyle(
-                            color: AppTheme.blue_app_color,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: AppTheme.fontRoboto,
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 250.0,
-                  margin: EdgeInsets.only(top: 16),
-                  child: StreamBuilder(
-                    stream: blocHome.getBestItem,
-                    builder: (context, AsyncSnapshot<ItemModel> snapshot) {
-                      if (snapshot.hasData) {
-                        return ListView.builder(
-                          padding: const EdgeInsets.only(
-                            top: 0,
-                            bottom: 0,
-                            right: 12,
-                            left: 12,
-                          ),
-                          scrollDirection: Axis.horizontal,
-                          itemCount: snapshot.data.results.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   PageTransition(
-                                //     type: PageTransitionType.bottomToTop,
-                                //     alignment: Alignment.bottomCenter,
-                                //     child: ItemScreenNotInstruction(
-                                //         snapshot.data.results[index].id),
-                                //   ),
-                                // );
-                                RxBus.post(
-                                    BottomViewModel(
-                                        snapshot.data.results[index].id),
-                                    tag: "EVENT_BOTTOM_ITEM_ALL");
-                              },
-                              child: Container(
-                                width: 140,
-                                height: 250,
-                                margin: EdgeInsets.only(right: 16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: 140,
-                                      height: 140,
-                                      child: Stack(
-                                        children: [
-                                          CachedNetworkImage(
-                                            imageUrl: snapshot
-                                                .data
-                                                .results[index]
-                                                .getImageThumbnail,
-                                            placeholder: (context, url) =>
-                                                Container(
-                                              padding: EdgeInsets.all(25),
-                                              child: Center(
-                                                child: SvgPicture.asset(
-                                                    "assets/images/place_holder.svg"),
-                                              ),
-                                            ),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    Container(
-                                              padding: EdgeInsets.all(25),
-                                              child: Center(
-                                                child: SvgPicture.asset(
-                                                    "assets/images/place_holder.svg"),
-                                              ),
-                                            ),
-                                            fit: BoxFit.fitHeight,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topRight,
-                                            child:
-                                                snapshot.data.results[index]
-                                                            .price >=
-                                                        snapshot
-                                                            .data
-                                                            .results[index]
-                                                            .basePrice
-                                                    ? Container()
-                                                    : Container(
-                                                        height: 18,
-                                                        width: 39,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: AppTheme
-                                                              .red_fav_color,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(9),
-                                                        ),
-                                                        child: Center(
-                                                          child: Text(
-                                                            "-" +
-                                                                (((snapshot.data.results[index].basePrice - snapshot.data.results[index].price) *
-                                                                            100) ~/
-                                                                        snapshot
-                                                                            .data
-                                                                            .results[index]
-                                                                            .basePrice)
-                                                                    .toString() +
-                                                                "%",
-                                                            style: TextStyle(
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontFamily: AppTheme
-                                                                  .fontRoboto,
-                                                              color: AppTheme
-                                                                  .white,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(top: 10),
-                                      child: Text(
-                                        snapshot.data.results[index].name,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          color: AppTheme.black_text,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: AppTheme.fontRoboto,
-                                          fontSize: 13,
-                                        ),
-                                        maxLines: 2,
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(top: 3),
-                                      child: Text(
-                                        snapshot.data.results[index]
-                                                    .manufacturer ==
-                                                null
-                                            ? ""
-                                            : snapshot.data.results[index]
-                                                .manufacturer.name,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          color:
-                                              AppTheme.black_transparent_text,
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: AppTheme.fontRoboto,
-                                          fontSize: 12,
-                                        ),
-                                        maxLines: 1,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: Container(
-                                          height: 30,
-                                          width: 120,
-                                          margin: EdgeInsets.only(top: 11),
-                                          child: snapshot
-                                                  .data.results[index].isComing
-                                              ? Container(
-                                                  child: Center(
-                                                    child: Text(
-                                                      translate("fast"),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                        color:
-                                                            AppTheme.black_text,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontFamily:
-                                                            AppTheme.fontRoboto,
-                                                        fontSize: 13,
-                                                      ),
-                                                      maxLines: 2,
-                                                    ),
-                                                  ),
-                                                )
-                                              : snapshot.data.results[index]
-                                                          .cardCount >
-                                                      0
-                                                  ? Container(
-                                                      height: 30,
-                                                      decoration: BoxDecoration(
-                                                        color: AppTheme
-                                                            .blue_transparent,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10.0),
-                                                      ),
-                                                      width: 120,
-                                                      child: Row(
-                                                        children: <Widget>[
-                                                          GestureDetector(
-                                                            child: Container(
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: AppTheme
-                                                                    .blue,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                  10.0,
-                                                                ),
-                                                              ),
-                                                              margin: EdgeInsets
-                                                                  .all(2.0),
-                                                              height: 26,
-                                                              width: 26,
-                                                              child: Center(
-                                                                child: Icon(
-                                                                  Icons.remove,
-                                                                  color: AppTheme
-                                                                      .white,
-                                                                  size: 19,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            onTap: () {
-                                                              if (snapshot
-                                                                      .data
-                                                                      .results[
-                                                                          index]
-                                                                      .cardCount >
-                                                                  1) {
-                                                                setState(() {
-                                                                  snapshot
-                                                                      .data
-                                                                      .results[
-                                                                          index]
-                                                                      .cardCount = snapshot
-                                                                          .data
-                                                                          .results[
-                                                                              index]
-                                                                          .cardCount -
-                                                                      1;
-                                                                  dataBase.updateProduct(
-                                                                      snapshot
-                                                                          .data
-                                                                          .results[index]);
-                                                                });
-                                                              } else if (snapshot
-                                                                      .data
-                                                                      .results[
-                                                                          index]
-                                                                      .cardCount ==
-                                                                  1) {
-                                                                setState(() {
-                                                                  snapshot
-                                                                      .data
-                                                                      .results[
-                                                                          index]
-                                                                      .cardCount = snapshot
-                                                                          .data
-                                                                          .results[
-                                                                              index]
-                                                                          .cardCount -
-                                                                      1;
-
-                                                                  dataBase.deleteProducts(
-                                                                      snapshot
-                                                                          .data
-                                                                          .results[
-                                                                              index]
-                                                                          .id);
-                                                                });
-                                                              }
-                                                            },
-                                                          ),
-                                                          Container(
-                                                            height: 30,
-                                                            width: 60,
-                                                            child: Center(
-                                                              child: Text(
-                                                                snapshot
-                                                                        .data
-                                                                        .results[
-                                                                            index]
-                                                                        .cardCount
-                                                                        .toString() +
-                                                                    " " +
-                                                                    translate(
-                                                                        "item.sht"),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      15.0,
-                                                                  color:
-                                                                      AppTheme
-                                                                          .blue,
-                                                                  fontFamily:
-                                                                      AppTheme
-                                                                          .fontRoboto,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          GestureDetector(
-                                                            onTap: () {
-                                                              if (snapshot
-                                                                      .data
-                                                                      .results[
-                                                                          index]
-                                                                      .cardCount <
-                                                                  snapshot
-                                                                      .data
-                                                                      .results[
-                                                                          index]
-                                                                      .maxCount)
-                                                                setState(() {
-                                                                  snapshot
-                                                                      .data
-                                                                      .results[
-                                                                          index]
-                                                                      .cardCount = snapshot
-                                                                          .data
-                                                                          .results[
-                                                                              index]
-                                                                          .cardCount +
-                                                                      1;
-                                                                  dataBase.updateProduct(
-                                                                      snapshot
-                                                                          .data
-                                                                          .results[index]);
-                                                                });
-                                                            },
-                                                            child: Container(
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: AppTheme
-                                                                    .blue,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                  10.0,
-                                                                ),
-                                                              ),
-                                                              height: 26,
-                                                              width: 26,
-                                                              margin: EdgeInsets
-                                                                  .all(2.0),
-                                                              child: Center(
-                                                                child: Icon(
-                                                                  Icons.add,
-                                                                  color: AppTheme
-                                                                      .white,
-                                                                  size: 19,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  : GestureDetector(
-                                                      onTap: () {
-                                                        setState(() {
-                                                          snapshot
-                                                              .data
-                                                              .results[index]
-                                                              .cardCount = 1;
-
-                                                          dataBase.saveProducts(
-                                                              snapshot.data
-                                                                      .results[
-                                                                  index]);
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        height: 30,
-                                                        width: 140,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                            Radius.circular(
-                                                                10.0),
-                                                          ),
-                                                          color: AppTheme.blue,
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            SizedBox(
-                                                              width: 12,
-                                                            ),
-                                                            Expanded(
-                                                              child: Text(
-                                                                priceFormat.format(snapshot
-                                                                        .data
-                                                                        .results[
-                                                                            index]
-                                                                        .price) +
-                                                                    translate(
-                                                                        "sum"),
-                                                                maxLines: 1,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: AppTheme
-                                                                      .white,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontFamily:
-                                                                      AppTheme
-                                                                          .fontRoboto,
-                                                                  fontSize: 12,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            SvgPicture.asset(
-                                                              "assets/images/card_icon.svg",
-                                                            ),
-                                                            SizedBox(
-                                                              width: 8.11,
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                padding: EdgeInsets.only(
-                                  right: 12,
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text(snapshot.error.toString());
-                      }
-                      return Shimmer.fromColors(
-                        baseColor: Colors.grey[300],
-                        highlightColor: Colors.grey[100],
-                        child: ListView.builder(
-                          padding: const EdgeInsets.only(
-                            top: 0,
-                            bottom: 0,
-                            right: 12,
-                            left: 12,
-                          ),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (_, __) => Padding(
-                            padding: const EdgeInsets.only(bottom: 0.0),
-                            child: Container(
-                              width: 140,
-                              height: 250,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 140,
-                                    height: 140,
-                                    color: AppTheme.white,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 10),
-                                    height: 15,
-                                    width: double.infinity,
-                                    color: AppTheme.white,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 3),
-                                    color: AppTheme.white,
-                                    height: 14,
-                                    width: 80,
-                                  ),
-                                ],
-                              ),
-                              margin: EdgeInsets.only(
-                                right: 12,
-                              ),
-                            ),
-                          ),
-                          itemCount: 8,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: Stack(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: 24,
-                          left: 12,
-                          right: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
-                          ),
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              Color(0xFFEEEEFF),
-                              Color(0xFFF8F8FF),
-                            ],
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: 25,
-                              width: double.infinity,
-                            ),
-                            Image.asset(
-                              "assets/images/home_bonus.png",
-                              width: 124,
-                              height: 124,
-                            ),
-                            SizedBox(
-                              height: 32,
-                              width: double.infinity,
-                            ),
-                            Text(
-                              translate("home.bonus"),
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontRoboto,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 20,
-                                height: 1.1,
-                                color: AppTheme.black_text,
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                top: 16,
-                                left: 26,
-                                right: 26,
-                                bottom: 24,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  translate("home.bonus_txt"),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontRoboto,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 14,
-                                    height: 1.6,
-                                    color: Color(0xFF6E80B0),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: 8,
-                          left: MediaQuery.of(context).size.width / 4.15,
-                        ),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Image.asset(
-                            "assets/images/bonus_one.png",
-                            width: 46,
-                            height: 46,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          right: MediaQuery.of(context).size.width / 9.375,
-                        ),
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: Image.asset(
-                            "assets/images/bonus_two.png",
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: 110,
-                          left: MediaQuery.of(context).size.width / 7.5,
-                        ),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Image.asset(
-                            "assets/images/bonus_three.png",
-                            width: 46,
-                            height: 46,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: 104,
-                          right: 2,
-                        ),
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: Image.asset(
-                            "assets/images/bonus_four.png",
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    var url = "tel:+998712050888";
-                    if (await canLaunch(url)) {
-                      await launch(url);
-                    } else {
-                      throw 'Could not launch $url';
-                    }
-                  },
-                  child: Container(
-                    height: 88,
-                    width: double.infinity,
-                    margin: EdgeInsets.only(
-                      left: 12,
-                      right: 12,
-                      top: 24,
-                      bottom: 32,
-                    ),
-                    padding: EdgeInsets.only(
-                      left: 24,
-                      right: 16,
-                      top: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color(0xFFE2EEFB),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
+                StreamBuilder(
+                  stream: blocHome.getBestItem,
+                  builder: (context, AsyncSnapshot<ItemModel> snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data.results.length > 0) {
+                        return Container(
+                          height: 225,
+                          margin: EdgeInsets.only(top: 24),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text(
-                                translate("call_center"),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRoboto,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize:
-                                      MediaQuery.of(context).size.width > 375
-                                          ? 18
-                                          : 12,
-                                  color: AppTheme.black_text,
+                              Container(
+                                margin: EdgeInsets.only(
+                                  right: 16,
+                                  left: 16,
+                                  bottom: 16,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      translate("home.best"),
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontRubik,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        height: 1.1,
+                                        color: AppTheme.text_dark,
+                                      ),
+                                    ),
+                                    Expanded(child: Container()),
+                                    GestureDetector(
+                                      onTap: () {},
+                                      child: Text(
+                                        translate("home.all"),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRubik,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                          height: 1.1,
+                                          color: AppTheme.blue,
+                                        ),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {},
+                                      child: SvgPicture.asset(
+                                          "assets/icons/arrow_right_blue.svg"),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              SizedBox(height: 8),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SvgPicture.asset("assets/images/call.svg"),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    "+998 (71) 205-0-888",
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRoboto,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width >
-                                                  375
-                                              ? 18
-                                              : 12,
-                                      height: 1.6,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppTheme.blue,
+                              Expanded(
+                                child: ListView.builder(
+                                  padding: const EdgeInsets.only(
+                                    top: 0,
+                                    bottom: 0,
+                                    right: 16,
+                                    left: 16,
+                                  ),
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) => Padding(
+                                    padding: const EdgeInsets.only(bottom: 0.0),
+                                    child: GestureDetector(
+                                      onTap: () {},
+                                      child: Container(
+                                        width: 148,
+                                        height: 189,
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.white,
+                                          borderRadius:
+                                          BorderRadius.circular(16),
+                                        ),
+                                        margin: EdgeInsets.only(
+                                          right: 16,
+                                        ),
+                                        padding: EdgeInsets.all(8),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: Stack(
+                                                children: [
+                                                  Center(
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: snapshot
+                                                          .data
+                                                          .results[index]
+                                                          .getImageThumbnail,
+                                                      placeholder:
+                                                          (context, url) =>
+                                                          SvgPicture.asset(
+                                                            "assets/images/place_holder.svg",
+                                                          ),
+                                                      errorWidget: (context,
+                                                          url, error) =>
+                                                          SvgPicture.asset(
+                                                            "assets/images/place_holder.svg",
+                                                          ),
+                                                      fit: BoxFit.fitHeight,
+                                                    ),
+                                                  ),
+                                                  Positioned(
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        snapshot
+                                                            .data
+                                                            .results[index]
+                                                            .favourite =
+                                                        !snapshot
+                                                            .data
+                                                            .results[index]
+                                                            .favourite;
+                                                        if (snapshot
+                                                            .data
+                                                            .results[index]
+                                                            .favourite) {
+                                                          dataBaseFav
+                                                              .saveProducts(
+                                                              snapshot.data
+                                                                  .results[
+                                                              index])
+                                                              .then((value) {
+                                                            blocHome
+                                                                .fetchBestUpdate();
+                                                          });
+                                                        } else {
+                                                          dataBaseFav
+                                                              .deleteProducts(
+                                                              snapshot
+                                                                  .data
+                                                                  .results[
+                                                              index]
+                                                                  .id)
+                                                              .then((value) {
+                                                            blocHome
+                                                                .fetchBestUpdate();
+                                                          });
+                                                        }
+                                                      },
+                                                      child: snapshot
+                                                          .data
+                                                          .results[index]
+                                                          .favourite
+                                                          ? SvgPicture.asset(
+                                                          "assets/icons/fav_select.svg")
+                                                          : SvgPicture.asset(
+                                                          "assets/icons/fav_unselect.svg"),
+                                                    ),
+                                                    top: 0,
+                                                    right: 0,
+                                                  ),
+                                                  Positioned(
+                                                    child: snapshot
+                                                        .data
+                                                        .results[index]
+                                                        .price >=
+                                                        snapshot
+                                                            .data
+                                                            .results[index]
+                                                            .basePrice
+                                                        ? Container()
+                                                        : Container(
+                                                      padding:
+                                                      EdgeInsets.all(
+                                                          4),
+                                                      decoration:
+                                                      BoxDecoration(
+                                                        color: AppTheme
+                                                            .red
+                                                            .withOpacity(
+                                                            0.1),
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .circular(
+                                                            8),
+                                                      ),
+                                                      child: Text(
+                                                        "-" +
+                                                            (((snapshot.data.results[index].basePrice - snapshot.data.results[index].price) *
+                                                                100) ~/
+                                                                snapshot
+                                                                    .data
+                                                                    .results[index]
+                                                                    .basePrice)
+                                                                .toString() +
+                                                            "%",
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                          AppTheme
+                                                              .fontRubik,
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .w500,
+                                                          fontSize: 12,
+                                                          height: 1.2,
+                                                          color: AppTheme
+                                                              .red,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    top: 0,
+                                                    left: 0,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(height: 4),
+                                            Text(
+                                              snapshot.data.results[index].name,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 12,
+                                                height: 1.5,
+                                                color: AppTheme.text_dark,
+                                              ),
+                                            ),
+                                            SizedBox(height: 4),
+                                            Text(
+                                              snapshot.data.results[index]
+                                                  .manufacturer.name,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 10,
+                                                height: 1.2,
+                                                color: AppTheme.textGray,
+                                              ),
+                                            ),
+                                            SizedBox(height: 4),
+                                            snapshot.data.results[index]
+                                                .isComing
+                                                ? Container(
+                                              height: 29,
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                color: AppTheme.blue,
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                    8),
+                                              ),
+                                              child: Center(
+                                                child: RichText(
+                                                  text: TextSpan(
+                                                    children: [
+                                                      TextSpan(
+                                                        text: translate(
+                                                            "fast"),
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                          AppTheme
+                                                              .fontRubik,
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .w500,
+                                                          fontSize: 14,
+                                                          height: 1.2,
+                                                          color: AppTheme
+                                                              .white,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                                : snapshot.data.results[index]
+                                                .cardCount >
+                                                0
+                                                ? Container(
+                                              height: 29,
+                                              width: double.infinity,
+                                              decoration:
+                                              BoxDecoration(
+                                                color: AppTheme.blue
+                                                    .withOpacity(
+                                                    0.12),
+                                                borderRadius:
+                                                BorderRadius
+                                                    .circular(8),
+                                              ),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment
+                                                    .start,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .start,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      if (snapshot
+                                                          .data
+                                                          .results[
+                                                      index]
+                                                          .cardCount >
+                                                          1) {
+                                                        snapshot
+                                                            .data
+                                                            .results[
+                                                        index]
+                                                            .cardCount = snapshot
+                                                            .data
+                                                            .results[
+                                                        index]
+                                                            .cardCount -
+                                                            1;
+                                                        dataBase
+                                                            .updateProduct(snapshot
+                                                            .data
+                                                            .results[
+                                                        index])
+                                                            .then(
+                                                                (value) {
+                                                              blocHome
+                                                                  .fetchBestUpdate();
+                                                            });
+                                                      } else if (snapshot
+                                                          .data
+                                                          .results[
+                                                      index]
+                                                          .cardCount ==
+                                                          1) {
+                                                        dataBase
+                                                            .deleteProducts(snapshot
+                                                            .data
+                                                            .results[
+                                                        index]
+                                                            .id)
+                                                            .then(
+                                                                (value) {
+                                                              blocHome
+                                                                  .fetchBestUpdate();
+                                                            });
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      height: 29,
+                                                      width: 29,
+                                                      decoration:
+                                                      BoxDecoration(
+                                                        color:
+                                                        AppTheme
+                                                            .blue,
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .circular(
+                                                            8),
+                                                      ),
+                                                      child: Center(
+                                                        child:
+                                                        SvgPicture
+                                                            .asset(
+                                                          "assets/icons/remove.svg",
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Center(
+                                                      child: Text(
+                                                        snapshot
+                                                            .data
+                                                            .results[
+                                                        index]
+                                                            .cardCount
+                                                            .toString() +
+                                                            " " +
+                                                            translate(
+                                                                "sht"),
+                                                        style:
+                                                        TextStyle(
+                                                          fontFamily:
+                                                          AppTheme
+                                                              .fontRubik,
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .w500,
+                                                          fontSize:
+                                                          12,
+                                                          height: 1.2,
+                                                          color: AppTheme
+                                                              .text_dark,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      if (snapshot
+                                                          .data
+                                                          .results[
+                                                      index]
+                                                          .cardCount <
+                                                          snapshot
+                                                              .data
+                                                              .results[
+                                                          index]
+                                                              .maxCount)
+                                                        snapshot
+                                                            .data
+                                                            .results[
+                                                        index]
+                                                            .cardCount = snapshot
+                                                            .data
+                                                            .results[
+                                                        index]
+                                                            .cardCount +
+                                                            1;
+                                                      dataBase
+                                                          .updateProduct(snapshot
+                                                          .data
+                                                          .results[
+                                                      index])
+                                                          .then(
+                                                              (value) {
+                                                            blocHome
+                                                                .fetchBestUpdate();
+                                                          });
+                                                    },
+                                                    child: Container(
+                                                      height: 29,
+                                                      width: 29,
+                                                      decoration:
+                                                      BoxDecoration(
+                                                        color:
+                                                        AppTheme
+                                                            .blue,
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .circular(
+                                                            8),
+                                                      ),
+                                                      child: Center(
+                                                        child:
+                                                        SvgPicture
+                                                            .asset(
+                                                          "assets/icons/add.svg",
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                                : GestureDetector(
+                                              onTap: () {
+                                                snapshot
+                                                    .data
+                                                    .results[index]
+                                                    .cardCount = 1;
+                                                dataBase
+                                                    .saveProducts(
+                                                    snapshot.data
+                                                        .results[
+                                                    index])
+                                                    .then((value) {
+                                                  blocHome
+                                                      .fetchBestUpdate();
+                                                });
+                                              },
+                                              child: Container(
+                                                height: 29,
+                                                width:
+                                                double.infinity,
+                                                decoration:
+                                                BoxDecoration(
+                                                  color:
+                                                  AppTheme.blue,
+                                                  borderRadius:
+                                                  BorderRadius
+                                                      .circular(
+                                                      8),
+                                                ),
+                                                child: Center(
+                                                  child: RichText(
+                                                    text: TextSpan(
+                                                      children: [
+                                                        TextSpan(
+                                                          text: priceFormat.format(snapshot
+                                                              .data
+                                                              .results[
+                                                          index]
+                                                              .price),
+                                                          style:
+                                                          TextStyle(
+                                                            fontFamily:
+                                                            AppTheme
+                                                                .fontRubik,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .w500,
+                                                            fontSize:
+                                                            14,
+                                                            height:
+                                                            1.2,
+                                                            color: AppTheme
+                                                                .white,
+                                                          ),
+                                                        ),
+                                                        TextSpan(
+                                                          text: translate(
+                                                              "sum"),
+                                                          style:
+                                                          TextStyle(
+                                                            fontFamily:
+                                                            AppTheme
+                                                                .fontRubik,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .w400,
+                                                            fontSize:
+                                                            14,
+                                                            height:
+                                                            1.2,
+                                                            color: AppTheme
+                                                                .white,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                  )
-                                ],
-                              )
+                                  ),
+                                  itemCount: 8,
+                                ),
+                              ),
                             ],
                           ),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    }
+                    return Container(
+                      height: 225,
+                      margin: EdgeInsets.only(top: 24),
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.grey[300],
+                        highlightColor: Colors.grey[100],
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                right: 16,
+                                left: 16,
+                                bottom: 16,
+                              ),
+                              height: 19,
+                              width: 125,
+                              color: AppTheme.white,
+                            ),
+                            Expanded(
+                              child: ListView.builder(
+                                padding: const EdgeInsets.only(
+                                  top: 0,
+                                  bottom: 0,
+                                  right: 16,
+                                  left: 16,
+                                ),
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (_, __) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 0.0),
+                                  child: Container(
+                                    width: 148,
+                                    height: 189,
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.white,
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    margin: EdgeInsets.only(
+                                      right: 16,
+                                    ),
+                                  ),
+                                ),
+                                itemCount: 8,
+                              ),
+                            ),
+                          ],
                         ),
-                        SvgPicture.asset("assets/images/call_center.svg")
-                      ],
-                    ),
-                  ),
-                )
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ),

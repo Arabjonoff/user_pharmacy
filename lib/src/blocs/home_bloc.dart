@@ -115,9 +115,11 @@ class HomeBloc {
     }
   }
 
-  fetchAllHome() async {
-    ItemModel itemModelResponse =
-        ItemModel.fromJson((await _repository.fetchBestItem(
+  ///Best item
+  ItemModel bestItemData;
+
+  fetchBestItem() async {
+    var response = await _repository.fetchBestItem(
       1,
       "",
       "",
@@ -125,18 +127,61 @@ class HomeBloc {
       "",
       "",
       "",
-    ))
-            .result);
-    List<ItemResult> database = await _repository.databaseItem();
-    if (itemModelResponse.results != null) {
-      for (var i = 0; i < itemModelResponse.results.length; i++) {
-        for (var j = 0; j < database.length; j++) {
-          if (itemModelResponse.results[i].id == database[j].id) {
-            itemModelResponse.results[i].cardCount = database[j].cardCount;
+    );
+    if (response.isSuccess) {
+      bestItemData = ItemModel.fromJson(response.result);
+      List<ItemResult> database = await _repository.databaseItem();
+      List<ItemResult> resultFav = await _repository.databaseFavItem();
+      if (bestItemData.results.length > 0) {
+        for (var i = 0; i < bestItemData.results.length; i++) {
+          for (var j = 0; j < database.length; j++) {
+            if (bestItemData.results[i].id == database[j].id) {
+              bestItemData.results[i].cardCount = database[j].cardCount;
+            }
+          }
+        }
+
+        for (int i = 0; i < bestItemData.results.length; i++) {
+          bestItemData.results[i].favourite = false;
+          for (int j = 0; j < resultFav.length; j++) {
+            if (bestItemData.results[i].id == resultFav[j].id) {
+              bestItemData.results[i].favourite = resultFav[j].favourite;
+              break;
+            }
           }
         }
       }
-      _bestItemFetcher.sink.add(itemModelResponse);
+      _bestItemFetcher.sink.add(bestItemData);
+    }
+  }
+
+  fetchBestUpdate() async {
+    if (bestItemData != null) {
+      List<ItemResult> database = await _repository.databaseItem();
+      List<ItemResult> resultFav = await _repository.databaseFavItem();
+      if (bestItemData.results.length > 0) {
+        for (var i = 0; i < bestItemData.results.length; i++) {
+          bestItemData.results[i].cardCount = 0;
+          for (var j = 0; j < database.length; j++) {
+            if (bestItemData.results[i].id == database[j].id) {
+              bestItemData.results[i].cardCount = database[j].cardCount;
+            }
+          }
+        }
+
+        for (int i = 0; i < bestItemData.results.length; i++) {
+          bestItemData.results[i].favourite = false;
+          for (int j = 0; j < resultFav.length; j++) {
+            if (bestItemData.results[i].id == resultFav[j].id) {
+              bestItemData.results[i].favourite = resultFav[j].favourite;
+              break;
+            }
+          }
+        }
+      }
+      _bestItemFetcher.sink.add(bestItemData);
+    } else {
+      fetchBestItem();
     }
   }
 

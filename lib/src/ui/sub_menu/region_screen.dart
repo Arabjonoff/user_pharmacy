@@ -173,7 +173,6 @@ class _RegionScreenState extends State<RegionScreen> {
                                       await SharedPreferences.getInstance();
                                   prefs.setString("city", users[index].name);
                                   prefs.setInt("cityId", users[index].id);
-                                  blocHome.fetchAllHome();
                                   blocHome.fetchCityName();
                                   Navigator.pop(context);
                                 } else {
@@ -306,7 +305,6 @@ class _RegionScreenState extends State<RegionScreen> {
                                                     users[index]
                                                         .childs[position]
                                                         .id);
-                                                blocHome.fetchAllHome();
                                                 blocHome.fetchCityName();
                                                 Navigator.pop(context);
                                               } else {
