@@ -21,6 +21,7 @@ import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/check_version.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
+import 'package:pharmacy/src/ui/dialog/top_dialog.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -61,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   String city = "";
   int _stars = 0;
   var loading = false;
-  var isAnimated = false;
+  var isAnimated = true;
   int lastPosition = 0;
   var duration = Duration(milliseconds: 270);
   TextEditingController commentController = TextEditingController();
@@ -143,9 +144,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: () {
-
-                  },
+                  onTap: () {},
                   child: Container(
                     margin: EdgeInsets.only(
                       top: 8,
@@ -184,66 +183,79 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     physics: NeverScrollableScrollPhysics(),
                     children: [
                       isAnimated
-                          ? Row(
-                              children: [
-                                SizedBox(width: 16),
-                                SvgPicture.asset(
-                                    "assets/icons/location_grey.svg"),
-                                SizedBox(width: 12),
-                                Expanded(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                          ? GestureDetector(
+                              onTap: () {
+                                TopDialog.createRegion(context);
+                              },
+                              child: Container(
+                                color: AppTheme.white,
+                                child: Row(
                                   children: [
-                                    Text(
-                                      translate("home.location"),
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontRubik,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 12,
-                                        height: 1.2,
-                                        color: AppTheme.blue,
-                                      ),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Row(
+                                    SizedBox(width: 16),
+                                    SvgPicture.asset(
+                                        "assets/icons/location_grey.svg"),
+                                    SizedBox(width: 12),
+                                    Expanded(
+                                        child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        StreamBuilder(
-                                          stream: blocHome.allCityName,
-                                          builder: (context,
-                                              AsyncSnapshot<String> snapshot) {
-                                            if (snapshot.hasData) {
-                                              return Text(
-                                                snapshot.data,
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      AppTheme.fontRubik,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 14,
-                                                  height: 1.2,
-                                                  color: AppTheme.text_dark,
-                                                ),
-                                              );
-                                            }
-                                            return Text(
-                                              "Ташкент",
-                                              style: TextStyle(
-                                                fontFamily: AppTheme.fontRubik,
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 14,
-                                                height: 1.2,
-                                                color: AppTheme.text_dark,
-                                              ),
-                                            );
-                                          },
+                                        Text(
+                                          translate("home.location"),
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontRubik,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 12,
+                                            height: 1.2,
+                                            color: AppTheme.blue,
+                                          ),
                                         ),
-                                        SizedBox(width: 4),
-                                        SvgPicture.asset(
-                                            "assets/icons/arrow_bottom_blue.svg"),
+                                        SizedBox(height: 8),
+                                        Row(
+                                          children: [
+                                            StreamBuilder(
+                                              stream: blocHome.allCityName,
+                                              builder: (context,
+                                                  AsyncSnapshot<String>
+                                                      snapshot) {
+                                                if (snapshot.hasData) {
+                                                  return Text(
+                                                    snapshot.data,
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          AppTheme.fontRubik,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontSize: 14,
+                                                      height: 1.2,
+                                                      color: AppTheme.text_dark,
+                                                    ),
+                                                  );
+                                                }
+                                                return Text(
+                                                  "Ташкент",
+                                                  style: TextStyle(
+                                                    fontFamily:
+                                                        AppTheme.fontRubik,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontSize: 14,
+                                                    height: 1.2,
+                                                    color: AppTheme.text_dark,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                            SizedBox(width: 4),
+                                            SvgPicture.asset(
+                                                "assets/icons/arrow_bottom_blue.svg"),
+                                          ],
+                                        )
                                       ],
-                                    )
+                                    ))
                                   ],
-                                ))
-                              ],
+                                ),
+                              ),
                             )
                           : Container()
                     ],
