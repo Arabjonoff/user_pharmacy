@@ -240,8 +240,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
                                   );
                                   await methodChannel.invokeMethod("stop");
                                 }
-                              } on PlatformException catch (e) {
-                                print(e.toString());
+                              } on PlatformException catch (_) {
                                 Navigator.pop(context);
                               }
                             },

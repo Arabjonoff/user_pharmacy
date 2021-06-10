@@ -4,28 +4,44 @@ class ItemModel {
     this.next,
     this.previous,
     this.results,
+    this.drugs,
+    this.title,
   });
 
   int count;
   dynamic next;
   dynamic previous;
+  String title;
   List<ItemResult> results;
+  List<ItemResult> drugs;
 
-  factory ItemModel.fromJson(Map<String, dynamic> json) => ItemModel(
-        count: json["count"],
-        next: json["next"],
-        previous: json["previous"],
-        results: json["results"] == null
-            ? null
-            : List<ItemResult>.from(
-                json["results"].map((x) => ItemResult.fromJson(x))),
-      );
+  ItemModel.fromJson(Map<String, dynamic> json) {
+    this.count = json["count"];
+    this.next = json["next"];
+    this.previous = json["previous"];
+    this.title = json["title"]??"";
+    this.results = json["results"] == null
+        ? []
+        : List<ItemResult>.from(
+            json["results"].map(
+              (x) => ItemResult.fromJson(x),
+            ),
+          );
+    this.drugs = json["drugs"] == null
+        ? []
+        : List<ItemResult>.from(
+            json["drugs"].map(
+              (x) => ItemResult.fromJson(x),
+            ),
+          );
+  }
 
   Map<String, dynamic> toJson() => {
         "count": count,
         "next": next,
         "previous": previous,
         "results": List<dynamic>.from(results.map((x) => x.toJson())),
+        "drugs": List<dynamic>.from(drugs.map((x) => x.toJson())),
       };
 }
 
@@ -57,34 +73,17 @@ class ItemResult {
     this.basePrice,
   });
 
-  int get getId => id;
-
-  String get getName => name;
-
-  String get getBarcode => barcode;
-
-  String get getImage => image;
-
-  String get getImageThumbnail => imageThumbnail;
-
-  double get getPrice => price;
-
-  Manifacture get getManufacturer => manufacturer;
-
-  bool get getFavourite => favourite;
-
-  int get getCardCount => cardCount;
-
   ItemResult.fromJson(Map<String, dynamic> map) {
-    this.id = map["id"];
-    this.name = map["name"];
-    this.barcode = map["barcode"];
-    this.image = map["image"];
-    this.imageThumbnail = map["image_thumbnail"];
-    this.maxCount = map["max_count"];
-    this.isComing = map["is_coming"];
-    this.price = map["price"].toDouble();
-    this.basePrice = map["base_price"].toDouble();
+    this.id = map["id"] ?? 0;
+    this.name = map["name"] ?? "";
+    this.barcode = map["barcode"] ?? "";
+    this.image = map["image"] ?? "";
+    this.imageThumbnail = map["image_thumbnail"] ?? "";
+    this.maxCount = map["max_count"] ?? 100;
+    this.isComing = map["is_coming"] ?? false;
+    this.price = map["price"] == null ? 0.0 : map["price"].toDouble();
+    this.basePrice =
+        map["base_price"] == null ? 0.0 : map["base_price"].toDouble();
     this.manufacturer = map['manufacturer'] != null
         ? new Manifacture.fromMap(map['manufacturer'])
         : Manifacture("");

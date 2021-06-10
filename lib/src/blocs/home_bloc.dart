@@ -1,3 +1,4 @@
+import 'package:pharmacy/src/model/api/blog_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
@@ -10,18 +11,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HomeBloc {
   final _repository = Repository();
   final _bannerFetcher = PublishSubject<BannerModel>();
+  final _blogFetcher = PublishSubject<BlogModel>();
   final _cityNameFetcher = PublishSubject<String>();
   final _bestItemFetcher = PublishSubject<ItemModel>();
   final _recentlyFetcher = PublishSubject<ItemModel>();
+  final _slimmingFetcher = PublishSubject<ItemModel>();
   final _categoryFetcher = PublishSubject<CategoryModel>();
 
   Stream<BannerModel> get banner => _bannerFetcher.stream;
+
+  Stream<BlogModel> get blog => _blogFetcher.stream;
 
   Stream<String> get allCityName => _cityNameFetcher.stream;
 
   Stream<ItemModel> get getBestItem => _bestItemFetcher.stream;
 
   Stream<ItemModel> get recentlyItem => _recentlyFetcher.stream;
+
+  Stream<ItemModel> get slimmingItem => _slimmingFetcher.stream;
 
   Stream<CategoryModel> get categoryItem => _categoryFetcher.stream;
 
@@ -31,6 +38,15 @@ class HomeBloc {
       _bannerFetcher.sink.add(BannerModel.fromJson(response.result));
     } else {
       _bannerFetcher.sink.add(BannerModel(results: []));
+    }
+  }
+
+  fetchBlog() async {
+    var response = await _repository.fetchBlog();
+    if (response.isSuccess) {
+      _blogFetcher.sink.add(BlogModel.fromJson(response.result));
+    } else {
+      _blogFetcher.sink.add(BlogModel(results: []));
     }
   }
 
@@ -185,6 +201,68 @@ class HomeBloc {
     }
   }
 
+  ///slimming
+  ItemModel slimmingItemData;
+
+  fetchSlimmingItem() async {
+    var response = await _repository.fetchSlimming();
+    if (response.isSuccess) {
+      slimmingItemData = ItemModel.fromJson(response.result);
+      List<ItemResult> database = await _repository.databaseItem();
+      List<ItemResult> resultFav = await _repository.databaseFavItem();
+      if (slimmingItemData.drugs.length > 0) {
+        for (var i = 0; i < slimmingItemData.drugs.length; i++) {
+          for (var j = 0; j < database.length; j++) {
+            if (slimmingItemData.drugs[i].id == database[j].id) {
+              slimmingItemData.drugs[i].cardCount = database[j].cardCount;
+            }
+          }
+        }
+
+        for (int i = 0; i < slimmingItemData.drugs.length; i++) {
+          slimmingItemData.drugs[i].favourite = false;
+          for (int j = 0; j < resultFav.length; j++) {
+            if (slimmingItemData.drugs[i].id == resultFav[j].id) {
+              slimmingItemData.drugs[i].favourite = resultFav[j].favourite;
+              break;
+            }
+          }
+        }
+      }
+      _slimmingFetcher.sink.add(slimmingItemData);
+    }
+  }
+
+  fetchSlimmingUpdate() async {
+    if (slimmingItemData != null) {
+      List<ItemResult> database = await _repository.databaseItem();
+      List<ItemResult> resultFav = await _repository.databaseFavItem();
+      if (slimmingItemData.drugs.length > 0) {
+        for (var i = 0; i < slimmingItemData.drugs.length; i++) {
+          slimmingItemData.drugs[i].cardCount = 0;
+          for (var j = 0; j < database.length; j++) {
+            if (slimmingItemData.drugs[i].id == database[j].id) {
+              slimmingItemData.drugs[i].cardCount = database[j].cardCount;
+            }
+          }
+        }
+
+        for (int i = 0; i < slimmingItemData.drugs.length; i++) {
+          slimmingItemData.drugs[i].favourite = false;
+          for (int j = 0; j < resultFav.length; j++) {
+            if (slimmingItemData.drugs[i].id == resultFav[j].id) {
+              slimmingItemData.drugs[i].favourite = resultFav[j].favourite;
+              break;
+            }
+          }
+        }
+      }
+      _slimmingFetcher.sink.add(slimmingItemData);
+    } else {
+      fetchSlimmingItem();
+    }
+  }
+
   fetchCityName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getString("city") != null) {
@@ -194,8 +272,10 @@ class HomeBloc {
 
   dispose() {
     _bannerFetcher.close();
+    _blogFetcher.close();
     _cityNameFetcher.close();
     _bestItemFetcher.close();
+    _slimmingFetcher.close();
     _recentlyFetcher.close();
     _categoryFetcher.close();
   }

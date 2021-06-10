@@ -20,7 +20,6 @@ import 'package:pharmacy/src/model/api/min_sum.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
-import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/chat/chat_api_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/create_order_status_model.dart';
@@ -237,6 +236,18 @@ class PharmacyApiProvider {
     return await getRequest(url);
   }
 
+  ///Banner
+  Future<HttpResult> fetchBlog() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+    String language = prefs.getString('language') ?? "ru";
+
+    String url = Utils.baseUrl +
+        '/api/v1/pages?choice=blog&region=$regionId&lan=$language';
+
+    return await getRequest(url);
+  }
+
   ///best items
   Future<HttpResult> fetchBestItemList(
     int page,
@@ -266,13 +277,22 @@ class PharmacyApiProvider {
     return await getRequest(url);
   }
 
-  ///Banner
+  ///Top category
   Future<HttpResult> fetchTopCategory() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
+    String url =
+        Utils.baseUrl + '/api/v1/categories?popular=true&region=$regionId';
+    return await getRequest(url);
+  }
 
-    String url = Utils.baseUrl + '/api/v1/categories?popular=true&region=$regionId';
-
+  ///slimming
+  Future<HttpResult> fetchSlimming() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int regionId = prefs.getInt("cityId");
+    String language = prefs.getString('language') ?? "ru";
+    String url = Utils.baseUrl +
+        '/api/v1/drugs/collections?region=$regionId&lan=$language';
     return await getRequest(url);
   }
 

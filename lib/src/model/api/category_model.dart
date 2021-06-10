@@ -7,7 +7,6 @@ class CategoryModel {
   CategoryModel({this.count, this.next, this.previous, this.results});
 
   CategoryModel.fromJson(Map<String, dynamic> json) {
-    print(json);
     count = json['count'];
     next = json['next'];
     previous = json['previous'];

@@ -90,6 +90,101 @@ class Utils {
     //prefs.commit();
   }
 
+  static String dateFormat(DateTime dateTime) {
+    switch (dateTime.month) {
+      case 1:
+        return format(dateTime.day) +
+            " " +
+            translate("month.january") +
+            " " +
+            dateTime.year.toString();
+        break;
+      case 2:
+        return format(dateTime.day) +
+            " " +
+            translate("month.february") +
+            " " +
+            dateTime.year.toString();
+        break;
+      case 3:
+        return format(dateTime.day) +
+            " " +
+            translate("month.march") +
+            " " +
+            dateTime.year.toString();
+        break;
+      case 4:
+        return format(dateTime.day) +
+            " " +
+            translate("month.april") +
+            " " +
+            dateTime.year.toString();
+        break;
+      case 5:
+        return format(dateTime.day) +
+            " " +
+            translate("month.may") +
+            " " +
+            dateTime.year.toString();
+        break;
+      case 6:
+        return format(dateTime.day) +
+            " " +
+            translate("month.june") +
+            " " +
+            dateTime.year.toString();
+        break;
+      case 7:
+        return format(dateTime.day) +
+            " " +
+            translate("month.july") +
+            " " +
+            dateTime.year.toString();
+        break;
+      case 8:
+        return format(dateTime.day) +
+            " " +
+            translate("month.august") +
+            " " +
+            dateTime.year.toString();
+        break;
+      case 9:
+        return format(dateTime.day) +
+            " " +
+            translate("month.september") +
+            " " +
+            dateTime.year.toString();
+        break;
+      case 10:
+        return format(dateTime.day) +
+            " " +
+            translate("month.october") +
+            " " +
+            dateTime.year.toString();
+        break;
+      case 11:
+        return format(dateTime.day) +
+            " " +
+            translate("month.november") +
+            " " +
+            dateTime.year.toString();
+        break;
+      case 12:
+        return format(dateTime.day) +
+            " " +
+            translate("month.december") +
+            " " +
+            dateTime.year.toString();
+        break;
+      default:
+        return format(dateTime.day) +
+            " " +
+            translate("month.december") +
+            " " +
+            dateTime.year.toString();
+    }
+  }
+
   static String numberFormat(String number) {
     String s = "+";
     if (number.length == 12) {
@@ -129,8 +224,7 @@ class Utils {
         return "-1";
       else
         return result.rawContent;
-    } on PlatformException catch (e) {
-      print(e.toString());
+    } on PlatformException catch (_) {
       return "-1";
     }
   }

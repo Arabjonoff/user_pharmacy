@@ -206,8 +206,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                                   );
                                   await methodChannel.invokeMethod("stop");
                                 }
-                              } on PlatformException catch (e) {
-                                print(e.toString());
+                              } on PlatformException catch (_) {
                                 Navigator.pop(context);
                               }
                             },

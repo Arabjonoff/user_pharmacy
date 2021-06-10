@@ -550,7 +550,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                               imageUrl: snapshot
                                                   .data
                                                   .recommendations[index]
-                                                  .getImageThumbnail,
+                                                  .imageThumbnail,
                                               placeholder: (context, url) =>
                                                   Container(
                                                 padding: EdgeInsets.all(
@@ -1030,7 +1030,7 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                                               imageUrl: snapshot
                                                   .data
                                                   .analog[index]
-                                                  .getImageThumbnail,
+                                                  .imageThumbnail,
                                               placeholder: (context, url) =>
                                                   Container(
                                                 padding: EdgeInsets.all(25),
