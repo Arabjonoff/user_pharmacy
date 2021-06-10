@@ -62,11 +62,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   int _stars = 0;
   var loading = false;
   var isAnimated = false;
+  int lastPosition = 0;
   var duration = Duration(milliseconds: 270);
   TextEditingController commentController = TextEditingController();
+  ScrollController _sc = new ScrollController();
 
   @override
   void initState() {
+    _sc.addListener(() {
+      if (_sc.offset ~/ 10 > 0) {
+        if (_sc.offset ~/ 10 < lastPosition) {
+          lastPosition = _sc.offset ~/ 10;
+          if (isAnimated == false) {
+            setState(() {
+              isAnimated = true;
+            });
+          }
+        } else if (_sc.offset ~/ 10 != lastPosition) {
+          lastPosition = _sc.offset ~/ 10;
+          if (isAnimated) {
+            setState(() {
+              isAnimated = false;
+            });
+          }
+        }
+      }
+    });
     _setLanguage();
     _initPackageInfo();
     _registerBus();
@@ -86,6 +107,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void dispose() {
     RxBus.destroy();
+    _sc.dispose();
     super.dispose();
   }
 
@@ -122,9 +144,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               children: [
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      isAnimated = !isAnimated;
-                    });
+
                   },
                   child: Container(
                     margin: EdgeInsets.only(
@@ -242,6 +262,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
           Expanded(
             child: ListView(
+              controller: _sc,
               physics: BouncingScrollPhysics(),
               cacheExtent: 99999999,
               padding: EdgeInsets.only(
