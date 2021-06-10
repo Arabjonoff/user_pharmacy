@@ -311,9 +311,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => ItemListScreen(
-                                            url.name,
-                                            4,
-                                            url.drugs
+                                            name: url.name,
+                                            type: 5,
+                                            id: url.drugs
                                                 .toString()
                                                 .replaceAll('[', '')
                                                 .replaceAll(']', '')
@@ -329,9 +329,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => ItemListScreen(
-                                            url.name,
-                                            1,
-                                            url.category.toString(),
+                                            name: url.name,
+                                            type: 2,
+                                            id: url.category.toString(),
                                           ),
                                         ),
                                       );
@@ -430,7 +430,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                     Expanded(child: Container()),
                                     GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ItemListScreen(
+                                              name: translate("home.recently"),
+                                              type: 1,
+                                            ),
+                                          ),
+                                        );
+                                      },
                                       child: Text(
                                         translate("home.all"),
                                         style: TextStyle(
@@ -1040,21 +1051,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 padding: EdgeInsets.only(
                                     top: 0, left: 16, right: 16, bottom: 4),
                                 itemCount: snapshot.data.results.length,
-                                itemBuilder: (context, position) {
+                                itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) => ItemListScreen(
-                                      //       snapshot
-                                      //           .data.results[position].name,
-                                      //       1,
-                                      //       snapshot.data.results[position].id
-                                      //           .toString(),
-                                      //     ),
-                                      //   ),
-                                      // );
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ItemListScreen(
+                                            name: snapshot
+                                                .data.results[index].name,
+                                            type: 2,
+                                            id: snapshot.data.results[index].id
+                                                .toString(),
+                                          ),
+                                        ),
+                                      );
                                     },
                                     child: Container(
                                       margin: EdgeInsets.only(bottom: 12),
@@ -1067,7 +1078,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             height: 42,
                                             child: CachedNetworkImage(
                                               imageUrl: snapshot
-                                                  .data.results[position].image,
+                                                  .data.results[index].image,
                                               placeholder: (context, url) =>
                                                   Container(
                                                 child: Center(
@@ -1091,8 +1102,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           SizedBox(width: 12),
                                           Expanded(
                                             child: Text(
-                                              snapshot
-                                                  .data.results[position].name,
+                                              snapshot.data.results[index].name,
                                               style: TextStyle(
                                                 fontFamily: AppTheme.fontRubik,
                                                 fontWeight: FontWeight.normal,
@@ -1189,7 +1199,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                     Expanded(child: Container()),
                                     GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ItemListScreen(
+                                              name: translate("home.best"),
+                                              type: 3,
+                                            ),
+                                          ),
+                                        );
+                                      },
                                       child: Text(
                                         translate("home.all"),
                                         style: TextStyle(
@@ -1789,7 +1810,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                     Expanded(child: Container()),
                                     GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ItemListScreen(
+                                              name: snapshot.data.title,
+                                              type: 4,
+                                            ),
+                                          ),
+                                        );
+                                      },
                                       child: Text(
                                         translate("home.all"),
                                         style: TextStyle(

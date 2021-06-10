@@ -211,9 +211,9 @@ class _MainScreenState extends State<MainScreen> {
           context,
           MaterialPageRoute(
             builder: (context) => ItemListScreen(
-              translate("sale"),
-              1,
-              event.position.toString(),
+              name: "",
+              type: 2,
+              id: event.position.toString(),
             ),
           ),
         )
@@ -226,9 +226,9 @@ class _MainScreenState extends State<MainScreen> {
           context,
           MaterialPageRoute(
             builder: (context) => ItemListScreen(
-              translate("sale"),
-              4,
-              event.position
+              name: "",
+              type: 5,
+              id: event.position
                   .toString()
                   .replaceAll('[', '')
                   .replaceAll(']', '')

@@ -1,475 +1,459 @@
 import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/search/search_screen.dart';
+import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:rxdart/rxdart.dart';
-
-List<ItemResult> usersCategory;
-ItemModel itemCategoryData;
-int itemCategoryCount;
-dynamic itemCategoryNext;
-dynamic itemCategoryPrevious;
-
-List<ItemResult> usersIds;
-ItemModel itemIdsData;
-int itemIdsCount;
-dynamic itemIdsNext;
-dynamic itemIdsPrevious;
-
-List<ItemResult> usersSearch;
-ItemModel itemSearchData;
-int itemModelSearchCount;
-dynamic itemModelSearchNext;
-dynamic itemModelSearchPrevious;
-
-List<ItemResult> usersBest;
-ItemModel itemBestData;
-int itemModelBestCount;
-dynamic itemModelBestNext;
-dynamic itemModelBestPrevious;
 
 class ItemListBloc {
   final _repository = Repository();
 
-  final _categoryItemsFetcher = PublishSubject<ItemModel>();
-  final _bestItemFetcher = PublishSubject<ItemModel>();
-  final _idsItemsFetcher = PublishSubject<ItemModel>();
-  final _itemSearchFetcher = PublishSubject<ItemModel>();
+  final _listItemsFetcher = PublishSubject<ItemModel>();
 
-  Stream<ItemModel> get allItemsCategory => _categoryItemsFetcher.stream;
+  Stream<ItemModel> get allItemsList => _listItemsFetcher.stream;
 
-  Stream<ItemModel> get allIds => _idsItemsFetcher.stream;
+  ///recently
+  ItemModel recentlyItemData;
 
-  Stream<ItemModel> get getBestItem => _bestItemFetcher.stream;
+  fetchAllRecently(
+    int page,
+    String ordering,
+    String priceMax,
+  ) async {
+    var response = await _repository.fetchBestItem(
+      1,
+      "",
+      "",
+    );
+    if (response.isSuccess) {
+      if (page == 1) {
+        recentlyItemData = ItemModel.fromJson(response.result);
+      } else {
+        var data = ItemModel.fromJson(response.result);
+        recentlyItemData.next = data.next;
+        recentlyItemData.results.addAll(data.results);
+      }
+      List<ItemResult> database = await _repository.databaseItem();
+      List<ItemResult> resultFav = await _repository.databaseFavItem();
+      if (recentlyItemData.results.length > 0) {
+        for (var i = 0; i < recentlyItemData.results.length; i++) {
+          for (var j = 0; j < database.length; j++) {
+            if (recentlyItemData.results[i].id == database[j].id) {
+              recentlyItemData.results[i].cardCount = database[j].cardCount;
+            }
+          }
+        }
 
-  Stream<ItemModel> get getItemSearch => _itemSearchFetcher.stream;
+        for (int i = 0; i < recentlyItemData.results.length; i++) {
+          recentlyItemData.results[i].favourite = false;
+          for (int j = 0; j < resultFav.length; j++) {
+            if (recentlyItemData.results[i].id == resultFav[j].id) {
+              recentlyItemData.results[i].favourite = resultFav[j].favourite;
+              break;
+            }
+          }
+        }
+      }
+      _listItemsFetcher.sink.add(recentlyItemData);
+    } else {
+      RxBus.post(BottomView(true), tag: "LIST_VIEW_ERROR_NETWORK");
+    }
+  }
 
-  fetchAllItemCategory(
+  ///category
+  ItemModel categoryItemData;
+
+  fetchCategory(
     String id,
     int page,
-    String internationalNameIds,
-    String manufacturerIds,
     String ordering,
     String priceMax,
-    String priceMin,
-    String unitIds,
   ) async {
-    if (page == 1) {
-      usersCategory = new List();
-    }
-    ItemModel itemCategory = await _repository.fetchCategoryItemList(
+    var response = await _repository.fetchCategoryItemList(
       id,
       page,
-      internationalNameIds,
-      manufacturerIds,
       ordering,
       priceMax,
-      priceMin,
-      unitIds,
     );
-    if (itemCategory != null) {
-      List<ItemResult> database = await _repository.databaseItem();
-      for (var j = 0; j < database.length; j++) {
-        for (var i = 0; i < itemCategory.results.length; i++) {
-          if (itemCategory.results[i].id == database[j].id) {
-            itemCategory.results[i].cardCount = database[j].cardCount;
-          }
-        }
-      }
-      List<ItemResult> databaseFav = await _repository.databaseFavItem();
-      for (var j = 0; j < databaseFav.length; j++) {
-        for (var i = 0; i < itemCategory.results.length; i++) {
-          if (itemCategory.results[i].id == databaseFav[j].id) {
-            itemCategory.results[i].favourite = true;
-          }
-        }
-      }
-
+    if (response.isSuccess) {
       if (page == 1) {
-        usersCategory = new List();
-        usersCategory = itemCategory.results;
+        categoryItemData = ItemModel.fromJson(response.result);
       } else {
-        usersCategory.addAll(itemCategory.results);
+        var data = ItemModel.fromJson(response.result);
+        categoryItemData.next = data.next;
+        categoryItemData.results.addAll(data.results);
       }
 
-      itemCategoryCount = itemCategory.count;
-      itemCategoryNext = itemCategory.next;
-      itemCategoryPrevious = itemCategory.previous;
-
-      itemCategoryData = new ItemModel(
-        count: itemCategory.count,
-        next: itemCategory.next,
-        previous: itemCategory.previous,
-        results: usersCategory,
-      );
-      _categoryItemsFetcher.sink.add(itemCategoryData);
-    }
-  }
-
-  fetchIdsItemsList(
-    String id,
-    int page,
-    String internationalNameIds,
-    String manufacturerIds,
-    String ordering,
-    String priceMax,
-    String priceMin,
-    String unitIds,
-  ) async {
-    if (page == 1) {
-      usersIds = new List();
-    }
-    ItemModel itemIds = await _repository.fetchIdsItemsList(
-      id,
-      page,
-      internationalNameIds,
-      manufacturerIds,
-      ordering,
-      priceMax,
-      priceMin,
-      unitIds,
-    );
-
-    List<ItemResult> database = await _repository.databaseItem();
-    for (var j = 0; j < database.length; j++) {
-      for (var i = 0; i < itemIds.results.length; i++) {
-        if (itemIds.results[i].id == database[j].id) {
-          itemIds.results[i].cardCount = database[j].cardCount;
-        }
-      }
-    }
-
-    List<ItemResult> databaseFav = await _repository.databaseFavItem();
-    for (var j = 0; j < databaseFav.length; j++) {
-      for (var i = 0; i < itemIds.results.length; i++) {
-        if (itemIds.results[i].id == databaseFav[j].id) {
-          itemIds.results[i].favourite = true;
-        }
-      }
-    }
-
-    if (page == 1) {
-      usersIds = new List();
-      usersIds = itemIds.results;
-    } else {
-      usersIds.addAll(itemIds.results);
-    }
-
-    itemIdsCount = itemIds.count;
-    itemIdsNext = itemIds.next;
-    itemIdsPrevious = itemIds.previous;
-
-    itemIdsData = new ItemModel(
-      count: itemIds.count,
-      next: itemIds.next,
-      previous: itemIds.previous,
-      results: usersIds,
-    );
-    _idsItemsFetcher.sink.add(itemIdsData);
-  }
-
-  fetchAllItemCategoryBest(
-    int page,
-    String internationalNameIds,
-    String manufacturerIds,
-    String ordering,
-    String priceMax,
-    String priceMin,
-    String unitIds,
-  ) async {
-    if (page == 1) {
-      usersBest = new List();
-    }
-
-    ItemModel itemModelBest =
-        ItemModel.fromJson((await _repository.fetchBestItem(
-      page,
-      internationalNameIds,
-      manufacturerIds,
-      ordering,
-      priceMax,
-      priceMin,
-      unitIds,
-    ))
-            .result);
-    List<ItemResult> database = await _repository.databaseItem();
-    for (var j = 0; j < database.length; j++) {
-      for (var i = 0; i < itemModelBest.results.length; i++) {
-        if (itemModelBest.results[i].id == database[j].id) {
-          itemModelBest.results[i].cardCount = database[j].cardCount;
-        }
-      }
-    }
-
-    List<ItemResult> databaseFav = await _repository.databaseFavItem();
-    for (var j = 0; j < databaseFav.length; j++) {
-      for (var i = 0; i < itemModelBest.results.length; i++) {
-        if (itemModelBest.results[i].id == databaseFav[j].id) {
-          itemModelBest.results[i].favourite = true;
-        }
-      }
-    }
-
-    if (page == 1) {
-      usersBest = new List();
-      usersBest = itemModelBest.results;
-    } else {
-      usersBest.addAll(itemModelBest.results);
-    }
-
-    itemModelBestCount = itemModelBest.count;
-    itemModelBestNext = itemModelBest.next;
-    itemModelBestPrevious = itemModelBest.previous;
-
-    itemBestData = new ItemModel(
-      count: itemModelBest.count,
-      next: itemModelBest.next,
-      previous: itemModelBest.previous,
-      results: usersBest,
-    );
-    _bestItemFetcher.sink.add(itemBestData);
-  }
-
-  fetchAllItemSearch(
-    String obj,
-    int page,
-    String internationalNameIds,
-    String manufacturerIds,
-    String ordering,
-    String priceMax,
-    String priceMin,
-    String unitIds,
-  ) async {
-    if (page == 1) {
-      usersSearch = new List();
-    }
-    ItemModel itemModelSearch = await _repository.fetchSearchItemList(
-      obj,
-      page,
-      internationalNameIds,
-      manufacturerIds,
-      ordering,
-      priceMax,
-      priceMin,
-      unitIds,
-      barcode,
-    );
-
-    if (itemModelSearch != null) {
       List<ItemResult> database = await _repository.databaseItem();
-      for (var j = 0; j < database.length; j++) {
-        for (var i = 0; i < itemModelSearch.results.length; i++) {
-          if (itemModelSearch.results[i].id == database[j].id) {
-            itemModelSearch.results[i].cardCount = database[j].cardCount;
+      List<ItemResult> resultFav = await _repository.databaseFavItem();
+      if (categoryItemData.results.length > 0) {
+        for (var i = 0; i < categoryItemData.results.length; i++) {
+          for (var j = 0; j < database.length; j++) {
+            if (categoryItemData.results[i].id == database[j].id) {
+              categoryItemData.results[i].cardCount = database[j].cardCount;
+            }
+          }
+        }
+
+        for (int i = 0; i < categoryItemData.results.length; i++) {
+          categoryItemData.results[i].favourite = false;
+          for (int j = 0; j < resultFav.length; j++) {
+            if (categoryItemData.results[i].id == resultFav[j].id) {
+              categoryItemData.results[i].favourite = resultFav[j].favourite;
+              break;
+            }
           }
         }
       }
+      _listItemsFetcher.sink.add(categoryItemData);
+    } else {
+      RxBus.post(BottomView(true), tag: "LIST_VIEW_ERROR_NETWORK");
+    }
+  }
 
-      List<ItemResult> databaseFav = await _repository.databaseFavItem();
-      for (var j = 0; j < databaseFav.length; j++) {
-        for (var i = 0; i < itemModelSearch.results.length; i++) {
-          if (itemModelSearch.results[i].id == databaseFav[j].id) {
-            itemModelSearch.results[i].favourite = true;
-          }
-        }
-      }
+  ///best
+  ItemModel bestItemData;
 
+  fetchAllBestItem(
+    int page,
+    String ordering,
+    String priceMax,
+  ) async {
+    var response = await _repository.fetchBestItem(
+      page,
+      ordering,
+      priceMax,
+    );
+    if (response.isSuccess) {
       if (page == 1) {
-        usersSearch = new List();
-        usersSearch = itemModelSearch.results;
+        bestItemData = ItemModel.fromJson(response.result);
       } else {
-        usersSearch.addAll(itemModelSearch.results);
+        var data = ItemModel.fromJson(response.result);
+        bestItemData.next = data.next;
+        bestItemData.results.addAll(data.results);
       }
-      itemModelSearchCount = itemModelSearch.count;
-      itemModelSearchNext = itemModelSearch.next;
-      itemModelSearchPrevious = itemModelSearch.previous;
-      itemSearchData = new ItemModel(
-        count: itemModelSearch.count,
-        next: itemModelSearch.next,
-        previous: itemModelSearch.previous,
-        results: usersSearch,
-      );
-      _itemSearchFetcher.sink.add(itemSearchData);
+      List<ItemResult> database = await _repository.databaseItem();
+      List<ItemResult> resultFav = await _repository.databaseFavItem();
+      if (bestItemData.results.length > 0) {
+        for (var i = 0; i < bestItemData.results.length; i++) {
+          for (var j = 0; j < database.length; j++) {
+            if (bestItemData.results[i].id == database[j].id) {
+              bestItemData.results[i].cardCount = database[j].cardCount;
+            }
+          }
+        }
+
+        for (int i = 0; i < bestItemData.results.length; i++) {
+          bestItemData.results[i].favourite = false;
+          for (int j = 0; j < resultFav.length; j++) {
+            if (bestItemData.results[i].id == resultFav[j].id) {
+              bestItemData.results[i].favourite = resultFav[j].favourite;
+              break;
+            }
+          }
+        }
+      }
+      _listItemsFetcher.sink.add(bestItemData);
+    } else {
+      RxBus.post(BottomView(true), tag: "LIST_VIEW_ERROR_NETWORK");
     }
   }
 
-  updateBest() async {
-    List<ItemResult> database = await _repository.databaseItem();
+  ///coll
+  ItemModel collItemData;
 
-    if (usersBest != null) {
-      for (var i = 0; i < usersBest.length; i++) {
-        usersBest[i].cardCount = 0;
-        usersBest[i].favourite = false;
+  fetchAllCollItem(
+    int page,
+    String ordering,
+    String priceMax,
+  ) async {
+    var response = await _repository.fetchSlimming();
+    if (response.isSuccess) {
+      if (page == 1) {
+        var data = ItemModel.fromJson(response.result);
+        collItemData = ItemModel(
+          next: data.next,
+          results: data.drugs,
+        );
+      } else {
+        var data = ItemModel.fromJson(response.result);
+        collItemData.next = data.next;
+        collItemData.results.addAll(data.drugs);
       }
+      List<ItemResult> database = await _repository.databaseItem();
+      List<ItemResult> resultFav = await _repository.databaseFavItem();
+      if (collItemData.results.length > 0) {
+        for (var i = 0; i < collItemData.results.length; i++) {
+          for (var j = 0; j < database.length; j++) {
+            if (collItemData.results[i].id == database[j].id) {
+              collItemData.results[i].cardCount = database[j].cardCount;
+            }
+          }
+        }
 
-      ///card
-      if (database.length != 0) {
-        for (var j = 0; j < database.length; j++) {
-          for (var i = 0; i < usersBest.length; i++) {
-            if (usersBest[i].id == database[j].id) {
-              usersBest[i].cardCount = database[j].cardCount;
+        for (int i = 0; i < collItemData.results.length; i++) {
+          collItemData.results[i].favourite = false;
+          for (int j = 0; j < resultFav.length; j++) {
+            if (collItemData.results[i].id == resultFav[j].id) {
+              collItemData.results[i].favourite = resultFav[j].favourite;
+              break;
             }
           }
         }
       }
-
-      List<ItemResult> databaseFav = await _repository.databaseFavItem();
-
-      ///favourite
-      if (databaseFav.length != 0) {
-        for (var j = 0; j < databaseFav.length; j++) {
-          for (var i = 0; i < usersBest.length; i++) {
-            if (usersBest[i].id == databaseFav[j].id) {
-              usersBest[i].favourite = true;
-            }
-          }
-        }
-      }
-
-      _bestItemFetcher.sink.add(
-        ItemModel(
-          count: itemModelBestCount,
-          next: itemModelBestNext,
-          previous: itemModelBestPrevious,
-          results: usersBest,
-        ),
-      );
+      _listItemsFetcher.sink.add(collItemData);
+    } else {
+      RxBus.post(BottomView(true), tag: "LIST_VIEW_ERROR_NETWORK");
     }
   }
 
-  updateSearch() async {
-    List<ItemResult> database = await _repository.databaseItem();
+  ///ids
+  ItemModel idsItemData;
 
-    if (usersSearch != null) {
-      for (var i = 0; i < usersSearch.length; i++) {
-        usersSearch[i].cardCount = 0;
-        usersSearch[i].favourite = false;
+  fetchAllIdsItem(
+    String ids,
+    int page,
+    String ordering,
+    String priceMax,
+  ) async {
+    var response =
+        await _repository.fetchIdsItemsList(ids, page, ordering, priceMax);
+    if (response.isSuccess) {
+      if (page == 1) {
+        idsItemData =  ItemModel.fromJson(response.result);
+      } else {
+        var data = ItemModel.fromJson(response.result);
+        idsItemData.next = data.next;
+        idsItemData.results.addAll(data.results);
       }
+      List<ItemResult> database = await _repository.databaseItem();
+      List<ItemResult> resultFav = await _repository.databaseFavItem();
+      if (idsItemData.results.length > 0) {
+        for (var i = 0; i < idsItemData.results.length; i++) {
+          for (var j = 0; j < database.length; j++) {
+            if (idsItemData.results[i].id == database[j].id) {
+              idsItemData.results[i].cardCount = database[j].cardCount;
+            }
+          }
+        }
 
-      ///search
-      if (database.length != 0) {
-        for (var j = 0; j < database.length; j++) {
-          for (var i = 0; i < usersSearch.length; i++) {
-            if (usersSearch[i].id == database[j].id) {
-              usersSearch[i].cardCount = database[j].cardCount;
+        for (int i = 0; i < idsItemData.results.length; i++) {
+          idsItemData.results[i].favourite = false;
+          for (int j = 0; j < resultFav.length; j++) {
+            if (idsItemData.results[i].id == resultFav[j].id) {
+              idsItemData.results[i].favourite = resultFav[j].favourite;
+              break;
             }
           }
         }
       }
-
-      List<ItemResult> databaseFav = await _repository.databaseFavItem();
-
-      ///favourite
-      if (databaseFav.length != 0) {
-        for (var j = 0; j < databaseFav.length; j++) {
-          for (var i = 0; i < usersSearch.length; i++) {
-            if (usersSearch[i].id == databaseFav[j].id) {
-              usersSearch[i].favourite = true;
-            }
-          }
-        }
-      }
-
-      itemSearchData = new ItemModel(
-        count: itemModelSearchCount,
-        next: itemModelSearchNext,
-        previous: itemModelSearchPrevious,
-        results: usersSearch,
-      );
-      _itemSearchFetcher.sink.add(itemSearchData);
+      _listItemsFetcher.sink.add(idsItemData);
+    } else {
+      RxBus.post(BottomView(true), tag: "LIST_VIEW_ERROR_NETWORK");
     }
   }
 
-  updateCategory() async {
-    List<ItemResult> database = await _repository.databaseItem();
+  ///search
+  ItemModel searchData;
 
-    if (usersCategory != null) {
-      for (var i = 0; i < usersCategory.length; i++) {
-        usersCategory[i].cardCount = 0;
-        usersCategory[i].favourite = false;
+  fetchAllSearchItem(
+      String ids,
+      int page,
+      String ordering,
+      String priceMax,
+      ) async {
+    var response =
+    await _repository.fetchIdsItemsList(ids, page, ordering, priceMax);
+    if (response.isSuccess) {
+      if (page == 1) {
+        searchData =  ItemModel.fromJson(response.result);
+      } else {
+        var data = ItemModel.fromJson(response.result);
+        searchData.next = data.next;
+        searchData.results.addAll(data.results);
       }
+      List<ItemResult> database = await _repository.databaseItem();
+      List<ItemResult> resultFav = await _repository.databaseFavItem();
+      if (searchData.results.length > 0) {
+        for (var i = 0; i < searchData.results.length; i++) {
+          for (var j = 0; j < database.length; j++) {
+            if (searchData.results[i].id == database[j].id) {
+              searchData.results[i].cardCount = database[j].cardCount;
+            }
+          }
+        }
 
-      ///category
-      if (database.length != 0) {
-        for (var j = 0; j < database.length; j++) {
-          for (var i = 0; i < usersCategory.length; i++) {
-            if (usersCategory[i].id == database[j].id) {
-              usersCategory[i].cardCount = database[j].cardCount;
+        for (int i = 0; i < searchData.results.length; i++) {
+          searchData.results[i].favourite = false;
+          for (int j = 0; j < resultFav.length; j++) {
+            if (searchData.results[i].id == resultFav[j].id) {
+              searchData.results[i].favourite = resultFav[j].favourite;
+              break;
             }
           }
         }
       }
-
-      List<ItemResult> databaseFav = await _repository.databaseFavItem();
-
-      ///favourite
-      if (databaseFav.length != 0) {
-        for (var j = 0; j < databaseFav.length; j++) {
-          for (var i = 0; i < usersCategory.length; i++) {
-            if (usersCategory[i].id == databaseFav[j].id) {
-              usersCategory[i].favourite = true;
-            }
-          }
-        }
-      }
-
-      itemCategoryData = new ItemModel(
-        count: itemCategoryCount,
-        next: itemCategoryNext,
-        previous: itemCategoryPrevious,
-        results: usersCategory,
-      );
-      _categoryItemsFetcher.sink.add(itemCategoryData);
+      _listItemsFetcher.sink.add(searchData);
+    } else {
+      RxBus.post(BottomView(true), tag: "LIST_VIEW_ERROR_NETWORK");
     }
   }
 
-  updateIds() async {
-    List<ItemResult> database = await _repository.databaseItem();
+  update(int type) async {
+    if (type == 1) {
+      if (recentlyItemData != null) {
+        List<ItemResult> database = await _repository.databaseItem();
+        List<ItemResult> resultFav = await _repository.databaseFavItem();
+        if (recentlyItemData.results.length > 0) {
+          for (var i = 0; i < recentlyItemData.results.length; i++) {
+            for (var j = 0; j < database.length; j++) {
+              if (recentlyItemData.results[i].id == database[j].id) {
+                recentlyItemData.results[i].cardCount = database[j].cardCount;
+              }
+            }
+          }
 
-    if (usersIds != null) {
-      for (var i = 0; i < usersIds.length; i++) {
-        usersIds[i].cardCount = 0;
-        usersIds[i].favourite = false;
-      }
-
-      ///ids
-      if (database.length != 0) {
-        for (var j = 0; j < database.length; j++) {
-          for (var i = 0; i < usersIds.length; i++) {
-            if (usersIds[i].id == database[j].id) {
-              usersIds[i].cardCount = database[j].cardCount;
+          for (int i = 0; i < recentlyItemData.results.length; i++) {
+            recentlyItemData.results[i].favourite = false;
+            for (int j = 0; j < resultFav.length; j++) {
+              if (recentlyItemData.results[i].id == resultFav[j].id) {
+                recentlyItemData.results[i].favourite = resultFav[j].favourite;
+                break;
+              }
             }
           }
         }
+        _listItemsFetcher.sink.add(recentlyItemData);
       }
+    } else if (type == 2) {
+      if (categoryItemData != null) {
+        List<ItemResult> database = await _repository.databaseItem();
+        List<ItemResult> resultFav = await _repository.databaseFavItem();
+        if (categoryItemData.results.length > 0) {
+          for (var i = 0; i < categoryItemData.results.length; i++) {
+            for (var j = 0; j < database.length; j++) {
+              if (categoryItemData.results[i].id == database[j].id) {
+                categoryItemData.results[i].cardCount = database[j].cardCount;
+              }
+            }
+          }
 
-      List<ItemResult> databaseFav = await _repository.databaseFavItem();
-
-      ///favourite
-      if (databaseFav.length != 0) {
-        for (var j = 0; j < databaseFav.length; j++) {
-          for (var i = 0; i < usersIds.length; i++) {
-            if (usersIds[i].id == databaseFav[j].id) {
-              usersIds[i].favourite = true;
+          for (int i = 0; i < categoryItemData.results.length; i++) {
+            categoryItemData.results[i].favourite = false;
+            for (int j = 0; j < resultFav.length; j++) {
+              if (categoryItemData.results[i].id == resultFav[j].id) {
+                categoryItemData.results[i].favourite = resultFav[j].favourite;
+                break;
+              }
             }
           }
         }
+        _listItemsFetcher.sink.add(categoryItemData);
       }
+    } else if (type == 3) {
+      if (bestItemData != null) {
+        List<ItemResult> database = await _repository.databaseItem();
+        List<ItemResult> resultFav = await _repository.databaseFavItem();
+        if (bestItemData.results.length > 0) {
+          for (var i = 0; i < bestItemData.results.length; i++) {
+            for (var j = 0; j < database.length; j++) {
+              if (bestItemData.results[i].id == database[j].id) {
+                bestItemData.results[i].cardCount = database[j].cardCount;
+              }
+            }
+          }
 
-      itemIdsData = new ItemModel(
-        count: itemIdsCount,
-        next: itemIdsNext,
-        previous: itemIdsPrevious,
-        results: usersIds,
-      );
-      _idsItemsFetcher.sink.add(itemIdsData);
+          for (int i = 0; i < bestItemData.results.length; i++) {
+            bestItemData.results[i].favourite = false;
+            for (int j = 0; j < resultFav.length; j++) {
+              if (bestItemData.results[i].id == resultFav[j].id) {
+                bestItemData.results[i].favourite = resultFav[j].favourite;
+                break;
+              }
+            }
+          }
+        }
+        _listItemsFetcher.sink.add(bestItemData);
+      }
+    } else if (type == 4) {
+      if (collItemData != null) {
+        List<ItemResult> database = await _repository.databaseItem();
+        List<ItemResult> resultFav = await _repository.databaseFavItem();
+        if (collItemData.results.length > 0) {
+          for (var i = 0; i < collItemData.results.length; i++) {
+            for (var j = 0; j < database.length; j++) {
+              if (collItemData.results[i].id == database[j].id) {
+                collItemData.results[i].cardCount = database[j].cardCount;
+              }
+            }
+          }
+
+          for (int i = 0; i < collItemData.results.length; i++) {
+            collItemData.results[i].favourite = false;
+            for (int j = 0; j < resultFav.length; j++) {
+              if (collItemData.results[i].id == resultFav[j].id) {
+                collItemData.results[i].favourite = resultFav[j].favourite;
+                break;
+              }
+            }
+          }
+        }
+        _listItemsFetcher.sink.add(collItemData);
+      }
+    } else if (type == 5) {
+      if (idsItemData != null) {
+        List<ItemResult> database = await _repository.databaseItem();
+        List<ItemResult> resultFav = await _repository.databaseFavItem();
+        if (idsItemData.results.length > 0) {
+          for (var i = 0; i < idsItemData.results.length; i++) {
+            for (var j = 0; j < database.length; j++) {
+              if (idsItemData.results[i].id == database[j].id) {
+                idsItemData.results[i].cardCount = database[j].cardCount;
+              }
+            }
+          }
+
+          for (int i = 0; i < idsItemData.results.length; i++) {
+            idsItemData.results[i].favourite = false;
+            for (int j = 0; j < resultFav.length; j++) {
+              if (idsItemData.results[i].id == resultFav[j].id) {
+                idsItemData.results[i].favourite = resultFav[j].favourite;
+                break;
+              }
+            }
+          }
+        }
+        _listItemsFetcher.sink.add(idsItemData);
+      }
+    }else if (type == 6) {
+      if (searchData != null) {
+        List<ItemResult> database = await _repository.databaseItem();
+        List<ItemResult> resultFav = await _repository.databaseFavItem();
+        if (searchData.results.length > 0) {
+          for (var i = 0; i < searchData.results.length; i++) {
+            for (var j = 0; j < database.length; j++) {
+              if (searchData.results[i].id == database[j].id) {
+                searchData.results[i].cardCount = database[j].cardCount;
+              }
+            }
+          }
+
+          for (int i = 0; i < searchData.results.length; i++) {
+            searchData.results[i].favourite = false;
+            for (int j = 0; j < resultFav.length; j++) {
+              if (searchData.results[i].id == resultFav[j].id) {
+                searchData.results[i].favourite = resultFav[j].favourite;
+                break;
+              }
+            }
+          }
+        }
+        _listItemsFetcher.sink.add(searchData);
+      }
     }
   }
 
   dispose() {
-    _categoryItemsFetcher.close();
-    _bestItemFetcher.close();
-    _idsItemsFetcher.close();
-    _itemSearchFetcher.close();
+    _listItemsFetcher.close();
   }
 }
 

@@ -300,20 +300,6 @@ class _AddressStoreListPickupScreenState
                                                 loading = false;
                                               }),
                                               dataBase.clear(),
-                                              if (isOpenCategory)
-                                                RxBus.post(AllItemIsOpen(true),
-                                                    tag:
-                                                        "EVENT_ITEM_LIST_CATEGORY"),
-                                              if (isOpenBest)
-                                                RxBus.post(AllItemIsOpen(true),
-                                                    tag: "EVENT_ITEM_LIST"),
-                                              if (isOpenIds)
-                                                RxBus.post(AllItemIsOpen(true),
-                                                    tag: "EVENT_ITEM_LIST_IDS"),
-                                              if (isOpenSearch)
-                                                RxBus.post(AllItemIsOpen(true),
-                                                    tag:
-                                                        "EVENT_ITEM_LIST_SEARCH"),
                                             }
                                           else if (response.status == -1)
                                             {

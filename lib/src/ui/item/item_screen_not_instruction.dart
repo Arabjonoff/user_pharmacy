@@ -97,18 +97,6 @@ class _ItemScreenNotInstructionState extends State<ItemScreenNotInstruction> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            if (isOpenBest)
-                              RxBus.post(AllItemIsOpen(true),
-                                  tag: "EVENT_ITEM_LIST");
-                            if (isOpenIds)
-                              RxBus.post(AllItemIsOpen(true),
-                                  tag: "EVENT_ITEM_LIST_IDS");
-                            if (isOpenSearch)
-                              RxBus.post(AllItemIsOpen(true),
-                                  tag: "EVENT_ITEM_LIST_SEARCH");
-                            if (isOpenCategory)
-                              RxBus.post(AllItemIsOpen(true),
-                                  tag: "EVENT_ITEM_LIST_CATEGORY");
                             blocCard.fetchAllCard();
                             Navigator.pop(context);
                           },

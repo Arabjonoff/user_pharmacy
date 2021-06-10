@@ -17,10 +17,6 @@ class SearchBloc {
         page,
         "",
         "",
-        "",
-        "",
-        "",
-        "",
         barcode,
       );
       if (page == 1) {

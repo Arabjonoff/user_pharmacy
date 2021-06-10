@@ -36,8 +36,6 @@ class _FilterScreenState extends State<FilterScreen> {
   void initState() {
     interName = "";
     manufacName = "";
-    minController.text = priceMin;
-    maxController.text = priceMax;
     for (int i = 0; i < internationalNameFilter.length; i++) {
       if (i < internationalNameFilter.length - 1) {
         interName += internationalNameFilter[i].name + ", ";
@@ -53,15 +51,6 @@ class _FilterScreenState extends State<FilterScreen> {
       }
     }
     super.initState();
-  }
-
-  _FilterScreenState() {
-    minController.addListener(() {
-      priceMin = minController.text;
-    });
-    maxController.addListener(() {
-      priceMax = maxController.text;
-    });
   }
 
   @override
@@ -481,71 +470,6 @@ class _FilterScreenState extends State<FilterScreen> {
             ),
             GestureDetector(
               onTap: () {
-                internationalNameIds = "";
-                manufacturerIds = "";
-                page = 2;
-                for (int i = 0; i < internationalNameFilter.length; i++) {
-                  if (i < internationalNameFilter.length - 1) {
-                    internationalNameIds +=
-                        internationalNameFilter[i].id.toString() + ",";
-                  } else {
-                    internationalNameIds +=
-                        internationalNameFilter[i].id.toString();
-                  }
-                }
-                for (int i = 0; i < manufacturerFilter.length; i++) {
-                  if (i < manufacturerFilter.length - 1) {
-                    manufacturerIds +=
-                        manufacturerFilter[i].id.toString() + ",";
-                  } else {
-                    manufacturerIds += manufacturerFilter[i].id.toString();
-                  }
-                }
-
-                if (type == 4) {
-                  blocItemsList.fetchIdsItemsList(
-                    id,
-                    1,
-                    internationalNameIds,
-                    manufacturerIds,
-                    sortFilter,
-                    priceMax,
-                    priceMin,
-                    "",
-                  );
-                } else {
-                  type == 2
-                      ? blocItemsList.fetchAllItemCategoryBest(
-                          1,
-                          internationalNameIds,
-                          manufacturerIds,
-                          sortFilter,
-                          priceMax,
-                          priceMin,
-                          "",
-                        )
-                      : type == 3
-                          ? blocItemsList.fetchAllItemSearch(
-                              id,
-                              1,
-                              internationalNameIds,
-                              manufacturerIds,
-                              sortFilter,
-                              priceMax,
-                              priceMin,
-                              "",
-                            )
-                          : blocItemsList.fetchAllItemCategory(
-                              id,
-                              1,
-                              internationalNameIds,
-                              manufacturerIds,
-                              sortFilter,
-                              priceMax,
-                              priceMin,
-                              "",
-                            );
-                }
                 Navigator.pop(context);
               },
               child: Container(

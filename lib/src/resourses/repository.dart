@@ -78,26 +78,19 @@ class Repository {
 
   Future<HttpResult> fetchSlimming() => pharmacyApiProvider.fetchSlimming();
 
-  Future<HttpResult> fetchCashBackTitle() => pharmacyApiProvider.fetchCashBackTitle();
+  Future<HttpResult> fetchCashBackTitle() =>
+      pharmacyApiProvider.fetchCashBackTitle();
 
   Future<HttpResult> fetchBestItem(
     int page,
-    String internationalNameIds,
-    String manufacturerIds,
     String ordering,
     String priceMax,
-    String priceMin,
-    String unitIds,
   ) =>
       pharmacyApiProvider.fetchBestItemList(
         page,
         20,
-        internationalNameIds,
-        manufacturerIds,
         ordering,
         priceMax,
-        priceMin,
-        unitIds,
       );
 
   Future<CategoryModel> fetchCategoryItem() =>
@@ -112,71 +105,47 @@ class Repository {
 
   Future<List<ItemResult>> databaseFavItem() => databaseHelperFav.getProduct();
 
-  Future<ItemModel> fetchCategoryItemList(
+  Future<HttpResult> fetchCategoryItemList(
     String id,
     int page,
-    String internationalNameIds,
-    String manufacturerIds,
     String ordering,
     String priceMax,
-    String priceMin,
-    String unitIds,
   ) =>
       pharmacyApiProvider.fetchCategoryItemsList(
         id,
         page,
         20,
-        internationalNameIds,
-        manufacturerIds,
         ordering,
         priceMax,
-        priceMin,
-        unitIds,
       );
 
-  Future<ItemModel> fetchIdsItemsList(
+  Future<HttpResult> fetchIdsItemsList(
     String id,
     int page,
-    String internationalNameIds,
-    String manufacturerIds,
     String ordering,
     String priceMax,
-    String priceMin,
-    String unitIds,
   ) =>
       pharmacyApiProvider.fetchIdsItemsList(
         id,
         page,
         20,
-        internationalNameIds,
-        manufacturerIds,
         ordering,
         priceMax,
-        priceMin,
-        unitIds,
       );
 
   Future<ItemModel> fetchSearchItemList(
     String obj,
     int page,
-    String internationalNameIds,
-    String manufacturerIds,
     String ordering,
     String priceMax,
-    String priceMin,
-    String unitIds,
     int barcode,
   ) =>
       pharmacyApiProvider.fetchSearchItemsList(
         obj,
         page,
         20,
-        internationalNameIds,
-        manufacturerIds,
         ordering,
         priceMax,
-        priceMin,
-        unitIds,
         barcode,
       );
 

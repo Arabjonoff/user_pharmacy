@@ -167,19 +167,6 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                       if (response.status == 1)
                                         {
                                           dataBase.clear(),
-                                          if (isOpenCategory)
-                                            RxBus.post(AllItemIsOpen(true),
-                                                tag:
-                                                    "EVENT_ITEM_LIST_CATEGORY"),
-                                          if (isOpenBest)
-                                            RxBus.post(AllItemIsOpen(true),
-                                                tag: "EVENT_ITEM_LIST"),
-                                          if (isOpenIds)
-                                            RxBus.post(AllItemIsOpen(true),
-                                                tag: "EVENT_ITEM_LIST_IDS"),
-                                          if (isOpenSearch)
-                                            RxBus.post(AllItemIsOpen(true),
-                                                tag: "EVENT_ITEM_LIST_SEARCH"),
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(

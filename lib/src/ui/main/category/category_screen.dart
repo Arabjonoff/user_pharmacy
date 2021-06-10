@@ -31,8 +31,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   void initState() {
     blocCategory.fetchAllCategory();
-    if (isOpenCategory) blocItemsList.updateCategory();
-    if (isOpenSearch) blocItemsList.updateSearch();
     registerBus();
     super.initState();
   }
@@ -111,9 +109,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ItemListScreen(
-                                  snapshot.data.results[position].name,
-                                  1,
-                                  snapshot.data.results[position].id.toString(),
+                                  name: snapshot.data.results[position].name,
+                                  type: 2,
+                                  id: snapshot.data.results[position].id.toString(),
                                 ),
                               ),
                             );

@@ -240,9 +240,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => ItemListScreen(
-                                            translate("search.result"),
-                                            3,
-                                            obj,
+                                            name: translate("search.result"),
+                                            type: 6,
+                                            id: obj,
                                           ),
                                         ),
                                       );

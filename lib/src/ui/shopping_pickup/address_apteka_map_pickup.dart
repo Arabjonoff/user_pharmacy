@@ -362,182 +362,172 @@ class _AddressStoreMapPickupScreenState
                                 });
                                 CreateOrderModel createOrder;
                                 List<Drugs> drugs = new List();
-                                dataBase.getProdu(true).then((dataBaseValue) =>
-                                    {
-                                      for (int i = 0;
-                                          i < dataBaseValue.length;
-                                          i++)
-                                        {
-                                          drugs.add(Drugs(
-                                            drug: dataBaseValue[i].id,
-                                            qty: dataBaseValue[i].cardCount,
-                                          ))
-                                        },
-                                      createOrder = new CreateOrderModel(
-                                        device:
-                                            Platform.isIOS ? "IOS" : "Android",
-                                        type: "self",
-                                        storeId: data[i].id,
-                                        drugs: drugs,
-                                      ),
-                                      Repository()
-                                          .fetchCreateOrder(createOrder)
-                                          .then((response) => {
-                                                if (response.status == 1)
-                                                  {
-                                                    setState(() {
-                                                      loading = false;
-                                                    }),
-                                                    dataBase.clear(),
-                                                    if (isOpenCategory)
-                                                      RxBus.post(
-                                                          AllItemIsOpen(true),
-                                                          tag:
-                                                              "EVENT_ITEM_LIST_CATEGORY"),
-                                                    if (isOpenBest)
-                                                      RxBus.post(
-                                                          AllItemIsOpen(true),
-                                                          tag:
-                                                              "EVENT_ITEM_LIST"),
-                                                    if (isOpenIds)
-                                                      RxBus.post(
-                                                          AllItemIsOpen(true),
-                                                          tag:
-                                                              "EVENT_ITEM_LIST_IDS"),
-                                                    if (isOpenSearch)
-                                                      RxBus.post(
-                                                          AllItemIsOpen(true),
-                                                          tag:
-                                                              "EVENT_ITEM_LIST_SEARCH"),
-                                                    cashData = CashBackData(
-                                                      total:
-                                                          response.data.total,
-                                                      cash: response.data.cash,
-                                                      isTotalCash: response
-                                                          .data.isTotalCash,
-                                                    ),
-                                                    Navigator.pop(context),
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            OrderCardPickupScreen(
-                                                          response.data.orderId,
-                                                          response.data
-                                                              .expireSelfOrder,
+                                dataBase
+                                    .getProdu(true)
+                                    .then((dataBaseValue) => {
+                                          for (int i = 0;
+                                              i < dataBaseValue.length;
+                                              i++)
+                                            {
+                                              drugs.add(Drugs(
+                                                drug: dataBaseValue[i].id,
+                                                qty: dataBaseValue[i].cardCount,
+                                              ))
+                                            },
+                                          createOrder = new CreateOrderModel(
+                                            device: Platform.isIOS
+                                                ? "IOS"
+                                                : "Android",
+                                            type: "self",
+                                            storeId: data[i].id,
+                                            drugs: drugs,
+                                          ),
+                                          Repository()
+                                              .fetchCreateOrder(createOrder)
+                                              .then((response) => {
+                                                    if (response.status == 1)
+                                                      {
+                                                        setState(() {
+                                                          loading = false;
+                                                        }),
+                                                        dataBase.clear(),
+                                                        cashData = CashBackData(
+                                                          total: response
+                                                              .data.total,
+                                                          cash: response
+                                                              .data.cash,
+                                                          isTotalCash: response
+                                                              .data.isTotalCash,
                                                         ),
-                                                      ),
-                                                    ),
-                                                  }
-                                                else if (response.status == -1)
-                                                  {
-                                                    Navigator.pop(context),
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                          context) {
-                                                        return AlertDialog(
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          10.0))),
-                                                          contentPadding:
-                                                              EdgeInsets
-                                                                  .fromLTRB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          content: Container(
-                                                            width: 239.0,
-                                                            height: 64.0,
-                                                            child: Center(
-                                                              child: Text(
-                                                                response.msg,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontFamily:
-                                                                      AppTheme
-                                                                          .fontRoboto,
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .normal,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 16,
-                                                                  color: AppTheme
-                                                                      .black_text,
-                                                                ),
-                                                              ),
+                                                        Navigator.pop(context),
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                OrderCardPickupScreen(
+                                                              response
+                                                                  .data.orderId,
+                                                              response.data
+                                                                  .expireSelfOrder,
                                                             ),
                                                           ),
-                                                        );
-                                                      },
-                                                    ),
-                                                    setState(() {
-                                                      loading = false;
-                                                    }),
-                                                  }
-                                                else
-                                                  {
-                                                    setState(() {
-                                                      loading = false;
-                                                    }),
-                                                    Navigator.pop(context),
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                          context) {
-                                                        return AlertDialog(
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          10.0))),
-                                                          contentPadding:
-                                                              EdgeInsets
-                                                                  .fromLTRB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          content: Container(
-                                                            width: 239.0,
-                                                            height: 64.0,
-                                                            child: Center(
-                                                              child: Text(
-                                                                response.msg ==
-                                                                        ""
-                                                                    ? translate(
-                                                                        "error_distanse")
-                                                                    : response
+                                                        ),
+                                                      }
+                                                    else if (response.status ==
+                                                        -1)
+                                                      {
+                                                        Navigator.pop(context),
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return AlertDialog(
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              10.0))),
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .fromLTRB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              content:
+                                                                  Container(
+                                                                width: 239.0,
+                                                                height: 64.0,
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    response
                                                                         .msg,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontFamily:
-                                                                      AppTheme
-                                                                          .fontRoboto,
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .normal,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 16,
-                                                                  color: AppTheme
-                                                                      .black_text,
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          AppTheme
+                                                                              .fontRoboto,
+                                                                      fontStyle:
+                                                                          FontStyle
+                                                                              .normal,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      fontSize:
+                                                                          16,
+                                                                      color: AppTheme
+                                                                          .black_text,
+                                                                    ),
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
-                                                  }
-                                              }),
-                                    });
+                                                            );
+                                                          },
+                                                        ),
+                                                        setState(() {
+                                                          loading = false;
+                                                        }),
+                                                      }
+                                                    else
+                                                      {
+                                                        setState(() {
+                                                          loading = false;
+                                                        }),
+                                                        Navigator.pop(context),
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return AlertDialog(
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              10.0))),
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .fromLTRB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              content:
+                                                                  Container(
+                                                                width: 239.0,
+                                                                height: 64.0,
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    response.msg ==
+                                                                            ""
+                                                                        ? translate(
+                                                                            "error_distanse")
+                                                                        : response
+                                                                            .msg,
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          AppTheme
+                                                                              .fontRoboto,
+                                                                      fontStyle:
+                                                                          FontStyle
+                                                                              .normal,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      fontSize:
+                                                                          16,
+                                                                      color: AppTheme
+                                                                          .black_text,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        ),
+                                                      }
+                                                  }),
+                                        });
                               },
                               child: Container(
                                 width: double.infinity,

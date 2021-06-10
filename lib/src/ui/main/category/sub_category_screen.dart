@@ -90,9 +90,9 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ItemListScreen(
-                            widget.list[position].name,
-                            1,
-                            widget.list[position].id.toString(),
+                            name: widget.list[position].name,
+                            type: 2,
+                            id: widget.list[position].id.toString(),
                           ),
                         ),
                       );

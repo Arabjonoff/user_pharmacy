@@ -70,10 +70,6 @@ class HomeBloc {
       1,
       "",
       "",
-      "",
-      "",
-      "",
-      "",
     );
     if (response.isSuccess) {
       recentlyItemData = ItemModel.fromJson(response.result);
@@ -149,10 +145,6 @@ class HomeBloc {
   fetchBestItem() async {
     var response = await _repository.fetchBestItem(
       1,
-      "",
-      "",
-      "",
-      "",
       "",
       "",
     );

@@ -247,6 +247,7 @@ class PharmacyApiProvider {
 
     return await getRequest(url);
   }
+
   ///CashBack
   Future<HttpResult> fetchCashBackTitle() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -263,12 +264,8 @@ class PharmacyApiProvider {
   Future<HttpResult> fetchBestItemList(
     int page,
     int perPage,
-    String internationalNameIds,
-    String manufacturerIds,
     String ordering,
     String priceMax,
-    String priceMin,
-    String unitIds,
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
@@ -279,12 +276,8 @@ class PharmacyApiProvider {
             'page=$page&'
             'region=$regionId&'
             'per_page=$perPage&'
-            'international_name_ids=$internationalNameIds&'
-            'manufacturer_ids=$manufacturerIds&'
             'ordering=$ordering&'
-            'price_max=$priceMax&'
-            'price_min=$priceMin&'
-            'unit_ids=$unitIds';
+            'price_max=$priceMax';
     return await getRequest(url);
   }
 
@@ -337,16 +330,12 @@ class PharmacyApiProvider {
   }
 
   ///category's by item
-  Future<ItemModel> fetchCategoryItemsList(
+  Future<HttpResult> fetchCategoryItemsList(
     String id,
     int page,
     int perPage,
-    String internationalNameIds,
-    String manufacturerIds,
     String ordering,
     String priceMax,
-    String priceMin,
-    String unitIds,
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
@@ -357,49 +346,19 @@ class PharmacyApiProvider {
             'region=$regionId&'
             'per_page=$perPage&'
             'category=$id&'
-            'international_name_ids=$internationalNameIds&'
-            'manufacturer_ids=$manufacturerIds&'
             'ordering=$ordering&'
-            'price_max=$priceMax&'
-            'price_min=$priceMin&'
-            'unit_ids=$unitIds';
+            'price_max=$priceMax';
 
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-
-    try {
-      http.Response response =
-          await http.get(Uri.parse(url), headers: headers).timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-
-      return ItemModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    }
+    return await getRequest(url);
   }
 
   ///ids's by item
-  Future<ItemModel> fetchIdsItemsList(
+  Future<HttpResult> fetchIdsItemsList(
     String id,
     int page,
     int perPage,
-    String internationalNameIds,
-    String manufacturerIds,
     String ordering,
     String priceMax,
-    String priceMin,
-    String unitIds,
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
@@ -410,31 +369,10 @@ class PharmacyApiProvider {
             'region=$regionId&'
             'per_page=$perPage&'
             'ids=$id&'
-            'international_name_ids=$internationalNameIds&'
-            'manufacturer_ids=$manufacturerIds&'
             'ordering=$ordering&'
-            'price_max=$priceMax&'
-            'price_min=$priceMin&'
-            'unit_ids=$unitIds';
+            'price_max=$priceMax';
 
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    HttpClient httpClient = new HttpClient();
-    httpClient
-      ..badCertificateCallback =
-          ((X509Certificate cert, String host, int port) => true);
-    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json; charset=utf-8');
-    request.headers.set('X-Device', encoded);
-    HttpClientResponse response = await request.close();
-
-    String reply = await response.transform(utf8.decoder).join();
-
-    final Map parsed = json.decode(reply);
-    return ItemModel.fromJson(parsed);
+    return await getRequest(url);
   }
 
   ///search's by item
@@ -442,12 +380,8 @@ class PharmacyApiProvider {
     String obj,
     int page,
     int perPage,
-    String internationalNameIds,
-    String manufacturerIds,
     String ordering,
     String priceMax,
-    String priceMin,
-    String unitIds,
     int barcode,
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -461,12 +395,8 @@ class PharmacyApiProvider {
             'region=$regionId&'
             'per_page=$perPage&'
             '$search&'
-            'international_name_ids=$internationalNameIds&'
-            'manufacturer_ids=$manufacturerIds&'
             'ordering=$ordering&'
-            'price_max=$priceMax&'
-            'price_min=$priceMin&'
-            'unit_ids=$unitIds';
+            'price_max=$priceMax';
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = prefs.getString("deviceData") != null
