@@ -14,6 +14,7 @@ import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_fav.dart';
 import 'package:pharmacy/src/model/api/blog_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
+import 'package:pharmacy/src/model/api/check_version.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
@@ -38,15 +39,9 @@ final priceFormat = new NumberFormat("#,##0", "ru");
 String fcToken = "";
 
 class HomeScreen extends StatefulWidget {
-  final Function onRegion;
-  final Function onHistory;
-  final Function onLogin;
   final Function(String title, String uri) onUnversal;
 
   HomeScreen({
-    this.onRegion,
-    this.onHistory,
-    this.onLogin,
     this.onUnversal,
   });
 
@@ -144,7 +139,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    BottomDialog.showUpdate(context,false);
+                  },
                   child: Container(
                     margin: EdgeInsets.only(
                       top: 8,
@@ -2446,7 +2443,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     MaterialPageRoute(
                                       builder: (context) => BlogItemScreen(
                                         image: snapshot.data.results[0].image,
-                                        dateTime: snapshot.data.results[0].updatedAt,
+                                        dateTime:
+                                            snapshot.data.results[0].updatedAt,
                                         title: snapshot.data.results[0].title,
                                         message: snapshot.data.results[0].body,
                                       ),
@@ -2571,11 +2569,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => BlogItemScreen(
-                                              image: snapshot.data.results[index].image,
-                                              dateTime: snapshot.data.results[index].updatedAt,
-                                              title: snapshot.data.results[index].title,
-                                              message: snapshot.data.results[index].body,
+                                            builder: (context) =>
+                                                BlogItemScreen(
+                                              image: snapshot
+                                                  .data.results[index].image,
+                                              dateTime: snapshot.data
+                                                  .results[index].updatedAt,
+                                              title: snapshot
+                                                  .data.results[index].title,
+                                              message: snapshot
+                                                  .data.results[index].body,
                                             ),
                                           ),
                                         );
@@ -2823,37 +2826,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Future<void> _initPackageInfo() async {
     final PackageInfo info = await PackageInfo.fromPlatform();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     if (info.buildNumber != null) {
       Repository().fetchCheckVersion(info.buildNumber).then(
-            (value) => {
-              if (value.status != null && value.status != 0)
-                {
-                  RxBus.post(
-                      CheckVersionModel(
-                          title: true,
-                          packageName: info.packageName,
-                          desk: value.description),
-                      tag: "EVENT_ITEM_CHECK")
-                }
-              else if (value.winner)
-                {
-                  Utils.showWitter(context, value.konkursText),
-                },
-              if (value.isRequestForm)
-                {
-                  if (prefs.getString("is_request_form") == null)
-                    {
-                      BottomDialog.showRamadan(context),
-                    },
-                  prefs.setString("is_request_form", "value"),
-                },
-              if (value.requestForm)
-                {
-                  widget.onUnversal(value.requestTitle, value.requestUrl),
-                }
-            },
-          );
+        (v) {
+          if (v.isSuccess) {
+            var value = CheckVersion.fromJson(v.result);
+            if (value.status != 0) {
+              ///update
+            } else if (value.winner) {
+              BottomDialog.showWinner(context, value.konkursText);
+            }
+            if (value.requestForm) {
+              widget.onUnversal(value.requestTitle, value.requestUrl);
+            }
+          }
+        },
+      );
     }
   }
 
@@ -3182,7 +3170,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  void _notifiData(Map<String, dynamic> message) {
+  void _notifyData(Map<String, dynamic> message) {
     int item = int.parse(message["data"]["drug"]);
     int category = int.parse(message["data"]["category"]);
     String ids = message["data"]["drugs"];

@@ -954,9 +954,8 @@ class PharmacyApiProvider {
   }
 
   ///check version
-  Future<CheckVersion> fetchCheckVersion(String version) async {
+  Future<HttpResult> fetchCheckVersion(String version) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token");
     final data = {
       "version": version,
       "device": Platform.isIOS ? "ios" : "android"
@@ -964,27 +963,7 @@ class PharmacyApiProvider {
     String lan = prefs.getString('language') ?? "ru";
     String url = Utils.baseUrl + '/api/v1/check-version?lan=$lan';
 
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = token == null
-        ? {
-            'X-Device': encoded,
-          }
-        : {
-            'X-Device': encoded,
-            HttpHeaders.authorizationHeader: "Bearer $token",
-          };
-
-    http.Response response = await http
-        .post(Uri.parse(url), body: data, headers: headers)
-        .timeout(duration);
-
-    final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-
-    return CheckVersion.fromJson(responseJson);
+    return await postRequest(url, data);
   }
 
   ///send rating

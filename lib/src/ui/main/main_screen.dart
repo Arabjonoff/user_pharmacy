@@ -13,13 +13,10 @@ import 'package:flutter_udid/flutter_udid.dart';
 import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/blocs/menu_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
-import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
-import 'package:pharmacy/src/model/eventBus/check_version.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
-import 'package:pharmacy/src/ui/chat/chat_screen.dart';
 import 'package:pharmacy/src/ui/dialog/universal_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
@@ -41,7 +38,6 @@ import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app_theme.dart';
-import '../update/auto_update_screen.dart';
 import 'category/category_screen.dart';
 import 'home/home_screen.dart';
 
@@ -234,31 +230,6 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
         ),
-      },
-    );
-
-    RxBus.register<LoginModel>(tag: "EVENT_CHAT_SCREEN").listen(
-      (event) => {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ChatScreen(),
-          ),
-        ),
-      },
-    );
-
-    RxBus.register<CheckVersionModel>(tag: "EVENT_ITEM_CHECK").listen(
-      (event) => {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AutoUpdateScreen(
-              package: event.packageName,
-              desk: event.desk,
-            ),
-          ),
-        )
       },
     );
   }
@@ -507,9 +478,6 @@ class _MainScreenState extends State<MainScreen> {
       '/': (context) {
         return [
           HomeScreen(
-            onRegion: _region,
-            onHistory: _history,
-            onLogin: _login,
             onUnversal: _universal,
           ),
           CategoryScreen(),

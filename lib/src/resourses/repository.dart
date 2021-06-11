@@ -217,7 +217,7 @@ class Repository {
 
   Future<int> fetchMinSum() => pharmacyApiProvider.fetchMinSum();
 
-  Future<CheckVersion> fetchCheckVersion(String version) =>
+  Future<HttpResult> fetchCheckVersion(String version) =>
       pharmacyApiProvider.fetchCheckVersion(version);
 
   Future<CheckVersion> fetchSendRating(String comment, int rating) =>

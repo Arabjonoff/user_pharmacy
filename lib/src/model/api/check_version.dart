@@ -22,9 +22,9 @@ class CheckVersion {
   });
 
   CheckVersion.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    description = json['description'];
-    version = json['version'];
+    status = json['status'] ?? 1;
+    description = json['description'] ?? "";
+    version = json['version'] ?? "";
     konkursText = json['konkurs_text'] ?? "";
     requestTitle = json['request_title'] ?? "";
     requestUrl = json['request_url'] ?? "";
