@@ -126,11 +126,13 @@ class PharmacyApiProvider {
     if (prefs.getString('token') == null) {
       return {
         "Accept": "application/json",
+        'content-type': 'application/json; charset=utf-8',
         'X-Device': encoded,
       };
     } else {
       return {
         "Accept": "application/json",
+        'content-type': 'application/json; charset=utf-8',
         'X-Device': encoded,
         "Authorization": "Bearer " + prefs.getString('token')
       };
@@ -143,7 +145,7 @@ class PharmacyApiProvider {
     final data = {
       "login": login,
     };
-    return await postRequest(url, data);
+    return await postRequest(url, json.encode(data));
   }
 
   ///verify
@@ -159,7 +161,7 @@ class PharmacyApiProvider {
       "smscode": code,
       "device_token": token,
     };
-    return await postRequest(url, data);
+    return await postRequest(url, json.encode(data));
   }
 
   ///Register
@@ -828,38 +830,17 @@ class PharmacyApiProvider {
   }
 
   ///Check error pickup
-  Future<CheckErrorModel> fetchCheckErrorPickup(
-      AccessStore accessStore, String language) async {
+  Future<HttpResult> fetchCheckErrorPickup(
+    AccessStore accessStore,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
+    String lan = prefs.getString("language") ?? "ru";
 
     String url =
-        Utils.baseUrl + '/api/v1/check-error?lan=$language&region=$regionId';
-    String token = prefs.getString("token");
+        Utils.baseUrl + '/api/v1/check-error?lan=$lan&region=$regionId';
 
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-    try {
-      http.Response response = await http
-          .post(Uri.parse(url),
-              headers: headers, body: json.encode(accessStore))
-          .timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      return CheckErrorModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return CheckErrorModel(error: 1, msg: translate("internet_error"));
-    } on SocketException catch (_) {
-      return CheckErrorModel(error: 1, msg: translate("internet_error"));
-    }
+    return await postRequest(url, json.encode(accessStore));
   }
 
   ///Check error delivery
@@ -940,7 +921,7 @@ class PharmacyApiProvider {
     String lan = prefs.getString('language') ?? "ru";
     String url = Utils.baseUrl + '/api/v1/check-version?lan=$lan';
 
-    return await postRequest(url, data);
+    return await postRequest(url, json.encode(data));
   }
 
   ///send rating
@@ -1005,7 +986,7 @@ class PharmacyApiProvider {
       "order_id": orderId.toString(),
     };
 
-    return await postRequest(url, data);
+    return await postRequest(url, json.encode(data));
   }
 
   /// Cash back

@@ -15,6 +15,7 @@ import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
+import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:shimmer/shimmer.dart';
@@ -25,7 +26,7 @@ import '../../../app_theme.dart';
 final priceFormat = new NumberFormat("#,##0", "ru");
 
 class CardScreen extends StatefulWidget {
-  final Function onPickup;
+  final Function(CashBackData data) onPickup;
   final Function onCurer;
   final Function onLogin;
 
@@ -41,7 +42,6 @@ class CardScreen extends StatefulWidget {
   }
 }
 
-int count = 0;
 bool isLogin = false;
 CashBackData cashData;
 
@@ -120,7 +120,6 @@ class _CardScreenState extends State<CardScreen> {
         builder: (context, AsyncSnapshot<List<ItemResult>> snapshot) {
           if (snapshot.hasData) {
             allPrice = 0.0;
-            count = snapshot.data.length;
             for (int i = 0; i < snapshot.data.length; i++) {
               allPrice += (snapshot.data[i].cardCount * snapshot.data[i].price);
             }
@@ -780,7 +779,7 @@ class _CardScreenState extends State<CardScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                onTap: () {
+                                onTap: () async {
                                   if (isLogin) {
                                     if (isNext) {
                                       setState(() {
@@ -788,54 +787,59 @@ class _CardScreenState extends State<CardScreen> {
                                       });
                                       AccessStore addModel = new AccessStore();
                                       List<ProductsStore> drugs = new List();
-                                      dataBase.getProdu(true).then((database) =>
-                                          {
-                                            for (int i = 0;
-                                                i < database.length;
-                                                i++)
-                                              {
-                                                drugs.add(ProductsStore(
-                                                    drugId: database[i].id,
-                                                    qty: database[i].cardCount))
-                                              },
-                                            addModel = new AccessStore(
-                                                lat: 0.0,
-                                                lng: 0.0,
-                                                products: drugs),
-                                            Repository()
-                                                .fetchCheckErrorPickup(
-                                                    addModel, languageData)
-                                                .then((value) => {
-                                                      if (value.error == 0)
-                                                        {
-                                                          errorData =
-                                                              new List(),
-                                                          cashData = value.data,
-                                                          widget.onPickup(),
-                                                          setState(() {
-                                                            loadingPickup =
-                                                                false;
-                                                            error = false;
-                                                          }),
-                                                        }
-                                                      else
-                                                        {
-                                                          setState(() {
-                                                            error = true;
-                                                            loadingPickup =
-                                                                false;
-                                                            errorData =
-                                                                new List();
-                                                            if (value.errors !=
-                                                                null)
-                                                              errorData.addAll(
-                                                                  value.errors);
-                                                            errorText =
-                                                                value.msg;
-                                                          }),
-                                                        }
-                                                    })
+
+                                      var databaseItem =
+                                          await dataBase.getProduct();
+
+                                      for (int i = 0;
+                                          i < databaseItem.length;
+                                          i++) {
+                                        drugs.add(
+                                          ProductsStore(
+                                            drugId: databaseItem[i].id,
+                                            qty: databaseItem[i].cardCount,
+                                          ),
+                                        );
+                                      }
+                                      addModel = new AccessStore(
+                                        lat: lat,
+                                        lng: lng,
+                                        products: drugs,
+                                      );
+
+                                      var response = await Repository()
+                                          .fetchCheckErrorPickup(
+                                        addModel,
+                                      );
+
+                                      if (response.isSuccess) {
+                                        var result = CheckErrorModel.fromJson(
+                                            response.result);
+                                        if (result.error == 0) {
+                                          errorData = new List();
+                                          widget.onPickup(result.data);
+                                          setState(() {
+                                            loadingPickup = false;
+                                            error = false;
                                           });
+                                        } else {
+                                          setState(() {
+                                            error = true;
+                                            loadingPickup = false;
+                                            errorData = new List();
+                                            if (result.errors != null)
+                                              errorData.addAll(result.errors);
+                                            errorText = result.msg;
+                                          });
+                                        }
+                                      } else {
+                                        setState(() {
+                                          loadingPickup = false;
+                                          error = false;
+                                          errorText = translate(
+                                              "network.network_title");
+                                        });
+                                      }
                                     }
                                   } else {
                                     BottomDialog.createBottomSheetHistory(

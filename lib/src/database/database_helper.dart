@@ -109,7 +109,7 @@ class DatabaseHelper {
         list[i][columnImageThumbnail],
         list[i][columnPrice],
         Manifacture(list[i][columnManufacturer]),
-        list[i][columnFav] == 1 ? true : false,
+        false,
         list[i][columnCount],
       );
       products.add(items);

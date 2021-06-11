@@ -10,6 +10,7 @@ import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/blocs/menu_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
@@ -23,6 +24,7 @@ import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 import 'package:pharmacy/src/ui/note/notification_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/curer_address_card.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
+import 'package:pharmacy/src/ui/shopping_pickup/checkout_order_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/about_app_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/faq_app_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
@@ -366,19 +368,26 @@ class _MainScreenState extends State<MainScreen> {
     };
   }
 
-  void _pickup() {
+  void _pickup(CashBackData data) {
     List<ProductsStore> drugs = new List();
     dataBase.getProdu(true).then(
           (value) => {
             for (int i = 0; i < value.length; i++)
               {
                 drugs.add(
-                    ProductsStore(drugId: value[i].id, qty: value[i].cardCount))
+                  ProductsStore(
+                    drugId: value[i].id,
+                    qty: value[i].cardCount,
+                  ),
+                )
               },
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AddressStorePickupScreen(drugs),
+                builder: (context) => CheckoutOrderScreen(
+                  drugs: drugs,
+                  data: data,
+                ),
               ),
             ),
           },

@@ -201,9 +201,12 @@ class Repository {
   Future<LoginModel> fetchSentMessage(String message) =>
       pharmacyApiProvider.fetchSentMessage(message);
 
-  Future<CheckErrorModel> fetchCheckErrorPickup(
-          AccessStore accessStore, String language) =>
-      pharmacyApiProvider.fetchCheckErrorPickup(accessStore, language);
+  Future<HttpResult> fetchCheckErrorPickup(
+    AccessStore accessStore,
+  ) =>
+      pharmacyApiProvider.fetchCheckErrorPickup(
+        accessStore,
+      );
 
   Future<CheckErrorModel> fetchCheckErrorDelivery(
           AccessStore accessStore, String language) =>

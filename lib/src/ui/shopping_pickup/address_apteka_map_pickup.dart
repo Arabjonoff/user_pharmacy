@@ -761,7 +761,9 @@ class _AddressStoreMapPickupScreenState
           new Point(latitude: position.latitude, longitude: position.longitude);
     } else {
       addModel = new AccessStore(
-          lat: 41.311081, lng: 69.240562, products: widget.drugs);
+          lat: 41.311081,
+          lng: 69.240562,
+          products: widget.drugs);
       _addMarkers(Repository().fetchAccessStore(addModel));
     }
   }
