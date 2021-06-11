@@ -75,7 +75,6 @@ class PharmacyApiProvider {
     final dynamic headers = await _getReqHeader();
     try {
       print(url);
-      print(headers);
       http.Response response = await http
           .get(
             Uri.parse(url),

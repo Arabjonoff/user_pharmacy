@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/app_theme.dart';
+import 'package:pharmacy/src/blocs/items_bloc.dart';
+import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BottomDialog {
@@ -655,6 +658,106 @@ class BottomDialog {
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  static void showItemDrug(BuildContext context, int id) async {
+    showModalBottomSheet(
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              height: MediaQuery.of(context).size.height - 60,
+              margin: EdgeInsets.only(top: 60),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(24),
+                ),
+                color: AppTheme.white,
+              ),
+              child: StreamBuilder(
+                stream: blocItem.allItems,
+                builder: (context, AsyncSnapshot<ItemsAllModel> snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView();
+                  }
+                  return Shimmer.fromColors(
+                    baseColor: Colors.grey[300],
+                    highlightColor: Colors.grey[100],
+                    child: ListView(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(
+                            top: 8,
+                            left: (MediaQuery.of(context).size.width - 60) / 2,
+                            right: (MediaQuery.of(context).size.width - 60) / 2,
+                          ),
+                          height: 4,
+                          width: 60,
+                          color: AppTheme.white,
+                        ),
+                        Center(
+                          child: Container(
+                            margin: EdgeInsets.only(top: 24,bottom: 24),
+                            height: 240,
+                            width: 240,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 16, right: 16),
+                          height: 15,
+                          width: 250,
+                          color: Colors.white,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 8.0),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 16, right: 16),
+                          height: 22,
+                          width: double.infinity,
+                          color: Colors.white,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 24.0),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 16, right: 16),
+                          height: 22,
+                          width: 125,
+                          color: Colors.white,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 40.0),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          margin: EdgeInsets.only(left: 16, right: 16),
+                          height: 40,
+                          width: double.infinity,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            );
+          },
         );
       },
     );

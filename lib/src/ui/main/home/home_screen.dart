@@ -141,8 +141,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: () {
-                  },
+                  onTap: () {},
                   child: Container(
                     margin: EdgeInsets.only(
                       top: 8,
@@ -471,7 +470,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   itemBuilder: (context, index) => Padding(
                                     padding: const EdgeInsets.only(bottom: 0.0),
                                     child: GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        RxBus.post(
+                                          BottomViewModel(
+                                              snapshot.data.results[index].id),
+                                          tag: "EVENT_BOTTOM_ITEM_ALL",
+                                        );
+                                      },
                                       child: Container(
                                         width: 148,
                                         height: 189,
@@ -2892,11 +2897,33 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     String ids = message["data"]["drugs"];
 
     if (item > 0) {
-      RxBus.post(BottomViewModel(item), tag: "EVENT_BOTTOM_ITEM_NOTF");
+      RxBus.post(BottomViewModel(item), tag: "EVENT_BOTTOM_ITEM_ALL");
     } else if (category > 0) {
-      RxBus.post(BottomViewModel(category), tag: "EVENT_BOTTOM_CATEGORY_NOTF");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ItemListScreen(
+            name: "",
+            type: 2,
+            id: category.toString(),
+          ),
+        ),
+      );
     } else if (ids.length > 2) {
-      RxBus.post(BottomViewIdsModel(ids), tag: "EVENT_BOTTOM_IDS_NOTF");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ItemListScreen(
+            name: "",
+            type: 5,
+            id: ids
+                .toString()
+                .replaceAll('[', '')
+                .replaceAll(']', '')
+                .replaceAll(' ', ''),
+          ),
+        ),
+      );
     }
   }
 }

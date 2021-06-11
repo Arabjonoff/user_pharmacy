@@ -33,13 +33,6 @@ class ItemBloc {
           }
         }
       }
-      for (var i = 0; i < items.recommendations.length; i++) {
-        for (var j = 0; j < database.length; j++) {
-          if (items.recommendations[i].id == database[j].id) {
-            items.recommendations[i].cardCount = database[j].cardCount;
-          }
-        }
-      }
       _itemFetcher.sink.add(items);
     }
   }
@@ -67,13 +60,6 @@ class ItemBloc {
         for (var j = 0; j < database.length; j++) {
           if (items.analog[i].id == database[j].id) {
             items.analog[i].cardCount = database[j].cardCount;
-          }
-        }
-      }
-      for (var i = 0; i < items.recommendations.length; i++) {
-        for (var j = 0; j < database.length; j++) {
-          if (items.recommendations[i].id == database[j].id) {
-            items.recommendations[i].cardCount = database[j].cardCount;
           }
         }
       }

@@ -20,7 +20,6 @@ import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/dialog/universal_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
-import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/fav/favourite_screen.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
@@ -164,71 +163,7 @@ class _MainScreenState extends State<MainScreen> {
 
     RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_ITEM_ALL").listen(
       (event) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ItemScreenNotInstruction(
-              event.position,
-            ),
-          ),
-        );
-      },
-    );
-
-    RxBus.register<BottomViewIdsModel>(tag: "EVENT_BOTTOM_VIEW_LANGUAGE")
-        .listen(
-      (event) => setState(
-        () {
-          var localizationDelegate = LocalizedApp.of(context).delegate;
-          localizationDelegate.changeLocale(Locale(event.position));
-        },
-      ),
-    );
-
-    RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_ITEM_NOTF").listen(
-      (event) => {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ItemScreenNotInstruction(
-              event.position,
-            ),
-          ),
-        )
-      },
-    );
-
-    RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_CATEGORY_NOTF").listen(
-      (event) => {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ItemListScreen(
-              name: "",
-              type: 2,
-              id: event.position.toString(),
-            ),
-          ),
-        )
-      },
-    );
-
-    RxBus.register<BottomViewIdsModel>(tag: "EVENT_BOTTOM_IDS_NOTF").listen(
-      (event) => {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ItemListScreen(
-              name: "",
-              type: 5,
-              id: event.position
-                  .toString()
-                  .replaceAll('[', '')
-                  .replaceAll(']', '')
-                  .replaceAll(' ', ''),
-            ),
-          ),
-        ),
+        BottomDialog.showItemDrug(context, event.position);
       },
     );
   }
@@ -469,8 +404,9 @@ class _MainScreenState extends State<MainScreen> {
   void _reloadScreen(Function reload) {
     BottomDialog.showNetworkError(context, reload);
   }
+
   void _commentService(int orderId) {
-    BottomDialog.showCommentService(context,orderId);
+    BottomDialog.showCommentService(context, orderId);
   }
 
   void _universal(String title, String uri) {
