@@ -695,9 +695,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               ),
                               value: selectedUser,
-                              onChanged: (String Value) {
+                              onChanged: (String value) {
                                 setState(() {
-                                  selectedUser = Value;
+                                  selectedUser = value;
                                 });
                               },
                               items: users.map((String user) {

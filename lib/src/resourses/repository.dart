@@ -13,12 +13,10 @@ import 'package:pharmacy/src/model/api/current_location_address_model.dart';
 import 'package:pharmacy/src/model/api/faq_model.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
-import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
-import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/chat/chat_api_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/create_order_status_model.dart';
@@ -26,7 +24,6 @@ import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/http_result.dart';
 import 'package:pharmacy/src/model/note/note_data_model.dart';
 import 'package:pharmacy/src/model/payment_verfy.dart';
-import 'package:pharmacy/src/model/review/get_review.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
@@ -149,7 +146,7 @@ class Repository {
         barcode,
       );
 
-  Future<ItemsAllModel> fetchItems(String id) =>
+  Future<HttpResult> fetchItems(String id) =>
       pharmacyApiProvider.fetchItems(id);
 
   Future<List<LocationModel>> fetchStore(double lat, double lng) =>

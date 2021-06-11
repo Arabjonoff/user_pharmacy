@@ -14,7 +14,6 @@ import 'package:pharmacy/src/model/api/current_location_address_model.dart';
 import 'package:pharmacy/src/model/api/faq_model.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
-import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/api/min_sum.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
@@ -27,7 +26,6 @@ import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/http_result.dart';
 import 'package:pharmacy/src/model/payment_verfy.dart';
-import 'package:pharmacy/src/model/review/get_review.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
@@ -420,34 +418,13 @@ class PharmacyApiProvider {
   }
 
   ///items
-  Future<ItemsAllModel> fetchItems(String id) async {
+  Future<HttpResult> fetchItems(String id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
     String url = Utils.baseUrl + '/api/v1/drugs/$id?region=$regionId';
-    Map<String, String> headers = {
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
 
-    try {
-      http.Response response =
-          await http.get(Uri.parse(url), headers: headers).timeout(duration);
-
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      return ItemsAllModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    }
+    return await getRequest(url);
   }
 
   ///stores

@@ -1,12 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:pharmacy/src/app_theme.dart';
-import 'package:pharmacy/src/model/ramadan_model.dart';
-import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 

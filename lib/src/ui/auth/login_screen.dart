@@ -7,7 +7,6 @@ import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/auth/verify_screen.dart';
 import 'package:pharmacy/src/utils/number_mask.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
 

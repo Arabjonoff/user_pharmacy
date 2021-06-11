@@ -22,6 +22,7 @@ class ItemsAllModel {
   List<ItemResult> analog;
   List<ItemResult> recommendations;
   int maxCount;
+  double rating;
   bool isComing;
   bool favourite = false;
   int cardCount = 0;
@@ -48,6 +49,7 @@ class ItemsAllModel {
     this.category,
     this.analog,
     this.recommendations,
+    this.rating,
   });
 
   ItemsAllModel.fromJson(Map<String, dynamic> json) {
@@ -64,6 +66,7 @@ class ItemsAllModel {
     maxCount = json["max_count"];
     isComing = json["is_coming"];
     price = json['price'];
+    rating = json['rating'] ?? 0.0;
     expirationDate = json['expiration_date'];
     isRecept = json['is_recept'];
     unit = json['unit'] != null
@@ -111,6 +114,7 @@ class ItemsAllModel {
     data['max_count'] = this.maxCount;
     data['is_coming'] = this.isComing;
     data['is_recept'] = this.isRecept;
+    data['rating'] = this.rating;
     if (this.unit != null) {
       data['unit'] = this.unit.toJson();
     }
