@@ -410,6 +410,7 @@ class _MainScreenState extends State<MainScreen> {
             onUnversal: _universal,
             onUpdate: _update,
             onReloadNetwork: _reloadScreen,
+            onCommentService: _commentService,
           ),
           CategoryScreen(),
           CardScreen(
@@ -467,6 +468,9 @@ class _MainScreenState extends State<MainScreen> {
 
   void _reloadScreen(Function reload) {
     BottomDialog.showNetworkError(context, reload);
+  }
+  void _commentService(int orderId) {
+    BottomDialog.showCommentService(context,orderId);
   }
 
   void _universal(String title, String uri) {

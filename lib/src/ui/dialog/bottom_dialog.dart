@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/app_theme.dart';
+import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -28,7 +29,7 @@ class BottomDialog {
               children: [
                 Center(
                   child: Container(
-                    margin: EdgeInsets.only(top: 12),
+                    margin: EdgeInsets.only(top: 8),
                     height: 4,
                     width: 60,
                     decoration: BoxDecoration(
@@ -135,7 +136,7 @@ class BottomDialog {
               child: Column(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(top: 12),
+                    margin: EdgeInsets.only(top: 8),
                     height: 4,
                     width: 60,
                     decoration: BoxDecoration(
@@ -286,7 +287,7 @@ class BottomDialog {
               child: Column(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(top: 12),
+                    margin: EdgeInsets.only(top: 8),
                     height: 4,
                     width: 60,
                     decoration: BoxDecoration(
@@ -397,6 +398,263 @@ class BottomDialog {
               ),
             );
           },
+        );
+      },
+    );
+  }
+
+  static void showCommentService(BuildContext context, int orderId) async {
+    int _stars = 5;
+    TextEditingController commentController = TextEditingController();
+    var loading = false;
+    showModalBottomSheet(
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, setState) => Container(
+            height: 534,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(24),
+                topRight: Radius.circular(24),
+              ),
+              color: AppTheme.white,
+            ),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: 8),
+                  height: 4,
+                  width: 60,
+                  decoration: BoxDecoration(
+                    color: AppTheme.bottom_dialog,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 16, left: 16, right: 16),
+                  child: Text(
+                    translate("comment.title"),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      height: 1.2,
+                      color: AppTheme.text_dark,
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 80,
+                  width: 80,
+                  margin: EdgeInsets.only(top: 24, bottom: 16),
+                  decoration: BoxDecoration(
+                    color: AppTheme.yellow,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Center(
+                    child: Image.asset(
+                      "assets/img/note_image.png",
+                      height: 32,
+                      width: 32,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 16, right: 16),
+                  child: Text(
+                    translate("comment.message"),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      height: 1.6,
+                      color: AppTheme.textGray,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 16, left: 16, right: 16),
+                  height: 32,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      InkWell(
+                        child: _stars >= 1
+                            ? SvgPicture.asset("assets/icons/star_select.svg")
+                            : SvgPicture.asset(
+                                "assets/icons/star_un_select.svg"),
+                        onTap: () {
+                          setState(() {
+                            _stars = 1;
+                          });
+                        },
+                      ),
+                      SizedBox(width: 16),
+                      InkWell(
+                        child: _stars >= 2
+                            ? SvgPicture.asset("assets/icons/star_select.svg")
+                            : SvgPicture.asset(
+                                "assets/icons/star_un_select.svg"),
+                        onTap: () {
+                          setState(() {
+                            _stars = 2;
+                          });
+                        },
+                      ),
+                      SizedBox(width: 16),
+                      InkWell(
+                        child: _stars >= 3
+                            ? SvgPicture.asset("assets/icons/star_select.svg")
+                            : SvgPicture.asset(
+                                "assets/icons/star_un_select.svg"),
+                        onTap: () {
+                          setState(() {
+                            _stars = 3;
+                          });
+                        },
+                      ),
+                      SizedBox(width: 16),
+                      InkWell(
+                        child: _stars >= 4
+                            ? SvgPicture.asset("assets/icons/star_select.svg")
+                            : SvgPicture.asset(
+                                "assets/icons/star_un_select.svg"),
+                        onTap: () {
+                          setState(() {
+                            _stars = 4;
+                          });
+                        },
+                      ),
+                      SizedBox(width: 16),
+                      InkWell(
+                        child: _stars >= 5
+                            ? SvgPicture.asset("assets/icons/star_select.svg")
+                            : SvgPicture.asset(
+                                "assets/icons/star_un_select.svg"),
+                        onTap: () {
+                          setState(() {
+                            _stars = 5;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 16, left: 16, right: 16),
+                  width: double.infinity,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      translate("comment.comment"),
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontRubik,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        height: 1.2,
+                        color: AppTheme.textGray,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppTheme.background,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    margin: EdgeInsets.only(left: 16, right: 16, top: 8),
+                    child: TextField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 5,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontRubik,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        height: 1.6,
+                        color: AppTheme.text_dark,
+                      ),
+                      controller: commentController,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppTheme.background,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppTheme.background,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    if (commentController.text.length > 0 || _stars > 0) {
+                      setState(() {
+                        loading = true;
+                      });
+                      Repository()
+                          .fetchOrderItemReview(
+                            commentController.text,
+                            _stars,
+                            orderId,
+                          )
+                          .then(
+                            (value) => {
+                              setState(() {
+                                loading = false;
+                              }),
+                              Navigator.of(context).pop(),
+                            },
+                          );
+                    }
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      top: 16,
+                      left: 16,
+                      right: 16,
+                      bottom: 24,
+                    ),
+                    height: 44,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: AppTheme.blue_app_color,
+                    ),
+                    child: Center(
+                      child: loading
+                          ? CircularProgressIndicator(
+                              value: null,
+                              strokeWidth: 3.0,
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(AppTheme.white),
+                            )
+                          : Text(
+                              translate("dialog_rat.send"),
+                              style: TextStyle(
+                                fontStyle: FontStyle.normal,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: AppTheme.fontRubik,
+                                color: AppTheme.white,
+                                height: 1.29,
+                              ),
+                            ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
         );
       },
     );

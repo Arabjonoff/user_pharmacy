@@ -75,6 +75,7 @@ class PharmacyApiProvider {
     final dynamic headers = await _getReqHeader();
     try {
       print(url);
+      print(headers);
       http.Response response = await http
           .get(
             Uri.parse(url),
@@ -125,7 +126,7 @@ class PharmacyApiProvider {
         ? stringToBase64.encode(prefs.getString("deviceData"))
         : "";
 
-    if (prefs.getString('access') == null) {
+    if (prefs.getString('token') == null) {
       return {
         "Accept": "application/json",
         'X-Device': encoded,
@@ -134,7 +135,7 @@ class PharmacyApiProvider {
       return {
         "Accept": "application/json",
         'X-Device': encoded,
-        "Authorization": "Bearer " + prefs.getString('access')
+        "Authorization": "Bearer " + prefs.getString('token')
       };
     }
   }
@@ -1006,68 +1007,29 @@ class PharmacyApiProvider {
   }
 
   ///get-no-reviews
-  // ignore: missing_return
-  Future<GetReviewModel> fetchGetNoReviews() async {
+  Future<HttpResult> fetchGetNoReviews() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
     String url = Utils.baseUrl + '/api/v1/get-no-reviews?region=$regionId';
-    String token = prefs.getString("token");
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-    if (token != null) {
-      Map<String, String> headers = {
-        HttpHeaders.authorizationHeader: "Bearer $token",
-        'content-type': 'application/json; charset=utf-8',
-        'X-Device': encoded,
-      };
-
-      http.Response response =
-          await http.get(Uri.parse(url), headers: headers).timeout(duration);
-
-      final Map parsed = json.decode(response.body);
-      return GetReviewModel.fromJson(parsed);
-    }
+    return await getRequest(url);
   }
 
   ///order item review
-  Future<CheckVersion> fetchOrderItemReview(
+  Future<HttpResult> fetchOrderItemReview(
     String comment,
     int rating,
     int orderId,
   ) async {
     String url = Utils.baseUrl + '/api/v1/send-order-reviews';
 
-    final data = {"review": comment, "rating": rating, "order_id": orderId};
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token");
-
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
+    final data = {
+      "review": comment,
+      "rating": rating.toString(),
+      "order_id": orderId.toString(),
     };
-    try {
-      http.Response response = await http
-          .post(Uri.parse(url), headers: headers, body: json.encode(data))
-          .timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      return CheckVersion.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return CheckVersion();
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return CheckVersion();
-    }
+
+    return await postRequest(url, data);
   }
 
   /// Cash back

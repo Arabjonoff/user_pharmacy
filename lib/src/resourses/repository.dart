@@ -223,11 +223,11 @@ class Repository {
   Future<CheckVersion> fetchSendRating(String comment, int rating) =>
       pharmacyApiProvider.fetchSendRating(comment, rating);
 
-  Future<CheckVersion> fetchOrderItemReview(
+  Future<HttpResult> fetchOrderItemReview(
           String comment, int rating, int orderId) =>
       pharmacyApiProvider.fetchOrderItemReview(comment, rating, orderId);
 
-  Future<GetReviewModel> fetchGetNoReview() =>
+  Future<HttpResult> fetchGetNoReview() =>
       pharmacyApiProvider.fetchGetNoReviews();
 
   Future<CashBackModel> fetchCashBack() => pharmacyApiProvider.fetchCashBack();
