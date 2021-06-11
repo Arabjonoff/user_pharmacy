@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/blocs/menu_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
@@ -215,6 +216,7 @@ class _MainScreenState extends State<MainScreen> {
               } else if (index == 1) {
                 blocCategory.fetchAllCategory();
               } else if (index == 2) {
+                blocCard.fetchAllCard();
               } else if (index == 3) {
               } else if (index == 4) {
                 Utils.isLogin().then((value) => {
