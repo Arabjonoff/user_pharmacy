@@ -19,7 +19,6 @@ import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/sale_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
-import 'package:pharmacy/src/model/eventBus/check_version.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/dialog/top_dialog.dart';
@@ -40,9 +39,13 @@ String fcToken = "";
 
 class HomeScreen extends StatefulWidget {
   final Function(String title, String uri) onUnversal;
+  final Function(bool optiona, String descl) onUpdate;
+  final Function(Function reload) onReloadNetwork;
 
   HomeScreen({
     this.onUnversal,
+    this.onUpdate,
+    this.onReloadNetwork,
   });
 
   @override
@@ -139,9 +142,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: () {
-                    BottomDialog.showUpdate(context,false);
-                  },
+                  onTap: () {},
                   child: Container(
                     margin: EdgeInsets.only(
                       top: 8,
@@ -2833,6 +2834,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             var value = CheckVersion.fromJson(v.result);
             if (value.status != 0) {
               ///update
+              widget.onUpdate(false, value.description);
             } else if (value.winner) {
               BottomDialog.showWinner(context, value.konkursText);
             }
@@ -3165,7 +3167,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     RxBus.register<BottomView>(tag: "HOME_VIEW_ERROR_NETWORK").listen(
       (event) {
-        /// network error
+        widget.onReloadNetwork(
+          () {
+            blocHome.fetchBanner();
+            blocHome.fetchBlog(1);
+            blocHome.fetchRecently();
+            blocHome.fetchCategory();
+            blocHome.fetchBestItem();
+            blocHome.fetchSlimmingItem();
+            blocHome.fetchCashBack();
+          },
+        );
       },
     );
   }

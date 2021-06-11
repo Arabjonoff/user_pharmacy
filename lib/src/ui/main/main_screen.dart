@@ -17,6 +17,7 @@ import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
+import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/dialog/universal_screen.dart';
 import 'package:pharmacy/src/ui/item/item_screen_not_instruction.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
@@ -53,9 +54,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   DatabaseHelper dataBase = new DatabaseHelper();
-  bool isFirstData = true;
   var duration = Duration(milliseconds: 270);
-  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
   List<GlobalKey<NavigatorState>> _navigatorKeys = [
     GlobalKey<NavigatorState>(),
@@ -234,79 +233,8 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Future<void> _initPlatformState(BuildContext context) async {
-    Map<String, dynamic> deviceData;
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString("deviceData") == null) {
-      try {
-        if (Platform.isAndroid) {
-          deviceData = _readAndroidBuildData(
-              await deviceInfoPlugin.androidInfo, context);
-        } else if (Platform.isIOS) {
-          deviceData = _readIosDeviceInfo(
-              await deviceInfoPlugin.iosInfo, context, await FlutterUdid.udid);
-        }
-        Utils.saveDeviceData(deviceData);
-      } on PlatformException {
-        deviceData = <String, dynamic>{
-          'Error:': 'Failed to get platform version.'
-        };
-      }
-    }
-
-    if (!mounted) return;
-  }
-
-  Map<String, dynamic> _readAndroidBuildData(
-      AndroidDeviceInfo build, BuildContext context) {
-    return <String, dynamic>{
-      'platform': "Android",
-      'model': build.model,
-      'systemVersion': build.version.release,
-      'brand': build.brand,
-      'isPhysicalDevice': build.isPhysicalDevice,
-      'identifierForVendor': build.androidId,
-      'device': build.device,
-      'product': build.product,
-      'version.incremental': build.version.incremental,
-      'displaySize': MediaQuery.of(context).size.width.toString() +
-          "x" +
-          MediaQuery.of(context).size.height.toString(),
-      'displayPixel': window.physicalSize.width.toString() +
-          "x" +
-          window.physicalSize.height.toString(),
-    };
-  }
-
-  Map<String, dynamic> _readIosDeviceInfo(
-    IosDeviceInfo data,
-    BuildContext context,
-    String udid,
-  ) {
-    return <String, dynamic>{
-      'platform': "IOS",
-      'model': data.name,
-      'systemVersion': data.systemVersion,
-      'brand': data.model,
-      'isPhysicalDevice': data.isPhysicalDevice,
-      'identifierForVendor': udid,
-      'systemName': data.systemName,
-      'displaySize': MediaQuery.of(context).size.width.toString() +
-          "x" +
-          MediaQuery.of(context).size.height.toString(),
-      'displayPixel': window.physicalSize.width.toString() +
-          "x" +
-          window.physicalSize.height.toString(),
-    };
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (isFirstData) {
-      _initPlatformState(context);
-      isFirstData = false;
-    }
     return WillPopScope(
       onWillPop: () async {
         final isFirstRouteInCurrentTab =
@@ -328,6 +256,7 @@ class _MainScreenState extends State<MainScreen> {
             canvasColor: Colors.white,
           ),
           child: BottomNavigationBar(
+            elevation: 0.0,
             onTap: (index) {
               if (index == _selectedIndex) {
                 switch (index) {
@@ -479,6 +408,8 @@ class _MainScreenState extends State<MainScreen> {
         return [
           HomeScreen(
             onUnversal: _universal,
+            onUpdate: _update,
+            onReloadNetwork: _reloadScreen,
           ),
           CategoryScreen(),
           CardScreen(
@@ -528,6 +459,14 @@ class _MainScreenState extends State<MainScreen> {
         builder: (context) => CurerAddressCardScreen(false),
       ),
     );
+  }
+
+  void _update(bool optional, String desc) {
+    BottomDialog.showUpdate(context, desc, optional);
+  }
+
+  void _reloadScreen(Function reload) {
+    BottomDialog.showNetworkError(context, reload);
   }
 
   void _universal(String title, String uri) {

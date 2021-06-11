@@ -1,8 +1,15 @@
+import 'dart:io';
+import 'dart:ui';
+
+import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_udid/flutter_udid.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/ui/login_region_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnBoarding extends StatefulWidget {
   @override
@@ -14,6 +21,7 @@ class OnBoarding extends StatefulWidget {
 class _OnBoardingState extends State<OnBoarding> {
   PageController _pageController;
   int currentIndex = 0;
+  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
   @override
   void initState() {
@@ -29,6 +37,7 @@ class _OnBoardingState extends State<OnBoarding> {
 
   @override
   Widget build(BuildContext context) {
+    _initPlatformState(context);
     return Scaffold(
       backgroundColor: AppTheme.white,
       body: Column(
@@ -304,5 +313,72 @@ class _OnBoardingState extends State<OnBoarding> {
     }
 
     return indicators;
+  }
+
+  Future<void> _initPlatformState(BuildContext context) async {
+    Map<String, dynamic> deviceData;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString("deviceData") == null) {
+      try {
+        if (Platform.isAndroid) {
+          deviceData = _readAndroidBuildData(
+              await deviceInfoPlugin.androidInfo, context);
+        } else if (Platform.isIOS) {
+          deviceData = _readIosDeviceInfo(
+              await deviceInfoPlugin.iosInfo, context, await FlutterUdid.udid);
+        }
+        Utils.saveDeviceData(deviceData);
+      } on PlatformException {
+        deviceData = <String, dynamic>{
+          'Error:': 'Failed to get platform version.'
+        };
+      }
+    }
+
+    if (!mounted) return;
+  }
+
+  Map<String, dynamic> _readAndroidBuildData(
+      AndroidDeviceInfo build, BuildContext context) {
+    return <String, dynamic>{
+      'platform': "Android",
+      'model': build.model,
+      'systemVersion': build.version.release,
+      'brand': build.brand,
+      'isPhysicalDevice': build.isPhysicalDevice,
+      'identifierForVendor': build.androidId,
+      'device': build.device,
+      'product': build.product,
+      'version.incremental': build.version.incremental,
+      'displaySize': MediaQuery.of(context).size.width.toString() +
+          "x" +
+          MediaQuery.of(context).size.height.toString(),
+      'displayPixel': window.physicalSize.width.toString() +
+          "x" +
+          window.physicalSize.height.toString(),
+    };
+  }
+
+  Map<String, dynamic> _readIosDeviceInfo(
+      IosDeviceInfo data,
+      BuildContext context,
+      String udid,
+      ) {
+    return <String, dynamic>{
+      'platform': "IOS",
+      'model': data.name,
+      'systemVersion': data.systemVersion,
+      'brand': data.model,
+      'isPhysicalDevice': data.isPhysicalDevice,
+      'identifierForVendor': udid,
+      'systemName': data.systemName,
+      'displaySize': MediaQuery.of(context).size.width.toString() +
+          "x" +
+          MediaQuery.of(context).size.height.toString(),
+      'displayPixel': window.physicalSize.width.toString() +
+          "x" +
+          window.physicalSize.height.toString(),
+    };
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -109,15 +111,170 @@ class BottomDialog {
 
   static void showUpdate(
     BuildContext context,
+    String text,
     bool optional,
   ) async {
     showModalBottomSheet(
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
+      context: context,
+      isScrollControlled: true,
+      isDismissible: optional,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              height: optional ? 365 : 321,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(24),
+                ),
+                color: AppTheme.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 12),
+                    height: 4,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      color: AppTheme.bottom_dialog,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    child: Center(
+                      child: Text(
+                        translate("home.update_title"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          height: 1.2,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          color: AppTheme.yellow,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Image.asset(
+                            "assets/img/update_image.png",
+                            height: 32,
+                            width: 32,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    text,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      height: 1.6,
+                      color: AppTheme.textGray,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      Navigator.pop(context);
+                      if (Platform.isAndroid) {
+                        var url =
+                            'https://play.google.com/store/apps/details?id=uz.go.pharm';
+                        await launch(url);
+                      } else if (Platform.isIOS) {
+                        var url =
+                            'https://apps.apple.com/uz/app/gopharm-online/id1527930423';
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      }
+                    },
+                    child: Container(
+                      height: 44,
+                      margin: EdgeInsets.only(
+                        bottom: 16,
+                        top: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.blue,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("home.update_button"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  optional
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            height: 44,
+                            color: AppTheme.white,
+                            child: Center(
+                              child: Text(
+                                translate("home.skip"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  height: 1.25,
+                                  color: AppTheme.textGray,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
+                  SizedBox(
+                    height: 24,
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  static void showNetworkError(BuildContext context, Function reload) async {
+    showModalBottomSheet(
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
       context: context,
       isScrollControlled: true,
       builder: (context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return Container(
+              padding: EdgeInsets.only(left: 16, right: 16),
               height: 365,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -137,78 +294,105 @@ class BottomDialog {
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    child: Center(
+                      child: Text(
+                        translate("network.network_title"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          height: 1.2,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                    ),
+                  ),
                   Expanded(
                     child: Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: AppTheme.blue_app_color,
-                          ),
-                          height: 44,
-                          width: double.infinity,
-                          margin: EdgeInsets.only(
-                            top: 16,
-                            bottom: 30,
-                            left: 16,
-                            right: 16,
-                          ),
-                          child: Center(
-                            child: Text(
-                              translate("dialog.enter"),
-                              style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontFamily: AppTheme.fontRubik,
-                                fontSize: 17,
-                                color: AppTheme.white,
-                              ),
-                            ),
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          color: AppTheme.yellow,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Image.asset(
+                            "assets/img/network_error_image.png",
+                            height: 32,
+                            width: 32,
                           ),
                         ),
                       ),
                     ),
                   ),
-                  Container(
-                    width: double.infinity,
-                    child: Text(
-                      translate("dialog.soglas"),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: AppTheme.black_transparent_text,
-                        fontFamily: AppTheme.fontRubik,
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 11,
-                      ),
+                  Text(
+                    translate("network.network_message"),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      height: 1.6,
+                      color: AppTheme.textGray,
                     ),
                   ),
                   GestureDetector(
                     onTap: () async {
-                      var url = 'https://api.gopharm.uz/privacy';
-                      if (await canLaunch(url)) {
-                        await launch(url);
-                      } else {
-                        throw 'Could not launch $url';
-                      }
+                      Navigator.pop(context);
+                      reload();
                     },
                     child: Container(
-                      margin: EdgeInsets.only(bottom: 16),
-                      child: Text(
-                        translate("dialog.danniy"),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppTheme.blue_app_color,
-                          fontFamily: AppTheme.fontRubik,
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 11,
+                      height: 44,
+                      margin: EdgeInsets.only(
+                        bottom: 16,
+                        top: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.blue,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("network.reload_screen"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.white,
+                          ),
                         ),
                       ),
                     ),
                   ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 44,
+                      color: AppTheme.white,
+                      child: Center(
+                        child: Text(
+                          translate("network.close"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.textGray,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 24,
+                  )
                 ],
               ),
             );

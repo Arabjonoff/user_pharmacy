@@ -9,7 +9,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/blocs/aptek_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
-import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';

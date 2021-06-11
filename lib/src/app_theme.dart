@@ -53,6 +53,7 @@ class AppTheme {
   static const Color blue = Color(0xFF3F8AE0);
   static const Color background = Color(0xFFF4F5F7);
   static const Color red = Color(0xFFFF3347);
+  static const Color yellow = Color(0xFFFFFAE5);
 
   static const TextTheme textTheme = TextTheme(
     headline4: display1,
