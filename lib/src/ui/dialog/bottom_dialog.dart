@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/app_theme.dart';
@@ -14,6 +15,7 @@ import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
+import 'package:pharmacy/src/utils/number_mask.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:simple_html_css/simple_html_css.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -76,7 +78,7 @@ class BottomDialog {
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
                       height: 1.6,
-                      color: AppTheme.grey,
+                      color: AppTheme.textGray,
                     ),
                   ),
                 ),
@@ -114,6 +116,247 @@ class BottomDialog {
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  static void showEditInfo(
+    BuildContext context,
+    String firstName,
+    String lastName,
+    String number,
+    Function(
+      String firstName,
+      String lastName,
+      String number,
+    )
+        onChanges,
+  ) async {
+    TextEditingController lastNameController =
+        TextEditingController(text: lastName);
+    TextEditingController numberController =
+        TextEditingController(text: number);
+    TextEditingController firstNameController =
+        TextEditingController(text: firstName);
+
+    final PhoneNumberTextInputFormatter _phoneNumber =
+        new PhoneNumberTextInputFormatter();
+    showModalBottomSheet(
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              height: 326,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(24),
+                ),
+                color: AppTheme.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    height: 4,
+                    width: 64,
+                    decoration: BoxDecoration(
+                      color: AppTheme.bottom_dialog,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    child: Center(
+                      child: Text(
+                        translate("card.choose_info"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          height: 1.2,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 44,
+                    width: double.infinity,
+                    margin: EdgeInsets.only(
+                      top: 24,
+                    ),
+                    padding: EdgeInsets.only(
+                      left: 12,
+                      right: 12,
+                      bottom: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppTheme.background,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: TextField(
+                      keyboardType: TextInputType.phone,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontRubik,
+                        fontWeight: FontWeight.normal,
+                        color: AppTheme.text_dark,
+                        fontSize: 14,
+                        height: 1.2,
+                      ),
+                      maxLength: 35,
+                      controller: lastNameController,
+                      decoration: InputDecoration(
+                        counterText: "",
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 0,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 0,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 44,
+                    width: double.infinity,
+                    margin: EdgeInsets.only(
+                      top: 16,
+                    ),
+                    padding: EdgeInsets.only(
+                      left: 12,
+                      right: 12,
+                      bottom: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppTheme.background,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: TextField(
+                      keyboardType: TextInputType.phone,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontRubik,
+                        fontWeight: FontWeight.normal,
+                        color: AppTheme.text_dark,
+                        fontSize: 14,
+                        height: 1.2,
+                      ),
+                      maxLength: 35,
+                      controller: firstNameController,
+                      decoration: InputDecoration(
+                        counterText: "",
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 0,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 0,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 44,
+                    width: double.infinity,
+                    margin: EdgeInsets.only(
+                      top: 15,
+                    ),
+                    padding: EdgeInsets.only(
+                      left: 12,
+                      right: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppTheme.background,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: TextField(
+                      keyboardType: TextInputType.phone,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontRubik,
+                        fontWeight: FontWeight.normal,
+                        color: AppTheme.text_dark,
+                        fontSize: 14,
+                        height: 1.2,
+                      ),
+                      maxLength: 17,
+                      inputFormatters: [
+                        WhitelistingTextInputFormatter.digitsOnly,
+                        _phoneNumber,
+                      ],
+                      controller: numberController,
+                      decoration: InputDecoration(
+                        counterText: "",
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 0,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 0,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(child: Container()),
+                  GestureDetector(
+                    onTap: () async {
+                      if (numberController.text.length == 17 &&
+                          firstNameController.text.length > 0 &&
+                          lastNameController.text.length > 0) {
+                        Navigator.pop(context);
+                        onChanges(firstNameController.text,
+                            lastNameController.text, numberController.text);
+                      }
+                    },
+                    child: Container(
+                      height: 44,
+                      margin: EdgeInsets.only(
+                        bottom: 24,
+                        top: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.blue,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("card.save"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         );
       },
     );
@@ -671,6 +914,7 @@ class BottomDialog {
 
   static void showItemDrug(BuildContext context, int id) async {
     blocItem.fetchAllInfoItem(id.toString());
+
     DatabaseHelper dataBase = new DatabaseHelper();
     DatabaseHelperFav dataBaseFav = new DatabaseHelperFav();
     int currentIndex = 0;
@@ -1828,13 +2072,13 @@ class BottomDialog {
                           onTap: () {
                             Navigator.pop(context);
                             _onLogin();
-                            // Navigator.pushReplacement(
-                            //   context,
-                            //   PageTransition(
-                            //     type: PageTransitionType.bottomToTop,
-                            //     child: LoginScreen(),
-                            //   ),
-                            // );
+// Navigator.pushReplacement(
+//   context,
+//   PageTransition(
+//     type: PageTransitionType.bottomToTop,
+//     child: LoginScreen(),
+//   ),
+// );
                           },
                           child: Container(
                             decoration: BoxDecoration(

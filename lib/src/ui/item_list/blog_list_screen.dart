@@ -75,8 +75,9 @@ class _BlogListScreenState extends State<BlogListScreen> {
               style: TextStyle(
                 fontFamily: AppTheme.fontRubik,
                 fontWeight: FontWeight.w500,
-                fontSize: 17,
-                color: AppTheme.black_text,
+                fontSize: 16,
+                height: 1.2,
+                color: AppTheme.text_dark,
               ),
             ),
           ],
