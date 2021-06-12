@@ -55,7 +55,7 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   void initState() {
     _registerBus();
-    _getLanguage();
+    _getInfo();
     super.initState();
   }
 
@@ -1142,9 +1142,17 @@ class _MenuScreenState extends State<MenuScreen> {
         Navigator.of(context).popUntil((route) => route.isFirst);
       }
     });
+
+    RxBus.register<BottomView>(tag: "MENU_VIEW_NOTIFY_SCREEN").listen((event) {
+      if (event.title) {
+        setState(() {
+          _getInfo();
+        });
+      }
+    });
   }
 
-  Future<void> _getLanguage() async {
+  Future<void> _getInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       var lan = prefs.getString('language') ?? "ru";

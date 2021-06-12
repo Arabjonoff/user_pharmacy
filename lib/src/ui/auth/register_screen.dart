@@ -43,7 +43,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   int id = 1;
   String birthday = "";
-  DateTime now = new DateTime.now();
   DateTime dateTime = new DateTime.now();
 
   String selectedUser;
@@ -353,7 +352,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     context,
                     showTitleActions: true,
                     minTime: DateTime(1900, 2, 16),
-                    maxTime: now,
+                    maxTime: DateTime.now(),
                     onConfirm: (date) {
                       dateTime = date;
                       var month = date.month < 10

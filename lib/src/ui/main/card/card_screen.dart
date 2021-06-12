@@ -16,6 +16,7 @@ import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
+import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/checkout_order_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:shimmer/shimmer.dart';
@@ -758,80 +759,73 @@ class _CardScreenState extends State<CardScreen> {
                               ),
                               GestureDetector(
                                 onTap: () async {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          CheckoutOrderScreen(),
-                                    ),
-                                  );
-                                  // if (isLogin) {
-                                  //   if (isNext) {
-                                  //     setState(() {
-                                  //       loadingPickup = true;
-                                  //     });
-                                  //     AccessStore addModel = new AccessStore();
-                                  //     List<ProductsStore> drugs = new List();
-                                  //
-                                  //     var databaseItem =
-                                  //         await dataBase.getProduct();
-                                  //
-                                  //     for (int i = 0;
-                                  //         i < databaseItem.length;
-                                  //         i++) {
-                                  //       drugs.add(
-                                  //         ProductsStore(
-                                  //           drugId: databaseItem[i].id,
-                                  //           qty: databaseItem[i].cardCount,
-                                  //         ),
-                                  //       );
-                                  //     }
-                                  //     addModel = new AccessStore(
-                                  //       lat: lat,
-                                  //       lng: lng,
-                                  //       products: drugs,
-                                  //     );
-                                  //
-                                  //     var response = await Repository()
-                                  //         .fetchCheckErrorPickup(
-                                  //       addModel,
-                                  //     );
-                                  //
-                                  //     if (response.isSuccess) {
-                                  //       var result = CheckErrorModel.fromJson(
-                                  //           response.result);
-                                  //       if (result.error == 0) {
-                                  //         errorData = new List();
-                                  //         widget.onPickup(result.data);
-                                  //         setState(() {
-                                  //           loadingPickup = false;
-                                  //           error = false;
-                                  //         });
-                                  //       } else {
-                                  //         setState(() {
-                                  //           error = true;
-                                  //           loadingPickup = false;
-                                  //           errorData = new List();
-                                  //           if (result.errors != null)
-                                  //             errorData.addAll(result.errors);
-                                  //           errorText = result.msg;
-                                  //         });
-                                  //       }
-                                  //     } else {
-                                  //       setState(() {
-                                  //         loadingPickup = false;
-                                  //         error = false;
-                                  //         errorText = translate(
-                                  //             "network.network_title");
-                                  //       });
-                                  //     }
-                                  //   }
-                                  // } else {
-                                  //   BottomDialog.createBottomSheetHistory(
-                                  //     context,
-                                  //     widget.onLogin,
-                                  //   );
-                                  // }
+                                  if (isLogin) {
+                                    if (isNext) {
+                                      setState(() {
+                                        loadingPickup = true;
+                                      });
+                                      AccessStore addModel = new AccessStore();
+                                      List<ProductsStore> drugs = new List();
+
+                                      var databaseItem =
+                                          await dataBase.getProduct();
+
+                                      for (int i = 0;
+                                          i < databaseItem.length;
+                                          i++) {
+                                        drugs.add(
+                                          ProductsStore(
+                                            drugId: databaseItem[i].id,
+                                            qty: databaseItem[i].cardCount,
+                                          ),
+                                        );
+                                      }
+                                      addModel = new AccessStore(
+                                        lat: lat,
+                                        lng: lng,
+                                        products: drugs,
+                                      );
+
+                                      var response = await Repository()
+                                          .fetchCheckErrorPickup(
+                                        addModel,
+                                      );
+
+                                      if (response.isSuccess) {
+                                        var result = CheckErrorModel.fromJson(
+                                            response.result);
+                                        if (result.error == 0) {
+                                          errorData = new List();
+                                          widget.onPickup(result.data);
+                                          setState(() {
+                                            loadingPickup = false;
+                                            error = false;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            error = true;
+                                            loadingPickup = false;
+                                            errorData = new List();
+                                            if (result.errors != null)
+                                              errorData.addAll(result.errors);
+                                            errorText = result.msg;
+                                          });
+                                        }
+                                      } else {
+                                        setState(() {
+                                          loadingPickup = false;
+                                          error = false;
+                                          errorText = translate(
+                                              "network.network_title");
+                                        });
+                                      }
+                                    }
+                                  } else {
+                                    BottomDialog.createBottomSheetHistory(
+                                      context,
+                                      widget.onLogin,
+                                    );
+                                  }
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

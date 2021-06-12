@@ -24,14 +24,11 @@ import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 import 'package:pharmacy/src/ui/note/notification_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/curer_address_card.dart';
-import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_pickup_screen.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/checkout_order_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/about_app_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/faq_app_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/language_screen.dart';
-import 'package:pharmacy/src/ui/sub_menu/my_info_screen.dart';
-import 'package:pharmacy/src/ui/sub_menu/region_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -447,21 +444,40 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  void _region() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => RegionScreen(),
-      ),
-    );
-  }
+  Future<void> _myInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString("token");
+    var number = prefs.getString("number");
+    var birthday = prefs.getString("birthday").split("-")[2] +
+        "/" +
+        prefs.getString("birthday").split("-")[1] +
+        "/" +
+        prefs.getString("birthday").split("-")[0];
+    var num = "+";
+    for (int i = 0; i < number.length; i++) {
+      if (i == 3 || i == 5 || i == 8 || i == 10) {
+        num += " ";
+      }
+      num += number[i];
+    }
+    var id = prefs.getString("gender") == "man" ? 1 : 2;
 
-  void _myInfo() {
-    Navigator.push(
+    var lastName = prefs.getString("surname") ?? "";
+    var firstName = prefs.getString("name") ?? "";
+    var time = new DateTime(
+        int.parse(prefs.getString("birthday").split("-")[0]),
+        int.parse(prefs.getString("birthday").split("-")[1]),
+        int.parse(prefs.getString("birthday").split("-")[2]));
+
+    BottomDialog.showEditProfile(
       context,
-      MaterialPageRoute(
-        builder: (context) => MyInfoScreen(),
-      ),
+      firstName: firstName,
+      lastName: lastName,
+      number: num,
+      birthday: birthday,
+      dateTime: time,
+      gender: id,
+      token: token,
     );
   }
 
