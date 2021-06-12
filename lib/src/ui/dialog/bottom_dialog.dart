@@ -655,7 +655,10 @@ class BottomDialog {
     );
   }
 
-  static void showCommentService(BuildContext context, int orderId) async {
+  static void showCommentService({
+    BuildContext context,
+    int orderId,
+  }) async {
     int _stars = 5;
     TextEditingController commentController = TextEditingController();
     var loading = false;
@@ -853,20 +856,33 @@ class BottomDialog {
                       setState(() {
                         loading = true;
                       });
-                      Repository()
-                          .fetchOrderItemReview(
-                            commentController.text,
-                            _stars,
-                            orderId,
-                          )
-                          .then(
-                            (value) => {
-                              setState(() {
-                                loading = false;
-                              }),
-                              Navigator.of(context).pop(),
-                            },
-                          );
+                      if (orderId != null) {
+                        Repository()
+                            .fetchOrderItemReview(
+                              commentController.text,
+                              _stars,
+                              orderId,
+                            )
+                            .then(
+                              (value) => {
+                                setState(() {
+                                  loading = false;
+                                }),
+                                Navigator.of(context).pop(),
+                              },
+                            );
+                      } else {
+                        Repository()
+                            .fetchSendRating(commentController.text, _stars)
+                            .then(
+                              (value) => {
+                                setState(() {
+                                  loading = false;
+                                }),
+                                Navigator.of(context).pop(),
+                              },
+                            );
+                      }
                     }
                   },
                   child: Container(
@@ -907,6 +923,142 @@ class BottomDialog {
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  static void showExitProfile(BuildContext context) async {
+    showModalBottomSheet(
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              height: 365,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(24),
+                ),
+                color: AppTheme.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    height: 4,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      color: AppTheme.bottom_dialog,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    child: Center(
+                      child: Text(
+                        translate("network.network_title"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          height: 1.2,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          color: AppTheme.yellow,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Image.asset(
+                            "assets/img/network_error_image.png",
+                            height: 32,
+                            width: 32,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    translate("network.network_message"),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      height: 1.6,
+                      color: AppTheme.textGray,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 44,
+                      margin: EdgeInsets.only(
+                        bottom: 16,
+                        top: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.blue,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("network.reload_screen"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 44,
+                      color: AppTheme.white,
+                      child: Center(
+                        child: Text(
+                          translate("network.close"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.textGray,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 24,
+                  )
+                ],
+              ),
+            );
+          },
         );
       },
     );

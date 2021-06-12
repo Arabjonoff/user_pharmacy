@@ -357,10 +357,11 @@ class _MainScreenState extends State<MainScreen> {
           FavouriteScreen(),
           MenuScreen(
             onLogin: _login,
-            onRegion: _region,
             onNoteAll: _noteAll,
             onHistory: _history,
             onLanguage: _language,
+            onRate: _rate,
+            onExit: _exit,
             onFaq: _faq,
             onAbout: _about,
             onMyInfo: _myInfo,
@@ -414,7 +415,15 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _commentService(int orderId) {
-    BottomDialog.showCommentService(context, orderId);
+    BottomDialog.showCommentService(context: context, orderId: orderId);
+  }
+
+  void _rate() {
+    BottomDialog.showCommentService(context: context);
+  }
+
+  void _exit() {
+    BottomDialog.showExitProfile(context);
   }
 
   void _universal(String title, String uri) {

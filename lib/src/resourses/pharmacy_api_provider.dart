@@ -926,42 +926,13 @@ class PharmacyApiProvider {
   }
 
   ///send rating
-  Future<CheckVersion> fetchSendRating(String comment, int rating) async {
+  Future<HttpResult> fetchSendRating(String comment, int rating) async {
     String url = Utils.baseUrl + '/api/v1/send-review';
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token");
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-    Map<String, String> headers;
-    if (token == null) {
-      headers = {
-        'content-type': 'application/json; charset=utf-8',
-        'X-Device': encoded,
-      };
-    } else {
-      headers = {
-        HttpHeaders.authorizationHeader: "Bearer $token",
-        'content-type': 'application/json; charset=utf-8',
-        'X-Device': encoded,
-      };
-    }
-    final data = {"comment": comment, "rating": rating.toString()};
-    try {
-      http.Response response = await http
-          .post(Uri.parse(url), headers: headers, body: json.encode(data))
-          .timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      return CheckVersion.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return CheckVersion();
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return CheckVersion();
-    }
+    final data = {
+      "comment": comment,
+      "rating": rating.toString(),
+    };
+    return await postRequest(url, json.encode(data));
   }
 
   ///get-no-reviews
