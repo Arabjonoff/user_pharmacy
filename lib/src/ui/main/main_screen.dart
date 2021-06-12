@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/category_bloc.dart';
+import 'package:pharmacy/src/blocs/fav_bloc.dart';
 import 'package:pharmacy/src/blocs/menu_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
@@ -220,6 +221,7 @@ class _MainScreenState extends State<MainScreen> {
               } else if (index == 2) {
                 blocCard.fetchAllCard();
               } else if (index == 3) {
+                blocFav.fetchAllFav();
               } else if (index == 4) {
                 Utils.isLogin().then((value) => {
                       isLogin = value,

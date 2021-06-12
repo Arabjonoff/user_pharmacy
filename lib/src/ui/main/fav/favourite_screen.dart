@@ -10,7 +10,6 @@ import 'package:pharmacy/src/database/database_helper_fav.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
-import 'package:pharmacy/src/ui/main/fav/fav_empty_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -31,7 +30,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   Widget build(BuildContext context) {
     blocFav.fetchAllFav();
     return Scaffold(
-      backgroundColor: AppTheme.white,
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 1.0,
@@ -42,12 +41,13 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              translate("main.favourite"),
+              translate("fav.name"),
               style: TextStyle(
                 fontFamily: AppTheme.fontRubik,
                 fontWeight: FontWeight.w500,
-                fontSize: 17,
-                color: AppTheme.black_text,
+                fontSize: 16,
+                height: 1.2,
+                color: AppTheme.text_dark,
               ),
             ),
           ],
@@ -57,118 +57,246 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         stream: blocFav.allFav,
         builder: (context, AsyncSnapshot<List<ItemResult>> snapshot) {
           if (snapshot.hasData) {
-            return snapshot.data.length == 0
-                ? FavEmptyScreen()
-                : ListView(
-                    children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: ClampingScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              RxBus.post(
-                                  BottomViewModel(snapshot.data[index].id),
-                                  tag: "EVENT_BOTTOM_ITEM_ALL");
-                            },
-                            child: Container(
-                              height: 160,
-                              color: AppTheme.white,
-                              child: Column(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                            top: 16,
-                                            left: 15,
-                                            right: 14,
-                                            bottom: 22.5,
-                                          ),
-                                          height: 112,
-                                          width: 112,
-                                          child: Center(
-                                            child: CachedNetworkImage(
-                                              height: 112,
-                                              width: 112,
-                                              imageUrl: snapshot
-                                                  .data[index].imageThumbnail,
-                                              placeholder: (context, url) =>
-                                                  Container(
-                                                padding: EdgeInsets.all(25),
-                                                child: Center(
-                                                  child: SvgPicture.asset(
-                                                    "assets/images/place_holder.svg",
-                                                  ),
+            return Container(
+              margin: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppTheme.white,
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 16,
+                      bottom: 16,
+                      left: 24,
+                      right: 24,
+                    ),
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: translate("fav.choose"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              height: 1.2,
+                              color: AppTheme.text_dark,
+                            ),
+                          ),
+                          TextSpan(
+                            text: snapshot.data.length.toString(),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              height: 1.2,
+                              color: AppTheme.text_dark,
+                            ),
+                          ),
+                          TextSpan(
+                            text: translate("fav.item"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              height: 1.2,
+                              color: AppTheme.text_dark,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 1,
+                    width: double.infinity,
+                    color: AppTheme.background,
+                  ),
+                  Expanded(
+                    child: snapshot.data.length == 0
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 80,
+                                width: 80,
+                                padding: EdgeInsets.all(24),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.yellow,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Image.asset(
+                                  "assets/img/fav_empty.png",
+                                  height: 32,
+                                  width: 32,
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  top: 16,
+                                  left: 16,
+                                  right: 16,
+                                ),
+                                width: double.infinity,
+                                child: Center(
+                                  child: Text(
+                                    translate("fav.empty_title"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      height: 1.2,
+                                      color: AppTheme.text_dark,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  top: 8,
+                                  left: 16,
+                                  right: 16,
+                                ),
+                                width: double.infinity,
+                                child: Center(
+                                  child: Text(
+                                    translate("fav.empty_message"),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14,
+                                      height: 1.2,
+                                      color: AppTheme.textGray,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  RxBus.post(BottomViewModel(1),
+                                      tag: "EVENT_BOTTOM_VIEW");
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      left: 16, right: 16, top: 16),
+                                  height: 44,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.blue,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      translate("fav.empty_button"),
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontRubik,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        height: 1.25,
+                                        color: AppTheme.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                        : ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  RxBus.post(
+                                      BottomViewModel(snapshot.data[index].id),
+                                      tag: "EVENT_BOTTOM_ITEM_ALL");
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.only(top: 16),
+                                  color: AppTheme.white,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          SizedBox(width: 8),
+                                          CachedNetworkImage(
+                                            height: 80,
+                                            width: 80,
+                                            imageUrl: snapshot
+                                                .data[index].imageThumbnail,
+                                            placeholder: (context, url) =>
+                                                Container(
+                                              padding: EdgeInsets.all(25),
+                                              child: Center(
+                                                child: SvgPicture.asset(
+                                                  "assets/images/place_holder.svg",
                                                 ),
                                               ),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Container(
-                                                padding: EdgeInsets.all(25),
-                                                child: Center(
-                                                  child: SvgPicture.asset(
-                                                    "assets/images/place_holder.svg",
-                                                  ),
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Container(
+                                              padding: EdgeInsets.all(25),
+                                              child: Center(
+                                                child: SvgPicture.asset(
+                                                  "assets/images/place_holder.svg",
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            margin: EdgeInsets.only(right: 17),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                SizedBox(
-                                                  height: 18,
-                                                ),
-                                                Text(
-                                                  snapshot.data[index].name,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    color: AppTheme.black_text,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontFamily:
-                                                        AppTheme.fontRubik,
-                                                    fontSize: 13,
+                                          Expanded(
+                                            child: Container(
+                                              margin: EdgeInsets.only(
+                                                right: 8,
+                                                left: 8,
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    snapshot.data[index]
+                                                        .manufacturer.name,
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          AppTheme.fontRubik,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontSize: 10,
+                                                      height: 1.2,
+                                                      color: AppTheme.textGray,
+                                                    ),
                                                   ),
-                                                  maxLines: 2,
-                                                ),
-                                                Row(
-                                                  children: <Widget>[],
-                                                ),
-                                                SizedBox(height: 3),
-                                                Text(
-                                                  snapshot.data[index]
-                                                              .manufacturer ==
-                                                          null
-                                                      ? ""
-                                                      : snapshot.data[index]
-                                                          .manufacturer.name,
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    color: AppTheme
-                                                        .black_transparent_text,
-                                                    fontSize: 11,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontFamily:
-                                                        AppTheme.fontRubik,
+                                                  SizedBox(height: 4),
+                                                  Text(
+                                                    snapshot.data[index].name,
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          AppTheme.fontRubik,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontSize: 14,
+                                                      height: 1.5,
+                                                      color: AppTheme.text_dark,
+                                                    ),
                                                   ),
-                                                ),
-                                                Expanded(
-                                                  child: Row(
+                                                  SizedBox(height: 4),
+                                                  Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     crossAxisAlignment:
@@ -179,15 +307,16 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                           ? Text(
                                                               translate("from"),
                                                               style: TextStyle(
-                                                                color: AppTheme
-                                                                    .black_text,
-                                                                height: 1.33,
-                                                                fontSize: 15,
+                                                                fontFamily:
+                                                                    AppTheme
+                                                                        .fontRubik,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w500,
-                                                                fontFamily: AppTheme
-                                                                    .fontRubik,
+                                                                        .normal,
+                                                                fontSize: 14,
+                                                                height: 1.5,
+                                                                color: AppTheme
+                                                                    .text_dark,
                                                               ),
                                                             )
                                                           : Container(),
@@ -198,148 +327,108 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                                     .price) +
                                                             translate("sum"),
                                                         style: TextStyle(
-                                                          color: AppTheme
-                                                              .black_text,
-                                                          height: 1.33,
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                              FontWeight.w600,
                                                           fontFamily: AppTheme
                                                               .fontRubik,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 14,
+                                                          height: 1.5,
+                                                          color: AppTheme
+                                                              .text_dark,
                                                         ),
                                                       ),
                                                       translate("lan") == "2"
                                                           ? Text(
                                                               translate("from"),
                                                               style: TextStyle(
-                                                                color: AppTheme
-                                                                    .black_text,
-                                                                height: 1.33,
-                                                                fontSize: 15,
+                                                                fontFamily:
+                                                                    AppTheme
+                                                                        .fontRubik,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w500,
-                                                                fontFamily: AppTheme
-                                                                    .fontRubik,
+                                                                        .normal,
+                                                                fontSize: 14,
+                                                                height: 1.5,
+                                                                color: AppTheme
+                                                                    .text_dark,
                                                               ),
                                                             )
                                                           : Container(),
                                                       Expanded(
                                                           child: Container()),
-                                                      SizedBox(
-                                                        width: 7,
-                                                      ),
-                                                      Text(
-                                                        snapshot
-                                                            .data[index].msg,
-                                                        style: TextStyle(
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontFamily: AppTheme
-                                                              .fontRubik,
-                                                          color: AppTheme
-                                                              .red_fav_color,
-                                                        ),
-                                                      ),
                                                     ],
                                                   ),
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                    bottom: 7,
-                                                  ),
-                                                  height: 30,
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Container(
-                                                        height: 30,
-                                                        child: snapshot
-                                                                    .data[index]
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                      bottom: 16,
+                                                      top: 8,
+                                                    ),
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        snapshot.data[index]
                                                                     .cardCount >
                                                                 0
                                                             ? Container(
-                                                                height: 30,
+                                                                height: 29,
+                                                                width: 147,
                                                                 decoration:
                                                                     BoxDecoration(
-                                                                  color: snapshot
-                                                                              .data[
-                                                                                  index]
-                                                                              .msg
-                                                                              .length >
-                                                                          0
-                                                                      ? AppTheme
-                                                                          .red_fav_color
-                                                                          .withOpacity(
-                                                                          0.1,
-                                                                        )
-                                                                      : AppTheme
-                                                                          .blue_transparent,
+                                                                  color: AppTheme
+                                                                      .blue
+                                                                      .withOpacity(
+                                                                          0.12),
                                                                   borderRadius:
                                                                       BorderRadius
                                                                           .circular(
-                                                                    10.0,
+                                                                    8,
                                                                   ),
                                                                 ),
-                                                                width: 120,
                                                                 child: Row(
                                                                   children: <
                                                                       Widget>[
                                                                     GestureDetector(
                                                                       child:
                                                                           Container(
+                                                                        height:
+                                                                            29,
+                                                                        width:
+                                                                            29,
                                                                         decoration:
                                                                             BoxDecoration(
                                                                           color:
                                                                               AppTheme.blue,
                                                                           borderRadius:
-                                                                              BorderRadius.circular(
-                                                                            10.0,
-                                                                          ),
+                                                                              BorderRadius.circular(8),
                                                                         ),
-                                                                        margin:
-                                                                            EdgeInsets.all(2.0),
-                                                                        height:
-                                                                            26,
-                                                                        width:
-                                                                            26,
                                                                         child:
                                                                             Center(
                                                                           child:
-                                                                              Icon(
-                                                                            Icons.remove,
-                                                                            color:
-                                                                                AppTheme.white,
-                                                                            size:
-                                                                                19,
-                                                                          ),
+                                                                              SvgPicture.asset("assets/icons/remove.svg"),
                                                                         ),
                                                                       ),
                                                                       onTap:
                                                                           () {
                                                                         if (snapshot.data[index].cardCount >
                                                                             1) {
-                                                                          setState(
-                                                                              () {
-                                                                            snapshot.data[index].cardCount =
-                                                                                snapshot.data[index].cardCount - 1;
-                                                                            dataBaseCard.updateProduct(snapshot.data[index]);
+                                                                          snapshot
+                                                                              .data[index]
+                                                                              .cardCount = snapshot.data[index].cardCount - 1;
+                                                                          dataBaseCard
+                                                                              .updateProduct(snapshot.data[index])
+                                                                              .then((value) {
+                                                                            blocFav.fetchAllFav();
                                                                           });
                                                                         } else if (snapshot.data[index].cardCount ==
                                                                             1) {
-                                                                          setState(
-                                                                              () {
-                                                                            snapshot.data[index].cardCount =
-                                                                                snapshot.data[index].cardCount - 1;
-                                                                            dataBaseCard.deleteProducts(snapshot.data[index].id);
+                                                                          dataBaseCard
+                                                                              .deleteProducts(snapshot.data[index].id)
+                                                                              .then((value) {
+                                                                            blocFav.fetchAllFav();
                                                                           });
                                                                         }
                                                                       },
                                                                     ),
-                                                                    Container(
-                                                                      height:
-                                                                          30,
-                                                                      width: 60,
+                                                                    Expanded(
                                                                       child:
                                                                           Center(
                                                                         child:
@@ -347,19 +436,18 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                                           snapshot.data[index].cardCount.toString() +
                                                                               " " +
                                                                               translate("item.sht"),
-                                                                          textAlign:
-                                                                              TextAlign.center,
                                                                           style:
                                                                               TextStyle(
-                                                                            fontSize:
-                                                                                15.0,
-                                                                            color: snapshot.data[index].msg.length > 0
-                                                                                ? AppTheme.red_fav_color
-                                                                                : AppTheme.blue,
                                                                             fontFamily:
                                                                                 AppTheme.fontRubik,
                                                                             fontWeight:
-                                                                                FontWeight.w600,
+                                                                                FontWeight.w500,
+                                                                            fontSize:
+                                                                                12,
+                                                                            height:
+                                                                                1.2,
+                                                                            color:
+                                                                                AppTheme.text_dark,
                                                                           ),
                                                                         ),
                                                                       ),
@@ -367,13 +455,17 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                                     GestureDetector(
                                                                       onTap:
                                                                           () {
-                                                                        setState(
-                                                                            () {
-                                                                          snapshot
-                                                                              .data[index]
-                                                                              .cardCount = snapshot.data[index].cardCount + 1;
-                                                                          dataBaseCard
-                                                                              .updateProduct(snapshot.data[index]);
+                                                                        snapshot
+                                                                            .data[
+                                                                                index]
+                                                                            .cardCount = snapshot
+                                                                                .data[index].cardCount +
+                                                                            1;
+                                                                        dataBaseCard
+                                                                            .updateProduct(snapshot.data[index])
+                                                                            .then((value) {
+                                                                          blocFav
+                                                                              .fetchAllFav();
                                                                         });
                                                                       },
                                                                       child:
@@ -384,25 +476,17 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                                               AppTheme.blue,
                                                                           borderRadius:
                                                                               BorderRadius.circular(
-                                                                            10.0,
+                                                                            8,
                                                                           ),
                                                                         ),
                                                                         height:
-                                                                            26,
+                                                                            29,
                                                                         width:
-                                                                            26,
-                                                                        margin:
-                                                                            EdgeInsets.all(2.0),
+                                                                            29,
                                                                         child:
                                                                             Center(
                                                                           child:
-                                                                              Icon(
-                                                                            Icons.add,
-                                                                            color:
-                                                                                AppTheme.white,
-                                                                            size:
-                                                                                19,
-                                                                          ),
+                                                                              SvgPicture.asset("assets/icons/add.svg"),
                                                                         ),
                                                                       ),
                                                                     ),
@@ -411,28 +495,33 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                               )
                                                             : GestureDetector(
                                                                 onTap: () {
-                                                                  setState(() {
-                                                                    snapshot
-                                                                        .data[
-                                                                            index]
-                                                                        .cardCount = 1;
+                                                                  snapshot
+                                                                      .data[
+                                                                          index]
+                                                                      .cardCount = 1;
 
-                                                                    dataBaseCard
-                                                                        .saveProducts(
-                                                                            snapshot.data[index]);
+                                                                  dataBaseCard
+                                                                      .saveProducts(
+                                                                          snapshot.data[
+                                                                              index])
+                                                                      .then(
+                                                                          (value) {
+                                                                    blocFav
+                                                                        .fetchAllFav();
                                                                   });
                                                                 },
                                                                 child:
                                                                     Container(
-                                                                  height: 30,
-                                                                  width: 120,
+                                                                  height: 28,
+                                                                  width: 147,
                                                                   decoration:
                                                                       BoxDecoration(
                                                                     borderRadius:
                                                                         BorderRadius
                                                                             .all(
-                                                                      Radius.circular(
-                                                                          10.0),
+                                                                      Radius
+                                                                          .circular(
+                                                                              8),
                                                                     ),
                                                                     color:
                                                                         AppTheme
@@ -444,12 +533,12 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                                           "item.card"),
                                                                       style:
                                                                           TextStyle(
-                                                                        fontSize:
-                                                                            12,
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
                                                                         fontFamily:
                                                                             AppTheme.fontRubik,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                        fontSize:
+                                                                            12,
                                                                         color: AppTheme
                                                                             .white,
                                                                       ),
@@ -457,70 +546,70 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                                   ),
                                                                 ),
                                                               ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Container(),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          if (snapshot
-                                                              .data[index]
-                                                              .favourite) {
-                                                            dataBaseFav
-                                                                .deleteProducts(
-                                                                    snapshot
-                                                                        .data[
-                                                                            index]
-                                                                        .id);
-                                                          } else {
-                                                            dataBaseFav
-                                                                .saveProducts(
-                                                                    snapshot.data[
-                                                                        index]);
-                                                          }
-                                                          blocFav.fetchAllFav();
-                                                        },
-                                                        child: Icon(
-                                                          snapshot.data[index]
-                                                                  .favourite
-                                                              ? Icons.favorite
-                                                              : Icons
-                                                                  .favorite_border,
-                                                          size: 24,
-                                                          color: snapshot
+                                                        Expanded(
+                                                          child: Container(),
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            if (snapshot
+                                                                .data[index]
+                                                                .favourite) {
+                                                              dataBaseFav
+                                                                  .deleteProducts(
+                                                                      snapshot
+                                                                          .data[
+                                                                              index]
+                                                                          .id)
+                                                                  .then(
+                                                                      (value) {
+                                                                blocFav
+                                                                    .fetchAllFav();
+                                                              });
+                                                            } else {
+                                                              dataBaseFav
+                                                                  .saveProducts(
+                                                                      snapshot.data[
+                                                                          index])
+                                                                  .then(
+                                                                      (value) {
+                                                                blocFav
+                                                                    .fetchAllFav();
+                                                              });
+                                                            }
+                                                          },
+                                                          child: snapshot
                                                                   .data[index]
                                                                   .favourite
-                                                              ? AppTheme
-                                                                  .red_fav_color
-                                                              : AppTheme
-                                                                  .arrow_catalog,
-                                                        ),
-                                                      )
-                                                    ],
+                                                              ? SvgPicture.asset(
+                                                                  "assets/icons/fav_select.svg")
+                                                              : SvgPicture.asset(
+                                                                  "assets/icons/fav_unselect.svg"),
+                                                        )
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
+                                        ],
+                                      ),
+                                      Container(
+                                        height: 1,
+                                        margin:
+                                            EdgeInsets.only(left: 8, right: 8),
+                                        color: AppTheme.background,
+                                      )
+                                    ],
                                   ),
-                                  Container(
-                                    height: 1,
-                                    margin: EdgeInsets.only(left: 8, right: 8),
-                                    color: AppTheme.black_linear,
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  );
-          } else if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
+                                ),
+                              );
+                            },
+                          ),
+                  ),
+                ],
+              ),
+            );
           }
           return Shimmer.fromColors(
             baseColor: Colors.grey[300],

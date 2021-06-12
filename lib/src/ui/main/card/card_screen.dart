@@ -15,7 +15,6 @@ import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
-import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/checkout_order_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
@@ -211,7 +210,7 @@ class _CardScreenState extends State<CardScreen> {
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                                 child: Image.asset(
-                                  "assets/img/card_epmty.png",
+                                  "assets/img/card_empty.png",
                                   height: 32,
                                   width: 32,
                                 ),
@@ -655,7 +654,7 @@ class _CardScreenState extends State<CardScreen> {
                                             height: 1,
                                             margin: EdgeInsets.only(
                                                 left: 8, right: 8),
-                                            color: AppTheme.black_linear,
+                                            color: AppTheme.background,
                                           )
                                         ],
                                       ),
