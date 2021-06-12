@@ -532,14 +532,10 @@ class PharmacyApiProvider {
   }
 
   ///History
-  Future<HistoryModel> fetchOrderHistory(int page, int perPage) async {
+  Future<HttpResult> fetchOrderHistory(int page, int perPage) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token");
     int regionId = prefs.getInt("cityId");
-    String lan = prefs.getString('language');
-    if (lan == null) {
-      lan = "ru";
-    }
+    String lan = prefs.getString('language') ?? "ru";
     String url = Utils.baseUrl +
         '/api/v1/orders?'
             'page=$page&'
@@ -547,29 +543,30 @@ class PharmacyApiProvider {
             'lan=$lan&'
             'region=$regionId';
 
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-
-    try {
-      http.Response response =
-          await http.get(Uri.parse(url), headers: headers).timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      return HistoryModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    }
+    return await getRequest(url);
+    // Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    // String encoded = prefs.getString("deviceData") != null
+    //     ? stringToBase64.encode(prefs.getString("deviceData"))
+    //     : "";
+    //
+    // Map<String, String> headers = {
+    //   HttpHeaders.authorizationHeader: "Bearer $token",
+    //   'content-type': 'application/json; charset=utf-8',
+    //   'X-Device': encoded,
+    // };
+    //
+    // try {
+    //   http.Response response =
+    //       await http.get(Uri.parse(url), headers: headers).timeout(duration);
+    //   final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+    //   return HistoryModel.fromJson(responseJson);
+    // } on TimeoutException catch (_) {
+    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+    //   return null;
+    // } on SocketException catch (_) {
+    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+    //   return null;
+    // }
   }
 
   ///Cancel order

@@ -9,11 +9,15 @@ import 'package:lottie/lottie.dart';
 import 'package:pharmacy/src/blocs/history_bloc.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
+import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
 import 'package:pharmacy/src/ui/sub_menu/order_number.dart';
+import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -38,32 +42,39 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
 
   @override
   void initState() {
+    _registerBus();
     _getMoreData(1);
     _sc.addListener(() {
       if (_sc.position.pixels == _sc.position.maxScrollExtent) {
         _getMoreData(pageHistory);
       }
     });
-
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    RxBus.destroy();
+    _sc.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.white,
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        elevation: 1.0,
+        elevation: 0.0,
         backgroundColor: AppTheme.white,
         brightness: Brightness.light,
         leading: GestureDetector(
           child: Container(
             height: 56,
             width: 56,
-            color: AppTheme.arrow_examp_back,
-            padding: EdgeInsets.all(19),
-            child: SvgPicture.asset("assets/images/arrow_back.svg"),
+            color: AppTheme.white,
+            padding: EdgeInsets.all(13),
+            child: SvgPicture.asset("assets/icons/arrow_left_blue.svg"),
           ),
           onTap: () {
             Navigator.pop(context);
@@ -74,13 +85,13 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              translate("menu.history"),
-              textAlign: TextAlign.start,
+              translate("history.name"),
               style: TextStyle(
-                color: AppTheme.black_text,
-                fontWeight: FontWeight.w500,
                 fontFamily: AppTheme.fontRubik,
-                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                height: 1.2,
+                color: AppTheme.text_dark,
               ),
             ),
           ],
@@ -177,19 +188,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                             child: Container(
                               decoration: BoxDecoration(
                                 color: AppTheme.white,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    topRight: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10),
-                                    bottomRight: Radius.circular(10)),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.2),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: Offset(0, 3),
-                                  ),
-                                ],
+                                borderRadius: BorderRadius.circular(24),
                               ),
                               margin:
                                   EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -199,40 +198,47 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                 children: [
                                   Container(
                                     margin: EdgeInsets.only(
-                                        left: 16, right: 16, top: 16),
+                                      left: 16,
+                                      right: 16,
+                                      top: 16,
+                                    ),
                                     child: Row(
                                       children: [
-                                        Expanded(
-                                            child: Text(
-                                          "№" +
+                                        Text(
+                                          translate("history.order") +
                                               snapshot.data.results[index].id
                                                   .toString(),
                                           style: TextStyle(
                                             fontFamily: AppTheme.fontRubik,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 17,
-                                            fontStyle: FontStyle.normal,
-                                            color: AppTheme.black_text,
-                                          ),
-                                        )),
-                                        Text(
-                                          translate("history.all"),
-                                          style: TextStyle(
-                                            fontFamily: AppTheme.fontRubik,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 14,
-                                            height: 1.71,
-                                            fontStyle: FontStyle.normal,
-                                            color: AppTheme.blue,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16,
+                                            height: 1.2,
+                                            color: AppTheme.textGray,
                                           ),
                                         ),
+                                        Expanded(child: Container()),
                                         Container(
-                                          height: 24,
-                                          width: 18,
-                                          margin: EdgeInsets.only(top: 3),
-                                          padding: EdgeInsets.all(1),
-                                          child: SvgPicture.asset(
-                                            "assets/images/icon_arrow_blue.svg",
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            color: colorStatus(snapshot
+                                                    .data.results[index].status)
+                                                .withOpacity(0.1),
+                                          ),
+                                          padding: EdgeInsets.all(8),
+                                          child: Center(
+                                            child: Text(
+                                              translate(
+                                                  "history.${snapshot.data.results[index].status}"),
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12,
+                                                color: colorStatus(snapshot.data
+                                                    .results[index].status),
+                                                height: 1.2,
+                                              ),
+                                            ),
                                           ),
                                         )
                                       ],
@@ -240,315 +246,204 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                   ),
                                   Container(
                                     height: 1,
-                                    color: AppTheme.black_linear_category,
-                                    margin: EdgeInsets.only(
-                                        left: 16, right: 16, top: 17),
-                                  ),
-                                  Container(
-                                    height: 25,
-                                    margin: EdgeInsets.only(
-                                        top: 16, left: 16, right: 16),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          snapshot.data.results[index].type ==
-                                                  "self"
-                                              ? translate("history.somviz")
-                                              : translate("history.dostavka"),
-                                          style: TextStyle(
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width >
-                                                    375
-                                                ? 17
-                                                : 13,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: AppTheme.fontRubik,
-                                            color: AppTheme.black_text,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(),
-                                        ),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                            color: colorStatus(snapshot
-                                                    .data.results[index].status)
-                                                .withOpacity(0.15),
-                                          ),
-                                          padding: EdgeInsets.only(
-                                            top: 4,
-                                            bottom: 4,
-                                            left: 12,
-                                            right: 12,
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              translate(
-                                                  "history.${snapshot.data.results[index].status}"),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontFamily: AppTheme.fontRubik,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: snapshot
-                                                            .data
-                                                            .results[index]
-                                                            .status ==
-                                                        "waiting_deliverer"
-                                                    ? 7
-                                                    : MediaQuery.of(context)
-                                                                .size
-                                                                .width >
-                                                            375
-                                                        ? 11
-                                                        : 7,
-                                                color: colorStatus(snapshot.data
-                                                    .results[index].status),
-                                                fontStyle: FontStyle.normal,
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  snapshot.data.results[index].type ==
-                                          "shipping"
-                                      ? snapshot.data.results[index].delivery ==
-                                              null
-                                          ? Container()
-                                          : Container(
-                                              margin: EdgeInsets.only(
-                                                  left: 16, right: 16, top: 16),
-                                              child: Text(
-                                                translate("history.courier") +
-                                                    ": " +
-                                                    snapshot.data.results[index]
-                                                        .delivery.firstName +
-                                                    " " +
-                                                    snapshot.data.results[index]
-                                                        .delivery.lastName,
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      AppTheme.fontRubik,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 13,
-                                                  fontStyle: FontStyle.normal,
-                                                  color: AppTheme.black_text,
-                                                ),
-                                              ),
-                                            )
-                                      : Container(
-                                          margin: EdgeInsets.only(
-                                              left: 16, right: 16, top: 16),
-                                          child: Text(
-                                            snapshot
-                                                .data.results[index].store.name,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontRubik,
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 13,
-                                              fontStyle: FontStyle.normal,
-                                              color: AppTheme.black_text,
-                                            ),
-                                          ),
-                                        ),
-                                  snapshot.data.results[index].type ==
-                                          "shipping"
-                                      ? snapshot.data.results[index].delivery ==
-                                              null
-                                          ? Container()
-                                          : GestureDetector(
-                                              onTap: () async {
-                                                var url = "tel:" +
-                                                    snapshot.data.results[index]
-                                                        .delivery.login;
-                                                if (await canLaunch(url)) {
-                                                  await launch(url);
-                                                } else {
-                                                  throw 'Could not launch $url';
-                                                }
-                                              },
-                                              child: Container(
-                                                margin: EdgeInsets.only(
-                                                  left: 16,
-                                                  right: 16,
-                                                  top: 4,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    Text(
-                                                      translate(
-                                                              "zakaz.number") +
-                                                          ": ",
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            AppTheme.fontRubik,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 13,
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        color:
-                                                            AppTheme.black_text,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      Utils.numberFormat(
-                                                        snapshot
-                                                            .data
-                                                            .results[index]
-                                                            .delivery
-                                                            .login,
-                                                      ),
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            AppTheme.fontRubik,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 13,
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        color: AppTheme.blue,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            )
-                                      : GestureDetector(
-                                          onTap: () async {
-                                            var url = "tel:" +
-                                                snapshot.data.results[index]
-                                                    .store.phone
-                                                    .replaceAll(" ", "")
-                                                    .replaceAll("-", "")
-                                                    .replaceAll("(", "")
-                                                    .replaceAll(")", "");
-                                            if (await canLaunch(url)) {
-                                              await launch(url);
-                                            } else {
-                                              throw 'Could not launch $url';
-                                            }
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.only(
-                                                left: 16, right: 16, top: 4),
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  translate("zakaz.number") +
-                                                      ": ",
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        AppTheme.fontRubik,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 13,
-                                                    fontStyle: FontStyle.normal,
-                                                    color: AppTheme.black_text,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  Utils.numberFormat(
-                                                    snapshot.data.results[index]
-                                                        .store.phone
-                                                        .replaceAll(" ", "")
-                                                        .replaceAll("-", "")
-                                                        .replaceAll("+", "")
-                                                        .replaceAll("(", "")
-                                                        .replaceAll(")", ""),
-                                                  ),
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        AppTheme.fontRubik,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 13,
-                                                    fontStyle: FontStyle.normal,
-                                                    color: AppTheme.blue,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        left: 16, right: 16, top: 4),
-                                    child: Text(
-                                      translate("history.price") +
-                                          " " +
-                                          priceFormat.format(snapshot
-                                                  .data.results[index].total +
-                                              snapshot.data.results[index]
-                                                  .deliveryTotal) +
-                                          translate("sum"),
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontRubik,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 13,
-                                        fontStyle: FontStyle.normal,
-                                        color: AppTheme.black_transparent_text,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
+                                    color: AppTheme.background,
                                     margin:
                                         EdgeInsets.only(top: 16, bottom: 16),
-                                    height: 56,
-                                    child: ListView.builder(
-                                      padding: const EdgeInsets.only(
-                                        top: 0,
-                                        bottom: 0,
-                                        right: 16,
-                                        left: 16,
+                                  ),
+                                  Row(
+                                    children: [
+                                      SizedBox(width: 16),
+                                      Text(
+                                        translate("history.type"),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRubik,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 14,
+                                          height: 1.2,
+                                          color: AppTheme.textGray,
+                                        ),
                                       ),
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: snapshot
-                                          .data.results[index].items.length,
-                                      itemBuilder:
-                                          (BuildContext context, int subindex) {
-                                        return Container(
-                                          width: 56,
-                                          height: 56,
-                                          margin: EdgeInsets.only(right: 16),
-                                          child: Container(
-                                            width: 56,
-                                            height: 56,
-                                            child: CachedNetworkImage(
-                                              imageUrl: snapshot
-                                                  .data
-                                                  .results[index]
-                                                  .items[subindex]
-                                                  .drug
-                                                  .imageThumbnail,
-                                              placeholder: (context, url) =>
-                                                  Container(
-                                                padding: EdgeInsets.all(5),
-                                                child: Center(
-                                                  child: SvgPicture.asset(
-                                                      "assets/images/place_holder.svg"),
-                                                ),
+                                      Expanded(child: Container()),
+                                      Text(
+                                        snapshot.data.results[index].type ==
+                                                "self"
+                                            ? translate("history.pickup")
+                                            : translate("history.delivery"),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRubik,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 14,
+                                          height: 1.2,
+                                          color: AppTheme.text_dark,
+                                        ),
+                                      ),
+                                      SizedBox(width: 16),
+                                    ],
+                                  ),
+                                  SizedBox(height: 16),
+                                  Row(
+                                    children: [
+                                      SizedBox(width: 16),
+                                      Text(
+                                        translate("history.count"),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRubik,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 14,
+                                          height: 1.2,
+                                          color: AppTheme.textGray,
+                                        ),
+                                      ),
+                                      Expanded(child: Container()),
+                                      Text(
+                                        snapshot
+                                            .data.results[index].items.length
+                                            .toString(),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRubik,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 14,
+                                          height: 1.2,
+                                          color: AppTheme.text_dark,
+                                        ),
+                                      ),
+                                      SizedBox(width: 16),
+                                    ],
+                                  ),
+                                  SizedBox(height: 16),
+                                  Row(
+                                    children: [
+                                      SizedBox(width: 16),
+                                      Text(
+                                        translate("history.price"),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRubik,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 14,
+                                          height: 1.2,
+                                          color: AppTheme.textGray,
+                                        ),
+                                      ),
+                                      Expanded(child: Container()),
+                                      Text(
+                                        priceFormat.format(snapshot
+                                                .data.results[index].total) +
+                                            translate("sum"),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRubik,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 14,
+                                          height: 1.2,
+                                          color: AppTheme.text_dark,
+                                        ),
+                                      ),
+                                      SizedBox(width: 16),
+                                    ],
+                                  ),
+                                  snapshot.data.results[index].type != "self"
+                                      ? SizedBox(height: 16)
+                                      : Container(),
+                                  snapshot.data.results[index].type != "self"
+                                      ? Row(
+                                          children: [
+                                            SizedBox(width: 16),
+                                            Text(
+                                              translate(
+                                                  "history.price_delivery"),
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 14,
+                                                height: 1.2,
+                                                color: AppTheme.textGray,
                                               ),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Container(
-                                                padding: EdgeInsets.all(5),
-                                                child: Center(
-                                                  child: SvgPicture.asset(
-                                                      "assets/images/place_holder.svg"),
-                                                ),
-                                              ),
-                                              fit: BoxFit.fitHeight,
                                             ),
+                                            Expanded(child: Container()),
+                                            Text(
+                                              priceFormat.format(snapshot
+                                                      .data
+                                                      .results[index]
+                                                      .deliveryTotal) +
+                                                  translate("sum"),
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 14,
+                                                height: 1.2,
+                                                color: AppTheme.text_dark,
+                                              ),
+                                            ),
+                                            SizedBox(width: 16),
+                                          ],
+                                        )
+                                      : Container(),
+                                  SizedBox(height: 16),
+                                  Row(
+                                    children: [
+                                      SizedBox(width: 16),
+                                      Text(
+                                        translate("history.phone"),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRubik,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 14,
+                                          height: 1.2,
+                                          color: AppTheme.textGray,
+                                        ),
+                                      ),
+                                      Expanded(child: Container()),
+                                      GestureDetector(
+                                        onTap: () async {
+                                          var url = "tel:" +
+                                              snapshot.data.results[index].store
+                                                  .phone
+                                                  .replaceAll("+", "")
+                                                  .replaceAll(" ", "")
+                                                  .replaceAll("-", "")
+                                                  .replaceAll(")", "")
+                                                  .replaceAll("(", "");
+                                          if (await canLaunch(url)) {
+                                            await launch(url);
+                                          } else {
+                                            throw 'Could not launch $url';
+                                          }
+                                        },
+                                        child: Text(
+                                          Utils.numberFormat(snapshot
+                                              .data.results[index].store.phone),
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontRubik,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 14,
+                                            height: 1.2,
+                                            color: AppTheme.text_dark,
                                           ),
-                                        );
-                                      },
+                                        ),
+                                      ),
+                                      SizedBox(width: 16),
+                                    ],
+                                  ),
+                                  Container(
+                                    height: 1,
+                                    margin: EdgeInsets.only(top: 16),
+                                    width: double.infinity,
+                                    color: AppTheme.background,
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.all(16),
+                                    height: 44,
+                                    width: double.infinity,
+                                    child: Center(
+                                      child: Text(
+                                        translate("history.about"),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRubik,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                          height: 1.25,
+                                          color: AppTheme.textGray,
+                                        ),
+                                      ),
                                     ),
                                   )
                                 ],
@@ -558,46 +453,103 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                         }
                       },
                     )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 153,
-                          width: 153,
-                          child: SvgPicture.asset(
-                              "assets/images/empty_history.svg"),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 25, left: 16, right: 16),
-                          alignment: Alignment.center,
-                          child: Text(
-                            translate("menu_sub.history_title"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontSize: 20,
-                              fontWeight: FontWeight.normal,
-                              color: AppTheme.black_text,
+                  : Container(
+                      margin: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: AppTheme.white,
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 80,
+                            width: 80,
+                            padding: EdgeInsets.all(24),
+                            decoration: BoxDecoration(
+                              color: AppTheme.yellow,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Image.asset(
+                              "assets/img/card_empty.png",
+                              height: 32,
+                              width: 32,
                             ),
                           ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 4, left: 16, right: 16),
-                          child: Text(
-                            translate("menu_sub.history_message"),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontSize: 15,
-                              fontWeight: FontWeight.normal,
-                              color: AppTheme.black_transparent_text,
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: 16,
+                              left: 16,
+                              right: 16,
+                            ),
+                            width: double.infinity,
+                            child: Center(
+                              child: Text(
+                                translate("history.empty_title"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  height: 1.2,
+                                  color: AppTheme.text_dark,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: 8,
+                              left: 16,
+                              right: 16,
+                            ),
+                            width: double.infinity,
+                            child: Center(
+                              child: Text(
+                                translate("history.empty_message"),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 14,
+                                  height: 1.2,
+                                  color: AppTheme.textGray,
+                                ),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                              RxBus.post(BottomViewModel(1),
+                                  tag: "EVENT_BOTTOM_VIEW");
+                            },
+                            child: Container(
+                              margin:
+                                  EdgeInsets.only(left: 16, right: 16, top: 16),
+                              height: 44,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: AppTheme.blue,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  translate("history.empty_button"),
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRubik,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    height: 1.25,
+                                    color: AppTheme.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     );
-            } else if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
             }
             return Shimmer.fromColors(
               baseColor: Colors.grey[300],
@@ -608,19 +560,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                   return Container(
                     decoration: BoxDecoration(
                       color: AppTheme.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
+                      borderRadius: BorderRadius.circular(24),
                     ),
                     margin: EdgeInsets.only(top: 16, left: 16, right: 16),
                     height: 260,
@@ -647,6 +587,18 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
         pageHistory++;
       });
     }
+  }
+
+  void _registerBus() {
+    RxBus.register<BottomView>(tag: "HOME_VIEW_ERROR_HISTORY").listen(
+      (event) {
+        BottomDialog.showNetworkError(context, () {
+          isLoading = false;
+          blocHistory.fetchAllHistory(1);
+          pageHistory = 2;
+        });
+      },
+    );
   }
 
   Color colorStatus(String status) {

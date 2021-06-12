@@ -367,6 +367,95 @@ class BottomDialog {
     );
   }
 
+  static void showCancelOrder(
+    BuildContext context,
+    int id,
+    Function() onTap,
+  ) async {
+
+    showModalBottomSheet(
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              height: 365,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(24),
+                ),
+                color: AppTheme.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    height: 4,
+                    width: 64,
+                    decoration: BoxDecoration(
+                      color: AppTheme.bottom_dialog,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    child: Center(
+                      child: Text(
+                        translate("card.choose_info"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          height: 1.2,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Expanded(child: Container()),
+                  GestureDetector(
+                    onTap: () async {
+
+                    },
+                    child: Container(
+                      height: 44,
+                      margin: EdgeInsets.only(
+                        bottom: 24,
+                        top: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.blue,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("card.save"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   static void showUpdate(
     BuildContext context,
     String text,

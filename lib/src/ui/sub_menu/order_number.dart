@@ -9,7 +9,6 @@ import 'package:pharmacy/src/blocs/history_bloc.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -31,32 +30,7 @@ class OrderNumber extends StatefulWidget {
 class _OrderNumberState extends State<OrderNumber> {
   bool isLoading = false;
   bool isCancel = false;
-  bool one = false, two = false, three = false, four = false;
-
-  double size = 24;
-  var durationTime = Duration(
-    milliseconds: 1000,
-  );
-  Timer _timer;
-
-  @override
-  void initState() {
-    _timer = Timer.periodic(durationTime, (timer) {
-      setState(() {
-        if (size == 24)
-          size = 12;
-        else
-          size = 24;
-      });
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    if (_timer != null) _timer.cancel();
-    super.dispose();
-  }
+  var type = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -79,37 +53,31 @@ class _OrderNumberState extends State<OrderNumber> {
     }
     if (widget.item.status == "payment_waiting" ||
         widget.item.status == "pending") {
-      one = true;
+      type = 1;
     } else if (widget.item.status == "accept") {
-      one = true;
-      two = true;
+      type = 2;
     } else if (widget.item.status == "pick_up" ||
         widget.item.status == "waiting_deliverer" ||
         widget.item.status == "delivering") {
-      one = true;
-      two = true;
-      three = true;
+      type = 3;
     } else if (widget.item.status == "delivered" ||
         widget.item.status == "picked_up") {
-      one = true;
-      two = true;
-      three = true;
-      four = true;
+      type = 4;
     }
     return Scaffold(
-      backgroundColor: AppTheme.white,
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        elevation: 1.0,
+        elevation: 0.0,
         backgroundColor: AppTheme.white,
         brightness: Brightness.light,
         leading: GestureDetector(
           child: Container(
             height: 56,
             width: 56,
-            color: AppTheme.arrow_examp_back,
-            padding: EdgeInsets.all(19),
-            child: SvgPicture.asset("assets/images/arrow_back.svg"),
+            color: AppTheme.white,
+            padding: EdgeInsets.all(13),
+            child: SvgPicture.asset("assets/icons/arrow_left_blue.svg"),
           ),
           onTap: () {
             Navigator.pop(context);
@@ -120,13 +88,13 @@ class _OrderNumberState extends State<OrderNumber> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "№" + widget.item.id.toString(),
-              textAlign: TextAlign.start,
+              translate("history.order") + widget.item.id.toString(),
               style: TextStyle(
-                color: AppTheme.black_text,
-                fontWeight: FontWeight.w500,
                 fontFamily: AppTheme.fontRubik,
-                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                height: 1.2,
+                color: AppTheme.text_dark,
               ),
             ),
           ],
@@ -144,730 +112,250 @@ class _OrderNumberState extends State<OrderNumber> {
                     top: 16,
                     left: 16,
                     right: 16,
-                    bottom: 20,
                   ),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: AppTheme.white,
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 2),
-                          blurRadius: 24,
-                          spreadRadius: 0,
-                          color: Color.fromRGBO(0, 0, 0, 0.08),
-                        ),
-                        BoxShadow(
-                          offset: Offset(0, 0),
-                          blurRadius: 2,
-                          spreadRadius: 0,
-                          color: Color.fromRGBO(0, 0, 0, 0.08),
-                        )
-                      ]),
+                    borderRadius: BorderRadius.circular(16),
+                    color: AppTheme.white,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        margin: EdgeInsets.only(
-                          top: 16,
-                          left: 16,
-                          right: 16,
-                        ),
+                        margin: EdgeInsets.all(16),
                         child: Text(
                           translate("history.status"),
                           style: TextStyle(
                             fontFamily: AppTheme.fontRubik,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
                             height: 1.2,
-                            color: AppTheme.black_text,
+                            color: AppTheme.text_dark,
                           ),
                         ),
                       ),
-                      SizedBox(height: 16),
-                      widget.item.status == "payment_waiting" ||
-                              widget.item.status == "pending"
-                          ? Container(
-                              height: 44,
-                              width: double.infinity,
-                              padding: EdgeInsets.only(left: 18, right: 16),
-                              child: Row(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Expanded(child: Container()),
-                                      Container(
-                                        height: 24,
-                                        width: 24,
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 12, left: 11),
-                                              width: 2,
-                                              height: 12,
-                                              color: Color(0xFFEBEDF0),
-                                            ),
-                                            Center(
-                                              child: AnimatedContainer(
-                                                duration: durationTime,
-                                                height: size,
-                                                width: size,
-                                                decoration: BoxDecoration(
-                                                  color: AppTheme.blue
-                                                      .withOpacity(0.3),
-                                                  borderRadius:
-                                                      BorderRadius.circular(24),
-                                                ),
-                                              ),
-                                            ),
-                                            Center(
-                                              child: Container(
-                                                height: 12,
-                                                width: 12,
-                                                decoration: BoxDecoration(
-                                                  color: AppTheme.blue,
-                                                  borderRadius:
-                                                      BorderRadius.circular(24),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          width: 2,
-                                          color: Color(0xFFEBEDF0),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    translate("history.status_pending"),
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRubik,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                      color: AppTheme.blue,
-                                    ),
-                                  )
-                                ],
+                      Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: AppTheme.background,
+                      ),
+                      Container(
+                        height: 24,
+                        margin: EdgeInsets.only(
+                          top: 16,
+                          left: 19,
+                          right: 16,
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 18,
+                              width: 18,
+                              decoration: BoxDecoration(
+                                color: type == 1
+                                    ? AppTheme.blue
+                                    : AppTheme.textGray,
+                                borderRadius: BorderRadius.circular(4),
                               ),
-                            )
-                          : Container(
-                              height: 44,
-                              width: double.infinity,
-                              padding: EdgeInsets.only(left: 24, right: 16),
-                              child: Row(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Expanded(child: Container()),
-                                      Container(
-                                        height: 12,
-                                        width: 12,
-                                        decoration: BoxDecoration(
-                                          color: AppTheme.blue,
-                                          borderRadius:
-                                              BorderRadius.circular(24),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          width: 2,
-                                          color: AppTheme.blue,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(width: 14),
-                                  Text(
-                                    translate("history.status_pending"),
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRubik,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: AppTheme.black_text,
-                                    ),
-                                  )
-                                ],
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  "assets/icons/check.svg",
+                                  width: 8,
+                                  height: 6,
+                                ),
                               ),
                             ),
-                      widget.item.status == "accept"
-                          ? Container(
-                              height: 44,
-                              width: double.infinity,
-                              padding: EdgeInsets.only(left: 18, right: 16),
-                              child: Row(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          width: 2,
-                                          color: AppTheme.blue,
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 24,
-                                        width: 24,
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                              margin: EdgeInsets.only(left: 11),
-                                              width: 2,
-                                              height: 12,
-                                              color: AppTheme.blue,
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 12, left: 11),
-                                              width: 2,
-                                              height: 12,
-                                              color: Color(0xFFEBEDF0),
-                                            ),
-                                            Center(
-                                              child: AnimatedContainer(
-                                                duration: durationTime,
-                                                height: size,
-                                                width: size,
-                                                decoration: BoxDecoration(
-                                                  color: AppTheme.blue
-                                                      .withOpacity(0.3),
-                                                  borderRadius:
-                                                      BorderRadius.circular(24),
-                                                ),
-                                              ),
-                                            ),
-                                            Center(
-                                              child: Container(
-                                                height: 12,
-                                                width: 12,
-                                                decoration: BoxDecoration(
-                                                  color: AppTheme.blue,
-                                                  borderRadius:
-                                                      BorderRadius.circular(24),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          width: 2,
-                                          color: Color(0xFFEBEDF0),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    translate("history.status_accept"),
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRubik,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                      color: AppTheme.blue,
-                                    ),
-                                  )
-                                ],
+                            SizedBox(width: 19),
+                            Expanded(
+                              child: Text(
+                                translate("history.status_pending"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16,
+                                  height: 1.2,
+                                  color: type == 1
+                                      ? AppTheme.blue
+                                      : AppTheme.textGray,
+                                ),
                               ),
                             )
-                          : Container(
-                              height: 44,
-                              width: double.infinity,
-                              padding: EdgeInsets.only(left: 24, right: 24),
-                              child: Row(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          width: 2,
-                                          color: two
-                                              ? AppTheme.blue
-                                              : Color(0xFFEBEDF0),
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 12,
-                                        width: 12,
-                                        decoration: BoxDecoration(
-                                          color: two
-                                              ? AppTheme.blue
-                                              : Color(0xFFEBEDF0),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          width: 2,
-                                          color: three
-                                              ? AppTheme.blue
-                                              : Color(0xFFEBEDF0),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(width: 14),
-                                  Text(
-                                    translate("history.status_accept"),
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRubik,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: AppTheme.black_text,
-                                    ),
-                                  )
-                                ],
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 24,
+                        margin: EdgeInsets.only(
+                          top: 16,
+                          left: 19,
+                          right: 16,
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 18,
+                              width: 18,
+                              decoration: BoxDecoration(
+                                color: type < 2
+                                    ? AppTheme.white
+                                    : type == 2
+                                        ? AppTheme.blue
+                                        : AppTheme.textGray,
+                                borderRadius: BorderRadius.circular(4),
+                                border: Border.all(
+                                  width: 1.5,
+                                  color: type == 2
+                                      ? AppTheme.blue
+                                      : AppTheme.textGray,
+                                ),
+                              ),
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  "assets/icons/check.svg",
+                                  width: 8,
+                                  height: 6,
+                                ),
                               ),
                             ),
-                      widget.item.status == "pick_up" ||
-                              widget.item.status == "waiting_deliverer" ||
-                              widget.item.status == "delivering"
-                          ? Container(
-                              height: 44,
-                              width: double.infinity,
-                              padding: EdgeInsets.only(left: 18, right: 16),
-                              child: Row(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          width: 2,
-                                          color: AppTheme.blue,
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 24,
-                                        width: 24,
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                              margin: EdgeInsets.only(left: 11),
-                                              width: 2,
-                                              height: 12,
-                                              color: AppTheme.blue,
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 12, left: 11),
-                                              width: 2,
-                                              height: 12,
-                                              color: Color(0xFFEBEDF0),
-                                            ),
-                                            Center(
-                                              child: AnimatedContainer(
-                                                duration: durationTime,
-                                                height: size,
-                                                width: size,
-                                                decoration: BoxDecoration(
-                                                  color: AppTheme.blue
-                                                      .withOpacity(0.3),
-                                                  borderRadius:
-                                                      BorderRadius.circular(24),
-                                                ),
-                                              ),
-                                            ),
-                                            Center(
-                                              child: Container(
-                                                height: 12,
-                                                width: 12,
-                                                decoration: BoxDecoration(
-                                                  color: AppTheme.blue,
-                                                  borderRadius:
-                                                      BorderRadius.circular(24),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          width: 2,
-                                          color: Color(0xFFEBEDF0),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    widget.item.type == "self"
-                                        ? translate("history.status_packed")
-                                        : translate("history.status_way"),
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRubik,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                      color: AppTheme.blue,
-                                    ),
-                                  )
-                                ],
+                            SizedBox(width: 19),
+                            Expanded(
+                              child: Text(
+                                translate("history.status_accept"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16,
+                                  height: 1.2,
+                                  color: type == 2
+                                      ? AppTheme.blue
+                                      : AppTheme.textGray,
+                                ),
                               ),
                             )
-                          : Container(
-                              height: 44,
-                              width: double.infinity,
-                              padding: EdgeInsets.only(left: 24, right: 24),
-                              child: Row(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          width: 2,
-                                          color: three
-                                              ? AppTheme.blue
-                                              : Color(0xFFEBEDF0),
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 12,
-                                        width: 12,
-                                        decoration: BoxDecoration(
-                                          color: three
-                                              ? AppTheme.blue
-                                              : Color(0xFFEBEDF0),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          width: 2,
-                                          color: three
-                                              ? AppTheme.blue
-                                              : Color(0xFFEBEDF0),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(width: 14),
-                                  Text(
-                                    widget.item.type == "self"
-                                        ? translate("history.status_packed")
-                                        : translate("history.status_way"),
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRubik,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: AppTheme.black_text,
-                                    ),
-                                  )
-                                ],
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 24,
+                        margin: EdgeInsets.only(
+                          top: 16,
+                          left: 19,
+                          right: 16,
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 18,
+                              width: 18,
+                              decoration: BoxDecoration(
+                                color: type < 3
+                                    ? AppTheme.white
+                                    : type == 3
+                                        ? AppTheme.blue
+                                        : AppTheme.textGray,
+                                borderRadius: BorderRadius.circular(4),
+                                border: Border.all(
+                                  width: 1.5,
+                                  color: type == 3
+                                      ? AppTheme.blue
+                                      : AppTheme.textGray,
+                                ),
+                              ),
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  "assets/icons/check.svg",
+                                  width: 8,
+                                  height: 6,
+                                ),
                               ),
                             ),
-                      widget.item.status == "delivered" ||
-                              widget.item.status == "picked_up"
-                          ? Container(
-                              height: 44,
-                              width: double.infinity,
-                              padding: EdgeInsets.only(left: 18, right: 16),
-                              child: Row(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          width: 2,
-                                          color: AppTheme.blue,
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 24,
-                                        width: 24,
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                              margin: EdgeInsets.only(left: 11),
-                                              width: 2,
-                                              height: 12,
-                                              color: AppTheme.blue,
-                                            ),
-                                            Center(
-                                              child: AnimatedContainer(
-                                                duration: durationTime,
-                                                height: size,
-                                                width: size,
-                                                decoration: BoxDecoration(
-                                                  color: AppTheme.blue
-                                                      .withOpacity(0.3),
-                                                  borderRadius:
-                                                      BorderRadius.circular(24),
-                                                ),
-                                              ),
-                                            ),
-                                            Center(
-                                              child: Container(
-                                                height: 12,
-                                                width: 12,
-                                                decoration: BoxDecoration(
-                                                  color: AppTheme.blue,
-                                                  borderRadius:
-                                                      BorderRadius.circular(24),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    widget.item.type == "self"
-                                        ? translate("history.status_received")
-                                        : translate("history.status_delivered"),
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRubik,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                      color: AppTheme.blue,
-                                    ),
-                                  )
-                                ],
+                            SizedBox(width: 19),
+                            Expanded(
+                              child: Text(
+                                widget.item.type == "self"
+                                    ? translate("history.status_packed")
+                                    : translate("history.status_way"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16,
+                                  height: 1.2,
+                                  color: type == 3
+                                      ? AppTheme.blue
+                                      : AppTheme.textGray,
+                                ),
                               ),
                             )
-                          : Container(
-                              height: 44,
-                              width: double.infinity,
-                              padding: EdgeInsets.only(left: 24, right: 24),
-                              child: Row(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          width: 2,
-                                          color: four
-                                              ? AppTheme.blue
-                                              : Color(0xFFEBEDF0),
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 12,
-                                        width: 12,
-                                        decoration: BoxDecoration(
-                                          color: four
-                                              ? AppTheme.blue
-                                              : Color(0xFFEBEDF0),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(width: 14),
-                                  Text(
-                                    widget.item.type == "self"
-                                        ? translate("history.status_received")
-                                        : translate("history.status_delivered"),
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRubik,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: AppTheme.black_text,
-                                    ),
-                                  )
-                                ],
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 24,
+                        margin: EdgeInsets.only(
+                          top: 16,
+                          left: 19,
+                          right: 16,
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 18,
+                              width: 18,
+                              decoration: BoxDecoration(
+                                color: type < 4
+                                    ? AppTheme.white
+                                    : type == 4
+                                        ? AppTheme.blue
+                                        : AppTheme.textGray,
+                                borderRadius: BorderRadius.circular(4),
+                                border: Border.all(
+                                  width: 1.5,
+                                  color: type == 4
+                                      ? AppTheme.blue
+                                      : AppTheme.textGray,
+                                ),
+                              ),
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  "assets/icons/check.svg",
+                                  width: 8,
+                                  height: 6,
+                                ),
                               ),
                             ),
+                            SizedBox(width: 19),
+                            Expanded(
+                              child: Text(
+                                widget.item.type == "self"
+                                    ? translate("history.status_received")
+                                    : translate("history.status_delivered"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16,
+                                  height: 1.2,
+                                  color: type == 4
+                                      ? AppTheme.blue
+                                      : AppTheme.textGray,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        width: double.infinity,
+                        margin: EdgeInsets.only(top: 16, bottom: 16),
+                        color: AppTheme.background,
+                      ),
                       GestureDetector(
                         onTap: () {
-                          if (three || four) {
-                          } else {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (context) {
-                                return StatefulBuilder(
-                                  builder: (BuildContext context,
-                                      StateSetter setState) {
-                                    return Container(
-                                      height: 450,
-                                      padding: EdgeInsets.only(
-                                          bottom: 24, left: 8, right: 8),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(18.0),
-                                          color: AppTheme.white,
-                                        ),
-                                        child: Column(
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 12, bottom: 16),
-                                              height: 4,
-                                              width: 60,
-                                              decoration: BoxDecoration(
-                                                color: AppTheme.bottom_dialog,
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
-                                              ),
-                                            ),
-                                            Center(
-                                              child: Container(
-                                                height: 153,
-                                                width: 153,
-                                                child: SvgPicture.asset(
-                                                    "assets/images/order_is_cancel.svg"),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 8, left: 16, right: 16),
-                                              child: Center(
-                                                child: Text(
-                                                  translate(
-                                                      "history.order_cancel"),
-                                                  style: TextStyle(
-                                                    fontSize: 17,
-                                                    fontStyle: FontStyle.normal,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontFamily:
-                                                        AppTheme.fontRubik,
-                                                    height: 1.65,
-                                                    color: AppTheme.black_text,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 8, left: 32, right: 32),
-                                              child: Center(
-                                                child: Text(
-                                                  translate(
-                                                      "history.cancel_bottom_text"),
-                                                  textAlign: TextAlign.center,
-                                                  maxLines: 3,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    height: 1.6,
-                                                    fontStyle: FontStyle.normal,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontFamily:
-                                                        AppTheme.fontRubik,
-                                                    color: AppTheme
-                                                        .black_transparent_text,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Expanded(child: Container()),
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Container(
-                                                margin: EdgeInsets.only(
-                                                  left: 16,
-                                                  right: 16,
-                                                  bottom: 16,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  color: AppTheme.white,
-                                                  border: Border.all(
-                                                    color: AppTheme.blue,
-                                                    width: 2,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                ),
-                                                height: 44,
-                                                width: double.infinity,
-                                                child: Center(
-                                                  child: Text(
-                                                    translate("history.yes"),
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          AppTheme.fontRubik,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontSize: 17,
-                                                      height: 1.3,
-                                                      color: AppTheme.blue,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.pop(context);
-                                                setState(() {
-                                                  isLoading = true;
-                                                  isCancel = true;
-                                                });
-                                              },
-                                              child: Container(
-                                                margin: EdgeInsets.only(
-                                                  left: 16,
-                                                  right: 16,
-                                                  bottom: 20,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  color:
-                                                      AppTheme.blue_app_color,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                ),
-                                                height: 44,
-                                                width: double.infinity,
-                                                child: Center(
-                                                  child: Text(
-                                                    translate("history.no"),
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          AppTheme.fontRubik,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontSize: 17,
-                                                      height: 1.3,
-                                                      color: AppTheme.white,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
+                          if (type < 3) {
+                            BottomDialog.showCancelOrder(
+                              context,
+                              widget.item.id,
+                              () {},
                             );
                           }
                         },
@@ -875,16 +363,13 @@ class _OrderNumberState extends State<OrderNumber> {
                           height: 44,
                           width: double.infinity,
                           margin: EdgeInsets.only(
-                            top: 2,
-                            left: 24,
-                            right: 24,
-                            bottom: 24,
+                            left: 16,
+                            right: 16,
+                            bottom: 16,
                           ),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: three || four
-                                ? Color.fromRGBO(129, 140, 153, 0.15)
-                                : AppTheme.red_fav_color,
+                            borderRadius: BorderRadius.circular(12),
+                            color: type > 2 ? AppTheme.gray : AppTheme.red,
                           ),
                           child: Center(
                             child: isLoading
@@ -895,7 +380,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                         AppTheme.white),
                                   )
                                 : Text(
-                                    three || four
+                                    type > 2
                                         ? translate("history.order_not_cancel")
                                         : translate("history.order_cancel"),
                                     style: TextStyle(
@@ -903,9 +388,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
-                                      color: three || four
-                                          ? AppTheme.search_empty
-                                          : AppTheme.white,
+                                      color: AppTheme.white,
                                     ),
                                   ),
                           ),
