@@ -88,9 +88,10 @@ class HistoryResults {
     paymentType = json['payment_type'] != null
         ? new PaymentType.fromJson(json['payment_type'])
         : PaymentType(id: 0, name: "", type: "");
-    store = json['store'] != null ? new Store.fromJson(json['store']) : null;
-    delivery =
-        json['delivery'] != null ? Delivery.fromJson(json['delivery']) : null;
+    store = json['store'] != null ? Store.fromJson(json['store']) : Store();
+    delivery = json['delivery'] != null
+        ? Delivery.fromJson(json['delivery'])
+        : Delivery();
     createdAt = json['created_at'];
     total = json['total'] == null ? 0.0 : json['total'];
     realTotal = json['real_total'] == null ? 0.0 : json['real_total'];

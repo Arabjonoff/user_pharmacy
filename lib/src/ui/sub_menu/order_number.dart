@@ -403,169 +403,518 @@ class _OrderNumberState extends State<OrderNumber> {
               left: 16,
               right: 16,
             ),
-            child: Text(
-              translate("zakaz.poluchatel"),
-              style: TextStyle(
-                fontFamily: AppTheme.fontRubik,
-                fontStyle: FontStyle.normal,
-                fontSize: 20,
-                height: 1.2,
-                fontWeight: FontWeight.w600,
-                color: AppTheme.black_text,
-              ),
+            decoration: BoxDecoration(
+              color: AppTheme.white,
+              borderRadius: BorderRadius.circular(24),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.only(
-              left: 16.0,
-              right: 16.0,
-              top: 16.0,
-            ),
-            child: Text(
-              translate("zakaz.name"),
-              style: TextStyle(
-                fontFamily: AppTheme.fontRubik,
-                fontStyle: FontStyle.normal,
-                fontSize: 13,
-                fontWeight: FontWeight.normal,
-                color: AppTheme.black_transparent_text,
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 3),
-            child: Text(
-              widget.item.fullName,
-              style: TextStyle(
-                fontFamily: AppTheme.fontRubik,
-                fontStyle: FontStyle.normal,
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-                color: Colors.black,
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 23),
-            child: Text(
-              translate("zakaz.number"),
-              style: TextStyle(
-                fontFamily: AppTheme.fontRubik,
-                fontStyle: FontStyle.normal,
-                fontSize: 13,
-                fontWeight: FontWeight.normal,
-                color: AppTheme.black_transparent_text,
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 3),
-            child: Text(
-              Utils.numberFormat(widget.item.phone),
-              style: TextStyle(
-                fontFamily: AppTheme.fontRubik,
-                fontStyle: FontStyle.normal,
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-                color: Colors.black,
-              ),
-            ),
-          ),
-          widget.item.delivery == null
-              ? Container()
-              : Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.all(16),
+                  child: Text(
+                    translate("history.user"),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      height: 1.2,
+                      color: AppTheme.text_dark,
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 1,
+                  width: double.infinity,
+                  color: AppTheme.background,
+                ),
+                Container(
                   margin: EdgeInsets.only(
-                    top: 43,
+                    top: 16,
                     left: 16,
                     right: 16,
                   ),
                   child: Text(
-                    translate("history.courier"),
+                    translate("history.user_name"),
                     style: TextStyle(
                       fontFamily: AppTheme.fontRubik,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
                       height: 1.2,
-                      fontWeight: FontWeight.w600,
-                      color: AppTheme.black_text,
+                      color: AppTheme.textGray,
                     ),
                   ),
                 ),
-          widget.item.delivery == null
-              ? Container()
-              : Container(
+                Container(
                   margin: EdgeInsets.only(
-                    left: 16.0,
-                    right: 16.0,
-                    top: 16.0,
+                    top: 8,
+                    left: 16,
+                    right: 16,
+                  ),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: AppTheme.background,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 13,
                   ),
                   child: Text(
-                    translate("zakaz.name"),
+                    widget.item.fullName,
                     style: TextStyle(
                       fontFamily: AppTheme.fontRubik,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 13,
                       fontWeight: FontWeight.normal,
-                      color: AppTheme.black_transparent_text,
+                      fontSize: 14,
+                      height: 1.2,
+                      color: AppTheme.text_dark,
                     ),
                   ),
                 ),
-          widget.item.delivery == null
-              ? Container()
-              : Container(
-                  margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 3),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 16,
+                    left: 16,
+                    right: 16,
+                  ),
                   child: Text(
-                    widget.item.delivery.firstName +
-                        " " +
-                        widget.item.delivery.lastName,
+                    translate("history.user_number"),
                     style: TextStyle(
                       fontFamily: AppTheme.fontRubik,
-                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      height: 1.2,
+                      color: AppTheme.textGray,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 8,
+                    left: 16,
+                    right: 16,
+                  ),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: AppTheme.background,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 13,
+                  ),
+                  child: Text(
+                    Utils.numberFormat(widget.item.phone),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      height: 1.2,
+                      color: AppTheme.text_dark,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 16,
+                    left: 16,
+                    right: 16,
+                  ),
+                  child: Text(
+                    translate("history.user_address"),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      height: 1.2,
+                      color: AppTheme.textGray,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 8,
+                    left: 16,
+                    right: 16,
+                  ),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: AppTheme.background,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 13,
+                  ),
+                  child: Text(
+                    widget.item.address,
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      height: 1.2,
+                      color: AppTheme.text_dark,
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 1,
+                  width: double.infinity,
+                  margin: EdgeInsets.only(top: 16, bottom: 16),
+                  color: AppTheme.background,
+                ),
+                //widget.item.type == "self"
+                Container(
+                  margin: EdgeInsets.only(left: 16, right: 16),
+                  child: Text(
+                    widget.item.type == "self"
+                        ? translate("history.store")
+                        : translate("history.courier"),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.w500,
                       fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
+                      height: 1.2,
+                      color: AppTheme.text_dark,
                     ),
                   ),
                 ),
-          widget.item.delivery == null
-              ? Container()
-              : Container(
-                  margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 23),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 16,
+                    left: 16,
+                    right: 16,
+                  ),
                   child: Text(
-                    translate("zakaz.number"),
+                    widget.item.type == "self"
+                        ? translate("history.store_name")
+                        : translate("history.user_name"),
                     style: TextStyle(
                       fontFamily: AppTheme.fontRubik,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 13,
                       fontWeight: FontWeight.normal,
-                      color: AppTheme.black_transparent_text,
+                      fontSize: 14,
+                      height: 1.2,
+                      color: AppTheme.textGray,
                     ),
                   ),
                 ),
-          widget.item.delivery == null
-              ? Container()
-              : GestureDetector(
-                  onTap: () async {
-                    var url = "tel:" + widget.item.delivery.login;
-                    if (await canLaunch(url)) {
-                      await launch(url);
-                    } else {
-                      throw 'Could not launch $url';
-                    }
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 3),
-                    child: Text(
-                      Utils.numberFormat(widget.item.delivery.login),
-                      style: TextStyle(
-                        fontFamily: AppTheme.fontRubik,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black,
-                      ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 8,
+                    left: 16,
+                    right: 16,
+                  ),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: AppTheme.background,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 13,
+                  ),
+                  child: Text(
+                    widget.item.type == "self"
+                        ? widget.item.store.name
+                        : widget.item.delivery.firstName +
+                            " " +
+                            widget.item.delivery.lastName,
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      height: 1.2,
+                      color: AppTheme.text_dark,
                     ),
-                  )),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 16,
+                    left: 16,
+                    right: 16,
+                  ),
+                  child: Text(
+                    translate("history.user_number"),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      height: 1.2,
+                      color: AppTheme.textGray,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 8,
+                    left: 16,
+                    right: 16,
+                  ),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: AppTheme.background,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 13,
+                  ),
+                  child: Text(
+                    widget.item.type == "self"
+                        ? Utils.numberFormat(widget.item.store.phone)
+                        : Utils.numberFormat(widget.item.delivery.login),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      height: 1.2,
+                      color: AppTheme.text_dark,
+                    ),
+                  ),
+                ),
+                widget.item.type == "self"
+                    ? Container(
+                        margin: EdgeInsets.only(
+                          top: 16,
+                          left: 16,
+                          right: 16,
+                        ),
+                        child: Text(
+                          translate("history.store_address"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14,
+                            height: 1.2,
+                            color: AppTheme.textGray,
+                          ),
+                        ),
+                      )
+                    : Container(),
+                widget.item.type == "self"
+                    ? Container(
+                        margin: EdgeInsets.only(
+                          top: 8,
+                          left: 16,
+                          right: 16,
+                        ),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppTheme.background,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 13,
+                        ),
+                        child: Text(
+                          widget.item.store.address,
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14,
+                            height: 1.2,
+                            color: AppTheme.text_dark,
+                          ),
+                        ),
+                      )
+                    : Container(),
+                SizedBox(height: 16),
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(
+              top: 16,
+              left: 16,
+              right: 16,
+            ),
+            decoration: BoxDecoration(
+              color: AppTheme.white,
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.all(16),
+                  child: Text(
+                    translate("history.item_count") +
+                        widget.item.items.length.toString(),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      height: 1.2,
+                      color: AppTheme.text_dark,
+                    ),
+                  ),
+                ),
+                ListView.builder(
+                  itemCount: widget.item.items.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(
+                      children: [
+                        Container(
+                          height: 1,
+                          width: double.infinity,
+                          color: AppTheme.background,
+                          margin: EdgeInsets.only(bottom: 16),
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(width: 8),
+                            CachedNetworkImage(
+                              height: 80,
+                              width: 80,
+                              imageUrl:
+                                  widget.item.items[index].drug.imageThumbnail,
+                              placeholder: (context, url) => Container(
+                                padding: EdgeInsets.all(13),
+                                child: Center(
+                                  child: SvgPicture.asset(
+                                      "assets/images/place_holder.svg"),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) => Container(
+                                padding: EdgeInsets.all(13),
+                                child: Center(
+                                  child: SvgPicture.asset(
+                                      "assets/images/place_holder.svg"),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    widget.item.items[index].drug.name,
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14,
+                                      height: 1.5,
+                                      color: AppTheme.text_dark,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        translate("lan") == "1"
+                                            ? TextSpan(
+                                                text: translate("from"),
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.fontRubik,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 14,
+                                                  height: 1.2,
+                                                  color: AppTheme.text_dark,
+                                                ),
+                                              )
+                                            : WidgetSpan(
+                                                child: SizedBox(
+                                                  height: 0,
+                                                  width: 0,
+                                                ),
+                                              ),
+                                        TextSpan(
+                                          text: priceFormat.format(widget
+                                                  .item.items[index].price) +
+                                              translate("sum"),
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontRubik,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            height: 1.2,
+                                            color: AppTheme.text_dark,
+                                          ),
+                                        ),
+                                        translate("lan") != "1"
+                                            ? TextSpan(
+                                                text: translate("from"),
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.fontRubik,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 14,
+                                                  height: 1.2,
+                                                  color: AppTheme.text_dark,
+                                                ),
+                                              )
+                                            : WidgetSpan(
+                                                child: SizedBox(
+                                                  height: 0,
+                                                  width: 0,
+                                                ),
+                                              ),
+                                        TextSpan(
+                                          text: " x " +
+                                              widget.item.items[index].qty
+                                                  .toString(),
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontRubik,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            height: 1.2,
+                                            color: AppTheme.textGray,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                          ],
+                        ),
+                        SizedBox(height: 16),
+                      ],
+                    );
+                  },
+                )
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(
+              top: 16,
+              left: 16,
+              right: 16,
+            ),
+            decoration: BoxDecoration(
+              color: AppTheme.white,
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.all(16),
+                  child: Text(
+                    translate("history.payment") ,
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      height: 1.2,
+                      color: AppTheme.text_dark,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           Container(
             height: 36,
             margin: EdgeInsets.only(left: 16, right: 16, top: 43),
