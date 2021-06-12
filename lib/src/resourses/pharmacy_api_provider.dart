@@ -845,12 +845,13 @@ class PharmacyApiProvider {
 
   ///Check error delivery
   Future<CheckErrorModel> fetchCheckErrorDelivery(
-      AccessStore accessStore, String language) async {
+      AccessStore accessStore) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
+    String lan = prefs.getString("language") ?? "ru";
 
     String url = Utils.baseUrl +
-        '/api/v1/check-shipping-error?lan=$language&region=$regionId';
+        '/api/v1/check-shipping-error?lan=$lan&region=$regionId';
     String token = prefs.getString("token");
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);

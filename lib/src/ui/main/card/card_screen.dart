@@ -15,15 +15,12 @@ import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
-import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
+import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/checkout_order_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:intl/intl.dart';
 
 import '../../../app_theme.dart';
-
-final priceFormat = new NumberFormat("#,##0", "ru");
 
 class CardScreen extends StatefulWidget {
   final Function(CashBackData data) onPickup;
@@ -60,27 +57,8 @@ class _CardScreenState extends State<CardScreen> {
   @override
   void initState() {
     Repository().fetchMinSum().then((value) => minSum = value);
-    registerBus();
+    _registerBus();
     super.initState();
-  }
-
-  void registerBus() {
-    RxBus.register<CardItemChangeModel>(tag: "EVENT_CARD_BOTTOM")
-        .listen((event) => {
-              if (event.cardChange)
-                {
-                  Timer(Duration(milliseconds: 100), () {
-                    blocCard.fetchAllCard();
-                    BottomDialog.bottomDialogOrder(context);
-                  }),
-                },
-            });
-
-    RxBus.register<BottomView>(tag: "CARD_VIEW").listen((event) {
-      if (event.title) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
-      }
-    });
   }
 
   @override
@@ -704,7 +682,7 @@ class _CardScreenState extends State<CardScreen> {
                                                 products: drugs),
                                             Repository()
                                                 .fetchCheckErrorDelivery(
-                                                    addModel, languageData)
+                                                    addModel)
                                                 .then((value) => {
                                                       if (value.error == 0)
                                                         {
@@ -783,9 +761,8 @@ class _CardScreenState extends State<CardScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => CheckoutOrderScreen(
-
-                                      ),
+                                      builder: (context) =>
+                                          CheckoutOrderScreen(),
                                     ),
                                   );
                                   // if (isLogin) {
@@ -975,5 +952,24 @@ class _CardScreenState extends State<CardScreen> {
         },
       ),
     );
+  }
+
+  void _registerBus() {
+    RxBus.register<CardItemChangeModel>(tag: "EVENT_CARD_BOTTOM")
+        .listen((event) => {
+              if (event.cardChange)
+                {
+                  Timer(Duration(milliseconds: 100), () {
+                    blocCard.fetchAllCard();
+                    BottomDialog.bottomDialogOrder(context);
+                  }),
+                },
+            });
+
+    RxBus.register<BottomView>(tag: "CARD_VIEW").listen((event) {
+      if (event.title) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
+    });
   }
 }

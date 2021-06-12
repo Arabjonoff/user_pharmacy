@@ -208,9 +208,8 @@ class Repository {
         accessStore,
       );
 
-  Future<CheckErrorModel> fetchCheckErrorDelivery(
-          AccessStore accessStore, String language) =>
-      pharmacyApiProvider.fetchCheckErrorDelivery(accessStore, language);
+  Future<CheckErrorModel> fetchCheckErrorDelivery(AccessStore accessStore) =>
+      pharmacyApiProvider.fetchCheckErrorDelivery(accessStore);
 
   Future<PaymentVerfy> fetchVerifyPaymentModel(VerdyPaymentModel verify) =>
       pharmacyApiProvider.fetchVerfyPaymentModel(verify);
