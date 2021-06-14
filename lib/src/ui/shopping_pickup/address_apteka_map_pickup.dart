@@ -45,10 +45,6 @@ class _AddressStoreMapPickupScreenState
 
   YandexMapController mapController;
   Point _point;
-  PermissionStatus _permissionStatus = PermissionStatus.unknown;
-  var geolocator = Geolocator();
-  var locationOptions =
-      LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
   final List<placemark.Placemark> placemarks = <placemark.Placemark>[];
   DatabaseHelper dataBase = new DatabaseHelper();
 
@@ -64,51 +60,33 @@ class _AddressStoreMapPickupScreenState
   void initState() {
     super.initState();
     _requestPermission();
-    // _getPosition();
-    //_getPosition();
-    //   _addMarkerData(widget.data);
   }
 
   Future<void> _requestPermission() async {
-    final List<PermissionGroup> permissions = <PermissionGroup>[
-      PermissionGroup.location
-    ];
-    final Map<PermissionGroup, PermissionStatus> permissionRequestResult =
-        await PermissionHandler().requestPermissions(permissions);
-    setState(() {
-      _permissionStatus = permissionRequestResult[PermissionGroup.location];
-    });
+    Permission.locationWhenInUse.request().then(
+      (value) async {
+        if (value.isGranted) {
+          _getPosition();
+        } else {
+          _defaultLocation();
+          if (mapController != null) {
+            mapController.showUserLayer(
+              iconName: 'assets/map/user.png',
+              arrowName: 'assets/map/user.png',
+              accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
+            );
+            mapController.move(
+              point: Point(latitude: 41.311081, longitude: 69.240562),
+              zoom: 11,
+              animation: const MapAnimation(smooth: true, duration: 0.5),
+            );
+          }
+        }
+      },
+    );
   }
 
-  Future<void> _updateLocation() async {
-    final List<PermissionGroup> permissions = <PermissionGroup>[
-      PermissionGroup.location
-    ];
-    final Map<PermissionGroup, PermissionStatus> permissionRequestResult =
-        await PermissionHandler().requestPermissions(permissions);
-    if (permissionRequestResult[PermissionGroup.location] ==
-        PermissionStatus.granted) {
-      Position position = await Geolocator().getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.bestForNavigation,
-        locationPermissionLevel: GeolocationPermission.locationWhenInUse,
-      );
-      if (position != null) {
-        lat = position.latitude;
-        lng = position.longitude;
-        Utils.saveLocation(position.latitude, position.longitude);
-        _point = new Point(
-            latitude: position.latitude, longitude: position.longitude);
-        mapController.move(
-          point: _point,
-          animation: const MapAnimation(smooth: true, duration: 0.5),
-        );
-        setState(() {
-          isFirstGrant = false;
-          isGranted = true;
-        });
-      }
-    }
-  }
+  Future<void> _updateLocation() async {}
 
   void _addMarkers(Future<List<LocationModel>> response) async {
     if (placemarks != null)
@@ -136,439 +114,451 @@ class _AddressStoreMapPickupScreenState
       latOr += data[i].location.coordinates[1];
       lngOr += data[i].location.coordinates[0];
 
-      mapController.addPlacemark(placemark.Placemark(
-        point: Point(
-          latitude: data[i].location.coordinates[1],
-          longitude: data[i].location.coordinates[0],
-        ),
-        opacity: 1,
-        iconName: 'assets/map/selected_order.png',
-        onTap: (Point point) => {
-          showModalBottomSheet(
-            context: context,
-            builder: (context) {
-              return Container(
-                margin: EdgeInsets.only(left: 8, right: 8, bottom: 16),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                  child: Container(
-                    height: 272,
-                    color: AppTheme.white,
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(top: 12),
-                          height: 4,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            color: AppTheme.bottom_dialog,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 12, right: 12, top: 25),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  data[i].name,
-                                  textAlign: TextAlign.start,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontRubik,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                    fontStyle: FontStyle.normal,
-                                    color: AppTheme.black_text,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 7,
-                              ),
-                              Text(
-                                ((data[i].distance ~/ 100) / 10.0).toString() +
-                                    " km",
-                                textAlign: TextAlign.start,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 11,
-                                  fontStyle: FontStyle.normal,
-                                  color: AppTheme.black_transparent_text,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 12, right: 12, top: 8),
-                          width: double.infinity,
-                          child: Text(
-                            data[i].address,
-                            textAlign: TextAlign.start,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 15,
-                              fontStyle: FontStyle.normal,
-                              color: AppTheme.black_text,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 12, right: 12, top: 17),
-                          child: Row(
-                            children: [
-                              Text(
-                                translate("map.work") + " : ",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 12,
-                                  fontStyle: FontStyle.normal,
-                                  color: AppTheme.black_transparent_text,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 7,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  data[i].mode,
-                                  textAlign: TextAlign.start,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontRubik,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 15,
-                                    fontStyle: FontStyle.normal,
-                                    color: AppTheme.black_text,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 12, right: 12, top: 12),
-                          child: Row(
-                            children: [
-                              Text(
-                                translate("auth.number_auth") + " : ",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 12,
-                                  fontStyle: FontStyle.normal,
-                                  color: AppTheme.black_transparent_text,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 7,
-                              ),
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    var url = "tel:" +
-                                        data[i]
-                                            .phone
-                                            .replaceAll(" ", "")
-                                            .replaceAll("-", "")
-                                            .replaceAll("(", "")
-                                            .replaceAll(")", "");
-                                    if (await canLaunch(url)) {
-                                      await launch(url);
-                                    } else {
-                                      throw 'Could not launch $url';
-                                    }
-                                  },
-                                  child: Text(
-                                    Utils.numberFormat(
-                                      data[i]
-                                          .phone
-                                          .replaceAll(" ", "")
-                                          .replaceAll("+", "")
-                                          .replaceAll("-", "")
-                                          .replaceAll("(", "")
-                                          .replaceAll(")", ""),
-                                    ),
-                                    textAlign: TextAlign.start,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRubik,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 15,
-                                      fontStyle: FontStyle.normal,
-                                      color: AppTheme.blue_app_color,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 12),
-                        Row(
-                          children: [
-                            SizedBox(width: 12),
-                            Text(
-                              translate("order"),
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontRubik,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 13,
-                                height: 1.3,
-                                color: AppTheme.search_empty,
-                              ),
-                            ),
-                            SizedBox(width: 4),
-                            Expanded(
-                              child: Align(
-                                child: Text(
-                                  priceFormat.format(data[i].total) +
-                                      translate("sum"),
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontRubik,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                    color: AppTheme.black_text,
-                                  ),
-                                ),
-                                alignment: Alignment.centerRight,
-                              ),
-                            ),
-                            SizedBox(width: 12),
-                          ],
-                        ),
-                        SizedBox(height: 12),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  loading = true;
-                                });
-                                CreateOrderModel createOrder;
-                                List<Drugs> drugs = new List();
-                                dataBase
-                                    .getProdu(true)
-                                    .then((dataBaseValue) => {
-                                          for (int i = 0;
-                                              i < dataBaseValue.length;
-                                              i++)
-                                            {
-                                              drugs.add(Drugs(
-                                                drug: dataBaseValue[i].id,
-                                                qty: dataBaseValue[i].cardCount,
-                                              ))
-                                            },
-                                          createOrder = new CreateOrderModel(
-                                            device: Platform.isIOS
-                                                ? "IOS"
-                                                : "Android",
-                                            type: "self",
-                                            storeId: data[i].id,
-                                            drugs: drugs,
-                                          ),
-                                          Repository()
-                                              .fetchCreateOrder(createOrder)
-                                              .then((response) => {
-                                                    if (response.status == 1)
-                                                      {
-                                                        setState(() {
-                                                          loading = false;
-                                                        }),
-                                                        dataBase.clear(),
-                                                        cashData = CashBackData(
-                                                          total: response
-                                                              .data.total,
-                                                          cash: response
-                                                              .data.cash,
-                                                          isTotalCash: response
-                                                              .data.isTotalCash,
-                                                        ),
-                                                        Navigator.pop(context),
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                OrderCardPickupScreen(
-                                                              response
-                                                                  .data.orderId,
-                                                              response.data
-                                                                  .expireSelfOrder,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      }
-                                                    else if (response.status ==
-                                                        -1)
-                                                      {
-                                                        Navigator.pop(context),
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (BuildContext
-                                                              context) {
-                                                            return AlertDialog(
-                                                              shape: RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              10.0))),
-                                                              contentPadding:
-                                                                  EdgeInsets
-                                                                      .fromLTRB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              content:
-                                                                  Container(
-                                                                width: 239.0,
-                                                                height: 64.0,
-                                                                child: Center(
-                                                                  child: Text(
-                                                                    response
-                                                                        .msg,
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontFamily:
-                                                                          AppTheme
-                                                                              .fontRubik,
-                                                                      fontStyle:
-                                                                          FontStyle
-                                                                              .normal,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                      fontSize:
-                                                                          16,
-                                                                      color: AppTheme
-                                                                          .black_text,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            );
-                                                          },
-                                                        ),
-                                                        setState(() {
-                                                          loading = false;
-                                                        }),
-                                                      }
-                                                    else
-                                                      {
-                                                        setState(() {
-                                                          loading = false;
-                                                        }),
-                                                        Navigator.pop(context),
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (BuildContext
-                                                              context) {
-                                                            return AlertDialog(
-                                                              shape: RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              10.0))),
-                                                              contentPadding:
-                                                                  EdgeInsets
-                                                                      .fromLTRB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              content:
-                                                                  Container(
-                                                                width: 239.0,
-                                                                height: 64.0,
-                                                                child: Center(
-                                                                  child: Text(
-                                                                    response.msg ==
-                                                                            ""
-                                                                        ? translate(
-                                                                            "error_distanse")
-                                                                        : response
-                                                                            .msg,
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontFamily:
-                                                                          AppTheme
-                                                                              .fontRubik,
-                                                                      fontStyle:
-                                                                          FontStyle
-                                                                              .normal,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                      fontSize:
-                                                                          16,
-                                                                      color: AppTheme
-                                                                          .black_text,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            );
-                                                          },
-                                                        ),
-                                                      }
-                                                  }),
-                                        });
-                              },
-                              child: Container(
-                                width: double.infinity,
-                                height: 44,
-                                margin: EdgeInsets.only(left: 16, right: 16),
-                                decoration: BoxDecoration(
-                                  color: AppTheme.blue_app_color,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                child: Center(
-                                  child: loading
-                                      ? CircularProgressIndicator(
-                                          value: null,
-                                          strokeWidth: 3.0,
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                            AppTheme.white,
-                                          ),
-                                        )
-                                      : Text(
-                                          translate("orders.map_add_order"),
-                                          style: TextStyle(
-                                            fontSize: 17,
-                                            color: AppTheme.white,
-                                            fontFamily: AppTheme.fontRubik,
-                                            fontWeight: FontWeight.w600,
-                                            fontStyle: FontStyle.normal,
-                                          ),
-                                        ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        },
-      ));
+      mapController.addPlacemark(
+        placemark.Placemark(
+            point: Point(
+              latitude: data[i].location.coordinates[1],
+              longitude: data[i].location.coordinates[0],
+            ),
+            style: PlacemarkStyle(
+              opacity: 1,
+              iconName: 'assets/map/selected_order.png',
+            ),
+            onTap: (Placemark placemark, Point point) {}
+
+            // onTap: (Point point) => {
+            //   showModalBottomSheet(
+            //     context: context,
+            //     builder: (context) {
+            //       return Container(
+            //         margin: EdgeInsets.only(left: 8, right: 8, bottom: 16),
+            //         child: ClipRRect(
+            //           borderRadius: BorderRadius.all(Radius.circular(16.0)),
+            //           child: Container(
+            //             height: 272,
+            //             color: AppTheme.white,
+            //             child: Column(
+            //               children: <Widget>[
+            //                 Container(
+            //                   margin: EdgeInsets.only(top: 12),
+            //                   height: 4,
+            //                   width: 60,
+            //                   decoration: BoxDecoration(
+            //                     color: AppTheme.bottom_dialog,
+            //                     borderRadius: BorderRadius.circular(4),
+            //                   ),
+            //                 ),
+            //                 Container(
+            //                   margin:
+            //                       EdgeInsets.only(left: 12, right: 12, top: 25),
+            //                   child: Row(
+            //                     children: [
+            //                       Expanded(
+            //                         child: Text(
+            //                           data[i].name,
+            //                           textAlign: TextAlign.start,
+            //                           maxLines: 2,
+            //                           overflow: TextOverflow.ellipsis,
+            //                           style: TextStyle(
+            //                             fontFamily: AppTheme.fontRubik,
+            //                             fontWeight: FontWeight.bold,
+            //                             fontSize: 15,
+            //                             fontStyle: FontStyle.normal,
+            //                             color: AppTheme.black_text,
+            //                           ),
+            //                         ),
+            //                       ),
+            //                       SizedBox(
+            //                         width: 7,
+            //                       ),
+            //                       Text(
+            //                         ((data[i].distance ~/ 100) / 10.0)
+            //                                 .toString() +
+            //                             " km",
+            //                         textAlign: TextAlign.start,
+            //                         maxLines: 1,
+            //                         style: TextStyle(
+            //                           fontFamily: AppTheme.fontRubik,
+            //                           fontWeight: FontWeight.normal,
+            //                           fontSize: 11,
+            //                           fontStyle: FontStyle.normal,
+            //                           color: AppTheme.black_transparent_text,
+            //                         ),
+            //                       )
+            //                     ],
+            //                   ),
+            //                 ),
+            //                 Container(
+            //                   margin:
+            //                       EdgeInsets.only(left: 12, right: 12, top: 8),
+            //                   width: double.infinity,
+            //                   child: Text(
+            //                     data[i].address,
+            //                     textAlign: TextAlign.start,
+            //                     maxLines: 1,
+            //                     overflow: TextOverflow.ellipsis,
+            //                     style: TextStyle(
+            //                       fontFamily: AppTheme.fontRubik,
+            //                       fontWeight: FontWeight.normal,
+            //                       fontSize: 15,
+            //                       fontStyle: FontStyle.normal,
+            //                       color: AppTheme.black_text,
+            //                     ),
+            //                   ),
+            //                 ),
+            //                 Container(
+            //                   margin:
+            //                       EdgeInsets.only(left: 12, right: 12, top: 17),
+            //                   child: Row(
+            //                     children: [
+            //                       Text(
+            //                         translate("map.work") + " : ",
+            //                         textAlign: TextAlign.start,
+            //                         style: TextStyle(
+            //                           fontFamily: AppTheme.fontRubik,
+            //                           fontWeight: FontWeight.normal,
+            //                           fontSize: 12,
+            //                           fontStyle: FontStyle.normal,
+            //                           color: AppTheme.black_transparent_text,
+            //                         ),
+            //                       ),
+            //                       SizedBox(
+            //                         width: 7,
+            //                       ),
+            //                       Expanded(
+            //                         child: Text(
+            //                           data[i].mode,
+            //                           textAlign: TextAlign.start,
+            //                           maxLines: 1,
+            //                           overflow: TextOverflow.ellipsis,
+            //                           style: TextStyle(
+            //                             fontFamily: AppTheme.fontRubik,
+            //                             fontWeight: FontWeight.normal,
+            //                             fontSize: 15,
+            //                             fontStyle: FontStyle.normal,
+            //                             color: AppTheme.black_text,
+            //                           ),
+            //                         ),
+            //                       )
+            //                     ],
+            //                   ),
+            //                 ),
+            //                 Container(
+            //                   margin:
+            //                       EdgeInsets.only(left: 12, right: 12, top: 12),
+            //                   child: Row(
+            //                     children: [
+            //                       Text(
+            //                         translate("auth.number_auth") + " : ",
+            //                         textAlign: TextAlign.start,
+            //                         style: TextStyle(
+            //                           fontFamily: AppTheme.fontRubik,
+            //                           fontWeight: FontWeight.normal,
+            //                           fontSize: 12,
+            //                           fontStyle: FontStyle.normal,
+            //                           color: AppTheme.black_transparent_text,
+            //                         ),
+            //                       ),
+            //                       SizedBox(
+            //                         width: 7,
+            //                       ),
+            //                       Expanded(
+            //                         child: GestureDetector(
+            //                           onTap: () async {
+            //                             var url = "tel:" +
+            //                                 data[i]
+            //                                     .phone
+            //                                     .replaceAll(" ", "")
+            //                                     .replaceAll("-", "")
+            //                                     .replaceAll("(", "")
+            //                                     .replaceAll(")", "");
+            //                             if (await canLaunch(url)) {
+            //                               await launch(url);
+            //                             } else {
+            //                               throw 'Could not launch $url';
+            //                             }
+            //                           },
+            //                           child: Text(
+            //                             Utils.numberFormat(
+            //                               data[i]
+            //                                   .phone
+            //                                   .replaceAll(" ", "")
+            //                                   .replaceAll("+", "")
+            //                                   .replaceAll("-", "")
+            //                                   .replaceAll("(", "")
+            //                                   .replaceAll(")", ""),
+            //                             ),
+            //                             textAlign: TextAlign.start,
+            //                             maxLines: 1,
+            //                             overflow: TextOverflow.ellipsis,
+            //                             style: TextStyle(
+            //                               fontFamily: AppTheme.fontRubik,
+            //                               fontWeight: FontWeight.normal,
+            //                               fontSize: 15,
+            //                               fontStyle: FontStyle.normal,
+            //                               color: AppTheme.blue_app_color,
+            //                             ),
+            //                           ),
+            //                         ),
+            //                       )
+            //                     ],
+            //                   ),
+            //                 ),
+            //                 SizedBox(height: 12),
+            //                 Row(
+            //                   children: [
+            //                     SizedBox(width: 12),
+            //                     Text(
+            //                       translate("order"),
+            //                       style: TextStyle(
+            //                         fontFamily: AppTheme.fontRubik,
+            //                         fontWeight: FontWeight.normal,
+            //                         fontSize: 13,
+            //                         height: 1.3,
+            //                         color: AppTheme.search_empty,
+            //                       ),
+            //                     ),
+            //                     SizedBox(width: 4),
+            //                     Expanded(
+            //                       child: Align(
+            //                         child: Text(
+            //                           priceFormat.format(data[i].total) +
+            //                               translate("sum"),
+            //                           style: TextStyle(
+            //                             fontFamily: AppTheme.fontRubik,
+            //                             fontWeight: FontWeight.bold,
+            //                             fontSize: 15,
+            //                             color: AppTheme.black_text,
+            //                           ),
+            //                         ),
+            //                         alignment: Alignment.centerRight,
+            //                       ),
+            //                     ),
+            //                     SizedBox(width: 12),
+            //                   ],
+            //                 ),
+            //                 SizedBox(height: 12),
+            //                 Expanded(
+            //                   child: Align(
+            //                     alignment: Alignment.center,
+            //                     child: GestureDetector(
+            //                       onTap: () {
+            //                         setState(() {
+            //                           loading = true;
+            //                         });
+            //                         CreateOrderModel createOrder;
+            //                         List<Drugs> drugs = new List();
+            //                         dataBase
+            //                             .getProdu(true)
+            //                             .then((dataBaseValue) => {
+            //                                   for (int i = 0;
+            //                                       i < dataBaseValue.length;
+            //                                       i++)
+            //                                     {
+            //                                       drugs.add(Drugs(
+            //                                         drug: dataBaseValue[i].id,
+            //                                         qty: dataBaseValue[i]
+            //                                             .cardCount,
+            //                                       ))
+            //                                     },
+            //                                   createOrder = new CreateOrderModel(
+            //                                     device: Platform.isIOS
+            //                                         ? "IOS"
+            //                                         : "Android",
+            //                                     type: "self",
+            //                                     storeId: data[i].id,
+            //                                     drugs: drugs,
+            //                                   ),
+            //                                   Repository()
+            //                                       .fetchCreateOrder(createOrder)
+            //                                       .then((response) => {
+            //                                             if (response.status == 1)
+            //                                               {
+            //                                                 setState(() {
+            //                                                   loading = false;
+            //                                                 }),
+            //                                                 dataBase.clear(),
+            //                                                 cashData =
+            //                                                     CashBackData(
+            //                                                   total: response
+            //                                                       .data.total,
+            //                                                   cash: response
+            //                                                       .data.cash,
+            //                                                   isTotalCash: response
+            //                                                       .data
+            //                                                       .isTotalCash,
+            //                                                 ),
+            //                                                 Navigator.pop(
+            //                                                     context),
+            //                                                 Navigator.push(
+            //                                                   context,
+            //                                                   MaterialPageRoute(
+            //                                                     builder: (context) =>
+            //                                                         OrderCardPickupScreen(
+            //                                                       response.data
+            //                                                           .orderId,
+            //                                                       response.data
+            //                                                           .expireSelfOrder,
+            //                                                     ),
+            //                                                   ),
+            //                                                 ),
+            //                                               }
+            //                                             else if (response
+            //                                                     .status ==
+            //                                                 -1)
+            //                                               {
+            //                                                 Navigator.pop(
+            //                                                     context),
+            //                                                 showDialog(
+            //                                                   context: context,
+            //                                                   builder:
+            //                                                       (BuildContext
+            //                                                           context) {
+            //                                                     return AlertDialog(
+            //                                                       shape: RoundedRectangleBorder(
+            //                                                           borderRadius:
+            //                                                               BorderRadius.all(
+            //                                                                   Radius.circular(10.0))),
+            //                                                       contentPadding:
+            //                                                           EdgeInsets
+            //                                                               .fromLTRB(
+            //                                                                   0.0,
+            //                                                                   0.0,
+            //                                                                   0.0,
+            //                                                                   0.0),
+            //                                                       content:
+            //                                                           Container(
+            //                                                         width: 239.0,
+            //                                                         height: 64.0,
+            //                                                         child: Center(
+            //                                                           child: Text(
+            //                                                             response
+            //                                                                 .msg,
+            //                                                             style:
+            //                                                                 TextStyle(
+            //                                                               fontFamily:
+            //                                                                   AppTheme.fontRubik,
+            //                                                               fontStyle:
+            //                                                                   FontStyle.normal,
+            //                                                               fontWeight:
+            //                                                                   FontWeight.w600,
+            //                                                               fontSize:
+            //                                                                   16,
+            //                                                               color: AppTheme
+            //                                                                   .black_text,
+            //                                                             ),
+            //                                                           ),
+            //                                                         ),
+            //                                                       ),
+            //                                                     );
+            //                                                   },
+            //                                                 ),
+            //                                                 setState(() {
+            //                                                   loading = false;
+            //                                                 }),
+            //                                               }
+            //                                             else
+            //                                               {
+            //                                                 setState(() {
+            //                                                   loading = false;
+            //                                                 }),
+            //                                                 Navigator.pop(
+            //                                                     context),
+            //                                                 showDialog(
+            //                                                   context: context,
+            //                                                   builder:
+            //                                                       (BuildContext
+            //                                                           context) {
+            //                                                     return AlertDialog(
+            //                                                       shape: RoundedRectangleBorder(
+            //                                                           borderRadius:
+            //                                                               BorderRadius.all(
+            //                                                                   Radius.circular(10.0))),
+            //                                                       contentPadding:
+            //                                                           EdgeInsets
+            //                                                               .fromLTRB(
+            //                                                                   0.0,
+            //                                                                   0.0,
+            //                                                                   0.0,
+            //                                                                   0.0),
+            //                                                       content:
+            //                                                           Container(
+            //                                                         width: 239.0,
+            //                                                         height: 64.0,
+            //                                                         child: Center(
+            //                                                           child: Text(
+            //                                                             response.msg ==
+            //                                                                     ""
+            //                                                                 ? translate(
+            //                                                                     "error_distanse")
+            //                                                                 : response
+            //                                                                     .msg,
+            //                                                             style:
+            //                                                                 TextStyle(
+            //                                                               fontFamily:
+            //                                                                   AppTheme.fontRubik,
+            //                                                               fontStyle:
+            //                                                                   FontStyle.normal,
+            //                                                               fontWeight:
+            //                                                                   FontWeight.w600,
+            //                                                               fontSize:
+            //                                                                   16,
+            //                                                               color: AppTheme
+            //                                                                   .black_text,
+            //                                                             ),
+            //                                                           ),
+            //                                                         ),
+            //                                                       ),
+            //                                                     );
+            //                                                   },
+            //                                                 ),
+            //                                               }
+            //                                           }),
+            //                                 });
+            //                       },
+            //                       child: Container(
+            //                         width: double.infinity,
+            //                         height: 44,
+            //                         margin: EdgeInsets.only(left: 16, right: 16),
+            //                         decoration: BoxDecoration(
+            //                           color: AppTheme.blue_app_color,
+            //                           borderRadius: BorderRadius.circular(10.0),
+            //                         ),
+            //                         child: Center(
+            //                           child: loading
+            //                               ? CircularProgressIndicator(
+            //                                   value: null,
+            //                                   strokeWidth: 3.0,
+            //                                   valueColor:
+            //                                       AlwaysStoppedAnimation<Color>(
+            //                                     AppTheme.white,
+            //                                   ),
+            //                                 )
+            //                               : Text(
+            //                                   translate("orders.map_add_order"),
+            //                                   style: TextStyle(
+            //                                     fontSize: 17,
+            //                                     color: AppTheme.white,
+            //                                     fontFamily: AppTheme.fontRubik,
+            //                                     fontWeight: FontWeight.w600,
+            //                                     fontStyle: FontStyle.normal,
+            //                                   ),
+            //                                 ),
+            //                         ),
+            //                       ),
+            //                     ),
+            //                   ),
+            //                 )
+            //               ],
+            //             ),
+            //           ),
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // },
+            ),
+      );
     }
     if (mapController != null)
       mapController.move(
@@ -580,38 +570,7 @@ class _AddressStoreMapPickupScreenState
   }
 
   @override
-  // ignore: must_call_super
   Widget build(BuildContext context) {
-    if (_permissionStatus == PermissionStatus.granted) {
-      if (isFirstGrant) {
-        isFirstGrant = false;
-        isGranted = true;
-        Timer(Duration(milliseconds: 250), () {
-          _getPosition();
-        });
-        if (mapController != null) {
-          mapController.showUserLayer(
-            iconName: 'assets/map/user.png',
-            arrowName: 'assets/map/arrow.png',
-            accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
-          );
-          mapController.move(
-            point: Point(latitude: 41.311081, longitude: 69.240562),
-            zoom: 11,
-            animation: const MapAnimation(smooth: true, duration: 0.5),
-          );
-        }
-      }
-    } else if (_permissionStatus != PermissionStatus.unknown) {
-      if (isFirstDisabled) {
-        isFirstDisabled = false;
-        isGranted = false;
-        Timer(Duration(milliseconds: 500), () {
-          _defaultLocation();
-        });
-      }
-    }
-
     return Scaffold(
       body: Stack(
         children: [
@@ -624,11 +583,11 @@ class _AddressStoreMapPickupScreenState
               ? Container()
               : GestureDetector(
                   onTap: () async {
-                    if (_permissionStatus == PermissionStatus.disabled) {
-                      AppSettings.openLocationSettings();
-                    } else if (_permissionStatus == PermissionStatus.denied) {
-                      await PermissionHandler().openAppSettings();
-                    }
+                    // if (_permissionStatus == PermissionStatus.disabled) {
+                    //   AppSettings.openLocationSettings();
+                    // } else if (_permissionStatus == PermissionStatus.denied) {
+                    //   await PermissionHandler().openAppSettings();
+                    // }
                   },
                   child: Container(
                     margin: EdgeInsets.only(left: 16, right: 16, top: 16),
@@ -745,9 +704,8 @@ class _AddressStoreMapPickupScreenState
 
   Future<void> _getPosition() async {
     AccessStore addModel = new AccessStore();
-    Position position = await Geolocator().getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.bestForNavigation,
-      locationPermissionLevel: GeolocationPermission.locationWhenInUse,
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.best,
     );
     if (position != null) {
       lat = position.latitude;
@@ -762,9 +720,7 @@ class _AddressStoreMapPickupScreenState
           new Point(latitude: position.latitude, longitude: position.longitude);
     } else {
       addModel = new AccessStore(
-          lat: 41.311081,
-          lng: 69.240562,
-          products: widget.drugs);
+          lat: 41.311081, lng: 69.240562, products: widget.drugs);
       _addMarkers(Repository().fetchAccessStore(addModel));
     }
   }

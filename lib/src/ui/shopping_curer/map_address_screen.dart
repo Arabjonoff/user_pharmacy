@@ -1,17 +1,9 @@
-import 'dart:async';
-
-import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
-import 'package:pharmacy/src/ui/main/main_screen.dart';
-import 'package:pharmacy/src/utils/utils.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
@@ -30,7 +22,6 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
   YandexMapController controller;
   placemark.Placemark lastPlaceMark;
   Point _point;
-  PermissionStatus _permissionStatus = PermissionStatus.unknown;
   TextEditingController addressController = TextEditingController();
 
   DatabaseHelperAddress db = new DatabaseHelperAddress();
@@ -53,119 +44,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _requestPermission();
-  }
-
-  Future<void> _requestPermission() async {
-    final List<PermissionGroup> permissions = <PermissionGroup>[
-      PermissionGroup.location
-    ];
-    final Map<PermissionGroup, PermissionStatus> permissionRequestResult =
-        await PermissionHandler().requestPermissions(permissions);
-    setState(() {
-      _permissionStatus = permissionRequestResult[PermissionGroup.location];
-    });
-  }
-
-  Future<void> _getPosition() async {
-    Position position = await Geolocator().getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.bestForNavigation,
-      locationPermissionLevel: GeolocationPermission.locationWhenInUse,
-    );
-    if (position != null) {
-      lat = position.latitude;
-      lng = position.longitude;
-      Utils.saveLocation(position.latitude, position.longitude);
-      addMarker(position.latitude, position.longitude);
-      _point =
-          new Point(latitude: position.latitude, longitude: position.longitude);
-      controller.move(
-        point: _point,
-        zoom: 12,
-        animation: const MapAnimation(smooth: true, duration: 0.5),
-      );
-    } else {
-      addMarker(41.311081, 69.240562);
-      controller.move(
-        point: Point(latitude: 41.311081, longitude: 69.240562),
-        zoom: 12,
-        animation: const MapAnimation(smooth: true, duration: 0.5),
-      );
-    }
-  }
-
-  Future<void> addMarker(double markerLat, double markerLng) async {
-    final Point currentTarget = await controller.enableCameraTracking(
-      placemark.Placemark(
-        point: Point(latitude: markerLat, longitude: markerLng),
-        iconName: 'assets/map/location_red.png',
-        opacity: 0.9,
-      ),
-      cameraPositionChanged,
-    );
-    await addUserPlacemark(currentTarget);
-  }
-
-  Future<void> cameraPositionChanged(dynamic arguments) async {
-    if (lastPlaceMark != null) {
-      controller.removePlacemark(lastPlaceMark);
-    }
-    final bool bFinal = arguments['final'];
-    if (bFinal) {
-      await addUserPlacemark(Point(
-          latitude: arguments['latitude'], longitude: arguments['longitude']));
-    }
-  }
-
-  Future<void> addUserPlacemark(Point point) async {
-    if (lastPlaceMark != null) {
-      controller.removePlacemark(lastPlaceMark);
-    }
-
-    lastPlaceMark = placemark.Placemark(
-      point: point,
-      iconName: 'assets/map/location_red.png',
-      opacity: 0.9,
-    );
-    await controller.addPlacemark(
-      lastPlaceMark,
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    height = MediaQuery.of(context).size.height;
-    if (_permissionStatus == PermissionStatus.granted) {
-      isGranted = true;
-      if (isFirst) {
-        if (controller != null)
-          controller.showUserLayer(
-            iconName: 'assets/map/user.png',
-            arrowName: 'assets/map/arrow.png',
-            accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
-          );
-        Timer(Duration(milliseconds: 250), () {
-          _getPosition();
-        });
-        isFirst = false;
-      }
-    } else {
-      isGranted = false;
-      if (isFirstNo) {
-        Timer(Duration(milliseconds: 750), () {
-          _defaultLocation();
-        });
-        isFirstNo = false;
-      }
-    }
-
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
@@ -342,13 +221,13 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                         ? Container()
                         : GestureDetector(
                             onTap: () async {
-                              if (_permissionStatus ==
-                                  PermissionStatus.disabled) {
-                                AppSettings.openLocationSettings();
-                              } else if (_permissionStatus ==
-                                  PermissionStatus.denied) {
-                                await PermissionHandler().openAppSettings();
-                              }
+                              // if (_permissionStatus ==
+                              //     PermissionStatus.disabled) {
+                              //   AppSettings.openLocationSettings();
+                              // } else if (_permissionStatus ==
+                              //     PermissionStatus.denied) {
+                              //   await PermissionHandler().openAppSettings();
+                              // }
                             },
                             child: Container(
                               margin:
@@ -408,7 +287,7 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
                                   smooth: true, duration: 0.5),
                             );
                           } else {
-                            _requestPermission();
+                            //_requestPermission();
                           }
                         },
                         child: Container(
@@ -503,28 +382,4 @@ class _MapAddressScreenState extends State<MapAddressScreen> {
     );
   }
 
-  Future<void> _defaultLocation() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getDouble("coordLat") != null) {
-      addMarker(prefs.getDouble("coordLat"), prefs.getDouble("coordLng"));
-      if (controller != null) {
-        controller.move(
-          point: Point(
-              latitude: prefs.getDouble("coordLat"),
-              longitude: prefs.getDouble("coordLng")),
-          zoom: 11,
-          animation: const MapAnimation(smooth: true, duration: 0.5),
-        );
-      }
-    } else {
-      addMarker(41.311081, 69.240562);
-      if (controller != null) {
-        controller.move(
-          point: Point(latitude: 41.311081, longitude: 69.240562),
-          zoom: 11,
-          animation: const MapAnimation(smooth: true, duration: 0.5),
-        );
-      }
-    }
-  }
 }

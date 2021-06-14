@@ -1,6 +1,6 @@
 import UIKit
 import Flutter
-import YandexMapKit
+import YandexMapsMobile
 //import Firebase
 //import FirebaseCore
 import AVKit

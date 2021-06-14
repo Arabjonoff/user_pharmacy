@@ -27,8 +27,7 @@ class LoginRegionScreen extends StatefulWidget {
 }
 
 class _LoginRegionScreenState extends State<LoginRegionScreen> {
-  PermissionStatus _permissionStatus;
-  Position position;
+
 
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
@@ -37,29 +36,24 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
   @override
   void initState() {
     _requestPermission();
-    Timer(Duration(seconds: 10), () {
-      if (position == null) {
-        blocRegion.fetchAllRegion();
-      }
-    });
     super.initState();
   }
 
   Future<void> _requestPermission() async {
-    final List<PermissionGroup> permissions = <PermissionGroup>[
-      PermissionGroup.location
-    ];
-    final Map<PermissionGroup, PermissionStatus> permissionRequestResult =
-        await PermissionHandler().requestPermissions(permissions);
-    setState(() {
-      _permissionStatus = permissionRequestResult[PermissionGroup.location];
-    });
+    Permission.locationWhenInUse.request().then(
+      (value) async {
+        if (value.isGranted) {
+          _getPosition();
+        } else {
+          blocRegion.fetchAllRegion();
+        }
+      },
+    );
   }
 
   Future<void> _getPosition() async {
-    position = await Geolocator().getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.bestForNavigation,
-      locationPermissionLevel: GeolocationPermission.locationWhenInUse,
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.best,
     );
     if (position != null) {
       lat = position.latitude;
@@ -85,7 +79,6 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
       );
     } else {
       blocRegion.fetchAllRegion();
-      //_getMoreData();
     }
   }
 
@@ -155,14 +148,6 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_permissionStatus != null) {
-      if (_permissionStatus == PermissionStatus.granted) {
-        _getPosition();
-      } else {
-        blocRegion.fetchAllRegion();
-        //_getMoreData();
-      }
-    }
     if (isFirstData) {
       _initPlatformState(context);
       isFirstData = false;

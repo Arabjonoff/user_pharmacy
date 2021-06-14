@@ -40,10 +40,6 @@ class _AddressStoreListPickupScreenState
 
   DatabaseHelper dataBase = new DatabaseHelper();
 
-  PermissionStatus _permissionStatus = PermissionStatus.unknown;
-  var geolocator = Geolocator();
-  static StreamSubscription _getPosSub;
-
   bool loading = false;
 
   @override
@@ -53,19 +49,7 @@ class _AddressStoreListPickupScreenState
   }
 
   @override
-  void dispose() {
-    _getPosSub?.cancel();
-    super.dispose();
-  }
-
-  @override
-  // ignore: must_call_super
   Widget build(BuildContext context) {
-    if (_permissionStatus == PermissionStatus.granted) {
-      _getLocation();
-    } else {
-      _defaultLocation();
-    }
     return Scaffold(
       backgroundColor: AppTheme.background,
       body: StreamBuilder(
@@ -433,22 +417,22 @@ class _AddressStoreListPickupScreenState
   }
 
   Future<void> _requestPermission() async {
-    final List<PermissionGroup> permissions = <PermissionGroup>[
-      PermissionGroup.location
-    ];
-    final Map<PermissionGroup, PermissionStatus> permissionRequestResult =
-        await PermissionHandler().requestPermissions(permissions);
-    setState(() {
-      _permissionStatus = permissionRequestResult[PermissionGroup.location];
-    });
+    Permission.locationWhenInUse.request().then(
+      (value) async {
+        if (value.isGranted) {
+          _getLocation();
+        } else {
+          _defaultLocation();
+        }
+      },
+    );
   }
 
   Future<void> _getLocation() async {
-    Position position = await Geolocator().getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.bestForNavigation,
-      locationPermissionLevel: GeolocationPermission.locationWhenInUse,
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.best,
     );
-    if (position.latitude != null && position.longitude != null) {
+    if (position != null) {
       lat = position.latitude;
       lng = position.longitude;
       Utils.saveLocation(position.latitude, position.longitude);
