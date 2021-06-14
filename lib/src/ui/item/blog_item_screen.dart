@@ -161,7 +161,7 @@ class _BlogItemScreenState extends State<BlogItemScreen> {
           ),
           GestureDetector(
             onTap: () async {
-              var url = "tel:+998712050888";
+              var url = "tel:712050888";
               if (await canLaunch(url)) {
                 await launch(url);
               } else {

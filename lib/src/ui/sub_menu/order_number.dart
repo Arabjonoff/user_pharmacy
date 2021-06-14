@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,29 +26,10 @@ class OrderNumber extends StatefulWidget {
 }
 
 class _OrderNumberState extends State<OrderNumber> {
-  bool isLoading = false;
-  bool isCancel = false;
   var type = 1;
 
   @override
   Widget build(BuildContext context) {
-    if (isCancel) {
-      Repository().fetchCancelOrder(widget.item.id).then(
-            (value) => {
-              setState(() {
-                isLoading = false;
-                widget.item.status = "cancelled_by_user";
-              }),
-              blocHistory.fetchAllHistory(1),
-              pageHistory = 2,
-              if (value.payment == "Onlayn")
-                {
-                  BottomDialog.historyCancelOrder(context),
-                }
-            },
-          );
-      isCancel = false;
-    }
     if (widget.item.status == "payment_waiting" ||
         widget.item.status == "pending") {
       type = 1;
@@ -355,11 +334,23 @@ class _OrderNumberState extends State<OrderNumber> {
                             ),
                             GestureDetector(
                               onTap: () {
+                                BottomDialog.historyCancelOrder(context);
                                 if (type < 3) {
                                   BottomDialog.showCancelOrder(
                                     context,
                                     widget.item.id,
-                                    () {},
+                                    () async {
+                                      Navigator.pop(context);
+                                      var response = await Repository()
+                                          .fetchCancelOrder(widget.item.id);
+                                      if (response.isSuccess) {
+                                        blocHistory.fetchAllHistory(1);
+                                        pageHistory = 2;
+                                        Navigator.pop(context);
+                                        BottomDialog.historyCancelOrder(
+                                            context);
+                                      }
+                                    },
                                   );
                                 }
                               },
@@ -377,28 +368,18 @@ class _OrderNumberState extends State<OrderNumber> {
                                       type > 2 ? AppTheme.gray : AppTheme.red,
                                 ),
                                 child: Center(
-                                  child: isLoading
-                                      ? CircularProgressIndicator(
-                                          value: null,
-                                          strokeWidth: 3.0,
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                                  AppTheme.white),
-                                        )
-                                      : Text(
-                                          type > 2
-                                              ? translate(
-                                                  "history.order_not_cancel")
-                                              : translate(
-                                                  "history.order_cancel"),
-                                          style: TextStyle(
-                                            fontFamily: AppTheme.fontRubik,
-                                            fontStyle: FontStyle.normal,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 16,
-                                            color: AppTheme.white,
-                                          ),
-                                        ),
+                                  child: Text(
+                                    type > 2
+                                        ? translate("history.order_not_cancel")
+                                        : translate("history.order_cancel"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                      color: AppTheme.white,
+                                    ),
+                                  ),
                                 ),
                               ),
                             )

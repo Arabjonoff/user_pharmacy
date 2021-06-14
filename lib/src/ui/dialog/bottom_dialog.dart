@@ -372,7 +372,6 @@ class BottomDialog {
     int id,
     Function() onTap,
   ) async {
-
     showModalBottomSheet(
       barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
       context: context,
@@ -405,7 +404,7 @@ class BottomDialog {
                     margin: EdgeInsets.only(top: 16),
                     child: Center(
                       child: Text(
-                        translate("card.choose_info"),
+                        translate("history.cancel_title"),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: AppTheme.fontRubik,
@@ -417,16 +416,50 @@ class BottomDialog {
                       ),
                     ),
                   ),
-
+                  SizedBox(height: 24),
+                  Container(
+                    height: 80,
+                    width: 80,
+                    decoration: BoxDecoration(
+                      color: AppTheme.yellow,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Center(
+                      child: Image.asset(
+                        "assets/img/cancel_img.png",
+                        height: 32,
+                        width: 32,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: 16,
+                      left: 12,
+                      right: 12,
+                    ),
+                    child: Center(
+                      child: Text(
+                        translate("history.cancel_message"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          height: 1.6,
+                          color: AppTheme.textGray,
+                        ),
+                      ),
+                    ),
+                  ),
                   Expanded(child: Container()),
                   GestureDetector(
-                    onTap: () async {
-
+                    onTap: () {
+                      Navigator.pop(context);
                     },
                     child: Container(
                       height: 44,
                       margin: EdgeInsets.only(
-                        bottom: 24,
                         top: 16,
                       ),
                       decoration: BoxDecoration(
@@ -435,13 +468,194 @@ class BottomDialog {
                       ),
                       child: Center(
                         child: Text(
-                          translate("card.save"),
+                          translate("history.cancel_yes"),
                           style: TextStyle(
                             fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.w500,
                             fontSize: 16,
                             height: 1.25,
                             color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: onTap,
+                    child: Container(
+                      height: 44,
+                      margin: EdgeInsets.only(
+                        bottom: 24,
+                        top: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("history.cancel_no"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.textGray,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  static void historyCancelOrder(
+    BuildContext context,
+  ) async {
+    showModalBottomSheet(
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
+      context: context,
+      isScrollControlled: true,
+      isDismissible: false,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              height: 365,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(24),
+                ),
+                color: AppTheme.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    height: 4,
+                    width: 64,
+                    decoration: BoxDecoration(
+                      color: AppTheme.bottom_dialog,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    child: Center(
+                      child: Text(
+                        translate("history.message_title"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          height: 1.2,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 24),
+                  Container(
+                    height: 80,
+                    width: 80,
+                    decoration: BoxDecoration(
+                      color: AppTheme.yellow,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Center(
+                      child: Image.asset(
+                        "assets/img/msg_img.png",
+                        height: 32,
+                        width: 32,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: 16,
+                      left: 12,
+                      right: 12,
+                    ),
+                    child: Center(
+                      child: Text(
+                        translate("history.message_msg"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          height: 1.6,
+                          color: AppTheme.textGray,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(child: Container()),
+                  GestureDetector(
+                    onTap: () async {
+                      var url = "tel:712050888";
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 44,
+                      margin: EdgeInsets.only(
+                        top: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.blue,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("history.call"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 44,
+                      margin: EdgeInsets.only(
+                        bottom: 24,
+                        top: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("history.close"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.textGray,
                           ),
                         ),
                       ),
@@ -2912,13 +3126,6 @@ class BottomDialog {
                           onTap: () {
                             Navigator.pop(context);
                             _onLogin();
-// Navigator.pushReplacement(
-//   context,
-//   PageTransition(
-//     type: PageTransitionType.bottomToTop,
-//     child: LoginScreen(),
-//   ),
-// );
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -3113,123 +3320,6 @@ class BottomDialog {
                               fontFamily: AppTheme.fontRubik,
                               fontStyle: FontStyle.normal,
                               height: 1.29,
-                              color: AppTheme.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  static void historyCancelOrder(BuildContext context) async {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return Container(
-              height: 400,
-              padding: EdgeInsets.only(bottom: 24, left: 8, right: 8),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18.0),
-                  color: AppTheme.white,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(top: 12, bottom: 16),
-                      height: 4,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        color: AppTheme.bottom_dialog,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                    Center(
-                      child: Container(
-                        height: 153,
-                        width: 153,
-                        child:
-                            SvgPicture.asset("assets/images/cancel_order.svg"),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 8, left: 16, right: 16),
-                      child: Center(
-                        child: Text(
-                          translate("history.cancel_text"),
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: AppTheme.fontRubik,
-                            height: 1.65,
-                            color: AppTheme.black_text,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 8, left: 32, right: 32),
-                      child: Center(
-                        child: Text(
-                          translate("history.cancel_message"),
-                          textAlign: TextAlign.center,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 15,
-                            height: 1.6,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: AppTheme.fontRubik,
-                            color: AppTheme.black_transparent_text,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(child: Container()),
-                    GestureDetector(
-                      onTap: () async {
-                        var url = "tel:+998712051209";
-                        if (await canLaunch(url)) {
-                          await launch(url);
-                        } else {
-                          throw 'Could not launch $url';
-                        }
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          left: 16,
-                          right: 16,
-                          bottom: 20,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppTheme.blue_app_color,
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        height: 44,
-                        width: double.infinity,
-                        child: Center(
-                          child: Text(
-                            translate("history.call"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontWeight: FontWeight.w600,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 17,
-                              height: 1.3,
                               color: AppTheme.white,
                             ),
                           ),
