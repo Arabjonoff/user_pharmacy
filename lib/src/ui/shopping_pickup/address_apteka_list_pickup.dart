@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:pharmacy/src/blocs/aptek_block.dart';
+import 'package:pharmacy/src/blocs/store_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
@@ -69,7 +69,7 @@ class _AddressStoreListPickupScreenState
     return Scaffold(
       backgroundColor: AppTheme.background,
       body: StreamBuilder(
-        stream: blocApteka.allExistStorea,
+        stream: blocStore.allExistStore,
         builder: (context, AsyncSnapshot<List<LocationModel>> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
@@ -456,17 +456,17 @@ class _AddressStoreListPickupScreenState
           lat: position.latitude,
           lng: position.longitude,
           products: widget.drugs);
-      blocApteka.fetchAccessApteka(addModel);
+      blocStore.fetchAccessStore(addModel);
     } else {
       AccessStore addModel =
           new AccessStore(lat: null, lng: null, products: widget.drugs);
-      blocApteka.fetchAccessApteka(addModel);
+      blocStore.fetchAccessStore(addModel);
     }
   }
 
   Future<void> _defaultLocation() async {
     AccessStore addModel =
         new AccessStore(lat: null, lng: null, products: widget.drugs);
-    blocApteka.fetchAccessApteka(addModel);
+    blocStore.fetchAccessStore(addModel);
   }
 }

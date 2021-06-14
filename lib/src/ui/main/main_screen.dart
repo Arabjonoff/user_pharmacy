@@ -29,6 +29,7 @@ import 'package:pharmacy/src/ui/sub_menu/about_app_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/faq_app_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/language_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/my_address_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -356,6 +357,7 @@ class _MainScreenState extends State<MainScreen> {
             onLogin: _login,
             onNoteAll: _noteAll,
             onHistory: _history,
+            onAddress: _address,
             onLanguage: _language,
             onRate: _rate,
             onExit: _exit,
@@ -486,6 +488,14 @@ class _MainScreenState extends State<MainScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => NoteAllScreen(),
+      ),
+    );
+  }
+  void _address() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MyAddressScreen(),
       ),
     );
   }

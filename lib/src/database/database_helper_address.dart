@@ -15,6 +15,7 @@ class DatabaseHelperAddress {
   final String columnStreet = 'street';
   final String columnLat = 'lat';
   final String columnLng = 'lng';
+  final String columnType = 'type';
 
   static Database _db;
 
@@ -31,17 +32,20 @@ class DatabaseHelperAddress {
 
   initDb() async {
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'address.db');
+    String path = join(databasesPath, 'addressInfo.db');
     var db = await openDatabase(path, version: 1, onCreate: _onCreate);
     return db;
   }
 
   void _onCreate(Database db, int newVersion) async {
-    await db.execute('CREATE TABLE $tableNote('
-        '$columnId INTEGER PRIMARY KEY AUTOINCREMENT, '
-        '$columnStreet TEXT, '
-        '$columnLat TEXT, '
-        '$columnLng TEXT)');
+    await db.execute(
+      'CREATE TABLE $tableNote('
+      '$columnId INTEGER PRIMARY KEY AUTOINCREMENT, '
+      '$columnStreet TEXT, '
+      '$columnType INTEGER, '
+      '$columnLat TEXT, '
+      '$columnLng TEXT)',
+    );
   }
 
   Future<int> saveProducts(AddressModel item) async {
@@ -54,7 +58,6 @@ class DatabaseHelperAddress {
     var dbClient = await db;
     var result = await dbClient.query(tableNote,
         columns: [columnId, columnStreet, columnLat, columnLng]);
-
     return result.toList();
   }
 
@@ -68,19 +71,16 @@ class DatabaseHelperAddress {
         street: list[i][columnStreet],
         lat: list[i][columnLat],
         lng: list[i][columnLng],
+        type: list[i][columnType],
       );
-      products.add(items);
+      if (items.type == 0) {
+        products.add(items);
+      }
     }
     return products;
   }
 
-  Future<int> getCount() async {
-    var dbClient = await db;
-    return Sqflite.firstIntValue(
-        await dbClient.rawQuery('SELECT COUNT(*) FROM $tableNote'));
-  }
-
-  Future<AddressModel> getProducts(int id) async {
+  Future<AddressModel> getProductsType(int id) async {
     var dbClient = await db;
     List<Map> result = await dbClient.query(tableNote,
         columns: [
@@ -88,8 +88,9 @@ class DatabaseHelperAddress {
           columnStreet,
           columnLat,
           columnLng,
+          columnType,
         ],
-        where: '$columnId = ?',
+        where: '$columnType = ?',
         whereArgs: [id]);
 
     if (result.length > 0) {

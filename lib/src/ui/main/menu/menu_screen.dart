@@ -22,6 +22,7 @@ class MenuScreen extends StatefulWidget {
   final Function onMyInfo;
   final Function onLogin;
   final Function onHistory;
+  final Function onAddress;
   final Function onLanguage;
   final Function onRate;
   final Function onFaq;
@@ -33,6 +34,7 @@ class MenuScreen extends StatefulWidget {
     this.onLogin,
     this.onNoteAll,
     this.onHistory,
+    this.onAddress,
     this.onLanguage,
     this.onRate,
     this.onFaq,
@@ -507,7 +509,9 @@ class _MenuScreenState extends State<MenuScreen> {
                     : Container(),
                 isLogin
                     ? GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          widget.onAddress();
+                        },
                         child: Container(
                           margin: EdgeInsets.only(top: 16, left: 16, right: 16),
                           decoration: BoxDecoration(

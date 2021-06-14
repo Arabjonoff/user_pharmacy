@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/database/database_helper_fav.dart';
 import 'package:pharmacy/src/database/database_helper_note.dart';
 import 'package:pharmacy/src/model/api/cancel_order.dart';
@@ -20,6 +21,7 @@ import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/chat/chat_api_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/create_order_status_model.dart';
+import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/http_result.dart';
 import 'package:pharmacy/src/model/note/note_data_model.dart';
@@ -38,6 +40,7 @@ class Repository {
   DatabaseHelper databaseHelper = new DatabaseHelper();
   DatabaseHelperFav databaseHelperFav = new DatabaseHelperFav();
   DatabaseHelperNote databaseHelperNote = new DatabaseHelperNote();
+  DatabaseHelperAddress databaseHelperAddress = new DatabaseHelperAddress();
 
   Future<HttpResult> fetchLogin(String login) =>
       pharmacyApiProvider.fetchLogin(login);
@@ -94,6 +97,9 @@ class Repository {
       pharmacyApiProvider.fetchCategoryList();
 
   Future<List<ItemResult>> databaseItem() => databaseHelper.getProduct();
+
+  Future<List<AddressModel>> databaseAddress() =>
+      databaseHelperAddress.getProduct();
 
   Future<List<NoteModel>> databaseNote() => databaseHelperNote.getProduct();
 
