@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +8,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/blocs/items_bloc.dart';
+import 'package:pharmacy/src/blocs/store_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/database/database_helper_fav.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
+import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
@@ -24,6 +30,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:simple_html_css/simple_html_css.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
 
 class BottomDialog {
   static void showWinner(BuildContext context, String text) {
@@ -358,6 +366,731 @@ class BottomDialog {
                       ),
                     ),
                   ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  static void addAddress(
+    BuildContext context,
+    int type,
+  ) async {
+    TextEditingController addressController = TextEditingController();
+    TextEditingController domController = TextEditingController();
+    TextEditingController podezController = TextEditingController();
+    TextEditingController kvController = TextEditingController();
+    TextEditingController commentController = TextEditingController();
+    double lat, lng;
+    bool isSave = false;
+    showModalBottomSheet(
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              height: 525,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(24),
+                ),
+                color: AppTheme.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    height: 4,
+                    width: 64,
+                    decoration: BoxDecoration(
+                      color: AppTheme.bottom_dialog,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    child: Center(
+                      child: Text(
+                        translate("address.new_address"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          height: 1.2,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 24),
+                  GestureDetector(
+                    onTap: () {
+                      showChoosePoint(
+                        context,
+                        (Point point) {
+                          lat = point.latitude;
+                          lng = point.longitude;
+                          if (addressController.text.length > 0) {
+                            setState(() {
+                              isSave = true;
+                            });
+                          }
+                        },
+                      );
+                    },
+                    child: Container(
+                      height: 44,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: AppTheme.white,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: AppTheme.textGray,
+                          width: 2,
+                        ),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            "assets/icons/location.svg",
+                            width: 24,
+                            height: 24,
+                            color: AppTheme.textGray,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            translate("address.see_map"),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              height: 1.25,
+                              color: AppTheme.textGray,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(
+                      top: 16,
+                    ),
+                    padding: EdgeInsets.only(
+                      left: 12,
+                      right: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppTheme.background,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: TextField(
+                      keyboardType: TextInputType.phone,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontRubik,
+                        fontWeight: FontWeight.normal,
+                        color: AppTheme.text_dark,
+                        fontSize: 16,
+                        height: 1.2,
+                      ),
+                      controller: addressController,
+                      onChanged: (value) {
+                        if (value.length > 0) {
+                          if (lat != null) {
+                            setState(() {
+                              isSave = true;
+                            });
+                          } else {
+                            setState(() {
+                              isSave = false;
+                            });
+                          }
+                        } else {
+                          setState(() {
+                            isSave = false;
+                          });
+                        }
+                      },
+                      decoration: InputDecoration(
+                        counterText: "",
+                        hintText: translate("address.address"),
+                        hintStyle: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          color: AppTheme.gray,
+                          fontSize: 16,
+                          height: 1.2,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 0,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 0,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 44,
+                    width: double.infinity,
+                    margin: EdgeInsets.only(
+                      top: 16,
+                    ),
+                    padding: EdgeInsets.only(
+                      top: 12,
+                      left: 12,
+                      right: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppTheme.background,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: TextField(
+                      keyboardType: TextInputType.phone,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontRubik,
+                        fontWeight: FontWeight.normal,
+                        color: AppTheme.text_dark,
+                        fontSize: 16,
+                        height: 1.2,
+                      ),
+                      controller: domController,
+                      maxLength: 35,
+                      decoration: InputDecoration(
+                        counterText: "",
+                        hintText: translate("address.dom"),
+                        hintStyle: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          color: AppTheme.gray,
+                          fontSize: 16,
+                          height: 1.2,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 0,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 0,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 44,
+                          width: double.infinity,
+                          margin: EdgeInsets.only(
+                            top: 16,
+                          ),
+                          padding: EdgeInsets.only(
+                            top: 12,
+                            left: 12,
+                            right: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppTheme.background,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: TextField(
+                            keyboardType: TextInputType.phone,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.normal,
+                              color: AppTheme.text_dark,
+                              fontSize: 16,
+                              height: 1.2,
+                            ),
+                            controller: podezController,
+                            maxLength: 10,
+                            decoration: InputDecoration(
+                              counterText: "",
+                              hintText: translate("address.en"),
+                              hintStyle: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.gray,
+                                fontSize: 16,
+                                height: 1.2,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  color: AppTheme.white,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  color: AppTheme.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: Container(
+                          height: 44,
+                          width: double.infinity,
+                          margin: EdgeInsets.only(
+                            top: 16,
+                          ),
+                          padding: EdgeInsets.only(
+                            top: 12,
+                            left: 12,
+                            right: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppTheme.background,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: TextField(
+                            keyboardType: TextInputType.phone,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.normal,
+                              color: AppTheme.text_dark,
+                              fontSize: 16,
+                              height: 1.2,
+                            ),
+                            controller: kvController,
+                            maxLength: 10,
+                            decoration: InputDecoration(
+                              counterText: "",
+                              hintText: translate("address.kv"),
+                              hintStyle: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.gray,
+                                fontSize: 16,
+                                height: 1.2,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  color: AppTheme.white,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  color: AppTheme.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.only(
+                        top: 16,
+                      ),
+                      padding: EdgeInsets.only(
+                        left: 12,
+                        right: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.background,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: TextField(
+                        keyboardType: TextInputType.phone,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          color: AppTheme.text_dark,
+                          fontSize: 16,
+                          height: 1.2,
+                        ),
+                        controller: commentController,
+                        maxLines: 4,
+                        decoration: InputDecoration(
+                          counterText: "",
+                          hintText: translate("address.comment"),
+                          hintStyle: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.normal,
+                            color: AppTheme.gray,
+                            fontSize: 16,
+                            height: 1.2,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 0,
+                              color: AppTheme.white,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 0,
+                              color: AppTheme.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      if (isSave) {
+                        DatabaseHelperAddress database =
+                            DatabaseHelperAddress();
+                        var address = addressController.text;
+
+                        if (domController.text.length > 0) {
+                          address += ", " +
+                              translate("address.dom") +
+                              " = " +
+                              domController.text;
+                        }
+                        if (podezController.text.length > 0) {
+                          address += ", " +
+                              translate("address.en") +
+                              " = " +
+                              podezController.text;
+                        }
+                        if (kvController.text.length > 0) {
+                          address += ", " +
+                              translate("address.kv") +
+                              " = " +
+                              kvController.text;
+                        }
+                        if (commentController.text.length > 0) {
+                          address += ", " +
+                              translate("address.comment") +
+                              " = " +
+                              commentController.text;
+                        }
+
+                        var data = AddressModel(
+                          street: address,
+                          lat: lat.toString(),
+                          lng: lng.toString(),
+                          type: type,
+                        );
+                        database.saveProducts(data).then((value) {
+                          blocStore.fetchAddress();
+                        });
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: Container(
+                      height: 44,
+                      margin: EdgeInsets.only(top: 16, bottom: 24),
+                      decoration: BoxDecoration(
+                        color: isSave ? AppTheme.blue : AppTheme.gray,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("address.add_address"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  static void showChoosePoint(
+    BuildContext context,
+    Function(Point point) onChooseLocation,
+  ) {
+    placemark.Placemark lastPlaceMark;
+    YandexMapController mapController;
+    showModalBottomSheet(
+      context: context,
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, setState) {
+            return Container(
+              margin: EdgeInsets.only(top: 56),
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                  color: AppTheme.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  )),
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    height: 4,
+                    width: 64,
+                    decoration: BoxDecoration(
+                      color: AppTheme.bottom_dialog,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    child: Center(
+                      child: Text(
+                        translate("address.choose_address"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          height: 1.2,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        bottom: 16,
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(24),
+                        child: Stack(
+                          children: [
+                            YandexMap(
+                              onMapCreated: (YandexMapController
+                                  yandexMapController) async {
+                                yandexMapController.showUserLayer(
+                                  iconName: 'assets/map/user.png',
+                                  arrowName: 'assets/map/arrow.png',
+                                  accuracyCircleFillColor:
+                                      Colors.white.withOpacity(0.05),
+                                );
+                                yandexMapController.move(
+                                  point: Point(
+                                    latitude: 41.311081,
+                                    longitude: 69.240562,
+                                  ),
+                                  zoom: 11,
+                                  animation: const MapAnimation(
+                                    smooth: true,
+                                    duration: 0.5,
+                                  ),
+                                );
+
+                                final Point currentTarget =
+                                    await yandexMapController
+                                        .enableCameraTracking(
+                                  onCameraPositionChange: (arguments) async {
+                                    if (lastPlaceMark != null) {
+                                      yandexMapController
+                                          .removePlacemark(lastPlaceMark);
+                                    }
+                                    final bool bFinal = arguments['final'];
+                                    if (bFinal) {
+                                      if (lastPlaceMark != null) {
+                                        yandexMapController
+                                            .removePlacemark(lastPlaceMark);
+                                      }
+                                      lastPlaceMark = placemark.Placemark(
+                                        point: Point(
+                                          latitude: arguments['latitude'],
+                                          longitude: arguments['longitude'],
+                                        ),
+                                        style: placemark.PlacemarkStyle(
+                                          iconName: 'assets/map/location.png',
+                                          opacity: 0.9,
+                                        ),
+                                      );
+                                      await yandexMapController.addPlacemark(
+                                        lastPlaceMark,
+                                      );
+                                    }
+                                  },
+                                  style: placemark.PlacemarkStyle(
+                                    iconName: 'assets/map/location.png',
+                                    opacity: 0.9,
+                                  ),
+                                );
+
+                                if (lastPlaceMark != null) {
+                                  yandexMapController
+                                      .removePlacemark(lastPlaceMark);
+                                }
+                                lastPlaceMark = placemark.Placemark(
+                                  point: Point(
+                                    latitude: currentTarget.latitude,
+                                    longitude: currentTarget.longitude,
+                                  ),
+                                  style: placemark.PlacemarkStyle(
+                                    iconName: 'assets/map/location.png',
+                                    opacity: 0.9,
+                                  ),
+                                );
+                                await yandexMapController.addPlacemark(
+                                  lastPlaceMark,
+                                );
+                                mapController = yandexMapController;
+                              },
+                            ),
+                            Positioned(
+                              child: GestureDetector(
+                                onTap: () async {
+                                  Permission.locationWhenInUse.request().then(
+                                    (value) async {
+                                      if (value.isGranted) {
+                                        Geolocator.getCurrentPosition(
+                                          desiredAccuracy:
+                                              LocationAccuracy.best,
+                                        ).then((position) async {
+                                          mapController.move(
+                                            point: Point(
+                                              latitude: position.latitude,
+                                              longitude: position.longitude,
+                                            ),
+                                            zoom: 16,
+                                            animation: const MapAnimation(
+                                              smooth: true,
+                                              duration: 0.5,
+                                            ),
+                                          );
+                                          if (lastPlaceMark != null) {
+                                            mapController
+                                                .removePlacemark(lastPlaceMark);
+                                          }
+                                          lastPlaceMark = placemark.Placemark(
+                                            point: Point(
+                                              latitude: position.latitude,
+                                              longitude: position.longitude,
+                                            ),
+                                            style: placemark.PlacemarkStyle(
+                                              iconName:
+                                                  'assets/map/location.png',
+                                              opacity: 0.9,
+                                            ),
+                                          );
+                                          await mapController.addPlacemark(
+                                            lastPlaceMark,
+                                          );
+                                        });
+                                      } else if (value.isDenied) {
+                                        openAppSettings();
+                                      } else {
+                                        AppSettings.openLocationSettings();
+                                      }
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  padding: EdgeInsets.all(8),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        translate("address.me"),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRubik,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 14,
+                                          color: AppTheme.text_dark,
+                                        ),
+                                      ),
+                                      SizedBox(width: 5),
+                                      SvgPicture.asset("assets/icons/gps.svg")
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              bottom: 12,
+                              right: 12,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(
+                      left: 22,
+                      right: 22,
+                      bottom: 24,
+                      top: 12,
+                    ),
+                    color: AppTheme.white,
+                    child: GestureDetector(
+                      onTap: () {
+                        onChooseLocation(
+                          Point(
+                            latitude: lastPlaceMark.point.latitude,
+                            longitude: lastPlaceMark.point.longitude,
+                          ),
+                        );
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 44,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppTheme.blue,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Center(
+                          child: Text(
+                            translate("address.choose"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              height: 1.2,
+                              color: AppTheme.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
                 ],
               ),
             );

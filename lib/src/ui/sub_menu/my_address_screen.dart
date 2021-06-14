@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/blocs/store_block.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
+import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 
 import '../../app_theme.dart';
 
@@ -165,7 +166,6 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
                   builder:
                       (context, AsyncSnapshot<List<AddressModel>> snapshot) {
                     if (snapshot.hasData) {
-                      print(snapshot.data.length);
                       return ListView.builder(
                         shrinkWrap: true,
                         padding: EdgeInsets.all(0),
@@ -215,7 +215,9 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
                   },
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    BottomDialog.addAddress(context,0);
+                  },
                   child: Container(
                     height: 48,
                     width: double.infinity,
