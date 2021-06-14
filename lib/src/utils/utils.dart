@@ -182,17 +182,21 @@ class Utils {
   }
 
   static String numberFormat(String number) {
-    String s = "+";
-    if (number.length == 12) {
-      for (int i = 0; i < number.length; i++) {
-        s += number[i];
-        if (i == 2 || i == 4 || i == 7 || i == 9) {
-          s += " ";
-        }
-      }
-      return s;
+    if (number == null) {
+      return "";
     } else {
-      return number;
+      String s = "+";
+      if (number.length == 12) {
+        for (int i = 0; i < number.length; i++) {
+          s += number[i];
+          if (i == 2 || i == 4 || i == 7 || i == 9) {
+            s += " ";
+          }
+        }
+        return s;
+      } else {
+        return number;
+      }
     }
   }
 

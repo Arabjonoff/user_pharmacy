@@ -360,11 +360,15 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                             ),
                                             Expanded(child: Container()),
                                             Text(
-                                              priceFormat.format(snapshot
-                                                      .data
-                                                      .results[index]
-                                                      .deliveryTotal) +
-                                                  translate("sum"),
+                                              snapshot.data.results[index]
+                                                          .deliveryTotal ==
+                                                      0.0
+                                                  ? translate("free")
+                                                  : priceFormat.format(snapshot
+                                                          .data
+                                                          .results[index]
+                                                          .deliveryTotal) +
+                                                      translate("sum"),
                                               style: TextStyle(
                                                 fontFamily: AppTheme.fontRubik,
                                                 fontWeight: FontWeight.normal,

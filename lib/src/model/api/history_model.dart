@@ -91,7 +91,7 @@ class HistoryResults {
     store = json['store'] != null ? Store.fromJson(json['store']) : Store();
     delivery = json['delivery'] != null
         ? Delivery.fromJson(json['delivery'])
-        : Delivery();
+        : Delivery(login: "", firstName: "", lastName: "");
     createdAt = json['created_at'];
     total = json['total'] == null ? 0.0 : json['total'];
     realTotal = json['real_total'] == null ? 0.0 : json['real_total'];
