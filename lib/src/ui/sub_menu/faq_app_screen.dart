@@ -25,36 +25,36 @@ class _FaqAppScreenState extends State<FaqAppScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.white,
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        elevation: 0.0,
-        backgroundColor: AppTheme.white,
-        brightness: Brightness.light,
         leading: GestureDetector(
           child: Container(
             height: 56,
             width: 56,
-            color: AppTheme.arrow_examp_back,
-            padding: EdgeInsets.all(19),
-            child: SvgPicture.asset("assets/images/arrow_back.svg"),
+            color: AppTheme.white,
+            padding: EdgeInsets.all(13),
+            child: SvgPicture.asset("assets/icons/arrow_left_blue.svg"),
           ),
           onTap: () {
             Navigator.pop(context);
           },
         ),
+        automaticallyImplyLeading: false,
+        elevation: 0.0,
+        backgroundColor: AppTheme.white,
+        brightness: Brightness.light,
         title: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              translate("menu.faq"),
-              textAlign: TextAlign.start,
+              translate("menu.qus_title"),
               style: TextStyle(
-                color: AppTheme.black_text,
-                fontWeight: FontWeight.w500,
                 fontFamily: AppTheme.fontRubik,
-                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                height: 1.2,
+                color: AppTheme.text_dark,
               ),
             ),
           ],
@@ -66,40 +66,57 @@ class _FaqAppScreenState extends State<FaqAppScreen> {
           if (snapshot.hasData) {
             return ListView.builder(
               itemCount: snapshot.data.length,
-              padding: EdgeInsets.only(bottom: 24),
+              padding: EdgeInsets.only(bottom: 24, top: 24),
               itemBuilder: (BuildContext ctxt, int index) {
                 return Container(
-                  margin: EdgeInsets.only(top: 16, left: 16, right: 16),
-                  padding: EdgeInsets.all(16),
+                  margin: EdgeInsets.only(
+                    bottom: 16,
+                    left: 16,
+                    right: 16,
+                  ),
                   decoration: BoxDecoration(
-                      color: AppTheme.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(color: Color(0xFFEBEBEB), width: 1)),
+                    color: AppTheme.white,
+                    borderRadius: BorderRadius.circular(24),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        (index + 1).toString() +" "+ snapshot.data[index].question,
-                        style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontSize: 17,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w600,
-                            color: AppTheme.black_text,
-                            height: 1.41),
+                      Container(
+                        margin: EdgeInsets.only(top: 16, left: 16, right: 16),
+                        child: Text(
+                          snapshot.data[index].question,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.5,
+                            color: AppTheme.text_dark,
+                          ),
+                        ),
                       ),
-                      SizedBox(height: 12),
-                      Text(
-                        snapshot.data[index].answer,
-                        style: TextStyle(
+                      Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: AppTheme.background,
+                        margin: EdgeInsets.symmetric(vertical: 8),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: 16,
+                          right: 16,
+                          bottom: 16,
+                        ),
+                        child: Text(
+                          snapshot.data[index].answer,
+                          style: TextStyle(
                             fontFamily: AppTheme.fontRubik,
-                            fontSize: 14,
-                            fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.normal,
-                            color: AppTheme.black_text,
-                            height: 1.60),
-                      )
+                            fontSize: 14,
+                            height: 1.6,
+                            color: AppTheme.textGray,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -118,10 +135,11 @@ class _FaqAppScreenState extends State<FaqAppScreen> {
               itemCount: 10,
               itemBuilder: (_, __) => Container(
                 height: 120,
-                margin: EdgeInsets.all( 16),
+                margin: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: AppTheme.white),
+                  borderRadius: BorderRadius.circular(24.0),
+                  color: AppTheme.white,
+                ),
               ),
             ),
           );

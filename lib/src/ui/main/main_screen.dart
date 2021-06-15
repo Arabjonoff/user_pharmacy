@@ -510,7 +510,6 @@ class _MainScreenState extends State<MainScreen> {
       context,
       lan,
       () {
-
         _setLanguage();
       },
     );
