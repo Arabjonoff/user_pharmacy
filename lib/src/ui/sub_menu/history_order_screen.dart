@@ -135,20 +135,22 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                     "self") {
                                   Utils.getCashBack().then(
                                     (value) => {
-                                      cashData = new CashBackData(
-                                        total:
-                                            snapshot.data.results[index].total,
-                                        cash: value == null ? 0.0 : value,
-                                      ),
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               OrderCardPickupScreen(
-                                            snapshot.data.results[index].id,
-                                            snapshot.data.results[index]
-                                                .expireSelfOrder,
-                                          ),
+                                                  snapshot
+                                                      .data.results[index].id,
+                                                  snapshot.data.results[index]
+                                                      .expireSelfOrder,
+                                                  CashBackData(
+                                                    total: snapshot.data
+                                                        .results[index].total,
+                                                    cash: value == null
+                                                        ? 0.0
+                                                        : value,
+                                                  )),
                                         ),
                                       ),
                                     },

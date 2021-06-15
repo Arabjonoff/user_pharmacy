@@ -381,7 +381,7 @@ class _MainScreenState extends State<MainScreen> {
               MaterialPageRoute(
                 builder: (context) => CheckoutOrderScreen(
                   drugs: drugs,
-                  data: data,
+                  cashBackData: data,
                 ),
               ),
             ),

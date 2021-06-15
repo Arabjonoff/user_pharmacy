@@ -41,7 +41,6 @@ class CardScreen extends StatefulWidget {
 }
 
 bool isLogin = false;
-CashBackData cashData;
 
 class _CardScreenState extends State<CardScreen> {
   double allPrice = 0;

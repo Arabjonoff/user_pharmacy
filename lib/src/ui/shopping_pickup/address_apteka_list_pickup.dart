@@ -248,10 +248,12 @@ class _AddressStoreListPickupScreenState
                           dataBase.getProdu(true).then((dataBaseValue) => {
                                 for (int i = 0; i < dataBaseValue.length; i++)
                                   {
-                                    drugs.add(Drugs(
-                                      drug: dataBaseValue[i].id,
-                                      qty: dataBaseValue[i].cardCount,
-                                    ))
+                                    drugs.add(
+                                      Drugs(
+                                        drug: dataBaseValue[i].id,
+                                        qty: dataBaseValue[i].cardCount,
+                                      ),
+                                    )
                                   },
                                 createOrder = new CreateOrderModel(
                                   device: Platform.isIOS ? "IOS" : "Android",
@@ -259,115 +261,115 @@ class _AddressStoreListPickupScreenState
                                   storeId: snapshot.data[index].id,
                                   drugs: drugs,
                                 ),
-                                Repository()
-                                    .fetchCreateOrder(createOrder)
-                                    .then((response) => {
-                                          if (response.status == 1)
-                                            {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      OrderCardPickupScreen(
-                                                    response.data.orderId,
-                                                    response
-                                                        .data.expireSelfOrder,
-                                                  ),
-                                                ),
-                                              ),
-                                              setState(() {
-                                                loading = false;
-                                              }),
-                                              dataBase.clear(),
-                                            }
-                                          else if (response.status == -1)
-                                            {
-                                              showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return AlertDialog(
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    10.0))),
-                                                    contentPadding:
-                                                        EdgeInsets.fromLTRB(
-                                                            0.0, 0.0, 0.0, 0.0),
-                                                    content: Container(
-                                                      width: 239.0,
-                                                      height: 64.0,
-                                                      child: Center(
-                                                        child: Text(
-                                                          response.msg,
-                                                          style: TextStyle(
-                                                            fontFamily: AppTheme
-                                                                .fontRubik,
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontSize: 16,
-                                                            color: AppTheme
-                                                                .black_text,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                              setState(() {
-                                                loading = false;
-                                              }),
-                                            }
-                                          else
-                                            {
-                                              setState(() {
-                                                loading = false;
-                                              }),
-                                              showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return AlertDialog(
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    10.0))),
-                                                    contentPadding:
-                                                        EdgeInsets.fromLTRB(
-                                                            0.0, 0.0, 0.0, 0.0),
-                                                    content: Container(
-                                                      width: 239.0,
-                                                      height: 64.0,
-                                                      child: Center(
-                                                        child: Text(
-                                                          response.msg == ""
-                                                              ? translate(
-                                                                  "error_distanse")
-                                                              : response.msg,
-                                                          style: TextStyle(
-                                                            fontFamily: AppTheme
-                                                                .fontRubik,
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontSize: 16,
-                                                            color: AppTheme
-                                                                .black_text,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            }
-                                        }),
+                                // Repository()
+                                //     .fetchCreateOrder(createOrder)
+                                //     .then((response) => {
+                                //           if (response.status == 1)
+                                //             {
+                                //               Navigator.push(
+                                //                 context,
+                                //                 MaterialPageRoute(
+                                //                   builder: (context) =>
+                                //                       OrderCardPickupScreen(
+                                //                     response.data.orderId,
+                                //                     response
+                                //                         .data.expireSelfOrder,
+                                //                   ),
+                                //                 ),
+                                //               ),
+                                //               setState(() {
+                                //                 loading = false;
+                                //               }),
+                                //               dataBase.clear(),
+                                //             }
+                                //           else if (response.status == -1)
+                                //             {
+                                //               showDialog(
+                                //                 context: context,
+                                //                 builder:
+                                //                     (BuildContext context) {
+                                //                   return AlertDialog(
+                                //                     shape: RoundedRectangleBorder(
+                                //                         borderRadius:
+                                //                             BorderRadius.all(
+                                //                                 Radius.circular(
+                                //                                     10.0))),
+                                //                     contentPadding:
+                                //                         EdgeInsets.fromLTRB(
+                                //                             0.0, 0.0, 0.0, 0.0),
+                                //                     content: Container(
+                                //                       width: 239.0,
+                                //                       height: 64.0,
+                                //                       child: Center(
+                                //                         child: Text(
+                                //                           response.msg,
+                                //                           style: TextStyle(
+                                //                             fontFamily: AppTheme
+                                //                                 .fontRubik,
+                                //                             fontStyle: FontStyle
+                                //                                 .normal,
+                                //                             fontWeight:
+                                //                                 FontWeight.w600,
+                                //                             fontSize: 16,
+                                //                             color: AppTheme
+                                //                                 .black_text,
+                                //                           ),
+                                //                         ),
+                                //                       ),
+                                //                     ),
+                                //                   );
+                                //                 },
+                                //               ),
+                                //               setState(() {
+                                //                 loading = false;
+                                //               }),
+                                //             }
+                                //           else
+                                //             {
+                                //               setState(() {
+                                //                 loading = false;
+                                //               }),
+                                //               showDialog(
+                                //                 context: context,
+                                //                 builder:
+                                //                     (BuildContext context) {
+                                //                   return AlertDialog(
+                                //                     shape: RoundedRectangleBorder(
+                                //                         borderRadius:
+                                //                             BorderRadius.all(
+                                //                                 Radius.circular(
+                                //                                     10.0))),
+                                //                     contentPadding:
+                                //                         EdgeInsets.fromLTRB(
+                                //                             0.0, 0.0, 0.0, 0.0),
+                                //                     content: Container(
+                                //                       width: 239.0,
+                                //                       height: 64.0,
+                                //                       child: Center(
+                                //                         child: Text(
+                                //                           response.msg == ""
+                                //                               ? translate(
+                                //                                   "error_distanse")
+                                //                               : response.msg,
+                                //                           style: TextStyle(
+                                //                             fontFamily: AppTheme
+                                //                                 .fontRubik,
+                                //                             fontStyle: FontStyle
+                                //                                 .normal,
+                                //                             fontWeight:
+                                //                                 FontWeight.w600,
+                                //                             fontSize: 16,
+                                //                             color: AppTheme
+                                //                                 .black_text,
+                                //                           ),
+                                //                         ),
+                                //                       ),
+                                //                     ),
+                                //                   );
+                                //                 },
+                                //               ),
+                                //             }
+                                //         }),
                               });
                         },
                         child: Container(

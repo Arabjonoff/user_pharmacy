@@ -44,6 +44,8 @@ class PharmacyApiProvider {
   static Future<HttpResult> postRequest(url, body) async {
     final dynamic headers = await _getReqHeader();
     print(url);
+    print(headers);
+    print(body);
     try {
       http.Response response = await http
           .post(
@@ -975,47 +977,44 @@ class PharmacyApiProvider {
   }
 
   ///create order
-  Future<CreateOrderStatusModel> fetchCreateOrder(
-      CreateOrderModel order) async {
+  Future<HttpResult> fetchCreateOrder(CreateOrderModel order) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token");
-    String lan = prefs.getString('language');
+    String lan = prefs.getString('language') ?? "ru";
     int regionId = prefs.getInt("cityId");
-    if (lan == null) {
-      lan = "ru";
-    }
-
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
 
     String url =
         Utils.baseUrl + '/api/v1/create-order?lan=$lan&region=$regionId';
 
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json',
-      'X-Device': encoded,
-    };
+    return await postRequest(url, json.encode(order));
 
-    try {
-      http.Response response = await http
-          .post(Uri.parse(url), headers: headers, body: json.encode(order))
-          .timeout(duration);
-
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-
-      return CreateOrderStatusModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return CreateOrderStatusModel(
-          status: -1, msg: translate("internet_error"));
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return CreateOrderStatusModel(
-          status: -1, msg: translate("internet_error"));
-    }
+    // Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    // String encoded = prefs.getString("deviceData") != null
+    //     ? stringToBase64.encode(prefs.getString("deviceData"))
+    //     : "";
+    //
+    // Map<String, String> headers = {
+    //   HttpHeaders.authorizationHeader: "Bearer $token",
+    //   'content-type': 'application/json',
+    //   'X-Device': encoded,
+    // };
+    //
+    // try {
+    //   http.Response response = await http
+    //       .post(Uri.parse(url), headers: headers, body: json.encode(order))
+    //       .timeout(duration);
+    //
+    //   final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+    //
+    //   return CreateOrderStatusModel.fromJson(responseJson);
+    // } on TimeoutException catch (_) {
+    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+    //   return CreateOrderStatusModel(
+    //       status: -1, msg: translate("internet_error"));
+    // } on SocketException catch (_) {
+    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+    //   return CreateOrderStatusModel(
+    //       status: -1, msg: translate("internet_error"));
+    // }
   }
 
   ///check order

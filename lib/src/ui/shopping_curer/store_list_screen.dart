@@ -157,38 +157,38 @@ class _StoreListScreenState extends State<StoreListScreen> {
                               setState(() {
                                 loading = true;
                               });
-                              Repository()
-                                  .fetchCreateOrder(widget.createOrder)
-                                  .then(
-                                    (response) => {
-                                      if (response.status == 1)
-                                        {
-                                          dataBase.clear(),
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  OrderCardCurerScreen(
-                                                orderId: response.data.orderId,
-                                                price: response.data.total,
-                                                cash: response.data.cash,
-                                                deliveryPrice: response
-                                                        .data.isUserPay
-                                                    ? response.data.deliverySum
-                                                    : 0.0,
-                                              ),
-                                            ),
-                                          ),
-                                        }
-                                      else
-                                        {
-                                          setState(() {
-                                            loading = false;
-                                            error = response.msg;
-                                          }),
-                                        }
-                                    },
-                                  );
+                              // Repository()
+                              //     .fetchCreateOrder(widget.createOrder)
+                              //     .then(
+                              //       (response) => {
+                              //         if (response.status == 1)
+                              //           {
+                              //             dataBase.clear(),
+                              //             Navigator.push(
+                              //               context,
+                              //               MaterialPageRoute(
+                              //                 builder: (context) =>
+                              //                     OrderCardCurerScreen(
+                              //                   orderId: response.data.orderId,
+                              //                   price: response.data.total,
+                              //                   cash: response.data.cash,
+                              //                   deliveryPrice: response
+                              //                           .data.isUserPay
+                              //                       ? response.data.deliverySum
+                              //                       : 0.0,
+                              //                 ),
+                              //               ),
+                              //             ),
+                              //           }
+                              //         else
+                              //           {
+                              //             setState(() {
+                              //               loading = false;
+                              //               error = response.msg;
+                              //             }),
+                              //           }
+                              //       },
+                              //     );
                             },
                             child: Container(
                               margin:

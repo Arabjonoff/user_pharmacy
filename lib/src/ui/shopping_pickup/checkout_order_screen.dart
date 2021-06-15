@@ -1,13 +1,21 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:pharmacy/src/blocs/card_bloc.dart';
+import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
+import 'package:pharmacy/src/model/create_order_status_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
+import 'package:pharmacy/src/model/send/create_order_model.dart';
+import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
+import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,11 +23,11 @@ import '../../app_theme.dart';
 
 class CheckoutOrderScreen extends StatefulWidget {
   final List<ProductsStore> drugs;
-  final CashBackData data;
+  final CashBackData cashBackData;
 
   CheckoutOrderScreen({
     this.drugs,
-    this.data,
+    this.cashBackData,
   });
 
   @override
@@ -31,6 +39,9 @@ class CheckoutOrderScreen extends StatefulWidget {
 class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
   LocationModel storeInfo;
   String firstName = "", lastName = "", number = "";
+  var loading = false;
+  var errorText = "";
+  DatabaseHelper dataBase = new DatabaseHelper();
 
   @override
   void initState() {
@@ -562,8 +573,86 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
               ],
             ),
           ),
+          errorText == ""
+              ? Container()
+              : Container(
+                  margin: EdgeInsets.all(12),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      errorText,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontRubik,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        height: 1.2,
+                        color: AppTheme.red,
+                      ),
+                    ),
+                  ),
+                ),
           GestureDetector(
-            onTap: () {},
+            onTap: () async {
+              setState(() {
+                loading = true;
+                errorText = "";
+              });
+              List<Drugs> drugs = new List();
+              var data = await dataBase.getProdu(true);
+              for (int i = 0; i < data.length; i++) {
+                drugs.add(
+                  Drugs(
+                    drug: data[i].id,
+                    qty: data[i].cardCount,
+                  ),
+                );
+              }
+              CreateOrderModel createOrder = new CreateOrderModel(
+                device: Platform.isIOS ? "IOS" : "Android",
+                type: "self",
+                storeId: storeInfo.id,
+                drugs: drugs,
+                fullName: firstName + " " + lastName,
+                phone: number,
+              );
+              var response = await Repository().fetchCreateOrder(createOrder);
+              if (response.isSuccess) {
+                var result = CreateOrderStatusModel.fromJson(response.result);
+                if (result.status == 1) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OrderCardPickupScreen(
+                        result.data.orderId,
+                        result.data.expireSelfOrder,
+                        widget.cashBackData,
+                      ),
+                    ),
+                  );
+                  setState(() {
+                    loading = false;
+                    errorText = "";
+                  });
+                  dataBase.clear();
+                  blocCard.fetchAllCard();
+                } else {
+                  setState(() {
+                    loading = false;
+                    errorText = response.result["msg"];
+                  });
+                }
+              } else if (response.status == -1) {
+                setState(() {
+                  loading = false;
+                  errorText = translate("network.network_title");
+                });
+              } else {
+                setState(() {
+                  loading = false;
+                  errorText = response.result["msg"];
+                });
+              }
+            },
             child: Container(
               color: AppTheme.white,
               child: Container(
@@ -575,16 +664,23 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
                   color: storeInfo == null ? AppTheme.gray : AppTheme.blue,
                 ),
                 child: Center(
-                  child: Text(
-                    translate("card.payment"),
-                    style: TextStyle(
-                      fontFamily: AppTheme.fontRubik,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      height: 1.25,
-                      color: AppTheme.white,
-                    ),
-                  ),
+                  child: loading
+                      ? CircularProgressIndicator(
+                          value: null,
+                          strokeWidth: 3.0,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(AppTheme.white),
+                        )
+                      : Text(
+                          translate("card.payment"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.white,
+                          ),
+                        ),
                 ),
               ),
             ),

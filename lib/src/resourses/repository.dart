@@ -173,7 +173,7 @@ class Repository {
   Future<OrderStatusModel> fetchPayment(PaymentOrderModel order) =>
       pharmacyApiProvider.fetchPayment(order);
 
-  Future<CreateOrderStatusModel> fetchCreateOrder(CreateOrderModel order) =>
+  Future<HttpResult> fetchCreateOrder(CreateOrderModel order) =>
       pharmacyApiProvider.fetchCreateOrder(order);
 
   Future<CheckOrderModelNew> fetchCheckOrder(CreateOrderModel order) =>

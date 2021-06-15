@@ -9,10 +9,10 @@ import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/order_options_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
+import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/create_payment_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/payment/verfy_payment_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
@@ -25,10 +25,12 @@ import '../../app_theme.dart';
 class OrderCardPickupScreen extends StatefulWidget {
   final int orderId;
   final String message;
+  final CashBackData cashBackData;
 
   OrderCardPickupScreen(
     this.orderId,
     this.message,
+    this.cashBackData,
   );
 
   @override
@@ -38,8 +40,8 @@ class OrderCardPickupScreen extends StatefulWidget {
 }
 
 class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
-  double allPrice = cashData.total;
-  double itemPrice = cashData.total;
+  double allPrice = 0.0;
+  double itemPrice = 0.0;
   double cashPrice = 0.0;
   int paymentType;
   int clickType;
@@ -51,7 +53,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
 
   bool loading = false;
   bool error = false;
-  bool edit = true;
 
   String errorText = "";
 
@@ -64,14 +65,13 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
 
   TextEditingController cashPriceController = TextEditingController();
 
-  // var maskCardNumberFormatter = new MaskTextInputFormatter(
-  //     mask: '8600 #### #### ####', filter: {"#": RegExp(r'[0-9]')});
-  // var maskCardDateFormatter = new MaskTextInputFormatter(
-  //     mask: '##/##', filter: {"#": RegExp(r'[0-9]')});
-
   @override
   void initState() {
-    getInfo();
+    _getInfo();
+    setState(() {
+      allPrice = widget.cashBackData.total;
+      itemPrice = widget.cashBackData.total;
+    });
     super.initState();
   }
 
@@ -108,12 +108,13 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
             ? 0.0
             : double.parse(cashPriceController.text.replaceAll(" ", ""));
         if (cashPrice.toInt().toString() != cashPriceController.text) {
-          if (p <= cashData.cash) {
-            if (p >= cashData.total) {
+          if (p <= widget.cashBackData.cash) {
+            if (p >= widget.cashBackData.total) {
               setState(() {
                 allPrice = 0;
-                cashPrice = cashData.total;
-                cashPriceController.text = cashData.total.toInt().toString();
+                cashPrice = widget.cashBackData.total;
+                cashPriceController.text =
+                    widget.cashBackData.total.toInt().toString();
                 cashPriceController.selection = TextSelection.collapsed(
                     offset: cashPriceController.text.length);
               });
@@ -126,19 +127,22 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                 }
               }
               setState(() {
-                allPrice = cashData.total - p;
+                allPrice = widget.cashBackData.total - p;
                 cashPrice = p;
               });
             }
           } else {
-            if (p >= cashData.total) {
+            if (p >= widget.cashBackData.total) {
               setState(() {
                 allPrice = 0;
-                cashPrice = [cashData.total, cashData.cash].reduce(min);
-                cashPriceController.text = [cashData.total, cashData.cash]
-                    .reduce(min)
-                    .toInt()
-                    .toString();
+                cashPrice = [
+                  widget.cashBackData.total,
+                  widget.cashBackData.cash
+                ].reduce(min);
+                cashPriceController.text = [
+                  widget.cashBackData.total,
+                  widget.cashBackData.cash
+                ].reduce(min).toInt().toString();
                 cashPriceController.selection = TextSelection.collapsed(
                     offset: cashPriceController.text.length);
               });
@@ -151,20 +155,18 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                 }
               }
               setState(() {
-                cashData.cash == 0
+                widget.cashBackData.cash == 0
                     ? cashPriceController.text = ""
                     : cashPriceController.text =
-                        cashData.cash.toInt().toString();
+                        widget.cashBackData.cash.toInt().toString();
 
-                allPrice = cashData.total - cashData.cash;
-                cashPrice = cashData.cash;
+                allPrice = widget.cashBackData.total - widget.cashBackData.cash;
+                cashPrice = widget.cashBackData.cash;
               });
             }
           }
         }
-      } on Exception catch (_) {
-        throw Exception("Error");
-      }
+      } on Exception catch (_) {}
     });
   }
 
@@ -556,11 +558,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                     ),
                   ),
                   Text(
-                    " " +
-                        priceFormat.format(cashData == null
-                            ? 0.0
-                            : (cashData.cash).toInt().toDouble()) +
-                        translate("sum"),
+                    widget.cashBackData.cash.toString() + translate("sum"),
                     style: TextStyle(
                       fontFamily: AppTheme.fontRubik,
                       fontSize: 16,
@@ -748,7 +746,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                 ],
               ),
             ),
-            error
+            errorText != ""
                 ? Container(
                     width: double.infinity,
                     margin: EdgeInsets.only(top: 12, left: 16, right: 16),
@@ -933,15 +931,10 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
     );
   }
 
-  Future<void> getInfo() async {
+  Future<void> _getInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    var languageData = prefs.getString('language') ?? "ru";
 
-    var languageData;
-    if (prefs.getString('language') != null) {
-      languageData = prefs.getString('language');
-    } else {
-      languageData = "ru";
-    }
     blocOrderOptions.fetchOrderOptions(languageData);
   }
 }
