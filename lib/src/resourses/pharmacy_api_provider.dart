@@ -4,30 +4,21 @@ import 'dart:io';
 
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:http/http.dart' as http;
-import 'package:pharmacy/src/model/api/auth/login_model.dart';
-import 'package:pharmacy/src/model/api/cancel_order.dart';
 import 'package:pharmacy/src/model/api/cash_back_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/check_order_model_new.dart';
-import 'package:pharmacy/src/model/api/check_version.dart';
 import 'package:pharmacy/src/model/api/current_location_address_model.dart';
 import 'package:pharmacy/src/model/api/faq_model.dart';
-import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/api/min_sum.dart';
-import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
-import 'package:pharmacy/src/model/chat/chat_api_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
-import 'package:pharmacy/src/model/create_order_status_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
-import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/http_result.dart';
 import 'package:pharmacy/src/model/payment_verfy.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
-import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/model/send/create_payment_model.dart';
 import 'package:pharmacy/src/model/send/verfy_payment_model.dart';
@@ -495,43 +486,6 @@ class PharmacyApiProvider {
     }
   }
 
-  ///add order endi ishlatilmaydi
-  Future<OrderStatusModel> fetchAddOrder(AddOrderModel order) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token");
-    String lan = prefs.getString('language');
-    int regionId = prefs.getInt("cityId");
-    if (lan == null) {
-      lan = "ru";
-    }
-
-    String url = Utils.baseUrl + '/api/v1/add-order?lan=$lan&region=$regionId';
-
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-
-    try {
-      http.Response response = await http
-          .post(Uri.parse(url), headers: headers, body: json.encode(order))
-          .timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      return OrderStatusModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return OrderStatusModel(status: -1, msg: translate("internet_error"));
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return OrderStatusModel(status: -1, msg: translate("internet_error"));
-    }
-  }
 
   ///History
   Future<HttpResult> fetchOrderHistory(int page, int perPage) async {
@@ -563,190 +517,25 @@ class PharmacyApiProvider {
     return await postRequest(url, json.encode(data));
   }
 
-  /// Filter parametrs
-  Future<FilterModel> fetchFilterParameters(
-    int page,
-    int perPage,
-    int filterType,
-    String search,
-    int type,
-    String id,
-  ) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String filter = type == 1
-        ? "&category_id=$id"
-        : type == 2
-            ? "&is_home=1"
-            : type == 3
-                ? "&name=$id"
-                : type == 4
-                    ? "&ids=$id"
-                    : "";
-
-    String url = filterType == 1
-        ? Utils.baseUrl +
-            '/api/v1/units?page=$page&per_page=$perPage&search=$search$filter'
-        : filterType == 2
-            ? Utils.baseUrl +
-                '/api/v1/manufacturers?page=$page&per_page=$perPage&search=$search$filter'
-            : Utils.baseUrl +
-                '/api/v1/international-names?page=$page&per_page=$perPage&search=$search$filter';
-
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-
-    try {
-      http.Response response =
-          await http.get(Uri.parse(url), headers: headers).timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      return FilterModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    }
-  }
 
   /// Order options
-  Future<OrderOptionsModel> fetchOrderOptions(String lan) async {
+  Future<HttpResult> fetchOrderOptions(String lan) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token");
     int regionId = prefs.getInt("cityId");
 
     String url =
         Utils.baseUrl + '/api/v1/order-options?lan=$lan&region=$regionId';
 
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-    try {
-      http.Response response =
-          await http.get(Uri.parse(url), headers: headers).timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      return OrderOptionsModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    }
+    return await getRequest(url);
   }
 
-  ///Exist store
-  Future<HttpResult> fetchAccessApteka(AccessStore accessStore) async {
+  ///access store
+  Future<HttpResult> fetchAccessStore(AccessStore accessStore) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
     String url = Utils.baseUrl + '/api/v1/exists-stores?region=$regionId';
     return await postRequest(url, json.encode(accessStore));
-
-    // Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    // String encoded = prefs.getString("deviceData") != null
-    //     ? stringToBase64.encode(prefs.getString("deviceData"))
-    //     : "";
-    //
-    // Map<String, String> headers = {
-    //   'content-type': 'application/json; charset=utf-8',
-    //   'X-Device': encoded,
-    // };
-    //
-    // try {
-    //   http.Response response = await http
-    //       .post(Uri.parse(url),
-    //           body: json.encode(accessStore), headers: headers)
-    //       .timeout(duration);
-    //   var responseJson = utf8.decode(response.bodyBytes);
-    //
-    //   return locationModelFromJson(responseJson);
-    // } on TimeoutException catch (_) {
-    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-    //   return null;
-    // } on SocketException catch (_) {
-    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-    //   return null;
-    // }
-  }
-
-  ///get all message
-  Future<ChatApiModel> fetchGetAppMessage(int page, int perPage) async {
-    String url =
-        Utils.baseUrl + '/api/v1/chat/messages?page=$page&per_page=$perPage';
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token");
-
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-    try {
-      http.Response response =
-          await http.get(Uri.parse(url), headers: headers).timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      return ChatApiModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    }
-  }
-
-  ///sent message
-  Future<LoginModel> fetchSentMessage(String message) async {
-    String url = Utils.baseUrl + '/api/v1/chat/send-message';
-
-    final data = {"message": message};
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token");
-
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
-      'X-Device': encoded,
-    };
-    try {
-      http.Response response = await http
-          .post(Uri.parse(url), headers: headers, body: data)
-          .timeout(duration);
-      final Map parsed = json.decode(response.body);
-
-      return LoginModel.fromJson(parsed);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    }
   }
 
   ///Min sum
@@ -986,35 +775,6 @@ class PharmacyApiProvider {
         Utils.baseUrl + '/api/v1/create-order?lan=$lan&region=$regionId';
 
     return await postRequest(url, json.encode(order));
-
-    // Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    // String encoded = prefs.getString("deviceData") != null
-    //     ? stringToBase64.encode(prefs.getString("deviceData"))
-    //     : "";
-    //
-    // Map<String, String> headers = {
-    //   HttpHeaders.authorizationHeader: "Bearer $token",
-    //   'content-type': 'application/json',
-    //   'X-Device': encoded,
-    // };
-    //
-    // try {
-    //   http.Response response = await http
-    //       .post(Uri.parse(url), headers: headers, body: json.encode(order))
-    //       .timeout(duration);
-    //
-    //   final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-    //
-    //   return CreateOrderStatusModel.fromJson(responseJson);
-    // } on TimeoutException catch (_) {
-    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-    //   return CreateOrderStatusModel(
-    //       status: -1, msg: translate("internet_error"));
-    // } on SocketException catch (_) {
-    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-    //   return CreateOrderStatusModel(
-    //       status: -1, msg: translate("internet_error"));
-    // }
   }
 
   ///check order

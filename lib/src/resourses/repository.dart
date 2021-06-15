@@ -4,30 +4,21 @@ import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/database/database_helper_fav.dart';
 import 'package:pharmacy/src/database/database_helper_note.dart';
-import 'package:pharmacy/src/model/api/cancel_order.dart';
 import 'package:pharmacy/src/model/api/cash_back_model.dart';
-import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/check_order_model_new.dart';
-import 'package:pharmacy/src/model/api/check_version.dart';
 import 'package:pharmacy/src/model/api/current_location_address_model.dart';
 import 'package:pharmacy/src/model/api/faq_model.dart';
-import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
-import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
-import 'package:pharmacy/src/model/chat/chat_api_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
-import 'package:pharmacy/src/model/create_order_status_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
-import 'package:pharmacy/src/model/filter_model.dart';
 import 'package:pharmacy/src/model/http_result.dart';
 import 'package:pharmacy/src/model/note/note_data_model.dart';
 import 'package:pharmacy/src/model/payment_verfy.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
-import 'package:pharmacy/src/model/send/add_order_model.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/model/send/create_payment_model.dart';
 import 'package:pharmacy/src/model/send/verfy_payment_model.dart';
@@ -162,13 +153,10 @@ class Repository {
       pharmacyApiProvider.fetchApteka(lat, lng);
 
   Future<HttpResult> fetchAccessStore(AccessStore accessStore) =>
-      pharmacyApiProvider.fetchAccessApteka(accessStore);
+      pharmacyApiProvider.fetchAccessStore(accessStore);
 
   Future<List<RegionModel>> fetchRegions(String obj) =>
       pharmacyApiProvider.fetchRegions(obj);
-
-  Future<OrderStatusModel> fetchAddOrder(AddOrderModel order) =>
-      pharmacyApiProvider.fetchAddOrder(order);
 
   Future<OrderStatusModel> fetchPayment(PaymentOrderModel order) =>
       pharmacyApiProvider.fetchPayment(order);
@@ -185,30 +173,8 @@ class Repository {
   Future<HttpResult> fetchCancelOrder(int orderId) =>
       pharmacyApiProvider.fetchCancelOrder(orderId);
 
-  Future<FilterModel> fetchFilterParameters(
-    int page,
-    int filterType,
-    String search,
-    int type,
-    String id,
-  ) =>
-      pharmacyApiProvider.fetchFilterParameters(
-        page,
-        50,
-        filterType,
-        search,
-        type,
-        id,
-      );
-
-  Future<OrderOptionsModel> fetchOrderOptions(String lan) =>
+  Future<HttpResult> fetchOrderOptions(String lan) =>
       pharmacyApiProvider.fetchOrderOptions(lan);
-
-  Future<ChatApiModel> fetchGetAppMessage(int page) =>
-      pharmacyApiProvider.fetchGetAppMessage(page, 20);
-
-  Future<LoginModel> fetchSentMessage(String message) =>
-      pharmacyApiProvider.fetchSentMessage(message);
 
   Future<HttpResult> fetchCheckErrorPickup(
     AccessStore accessStore,

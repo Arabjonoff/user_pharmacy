@@ -45,11 +45,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
   double cashPrice = 0.0;
   int paymentType;
   int clickType;
-  bool checkBox = false;
-  bool isEnd = false;
-  bool isCardNum = false;
-  bool isCardDate = false;
-  String cardToken = "";
 
   bool loading = false;
   bool error = false;
@@ -58,10 +53,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
 
   DatabaseHelper dataBase = new DatabaseHelper();
   DateTime date = new DateTime.now();
-
-  TextEditingController cardNumberController =
-      TextEditingController(text: "8600");
-  TextEditingController cardDateController = TextEditingController();
 
   TextEditingController cashPriceController = TextEditingController();
 
@@ -76,31 +67,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
   }
 
   _OrderCardPickupScreenState() {
-    cardNumberController.addListener(() {
-      var cardNum = cardNumberController.text.replaceAll(' ', '');
-      if (cardNum.length == 16) {
-        setState(() {
-          isCardNum = true;
-        });
-      } else {
-        setState(() {
-          isCardNum = false;
-        });
-      }
-    });
-    cardDateController.addListener(() {
-      var cardDate =
-          cardDateController.text.replaceAll(' ', '').replaceAll('/', '');
-      if (cardDate.length == 4) {
-        setState(() {
-          isCardDate = true;
-        });
-      } else {
-        setState(() {
-          isCardDate = false;
-        });
-      }
-    });
     cashPriceController.addListener(() {
       double p;
       try {
@@ -173,737 +139,614 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(30.0),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            elevation: 0.0,
-            backgroundColor: Colors.black,
-            brightness: Brightness.dark,
-            title: Container(
-              height: 30,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 10,
-                  decoration: BoxDecoration(
-                    color: AppTheme.item_navigation,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.0),
-                      topRight: Radius.circular(10.0),
-                    ),
-                  ),
-                ),
+      backgroundColor: AppTheme.background,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 0.0,
+        backgroundColor: AppTheme.white,
+        brightness: Brightness.light,
+        leading: GestureDetector(
+          child: Container(
+            height: 56,
+            width: 56,
+            color: AppTheme.white,
+            padding: EdgeInsets.all(13),
+            child: SvgPicture.asset("assets/icons/arrow_left_blue.svg"),
+          ),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              translate("payment.name"),
+              style: TextStyle(
+                fontFamily: AppTheme.fontRubik,
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                height: 1.2,
+                color: AppTheme.text_dark,
               ),
             ),
-          )),
-      body: Container(
-        decoration: BoxDecoration(
-          color: AppTheme.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(14.0),
-            topRight: Radius.circular(14.0),
-          ),
+          ],
         ),
-        padding: EdgeInsets.only(top: 14),
-        child: ListView(
-          children: [
-            Container(
-              height: 48,
-              width: double.infinity,
-              child: Stack(
-                children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      translate("orders.chechout") +
-                          " №" +
-                          widget.orderId.toString(),
-                      style: TextStyle(
-                        fontStyle: FontStyle.normal,
-                        fontFamily: AppTheme.fontRubik,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
-                        color: AppTheme.black_text,
-                      ),
-                    ),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              children: [
+                Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                    top: 16,
                   ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: () {
-                        blocCard.fetchAllCard();
-                        //Navigator.pop(context);
-                        Navigator.of(context)
-                            .popUntil((route) => route.isFirst);
-                      },
-                      child: Container(
-                        height: 48,
-                        margin: EdgeInsets.only(right: 4),
-                        width: 48,
-                        color: AppTheme.arrow_examp_back,
-                        child: Center(
-                          child: Container(
-                            height: 24,
-                            width: 24,
-                            padding: EdgeInsets.all(7),
-                            decoration: BoxDecoration(
-                              color: AppTheme.arrow_back,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: SvgPicture.asset(
-                                "assets/images/arrow_close.svg"),
+                  decoration: BoxDecoration(
+                    color: AppTheme.white,
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                        child: Text(
+                          translate("payment.type"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.2,
+                            color: AppTheme.text_dark,
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 24, left: 16, right: 16, bottom: 16),
-              child: Text(
-                translate("orders.payment_type"),
-                style: TextStyle(
-                  fontFamily: AppTheme.fontRubik,
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 20,
-                  color: AppTheme.black_catalog,
-                ),
-              ),
-            ),
-            StreamBuilder(
-              stream: blocOrderOptions.orderOptions,
-              builder: (context, AsyncSnapshot<OrderOptionsModel> snapshot) {
-                if (snapshot.hasData) {
-                  paymentTypes = new List();
-
-                  for (int i = 0; i < snapshot.data.paymentTypes.length; i++) {
-                    paymentTypes.add(PaymentTypesCheckBox(
-                      id: i,
-                      paymentId: snapshot.data.paymentTypes[i].id,
-                      cardId: snapshot.data.paymentTypes[i].cardId,
-                      cardToken: snapshot.data.paymentTypes[i].cardToken,
-                      name: snapshot.data.paymentTypes[i].name,
-                      pan: snapshot.data.paymentTypes[i].pan,
-                      type: snapshot.data.paymentTypes[i].type,
-                    ));
-                  }
-                  return Column(
-                    children: paymentTypes
-                        .map((data) => RadioListTile(
-                              title: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      "${data.pan}",
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: AppTheme.fontRubik,
-                                        fontSize: 15,
-                                        fontStyle: FontStyle.normal,
-                                        color: Colors.black,
-                                      ),
+                      Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: AppTheme.background,
+                      ),
+                      StreamBuilder(
+                        stream: blocOrderOptions.orderOptions,
+                        builder: (context,
+                            AsyncSnapshot<OrderOptionsModel> snapshot) {
+                          if (snapshot.hasData) {
+                            return new ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: snapshot.data.paymentTypes.length,
+                              itemBuilder: (BuildContext ctxt, int index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    if (snapshot.data.paymentTypes[index].id !=
+                                        paymentType) {
+                                      setState(() {
+                                        paymentType = snapshot
+                                            .data.paymentTypes[index].id;
+                                      });
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                      top: 16,
+                                      left: 16,
+                                      right: 16,
+                                    ),
+                                    height: 48,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.background,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 8),
+                                        snapshot.data.paymentTypes[index]
+                                                    .type ==
+                                                "cash"
+                                            ? SvgPicture.asset(
+                                                "assets/icons/cash.svg")
+                                            : snapshot.data.paymentTypes[index]
+                                                        .type ==
+                                                    "card"
+                                                ? SvgPicture.asset(
+                                                    "assets/icons/card.svg")
+                                                : SvgPicture.asset(
+                                                    "assets/icons/wallet.svg"),
+                                        SizedBox(width: 8),
+                                        Expanded(
+                                          child: Text(
+                                            snapshot.data.paymentTypes[index].id
+                                                .toString(),
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontRubik,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 14,
+                                              height: 1.2,
+                                              color: AppTheme.textGray,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 8),
+                                        AnimatedContainer(
+                                          duration: Duration(milliseconds: 270),
+                                          curve: Curves.easeInOut,
+                                          height: 16,
+                                          width: 16,
+                                          padding: EdgeInsets.all(3),
+                                          decoration: BoxDecoration(
+                                            color: AppTheme.background,
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                            border: Border.all(
+                                              color: paymentType ==
+                                                      snapshot
+                                                          .data
+                                                          .paymentTypes[index]
+                                                          .id
+                                                  ? AppTheme.blue
+                                                  : AppTheme.gray,
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: AnimatedContainer(
+                                              duration:
+                                                  Duration(milliseconds: 270),
+                                              curve: Curves.easeInOut,
+                                              height: 10,
+                                              width: 10,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: paymentType ==
+                                                        snapshot
+                                                            .data
+                                                            .paymentTypes[index]
+                                                            .id
+                                                    ? AppTheme.blue
+                                                    : AppTheme.background,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 16),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
-                              activeColor: AppTheme.blue_app_color,
-                              groupValue: clickType,
-                              value: data.id,
-                              onChanged: (val) {
-                                if (data.id == paymentTypes.length - 1) {
-                                  setState(() {
-                                    clickType = data.id;
-                                    paymentType = data.paymentId;
-                                    isEnd = true;
-                                    cardToken = data.cardToken;
-                                  });
-                                } else {
-                                  setState(() {
-                                    clickType = data.id;
-                                    paymentType = data.paymentId;
-                                    isEnd = false;
-                                    cardToken = data.cardToken;
-                                  });
-                                }
+                                );
                               },
-                            ))
-                        .toList(),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                }
-                return Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
-                  highlightColor: Colors.grey[100],
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
-                    itemBuilder: (_, __) => Container(
-                      height: 48,
-                      padding: EdgeInsets.only(top: 6, bottom: 6),
-                      margin: EdgeInsets.only(left: 15, right: 15),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Container(),
-                          ),
-                          Container(
-                            height: 15,
-                            width: 250,
-                            color: AppTheme.white,
-                          ),
-                          Expanded(
-                            child: Container(),
-                          ),
-                        ],
-                      ),
-                    ),
-                    itemCount: 4,
-                  ),
-                );
-              },
-            ),
-            isEnd
-                ? Container(
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 56,
-                          margin: EdgeInsets.only(top: 12, left: 16, right: 16),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: AppTheme.auth_login,
-                            border: Border.all(
-                              color: AppTheme.auth_border,
-                              width: 1.0,
+                            );
+                          }
+                          return Shimmer.fromColors(
+                            baseColor: Colors.grey[300],
+                            highlightColor: Colors.grey[100],
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: ClampingScrollPhysics(),
+                              itemBuilder: (_, __) => Container(
+                                height: 48,
+                                width: double.infinity,
+                                margin: EdgeInsets.only(
+                                    top: 16, left: 16, right: 16),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              itemCount: 4,
                             ),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                top: 8, bottom: 8, left: 12, right: 12),
-                            child: TextFormField(
-                              keyboardType: TextInputType.phone,
+                          );
+                        },
+                      ),
+                      SizedBox(height: 16),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                    top: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppTheme.white,
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                translate("payment.my_cash"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  height: 1.2,
+                                  color: AppTheme.text_dark,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              translate("payment.my_cash_price"),
                               style: TextStyle(
                                 fontFamily: AppTheme.fontRubik,
-                                fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.normal,
-                                color: AppTheme.black_text,
-                                fontSize: 15,
-                              ),
-                              controller: cardNumberController,
-                              //inputFormatters: [maskCardNumberFormatter],
-                              decoration: InputDecoration(
-                                labelText: translate('cardNumber'),
-                                labelStyle: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.normal,
-                                  color: Color(0xFF6D7885),
-                                  fontSize: 11,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: AppTheme.auth_login,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: AppTheme.auth_login,
-                                  ),
-                                ),
+                                fontSize: 14,
+                                height: 1.2,
+                                color: AppTheme.textGray,
                               ),
                             ),
-                          ),
-                        ),
-                        Container(
-                          height: 56,
-                          margin: EdgeInsets.only(top: 12, left: 16, right: 16),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: AppTheme.auth_login,
-                            border: Border.all(
-                              color: AppTheme.auth_border,
-                              width: 1.0,
-                            ),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                top: 8, bottom: 8, left: 12, right: 12),
-                            child: TextFormField(
-                              keyboardType: TextInputType.phone,
+                            Text(
+                              " " +
+                                  priceFormat.format(widget.cashBackData.cash) +
+                                  translate("sum"),
                               style: TextStyle(
                                 fontFamily: AppTheme.fontRubik,
-                                fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.normal,
-                                color: AppTheme.black_text,
-                                fontSize: 15,
-                              ),
-                              controller: cardDateController,
-                              // inputFormatters: [maskCardDateFormatter],
-                              decoration: InputDecoration(
-                                labelText: translate('cardDate'),
-                                labelStyle: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.normal,
-                                  color: Color(0xFF6D7885),
-                                  fontSize: 11,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: AppTheme.auth_login,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: AppTheme.auth_login,
-                                  ),
-                                ),
+                                fontSize: 14,
+                                height: 1.2,
+                                color: AppTheme.textGray,
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 12, left: 16, right: 16),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                checkBox = !checkBox;
-                              });
-                            },
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  translate("saveCard"),
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontStyle: FontStyle.normal,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: AppTheme.fontRubik,
-                                    color: AppTheme.black_text,
-                                  ),
-                                ),
-                                Checkbox(
-                                  activeColor: AppTheme.blue_app_color,
-                                  value: checkBox,
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      checkBox = value;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          ),
+                      ),
+                      Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: AppTheme.background,
+                      ),
+                      Container(
+                        height: 44,
+                        margin: EdgeInsets.all(16),
+                        padding: EdgeInsets.only(top: 15),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppTheme.background,
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                      ],
-                    ),
-                  )
-                : Container(),
-            Container(
-              height: 24,
-              margin: EdgeInsets.only(top: 24, left: 16, right: 16),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 24,
-                    width: 24,
-                    margin: EdgeInsets.only(right: 8),
-                    child: SvgPicture.asset("assets/images/login_logo.svg"),
-                  ),
-                  Text(
-                    translate("cash_price_title"),
-                    style: TextStyle(
-                      fontFamily: AppTheme.fontRubik,
-                      fontSize: 16,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.w600,
-                      color: AppTheme.black_text,
-                    ),
-                  ),
-                  Expanded(child: Container()),
-                  Text(
-                    translate("cash_pay"),
-                    style: TextStyle(
-                      fontFamily: AppTheme.fontRubik,
-                      fontSize: 16,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.normal,
-                      color: AppTheme.search_empty,
-                    ),
-                  ),
-                  Text(
-                    widget.cashBackData.cash.toString() + translate("sum"),
-                    style: TextStyle(
-                      fontFamily: AppTheme.fontRubik,
-                      fontSize: 16,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.normal,
-                      color: AppTheme.search_empty,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 48,
-              margin: EdgeInsets.only(top: 16, left: 16, right: 16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: AppTheme.auth_login,
-                border: Border.all(
-                  color: AppTheme.auth_border,
-                  width: 1.0,
-                ),
-              ),
-              child: Padding(
-                padding:
-                    EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 12),
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  style: TextStyle(
-                    fontFamily: AppTheme.fontRubik,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.normal,
-                    color: AppTheme.black_text,
-                    fontSize: 15,
-                  ),
-                  controller: cashPriceController,
-                  decoration: InputDecoration(
-                    labelText: translate('cash_price'),
-                    labelStyle: TextStyle(
-                      fontFamily: AppTheme.fontRubik,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.normal,
-                      color: Color(0xFF6D7885),
-                      fontSize: 11,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: AppTheme.auth_login,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: AppTheme.auth_login,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: 24,
-                left: 16,
-                right: 16,
-              ),
-              child: Text(
-                translate("orders.type_payment"),
-                style: TextStyle(
-                  fontFamily: AppTheme.fontRubik,
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 20,
-                  color: AppTheme.black_catalog,
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: 16,
-                left: 16,
-                right: 16,
-              ),
-              child: Row(
-                children: [
-                  Text(
-                    translate("price_item"),
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontFamily: AppTheme.fontRubik,
-                      fontWeight: FontWeight.normal,
-                      color: AppTheme.search_empty,
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(),
-                  ),
-                  Text(
-                    priceFormat.format(itemPrice) + translate(translate("sum")),
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontFamily: AppTheme.fontRubik,
-                      fontWeight: FontWeight.normal,
-                      color: AppTheme.search_empty,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: 16,
-                left: 16,
-                right: 16,
-              ),
-              child: Row(
-                children: [
-                  Text(
-                    translate("price_cash_item"),
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontFamily: AppTheme.fontRubik,
-                      fontWeight: FontWeight.normal,
-                      color: AppTheme.search_empty,
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(),
-                  ),
-                  Text(
-                    cashPrice == 0
-                        ? priceFormat.format(cashPrice) +
-                            translate(
-                              translate("sum"),
-                            )
-                        : "-" +
-                            priceFormat.format(cashPrice) +
-                            translate(
-                              translate("sum"),
-                            ),
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontFamily: AppTheme.fontRubik,
-                      fontWeight: FontWeight.normal,
-                      color: AppTheme.search_empty,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: 16,
-                left: 16,
-                right: 16,
-              ),
-              child: Row(
-                children: [
-                  Text(
-                    translate("card.all"),
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontFamily: AppTheme.fontRubik,
-                      fontWeight: FontWeight.w600,
-                      color: AppTheme.black_text,
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(),
-                  ),
-                  Text(
-                    priceFormat.format(allPrice) + translate(translate("sum")),
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontFamily: AppTheme.fontRubik,
-                      fontWeight: FontWeight.w600,
-                      color: AppTheme.black_text,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            errorText != ""
-                ? Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.only(top: 12, left: 16, right: 16),
-                    child: Text(
-                      errorText,
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontFamily: AppTheme.fontRubik,
-                        fontSize: 13,
-                        color: AppTheme.red_fav_color,
-                      ),
-                    ),
-                  )
-                : Container(),
-            widget.message.length > 1
-                ? Container(
-                    margin: EdgeInsets.only(left: 16, right: 16, top: 24),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset("assets/images/icon_info_circle.svg"),
-                        SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            widget.message,
-                            maxLines: 5,
-                            style: TextStyle(
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 16,
+                            height: 1.2,
+                            color: AppTheme.text_dark,
+                          ),
+                          controller: cashPriceController,
+                          decoration: InputDecoration(
+                            hintText: translate('payment.price'),
+                            hintStyle: TextStyle(
                               fontFamily: AppTheme.fontRubik,
-                              fontSize: 13,
-                              height: 1.6,
-                              fontStyle: FontStyle.normal,
                               fontWeight: FontWeight.normal,
-                              color: AppTheme.blue_app_color,
+                              fontSize: 16,
+                              height: 1.2,
+                              color: AppTheme.gray,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: AppTheme.auth_login,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: AppTheme.auth_login,
+                              ),
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                  )
-                : Container(),
-            Container(
-              height: 1,
-              margin: EdgeInsets.only(top: 24),
-              color: AppTheme.black_linear_category,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                    top: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppTheme.white,
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                        child: Text(
+                          translate("payment.create"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.2,
+                            color: AppTheme.text_dark,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: AppTheme.background,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: 16,
+                          left: 16,
+                          right: 16,
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              translate("payment.price_order"),
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.search_empty,
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(),
+                            ),
+                            Text(
+                              priceFormat.format(itemPrice) +
+                                  translate(translate("sum")),
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.search_empty,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: 16,
+                          left: 16,
+                          right: 16,
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              translate("payment.my_cash"),
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.search_empty,
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(),
+                            ),
+                            Text(
+                              cashPrice == 0
+                                  ? priceFormat.format(cashPrice) +
+                                      translate(
+                                        translate("sum"),
+                                      )
+                                  : "-" +
+                                      priceFormat.format(cashPrice) +
+                                      translate(
+                                        translate("sum"),
+                                      ),
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.search_empty,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: 16,
+                          left: 16,
+                          right: 16,
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              translate("history.all_price"),
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.w600,
+                                color: AppTheme.black_text,
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(),
+                            ),
+                            Text(
+                              priceFormat.format(allPrice) +
+                                  translate(translate("sum")),
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.w600,
+                                color: AppTheme.black_text,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                    ],
+                  ),
+                ),
+                errorText != ""
+                    ? Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.only(top: 12, left: 16, right: 16),
+                        child: Text(
+                          errorText,
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontFamily: AppTheme.fontRubik,
+                            fontSize: 13,
+                            color: AppTheme.red,
+                          ),
+                        ),
+                      )
+                    : Container(),
+                widget.message.length > 1
+                    ? Container(
+                        margin: EdgeInsets.only(left: 16, right: 16, top: 24),
+                        child: Text(
+                          widget.message,
+                          maxLines: 5,
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontSize: 15,
+                            height: 1.2,
+                            color: AppTheme.blue,
+                          ),
+                        ),
+                      )
+                    : Container(),
+              ],
             ),
-            GestureDetector(
+          ),
+          Container(
+            color: AppTheme.white,
+            child: GestureDetector(
               onTap: () {
                 if (!loading) {
                   if (widget.orderId != null && clickType != null) {
-                    var cardNum = cardNumberController.text.replaceAll(' ', '');
-                    var cardDate = cardDateController.text
-                        .replaceAll(' ', '')
-                        .replaceAll('/', '');
+                    setState(() {
+                      loading = true;
+                    });
 
-                    if (!isEnd ||
-                        (cardNum.length == 16 && cardDate.length == 4)) {
-                      setState(() {
-                        loading = true;
-                      });
+                    PaymentOrderModel addModel = new PaymentOrderModel();
 
-                      PaymentOrderModel addModel = new PaymentOrderModel();
-
-                      isEnd
-                          ? addModel = new PaymentOrderModel(
-                              orderId: widget.orderId,
-                              cashPay: cashPrice.toInt(),
-                              paymentType: paymentType,
-                              cardPan: cardNum,
-                              cardExp: cardDate,
-                              cardSave: checkBox ? 1 : 0,
-                            )
-                          : addModel = new PaymentOrderModel(
-                              orderId: widget.orderId,
-                              cashPay: cashPrice.toInt(),
-                              paymentType: paymentType,
-                              cardToken: cardToken == "" ? null : cardToken,
-                            );
-                      Repository().fetchPayment(addModel).then((response) => {
-                            if (response.status == 1)
-                              {
-                                if (response.data.errorCode == 0)
-                                  {
-                                    setState(() {
-                                      loading = false;
-                                      error = false;
-                                    }),
-                                    if (response.data.cardToken != "")
-                                      {
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                VerifyPaymentScreen(
-                                              response.data.phoneNumber,
-                                              response.data.cardToken,
-                                            ),
+                    // isEnd
+                    //     ? addModel = new PaymentOrderModel(
+                    //         orderId: widget.orderId,
+                    //         cashPay: cashPrice.toInt(),
+                    //         paymentType: paymentType,
+                    //         cardPan: cardNum,
+                    //         cardExp: cardDate,
+                    //         cardSave: checkBox ? 1 : 0,
+                    //       )
+                    //     :
+                    addModel = new PaymentOrderModel(
+                      orderId: widget.orderId,
+                      cashPay: cashPrice.toInt(),
+                      paymentType: paymentType,
+                      // cardToken: cardToken == "" ? null : cardToken,
+                    );
+                    Repository().fetchPayment(addModel).then((response) => {
+                          if (response.status == 1)
+                            {
+                              if (response.data.errorCode == 0)
+                                {
+                                  setState(() {
+                                    loading = false;
+                                    error = false;
+                                  }),
+                                  if (response.data.cardToken != "")
+                                    {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              VerifyPaymentScreen(
+                                            response.data.phoneNumber,
+                                            response.data.cardToken,
                                           ),
-                                        )
-                                      }
-                                    else
-                                      {
-                                        Navigator.of(context)
-                                            .popUntil((route) => route.isFirst),
-                                        RxBus.post(CardItemChangeModel(true),
-                                            tag: "EVENT_CARD_BOTTOM"),
-                                      }
-                                  }
-                                else
-                                  {
-                                    setState(() {
-                                      error = true;
-                                      loading = false;
-                                      errorText = response.data.errorNote;
-                                    }),
-                                  }
-                              }
-                            else if (response.status == -1)
-                              {
-                                setState(() {
-                                  error = true;
-                                  loading = false;
-                                  errorText = response.msg;
-                                }),
-                              }
-                            else
-                              {
-                                setState(() {
-                                  error = true;
-                                  loading = false;
-                                  errorText = response.msg == ""
-                                      ? translate("error_distanse")
-                                      : response.msg;
-                                }),
-                              }
-                          });
-                    }
+                                        ),
+                                      )
+                                    }
+                                  else
+                                    {
+                                      Navigator.of(context)
+                                          .popUntil((route) => route.isFirst),
+                                      RxBus.post(CardItemChangeModel(true),
+                                          tag: "EVENT_CARD_BOTTOM"),
+                                    }
+                                }
+                              else
+                                {
+                                  setState(() {
+                                    error = true;
+                                    loading = false;
+                                    errorText = response.data.errorNote;
+                                  }),
+                                }
+                            }
+                          else if (response.status == -1)
+                            {
+                              setState(() {
+                                error = true;
+                                loading = false;
+                                errorText = response.msg;
+                              }),
+                            }
+                          else
+                            {
+                              setState(() {
+                                error = true;
+                                loading = false;
+                                errorText = response.msg == ""
+                                    ? translate("error_distanse")
+                                    : response.msg;
+                              }),
+                            }
+                        });
                   }
                 }
               },
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: (clickType == null || (isEnd))
-                      ? (isCardNum && isCardDate)
-                          ? AppTheme.blue_app_color
-                          : AppTheme.blue_app_color_transparent
+                  borderRadius: BorderRadius.circular(12),
+                  color: (clickType == null)
+                      ? AppTheme.blue_app_color_transparent
                       : AppTheme.blue_app_color,
                 ),
                 height: 44,
                 width: double.infinity,
                 margin: EdgeInsets.only(
                   top: 12,
-                  bottom: 12,
-                  left: 12,
-                  right: 12,
+                  bottom: 24,
+                  left: 22,
+                  right: 22,
                 ),
                 child: Center(
                   child: loading
@@ -914,7 +757,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                               AlwaysStoppedAnimation<Color>(AppTheme.white),
                         )
                       : Text(
-                          translate("orders.oplat"),
+                          translate("payment.pay"),
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontFamily: AppTheme.fontRubik,
@@ -924,9 +767,9 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                         ),
                 ),
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

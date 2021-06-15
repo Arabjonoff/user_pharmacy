@@ -9,8 +9,12 @@ class OrderOptionBloc {
   Stream<OrderOptionsModel> get orderOptions => _orderOptionsFetcher.stream;
 
   fetchOrderOptions(String lan) async {
-    OrderOptionsModel orderOptions = await _repository.fetchOrderOptions(lan);
-    if (orderOptions != null) _orderOptionsFetcher.sink.add(orderOptions);
+    var response = await _repository.fetchOrderOptions(lan);
+    if (response.isSuccess) {
+      _orderOptionsFetcher.sink.add(
+        OrderOptionsModel.fromJson(response.result),
+      );
+    }
   }
 
   dispose() {

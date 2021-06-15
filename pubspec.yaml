@@ -49,7 +49,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/i18n/
-    - assets/images/
     - assets/menu/
     - assets/map/
     - assets/anim/
