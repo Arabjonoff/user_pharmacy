@@ -9,13 +9,27 @@ class StoreBloc {
 
   final _existStoreFetcher = PublishSubject<List<LocationModel>>();
   final _addressFetcher = PublishSubject<List<AddressModel>>();
+  final _addressHomeFetcher = PublishSubject<AddressModel>();
+  final _addressWorkFetcher = PublishSubject<AddressModel>();
 
   Stream<List<LocationModel>> get allExistStore => _existStoreFetcher.stream;
 
   Stream<List<AddressModel>> get allAddress => _addressFetcher.stream;
 
+  Stream<AddressModel> get allAddressHome => _addressHomeFetcher.stream;
+
+  Stream<AddressModel> get allAddressWork => _addressWorkFetcher.stream;
+
   fetchAddress() async {
     _addressFetcher.sink.add(await _repository.databaseAddress());
+  }
+
+  fetchAddressHome() async {
+    _addressHomeFetcher.sink.add(await _repository.databaseAddressType(1));
+  }
+
+  fetchAddressWork() async {
+    _addressWorkFetcher.sink.add(await _repository.databaseAddressType(2));
   }
 
   fetchAccessStore(AccessStore accessStore) async {
@@ -30,6 +44,8 @@ class StoreBloc {
   dispose() {
     _existStoreFetcher.close();
     _addressFetcher.close();
+    _addressHomeFetcher.close();
+    _addressWorkFetcher.close();
   }
 }
 

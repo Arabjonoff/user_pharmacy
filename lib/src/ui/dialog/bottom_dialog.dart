@@ -375,17 +375,23 @@ class BottomDialog {
     );
   }
 
-  static void addAddress(
+  static void editAddress(
     BuildContext context,
-    int type,
+    AddressModel addressModel,
   ) async {
-    TextEditingController addressController = TextEditingController();
-    TextEditingController domController = TextEditingController();
-    TextEditingController podezController = TextEditingController();
-    TextEditingController kvController = TextEditingController();
-    TextEditingController commentController = TextEditingController();
-    double lat, lng;
-    bool isSave = false;
+    TextEditingController addressController =
+        TextEditingController(text: addressModel.street);
+    TextEditingController domController =
+        TextEditingController(text: addressModel.dom);
+    TextEditingController podezController =
+        TextEditingController(text: addressModel.en);
+    TextEditingController kvController =
+        TextEditingController(text: addressModel.kv);
+    TextEditingController commentController =
+        TextEditingController(text: addressModel.comment);
+    double lat = double.parse(addressModel.lat),
+        lng = double.parse(addressModel.lng);
+    bool isSave = true;
     showModalBottomSheet(
       barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
       context: context,
@@ -435,6 +441,8 @@ class BottomDialog {
                     onTap: () {
                       showChoosePoint(
                         context,
+                        double.parse(addressModel.lat),
+                        double.parse(addressModel.lng),
                         (Point point) {
                           lat = point.latitude;
                           lng = point.longitude;
@@ -766,41 +774,462 @@ class BottomDialog {
                       if (isSave) {
                         DatabaseHelperAddress database =
                             DatabaseHelperAddress();
-                        var address = addressController.text;
-
-                        if (domController.text.length > 0) {
-                          address += ", " +
-                              translate("address.dom") +
-                              " = " +
-                              domController.text;
-                        }
-                        if (podezController.text.length > 0) {
-                          address += ", " +
-                              translate("address.en") +
-                              " = " +
-                              podezController.text;
-                        }
-                        if (kvController.text.length > 0) {
-                          address += ", " +
-                              translate("address.kv") +
-                              " = " +
-                              kvController.text;
-                        }
-                        if (commentController.text.length > 0) {
-                          address += ", " +
-                              translate("address.comment") +
-                              " = " +
-                              commentController.text;
-                        }
-
                         var data = AddressModel(
-                          street: address,
+                          id: addressModel.id,
+                          street: addressController.text,
+                          dom: domController.text ?? "",
+                          en: podezController.text ?? "",
+                          kv: kvController.text ?? "",
+                          comment: commentController.text ?? "",
+                          lat: lat.toString(),
+                          lng: lng.toString(),
+                          type: addressModel.type,
+                        );
+                          database.updateProduct(data).then((value) {
+                            blocStore.fetchAddress();
+                            blocStore.fetchAddressHome();
+                            blocStore.fetchAddressWork();
+                          });
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: Container(
+                      height: 44,
+                      margin: EdgeInsets.only(top: 16, bottom: 24),
+                      decoration: BoxDecoration(
+                        color: isSave ? AppTheme.blue : AppTheme.gray,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("address.add_address"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  static void addAddress(
+    BuildContext context,
+    int type,
+  ) async {
+    TextEditingController addressController = TextEditingController();
+    TextEditingController domController = TextEditingController();
+    TextEditingController podezController = TextEditingController();
+    TextEditingController kvController = TextEditingController();
+    TextEditingController commentController = TextEditingController();
+    double lat, lng;
+    bool isSave = false;
+    showModalBottomSheet(
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              height: 525,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(24),
+                ),
+                color: AppTheme.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    height: 4,
+                    width: 64,
+                    decoration: BoxDecoration(
+                      color: AppTheme.bottom_dialog,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    child: Center(
+                      child: Text(
+                        translate("address.new_address"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          height: 1.2,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 24),
+                  GestureDetector(
+                    onTap: () {
+                      showChoosePoint(
+                        context,
+                        41.311081,
+                        69.240562,
+                        (Point point) {
+                          lat = point.latitude;
+                          lng = point.longitude;
+                          if (addressController.text.length > 0) {
+                            setState(() {
+                              isSave = true;
+                            });
+                          }
+                        },
+                      );
+                    },
+                    child: Container(
+                      height: 44,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: AppTheme.white,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: AppTheme.textGray,
+                          width: 2,
+                        ),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            "assets/icons/location.svg",
+                            width: 24,
+                            height: 24,
+                            color: AppTheme.textGray,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            translate("address.see_map"),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              height: 1.25,
+                              color: AppTheme.textGray,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(
+                      top: 16,
+                    ),
+                    padding: EdgeInsets.only(
+                      left: 12,
+                      right: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppTheme.background,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: TextField(
+                      keyboardType: TextInputType.phone,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontRubik,
+                        fontWeight: FontWeight.normal,
+                        color: AppTheme.text_dark,
+                        fontSize: 16,
+                        height: 1.2,
+                      ),
+                      controller: addressController,
+                      onChanged: (value) {
+                        if (value.length > 0) {
+                          if (lat != null) {
+                            setState(() {
+                              isSave = true;
+                            });
+                          } else {
+                            setState(() {
+                              isSave = false;
+                            });
+                          }
+                        } else {
+                          setState(() {
+                            isSave = false;
+                          });
+                        }
+                      },
+                      decoration: InputDecoration(
+                        counterText: "",
+                        hintText: translate("address.address"),
+                        hintStyle: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          color: AppTheme.gray,
+                          fontSize: 16,
+                          height: 1.2,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 0,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 0,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 44,
+                    width: double.infinity,
+                    margin: EdgeInsets.only(
+                      top: 16,
+                    ),
+                    padding: EdgeInsets.only(
+                      top: 12,
+                      left: 12,
+                      right: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppTheme.background,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: TextField(
+                      keyboardType: TextInputType.phone,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontRubik,
+                        fontWeight: FontWeight.normal,
+                        color: AppTheme.text_dark,
+                        fontSize: 16,
+                        height: 1.2,
+                      ),
+                      controller: domController,
+                      maxLength: 35,
+                      decoration: InputDecoration(
+                        counterText: "",
+                        hintText: translate("address.dom"),
+                        hintStyle: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          color: AppTheme.gray,
+                          fontSize: 16,
+                          height: 1.2,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 0,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 0,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 44,
+                          width: double.infinity,
+                          margin: EdgeInsets.only(
+                            top: 16,
+                          ),
+                          padding: EdgeInsets.only(
+                            top: 12,
+                            left: 12,
+                            right: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppTheme.background,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: TextField(
+                            keyboardType: TextInputType.phone,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.normal,
+                              color: AppTheme.text_dark,
+                              fontSize: 16,
+                              height: 1.2,
+                            ),
+                            controller: podezController,
+                            maxLength: 10,
+                            decoration: InputDecoration(
+                              counterText: "",
+                              hintText: translate("address.en"),
+                              hintStyle: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.gray,
+                                fontSize: 16,
+                                height: 1.2,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  color: AppTheme.white,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  color: AppTheme.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: Container(
+                          height: 44,
+                          width: double.infinity,
+                          margin: EdgeInsets.only(
+                            top: 16,
+                          ),
+                          padding: EdgeInsets.only(
+                            top: 12,
+                            left: 12,
+                            right: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppTheme.background,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: TextField(
+                            keyboardType: TextInputType.phone,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.normal,
+                              color: AppTheme.text_dark,
+                              fontSize: 16,
+                              height: 1.2,
+                            ),
+                            controller: kvController,
+                            maxLength: 10,
+                            decoration: InputDecoration(
+                              counterText: "",
+                              hintText: translate("address.kv"),
+                              hintStyle: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                color: AppTheme.gray,
+                                fontSize: 16,
+                                height: 1.2,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  color: AppTheme.white,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  color: AppTheme.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.only(
+                        top: 16,
+                      ),
+                      padding: EdgeInsets.only(
+                        left: 12,
+                        right: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.background,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: TextField(
+                        keyboardType: TextInputType.phone,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          color: AppTheme.text_dark,
+                          fontSize: 16,
+                          height: 1.2,
+                        ),
+                        controller: commentController,
+                        maxLines: 4,
+                        decoration: InputDecoration(
+                          counterText: "",
+                          hintText: translate("address.comment"),
+                          hintStyle: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.normal,
+                            color: AppTheme.gray,
+                            fontSize: 16,
+                            height: 1.2,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 0,
+                              color: AppTheme.white,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 0,
+                              color: AppTheme.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      if (isSave) {
+                        DatabaseHelperAddress database =
+                            DatabaseHelperAddress();
+                        var data = AddressModel(
+                          street: addressController.text,
+                          dom: domController.text ?? "",
+                          en: podezController.text ?? "",
+                          kv: kvController.text ?? "",
+                          comment: commentController.text ?? "",
                           lat: lat.toString(),
                           lng: lng.toString(),
                           type: type,
                         );
                         database.saveProducts(data).then((value) {
                           blocStore.fetchAddress();
+                          blocStore.fetchAddressHome();
+                          blocStore.fetchAddressWork();
                         });
                         Navigator.pop(context);
                       }
@@ -837,6 +1266,8 @@ class BottomDialog {
 
   static void showChoosePoint(
     BuildContext context,
+    double lat,
+    double lng,
     Function(Point point) onChooseLocation,
   ) {
     placemark.Placemark lastPlaceMark;
@@ -907,8 +1338,8 @@ class BottomDialog {
                                 );
                                 yandexMapController.move(
                                   point: Point(
-                                    latitude: 41.311081,
-                                    longitude: 69.240562,
+                                    latitude: lat,
+                                    longitude: lng,
                                   ),
                                   zoom: 11,
                                   animation: const MapAnimation(

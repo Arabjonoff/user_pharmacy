@@ -101,6 +101,9 @@ class Repository {
   Future<List<AddressModel>> databaseAddress() =>
       databaseHelperAddress.getProduct();
 
+  Future<AddressModel> databaseAddressType(int id) =>
+      databaseHelperAddress.getProductsType(id);
+
   Future<List<NoteModel>> databaseNote() => databaseHelperNote.getProduct();
 
   Future<List<ItemResult>> databaseCardItem(bool isCard) =>

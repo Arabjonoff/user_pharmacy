@@ -19,6 +19,8 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
   @override
   void initState() {
     blocStore.fetchAddress();
+    blocStore.fetchAddressHome();
+    blocStore.fetchAddressWork();
     super.initState();
   }
 
@@ -99,67 +101,163 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
             ),
             child: Column(
               children: [
-                Container(
-                  height: 48,
-                  width: double.infinity,
-                  margin: EdgeInsets.only(top: 16),
-                  decoration: BoxDecoration(
-                    color: AppTheme.background,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: EdgeInsets.all(8),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset("assets/icons/home.svg"),
-                      SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          translate("address.home"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            height: 1.2,
-                            color: AppTheme.textGray,
+                StreamBuilder(
+                  stream: blocStore.allAddressHome,
+                  builder: (context, AsyncSnapshot<AddressModel> snapshot) {
+                    if (snapshot.hasData) {
+                      return GestureDetector(
+                        onTap: () {
+                          BottomDialog.editAddress(context, snapshot.data);
+                        },
+                        child: Container(
+                          height: 48,
+                          width: double.infinity,
+                          margin: EdgeInsets.only(top: 16),
+                          decoration: BoxDecoration(
+                            color: AppTheme.background,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: EdgeInsets.all(8),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset("assets/icons/home.svg"),
+                              SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  translate("address.home"),
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRubik,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 14,
+                                    height: 1.2,
+                                    color: AppTheme.textGray,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              SvgPicture.asset("assets/icons/edit.svg"),
+                              SizedBox(width: 8),
+                            ],
                           ),
                         ),
+                      );
+                    }
+                    return GestureDetector(
+                      onTap: () {
+                        BottomDialog.addAddress(context, 1);
+                      },
+                      child: Container(
+                        height: 48,
+                        width: double.infinity,
+                        margin: EdgeInsets.only(top: 16),
+                        decoration: BoxDecoration(
+                          color: AppTheme.background,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: EdgeInsets.all(8),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset("assets/icons/home.svg"),
+                            SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                translate("address.home"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 14,
+                                  height: 1.2,
+                                  color: AppTheme.textGray,
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            SvgPicture.asset("assets/icons/edit.svg"),
+                            SizedBox(width: 8),
+                          ],
+                        ),
                       ),
-                      SizedBox(width: 8),
-                      SvgPicture.asset("assets/icons/edit.svg"),
-                      SizedBox(width: 8),
-                    ],
-                  ),
+                    );
+                  },
                 ),
-                Container(
-                  height: 48,
-                  width: double.infinity,
-                  margin: EdgeInsets.only(top: 16),
-                  decoration: BoxDecoration(
-                    color: AppTheme.background,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: EdgeInsets.all(8),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset("assets/icons/work.svg"),
-                      SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          translate("address.work"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            height: 1.2,
-                            color: AppTheme.textGray,
+                StreamBuilder(
+                  stream: blocStore.allAddressWork,
+                  builder: (context, AsyncSnapshot<AddressModel> snapshot) {
+                    if (snapshot.hasData) {
+                      return GestureDetector(
+                        onTap: () {
+                          BottomDialog.editAddress(context, snapshot.data);
+                        },
+                        child: Container(
+                          height: 48,
+                          width: double.infinity,
+                          margin: EdgeInsets.only(top: 16),
+                          decoration: BoxDecoration(
+                            color: AppTheme.background,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: EdgeInsets.all(8),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset("assets/icons/work.svg"),
+                              SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  translate("address.work"),
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRubik,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 14,
+                                    height: 1.2,
+                                    color: AppTheme.textGray,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              SvgPicture.asset("assets/icons/edit.svg"),
+                              SizedBox(width: 8),
+                            ],
                           ),
                         ),
+                      );
+                    }
+                    return GestureDetector(
+                      onTap: () {
+                        BottomDialog.addAddress(context, 2);
+                      },
+                      child: Container(
+                        height: 48,
+                        width: double.infinity,
+                        margin: EdgeInsets.only(top: 16),
+                        decoration: BoxDecoration(
+                          color: AppTheme.background,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: EdgeInsets.all(8),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset("assets/icons/work.svg"),
+                            SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                translate("address.work"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 14,
+                                  height: 1.2,
+                                  color: AppTheme.textGray,
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            SvgPicture.asset("assets/icons/edit.svg"),
+                            SizedBox(width: 8),
+                          ],
+                        ),
                       ),
-                      SizedBox(width: 8),
-                      SvgPicture.asset("assets/icons/edit.svg"),
-                      SizedBox(width: 8),
-                    ],
-                  ),
+                    );
+                  },
                 ),
                 StreamBuilder(
                   stream: blocStore.allAddress,
@@ -172,40 +270,45 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                            height: 48,
-                            width: double.infinity,
-                            margin: EdgeInsets.only(top: 16),
-                            decoration: BoxDecoration(
-                              color: AppTheme.background,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            padding: EdgeInsets.all(8),
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/icons/location.svg",
-                                  color: AppTheme.textGray,
-                                ),
-                                SizedBox(width: 8),
-                                Expanded(
-                                  child: Text(
-                                    snapshot.data[index].street,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRubik,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 14,
-                                      height: 1.2,
-                                      color: AppTheme.textGray,
+                          return GestureDetector(
+                            onTap: (){
+                              BottomDialog.editAddress(context, snapshot.data[index]);
+                            },
+                            child: Container(
+                              height: 48,
+                              width: double.infinity,
+                              margin: EdgeInsets.only(top: 16),
+                              decoration: BoxDecoration(
+                                color: AppTheme.background,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              padding: EdgeInsets.all(8),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/icons/location.svg",
+                                    color: AppTheme.textGray,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      snapshot.data[index].street,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontRubik,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 14,
+                                        height: 1.2,
+                                        color: AppTheme.textGray,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(width: 8),
-                                SvgPicture.asset("assets/icons/edit.svg"),
-                                SizedBox(width: 8),
-                              ],
+                                  SizedBox(width: 8),
+                                  SvgPicture.asset("assets/icons/edit.svg"),
+                                  SizedBox(width: 8),
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -216,7 +319,7 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    BottomDialog.addAddress(context,0);
+                    BottomDialog.addAddress(context, 0);
                   },
                   child: Container(
                     height: 48,

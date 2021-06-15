@@ -16,6 +16,10 @@ class DatabaseHelperAddress {
   final String columnLat = 'lat';
   final String columnLng = 'lng';
   final String columnType = 'type';
+  final String columnDom = 'dom';
+  final String columnEn = 'en';
+  final String columnKv = 'kv';
+  final String columnComment = 'comment';
 
   static Database _db;
 
@@ -32,7 +36,7 @@ class DatabaseHelperAddress {
 
   initDb() async {
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'addressInfo.db');
+    String path = join(databasesPath, 'addressUser.db');
     var db = await openDatabase(path, version: 1, onCreate: _onCreate);
     return db;
   }
@@ -42,6 +46,10 @@ class DatabaseHelperAddress {
       'CREATE TABLE $tableNote('
       '$columnId INTEGER PRIMARY KEY AUTOINCREMENT, '
       '$columnStreet TEXT, '
+      '$columnDom TEXT, '
+      '$columnEn TEXT, '
+      '$columnKv TEXT, '
+      '$columnComment TEXT, '
       '$columnType INTEGER, '
       '$columnLat TEXT, '
       '$columnLng TEXT)',
@@ -69,6 +77,10 @@ class DatabaseHelperAddress {
       var items = new AddressModel(
         id: list[i][columnId],
         street: list[i][columnStreet],
+        dom: list[i][columnDom],
+        en: list[i][columnEn],
+        kv: list[i][columnKv],
+        comment: list[i][columnComment],
         lat: list[i][columnLat],
         lng: list[i][columnLng],
         type: list[i][columnType],
@@ -89,6 +101,10 @@ class DatabaseHelperAddress {
           columnLat,
           columnLng,
           columnType,
+          columnDom,
+          columnEn,
+          columnKv,
+          columnComment,
         ],
         where: '$columnType = ?',
         whereArgs: [id]);
