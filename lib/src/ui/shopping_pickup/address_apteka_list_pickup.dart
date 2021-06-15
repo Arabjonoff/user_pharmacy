@@ -45,7 +45,6 @@ class _AddressStoreListPickupScreenState
 
   DatabaseHelper dataBase = new DatabaseHelper();
 
-  bool loading = false;
 
   @override
   void initState() {
@@ -56,7 +55,7 @@ class _AddressStoreListPickupScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: AppTheme.white,
       body: StreamBuilder(
         stream: blocStore.allExistStore,
         builder: (context, AsyncSnapshot<List<LocationModel>> snapshot) {
@@ -65,325 +64,201 @@ class _AddressStoreListPickupScreenState
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
                 return Container(
-                  margin: EdgeInsets.only(top: 16, left: 12, right: 12),
+                  margin: EdgeInsets.only(bottom: 16),
+                  padding: EdgeInsets.symmetric(vertical: 16),
                   decoration: BoxDecoration(
-                    color: AppTheme.white,
-                    borderRadius: BorderRadius.circular(10.0),
+                    color: AppTheme.background,
+                    borderRadius: BorderRadius.circular(24),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 20, left: 16, right: 16),
-                        child: Text(
-                          snapshot.data[index].name,
-                          textAlign: TextAlign.start,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            fontStyle: FontStyle.normal,
-                            color: AppTheme.black_text,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 6, left: 16, right: 16),
-                        child: Text(
-                          snapshot.data[index].address,
-                          textAlign: TextAlign.start,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 15,
-                            fontStyle: FontStyle.normal,
-                            color: AppTheme.black_text,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 19, left: 16, right: 16),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                snapshot.data[index].mode,
-                                textAlign: TextAlign.start,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.normal,
-                                  color: AppTheme.black_text,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 7,
-                            ),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () async {
-                                  var url = "tel:" +
-                                      snapshot.data[index].phone
-                                          .replaceAll(" ", "")
-                                          .replaceAll("-", "")
-                                          .replaceAll("(", "")
-                                          .replaceAll(")", "");
-                                  if (await canLaunch(url)) {
-                                    await launch(url);
-                                  } else {
-                                    throw 'Could not launch $url';
-                                  }
-                                },
-                                child: Text(
-                                  Utils.numberFormat(
-                                    snapshot.data[index].phone
-                                        .replaceAll(" ", "")
-                                        .replaceAll("+", "")
-                                        .replaceAll("-", "")
-                                        .replaceAll("(", "")
-                                        .replaceAll(")", ""),
-                                  ),
-                                  textAlign: TextAlign.start,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontRubik,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 15,
-                                    fontStyle: FontStyle.normal,
-                                    color: AppTheme.blue,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                            top: 3, bottom: 20, left: 16, right: 16),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                translate("map.work"),
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 12,
-                                  fontStyle: FontStyle.normal,
-                                  color: AppTheme.black_transparent_text,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 7,
-                            ),
-                            Expanded(
-                              child: Text(
-                                translate("auth.number_auth"),
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 12,
-                                  fontStyle: FontStyle.normal,
-                                  color: AppTheme.black_transparent_text,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                       Row(
                         children: [
                           SizedBox(width: 16),
-                          Text(
-                            translate("order"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 13,
-                              height: 1.3,
-                              color: AppTheme.search_empty,
-                            ),
+                          Image.asset(
+                            "assets/img/store_white.png",
+                            height: 64,
+                            width: 64,
                           ),
-                          SizedBox(width: 4),
+                          SizedBox(width: 16),
                           Expanded(
-                            child: Align(
-                              child: Text(
-                                priceFormat.format(snapshot.data[index].total) +
-                                    translate("sum"),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: AppTheme.black_text,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  snapshot.data[index].name,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRubik,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    height: 1.2,
+                                    color: AppTheme.text_dark,
+                                  ),
                                 ),
-                              ),
-                              alignment: Alignment.centerRight,
+                                SizedBox(height: 4),
+                                Text(
+                                  snapshot.data[index].address,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRubik,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 14,
+                                    height: 1.6,
+                                    color: AppTheme.textGray,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           SizedBox(width: 16),
                         ],
                       ),
                       SizedBox(height: 16),
+                      Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: AppTheme.white,
+                      ),
+                      SizedBox(height: 16),
+                      Row(
+                        children: [
+                          SizedBox(width: 16),
+                          Text(
+                            translate("card.distance"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14,
+                              height: 1.3,
+                              color: AppTheme.textGray,
+                            ),
+                          ),
+                          Expanded(child: Container()),
+                          snapshot.data[index].distance == 0.0
+                              ? Container()
+                              : Text(
+                                  snapshot.data[index].distance.toString() +
+                                      translate("km"),
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRubik,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 14,
+                                    height: 1.6,
+                                    color: AppTheme.text_dark,
+                                  ),
+                                ),
+                          SizedBox(width: 16),
+                        ],
+                      ),
+                      SizedBox(height: 16),
+                      Row(
+                        children: [
+                          SizedBox(width: 16),
+                          Text(
+                            translate("card.mode"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14,
+                              height: 1.3,
+                              color: AppTheme.textGray,
+                            ),
+                          ),
+                          Expanded(child: Container()),
+                          Text(
+                            snapshot.data[index].mode,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14,
+                              height: 1.6,
+                              color: AppTheme.text_dark,
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                        ],
+                      ),
+                      SizedBox(height: 16),
+                      Row(
+                        children: [
+                          SizedBox(width: 16),
+                          Text(
+                            translate("card.phone"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14,
+                              height: 1.3,
+                              color: AppTheme.textGray,
+                            ),
+                          ),
+                          Expanded(child: Container()),
+                          Text(
+                            Utils.numberFormat(snapshot.data[index].phone),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14,
+                              height: 1.6,
+                              color: AppTheme.text_dark,
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                        ],
+                      ),
+                      SizedBox(height: 16),
+                      Row(
+                        children: [
+                          SizedBox(width: 16),
+                          Text(
+                            translate("card.price"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14,
+                              height: 1.3,
+                              color: AppTheme.textGray,
+                            ),
+                          ),
+                          Expanded(child: Container()),
+                          Text(
+                            priceFormat.format(snapshot.data[index].total) +
+                                translate("sum"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14,
+                              height: 1.6,
+                              color: AppTheme.text_dark,
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                        ],
+                      ),
+                      SizedBox(height: 16),
+                      Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: AppTheme.white,
+                      ),
+                      SizedBox(height: 16),
                       GestureDetector(
                         onTap: () {
-                          setState(() {
-                            loading = true;
-                          });
-                          CreateOrderModel createOrder;
-                          List<Drugs> drugs = new List();
-                          dataBase.getProdu(true).then((dataBaseValue) => {
-                                for (int i = 0; i < dataBaseValue.length; i++)
-                                  {
-                                    drugs.add(
-                                      Drugs(
-                                        drug: dataBaseValue[i].id,
-                                        qty: dataBaseValue[i].cardCount,
-                                      ),
-                                    )
-                                  },
-                                createOrder = new CreateOrderModel(
-                                  device: Platform.isIOS ? "IOS" : "Android",
-                                  type: "self",
-                                  storeId: snapshot.data[index].id,
-                                  drugs: drugs,
-                                ),
-                                // Repository()
-                                //     .fetchCreateOrder(createOrder)
-                                //     .then((response) => {
-                                //           if (response.status == 1)
-                                //             {
-                                //               Navigator.push(
-                                //                 context,
-                                //                 MaterialPageRoute(
-                                //                   builder: (context) =>
-                                //                       OrderCardPickupScreen(
-                                //                     response.data.orderId,
-                                //                     response
-                                //                         .data.expireSelfOrder,
-                                //                   ),
-                                //                 ),
-                                //               ),
-                                //               setState(() {
-                                //                 loading = false;
-                                //               }),
-                                //               dataBase.clear(),
-                                //             }
-                                //           else if (response.status == -1)
-                                //             {
-                                //               showDialog(
-                                //                 context: context,
-                                //                 builder:
-                                //                     (BuildContext context) {
-                                //                   return AlertDialog(
-                                //                     shape: RoundedRectangleBorder(
-                                //                         borderRadius:
-                                //                             BorderRadius.all(
-                                //                                 Radius.circular(
-                                //                                     10.0))),
-                                //                     contentPadding:
-                                //                         EdgeInsets.fromLTRB(
-                                //                             0.0, 0.0, 0.0, 0.0),
-                                //                     content: Container(
-                                //                       width: 239.0,
-                                //                       height: 64.0,
-                                //                       child: Center(
-                                //                         child: Text(
-                                //                           response.msg,
-                                //                           style: TextStyle(
-                                //                             fontFamily: AppTheme
-                                //                                 .fontRubik,
-                                //                             fontStyle: FontStyle
-                                //                                 .normal,
-                                //                             fontWeight:
-                                //                                 FontWeight.w600,
-                                //                             fontSize: 16,
-                                //                             color: AppTheme
-                                //                                 .black_text,
-                                //                           ),
-                                //                         ),
-                                //                       ),
-                                //                     ),
-                                //                   );
-                                //                 },
-                                //               ),
-                                //               setState(() {
-                                //                 loading = false;
-                                //               }),
-                                //             }
-                                //           else
-                                //             {
-                                //               setState(() {
-                                //                 loading = false;
-                                //               }),
-                                //               showDialog(
-                                //                 context: context,
-                                //                 builder:
-                                //                     (BuildContext context) {
-                                //                   return AlertDialog(
-                                //                     shape: RoundedRectangleBorder(
-                                //                         borderRadius:
-                                //                             BorderRadius.all(
-                                //                                 Radius.circular(
-                                //                                     10.0))),
-                                //                     contentPadding:
-                                //                         EdgeInsets.fromLTRB(
-                                //                             0.0, 0.0, 0.0, 0.0),
-                                //                     content: Container(
-                                //                       width: 239.0,
-                                //                       height: 64.0,
-                                //                       child: Center(
-                                //                         child: Text(
-                                //                           response.msg == ""
-                                //                               ? translate(
-                                //                                   "error_distanse")
-                                //                               : response.msg,
-                                //                           style: TextStyle(
-                                //                             fontFamily: AppTheme
-                                //                                 .fontRubik,
-                                //                             fontStyle: FontStyle
-                                //                                 .normal,
-                                //                             fontWeight:
-                                //                                 FontWeight.w600,
-                                //                             fontSize: 16,
-                                //                             color: AppTheme
-                                //                                 .black_text,
-                                //                           ),
-                                //                         ),
-                                //                       ),
-                                //                     ),
-                                //                   );
-                                //                 },
-                                //               ),
-                                //             }
-                                //         }),
-                              });
+                          widget.chooseStore(snapshot.data[index]);
                         },
                         child: Container(
                           width: double.infinity,
                           height: 44,
-                          margin:
-                              EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                          margin: EdgeInsets.only(left: 16, right: 16),
                           decoration: BoxDecoration(
                             color: AppTheme.blue_app_color,
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: Center(
                             child: Text(
-                              translate("orders.map_add_order"),
+                              translate("card.choose_store_info"),
                               style: TextStyle(
                                 fontSize: 17,
                                 color: AppTheme.white,

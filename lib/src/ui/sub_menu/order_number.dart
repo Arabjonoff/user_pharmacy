@@ -504,174 +504,16 @@ class _OrderNumberState extends State<OrderNumber> {
                           ),
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: 16,
-                          left: 16,
-                          right: 16,
-                        ),
-                        child: Text(
-                          translate("history.user_address"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            height: 1.2,
-                            color: AppTheme.textGray,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: 8,
-                          left: 16,
-                          right: 16,
-                        ),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: AppTheme.background,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 13,
-                        ),
-                        child: Text(
-                          widget.item.address,
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            height: 1.2,
-                            color: AppTheme.text_dark,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 1,
-                        width: double.infinity,
-                        margin: EdgeInsets.only(top: 16, bottom: 16),
-                        color: AppTheme.background,
-                      ),
-                      //widget.item.type == "self"
-                      Container(
-                        margin: EdgeInsets.only(left: 16, right: 16),
-                        child: Text(
-                          widget.item.type == "self"
-                              ? translate("history.store")
-                              : translate("history.courier"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            height: 1.2,
-                            color: AppTheme.text_dark,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: 16,
-                          left: 16,
-                          right: 16,
-                        ),
-                        child: Text(
-                          widget.item.type == "self"
-                              ? translate("history.store_name")
-                              : translate("history.user_name"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            height: 1.2,
-                            color: AppTheme.textGray,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: 8,
-                          left: 16,
-                          right: 16,
-                        ),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: AppTheme.background,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 13,
-                        ),
-                        child: Text(
-                          widget.item.type == "self"
-                              ? widget.item.store.name
-                              : widget.item.delivery.firstName +
-                                  " " +
-                                  widget.item.delivery.lastName,
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            height: 1.2,
-                            color: AppTheme.text_dark,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: 16,
-                          left: 16,
-                          right: 16,
-                        ),
-                        child: Text(
-                          translate("history.user_number"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            height: 1.2,
-                            color: AppTheme.textGray,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: 8,
-                          left: 16,
-                          right: 16,
-                        ),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: AppTheme.background,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 13,
-                        ),
-                        child: Text(
-                          widget.item.type == "self"
-                              ? Utils.numberFormat(widget.item.store.phone)
-                              : Utils.numberFormat(widget.item.delivery.login),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            height: 1.2,
-                            color: AppTheme.text_dark,
-                          ),
-                        ),
-                      ),
                       widget.item.type == "self"
-                          ? Container(
+                          ? Container()
+                          : Container(
                               margin: EdgeInsets.only(
                                 top: 16,
                                 left: 16,
                                 right: 16,
                               ),
                               child: Text(
-                                translate("history.store_address"),
+                                translate("history.user_address"),
                                 style: TextStyle(
                                   fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.normal,
@@ -680,10 +522,10 @@ class _OrderNumberState extends State<OrderNumber> {
                                   color: AppTheme.textGray,
                                 ),
                               ),
-                            )
-                          : Container(),
+                            ),
                       widget.item.type == "self"
-                          ? Container(
+                          ? Container()
+                          : Container(
                               margin: EdgeInsets.only(
                                 top: 8,
                                 left: 16,
@@ -699,7 +541,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                 vertical: 13,
                               ),
                               child: Text(
-                                widget.item.store.address,
+                                widget.item.address,
                                 style: TextStyle(
                                   fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.normal,
@@ -708,6 +550,179 @@ class _OrderNumberState extends State<OrderNumber> {
                                   color: AppTheme.text_dark,
                                 ),
                               ),
+                            ),
+                      type > 2
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 1,
+                                  width: double.infinity,
+                                  margin: EdgeInsets.only(top: 16, bottom: 16),
+                                  color: AppTheme.background,
+                                ),
+                                //widget.item.type == "self"
+                                Container(
+                                  margin: EdgeInsets.only(left: 16, right: 16),
+                                  child: Text(
+                                    widget.item.type == "self"
+                                        ? translate("history.store")
+                                        : translate("history.courier"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      height: 1.2,
+                                      color: AppTheme.text_dark,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    top: 16,
+                                    left: 16,
+                                    right: 16,
+                                  ),
+                                  child: Text(
+                                    widget.item.type == "self"
+                                        ? translate("history.store_name")
+                                        : translate("history.user_name"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14,
+                                      height: 1.2,
+                                      color: AppTheme.textGray,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    top: 8,
+                                    left: 16,
+                                    right: 16,
+                                  ),
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.background,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 13,
+                                  ),
+                                  child: Text(
+                                    widget.item.type == "self"
+                                        ? widget.item.store.name
+                                        : widget.item.delivery.firstName +
+                                            " " +
+                                            widget.item.delivery.lastName,
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14,
+                                      height: 1.2,
+                                      color: AppTheme.text_dark,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    top: 16,
+                                    left: 16,
+                                    right: 16,
+                                  ),
+                                  child: Text(
+                                    translate("history.user_number"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14,
+                                      height: 1.2,
+                                      color: AppTheme.textGray,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    top: 8,
+                                    left: 16,
+                                    right: 16,
+                                  ),
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.background,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 13,
+                                  ),
+                                  child: Text(
+                                    widget.item.type == "self"
+                                        ? Utils.numberFormat(
+                                            widget.item.store.phone)
+                                        : Utils.numberFormat(
+                                            widget.item.delivery.login),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14,
+                                      height: 1.2,
+                                      color: AppTheme.text_dark,
+                                    ),
+                                  ),
+                                ),
+                                widget.item.type == "self"
+                                    ? Container(
+                                        margin: EdgeInsets.only(
+                                          top: 16,
+                                          left: 16,
+                                          right: 16,
+                                        ),
+                                        child: Text(
+                                          translate("history.store_address"),
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontRubik,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 14,
+                                            height: 1.2,
+                                            color: AppTheme.textGray,
+                                          ),
+                                        ),
+                                      )
+                                    : Container(),
+                                widget.item.type == "self"
+                                    ? Container(
+                                        margin: EdgeInsets.only(
+                                          top: 8,
+                                          left: 16,
+                                          right: 16,
+                                        ),
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.background,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 16,
+                                          vertical: 13,
+                                        ),
+                                        child: Text(
+                                          widget.item.store.address,
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontRubik,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 14,
+                                            height: 1.2,
+                                            color: AppTheme.text_dark,
+                                          ),
+                                        ),
+                                      )
+                                    : Container(),
+                              ],
                             )
                           : Container(),
                       SizedBox(height: 16),
@@ -1104,65 +1119,69 @@ class _OrderNumberState extends State<OrderNumber> {
               ],
             ),
           ),
-          Container(
-            padding: EdgeInsets.only(
-              top: 12,
-              left: 22,
-              right: 22,
-              bottom: 24,
-            ),
-            color: AppTheme.white,
-            child: GestureDetector(
-              onTap: () async {
-                if (widget.item.type == "self") {
-                  var pharmacyLat = widget.item.store.location.coordinates[1];
-                  var pharmacyLng = widget.item.store.location.coordinates[0];
-                  String googleUrl =
-                      'https://maps.google.com/?daddr=$pharmacyLat,$pharmacyLng';
-                  if (await canLaunch(googleUrl)) {
-                    await launch(googleUrl);
-                  } else {
-                    throw 'Could not launch $googleUrl';
-                  }
-                } else {
-                  var url = "tel:" +
-                      widget.item.delivery.login
-                          .replaceAll("+", "")
-                          .replaceAll(" ", "")
-                          .replaceAll("-", "")
-                          .replaceAll(")", "")
-                          .replaceAll("(", "");
-                  if (await canLaunch(url)) {
-                    await launch(url);
-                  } else {
-                    throw 'Could not launch $url';
-                  }
-                }
-              },
-              child: Container(
-                height: 44,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: AppTheme.blue,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Center(
-                  child: Text(
-                    widget.item.type == "self"
-                        ? translate("history.direct")
-                        : translate("history.call_curer"),
-                    style: TextStyle(
-                      fontFamily: AppTheme.fontRubik,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      height: 1.25,
-                      color: AppTheme.white,
+          type > 2
+              ? Container(
+                  padding: EdgeInsets.only(
+                    top: 12,
+                    left: 22,
+                    right: 22,
+                    bottom: 24,
+                  ),
+                  color: AppTheme.white,
+                  child: GestureDetector(
+                    onTap: () async {
+                      if (widget.item.type == "self") {
+                        var pharmacyLat =
+                            widget.item.store.location.coordinates[1];
+                        var pharmacyLng =
+                            widget.item.store.location.coordinates[0];
+                        String googleUrl =
+                            'https://maps.google.com/?daddr=$pharmacyLat,$pharmacyLng';
+                        if (await canLaunch(googleUrl)) {
+                          await launch(googleUrl);
+                        } else {
+                          throw 'Could not launch $googleUrl';
+                        }
+                      } else {
+                        var url = "tel:" +
+                            widget.item.delivery.login
+                                .replaceAll("+", "")
+                                .replaceAll(" ", "")
+                                .replaceAll("-", "")
+                                .replaceAll(")", "")
+                                .replaceAll("(", "");
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      }
+                    },
+                    child: Container(
+                      height: 44,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: AppTheme.blue,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          widget.item.type == "self"
+                              ? translate("history.direct")
+                              : translate("history.call_curer"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
-          )
+                )
+              : Container()
         ],
       ),
     );

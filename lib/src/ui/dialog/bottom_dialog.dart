@@ -3612,6 +3612,7 @@ class BottomDialog {
                               drugs,
                               (value) {
                                 chooseStore(value);
+                                Navigator.pop(context);
                               },
                             ),
                           ],

@@ -135,7 +135,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    translate("cash_price_title"),
+                                    translate("menu.my_price"),
                                     style: TextStyle(
                                       fontFamily: AppTheme.fontRubik,
                                       fontWeight: FontWeight.normal,
@@ -196,7 +196,7 @@ class _MenuScreenState extends State<MenuScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  translate("cash_price_title"),
+                                  translate("menu.my_price"),
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontRubik,
                                     fontWeight: FontWeight.normal,
