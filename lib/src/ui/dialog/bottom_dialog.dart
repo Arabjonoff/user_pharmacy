@@ -20,8 +20,11 @@ import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
+import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
+import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_list_pickup.dart';
+import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_map_pickup.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/utils/number_mask.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
@@ -3435,6 +3438,169 @@ class BottomDialog {
                       ),
                     ),
                   ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  static void showChooseStore(BuildContext context, List<ProductsStore> drugs) {
+    PageController _pageController = PageController(initialPage: 0);
+    int currentIndex = 0;
+    showModalBottomSheet(
+      context: context,
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, setState) {
+            return Container(
+              margin: EdgeInsets.only(top: 56),
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                  color: AppTheme.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  )),
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    height: 4,
+                    width: 64,
+                    decoration: BoxDecoration(
+                      color: AppTheme.bottom_dialog,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  Container(
+                    height: 1,
+                    width: double.infinity,
+                    margin: EdgeInsets.only(top: 16),
+                    color: AppTheme.background,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 16, right: 16),
+                    height: 50,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              if (currentIndex != 0) {
+                                setState(() {
+                                  currentIndex = 0;
+                                  _pageController.jumpToPage(currentIndex);
+                                });
+                              }
+                            },
+                            child: Container(
+                              color: AppTheme.white,
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        translate("card.map"),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRubik,
+                                          fontWeight: currentIndex == 0
+                                              ? FontWeight.w500
+                                              : FontWeight.w400,
+                                          fontSize: 14,
+                                          height: 1.2,
+                                          color: currentIndex == 0
+                                              ? AppTheme.text_dark
+                                              : AppTheme.textGray,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  AnimatedContainer(
+                                    duration: Duration(milliseconds: 270),
+                                    curve: Curves.easeInOut,
+                                    height: currentIndex == 0 ? 2 : 1,
+                                    width: double.infinity,
+                                    color: currentIndex == 0
+                                        ? AppTheme.blue
+                                        : AppTheme.background,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              if (currentIndex != 1) {
+                                setState(() {
+                                  currentIndex = 1;
+                                  _pageController.jumpToPage(currentIndex);
+                                });
+                              }
+                            },
+                            child: Container(
+                              color: AppTheme.white,
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        translate("card.list"),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRubik,
+                                          fontWeight: currentIndex == 1
+                                              ? FontWeight.w500
+                                              : FontWeight.w400,
+                                          fontSize: 14,
+                                          height: 1.2,
+                                          color: currentIndex == 1
+                                              ? AppTheme.text_dark
+                                              : AppTheme.textGray,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  AnimatedContainer(
+                                    duration: Duration(milliseconds: 270),
+                                    curve: Curves.easeInOut,
+                                    height: currentIndex == 1 ? 2 : 1,
+                                    width: double.infinity,
+                                    color: currentIndex == 1
+                                        ? AppTheme.blue
+                                        : AppTheme.background,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                        padding: EdgeInsets.all(16),
+                        child: PageView(
+                          physics: NeverScrollableScrollPhysics(),
+                          pageSnapping: false,
+                          onPageChanged: (int page) {
+                            setState(() {
+                              currentIndex = page;
+                            });
+                          },
+                          controller: _pageController,
+                          children: <Widget>[
+                            AddressStoreMapPickupScreen(drugs),
+                            AddressStoreListPickupScreen(drugs),
+                          ],
+                        )),
+                  )
                 ],
               ),
             );

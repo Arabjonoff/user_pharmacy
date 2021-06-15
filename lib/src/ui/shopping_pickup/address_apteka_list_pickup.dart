@@ -442,15 +442,13 @@ class _AddressStoreListPickupScreenState
           products: widget.drugs);
       blocStore.fetchAccessStore(addModel);
     } else {
-      AccessStore addModel =
-          new AccessStore(lat: null, lng: null, products: widget.drugs);
+      AccessStore addModel = new AccessStore(products: widget.drugs);
       blocStore.fetchAccessStore(addModel);
     }
   }
 
   Future<void> _defaultLocation() async {
-    AccessStore addModel =
-        new AccessStore(lat: null, lng: null, products: widget.drugs);
+    AccessStore addModel = new AccessStore(products: widget.drugs);
     blocStore.fetchAccessStore(addModel);
   }
 }

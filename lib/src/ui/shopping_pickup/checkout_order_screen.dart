@@ -6,7 +6,6 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
-import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -115,23 +114,31 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
                               width: double.infinity,
                               color: AppTheme.background,
                             ),
-                            Container(
-                              margin: EdgeInsets.all(16),
-                              height: 44,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: AppTheme.blue,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  translate("card.choose_store"),
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontRubik,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    height: 1.25,
-                                    color: AppTheme.white,
+                            GestureDetector(
+                              onTap: () {
+                                BottomDialog.showChooseStore(
+                                  context,
+                                  widget.drugs,
+                                );
+                              },
+                              child: Container(
+                                margin: EdgeInsets.all(16),
+                                height: 44,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: AppTheme.blue,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    translate("card.choose_store"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      height: 1.25,
+                                      color: AppTheme.white,
+                                    ),
                                   ),
                                 ),
                               ),

@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:io';
-
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,21 +8,15 @@ import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
-import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
-import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/main/card/card_screen.dart';
-import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
 import '../../app_theme.dart';
-import 'order_card_pickup.dart';
 
 class AddressStoreMapPickupScreen extends StatefulWidget {
   final List<ProductsStore> drugs;
@@ -44,22 +36,118 @@ class _AddressStoreMapPickupScreenState
   bool get wantKeepAlive => true;
 
   YandexMapController mapController;
-  Point _point;
   final List<placemark.Placemark> placemarks = <placemark.Placemark>[];
   DatabaseHelper dataBase = new DatabaseHelper();
 
-  var myLongitude, myLatitude;
-  bool loading = false;
   bool isGranted = true;
-
   bool isLoading = true;
-  bool isFirstGrant = true;
-  bool isFirstDisabled = true;
 
   @override
   void initState() {
     super.initState();
     _requestPermission();
+  }
+
+  @override
+  void dispose() {
+    mapController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (mapController != null) {
+      mapController.showUserLayer(
+        iconName: 'assets/map/user.png',
+        arrowName: 'assets/map/arrow.png',
+        accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
+      );
+      mapController.move(
+        point: Point(latitude: 41.311081, longitude: 69.240562),
+        zoom: 11,
+        animation: const MapAnimation(smooth: true, duration: 0.5),
+      );
+    }
+    return Scaffold(
+      body: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: Stack(
+          children: [
+            YandexMap(
+              onMapCreated: (YandexMapController yandexMapController) async {
+                mapController = yandexMapController;
+              },
+            ),
+            Positioned(
+              child: GestureDetector(
+                onTap: () async {
+                  Geolocator.getCurrentPosition(
+                    desiredAccuracy: LocationAccuracy.best,
+                  ).then((position) async {
+                    mapController.move(
+                      point: Point(
+                        latitude: position.latitude,
+                        longitude: position.longitude,
+                      ),
+                      zoom: 16,
+                      animation: const MapAnimation(
+                        smooth: true,
+                        duration: 0.5,
+                      ),
+                    );
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppTheme.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: EdgeInsets.all(8),
+                  child: Row(
+                    children: [
+                      Text(
+                        translate("address.me"),
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                      SizedBox(width: 5),
+                      SvgPicture.asset("assets/icons/gps.svg")
+                    ],
+                  ),
+                ),
+              ),
+              bottom: 12,
+              right: 12,
+            ),
+            isLoading
+                ? Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 72,
+                      width: 72,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: AppTheme.blue_app_color_transparent
+                            .withOpacity(0.3),
+                      ),
+                      padding: EdgeInsets.all(16),
+                      child: CircularProgressIndicator(
+                        value: null,
+                        strokeWidth: 5.0,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            AppTheme.blue_app_color),
+                      ),
+                    ),
+                  )
+                : Container()
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _requestPermission() async {
@@ -69,24 +157,10 @@ class _AddressStoreMapPickupScreenState
           _getPosition();
         } else {
           _defaultLocation();
-          if (mapController != null) {
-            mapController.showUserLayer(
-              iconName: 'assets/map/user.png',
-              arrowName: 'assets/map/user.png',
-              accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
-            );
-            mapController.move(
-              point: Point(latitude: 41.311081, longitude: 69.240562),
-              zoom: 11,
-              animation: const MapAnimation(smooth: true, duration: 0.5),
-            );
-          }
         }
       },
     );
   }
-
-  Future<void> _updateLocation() async {}
 
   void _addMarkers(Future<List<LocationModel>> response) async {
     if (placemarks != null)
@@ -563,143 +637,12 @@ class _AddressStoreMapPickupScreenState
     if (mapController != null)
       mapController.move(
         point: new Point(
-            latitude: latOr / data.length, longitude: lngOr / data.length),
+          latitude: latOr / data.length,
+          longitude: lngOr / data.length,
+        ),
         zoom: 11,
         animation: const MapAnimation(smooth: true, duration: 0.5),
       );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          YandexMap(
-            onMapCreated: (YandexMapController yandexMapController) async {
-              mapController = yandexMapController;
-            },
-          ),
-          isGranted
-              ? Container()
-              : GestureDetector(
-                  onTap: () async {
-                    // if (_permissionStatus == PermissionStatus.disabled) {
-                    //   AppSettings.openLocationSettings();
-                    // } else if (_permissionStatus == PermissionStatus.denied) {
-                    //   await PermissionHandler().openAppSettings();
-                    // }
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(left: 16, right: 16, top: 16),
-                    width: double.infinity,
-                    height: 72,
-                    padding: EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: AppTheme.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(
-                        color: Color.fromRGBO(0, 0, 0, 0.12),
-                        width: 1,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.08),
-                          spreadRadius: 7,
-                          blurRadius: 7,
-                          offset: Offset(0, 2), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset("assets/images/icon_map_disabled.svg"),
-                        SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            translate("disabled"),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                              color: AppTheme.black_text,
-                              height: 1.4,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: GestureDetector(
-              onTap: () {
-                if (_point != null) {
-                  mapController.move(
-                    point: _point,
-                    animation: const MapAnimation(smooth: true, duration: 0.5),
-                  );
-                } else {
-                  _updateLocation();
-                }
-              },
-              child: Container(
-                margin: EdgeInsets.only(bottom: 16, right: 16),
-                width:
-                    (translate("what_me").length * 9 + 24 + 32 + 12).toDouble(),
-                padding: EdgeInsets.only(top: 12, bottom: 12),
-                decoration: BoxDecoration(
-                  color: AppTheme.white,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset("assets/images/icon_my_location.svg"),
-                    SizedBox(width: 12),
-                    Text(
-                      translate("what_me"),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15,
-                        fontFamily: AppTheme.fontRubik,
-                        fontStyle: FontStyle.normal,
-                        color: AppTheme.black_text,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          isLoading
-              ? Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    height: 72,
-                    width: 72,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color:
-                          AppTheme.blue_app_color_transparent.withOpacity(0.3),
-                    ),
-                    padding: EdgeInsets.all(16),
-                    child: CircularProgressIndicator(
-                      value: null,
-                      strokeWidth: 5.0,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                          AppTheme.blue_app_color),
-                    ),
-                  ),
-                )
-              : Container()
-        ],
-      ),
-    );
   }
 
   Future<void> _getPosition() async {
@@ -711,46 +654,38 @@ class _AddressStoreMapPickupScreenState
       lat = position.latitude;
       lng = position.longitude;
       addModel = new AccessStore(
-          lat: position.latitude,
-          lng: position.longitude,
-          products: widget.drugs);
+        lat: position.latitude,
+        lng: position.longitude,
+        products: widget.drugs,
+      );
       Utils.saveLocation(position.latitude, position.longitude);
       _addMarkers(Repository().fetchAccessStore(addModel));
-      _point =
-          new Point(latitude: position.latitude, longitude: position.longitude);
     } else {
       addModel = new AccessStore(
-          lat: 41.311081, lng: 69.240562, products: widget.drugs);
+        lat: 41.311081,
+        lng: 69.240562,
+        products: widget.drugs,
+      );
       _addMarkers(Repository().fetchAccessStore(addModel));
     }
   }
 
   Future<void> _defaultLocation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getDouble("coordLat") != null) {
-      AccessStore addModel = new AccessStore();
-      addModel = new AccessStore(products: widget.drugs);
-      _addMarkers(Repository().fetchAccessStore(addModel));
-      if (mapController != null) {
-        mapController.move(
-          point: Point(
-              latitude: prefs.getDouble("coordLat"),
-              longitude: prefs.getDouble("coordLng")),
-          zoom: 11,
-          animation: const MapAnimation(smooth: true, duration: 0.5),
-        );
-      }
-    } else {
-      AccessStore addModel = new AccessStore();
-      addModel = new AccessStore(products: widget.drugs);
-      _addMarkers(Repository().fetchAccessStore(addModel));
-      if (mapController != null) {
-        mapController.move(
-          point: Point(latitude: 41.311081, longitude: 69.240562),
-          zoom: 11,
-          animation: const MapAnimation(smooth: true, duration: 0.5),
-        );
-      }
+    var lat = prefs.getDouble("coordLat") ?? 41.311081;
+    var lng = prefs.getDouble("coordLng") ?? 69.240562;
+
+    AccessStore addModel = new AccessStore(products: widget.drugs);
+    _addMarkers(Repository().fetchAccessStore(addModel));
+    if (mapController != null) {
+      mapController.move(
+        point: Point(
+          latitude: lat,
+          longitude: lng,
+        ),
+        zoom: 11,
+        animation: const MapAnimation(smooth: true, duration: 0.5),
+      );
     }
   }
 }

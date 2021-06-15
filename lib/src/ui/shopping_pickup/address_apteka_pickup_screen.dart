@@ -177,59 +177,6 @@ class _AddressStoreScreenState extends State<AddressStorePickupScreen>
                   ],
                 ),
               ),
-              // Container(
-              //   height: size.height - 100,
-              //   child: ListView(
-              //     shrinkWrap: true,
-              //     physics: ClampingScrollPhysics(),
-              //     children: [
-              //       Container(
-              //         height: 40,
-              //         width: double.infinity,
-              //         margin: EdgeInsets.only(left: 16, right: 16, bottom: 8),
-              //         padding: EdgeInsets.all(4),
-              //         decoration: BoxDecoration(
-              //           color: AppTheme.tab_transparent,
-              //           borderRadius: BorderRadius.circular(10.0),
-              //         ),
-              //         child: TabBar(
-              //           controller: _tabController,
-              //           labelColor: AppTheme.blue_app_color,
-              //           unselectedLabelColor: AppTheme.search_empty,
-              //           indicatorSize: TabBarIndicatorSize.tab,
-              //           labelStyle: TextStyle(
-              //             fontWeight: FontWeight.w600,
-              //             fontFamily: AppTheme.fontRoboto,
-              //             fontSize: 13,
-              //             color: AppTheme.blue_app_color,
-              //           ),
-              //           indicator: BoxDecoration(
-              //             borderRadius: BorderRadius.circular(10.0),
-              //             color: AppTheme.white,
-              //           ),
-              //           tabs: <Widget>[
-              //             new Tab(
-              //               text: translate("map.tab_one"),
-              //             ),
-              //             new Tab(
-              //               text: translate("map.tab_two"),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //       Container(
-              //         height: size.height - 140,
-              //         child: TabBarView(
-              //           controller: _tabController,
-              //           children: [
-              //             AddressAptekaMapPickupScreen(widget.drugs),
-              //             AddressAptekaListPickupScreen(widget.drugs),
-              //           ],
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // )
             ],
           ),
         ),
