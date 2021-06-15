@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:app_settings/app_settings.dart';
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,8 +8,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
+import 'package:pharmacy/src/model/http_result.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,8 +22,12 @@ import '../../app_theme.dart';
 
 class AddressStoreMapPickupScreen extends StatefulWidget {
   final List<ProductsStore> drugs;
+  final Function(LocationModel store) chooseStore;
 
-  AddressStoreMapPickupScreen(this.drugs);
+  AddressStoreMapPickupScreen(
+    this.drugs,
+    this.chooseStore,
+  );
 
   @override
   State<StatefulWidget> createState() {
@@ -162,18 +168,16 @@ class _AddressStoreMapPickupScreenState
     );
   }
 
-  void _addMarkers(Future<List<LocationModel>> response) async {
-    if (placemarks != null)
-      for (int i = 0; i < placemarks.length; i++)
-        await mapController.removePlacemark(placemarks[i]);
-    response.then((somedata) {
-      if (somedata != null) {
-        _isLoading(false);
-        _addMarkerData(somedata);
-      } else {
-        _isLoading(false);
-      }
-    });
+  void _addMarkers(HttpResult response) async {
+    if (response.isSuccess) {
+      _isLoading(false);
+      if (placemarks != null)
+        for (int i = 0; i < placemarks.length; i++)
+          await mapController.removePlacemark(placemarks[i]);
+      _addMarkerData(locationModelFromJson(json.encode(response.result)));
+    } else {
+      _isLoading(false);
+    }
   }
 
   void _isLoading(bool response) async {
@@ -190,448 +194,24 @@ class _AddressStoreMapPickupScreenState
 
       mapController.addPlacemark(
         placemark.Placemark(
-            point: Point(
-              latitude: data[i].location.coordinates[1],
-              longitude: data[i].location.coordinates[0],
-            ),
-            style: PlacemarkStyle(
-              opacity: 1,
-              iconName: 'assets/map/selected_order.png',
-            ),
-            onTap: (Placemark placemark, Point point) {}
-
-            // onTap: (Point point) => {
-            //   showModalBottomSheet(
-            //     context: context,
-            //     builder: (context) {
-            //       return Container(
-            //         margin: EdgeInsets.only(left: 8, right: 8, bottom: 16),
-            //         child: ClipRRect(
-            //           borderRadius: BorderRadius.all(Radius.circular(16.0)),
-            //           child: Container(
-            //             height: 272,
-            //             color: AppTheme.white,
-            //             child: Column(
-            //               children: <Widget>[
-            //                 Container(
-            //                   margin: EdgeInsets.only(top: 12),
-            //                   height: 4,
-            //                   width: 60,
-            //                   decoration: BoxDecoration(
-            //                     color: AppTheme.bottom_dialog,
-            //                     borderRadius: BorderRadius.circular(4),
-            //                   ),
-            //                 ),
-            //                 Container(
-            //                   margin:
-            //                       EdgeInsets.only(left: 12, right: 12, top: 25),
-            //                   child: Row(
-            //                     children: [
-            //                       Expanded(
-            //                         child: Text(
-            //                           data[i].name,
-            //                           textAlign: TextAlign.start,
-            //                           maxLines: 2,
-            //                           overflow: TextOverflow.ellipsis,
-            //                           style: TextStyle(
-            //                             fontFamily: AppTheme.fontRubik,
-            //                             fontWeight: FontWeight.bold,
-            //                             fontSize: 15,
-            //                             fontStyle: FontStyle.normal,
-            //                             color: AppTheme.black_text,
-            //                           ),
-            //                         ),
-            //                       ),
-            //                       SizedBox(
-            //                         width: 7,
-            //                       ),
-            //                       Text(
-            //                         ((data[i].distance ~/ 100) / 10.0)
-            //                                 .toString() +
-            //                             " km",
-            //                         textAlign: TextAlign.start,
-            //                         maxLines: 1,
-            //                         style: TextStyle(
-            //                           fontFamily: AppTheme.fontRubik,
-            //                           fontWeight: FontWeight.normal,
-            //                           fontSize: 11,
-            //                           fontStyle: FontStyle.normal,
-            //                           color: AppTheme.black_transparent_text,
-            //                         ),
-            //                       )
-            //                     ],
-            //                   ),
-            //                 ),
-            //                 Container(
-            //                   margin:
-            //                       EdgeInsets.only(left: 12, right: 12, top: 8),
-            //                   width: double.infinity,
-            //                   child: Text(
-            //                     data[i].address,
-            //                     textAlign: TextAlign.start,
-            //                     maxLines: 1,
-            //                     overflow: TextOverflow.ellipsis,
-            //                     style: TextStyle(
-            //                       fontFamily: AppTheme.fontRubik,
-            //                       fontWeight: FontWeight.normal,
-            //                       fontSize: 15,
-            //                       fontStyle: FontStyle.normal,
-            //                       color: AppTheme.black_text,
-            //                     ),
-            //                   ),
-            //                 ),
-            //                 Container(
-            //                   margin:
-            //                       EdgeInsets.only(left: 12, right: 12, top: 17),
-            //                   child: Row(
-            //                     children: [
-            //                       Text(
-            //                         translate("map.work") + " : ",
-            //                         textAlign: TextAlign.start,
-            //                         style: TextStyle(
-            //                           fontFamily: AppTheme.fontRubik,
-            //                           fontWeight: FontWeight.normal,
-            //                           fontSize: 12,
-            //                           fontStyle: FontStyle.normal,
-            //                           color: AppTheme.black_transparent_text,
-            //                         ),
-            //                       ),
-            //                       SizedBox(
-            //                         width: 7,
-            //                       ),
-            //                       Expanded(
-            //                         child: Text(
-            //                           data[i].mode,
-            //                           textAlign: TextAlign.start,
-            //                           maxLines: 1,
-            //                           overflow: TextOverflow.ellipsis,
-            //                           style: TextStyle(
-            //                             fontFamily: AppTheme.fontRubik,
-            //                             fontWeight: FontWeight.normal,
-            //                             fontSize: 15,
-            //                             fontStyle: FontStyle.normal,
-            //                             color: AppTheme.black_text,
-            //                           ),
-            //                         ),
-            //                       )
-            //                     ],
-            //                   ),
-            //                 ),
-            //                 Container(
-            //                   margin:
-            //                       EdgeInsets.only(left: 12, right: 12, top: 12),
-            //                   child: Row(
-            //                     children: [
-            //                       Text(
-            //                         translate("auth.number_auth") + " : ",
-            //                         textAlign: TextAlign.start,
-            //                         style: TextStyle(
-            //                           fontFamily: AppTheme.fontRubik,
-            //                           fontWeight: FontWeight.normal,
-            //                           fontSize: 12,
-            //                           fontStyle: FontStyle.normal,
-            //                           color: AppTheme.black_transparent_text,
-            //                         ),
-            //                       ),
-            //                       SizedBox(
-            //                         width: 7,
-            //                       ),
-            //                       Expanded(
-            //                         child: GestureDetector(
-            //                           onTap: () async {
-            //                             var url = "tel:" +
-            //                                 data[i]
-            //                                     .phone
-            //                                     .replaceAll(" ", "")
-            //                                     .replaceAll("-", "")
-            //                                     .replaceAll("(", "")
-            //                                     .replaceAll(")", "");
-            //                             if (await canLaunch(url)) {
-            //                               await launch(url);
-            //                             } else {
-            //                               throw 'Could not launch $url';
-            //                             }
-            //                           },
-            //                           child: Text(
-            //                             Utils.numberFormat(
-            //                               data[i]
-            //                                   .phone
-            //                                   .replaceAll(" ", "")
-            //                                   .replaceAll("+", "")
-            //                                   .replaceAll("-", "")
-            //                                   .replaceAll("(", "")
-            //                                   .replaceAll(")", ""),
-            //                             ),
-            //                             textAlign: TextAlign.start,
-            //                             maxLines: 1,
-            //                             overflow: TextOverflow.ellipsis,
-            //                             style: TextStyle(
-            //                               fontFamily: AppTheme.fontRubik,
-            //                               fontWeight: FontWeight.normal,
-            //                               fontSize: 15,
-            //                               fontStyle: FontStyle.normal,
-            //                               color: AppTheme.blue_app_color,
-            //                             ),
-            //                           ),
-            //                         ),
-            //                       )
-            //                     ],
-            //                   ),
-            //                 ),
-            //                 SizedBox(height: 12),
-            //                 Row(
-            //                   children: [
-            //                     SizedBox(width: 12),
-            //                     Text(
-            //                       translate("order"),
-            //                       style: TextStyle(
-            //                         fontFamily: AppTheme.fontRubik,
-            //                         fontWeight: FontWeight.normal,
-            //                         fontSize: 13,
-            //                         height: 1.3,
-            //                         color: AppTheme.search_empty,
-            //                       ),
-            //                     ),
-            //                     SizedBox(width: 4),
-            //                     Expanded(
-            //                       child: Align(
-            //                         child: Text(
-            //                           priceFormat.format(data[i].total) +
-            //                               translate("sum"),
-            //                           style: TextStyle(
-            //                             fontFamily: AppTheme.fontRubik,
-            //                             fontWeight: FontWeight.bold,
-            //                             fontSize: 15,
-            //                             color: AppTheme.black_text,
-            //                           ),
-            //                         ),
-            //                         alignment: Alignment.centerRight,
-            //                       ),
-            //                     ),
-            //                     SizedBox(width: 12),
-            //                   ],
-            //                 ),
-            //                 SizedBox(height: 12),
-            //                 Expanded(
-            //                   child: Align(
-            //                     alignment: Alignment.center,
-            //                     child: GestureDetector(
-            //                       onTap: () {
-            //                         setState(() {
-            //                           loading = true;
-            //                         });
-            //                         CreateOrderModel createOrder;
-            //                         List<Drugs> drugs = new List();
-            //                         dataBase
-            //                             .getProdu(true)
-            //                             .then((dataBaseValue) => {
-            //                                   for (int i = 0;
-            //                                       i < dataBaseValue.length;
-            //                                       i++)
-            //                                     {
-            //                                       drugs.add(Drugs(
-            //                                         drug: dataBaseValue[i].id,
-            //                                         qty: dataBaseValue[i]
-            //                                             .cardCount,
-            //                                       ))
-            //                                     },
-            //                                   createOrder = new CreateOrderModel(
-            //                                     device: Platform.isIOS
-            //                                         ? "IOS"
-            //                                         : "Android",
-            //                                     type: "self",
-            //                                     storeId: data[i].id,
-            //                                     drugs: drugs,
-            //                                   ),
-            //                                   Repository()
-            //                                       .fetchCreateOrder(createOrder)
-            //                                       .then((response) => {
-            //                                             if (response.status == 1)
-            //                                               {
-            //                                                 setState(() {
-            //                                                   loading = false;
-            //                                                 }),
-            //                                                 dataBase.clear(),
-            //                                                 cashData =
-            //                                                     CashBackData(
-            //                                                   total: response
-            //                                                       .data.total,
-            //                                                   cash: response
-            //                                                       .data.cash,
-            //                                                   isTotalCash: response
-            //                                                       .data
-            //                                                       .isTotalCash,
-            //                                                 ),
-            //                                                 Navigator.pop(
-            //                                                     context),
-            //                                                 Navigator.push(
-            //                                                   context,
-            //                                                   MaterialPageRoute(
-            //                                                     builder: (context) =>
-            //                                                         OrderCardPickupScreen(
-            //                                                       response.data
-            //                                                           .orderId,
-            //                                                       response.data
-            //                                                           .expireSelfOrder,
-            //                                                     ),
-            //                                                   ),
-            //                                                 ),
-            //                                               }
-            //                                             else if (response
-            //                                                     .status ==
-            //                                                 -1)
-            //                                               {
-            //                                                 Navigator.pop(
-            //                                                     context),
-            //                                                 showDialog(
-            //                                                   context: context,
-            //                                                   builder:
-            //                                                       (BuildContext
-            //                                                           context) {
-            //                                                     return AlertDialog(
-            //                                                       shape: RoundedRectangleBorder(
-            //                                                           borderRadius:
-            //                                                               BorderRadius.all(
-            //                                                                   Radius.circular(10.0))),
-            //                                                       contentPadding:
-            //                                                           EdgeInsets
-            //                                                               .fromLTRB(
-            //                                                                   0.0,
-            //                                                                   0.0,
-            //                                                                   0.0,
-            //                                                                   0.0),
-            //                                                       content:
-            //                                                           Container(
-            //                                                         width: 239.0,
-            //                                                         height: 64.0,
-            //                                                         child: Center(
-            //                                                           child: Text(
-            //                                                             response
-            //                                                                 .msg,
-            //                                                             style:
-            //                                                                 TextStyle(
-            //                                                               fontFamily:
-            //                                                                   AppTheme.fontRubik,
-            //                                                               fontStyle:
-            //                                                                   FontStyle.normal,
-            //                                                               fontWeight:
-            //                                                                   FontWeight.w600,
-            //                                                               fontSize:
-            //                                                                   16,
-            //                                                               color: AppTheme
-            //                                                                   .black_text,
-            //                                                             ),
-            //                                                           ),
-            //                                                         ),
-            //                                                       ),
-            //                                                     );
-            //                                                   },
-            //                                                 ),
-            //                                                 setState(() {
-            //                                                   loading = false;
-            //                                                 }),
-            //                                               }
-            //                                             else
-            //                                               {
-            //                                                 setState(() {
-            //                                                   loading = false;
-            //                                                 }),
-            //                                                 Navigator.pop(
-            //                                                     context),
-            //                                                 showDialog(
-            //                                                   context: context,
-            //                                                   builder:
-            //                                                       (BuildContext
-            //                                                           context) {
-            //                                                     return AlertDialog(
-            //                                                       shape: RoundedRectangleBorder(
-            //                                                           borderRadius:
-            //                                                               BorderRadius.all(
-            //                                                                   Radius.circular(10.0))),
-            //                                                       contentPadding:
-            //                                                           EdgeInsets
-            //                                                               .fromLTRB(
-            //                                                                   0.0,
-            //                                                                   0.0,
-            //                                                                   0.0,
-            //                                                                   0.0),
-            //                                                       content:
-            //                                                           Container(
-            //                                                         width: 239.0,
-            //                                                         height: 64.0,
-            //                                                         child: Center(
-            //                                                           child: Text(
-            //                                                             response.msg ==
-            //                                                                     ""
-            //                                                                 ? translate(
-            //                                                                     "error_distanse")
-            //                                                                 : response
-            //                                                                     .msg,
-            //                                                             style:
-            //                                                                 TextStyle(
-            //                                                               fontFamily:
-            //                                                                   AppTheme.fontRubik,
-            //                                                               fontStyle:
-            //                                                                   FontStyle.normal,
-            //                                                               fontWeight:
-            //                                                                   FontWeight.w600,
-            //                                                               fontSize:
-            //                                                                   16,
-            //                                                               color: AppTheme
-            //                                                                   .black_text,
-            //                                                             ),
-            //                                                           ),
-            //                                                         ),
-            //                                                       ),
-            //                                                     );
-            //                                                   },
-            //                                                 ),
-            //                                               }
-            //                                           }),
-            //                                 });
-            //                       },
-            //                       child: Container(
-            //                         width: double.infinity,
-            //                         height: 44,
-            //                         margin: EdgeInsets.only(left: 16, right: 16),
-            //                         decoration: BoxDecoration(
-            //                           color: AppTheme.blue_app_color,
-            //                           borderRadius: BorderRadius.circular(10.0),
-            //                         ),
-            //                         child: Center(
-            //                           child: loading
-            //                               ? CircularProgressIndicator(
-            //                                   value: null,
-            //                                   strokeWidth: 3.0,
-            //                                   valueColor:
-            //                                       AlwaysStoppedAnimation<Color>(
-            //                                     AppTheme.white,
-            //                                   ),
-            //                                 )
-            //                               : Text(
-            //                                   translate("orders.map_add_order"),
-            //                                   style: TextStyle(
-            //                                     fontSize: 17,
-            //                                     color: AppTheme.white,
-            //                                     fontFamily: AppTheme.fontRubik,
-            //                                     fontWeight: FontWeight.w600,
-            //                                     fontStyle: FontStyle.normal,
-            //                                   ),
-            //                                 ),
-            //                         ),
-            //                       ),
-            //                     ),
-            //                   ),
-            //                 )
-            //               ],
-            //             ),
-            //           ),
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // },
-            ),
+          point: Point(
+            latitude: data[i].location.coordinates[1],
+            longitude: data[i].location.coordinates[0],
+          ),
+          style: PlacemarkStyle(
+            opacity: 1,
+            iconName: 'assets/map/selected_order.png',
+          ),
+          onTap: (Placemark placemark, Point point) {
+            BottomDialog.showStoreInfo(
+              context,
+              data[i],
+              (value) {
+                widget.chooseStore(value);
+              },
+            );
+          },
+        ),
       );
     }
     if (mapController != null)
@@ -659,14 +239,14 @@ class _AddressStoreMapPickupScreenState
         products: widget.drugs,
       );
       Utils.saveLocation(position.latitude, position.longitude);
-      _addMarkers(Repository().fetchAccessStore(addModel));
+      _addMarkers(await Repository().fetchAccessStore(addModel));
     } else {
       addModel = new AccessStore(
         lat: 41.311081,
         lng: 69.240562,
         products: widget.drugs,
       );
-      _addMarkers(Repository().fetchAccessStore(addModel));
+      _addMarkers(await Repository().fetchAccessStore(addModel));
     }
   }
 
@@ -676,7 +256,7 @@ class _AddressStoreMapPickupScreenState
     var lng = prefs.getDouble("coordLng") ?? 69.240562;
 
     AccessStore addModel = new AccessStore(products: widget.drugs);
-    _addMarkers(Repository().fetchAccessStore(addModel));
+    _addMarkers(await Repository().fetchAccessStore(addModel));
     if (mapController != null) {
       mapController.move(
         point: Point(

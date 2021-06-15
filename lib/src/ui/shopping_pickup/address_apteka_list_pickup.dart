@@ -24,7 +24,12 @@ import 'order_card_pickup.dart';
 class AddressStoreListPickupScreen extends StatefulWidget {
   final List<ProductsStore> drugs;
 
-  AddressStoreListPickupScreen(this.drugs);
+  final Function(LocationModel store) chooseStore;
+
+  AddressStoreListPickupScreen(
+    this.drugs,
+    this.chooseStore,
+  );
 
   @override
   State<StatefulWidget> createState() {

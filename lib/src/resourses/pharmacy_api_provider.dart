@@ -648,37 +648,38 @@ class PharmacyApiProvider {
   }
 
   ///Exist store
-  Future<List<LocationModel>> fetchAccessApteka(AccessStore accessStore) async {
+  Future<HttpResult> fetchAccessApteka(AccessStore accessStore) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
     String url = Utils.baseUrl + '/api/v1/exists-stores?region=$regionId';
+    return await postRequest(url, json.encode(accessStore));
 
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-
-    try {
-      http.Response response = await http
-          .post(Uri.parse(url),
-              body: json.encode(accessStore), headers: headers)
-          .timeout(duration);
-      var responseJson = utf8.decode(response.bodyBytes);
-
-      return locationModelFromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    }
+    // Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    // String encoded = prefs.getString("deviceData") != null
+    //     ? stringToBase64.encode(prefs.getString("deviceData"))
+    //     : "";
+    //
+    // Map<String, String> headers = {
+    //   'content-type': 'application/json; charset=utf-8',
+    //   'X-Device': encoded,
+    // };
+    //
+    // try {
+    //   http.Response response = await http
+    //       .post(Uri.parse(url),
+    //           body: json.encode(accessStore), headers: headers)
+    //       .timeout(duration);
+    //   var responseJson = utf8.decode(response.bodyBytes);
+    //
+    //   return locationModelFromJson(responseJson);
+    // } on TimeoutException catch (_) {
+    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+    //   return null;
+    // } on SocketException catch (_) {
+    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+    //   return null;
+    // }
   }
 
   ///get all message

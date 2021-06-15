@@ -18,6 +18,7 @@ import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/database/database_helper_fav.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
+import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
@@ -3447,7 +3448,11 @@ class BottomDialog {
     );
   }
 
-  static void showChooseStore(BuildContext context, List<ProductsStore> drugs) {
+  static void showChooseStore(
+    BuildContext context,
+    List<ProductsStore> drugs,
+    Function(LocationModel store) chooseStore,
+  ) {
     PageController _pageController = PageController(initialPage: 0);
     int currentIndex = 0;
     showModalBottomSheet(
@@ -3596,10 +3601,265 @@ class BottomDialog {
                           },
                           controller: _pageController,
                           children: <Widget>[
-                            AddressStoreMapPickupScreen(drugs),
-                            AddressStoreListPickupScreen(drugs),
+                            AddressStoreMapPickupScreen(
+                              drugs,
+                              (value) {
+                                chooseStore(value);
+                                Navigator.pop(context);
+                              },
+                            ),
+                            AddressStoreListPickupScreen(
+                              drugs,
+                              (value) {
+                                chooseStore(value);
+                              },
+                            ),
                           ],
                         )),
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  static void showStoreInfo(
+    BuildContext context,
+    LocationModel data,
+    Function(LocationModel choose) choose,
+  ) async {
+    showModalBottomSheet(
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              height: 365,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(24),
+                ),
+                color: AppTheme.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    height: 4,
+                    width: 64,
+                    decoration: BoxDecoration(
+                      color: AppTheme.bottom_dialog,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    children: [
+                      SizedBox(width: 16),
+                      Image.asset(
+                        "assets/img/store.png",
+                        height: 64,
+                        width: 64,
+                      ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              data.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                height: 1.2,
+                                color: AppTheme.text_dark,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              data.address,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                height: 1.6,
+                                color: AppTheme.textGray,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                    ],
+                  ),
+                  Container(
+                    height: 1,
+                    width: double.infinity,
+                    color: AppTheme.background,
+                    margin: EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(width: 16),
+                      Text(
+                        translate("card.distance"),
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          height: 1.2,
+                          color: AppTheme.textGray,
+                        ),
+                      ),
+                      Expanded(child: Container()),
+                      data.distance == 0.0
+                          ? Container()
+                          : Text(
+                              data.distance.toString() + translate("km"),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                height: 1.2,
+                                color: AppTheme.text_dark,
+                              ),
+                            ),
+                      SizedBox(width: 16),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    children: [
+                      SizedBox(width: 16),
+                      Text(
+                        translate("card.mode"),
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          height: 1.2,
+                          color: AppTheme.textGray,
+                        ),
+                      ),
+                      Expanded(child: Container()),
+                      Text(
+                        data.mode.toString(),
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          height: 1.2,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    children: [
+                      SizedBox(width: 16),
+                      Text(
+                        translate("card.phone"),
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          height: 1.2,
+                          color: AppTheme.textGray,
+                        ),
+                      ),
+                      Expanded(child: Container()),
+                      Text(
+                        Utils.numberFormat(data.phone),
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          height: 1.2,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    children: [
+                      SizedBox(width: 16),
+                      Text(
+                        translate("card.price"),
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          height: 1.2,
+                          color: AppTheme.textGray,
+                        ),
+                      ),
+                      Expanded(child: Container()),
+                      Text(
+                        priceFormat.format(data.total) + translate("sum"),
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          height: 1.2,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  Container(
+                    height: 1,
+                    width: double.infinity,
+                    color: AppTheme.background,
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      choose(data);
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 44,
+                      margin: EdgeInsets.only(
+                        top: 16,
+                        left: 16,
+                        right: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.blue,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("card.choose_store_info"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 24,
                   )
                 ],
               ),

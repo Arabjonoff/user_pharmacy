@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
@@ -33,11 +35,9 @@ class StoreBloc {
   }
 
   fetchAccessStore(AccessStore accessStore) async {
-    List<LocationModel> saleModel =
-        await _repository.fetchAccessStore(accessStore);
-
-    if (saleModel != null) {
-      _existStoreFetcher.sink.add(saleModel);
+    var response = await _repository.fetchAccessStore(accessStore);
+    if (response.isSuccess) {
+      _existStoreFetcher.sink.add(locationModelFromJson(json.encode(response.result)));
     }
   }
 

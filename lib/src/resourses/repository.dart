@@ -161,7 +161,7 @@ class Repository {
   Future<List<LocationModel>> fetchStore(double lat, double lng) =>
       pharmacyApiProvider.fetchApteka(lat, lng);
 
-  Future<List<LocationModel>> fetchAccessStore(AccessStore accessStore) =>
+  Future<HttpResult> fetchAccessStore(AccessStore accessStore) =>
       pharmacyApiProvider.fetchAccessApteka(accessStore);
 
   Future<List<RegionModel>> fetchRegions(String obj) =>
