@@ -1803,7 +1803,8 @@ class BottomDialog {
                       var localizationDelegate =
                           LocalizedApp.of(context).delegate;
                       localizationDelegate.changeLocale(Locale(language));
-                      RxBus.post(BottomView(true), tag: "MENU_VIEW_NOTIFY_SCREEN");
+                      RxBus.post(BottomView(true),
+                          tag: "MENU_VIEW_NOTIFY_SCREEN");
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -2731,7 +2732,7 @@ class BottomDialog {
                   Container(
                     margin: EdgeInsets.only(top: 8),
                     height: 4,
-                    width: 60,
+                    width: 64,
                     decoration: BoxDecoration(
                       color: AppTheme.bottom_dialog,
                       borderRadius: BorderRadius.circular(4),
@@ -2741,7 +2742,7 @@ class BottomDialog {
                     margin: EdgeInsets.only(top: 16),
                     child: Center(
                       child: Text(
-                        translate("network.network_title"),
+                        translate("menu.exit"),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: AppTheme.fontRubik,
@@ -2764,7 +2765,7 @@ class BottomDialog {
                         ),
                         child: Center(
                           child: Image.asset(
-                            "assets/img/network_error_image.png",
+                            "assets/img/best.png",
                             height: 32,
                             width: 32,
                           ),
@@ -2773,7 +2774,7 @@ class BottomDialog {
                     ),
                   ),
                   Text(
-                    translate("network.network_message"),
+                    translate("menu.exit_title"),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: AppTheme.fontRubik,
@@ -2799,7 +2800,7 @@ class BottomDialog {
                       ),
                       child: Center(
                         child: Text(
-                          translate("network.reload_screen"),
+                          translate("menu.exit_no"),
                           style: TextStyle(
                             fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.w500,
@@ -2813,14 +2814,19 @@ class BottomDialog {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pop(context);
+                      Utils.clearData();
+                      if (Platform.isIOS) {
+                        exit(0);
+                      } else {
+                        SystemNavigator.pop();
+                      }
                     },
                     child: Container(
                       height: 44,
                       color: AppTheme.white,
                       child: Center(
                         child: Text(
-                          translate("network.close"),
+                          translate("menu.exit_yes"),
                           style: TextStyle(
                             fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.w500,
