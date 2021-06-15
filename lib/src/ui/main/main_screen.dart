@@ -28,7 +28,6 @@ import 'package:pharmacy/src/ui/shopping_pickup/checkout_order_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/about_app_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/faq_app_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
-import 'package:pharmacy/src/ui/sub_menu/language_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/my_address_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -136,17 +135,11 @@ class _MainScreenState extends State<MainScreen> {
 
   Future<void> _setLanguage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString('language') != null) {
-      setState(() {
-        var localizationDelegate = LocalizedApp.of(context).delegate;
-        localizationDelegate.changeLocale(Locale(prefs.getString('language')));
-      });
-    } else {
-      setState(() {
-        var localizationDelegate = LocalizedApp.of(context).delegate;
-        localizationDelegate.changeLocale(Locale('ru'));
-      });
-    }
+    var lan = prefs.getString('language') ?? "ru";
+    setState(() {
+      var localizationDelegate = LocalizedApp.of(context).delegate;
+      localizationDelegate.changeLocale(Locale(lan));
+    });
   }
 
   void _registerBus() {
@@ -491,6 +484,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
   }
+
   void _address() {
     Navigator.push(
       context,
@@ -509,12 +503,16 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  void _language() {
-    Navigator.push(
+  Future<void> _language() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var lan = prefs.getString('language') ?? "ru";
+    BottomDialog.showChangeLanguage(
       context,
-      MaterialPageRoute(
-        builder: (context) => LanguageScreen(),
-      ),
+      lan,
+      () {
+
+        _setLanguage();
+      },
     );
   }
 

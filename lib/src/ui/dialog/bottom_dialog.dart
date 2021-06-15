@@ -785,11 +785,11 @@ class BottomDialog {
                           lng: lng.toString(),
                           type: addressModel.type,
                         );
-                          database.updateProduct(data).then((value) {
-                            blocStore.fetchAddress();
-                            blocStore.fetchAddressHome();
-                            blocStore.fetchAddressWork();
-                          });
+                        database.updateProduct(data).then((value) {
+                          blocStore.fetchAddress();
+                          blocStore.fetchAddressHome();
+                          blocStore.fetchAddressWork();
+                        });
                         Navigator.pop(context);
                       }
                     },
@@ -1522,6 +1522,314 @@ class BottomDialog {
                       ),
                     ),
                   )
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  static void showChangeLanguage(
+    BuildContext context,
+    String language,
+    Function() onTap,
+  ) async {
+    var duration = Duration(milliseconds: 270);
+    showModalBottomSheet(
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              height: 342,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(24),
+                ),
+                color: AppTheme.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    height: 4,
+                    width: 64,
+                    decoration: BoxDecoration(
+                      color: AppTheme.bottom_dialog,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    child: Center(
+                      child: Text(
+                        translate("menu.language"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          height: 1.2,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 24),
+                  GestureDetector(
+                    onTap: () {
+                      if (language != "uz") {
+                        setState(() {
+                          language = "uz";
+                        });
+                      }
+                    },
+                    child: Container(
+                      height: 48,
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: AppTheme.background,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            "assets/img/uz.png",
+                            width: 24,
+                            height: 24,
+                          ),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              "O'zbek tili",
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                height: 1.2,
+                                color: AppTheme.textGray,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          AnimatedContainer(
+                            duration: duration,
+                            curve: Curves.easeInOut,
+                            height: 16,
+                            width: 16,
+                            child: Center(
+                              child: AnimatedContainer(
+                                duration: duration,
+                                curve: Curves.easeInOut,
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  color: language == "uz"
+                                      ? AppTheme.blue
+                                      : AppTheme.background,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppTheme.background,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: language == "uz"
+                                    ? AppTheme.blue
+                                    : AppTheme.gray,
+                                width: 1,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  GestureDetector(
+                    onTap: () {
+                      if (language != "ru") {
+                        setState(() {
+                          language = "ru";
+                        });
+                      }
+                    },
+                    child: Container(
+                      height: 48,
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: AppTheme.background,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            "assets/img/ru.png",
+                            width: 24,
+                            height: 24,
+                          ),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              "Русский язык",
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                height: 1.2,
+                                color: AppTheme.textGray,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          AnimatedContainer(
+                            duration: duration,
+                            curve: Curves.easeInOut,
+                            height: 16,
+                            width: 16,
+                            child: Center(
+                              child: AnimatedContainer(
+                                duration: duration,
+                                curve: Curves.easeInOut,
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  color: language == "ru"
+                                      ? AppTheme.blue
+                                      : AppTheme.background,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppTheme.background,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: language == "ru"
+                                    ? AppTheme.blue
+                                    : AppTheme.gray,
+                                width: 1,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  GestureDetector(
+                    onTap: () {
+                      if (language != "en") {
+                        setState(() {
+                          language = "en";
+                        });
+                      }
+                    },
+                    child: Container(
+                      height: 48,
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: AppTheme.background,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            "assets/img/en.png",
+                            width: 24,
+                            height: 24,
+                          ),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              "English",
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                height: 1.2,
+                                color: AppTheme.textGray,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          AnimatedContainer(
+                            duration: duration,
+                            curve: Curves.easeInOut,
+                            height: 16,
+                            width: 16,
+                            child: Center(
+                              child: AnimatedContainer(
+                                duration: duration,
+                                curve: Curves.easeInOut,
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  color: language == "en"
+                                      ? AppTheme.blue
+                                      : AppTheme.background,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppTheme.background,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: language == "en"
+                                    ? AppTheme.blue
+                                    : AppTheme.gray,
+                                width: 1,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(child: Container()),
+                  GestureDetector(
+                    onTap: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.setString('language', language);
+                      var localizationDelegate =
+                          LocalizedApp.of(context).delegate;
+                      localizationDelegate.changeLocale(Locale(language));
+                      RxBus.post(BottomView(true), tag: "MENU_VIEW_NOTIFY_SCREEN");
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 44,
+                      margin: EdgeInsets.only(
+                        top: 16,
+                        bottom: 24,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.blue,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("menu.save"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             );

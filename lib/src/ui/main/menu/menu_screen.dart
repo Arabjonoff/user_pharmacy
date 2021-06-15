@@ -58,6 +58,7 @@ class _MenuScreenState extends State<MenuScreen> {
   void initState() {
     _registerBus();
     _getInfo();
+    _setLanguage();
     super.initState();
   }
 
@@ -945,7 +946,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    var url = "tel:+998712050888";
+                    var url = "tel:712050888";
                     if (await canLaunch(url)) {
                       await launch(url);
                     } else {
@@ -1140,6 +1141,15 @@ class _MenuScreenState extends State<MenuScreen> {
     );
   }
 
+  Future<void> _setLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var lan = prefs.getString('language') ?? "ru";
+    setState(() {
+      var localizationDelegate = LocalizedApp.of(context).delegate;
+      localizationDelegate.changeLocale(Locale(lan));
+    });
+  }
+
   void _registerBus() {
     RxBus.register<BottomView>(tag: "MENU_VIEW").listen((event) {
       if (event.title) {
@@ -1149,9 +1159,8 @@ class _MenuScreenState extends State<MenuScreen> {
 
     RxBus.register<BottomView>(tag: "MENU_VIEW_NOTIFY_SCREEN").listen((event) {
       if (event.title) {
-        setState(() {
-          _getInfo();
-        });
+        _getInfo();
+        _setLanguage();
       }
     });
   }
