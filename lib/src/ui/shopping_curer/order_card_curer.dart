@@ -68,30 +68,11 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
 
   TextEditingController cashPriceController = TextEditingController();
 
-  // var maskFormatter = new MaskTextInputFormatter(
-  //     mask: '+998 ## ### ## ##', filter: {"#": RegExp(r'[0-9]')});
-  //
-  // var maskCardNumberFormatter = new MaskTextInputFormatter(
-  //     mask: '8600 #### #### ####', filter: {"#": RegExp(r'[0-9]')});
-  // var maskCardDateFormatter = new MaskTextInputFormatter(
-  //     mask: '##/##', filter: {"#": RegExp(r'[0-9]')});
-
   @override
   void initState() {
     allPrice = widget.deliveryPrice + widget.price;
-    _getLanguage();
+    blocOrderOptions.fetchOrderOptions();
     super.initState();
-  }
-
-  Future<void> _getLanguage() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var languageData;
-    if (prefs.getString('language') != null) {
-      languageData = prefs.getString('language');
-    } else {
-      languageData = "ru";
-    }
-    blocOrderOptions.fetchOrderOptions(languageData);
   }
 
   _OrderCardCurerScreenState() {

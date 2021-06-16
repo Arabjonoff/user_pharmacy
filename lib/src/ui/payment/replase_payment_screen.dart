@@ -34,20 +34,14 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
   TextEditingController cardNumberController = TextEditingController();
   TextEditingController cardDateController = TextEditingController();
 
-  // var maskCardNumberFormatter = new MaskTextInputFormatter(
-  //     mask: '#### #### #### ####', filter: {"#": RegExp(r'[0-9]')});
-  // var maskCardDateFormatter = new MaskTextInputFormatter(
-  //     mask: '##/##', filter: {"#": RegExp(r'[0-9]')});
-
   @override
   void initState() {
-    _getLanguage();
+    blocOrderOptions.fetchOrderOptions();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    _getLanguage();
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
@@ -458,16 +452,5 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> _getLanguage() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var languageData;
-    if (prefs.getString('language') != null) {
-      languageData = prefs.getString('language');
-    } else {
-      languageData = "ru";
-    }
-    blocOrderOptions.fetchOrderOptions(languageData);
   }
 }

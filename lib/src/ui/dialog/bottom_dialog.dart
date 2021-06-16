@@ -791,6 +791,7 @@ class BottomDialog {
                         );
                         database.updateProduct(data).then((value) {
                           blocStore.fetchAddress();
+                          blocStore.fetchAllAddress();
                           blocStore.fetchAddressHome();
                           blocStore.fetchAddressWork();
                         });
@@ -1232,6 +1233,7 @@ class BottomDialog {
                         );
                         database.saveProducts(data).then((value) {
                           blocStore.fetchAddress();
+                          blocStore.fetchAllAddress();
                           blocStore.fetchAddressHome();
                           blocStore.fetchAddressWork();
                         });

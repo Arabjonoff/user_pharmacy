@@ -14,7 +14,6 @@ import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/payment/verfy_payment_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
@@ -46,7 +45,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
 
   @override
   void initState() {
-    _getInfo();
+    blocOrderOptions.fetchOrderOptions();
     super.initState();
   }
 
@@ -711,12 +710,5 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
         ],
       ),
     );
-  }
-
-  Future<void> _getInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var languageData = prefs.getString('language') ?? "ru";
-
-    blocOrderOptions.fetchOrderOptions(languageData);
   }
 }

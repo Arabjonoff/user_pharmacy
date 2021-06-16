@@ -11,6 +11,7 @@ class StoreBloc {
 
   final _existStoreFetcher = PublishSubject<List<LocationModel>>();
   final _addressFetcher = PublishSubject<List<AddressModel>>();
+  final _addressAllFetcher = PublishSubject<List<AddressModel>>();
   final _addressHomeFetcher = PublishSubject<AddressModel>();
   final _addressWorkFetcher = PublishSubject<AddressModel>();
 
@@ -18,12 +19,38 @@ class StoreBloc {
 
   Stream<List<AddressModel>> get allAddress => _addressFetcher.stream;
 
+  Stream<List<AddressModel>> get allAddressInfo => _addressAllFetcher.stream;
+
   Stream<AddressModel> get allAddressHome => _addressHomeFetcher.stream;
 
   Stream<AddressModel> get allAddressWork => _addressWorkFetcher.stream;
 
   fetchAddress() async {
     _addressFetcher.sink.add(await _repository.databaseAddress());
+  }
+
+  fetchAllAddress() async {
+    List<AddressModel> data = await _repository.databaseAddressAll();
+    List<AddressModel> sortData = new List();
+    for (int i = 0; i < data.length; i++) {
+      if (data[i].type == 1) {
+        sortData.add(data[i]);
+        break;
+      }
+    }
+    for (int i = 0; i < data.length; i++) {
+      if (data[i].type == 2) {
+        sortData.add(data[i]);
+        break;
+      }
+    }
+    for (int i = 0; i < data.length; i++) {
+      if (data[i].type == 0) {
+        sortData.add(data[i]);
+      }
+    }
+
+    _addressAllFetcher.sink.add(sortData);
   }
 
   fetchAddressHome() async {
@@ -37,12 +64,14 @@ class StoreBloc {
   fetchAccessStore(AccessStore accessStore) async {
     var response = await _repository.fetchAccessStore(accessStore);
     if (response.isSuccess) {
-      _existStoreFetcher.sink.add(locationModelFromJson(json.encode(response.result)));
+      _existStoreFetcher.sink
+          .add(locationModelFromJson(json.encode(response.result)));
     }
   }
 
   dispose() {
     _existStoreFetcher.close();
+    _addressAllFetcher.close();
     _addressFetcher.close();
     _addressHomeFetcher.close();
     _addressWorkFetcher.close();

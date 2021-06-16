@@ -76,7 +76,7 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
               ),
             ),
             child: Text(
-              translate("address.name"),
+              translate("address.delivery_address"),
               style: TextStyle(
                 fontFamily: AppTheme.fontRubik,
                 fontWeight: FontWeight.w500,

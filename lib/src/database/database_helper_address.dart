@@ -92,6 +92,27 @@ class DatabaseHelperAddress {
     return products;
   }
 
+  Future<List<AddressModel>> getAllProduct() async {
+    var dbClient = await db;
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM $tableNote');
+    List<AddressModel> products = new List();
+    for (int i = 0; i < list.length; i++) {
+      var items = new AddressModel(
+        id: list[i][columnId],
+        street: list[i][columnStreet],
+        dom: list[i][columnDom],
+        en: list[i][columnEn],
+        kv: list[i][columnKv],
+        comment: list[i][columnComment],
+        lat: list[i][columnLat],
+        lng: list[i][columnLng],
+        type: list[i][columnType],
+      );
+      products.add(items);
+    }
+    return products;
+  }
+
   Future<AddressModel> getProductsType(int id) async {
     var dbClient = await db;
     List<Map> result = await dbClient.query(tableNote,

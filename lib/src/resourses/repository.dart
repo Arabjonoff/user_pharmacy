@@ -89,6 +89,9 @@ class Repository {
   Future<List<AddressModel>> databaseAddress() =>
       databaseHelperAddress.getProduct();
 
+  Future<List<AddressModel>> databaseAddressAll() =>
+      databaseHelperAddress.getAllProduct();
+
   Future<AddressModel> databaseAddressType(int id) =>
       databaseHelperAddress.getProductsType(id);
 
@@ -168,8 +171,8 @@ class Repository {
   Future<HttpResult> fetchCancelOrder(int orderId) =>
       pharmacyApiProvider.fetchCancelOrder(orderId);
 
-  Future<HttpResult> fetchOrderOptions(String lan) =>
-      pharmacyApiProvider.fetchOrderOptions(lan);
+  Future<HttpResult> fetchOrderOptions() =>
+      pharmacyApiProvider.fetchOrderOptions();
 
   Future<HttpResult> fetchCheckErrorPickup(
     AccessStore accessStore,
@@ -178,7 +181,7 @@ class Repository {
         accessStore,
       );
 
-  Future<CheckErrorModel> fetchCheckErrorDelivery(AccessStore accessStore) =>
+  Future<HttpResult> fetchCheckErrorDelivery(AccessStore accessStore) =>
       pharmacyApiProvider.fetchCheckErrorDelivery(accessStore);
 
   Future<PaymentVerfy> fetchVerifyPaymentModel(VerdyPaymentModel verify) =>

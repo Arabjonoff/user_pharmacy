@@ -393,7 +393,7 @@ class _MainScreenState extends State<MainScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CurerAddressCardScreen(false),
+        builder: (context) => CurerAddressCardScreen(),
       ),
     );
   }

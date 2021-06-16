@@ -47,7 +47,6 @@ class _CardScreenState extends State<CardScreen> {
   double allPrice = 0;
   var loadingPickup = false;
   var loadingDelivery = false;
-  var error = false;
   String errorText = "";
   bool isNext = false;
   List<CheckErroData> errorData = new List();
@@ -109,7 +108,6 @@ class _CardScreenState extends State<CardScreen> {
               allPrice += (snapshot.data[i].cardCount * snapshot.data[i].price);
             }
 
-            isNext = true;
             allPrice.toInt() >= minSum ? isNext = true : isNext = false;
 
             if (errorData.length > 0) {
@@ -647,7 +645,7 @@ class _CardScreenState extends State<CardScreen> {
                                   );
                                 },
                               ),
-                              error
+                              errorText != ""
                                   ? Container(
                                       width: double.infinity,
                                       margin: EdgeInsets.only(
@@ -665,61 +663,69 @@ class _CardScreenState extends State<CardScreen> {
                                     )
                                   : Container(),
                               GestureDetector(
-                                onTap: () {
+                                onTap: () async {
                                   if (isLogin) {
                                     if (isNext) {
+                                      errorData = new List();
                                       setState(() {
                                         loadingDelivery = true;
+                                        errorText = "";
                                       });
                                       AccessStore addModel = new AccessStore();
                                       List<ProductsStore> drugs = new List();
-                                      dataBase.getProdu(true).then((database) =>
-                                          {
-                                            for (int i = 0;
-                                                i < database.length;
-                                                i++)
-                                              {
-                                                drugs.add(ProductsStore(
-                                                    drugId: database[i].id,
-                                                    qty: database[i].cardCount))
-                                              },
-                                            addModel = new AccessStore(
-                                                lat: 0.0,
-                                                lng: 0.0,
-                                                products: drugs),
-                                            Repository()
-                                                .fetchCheckErrorDelivery(
-                                                    addModel)
-                                                .then((value) => {
-                                                      if (value.error == 0)
-                                                        {
-                                                          errorData =
-                                                              new List(),
-                                                          widget.onCurer(),
-                                                          setState(() {
-                                                            loadingDelivery =
-                                                                false;
-                                                            error = false;
-                                                          }),
-                                                        }
-                                                      else
-                                                        {
-                                                          setState(() {
-                                                            error = true;
-                                                            loadingDelivery =
-                                                                false;
-                                                            errorData =
-                                                                new List();
-                                                            if (value.errors !=
-                                                                null)
-                                                              errorData.addAll(
-                                                                  value.errors);
-                                                            errorText =
-                                                                value.msg;
-                                                          }),
-                                                        }
-                                                    })
+
+                                      var databaseItem =
+                                          await dataBase.getProduct();
+
+                                      for (int i = 0;
+                                          i < databaseItem.length;
+                                          i++) {
+                                        drugs.add(
+                                          ProductsStore(
+                                            drugId: databaseItem[i].id,
+                                            qty: databaseItem[i].cardCount,
+                                          ),
+                                        );
+                                      }
+                                      addModel = new AccessStore(
+                                        lat: lat,
+                                        lng: lng,
+                                        products: drugs,
+                                      );
+
+                                      var response = await Repository()
+                                          .fetchCheckErrorDelivery(
+                                        addModel,
+                                      );
+                                      if (response.isSuccess) {
+                                        var result = CheckErrorModel.fromJson(
+                                            response.result);
+                                        if (result.error == 0) {
+                                          widget.onCurer();
+                                          setState(() {
+                                            loadingDelivery = false;
+                                            errorText = "";
                                           });
+                                        } else {
+                                          setState(() {
+                                            loadingDelivery = false;
+                                            if (result.errors != null)
+                                              errorData.addAll(result.errors);
+                                            errorText = result.msg;
+                                          });
+                                        }
+                                      } else if (response.status == -1) {
+                                        setState(() {
+                                          loadingDelivery = false;
+                                          errorText = translate(
+                                              "network.network_title");
+                                        });
+                                      } else {
+                                        setState(() {
+                                          loadingDelivery = false;
+                                          errorText = response.result["msg"];
+                                        });
+                                      }
                                     }
                                   } else {
                                     BottomDialog.createBottomSheetHistory(
@@ -767,8 +773,10 @@ class _CardScreenState extends State<CardScreen> {
                                 onTap: () async {
                                   if (isLogin) {
                                     if (isNext) {
+                                      errorData = new List();
                                       setState(() {
                                         loadingPickup = true;
+                                        errorText = "";
                                       });
                                       AccessStore addModel = new AccessStore();
                                       List<ProductsStore> drugs = new List();
@@ -805,11 +813,10 @@ class _CardScreenState extends State<CardScreen> {
                                           widget.onPickup(result.data);
                                           setState(() {
                                             loadingPickup = false;
-                                            error = false;
+                                            errorText = "";
                                           });
                                         } else {
                                           setState(() {
-                                            error = true;
                                             loadingPickup = false;
                                             errorData = new List();
                                             if (result.errors != null)
@@ -817,12 +824,16 @@ class _CardScreenState extends State<CardScreen> {
                                             errorText = result.msg;
                                           });
                                         }
+                                      } else if (response.status == -1) {
+                                        setState(() {
+                                          loadingPickup = false;
+                                          errorText = translate(
+                                              "network.network_title");
+                                        });
                                       } else {
                                         setState(() {
                                           loadingPickup = false;
-                                          error = false;
-                                          errorText = translate(
-                                              "network.network_title");
+                                          errorText = response.result["msg"];
                                         });
                                       }
                                     }

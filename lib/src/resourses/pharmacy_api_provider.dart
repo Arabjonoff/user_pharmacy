@@ -464,9 +464,10 @@ class PharmacyApiProvider {
   }
 
   /// Order options
-  Future<HttpResult> fetchOrderOptions(String lan) async {
+  Future<HttpResult> fetchOrderOptions() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
+    String lan = prefs.getString('language') ?? "ru";
 
     String url =
         Utils.baseUrl + '/api/v1/order-options?lan=$lan&region=$regionId';
@@ -508,7 +509,7 @@ class PharmacyApiProvider {
   }
 
   ///Check error delivery
-  Future<CheckErrorModel> fetchCheckErrorDelivery(
+  Future<HttpResult> fetchCheckErrorDelivery(
       AccessStore accessStore) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
@@ -516,31 +517,35 @@ class PharmacyApiProvider {
 
     String url = Utils.baseUrl +
         '/api/v1/check-shipping-error?lan=$lan&region=$regionId';
-    String token = prefs.getString("token");
 
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
+    return await postRequest(url, json.encode(accessStore));
 
-    try {
-      http.Response response = await http
-          .post(Uri.parse(url),
-              headers: headers, body: json.encode(accessStore))
-          .timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      return CheckErrorModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return CheckErrorModel(error: 1, msg: translate("internet_error"));
-    } on SocketException catch (_) {
-      return CheckErrorModel(error: 1, msg: translate("internet_error"));
-    }
+
+    // String token = prefs.getString("token");
+    //
+    // Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    // String encoded = prefs.getString("deviceData") != null
+    //     ? stringToBase64.encode(prefs.getString("deviceData"))
+    //     : "";
+    // Map<String, String> headers = {
+    //   HttpHeaders.authorizationHeader: "Bearer $token",
+    //   'content-type': 'application/json; charset=utf-8',
+    //   'X-Device': encoded,
+    // };
+    //
+    // try {
+    //   http.Response response = await http
+    //       .post(Uri.parse(url),
+    //           headers: headers, body: json.encode(accessStore))
+    //       .timeout(duration);
+    //   final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+    //   return CheckErrorModel.fromJson(responseJson);
+    // } on TimeoutException catch (_) {
+    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+    //   return CheckErrorModel(error: 1, msg: translate("internet_error"));
+    // } on SocketException catch (_) {
+    //   return CheckErrorModel(error: 1, msg: translate("internet_error"));
+    // }
   }
 
   ///payment verify token
