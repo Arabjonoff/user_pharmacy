@@ -4,13 +4,9 @@ import 'dart:io';
 
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:http/http.dart' as http;
-import 'package:pharmacy/src/model/api/category_model.dart';
-import 'package:pharmacy/src/model/api/check_order_model_new.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
-import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
-import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/http_result.dart';
 import 'package:pharmacy/src/model/payment_verfy.dart';
@@ -670,32 +666,6 @@ class PharmacyApiProvider {
         Utils.baseUrl + '/api/v1/check-order?lan=$lan&region=$regionId';
 
     return await postRequest(url, json.encode(order));
-
-    // Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    // String encoded = prefs.getString("deviceData") != null
-    //     ? stringToBase64.encode(prefs.getString("deviceData"))
-    //     : "";
-    // Map<String, String> headers = {
-    //   HttpHeaders.authorizationHeader: "Bearer $token",
-    //   'content-type': 'application/json',
-    //   'X-Device': encoded,
-    // };
-    //
-    // try {
-    //   http.Response response = await http
-    //       .post(Uri.parse(url), headers: headers, body: json.encode(order))
-    //       .timeout(duration);
-    //
-    //   final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-    //
-    //   return CheckOrderModelNew.fromJson(responseJson);
-    // } on TimeoutException catch (_) {
-    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-    //   return CheckOrderModelNew(status: -1, msg: translate("internet_error"));
-    // } on SocketException catch (_) {
-    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-    //   return CheckOrderModelNew(status: -1, msg: translate("internet_error"));
-    // }
   }
 
   ///Payment
