@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/app_theme.dart';
+import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/check_order_model_new.dart';
+import 'package:pharmacy/src/model/create_order_status_model.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
@@ -14,7 +16,10 @@ class StoreListScreen extends StatefulWidget {
   final CreateOrderModel createOrder;
   final CheckOrderModelNew checkOrderModel;
 
-  StoreListScreen({this.createOrder, this.checkOrderModel});
+  StoreListScreen({
+    this.createOrder,
+    this.checkOrderModel,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -83,12 +88,57 @@ class _StoreListScreenState extends State<StoreListScreen> {
                 itemCount: widget.checkOrderModel.data.stores.length,
                 itemBuilder: (BuildContext ctxt, int index) {
                   return GestureDetector(
-                    onTap: () {
+                    onTap: () async {
                       widget.createOrder.storeId =
                           widget.checkOrderModel.data.stores[index].id;
                       setState(() {
                         loading = true;
+                        error = "";
                       });
+                      var response = await Repository()
+                          .fetchCreateOrder(widget.createOrder);
+
+                      if (response.isSuccess) {
+                        var result =
+                            CreateOrderStatusModel.fromJson(response.result);
+                        if (result.status == 1) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OrderCardCurerScreen(
+                                orderId: result.data.orderId,
+                                total: result.data.total,
+                                cashBack: result.data.cash,
+                                deliveryPrice: result.data.isUserPay
+                                    ? result.data.deliverySum
+                                    : 0.0,
+                              ),
+                            ),
+                          );
+                          setState(() {
+                            loading = false;
+                            error = "";
+                          });
+                          dataBase.clear();
+                          blocCard.fetchAllCard();
+                        } else {
+                          setState(() {
+                            loading = false;
+                            error = result.msg;
+                          });
+                        }
+                      } else if (response.status == -1) {
+                        setState(() {
+                          loading = false;
+                          error = translate("network.network_title");
+                        });
+                      } else {
+                        setState(() {
+                          loading = false;
+                          error = response.result["msg"];
+                        });
+                      }
+
                       // Repository()
                       //     .fetchCreateOrder(widget.createOrder)
                       //     .then(
@@ -136,7 +186,6 @@ class _StoreListScreenState extends State<StoreListScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-
                           Row(
                             children: [
                               SizedBox(width: 16),
@@ -152,7 +201,8 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      widget.checkOrderModel.data.stores[index].name,
+                                      widget.checkOrderModel.data.stores[index]
+                                          .name,
                                       style: TextStyle(
                                         fontFamily: AppTheme.fontRubik,
                                         fontWeight: FontWeight.w500,
@@ -163,7 +213,8 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                     ),
                                     SizedBox(height: 4),
                                     Text(
-                                      widget.checkOrderModel.data.stores[index].address,
+                                      widget.checkOrderModel.data.stores[index]
+                                          .address,
                                       style: TextStyle(
                                         fontFamily: AppTheme.fontRubik,
                                         fontWeight: FontWeight.normal,
@@ -189,7 +240,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                             children: [
                               SizedBox(width: 16),
                               Text(
-                                translate("card.phone"),
+                                translate("card.price"),
                                 style: TextStyle(
                                   fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.normal,
@@ -200,7 +251,9 @@ class _StoreListScreenState extends State<StoreListScreen> {
                               ),
                               Expanded(child: Container()),
                               Text(
-                                "Utils.numberFormat(snapshot.data[index].phone)",
+                                priceFormat.format(widget.checkOrderModel.data
+                                        .stores[index].total) +
+                                    translate("sum"),
                                 style: TextStyle(
                                   fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.normal,
@@ -217,7 +270,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                             children: [
                               SizedBox(width: 16),
                               Text(
-                                translate("card.price"),
+                                translate("card.price_delivery"),
                                 style: TextStyle(
                                   fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.normal,
@@ -228,7 +281,78 @@ class _StoreListScreenState extends State<StoreListScreen> {
                               ),
                               Expanded(child: Container()),
                               Text(
-                                priceFormat.format(widget.checkOrderModel.data.stores[index].total) +
+                                widget.checkOrderModel.data.stores[index]
+                                            .deliverySum ==
+                                        0.0
+                                    ? translate("free")
+                                    : priceFormat.format(widget.checkOrderModel
+                                            .data.stores[index].deliverySum) +
+                                        translate("sum"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 14,
+                                  height: 1.6,
+                                  color: AppTheme.text_dark,
+                                ),
+                              ),
+                              SizedBox(width: 16),
+                            ],
+                          ),
+                          SizedBox(height: 16),
+                          Row(
+                            children: [
+                              SizedBox(width: 16),
+                              Text(
+                                translate("card.type_price"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 14,
+                                  height: 1.3,
+                                  color: AppTheme.textGray,
+                                ),
+                              ),
+                              SizedBox(width: 12),
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    widget.checkOrderModel.data.stores[index]
+                                        .text,
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14,
+                                      height: 1.6,
+                                      color: AppTheme.text_dark,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 16),
+                            ],
+                          ),
+                          SizedBox(height: 16),
+                          Row(
+                            children: [
+                              SizedBox(width: 16),
+                              Text(
+                                translate("card.all"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 14,
+                                  height: 1.3,
+                                  color: AppTheme.textGray,
+                                ),
+                              ),
+                              Expanded(child: Container()),
+                              Text(
+                                priceFormat.format(widget.checkOrderModel.data
+                                            .stores[index].deliverySum +
+                                        widget.checkOrderModel.data
+                                            .stores[index].total) +
                                     translate("sum"),
                                 style: TextStyle(
                                   fontFamily: AppTheme.fontRubik,
@@ -249,9 +373,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                           ),
                           SizedBox(height: 16),
                           GestureDetector(
-                            onTap: () {
-
-                            },
+                            onTap: () {},
                             child: Container(
                               width: double.infinity,
                               height: 44,
@@ -262,131 +384,17 @@ class _StoreListScreenState extends State<StoreListScreen> {
                               ),
                               child: Center(
                                 child: Text(
-                                  translate("card.choose_store_info"),
+                                  translate("card.choose_store_del"),
                                   style: TextStyle(
-                                    fontSize: 17,
-                                    color: AppTheme.white,
                                     fontFamily: AppTheme.fontRubik,
-                                    fontWeight: FontWeight.w600,
-                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    height: 1.2,
+                                    color: AppTheme.white,
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Text(
-                            widget.checkOrderModel.data.stores[index].name,
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              color: AppTheme.black_text,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            widget.checkOrderModel.data.stores[index].address,
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 13,
-                              color: AppTheme.black_text,
-                            ),
-                          ),
-                          SizedBox(height: 16),
-                          Row(
-                            children: [
-                              Text(
-                                translate("order"),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 13,
-                                  height: 1.3,
-                                  color: AppTheme.search_empty,
-                                ),
-                              ),
-                              SizedBox(width: 4),
-                              Expanded(
-                                child: Align(
-                                  child: Text(
-                                    priceFormat.format(widget.checkOrderModel
-                                            .data.stores[index].total) +
-                                        translate("sum"),
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRubik,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: AppTheme.black_text,
-                                    ),
-                                  ),
-                                  alignment: Alignment.centerRight,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 16),
-                          Row(
-                            children: [
-                              Text(
-                                translate("delivery"),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 13,
-                                  height: 1.3,
-                                  color: AppTheme.search_empty,
-                                ),
-                              ),
-                              SizedBox(width: 4),
-                              Expanded(
-                                child: Align(
-                                  child: Text(
-                                    priceFormat.format(widget.checkOrderModel
-                                            .data.stores[index].deliverySum) +
-                                        translate("sum"),
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRubik,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: AppTheme.black_text,
-                                    ),
-                                  ),
-                                  alignment: Alignment.centerRight,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 16),
-                          Row(
-                            children: [
-                              Text(
-                                translate("time"),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 13,
-                                  height: 1.3,
-                                  color: AppTheme.search_empty,
-                                ),
-                              ),
-                              SizedBox(width: 4),
-                              Expanded(
-                                child: Align(
-                                  child: Text(
-                                    widget.checkOrderModel.data.stores[index]
-                                        .text,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRubik,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: AppTheme.black_text,
-                                    ),
-                                  ),
-                                  alignment: Alignment.centerRight,
-                                ),
-                              ),
-                            ],
                           ),
                         ],
                       ),

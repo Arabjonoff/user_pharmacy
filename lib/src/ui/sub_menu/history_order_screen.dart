@@ -163,9 +163,9 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                               OrderCardCurerScreen(
                                             orderId:
                                                 snapshot.data.results[index].id,
-                                            price: snapshot
+                                            total: snapshot
                                                 .data.results[index].realTotal,
-                                            cash: value == null ? 0.0 : value,
+                                            cashBack: value == null ? 0.0 : value,
                                             deliveryPrice: snapshot.data
                                                 .results[index].deliveryTotal,
                                           ),

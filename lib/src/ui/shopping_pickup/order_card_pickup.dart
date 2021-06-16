@@ -61,7 +61,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
               double.parse(cashPriceController.text.replaceAll(" ", ""));
           if (cashBack > widget.cashBackData.cash ||
               cashBack > widget.cashBackData.total) {
-            print(min(widget.cashBackData.cash, widget.cashBackData.total));
             setState(() {
               cashPriceController.text =
                   (min(widget.cashBackData.cash, widget.cashBackData.total)
@@ -76,7 +75,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                   min(widget.cashBackData.cash, widget.cashBackData.total);
             });
           } else {
-            print(cashBack);
             setState(() {
               cashBackPrice = cashBack;
             });
@@ -465,10 +463,11 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                             Text(
                               translate("payment.price_order"),
                               style: TextStyle(
-                                fontSize: 15,
                                 fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.normal,
-                                color: AppTheme.search_empty,
+                                fontSize: 14,
+                                height: 1.2,
+                                color: AppTheme.textGray,
                               ),
                             ),
                             Expanded(
@@ -478,30 +477,28 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                               priceFormat.format(widget.cashBackData.total) +
                                   translate(translate("sum")),
                               style: TextStyle(
-                                fontSize: 15,
                                 fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.normal,
-                                color: AppTheme.search_empty,
+                                fontSize: 14,
+                                height: 1.2,
+                                color: AppTheme.text_dark,
                               ),
                             ),
                           ],
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(
-                          top: 16,
-                          left: 16,
-                          right: 16,
-                        ),
+                        margin: EdgeInsets.all(16),
                         child: Row(
                           children: [
                             Text(
                               translate("payment.my_cash"),
                               style: TextStyle(
-                                fontSize: 15,
                                 fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.normal,
-                                color: AppTheme.search_empty,
+                                fontSize: 14,
+                                height: 1.2,
+                                color: AppTheme.textGray,
                               ),
                             ),
                             Expanded(
@@ -509,21 +506,25 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                             ),
                             Text(
                               cashBackPrice == 0.0
-                                  ? "0" + translate(translate("sum"))
+                                  ? "0" + translate("sum")
                                   : "-" +
                                       priceFormat.format(cashBackPrice) +
-                                      translate(
-                                        translate("sum"),
-                                      ),
+                                      translate("sum"),
                               style: TextStyle(
-                                fontSize: 15,
                                 fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.normal,
-                                color: AppTheme.search_empty,
+                                fontSize: 14,
+                                height: 1.2,
+                                color: AppTheme.text_dark,
                               ),
                             ),
                           ],
                         ),
+                      ),
+                      Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: AppTheme.background,
                       ),
                       Container(
                         margin: EdgeInsets.only(
@@ -536,10 +537,11 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                             Text(
                               translate("history.all_price"),
                               style: TextStyle(
-                                fontSize: 15,
                                 fontFamily: AppTheme.fontRubik,
-                                fontWeight: FontWeight.w600,
-                                color: AppTheme.text_dark,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                height: 1.2,
+                                color: AppTheme.textGray,
                               ),
                             ),
                             Expanded(
@@ -550,9 +552,10 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                       cashBackPrice) +
                                   translate(translate("sum")),
                               style: TextStyle(
-                                fontSize: 15,
                                 fontFamily: AppTheme.fontRubik,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                height: 1.2,
                                 color: AppTheme.text_dark,
                               ),
                             ),

@@ -671,6 +671,8 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                     type: "shipping",
                     shippingTime: shippingId,
                     drugs: drugs,
+                    fullName: firstName + " " + lastName,
+                    phone: number,
                   );
                   var response =
                       await Repository().fetchCheckOrder(createOrder);
@@ -686,6 +688,9 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                           ),
                         ),
                       );
+                      setState(() {
+                        loading = false;
+                      });
                     } else {
                       setState(() {
                         loading = false;
