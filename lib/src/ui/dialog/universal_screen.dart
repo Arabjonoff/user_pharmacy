@@ -74,7 +74,7 @@ class _UniversalScreenState extends State<UniversalScreen> {
                 Container(
                   height: 36,
                   width: 36,
-                  color: AppTheme.arrow_examp_back,
+                  color: AppTheme.white,
                   margin: EdgeInsets.only(right: 4, top: 4, left: 12),
                 ),
                 Expanded(
@@ -102,7 +102,7 @@ class _UniversalScreenState extends State<UniversalScreen> {
                   child: Container(
                     height: 36,
                     width: 36,
-                    color: AppTheme.arrow_examp_back,
+                    color: AppTheme.white,
                     margin: EdgeInsets.only(right: 12, top: 4, left: 4),
                     child: Center(
                       child: Container(

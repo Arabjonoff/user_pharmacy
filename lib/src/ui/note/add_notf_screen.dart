@@ -108,7 +108,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                     color: AppTheme.auth_login,
                     border: Border.all(
                       color: errorName
-                          ? AppTheme.red_fav_color
+                          ? AppTheme.red
                           : AppTheme.auth_border,
                       width: 1.0,
                     ),
@@ -176,7 +176,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                     color: AppTheme.auth_login,
                     border: Border.all(
                       color: errorDoza
-                          ? AppTheme.red_fav_color
+                          ? AppTheme.red
                           : AppTheme.auth_border,
                       width: 1.0,
                     ),
@@ -246,7 +246,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                       color: AppTheme.auth_login,
                       border: Border.all(
                         color: errorEda
-                            ? AppTheme.red_fav_color
+                            ? AppTheme.red
                             : AppTheme.auth_border,
                         width: 1.0,
                       ),
@@ -307,7 +307,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                     color: AppTheme.auth_login,
                     border: Border.all(
                       color: errorDuration
-                          ? AppTheme.red_fav_color
+                          ? AppTheme.red
                           : AppTheme.auth_border,
                       width: 1.0,
                     ),
@@ -451,7 +451,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                         borderRadius: BorderRadius.circular(8.0),
                         border: Border.all(
                             color: errorTime
-                                ? AppTheme.red_fav_color
+                                ? AppTheme.red
                                 : AppTheme.blue_app_color,
                             width: 1)),
                     child: Icon(

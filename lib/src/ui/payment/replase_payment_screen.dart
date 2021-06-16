@@ -127,7 +127,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                         fontWeight: FontWeight.w600,
                         fontStyle: FontStyle.normal,
                         fontSize: 20,
-                        color: AppTheme.black_catalog,
+                        color: AppTheme.black_text,
                       ),
                     ),
                   ),

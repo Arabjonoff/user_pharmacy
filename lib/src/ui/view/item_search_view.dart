@@ -64,7 +64,7 @@ class _ItemSearchViewState extends State<ItemSearchView> {
                                 ? ""
                                 : widget.item.manufacturer.name,
                             style: TextStyle(
-                              color: AppTheme.black_transparent_text,
+                              color: AppTheme.background,
                               fontSize: 13,
                               fontWeight: FontWeight.normal,
                               fontFamily: AppTheme.fontRubik,
@@ -90,7 +90,7 @@ class _ItemSearchViewState extends State<ItemSearchView> {
             Container(
               height: 1,
               margin: EdgeInsets.only(left: 8, right: 8),
-              color: AppTheme.black_linear,
+              color: AppTheme.background,
             )
           ],
         ),

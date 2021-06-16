@@ -78,7 +78,7 @@ class _NoteOneScreenState extends State<NoteOneScreen> {
                                       fontSize: 13,
                                       fontWeight: FontWeight.normal,
                                       fontFamily: AppTheme.fontRubik,
-                                      color: AppTheme.black_transparent_text,
+                                      color: AppTheme.background,
                                       height: 1.08,
                                     ),
                                   ),
@@ -115,7 +115,7 @@ class _NoteOneScreenState extends State<NoteOneScreen> {
                                           fontWeight: FontWeight.normal,
                                           fontFamily: AppTheme.fontRubik,
                                           color:
-                                              AppTheme.black_transparent_text,
+                                              AppTheme.background,
                                           height: 1.08,
                                         ),
                                       ),
@@ -191,7 +191,7 @@ class _NoteOneScreenState extends State<NoteOneScreen> {
                                               fontWeight: FontWeight.normal,
                                               fontFamily: AppTheme.fontRubik,
                                               color: AppTheme
-                                                  .black_transparent_text,
+                                                  .background,
                                               height: 1.27,
                                             ),
                                           ),

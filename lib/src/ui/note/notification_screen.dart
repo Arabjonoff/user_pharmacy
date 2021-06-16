@@ -144,7 +144,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                   height: 1.23,
                                   fontWeight: FontWeight.normal,
                                   fontFamily: AppTheme.fontRubik,
-                                  color: AppTheme.black_transparent_text,
+                                  color: AppTheme.background,
                                 ),
                               )
                             ],

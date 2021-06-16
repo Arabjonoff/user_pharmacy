@@ -261,7 +261,7 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                                         ),
                                         Container(
                                           height: 1,
-                                          color: AppTheme.black_linear_category,
+                                          color: AppTheme.background,
                                         )
                                       ],
                                     ),
@@ -384,7 +384,7 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                                           ),
                                     Container(
                                       height: 1,
-                                      color: AppTheme.black_linear_category,
+                                      color: AppTheme.background,
                                     )
                                   ],
                                 );

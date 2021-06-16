@@ -262,7 +262,7 @@ class _OnBoardingState extends State<OnBoarding> {
             fontStyle: FontStyle.normal,
             fontSize: 20,
             height: 1.1,
-            color: AppTheme.darkText,
+            color: AppTheme.text_dark,
           ),
         ),
         Container(
@@ -361,10 +361,10 @@ class _OnBoardingState extends State<OnBoarding> {
   }
 
   Map<String, dynamic> _readIosDeviceInfo(
-      IosDeviceInfo data,
-      BuildContext context,
-      String udid,
-      ) {
+    IosDeviceInfo data,
+    BuildContext context,
+    String udid,
+  ) {
     return <String, dynamic>{
       'platform': "IOS",
       'model': data.name,

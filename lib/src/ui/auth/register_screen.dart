@@ -597,10 +597,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         translate("winner.register_title"),
                         style: TextStyle(
                           fontFamily: AppTheme.fontRubik,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w500,
                           fontSize: 15,
                           height: 1.33,
-                          color: AppTheme.darkText,
+                          color: AppTheme.textGray,
                         ),
                       ),
                     )
@@ -613,7 +613,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         borderRadius: BorderRadius.circular(10.0),
                         color: AppTheme.auth_login,
                         border: Border.all(
-                          color: AppTheme.auth_border,
+                          color: AppTheme.gray,
                           width: 1.0,
                         ),
                       ),
@@ -674,7 +674,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderRadius: BorderRadius.circular(10.0),
                           color: AppTheme.auth_login,
                           border: Border.all(
-                            color: AppTheme.auth_border,
+                            color: AppTheme.gray,
                             width: 1.0,
                           ),
                         ),

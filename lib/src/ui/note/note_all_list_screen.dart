@@ -26,7 +26,7 @@ class _NoteAllListScreenState extends State<NoteAllListScreen> {
       height: 68,
       margin: EdgeInsets.only(top: 16, left: 12, right: 12),
       decoration: BoxDecoration(
-        color: AppTheme.red_fav_color,
+        color: AppTheme.red,
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Align(
@@ -60,7 +60,7 @@ class _NoteAllListScreenState extends State<NoteAllListScreen> {
       height: 68,
       margin: EdgeInsets.only(top: 16, left: 12, right: 12),
       decoration: BoxDecoration(
-        color: AppTheme.red_fav_color,
+        color: AppTheme.red,
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Align(
@@ -154,7 +154,7 @@ class _NoteAllListScreenState extends State<NoteAllListScreen> {
                                       fontSize: 11,
                                       fontWeight: FontWeight.normal,
                                       fontFamily: AppTheme.fontRubik,
-                                      color: AppTheme.black_transparent_text,
+                                      color: AppTheme.background,
                                       height: 1.27,
                                     ),
                                   ),

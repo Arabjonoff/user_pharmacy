@@ -137,15 +137,15 @@ class _AddressStoreMapPickupScreenState
                       width: 72,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: AppTheme.blue_app_color_transparent
-                            .withOpacity(0.3),
+                        color: AppTheme.blue.withOpacity(0.3),
                       ),
                       padding: EdgeInsets.all(16),
                       child: CircularProgressIndicator(
                         value: null,
                         strokeWidth: 5.0,
                         valueColor: AlwaysStoppedAnimation<Color>(
-                            AppTheme.blue_app_color),
+                          AppTheme.blue,
+                        ),
                       ),
                     ),
                   )

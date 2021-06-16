@@ -59,9 +59,9 @@ class BottomDialog {
                   child: Container(
                     margin: EdgeInsets.only(top: 8),
                     height: 4,
-                    width: 60,
+                    width: 64,
                     decoration: BoxDecoration(
-                      color: AppTheme.bottom_dialog,
+                      color: AppTheme.text_dark.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -183,7 +183,7 @@ class BottomDialog {
                     height: 4,
                     width: 64,
                     decoration: BoxDecoration(
-                      color: AppTheme.bottom_dialog,
+                      color: AppTheme.text_dark.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -420,7 +420,7 @@ class BottomDialog {
                     height: 4,
                     width: 64,
                     decoration: BoxDecoration(
-                      color: AppTheme.bottom_dialog,
+                      color: AppTheme.text_dark.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -863,7 +863,7 @@ class BottomDialog {
                     height: 4,
                     width: 64,
                     decoration: BoxDecoration(
-                      color: AppTheme.bottom_dialog,
+                      color: AppTheme.text_dark.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -1301,7 +1301,7 @@ class BottomDialog {
                     height: 4,
                     width: 64,
                     decoration: BoxDecoration(
-                      color: AppTheme.bottom_dialog,
+                      color: AppTheme.text_dark.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -1567,7 +1567,7 @@ class BottomDialog {
                     height: 4,
                     width: 64,
                     decoration: BoxDecoration(
-                      color: AppTheme.bottom_dialog,
+                      color: AppTheme.text_dark.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -1875,7 +1875,7 @@ class BottomDialog {
                     height: 4,
                     width: 64,
                     decoration: BoxDecoration(
-                      color: AppTheme.bottom_dialog,
+                      color: AppTheme.text_dark.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -2022,7 +2022,7 @@ class BottomDialog {
                     height: 4,
                     width: 64,
                     decoration: BoxDecoration(
-                      color: AppTheme.bottom_dialog,
+                      color: AppTheme.text_dark.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -2179,7 +2179,7 @@ class BottomDialog {
                     height: 4,
                     width: 60,
                     decoration: BoxDecoration(
-                      color: AppTheme.bottom_dialog,
+                      color: AppTheme.text_dark.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -2330,7 +2330,7 @@ class BottomDialog {
                     height: 4,
                     width: 60,
                     decoration: BoxDecoration(
-                      color: AppTheme.bottom_dialog,
+                      color: AppTheme.text_dark.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -2469,9 +2469,9 @@ class BottomDialog {
                 Container(
                   margin: EdgeInsets.only(top: 8),
                   height: 4,
-                  width: 60,
+                  width: 64,
                   decoration: BoxDecoration(
-                    color: AppTheme.bottom_dialog,
+                    color: AppTheme.text_dark.withOpacity(0.05),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -2740,7 +2740,7 @@ class BottomDialog {
                     height: 4,
                     width: 64,
                     decoration: BoxDecoration(
-                      color: AppTheme.bottom_dialog,
+                      color: AppTheme.text_dark.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -2900,7 +2900,7 @@ class BottomDialog {
                     height: 4,
                     width: 64,
                     decoration: BoxDecoration(
-                      color: AppTheme.bottom_dialog,
+                      color: AppTheme.text_dark.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -3480,7 +3480,7 @@ class BottomDialog {
                     height: 4,
                     width: 64,
                     decoration: BoxDecoration(
-                      color: AppTheme.bottom_dialog,
+                      color: AppTheme.text_dark.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -3657,7 +3657,7 @@ class BottomDialog {
                     height: 4,
                     width: 64,
                     decoration: BoxDecoration(
-                      color: AppTheme.bottom_dialog,
+                      color: AppTheme.text_dark.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -5023,7 +5023,7 @@ class BottomDialog {
                       height: 4,
                       width: 60,
                       decoration: BoxDecoration(
-                        color: AppTheme.bottom_dialog,
+                        color: AppTheme.text_dark.withOpacity(0.05),
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
@@ -5068,7 +5068,7 @@ class BottomDialog {
                         translate("dialog.soglas"),
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: AppTheme.black_transparent_text,
+                          color: AppTheme.background,
                           fontFamily: AppTheme.fontRubik,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.normal,
@@ -5130,9 +5130,9 @@ class BottomDialog {
                     Container(
                       margin: EdgeInsets.only(top: 12),
                       height: 4,
-                      width: 60,
+                      width: 64,
                       decoration: BoxDecoration(
-                        color: AppTheme.bottom_dialog,
+                        color: AppTheme.text_dark.withOpacity(0.05),
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
@@ -5167,7 +5167,7 @@ class BottomDialog {
                           fontSize: 13,
                           height: 1.38,
                           fontWeight: FontWeight.normal,
-                          color: AppTheme.black_transparent_text,
+                          color: AppTheme.background,
                         ),
                       ),
                     ),

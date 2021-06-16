@@ -623,7 +623,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                             fontWeight: FontWeight.normal,
                             fontFamily: AppTheme.fontRubik,
                             fontSize: 13,
-                            color: AppTheme.red_fav_color,
+                            color: AppTheme.red,
                           ),
                         ),
                       )

@@ -565,7 +565,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                                         left: 8, right: 8),
                                                     height: 1,
                                                     color:
-                                                        AppTheme.black_linear,
+                                                        AppTheme.background,
                                                   )
                                                 ],
                                               ),

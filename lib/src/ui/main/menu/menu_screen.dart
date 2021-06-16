@@ -1127,7 +1127,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   Icon(
                     Icons.arrow_forward_ios,
                     size: 19,
-                    color: AppTheme.arrow_catalog,
+                    color: AppTheme.text_dark,
                   ),
                   SizedBox(width: 3),
                 ],

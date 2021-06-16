@@ -112,10 +112,11 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                     child: Text(
                       widget.list[index].name,
                       style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.normal,
-                        color: AppTheme.black_catalog,
                         fontFamily: AppTheme.fontRubik,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 16,
+                        height: 1.37,
+                        color: AppTheme.text_dark,
                       ),
                     ),
                   ),

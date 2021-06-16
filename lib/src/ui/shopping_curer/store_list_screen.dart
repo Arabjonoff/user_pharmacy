@@ -415,7 +415,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       fontFamily: AppTheme.fontRubik,
-                      color: AppTheme.red_fav_color,
+                      color: AppTheme.red,
                       fontSize: 13,
                     ),
                   ),

@@ -262,7 +262,7 @@ class _VerifyPaymentScreenState extends State<VerifyPaymentScreen> {
                                 fontFamily: AppTheme.fontRubik,
                                 fontSize: 13,
                                 fontWeight: FontWeight.normal,
-                                color: AppTheme.red_fav_color,
+                                color: AppTheme.red,
                               ),
                             ),
                           ),

@@ -631,7 +631,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                             fontWeight: FontWeight.normal,
                             fontFamily: AppTheme.fontRubik,
                             fontSize: 13,
-                            color: AppTheme.red_fav_color,
+                            color: AppTheme.red,
                           ),
                         ),
                       )

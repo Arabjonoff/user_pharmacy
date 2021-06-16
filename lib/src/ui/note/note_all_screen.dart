@@ -134,7 +134,7 @@ class _NoteAllScreenScreenState extends State<NoteAllScreen>
               margin: EdgeInsets.only(left: 16, right: 16, bottom: 8, top: 16),
               padding: EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color: AppTheme.tab_transparent,
+                color: AppTheme.gray,
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: TabBar(

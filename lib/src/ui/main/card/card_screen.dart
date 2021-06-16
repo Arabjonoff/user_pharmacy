@@ -657,7 +657,7 @@ class _CardScreenState extends State<CardScreen> {
                                           fontWeight: FontWeight.normal,
                                           fontFamily: AppTheme.fontRubik,
                                           fontSize: 13,
-                                          color: AppTheme.red_fav_color,
+                                          color: AppTheme.red,
                                         ),
                                       ),
                                     )
@@ -950,11 +950,7 @@ class _CardScreenState extends State<CardScreen> {
                         ],
                       ),
                     ),
-                    Container(
-                      height: 1,
-                      margin: EdgeInsets.only(left: 8, right: 8),
-                      color: AppTheme.black_linear,
-                    )
+
                   ],
                 ),
               ),

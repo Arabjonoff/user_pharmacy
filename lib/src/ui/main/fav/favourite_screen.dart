@@ -671,11 +671,6 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                         ],
                       ),
                     ),
-                    Container(
-                      height: 1,
-                      margin: EdgeInsets.only(left: 8, right: 8),
-                      color: AppTheme.black_linear,
-                    )
                   ],
                 ),
               ),
