@@ -4,11 +4,8 @@ import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/database/database_helper_fav.dart';
 import 'package:pharmacy/src/database/database_helper_note.dart';
-import 'package:pharmacy/src/model/api/cash_back_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/check_order_model_new.dart';
-import 'package:pharmacy/src/model/api/current_location_address_model.dart';
-import 'package:pharmacy/src/model/api/faq_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/api/order_status_model.dart';
@@ -84,7 +81,7 @@ class Repository {
         priceMax,
       );
 
-  Future<CategoryModel> fetchCategoryItem() =>
+  Future<HttpResult> fetchCategoryItem() =>
       pharmacyApiProvider.fetchCategoryList();
 
   Future<List<ItemResult>> databaseItem() => databaseHelper.getProduct();
@@ -149,8 +146,6 @@ class Repository {
   Future<HttpResult> fetchItems(String id) =>
       pharmacyApiProvider.fetchItems(id);
 
-  Future<List<LocationModel>> fetchStore(double lat, double lng) =>
-      pharmacyApiProvider.fetchApteka(lat, lng);
 
   Future<HttpResult> fetchAccessStore(AccessStore accessStore) =>
       pharmacyApiProvider.fetchAccessStore(accessStore);
@@ -189,7 +184,7 @@ class Repository {
   Future<PaymentVerfy> fetchVerifyPaymentModel(VerdyPaymentModel verify) =>
       pharmacyApiProvider.fetchVerfyPaymentModel(verify);
 
-  Future<int> fetchMinSum() => pharmacyApiProvider.fetchMinSum();
+  Future<HttpResult> fetchMinSum() => pharmacyApiProvider.fetchMinSum();
 
   Future<HttpResult> fetchCheckVersion(String version) =>
       pharmacyApiProvider.fetchCheckVersion(version);
@@ -204,9 +199,9 @@ class Repository {
   Future<HttpResult> fetchGetNoReview() =>
       pharmacyApiProvider.fetchGetNoReviews();
 
-  Future<CashBackModel> fetchCashBack() => pharmacyApiProvider.fetchCashBack();
+  Future<HttpResult> fetchCashBack() => pharmacyApiProvider.fetchCashBack();
 
-  Future<List<FaqModel>> fetchFAQ() => pharmacyApiProvider.fetchFAQ();
+  Future<HttpResult> fetchFAQ() => pharmacyApiProvider.fetchFAQ();
 
   Future<OrderStatusModel> fetchGetRegion(String location) =>
       pharmacyApiProvider.fetchGetRegion(location);
@@ -214,7 +209,4 @@ class Repository {
   Future<OrderStatusModel> fetchAddRegion(int regionId) =>
       pharmacyApiProvider.fetchAddRegion(regionId);
 
-  Future<CurrentLocationAddressModel> fetchLocationAddress(
-          double lat, double lng) =>
-      pharmacyApiProvider.fetchLocationAddress(lat, lng);
 }

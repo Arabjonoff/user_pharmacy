@@ -9,8 +9,10 @@ class CategoryBloc {
   Stream<CategoryModel> get allCategory => _categoryFetcher.stream;
 
   fetchAllCategory() async {
-    CategoryModel saleModel = await _repository.fetchCategoryItem();
-    if (saleModel.results != null) _categoryFetcher.sink.add(saleModel);
+    var response = await _repository.fetchCategoryItem();
+    if (response.isSuccess) {
+      _categoryFetcher.sink.add(CategoryModel.fromJson(response.result));
+    }
   }
 
   dispose() {

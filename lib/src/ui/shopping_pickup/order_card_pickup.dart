@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/order_options_bloc.dart';
-import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
@@ -15,7 +13,6 @@ import 'package:pharmacy/src/model/send/create_payment_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/payment/verfy_payment_screen.dart';
-import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
@@ -40,99 +37,58 @@ class OrderCardPickupScreen extends StatefulWidget {
 }
 
 class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
-  double allPrice = 0.0;
-  double itemPrice = 0.0;
-  double cashPrice = 0.0;
+  double cashBackPrice = 0.0;
   int paymentType;
-  int clickType;
-
   bool loading = false;
-  bool error = false;
-
   String errorText = "";
-
-  DatabaseHelper dataBase = new DatabaseHelper();
-  DateTime date = new DateTime.now();
 
   TextEditingController cashPriceController = TextEditingController();
 
   @override
   void initState() {
     _getInfo();
-    setState(() {
-      allPrice = widget.cashBackData.total;
-      itemPrice = widget.cashBackData.total;
-    });
     super.initState();
   }
 
   _OrderCardPickupScreenState() {
     cashPriceController.addListener(() {
-      double p;
       try {
-        p = cashPriceController.text == ""
-            ? 0.0
-            : double.parse(cashPriceController.text.replaceAll(" ", ""));
-        if (cashPrice.toInt().toString() != cashPriceController.text) {
-          if (p <= widget.cashBackData.cash) {
-            if (p >= widget.cashBackData.total) {
-              setState(() {
-                allPrice = 0;
-                cashPrice = widget.cashBackData.total;
-                cashPriceController.text =
-                    widget.cashBackData.total.toInt().toString();
-                cashPriceController.selection = TextSelection.collapsed(
-                    offset: cashPriceController.text.length);
-              });
-            } else {
-              if (cashPriceController.text.toString() != "") {
-                if (int.parse(cashPriceController.text.toString()) == 0) {
-                  cashPriceController.text = "0";
-                  cashPriceController.selection = TextSelection.collapsed(
-                      offset: cashPriceController.text.length);
-                }
-              }
-              setState(() {
-                allPrice = widget.cashBackData.total - p;
-                cashPrice = p;
-              });
-            }
+        if (cashPriceController.text == "") {
+          setState(() {
+            cashBackPrice = 0.0;
+          });
+        } else {
+          double cashBack =
+              double.parse(cashPriceController.text.replaceAll(" ", ""));
+          if (cashBack > widget.cashBackData.cash ||
+              cashBack > widget.cashBackData.total) {
+            print(min(widget.cashBackData.cash, widget.cashBackData.total));
+            setState(() {
+              cashPriceController.text =
+                  (min(widget.cashBackData.cash, widget.cashBackData.total)
+                          .toInt())
+                      .toString();
+              cashPriceController.selection = TextSelection.fromPosition(
+                TextPosition(
+                  offset: cashPriceController.text.length,
+                ),
+              );
+              cashBackPrice =
+                  min(widget.cashBackData.cash, widget.cashBackData.total);
+            });
           } else {
-            if (p >= widget.cashBackData.total) {
-              setState(() {
-                allPrice = 0;
-                cashPrice = [
-                  widget.cashBackData.total,
-                  widget.cashBackData.cash
-                ].reduce(min);
-                cashPriceController.text = [
-                  widget.cashBackData.total,
-                  widget.cashBackData.cash
-                ].reduce(min).toInt().toString();
-                cashPriceController.selection = TextSelection.collapsed(
-                    offset: cashPriceController.text.length);
-              });
-            } else {
-              if (cashPriceController.text.toString() != "") {
-                if (int.parse(cashPriceController.text.toString()) == 0) {
-                  cashPriceController.text = "0";
-                  cashPriceController.selection = TextSelection.collapsed(
-                      offset: cashPriceController.text.length);
-                }
-              }
-              setState(() {
-                widget.cashBackData.cash == 0
-                    ? cashPriceController.text = ""
-                    : cashPriceController.text =
-                        widget.cashBackData.cash.toInt().toString();
-
-                allPrice = widget.cashBackData.total - widget.cashBackData.cash;
-                cashPrice = widget.cashBackData.cash;
-              });
-            }
+            print(cashBack);
+            setState(() {
+              cashBackPrice = cashBack;
+            });
           }
         }
-      } on Exception catch (_) {}
+      } on Exception catch (_) {
+        setState(() {
+          cashPriceController.text = "";
+          cashBackPrice = 0.0;
+        });
+      }
     });
   }
 
@@ -520,7 +476,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                               child: Container(),
                             ),
                             Text(
-                              priceFormat.format(itemPrice) +
+                              priceFormat.format(widget.cashBackData.total) +
                                   translate(translate("sum")),
                               style: TextStyle(
                                 fontSize: 15,
@@ -553,13 +509,10 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                               child: Container(),
                             ),
                             Text(
-                              cashPrice == 0
-                                  ? priceFormat.format(cashPrice) +
-                                      translate(
-                                        translate("sum"),
-                                      )
+                              cashBackPrice == 0.0
+                                  ? "0" + translate(translate("sum"))
                                   : "-" +
-                                      priceFormat.format(cashPrice) +
+                                      priceFormat.format(cashBackPrice) +
                                       translate(
                                         translate("sum"),
                                       ),
@@ -587,20 +540,21 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                 fontSize: 15,
                                 fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.w600,
-                                color: AppTheme.black_text,
+                                color: AppTheme.text_dark,
                               ),
                             ),
                             Expanded(
                               child: Container(),
                             ),
                             Text(
-                              priceFormat.format(allPrice) +
+                              priceFormat.format(widget.cashBackData.total -
+                                      cashBackPrice) +
                                   translate(translate("sum")),
                               style: TextStyle(
                                 fontSize: 15,
                                 fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.w600,
-                                color: AppTheme.black_text,
+                                color: AppTheme.text_dark,
                               ),
                             ),
                           ],
@@ -649,28 +603,16 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
             child: GestureDetector(
               onTap: () {
                 if (!loading) {
-                  if (widget.orderId != null && clickType != null) {
+                  if (widget.orderId != null) {
                     setState(() {
                       loading = true;
                     });
 
                     PaymentOrderModel addModel = new PaymentOrderModel();
-
-                    // isEnd
-                    //     ? addModel = new PaymentOrderModel(
-                    //         orderId: widget.orderId,
-                    //         cashPay: cashPrice.toInt(),
-                    //         paymentType: paymentType,
-                    //         cardPan: cardNum,
-                    //         cardExp: cardDate,
-                    //         cardSave: checkBox ? 1 : 0,
-                    //       )
-                    //     :
                     addModel = new PaymentOrderModel(
                       orderId: widget.orderId,
-                      cashPay: cashPrice.toInt(),
+                      cashPay: cashBackPrice.toInt(),
                       paymentType: paymentType,
-                      // cardToken: cardToken == "" ? null : cardToken,
                     );
                     Repository().fetchPayment(addModel).then((response) => {
                           if (response.status == 1)
@@ -679,7 +621,7 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                                 {
                                   setState(() {
                                     loading = false;
-                                    error = false;
+                                    errorText = "";
                                   }),
                                   if (response.data.cardToken != "")
                                     {
@@ -705,7 +647,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                               else
                                 {
                                   setState(() {
-                                    error = true;
                                     loading = false;
                                     errorText = response.data.errorNote;
                                   }),
@@ -714,7 +655,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                           else if (response.status == -1)
                             {
                               setState(() {
-                                error = true;
                                 loading = false;
                                 errorText = response.msg;
                               }),
@@ -722,7 +662,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                           else
                             {
                               setState(() {
-                                error = true;
                                 loading = false;
                                 errorText = response.msg == ""
                                     ? translate("error_distanse")
@@ -733,12 +672,12 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                   }
                 }
               },
-              child: Container(
+              child: AnimatedContainer(
+                duration: Duration(milliseconds: 270),
+                curve: Curves.easeInOut,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: (clickType == null)
-                      ? AppTheme.blue_app_color_transparent
-                      : AppTheme.blue_app_color,
+                  color: paymentType == null ? AppTheme.gray : AppTheme.blue,
                 ),
                 height: 44,
                 width: double.infinity,

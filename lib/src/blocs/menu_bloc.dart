@@ -12,8 +12,10 @@ class MenuBloc {
   Stream<bool> get visibleOptions => _visibleFetcher.stream;
 
   fetchCashBack() async {
-    CashBackModel cashBackOptions = await _repository.fetchCashBack();
-    _cashBackFetcher.sink.add(cashBackOptions);
+    var response = await _repository.fetchCashBack();
+    if (response.isSuccess) {
+      _cashBackFetcher.sink.add(CashBackModel.fromJson(response.result));
+    }
   }
 
   fetchVisible(int star, String text) {

@@ -4,14 +4,10 @@ import 'dart:io';
 
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:http/http.dart' as http;
-import 'package:pharmacy/src/model/api/cash_back_model.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/api/check_order_model_new.dart';
-import 'package:pharmacy/src/model/api/current_location_address_model.dart';
-import 'package:pharmacy/src/model/api/faq_model.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
-import 'package:pharmacy/src/model/api/min_sum.dart';
 import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
@@ -294,32 +290,13 @@ class PharmacyApiProvider {
   }
 
   ///category
-  Future<CategoryModel> fetchCategoryList() async {
+  Future<HttpResult> fetchCategoryList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
     String url = Utils.baseUrl + '/api/v1/categories?region=$regionId';
 
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-    try {
-      http.Response response =
-          await http.get(Uri.parse(url), headers: headers).timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-
-      return CategoryModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      return CategoryModel();
-    } on SocketException catch (_) {
-      return CategoryModel();
-    }
+    return await getRequest(url);
   }
 
   ///category's by item
@@ -422,36 +399,6 @@ class PharmacyApiProvider {
     return await getRequest(url);
   }
 
-  ///stores
-  Future<List<LocationModel>> fetchApteka(double lat, double lng) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int regionId = prefs.getInt("cityId");
-
-    String url =
-        Utils.baseUrl + '/api/v1/stores?lat=$lat&lng=$lng&region=$regionId';
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-    try {
-      http.Response response =
-          await http.get(Uri.parse(url), headers: headers).timeout(duration);
-      var responseJson = utf8.decode(response.bodyBytes);
-      return locationModelFromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    }
-  }
-
   ///regions
   Future<List<RegionModel>> fetchRegions(String obj) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -486,7 +433,6 @@ class PharmacyApiProvider {
     }
   }
 
-
   ///History
   Future<HttpResult> fetchOrderHistory(int page, int perPage) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -517,7 +463,6 @@ class PharmacyApiProvider {
     return await postRequest(url, json.encode(data));
   }
 
-
   /// Order options
   Future<HttpResult> fetchOrderOptions(String lan) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -539,27 +484,13 @@ class PharmacyApiProvider {
   }
 
   ///Min sum
-  Future<int> fetchMinSum() async {
+  Future<HttpResult> fetchMinSum() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
     String url = Utils.baseUrl + '/api/v1/order-minimum?region=$regionId';
 
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    HttpClient httpClient = new HttpClient();
-    HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json; charset=utf-8');
-    request.headers.set('X-Device', encoded);
-    HttpClientResponse response = await request.close();
-
-    String reply = await response.transform(utf8.decoder).join();
-    final Map parsed = json.decode(reply);
-
-    return MinSum.fromJson(parsed).min;
+    return await getRequest(url);
   }
 
   ///Check error pickup
@@ -695,74 +626,23 @@ class PharmacyApiProvider {
   }
 
   /// Cash back
-  Future<CashBackModel> fetchCashBack() async {
+  Future<HttpResult> fetchCashBack() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
 
     String url = Utils.baseUrl + '/api/v1/user-cashback?region=$regionId';
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-    String token = prefs.getString("token");
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-    http.Response response =
-        await http.get(Uri.parse(url), headers: headers).timeout(duration);
-    final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
 
-    return CashBackModel.fromJson(responseJson);
+    return await getRequest(url);
   }
 
   /// FAQ
-  Future<List<FaqModel>> fetchFAQ() async {
+  Future<HttpResult> fetchFAQ() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String lan = prefs.getString('language');
+    String lan = prefs.getString('language') ?? "ru";
     int regionId = prefs.getInt("cityId");
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-    if (lan == null) {
-      lan = "ru";
-    }
+
     String url = Utils.baseUrl + '/api/v1/faq?lan=$lan&region=$regionId';
-    Map<String, String> headers = {
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-    try {
-      http.Response response =
-          await http.get(Uri.parse(url), headers: headers).timeout(duration);
-      return faqModelFromJson(utf8.decode(response.bodyBytes));
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    }
-  }
-
-  Future<CurrentLocationAddressModel> fetchLocationAddress(
-      double lat, double lng) async {
-    String url =
-        'https://geocode-maps.yandex.ru/1.x/?apikey=b4985736-e176-472f-af14-36678b5d6aaa&geocode=$lng,$lat&format=json';
-
-    try {
-      http.Response response =
-          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 10));
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-
-      return CurrentLocationAddressModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      return null;
-    } on SocketException catch (_) {
-      return null;
-    }
+    return await getRequest(url);
   }
 
   ///create order

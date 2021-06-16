@@ -8,6 +8,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/api/min_sum.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
@@ -56,7 +57,13 @@ class _CardScreenState extends State<CardScreen> {
 
   @override
   void initState() {
-    Repository().fetchMinSum().then((value) => minSum = value);
+    Repository().fetchMinSum().then((value) {
+      if (value.isSuccess) {
+        setState(() {
+          minSum = MinSum.fromJson(value.result).min;
+        });
+      }
+    });
     _registerBus();
     super.initState();
   }

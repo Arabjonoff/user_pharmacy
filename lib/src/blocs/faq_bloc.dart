@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:pharmacy/src/model/api/faq_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:rxdart/rxdart.dart';
@@ -9,8 +11,10 @@ class FaqBloc {
   Stream<List<FaqModel>> get allFaq => _faqFetcher.stream;
 
   fetchAllFaq() async {
-    List<FaqModel> result = await _repository.fetchFAQ();
-    if (result != null) _faqFetcher.sink.add(result);
+    var response = await _repository.fetchFAQ();
+    if (response.isSuccess) {
+      _faqFetcher.sink.add(faqModelFromJson(json.encode(response.result)));
+    }
   }
 
   dispose() {
