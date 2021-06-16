@@ -391,7 +391,7 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                         child: Text(
-                          translate("card.details_order"),
+                          translate("card.detail_user"),
                           style: TextStyle(
                             fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.w500,

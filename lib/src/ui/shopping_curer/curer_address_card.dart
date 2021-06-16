@@ -14,10 +14,11 @@ import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/shopping_curer/store_list_screen.dart';
+import 'package:pharmacy/src/utils/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
-import 'order_card_curer.dart';
 
 class CurerAddressCardScreen extends StatefulWidget {
   @override
@@ -32,6 +33,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
   AddressModel myAddress;
   bool isFirst = true;
   var duration = Duration(milliseconds: 270);
+  String firstName = "", lastName = "", number = "";
 
   bool error = false;
   bool loading = false;
@@ -42,6 +44,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
 
   @override
   void initState() {
+    _getFullName();
     blocOrderOptions.fetchOrderOptions();
     blocStore.fetchAllAddress();
     super.initState();
@@ -245,7 +248,8 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                             ),
                                           ),
                                           padding: EdgeInsets.all(3),
-                                        )
+                                        ),
+                                        SizedBox(width: 8),
                                       ],
                                     ),
                                   ),
@@ -300,178 +304,323 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                   builder:
                       (context, AsyncSnapshot<OrderOptionsModel> snapshot) {
                     if (snapshot.hasData) {
-                      paymentTypes = new List();
-                      for (int i = 0;
-                          i < snapshot.data.paymentTypes.length;
-                          i++) {
-                        paymentTypes.add(PaymentTypesCheckBox(
-                          id: i,
-                          paymentId: snapshot.data.paymentTypes[i].id,
-                          cardId: snapshot.data.paymentTypes[i].cardId,
-                          cardToken: snapshot.data.paymentTypes[i].cardToken,
-                          name: snapshot.data.paymentTypes[i].name,
-                          pan: snapshot.data.paymentTypes[i].pan,
-                          type: snapshot.data.paymentTypes[i].type,
-                        ));
-                      }
-                      if (isFirst) {
+                      if (isFirst && snapshot.data.shippingTimes.length > 0) {
                         isFirst = false;
                         shippingId = snapshot.data.shippingTimes[0].id;
                       }
-                      return ListView(
-                        physics: ClampingScrollPhysics(),
-                        shrinkWrap: true,
-                        children: [
-                          snapshot.data.shippingTimes.length > 1
-                              ? Container(
-                                  margin: EdgeInsets.only(
-                                      left: 16, right: 16, bottom: 8, top: 24),
-                                  child: Text(
-                                    translate("address.choose_time"),
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRubik,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20,
-                                      fontStyle: FontStyle.normal,
-                                      color: AppTheme.black_text,
+                      return Container(
+                        margin: EdgeInsets.only(top: 16),
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        decoration: BoxDecoration(
+                          color: AppTheme.white,
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                left: 24,
+                                right: 24,
+                              ),
+                              child: Text(
+                                translate("card.type"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  height: 1.2,
+                                  color: AppTheme.text_dark,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 16),
+                              height: 1,
+                              width: double.infinity,
+                              color: AppTheme.background,
+                            ),
+                            ListView.builder(
+                              physics: ClampingScrollPhysics(),
+                              shrinkWrap: true,
+                              padding: EdgeInsets.only(left: 16, right: 16),
+                              itemCount: snapshot.data.shippingTimes.length,
+                              itemBuilder: (BuildContext ctxt, int index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    if (snapshot.data.shippingTimes[index].id !=
+                                        shippingId) {
+                                      setState(() {
+                                        shippingId = snapshot
+                                            .data.shippingTimes[index].id;
+                                      });
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 16),
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 12,
+                                      horizontal: 8,
                                     ),
-                                  ),
-                                )
-                              : Container(),
-                          snapshot.data.shippingTimes.length > 1
-                              ? Column(
-                                  children: snapshot.data.shippingTimes
-                                      .map((data) => RadioListTile(
-                                            title: Text(
-                                              "${data.name}",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.normal,
-                                                fontFamily: AppTheme.fontRubik,
-                                                fontSize: 15,
-                                                fontStyle: FontStyle.normal,
-                                                color: Colors.black,
-                                              ),
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.background,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                            "assets/icons/time.svg"),
+                                        SizedBox(width: 8),
+                                        Expanded(
+                                          child: Text(
+                                            snapshot
+                                                .data.shippingTimes[index].name,
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontRubik,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 14,
+                                              height: 1.2,
+                                              color: AppTheme.textGray,
                                             ),
-                                            activeColor:
-                                                AppTheme.blue_app_color,
-                                            groupValue: shippingId,
-                                            value: data.id,
-                                            onChanged: (val) {
-                                              setState(() {
-                                                shippingId = data.id;
-                                                for (int i = 0;
-                                                    i <
-                                                        snapshot
-                                                            .data
-                                                            .shippingTimes
-                                                            .length;
-                                                    i++) {
-                                                  if (data.id ==
+                                          ),
+                                        ),
+                                        SizedBox(width: 8),
+                                        AnimatedContainer(
+                                          curve: Curves.easeInOut,
+                                          duration: duration,
+                                          height: 16,
+                                          width: 16,
+                                          decoration: BoxDecoration(
+                                            color: AppTheme.background,
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                            border: Border.all(
+                                              color: shippingId ==
                                                       snapshot
                                                           .data
-                                                          .shippingTimes[i]
-                                                          .id) {
-                                                    positionId = i;
-                                                  }
-                                                }
-                                              });
-                                            },
-                                          ))
-                                      .toList(),
-                                )
-                              : Container(),
+                                                          .shippingTimes[index]
+                                                          .id
+                                                  ? AppTheme.blue
+                                                  : AppTheme.gray,
+                                            ),
+                                          ),
+                                          child: AnimatedContainer(
+                                            duration: duration,
+                                            curve: Curves.easeInOut,
+                                            height: 10,
+                                            width: 10,
+                                            decoration: BoxDecoration(
+                                              color: shippingId ==
+                                                      snapshot
+                                                          .data
+                                                          .shippingTimes[index]
+                                                          .id
+                                                  ? AppTheme.blue
+                                                  : AppTheme.background,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                          padding: EdgeInsets.all(3),
+                                        ),
+                                        SizedBox(width: 8),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    return Container(
+                      margin: EdgeInsets.only(top: 16),
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      decoration: BoxDecoration(
+                        color: AppTheme.white,
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
                           Container(
-                            margin:
-                                EdgeInsets.only(left: 16, right: 16, top: 24),
+                            margin: EdgeInsets.only(
+                              left: 24,
+                              right: 24,
+                            ),
                             child: Text(
-                              translate("type_time"),
+                              translate("card.type"),
                               style: TextStyle(
                                 fontFamily: AppTheme.fontRubik,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 20,
-                                fontStyle: FontStyle.normal,
-                                color: AppTheme.black_text,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                height: 1.2,
+                                color: AppTheme.text_dark,
                               ),
                             ),
                           ),
-                          ListView.builder(
-                              physics: ClampingScrollPhysics(),
-                              shrinkWrap: true,
-                              padding: EdgeInsets.all(16),
-                              itemCount: snapshot.data.shippingTimes[positionId]
-                                  .descriptions.length,
-                              itemBuilder: (BuildContext ctxt, int index) {
-                                return Column(
-                                  children: [
-                                    Container(
-                                      padding:
-                                          EdgeInsets.only(top: 16, bottom: 16),
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                              "assets/images/icon_yes_blue.svg"),
-                                          SizedBox(width: 12),
-                                          Expanded(
-                                            child: Text(
-                                              snapshot
-                                                  .data
-                                                  .shippingTimes[positionId]
-                                                  .descriptions[index],
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.normal,
-                                                fontStyle: FontStyle.normal,
-                                                fontSize: 15,
-                                                height: 1.33,
-                                                fontFamily: AppTheme.fontRubik,
-                                                color: AppTheme.black_text,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 1,
-                                      color: Color.fromRGBO(0, 0, 0, 0.08),
-                                    )
-                                  ],
-                                );
-                              }),
-                        ],
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text(snapshot.error.toString());
-                    }
-                    return Shimmer.fromColors(
-                      baseColor: Colors.grey[300],
-                      highlightColor: Colors.grey[100],
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: ClampingScrollPhysics(),
-                        itemBuilder: (_, __) => Container(
-                          height: 48,
-                          padding: EdgeInsets.only(top: 6, bottom: 6),
-                          margin: EdgeInsets.only(left: 15, right: 15),
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Container(),
-                              ),
-                              Container(
-                                height: 15,
-                                width: 250,
-                                color: AppTheme.white,
-                              ),
-                              Expanded(
-                                child: Container(),
-                              ),
-                            ],
+                          Container(
+                            margin: EdgeInsets.only(top: 16),
+                            height: 1,
+                            width: double.infinity,
+                            color: AppTheme.background,
                           ),
-                        ),
-                        itemCount: 20,
+                          ListView.builder(
+                            physics: ClampingScrollPhysics(),
+                            shrinkWrap: true,
+                            padding: EdgeInsets.only(left: 16, right: 16),
+                            itemCount: 1,
+                            itemBuilder: (BuildContext ctxt, int index) {
+                              return Shimmer.fromColors(
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 16),
+                                  height: 48,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                baseColor: Colors.grey[300],
+                                highlightColor: Colors.grey[100],
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     );
                   },
+                ),
+                Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.only(
+                    top: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppTheme.white,
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                        child: Text(
+                          translate("card.detail_user"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.2,
+                            color: AppTheme.text_dark,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: AppTheme.background,
+                      ),
+                      SizedBox(height: 16),
+                      Row(
+                        children: [
+                          SizedBox(width: 16),
+                          Container(
+                            height: 64,
+                            width: 64,
+                            decoration: BoxDecoration(
+                              color: AppTheme.background,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Center(
+                              child: SvgPicture.asset(
+                                "assets/icons/profile.svg",
+                                height: 48,
+                                width: 48,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  firstName + " " + lastName,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRubik,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    height: 1.2,
+                                    color: AppTheme.text_dark,
+                                  ),
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  number,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRubik,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 14,
+                                    height: 1.6,
+                                    color: AppTheme.textGray,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                        ],
+                      ),
+                      SizedBox(height: 16),
+                      Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: AppTheme.background,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          BottomDialog.showEditInfo(
+                            context,
+                            firstName,
+                            lastName,
+                            number,
+                            (valueFirstName, valueLastName, valueNumber) {
+                              setState(() {
+                                firstName = valueFirstName;
+                                lastName = valueLastName;
+                                number = valueNumber;
+                              });
+                            },
+                          );
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(16),
+                          height: 44,
+                          color: AppTheme.white,
+                          child: Center(
+                            child: Text(
+                              translate("card.edit"),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                height: 1.25,
+                                color: AppTheme.textGray,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 error
                     ? Container(
@@ -607,5 +756,14 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> _getFullName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      firstName = prefs.getString('name') ?? "";
+      lastName = prefs.getString('surname') ?? "";
+      number = Utils.numberFormat(prefs.getString('number') ?? "");
+    });
   }
 }
