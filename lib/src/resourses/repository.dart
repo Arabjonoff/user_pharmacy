@@ -162,7 +162,7 @@ class Repository {
   Future<HttpResult> fetchCreateOrder(CreateOrderModel order) =>
       pharmacyApiProvider.fetchCreateOrder(order);
 
-  Future<CheckOrderModelNew> fetchCheckOrder(CreateOrderModel order) =>
+  Future<HttpResult> fetchCheckOrder(CreateOrderModel order) =>
       pharmacyApiProvider.fetchCheckOrder(order);
 
   Future<HttpResult> fetchHistory(int page) =>

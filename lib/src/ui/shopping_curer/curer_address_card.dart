@@ -8,6 +8,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/blocs/order_options_bloc.dart';
 import 'package:pharmacy/src/blocs/store_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/model/api/check_order_model_new.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
@@ -29,13 +30,10 @@ class CurerAddressCardScreen extends StatefulWidget {
 
 class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
   int shippingId = 0;
-  int positionId = 0;
   AddressModel myAddress;
   bool isFirst = true;
   var duration = Duration(milliseconds: 270);
   String firstName = "", lastName = "", number = "";
-
-  bool error = false;
   bool loading = false;
   String errorText = "";
 
@@ -622,7 +620,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                     ],
                   ),
                 ),
-                error
+                errorText != ""
                     ? Container(
                         width: double.infinity,
                         margin: EdgeInsets.only(top: 11, left: 16, right: 16),
@@ -641,115 +639,97 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
               ],
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              if (!loading) {
-                if (myAddress != null) {
-                  if (shippingId != null) {
-                    setState(() {
-                      loading = true;
-                    });
-                    CreateOrderModel createOrder;
-                    List<Drugs> drugs = new List();
-                    dataBase.getProdu(true).then((dataBaseValue) => {
-                          for (int i = 0; i < dataBaseValue.length; i++)
-                            {
-                              drugs.add(Drugs(
-                                drug: dataBaseValue[i].id,
-                                qty: dataBaseValue[i].cardCount,
-                              ))
-                            },
-                          createOrder = new CreateOrderModel(
-                            location: myAddress.lat + "," + myAddress.lng,
-                            device: Platform.isIOS ? "IOS" : "Android",
-                            address: myAddress.street,
-                            type: "shipping",
-                            shippingTime: shippingId,
-                            drugs: drugs,
+          Container(
+            color: AppTheme.white,
+            padding: EdgeInsets.only(
+              top: 12,
+              left: 22,
+              right: 22,
+              bottom: 24,
+            ),
+            child: GestureDetector(
+              onTap: () async {
+                if (!loading && myAddress != null) {
+                  setState(() {
+                    loading = true;
+                    errorText = "";
+                  });
+
+                  List<Drugs> drugs = new List();
+
+                  var cardItem = await dataBase.getProdu(true);
+                  for (int i = 0; i < cardItem.length; i++) {
+                    drugs.add(Drugs(
+                      drug: cardItem[i].id,
+                      qty: cardItem[i].cardCount,
+                    ));
+                  }
+                  CreateOrderModel createOrder = new CreateOrderModel(
+                    location: myAddress.lat + "," + myAddress.lng,
+                    device: Platform.isIOS ? "IOS" : "Android",
+                    address: myAddress.street,
+                    type: "shipping",
+                    shippingTime: shippingId,
+                    drugs: drugs,
+                  );
+                  var response =
+                      await Repository().fetchCheckOrder(createOrder);
+                  if (response.isSuccess) {
+                    var result = CheckOrderModelNew.fromJson(response.result);
+                    if (result.status == 1) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StoreListScreen(
+                            createOrder: createOrder,
+                            checkOrderModel: result,
                           ),
-                          Repository()
-                              .fetchCheckOrder(createOrder)
-                              .then((response) => {
-                                    if (response.status == 1)
-                                      {
-                                        setState(() {
-                                          loading = false;
-                                          error = false;
-                                        }),
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                StoreListScreen(
-                                              createOrder: createOrder,
-                                              checkOrderModel: response,
-                                            ),
-                                          ),
-                                        ),
-                                      }
-                                    else
-                                      {
-                                        setState(() {
-                                          error = true;
-                                          loading = false;
-                                          errorText = response.msg;
-                                        }),
-                                        Timer(Duration(milliseconds: 100), () {
-                                          _scrollController.animateTo(
-                                            _scrollController
-                                                .position.maxScrollExtent,
-                                            curve: Curves.easeOut,
-                                            duration: const Duration(
-                                                milliseconds: 200),
-                                          );
-                                        }),
-                                      }
-                                  }),
-                        });
+                        ),
+                      );
+                    } else {
+                      setState(() {
+                        loading = false;
+                        errorText = result.msg;
+                      });
+                    }
+                  } else if (response.status == -1) {
+                    setState(() {
+                      loading = false;
+                      errorText = translate("network.network_title");
+                    });
                   } else {
                     setState(() {
-                      error = true;
-                      errorText = translate("not_time");
+                      loading = false;
+                      errorText = response.result["msg"];
                     });
                   }
-                } else {
-                  setState(() {
-                    error = true;
-                    errorText = translate("not_address");
-                  });
                 }
-              }
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: AppTheme.blue_app_color,
-              ),
-              height: 44,
-              width: double.infinity,
-              margin: EdgeInsets.only(
-                top: 12,
-                bottom: 12,
-                left: 12,
-                right: 12,
-              ),
-              child: Center(
-                child: loading
-                    ? CircularProgressIndicator(
-                        value: null,
-                        strokeWidth: 3.0,
-                        valueColor:
-                            AlwaysStoppedAnimation<Color>(AppTheme.white),
-                      )
-                    : Text(
-                        translate("next"),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: AppTheme.fontRubik,
-                          fontSize: 17,
-                          color: AppTheme.white,
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: myAddress == null ? AppTheme.gray : AppTheme.blue,
+                ),
+                height: 44,
+                width: double.infinity,
+                child: Center(
+                  child: loading
+                      ? CircularProgressIndicator(
+                          value: null,
+                          strokeWidth: 3.0,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(AppTheme.white),
+                        )
+                      : Text(
+                          translate("card.next"),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontFamily: AppTheme.fontRubik,
+                            fontSize: 17,
+                            color: AppTheme.white,
+                          ),
                         ),
-                      ),
+                ),
               ),
             ),
           )

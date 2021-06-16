@@ -509,8 +509,7 @@ class PharmacyApiProvider {
   }
 
   ///Check error delivery
-  Future<HttpResult> fetchCheckErrorDelivery(
-      AccessStore accessStore) async {
+  Future<HttpResult> fetchCheckErrorDelivery(AccessStore accessStore) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int regionId = prefs.getInt("cityId");
     String lan = prefs.getString("language") ?? "ru";
@@ -519,7 +518,6 @@ class PharmacyApiProvider {
         '/api/v1/check-shipping-error?lan=$lan&region=$regionId';
 
     return await postRequest(url, json.encode(accessStore));
-
 
     // String token = prefs.getString("token");
     //
@@ -663,44 +661,41 @@ class PharmacyApiProvider {
   }
 
   ///check order
-  Future<CheckOrderModelNew> fetchCheckOrder(CreateOrderModel order) async {
+  Future<HttpResult> fetchCheckOrder(CreateOrderModel order) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token");
-    String lan = prefs.getString('language');
+    String lan = prefs.getString('language') ?? "ru";
     int regionId = prefs.getInt("cityId");
-    if (lan == null) {
-      lan = "ru";
-    }
-
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
 
     String url =
         Utils.baseUrl + '/api/v1/check-order?lan=$lan&region=$regionId';
 
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json',
-      'X-Device': encoded,
-    };
+    return await postRequest(url, json.encode(order));
 
-    try {
-      http.Response response = await http
-          .post(Uri.parse(url), headers: headers, body: json.encode(order))
-          .timeout(duration);
-
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-
-      return CheckOrderModelNew.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return CheckOrderModelNew(status: -1, msg: translate("internet_error"));
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return CheckOrderModelNew(status: -1, msg: translate("internet_error"));
-    }
+    // Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    // String encoded = prefs.getString("deviceData") != null
+    //     ? stringToBase64.encode(prefs.getString("deviceData"))
+    //     : "";
+    // Map<String, String> headers = {
+    //   HttpHeaders.authorizationHeader: "Bearer $token",
+    //   'content-type': 'application/json',
+    //   'X-Device': encoded,
+    // };
+    //
+    // try {
+    //   http.Response response = await http
+    //       .post(Uri.parse(url), headers: headers, body: json.encode(order))
+    //       .timeout(duration);
+    //
+    //   final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+    //
+    //   return CheckOrderModelNew.fromJson(responseJson);
+    // } on TimeoutException catch (_) {
+    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+    //   return CheckOrderModelNew(status: -1, msg: translate("internet_error"));
+    // } on SocketException catch (_) {
+    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+    //   return CheckOrderModelNew(status: -1, msg: translate("internet_error"));
+    // }
   }
 
   ///Payment
