@@ -2162,8 +2162,8 @@ class BottomDialog {
   }
 
   static void historyClosePayment(
-      BuildContext context,
-      ) async {
+    BuildContext context,
+  ) async {
     showModalBottomSheet(
       barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
       context: context,
@@ -4055,7 +4055,7 @@ class BottomDialog {
     );
   }
 
-  static void showItemDrug(BuildContext context, int id) async {
+  static void showItemDrug(BuildContext context, int id, int position) async {
     blocItem.fetchAllInfoItem(id.toString());
 
     DatabaseHelper dataBase = new DatabaseHelper();
@@ -4614,9 +4614,10 @@ class BottomDialog {
                                             onTap: () {
                                               Navigator.pop(context);
                                               showItemDrug(
-                                                  context,
-                                                  snapshot
-                                                      .data.analog[index].id);
+                                                context,
+                                                snapshot.data.analog[index].id,
+                                                position,
+                                              );
                                             },
                                             child: Container(
                                               width: 148,

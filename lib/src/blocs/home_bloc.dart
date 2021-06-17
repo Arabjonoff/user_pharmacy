@@ -267,6 +267,12 @@ class HomeBloc {
     }
   }
 
+  update(){
+    fetchBestUpdate();
+    fetchSlimmingUpdate();
+    fetchRecentlyUpdate();
+  }
+
   fetchCityName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getString("city") != null) {

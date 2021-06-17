@@ -9,6 +9,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/blocs/fav_bloc.dart';
+import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/blocs/menu_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
@@ -153,7 +154,7 @@ class _MainScreenState extends State<MainScreen> {
 
     RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_ITEM_ALL").listen(
       (event) {
-        BottomDialog.showItemDrug(context, event.position);
+        BottomDialog.showItemDrug(context, event.position, _selectedIndex);
       },
     );
 
@@ -213,6 +214,7 @@ class _MainScreenState extends State<MainScreen> {
                     }
                 }
               } else if (index == 0) {
+                blocHome.update();
               } else if (index == 1) {
                 blocCategory.fetchAllCategory();
               } else if (index == 2) {
