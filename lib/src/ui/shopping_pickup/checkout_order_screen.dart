@@ -627,6 +627,7 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
                         result.data.orderId,
                         result.data.expireSelfOrder,
                         widget.cashBackData,
+                        false,
                       ),
                     ),
                   );

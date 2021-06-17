@@ -138,17 +138,16 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               OrderCardPickupScreen(
-                                                  snapshot
-                                                      .data.results[index].id,
-                                                  snapshot.data.results[index]
-                                                      .expireSelfOrder,
-                                                  CashBackData(
-                                                    total: snapshot.data
-                                                        .results[index].total,
-                                                    cash: value == null
-                                                        ? 0.0
-                                                        : value,
-                                                  )),
+                                            snapshot.data.results[index].id,
+                                            snapshot.data.results[index]
+                                                .expireSelfOrder,
+                                            CashBackData(
+                                              total: snapshot
+                                                  .data.results[index].total,
+                                              cash: value == null ? 0.0 : value,
+                                            ),
+                                            true,
+                                          ),
                                         ),
                                       ),
                                     },
@@ -165,9 +164,11 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                                 snapshot.data.results[index].id,
                                             total: snapshot
                                                 .data.results[index].realTotal,
-                                            cashBack: value == null ? 0.0 : value,
+                                            cashBack:
+                                                value == null ? 0.0 : value,
                                             deliveryPrice: snapshot.data
                                                 .results[index].deliveryTotal,
+                                            isHistory: true,
                                           ),
                                         ),
                                       ),

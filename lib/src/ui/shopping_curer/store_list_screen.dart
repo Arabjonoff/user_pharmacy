@@ -112,6 +112,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                 deliveryPrice: result.data.isUserPay
                                     ? result.data.deliverySum
                                     : 0.0,
+                                isHistory: false,
                               ),
                             ),
                           );

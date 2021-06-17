@@ -18,7 +18,6 @@ import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
-import 'package:pharmacy/src/ui/shopping_pickup/checkout_order_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -495,8 +494,10 @@ class _CardScreenState extends State<CardScreen> {
                                                                       width: 29,
                                                                       decoration:
                                                                           BoxDecoration(
-                                                                        color: AppTheme
-                                                                            .blue,
+                                                                        color: snapshot.data[index].cardCount ==
+                                                                                1
+                                                                            ? AppTheme.gray
+                                                                            : AppTheme.blue,
                                                                         borderRadius:
                                                                             BorderRadius.circular(8),
                                                                       ),
@@ -519,16 +520,6 @@ class _CardScreenState extends State<CardScreen> {
                                                                             1;
                                                                         dataBase
                                                                             .updateProduct(snapshot.data[index])
-                                                                            .then((value) {
-                                                                          blocCard
-                                                                              .fetchAllCard();
-                                                                        });
-                                                                      } else if (snapshot
-                                                                              .data[index]
-                                                                              .cardCount ==
-                                                                          1) {
-                                                                        dataBase
-                                                                            .deleteProducts(snapshot.data[index].id)
                                                                             .then((value) {
                                                                           blocCard
                                                                               .fetchAllCard();
@@ -728,10 +719,7 @@ class _CardScreenState extends State<CardScreen> {
                                       }
                                     }
                                   } else {
-                                    BottomDialog.createBottomSheetHistory(
-                                      context,
-                                      widget.onLogin,
-                                    );
+                                    widget.onLogin();
                                   }
                                 },
                                 child: Container(
@@ -838,10 +826,7 @@ class _CardScreenState extends State<CardScreen> {
                                       }
                                     }
                                   } else {
-                                    BottomDialog.createBottomSheetHistory(
-                                      context,
-                                      widget.onLogin,
-                                    );
+                                    widget.onLogin();
                                   }
                                 },
                                 child: Container(
@@ -950,7 +935,6 @@ class _CardScreenState extends State<CardScreen> {
                         ],
                       ),
                     ),
-
                   ],
                 ),
               ),

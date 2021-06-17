@@ -156,6 +156,12 @@ class _MainScreenState extends State<MainScreen> {
         BottomDialog.showItemDrug(context, event.position);
       },
     );
+
+    RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_CLOSE_HISTORY").listen(
+      (event) {
+        BottomDialog.historyClosePayment(context);
+      },
+    );
   }
 
   @override
@@ -343,7 +349,7 @@ class _MainScreenState extends State<MainScreen> {
           CardScreen(
             onPickup: _pickup,
             onCurer: _curer,
-            onLogin: _login,
+            onLogin: _loginBottom,
           ),
           FavouriteScreen(),
           MenuScreen(
@@ -436,6 +442,20 @@ class _MainScreenState extends State<MainScreen> {
       MaterialPageRoute(
         builder: (context) => LoginScreen(),
       ),
+    );
+  }
+
+  void _loginBottom() {
+    BottomDialog.createBottomSheetHistory(
+      context,
+      () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginScreen(),
+          ),
+        );
+      },
     );
   }
 
