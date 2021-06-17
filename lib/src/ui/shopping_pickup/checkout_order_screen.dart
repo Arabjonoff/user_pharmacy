@@ -264,7 +264,8 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
                                 storeInfo.distance == 0.0
                                     ? Container()
                                     : Text(
-                                        storeInfo.distance.toString() +
+                                        ((storeInfo.distance ~/ 100) / 10.0)
+                                                .toString() +
                                             translate("km"),
                                         style: TextStyle(
                                           fontFamily: AppTheme.fontRubik,

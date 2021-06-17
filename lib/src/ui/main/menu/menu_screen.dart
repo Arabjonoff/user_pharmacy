@@ -326,7 +326,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    if (isLoginPage) {
+                    if (isLogin) {
                       widget.onMyInfo();
                     } else {
                       widget.onLogin();
@@ -1013,7 +1013,7 @@ class _MenuScreenState extends State<MenuScreen> {
               ],
             ),
           ),
-          isLoginPage
+          isLogin
               ? Container(
                   margin: EdgeInsets.only(
                     top: 16,

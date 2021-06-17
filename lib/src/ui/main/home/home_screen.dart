@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   String city = "";
   var isAnimated = true;
   int lastPosition = 0;
-  var duration = Duration(milliseconds: 270);
+  var duration = Duration(milliseconds: 750);
   ScrollController _sc = new ScrollController();
 
   @override

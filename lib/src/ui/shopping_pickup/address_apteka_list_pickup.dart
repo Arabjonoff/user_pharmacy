@@ -45,7 +45,6 @@ class _AddressStoreListPickupScreenState
 
   DatabaseHelper dataBase = new DatabaseHelper();
 
-
   @override
   void initState() {
     _requestPermission();
@@ -139,7 +138,9 @@ class _AddressStoreListPickupScreenState
                           snapshot.data[index].distance == 0.0
                               ? Container()
                               : Text(
-                                  snapshot.data[index].distance.toString() +
+                                  ((snapshot.data[index].distance ~/ 100) /
+                                              10.0)
+                                          .toString() +
                                       translate("km"),
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontRubik,
