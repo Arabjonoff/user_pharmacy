@@ -21,6 +21,7 @@ import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
@@ -1972,7 +1973,7 @@ class BottomDialog {
                     ),
                   ),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       onTap();
                     },
                     child: Container(
@@ -5475,131 +5476,139 @@ class BottomDialog {
     );
   }
 
-  static void bottomDialogOrder(BuildContext context) async {
+  static void bottomDialogOrder(
+    BuildContext context,
+    Function onHistory,
+  ) async {
     showModalBottomSheet(
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
       context: context,
       isScrollControlled: true,
       builder: (context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return Container(
-              height: 420,
-              padding: EdgeInsets.only(bottom: 5, left: 5, right: 5),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: AppTheme.white,
+              padding: EdgeInsets.only(left: 16, right: 16),
+              height: 365,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(24),
                 ),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(top: 12),
-                      height: 4,
-                      width: 64,
-                      decoration: BoxDecoration(
-                        color: AppTheme.text_dark.withOpacity(0.05),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
+                color: AppTheme.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    height: 4,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      color: AppTheme.text_dark.withOpacity(0.05),
+                      borderRadius: BorderRadius.circular(4),
                     ),
-                    Expanded(
-                      child: Center(
-                        child: SvgPicture.asset(
-                            "assets/images/image_defoult_dialog.svg"),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 24, right: 24, bottom: 8),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    child: Center(
                       child: Text(
-                        translate("dialog_rat.order_title"),
-                        style: TextStyle(
-                          fontStyle: FontStyle.normal,
-                          fontFamily: AppTheme.fontRubik,
-                          fontSize: 17,
-                          height: 1.65,
-                          fontWeight: FontWeight.w600,
-                          color: AppTheme.black_text,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 24, right: 24, bottom: 16),
-                      child: Text(
-                        translate("dialog_rat.order_message"),
+                        translate("card.order_title"),
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontStyle: FontStyle.normal,
                           fontFamily: AppTheme.fontRubik,
-                          fontSize: 13,
-                          height: 1.38,
-                          fontWeight: FontWeight.normal,
-                          color: AppTheme.background,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          height: 1.2,
+                          color: AppTheme.text_dark,
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HistoryOrderScreen(),
-                          ),
-                        );
-                      },
+                  ),
+                  Expanded(
+                    child: Center(
                       child: Container(
-                        height: 44,
-                        margin:
-                            EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                        height: 80,
+                        width: 80,
                         decoration: BoxDecoration(
+                          color: AppTheme.yellow,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Image.asset(
+                            "assets/img/best.png",
+                            height: 32,
+                            width: 32,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    translate("card.order_message"),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      height: 1.6,
+                      color: AppTheme.textGray,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 44,
+                      margin: EdgeInsets.only(
+                        bottom: 16,
+                        top: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.blue,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("card.order_close"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
                             color: AppTheme.white,
-                            border: Border.all(
-                              color: AppTheme.blue_app_color,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: Center(
-                          child: Text(
-                            translate("dialog_rat.history"),
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 17,
-                              fontFamily: AppTheme.fontRubik,
-                              fontStyle: FontStyle.normal,
-                              height: 1.29,
-                              color: AppTheme.blue_app_color,
-                            ),
                           ),
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        height: 44,
-                        margin:
-                            EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                        decoration: BoxDecoration(
-                            color: AppTheme.blue_app_color,
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: Center(
-                          child: Text(
-                            translate("dialog_rat.close"),
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 17,
-                              fontFamily: AppTheme.fontRubik,
-                              fontStyle: FontStyle.normal,
-                              height: 1.29,
-                              color: AppTheme.white,
-                            ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      RxBus.post(BottomViewModel(4), tag: "EVENT_BOTTOM_VIEW");
+                      onHistory();
+                    },
+                    child: Container(
+                      height: 44,
+                      color: AppTheme.white,
+                      child: Center(
+                        child: Text(
+                          translate("card.order_history"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.textGray,
                           ),
                         ),
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 24,
+                  )
+                ],
               ),
             );
           },

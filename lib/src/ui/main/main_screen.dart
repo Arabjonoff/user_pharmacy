@@ -16,6 +16,7 @@ import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
+import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/ui/auth/login_screen.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
@@ -164,6 +165,17 @@ class _MainScreenState extends State<MainScreen> {
         BottomDialog.historyClosePayment(context);
       },
     );
+
+    RxBus.register<CardItemChangeModel>(tag: "EVENT_CARD_BOTTOM")
+        .listen((event) => {
+              if (event.cardChange)
+                {
+                  BottomDialog.bottomDialogOrder(
+                    context,
+                    _history,
+                  ),
+                },
+            });
 
     RxBus.register<BottomViewIdsModel>(tag: "HOME_VIEW_ERROR_HISTORY").listen(
       (event) {

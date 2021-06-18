@@ -240,6 +240,9 @@ class _CardScreenState extends State<CardScreen> {
                               ),
                               GestureDetector(
                                 onTap: () {
+                                  // RxBus.post(CardItemChangeModel(true),
+                                  //     tag: "EVENT_CARD_BOTTOM");
+
                                   RxBus.post(BottomViewModel(1),
                                       tag: "EVENT_BOTTOM_VIEW");
                                 },
@@ -946,17 +949,6 @@ class _CardScreenState extends State<CardScreen> {
   }
 
   void _registerBus() {
-    RxBus.register<CardItemChangeModel>(tag: "EVENT_CARD_BOTTOM")
-        .listen((event) => {
-              if (event.cardChange)
-                {
-                  Timer(Duration(milliseconds: 100), () {
-                    blocCard.fetchAllCard();
-                    BottomDialog.bottomDialogOrder(context);
-                  }),
-                },
-            });
-
     RxBus.register<BottomView>(tag: "CARD_VIEW").listen((event) {
       if (event.title) {
         Navigator.of(context).popUntil((route) => route.isFirst);
