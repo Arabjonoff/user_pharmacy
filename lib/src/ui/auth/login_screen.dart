@@ -7,6 +7,7 @@ import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/auth/verify_screen.dart';
 import 'package:pharmacy/src/utils/number_mask.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
 
@@ -214,17 +215,25 @@ class _LoginScreenState extends State<LoginScreen> {
                             width: 1.5,
                           ),
                           color: isPrivacy ? AppTheme.blue : Color(0xFFF4F5F7)),
-                      child: Center(
-                        child: SvgPicture.asset(
-                          "assets/icons/check.svg",
-                        ),
-                      ),
+                      child: isPrivacy
+                          ? Center(
+                              child: SvgPicture.asset(
+                                "assets/icons/check.svg",
+                              ),
+                            )
+                          : Container(),
                     ),
                   ),
                 ),
                 SizedBox(width: 10),
                 Expanded(
                   child: GestureDetector(
+                    onTap: () async {
+                      var _url = "https://gopharm.uz/offer";
+                      await canLaunch(_url)
+                          ? await launch(_url)
+                          : throw " $_url";
+                    },
                     child: Text(
                       translate("auth.privacy"),
                       style: TextStyle(

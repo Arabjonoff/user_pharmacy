@@ -1861,7 +1861,7 @@ class BottomDialog {
   static void showCancelOrder(
     BuildContext context,
     int id,
-    Function() onTap,
+    Function onTap,
   ) async {
     showModalBottomSheet(
       barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
@@ -1972,7 +1972,9 @@ class BottomDialog {
                     ),
                   ),
                   GestureDetector(
-                    onTap: onTap,
+                    onTap: (){
+                      onTap();
+                    },
                     child: Container(
                       height: 44,
                       margin: EdgeInsets.only(

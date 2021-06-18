@@ -59,7 +59,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   DatabaseHelper dataBase = new DatabaseHelper();
   DatabaseHelperFav dataBaseFav = new DatabaseHelperFav();
-  String city = "";
   var isAnimated = true;
   int lastPosition = 0;
   var duration = Duration(milliseconds: 750);
@@ -984,7 +983,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ),
                               height: 19,
                               width: 125,
-                              color: AppTheme.white,
+                              decoration: BoxDecoration(
+                                color: AppTheme.white,
+                                borderRadius: BorderRadius.circular(8)
+                              ),
+
                             ),
                             Expanded(
                               child: ListView.builder(
@@ -1760,7 +1763,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ),
                               height: 19,
                               width: 125,
-                              color: AppTheme.white,
+                              decoration: BoxDecoration(
+                                  color: AppTheme.white,
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
                             ),
                             Expanded(
                               child: ListView.builder(
@@ -2372,7 +2378,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ),
                               height: 19,
                               width: 125,
-                              color: AppTheme.white,
+                              decoration: BoxDecoration(
+                                  color: AppTheme.white,
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
                             ),
                             Expanded(
                               child: ListView.builder(
@@ -2506,7 +2515,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         height: 210,
                         decoration: BoxDecoration(
                             color: AppTheme.white,
-                            borderRadius: BorderRadius.circular(24)),
+                            borderRadius: BorderRadius.circular(24),),
                       ),
                     );
                   },

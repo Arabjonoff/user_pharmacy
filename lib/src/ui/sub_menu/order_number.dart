@@ -334,7 +334,6 @@ class _OrderNumberState extends State<OrderNumber> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                BottomDialog.historyCancelOrder(context);
                                 if (type < 3) {
                                   BottomDialog.showCancelOrder(
                                     context,
