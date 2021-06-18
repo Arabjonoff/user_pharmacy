@@ -57,7 +57,6 @@ class _MenuScreenState extends State<MenuScreen> {
   void initState() {
     _registerBus();
     _getInfo();
-    _setLanguage();
     super.initState();
   }
 
@@ -447,66 +446,66 @@ class _MenuScreenState extends State<MenuScreen> {
                         ),
                       )
                     : Container(),
-                isLogin
-                    ? GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          margin: EdgeInsets.only(top: 16, left: 16, right: 16),
-                          decoration: BoxDecoration(
-                            color: AppTheme.background,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 8,
-                          ),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                "assets/icons/card.svg",
-                                width: 24,
-                                height: 24,
-                              ),
-                              SizedBox(width: 16),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      translate("menu.price_title"),
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontRubik,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14,
-                                        height: 1.43,
-                                        color: AppTheme.text_dark,
-                                      ),
-                                    ),
-                                    SizedBox(height: 2),
-                                    Text(
-                                      translate("menu.price_message"),
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontRubik,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 12,
-                                        height: 1.67,
-                                        color: AppTheme.textGray,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width: 16),
-                              SvgPicture.asset(
-                                "assets/icons/arrow_right_grey.svg",
-                                width: 24,
-                                height: 24,
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    : Container(),
+                // isLogin
+                //     ? GestureDetector(
+                //         onTap: () {},
+                //         child: Container(
+                //           margin: EdgeInsets.only(top: 16, left: 16, right: 16),
+                //           decoration: BoxDecoration(
+                //             color: AppTheme.background,
+                //             borderRadius: BorderRadius.circular(12),
+                //           ),
+                //           padding: EdgeInsets.symmetric(
+                //             horizontal: 12,
+                //             vertical: 8,
+                //           ),
+                //           child: Row(
+                //             children: [
+                //               SvgPicture.asset(
+                //                 "assets/icons/card.svg",
+                //                 width: 24,
+                //                 height: 24,
+                //               ),
+                //               SizedBox(width: 16),
+                //               Expanded(
+                //                 child: Column(
+                //                   crossAxisAlignment: CrossAxisAlignment.start,
+                //                   children: [
+                //                     Text(
+                //                       translate("menu.price_title"),
+                //                       style: TextStyle(
+                //                         fontFamily: AppTheme.fontRubik,
+                //                         fontWeight: FontWeight.normal,
+                //                         fontSize: 14,
+                //                         height: 1.43,
+                //                         color: AppTheme.text_dark,
+                //                       ),
+                //                     ),
+                //                     SizedBox(height: 2),
+                //                     Text(
+                //                       translate("menu.price_message"),
+                //                       style: TextStyle(
+                //                         fontFamily: AppTheme.fontRubik,
+                //                         fontWeight: FontWeight.normal,
+                //                         fontSize: 12,
+                //                         height: 1.67,
+                //                         color: AppTheme.textGray,
+                //                       ),
+                //                     ),
+                //                   ],
+                //                 ),
+                //               ),
+                //               SizedBox(width: 16),
+                //               SvgPicture.asset(
+                //                 "assets/icons/arrow_right_grey.svg",
+                //                 width: 24,
+                //                 height: 24,
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       )
+                //     : Container(),
                 isLogin
                     ? GestureDetector(
                         onTap: () {

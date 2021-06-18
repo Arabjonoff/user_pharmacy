@@ -1822,6 +1822,7 @@ class BottomDialog {
                       var localizationDelegate =
                           LocalizedApp.of(context).delegate;
                       localizationDelegate.changeLocale(Locale(language));
+                      onTap();
                       RxBus.post(BottomView(true),
                           tag: "MENU_VIEW_NOTIFY_SCREEN");
                       Navigator.pop(context);
