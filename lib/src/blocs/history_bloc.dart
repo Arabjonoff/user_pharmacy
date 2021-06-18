@@ -20,7 +20,7 @@ class HistoryBloc {
       _historyFetcher.sink.add(
         HistoryModel(next: result.next, results: data),
       );
-    } else {
+    } else if (response.status == -1) {
       RxBus.post(BottomView(true), tag: "HOME_VIEW_ERROR_HISTORY");
     }
   }

@@ -20,11 +20,13 @@ class ItemListScreen extends StatefulWidget {
   final String name;
   final int type;
   final String id;
+  final Function(Function reload) onReloadNetwork;
 
   ItemListScreen({
     this.name,
     this.type,
     this.id,
+    this.onReloadNetwork,
   });
 
   @override
@@ -522,7 +524,12 @@ class _ItemListScreenState extends State<ItemListScreen> {
   void _registerBus() {
     RxBus.register<BottomView>(tag: "LIST_VIEW_ERROR_NETWORK").listen(
       (event) {
-        /// network error
+        widget.onReloadNetwork(
+          () {
+            page = 1;
+            _getMoreData(page);
+          },
+        );
       },
     );
   }

@@ -3,7 +3,9 @@ import 'package:pharmacy/src/blocs/fav_bloc.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ItemBloc {
@@ -46,6 +48,8 @@ class ItemBloc {
         }
         _itemFetcher.sink.add(items);
       }
+    }else if(response.status == -1){
+      RxBus.post(BottomViewIdsModel(id), tag: "HOME_VIEW_ERROR_HISTORY");
     }
   }
 

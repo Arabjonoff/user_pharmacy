@@ -10,6 +10,7 @@ import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/blocs/fav_bloc.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
+import 'package:pharmacy/src/blocs/items_bloc.dart';
 import 'package:pharmacy/src/blocs/menu_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
@@ -161,6 +162,17 @@ class _MainScreenState extends State<MainScreen> {
     RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_CLOSE_HISTORY").listen(
       (event) {
         BottomDialog.historyClosePayment(context);
+      },
+    );
+
+    RxBus.register<BottomViewIdsModel>(tag: "HOME_VIEW_ERROR_HISTORY").listen(
+      (event) {
+        BottomDialog.showNetworkError(
+          context,
+          () {
+            blocItem.fetchAllInfoItem(event.position);
+          },
+        );
       },
     );
   }

@@ -315,6 +315,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 .replaceAll('[', '')
                                                 .replaceAll(']', '')
                                                 .replaceAll(' ', ''),
+                                            onReloadNetwork:
+                                                widget.onReloadNetwork,
                                           ),
                                         ),
                                       );
@@ -329,6 +331,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             name: url.name,
                                             type: 2,
                                             id: url.category.toString(),
+                                            onReloadNetwork:
+                                                widget.onReloadNetwork,
                                           ),
                                         ),
                                       );
@@ -435,6 +439,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 ItemListScreen(
                                               name: translate("home.recently"),
                                               type: 1,
+                                              onReloadNetwork:
+                                                  widget.onReloadNetwork,
                                             ),
                                           ),
                                         );
@@ -1066,6 +1072,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             type: 2,
                                             id: snapshot.data.results[index].id
                                                 .toString(),
+                                            onReloadNetwork:
+                                                widget.onReloadNetwork,
                                           ),
                                         ),
                                       );
@@ -1213,6 +1221,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 ItemListScreen(
                                               name: translate("home.best"),
                                               type: 3,
+                                              onReloadNetwork:
+                                                  widget.onReloadNetwork,
                                             ),
                                           ),
                                         );
@@ -1824,6 +1834,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 ItemListScreen(
                                               name: snapshot.data.title,
                                               type: 4,
+                                              onReloadNetwork:
+                                                  widget.onReloadNetwork,
                                             ),
                                           ),
                                         );
@@ -2906,6 +2918,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             name: "",
             type: 2,
             id: category.toString(),
+            onReloadNetwork: widget.onReloadNetwork,
           ),
         ),
       );
@@ -2921,6 +2934,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 .replaceAll('[', '')
                 .replaceAll(']', '')
                 .replaceAll(' ', ''),
+            onReloadNetwork: widget.onReloadNetwork,
           ),
         ),
       );

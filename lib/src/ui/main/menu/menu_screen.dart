@@ -1104,10 +1104,6 @@ class _MenuScreenState extends State<MenuScreen> {
                   Container(
                     height: 25,
                     width: 25,
-                    child: Center(
-                      child: SvgPicture.asset(
-                          "assets/images/icon_notification.svg"),
-                    ),
                   ),
                   SizedBox(width: 15),
                   Expanded(
