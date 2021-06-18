@@ -163,7 +163,7 @@ class _MainScreenState extends State<MainScreen> {
     ///card close
     RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_CLOSE_HISTORY").listen(
       (event) {
-        BottomDialog.historyClosePayment(context);
+        BottomDialog.historyClosePayment(context, _history,);
       },
     );
 

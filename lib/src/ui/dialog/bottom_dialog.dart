@@ -2167,6 +2167,7 @@ class BottomDialog {
 
   static void historyClosePayment(
     BuildContext context,
+    Function onHistory,
   ) async {
     showModalBottomSheet(
       barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
@@ -2190,7 +2191,7 @@ class BottomDialog {
                   Container(
                     margin: EdgeInsets.only(top: 8),
                     height: 4,
-                    width: 64,
+                    width: 60,
                     decoration: BoxDecoration(
                       color: AppTheme.text_dark.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(4),
@@ -2200,7 +2201,7 @@ class BottomDialog {
                     margin: EdgeInsets.only(top: 16),
                     child: Center(
                       child: Text(
-                        translate("history.message_title"),
+                        translate("card.order_title"),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: AppTheme.fontRubik,
@@ -2212,56 +2213,44 @@ class BottomDialog {
                       ),
                     ),
                   ),
-                  SizedBox(height: 24),
-                  Container(
-                    height: 80,
-                    width: 80,
-                    decoration: BoxDecoration(
-                      color: AppTheme.yellow,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
+                  Expanded(
                     child: Center(
-                      child: Image.asset(
-                        "assets/img/msg_img.png",
-                        height: 32,
-                        width: 32,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: 16,
-                      left: 12,
-                      right: 12,
-                    ),
-                    child: Center(
-                      child: Text(
-                        translate("history.message_msg"),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontRubik,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 14,
-                          height: 1.6,
-                          color: AppTheme.textGray,
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          color: AppTheme.yellow,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Image.asset(
+                            "assets/img/best.png",
+                            height: 32,
+                            width: 32,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                  Expanded(child: Container()),
+                  Text(
+                    translate("card.order_message"),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      height: 1.6,
+                      color: AppTheme.textGray,
+                    ),
+                  ),
                   GestureDetector(
                     onTap: () async {
-                      var url = "tel:712050888";
-                      if (await canLaunch(url)) {
-                        await launch(url);
-                      } else {
-                        throw 'Could not launch $url';
-                      }
                       Navigator.pop(context);
                     },
                     child: Container(
                       height: 44,
                       margin: EdgeInsets.only(
+                        bottom: 16,
                         top: 16,
                       ),
                       decoration: BoxDecoration(
@@ -2270,7 +2259,7 @@ class BottomDialog {
                       ),
                       child: Center(
                         child: Text(
-                          translate("history.call"),
+                          translate("card.order_close"),
                           style: TextStyle(
                             fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.w500,
@@ -2285,20 +2274,15 @@ class BottomDialog {
                   GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
+                      RxBus.post(BottomViewModel(4), tag: "EVENT_BOTTOM_VIEW");
+                      onHistory();
                     },
                     child: Container(
                       height: 44,
-                      margin: EdgeInsets.only(
-                        bottom: 24,
-                        top: 16,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppTheme.white,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+                      color: AppTheme.white,
                       child: Center(
                         child: Text(
-                          translate("history.close"),
+                          translate("card.order_history"),
                           style: TextStyle(
                             fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.w500,
@@ -2310,6 +2294,9 @@ class BottomDialog {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 24,
+                  )
                 ],
               ),
             );

@@ -647,33 +647,6 @@ class PharmacyApiProvider {
         Utils.baseUrl + '/api/v1/activate-order?lan=$lan&region=$regionId';
 
     return await postRequest(url, json.encode(order));
-
-    // Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    // String encoded = prefs.getString("deviceData") != null
-    //     ? stringToBase64.encode(prefs.getString("deviceData"))
-    //     : "";
-    //
-    // Map<String, String> headers = {
-    //   HttpHeaders.authorizationHeader: "Bearer $token",
-    //   'content-type': 'application/json',
-    //   'X-Device': encoded,
-    // };
-    //
-    // try {
-    //   http.Response response = await http
-    //       .post(Uri.parse(url), headers: headers, body: json.encode(order))
-    //       .timeout(duration);
-    //
-    //   final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-    //
-    //   return OrderStatusModel.fromJson(responseJson);
-    // } on TimeoutException catch (_) {
-    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-    //   return OrderStatusModel(status: -1, msg: translate("internet_error"));
-    // } on SocketException catch (_) {
-    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-    //   return OrderStatusModel(status: -1, msg: translate("internet_error"));
-    // }
   }
 
   ///set location to region

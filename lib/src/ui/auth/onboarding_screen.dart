@@ -458,10 +458,15 @@ class _OnBoardingState extends State<OnBoarding> {
       try {
         if (Platform.isAndroid) {
           deviceData = _readAndroidBuildData(
-              await deviceInfoPlugin.androidInfo, context);
+            await deviceInfoPlugin.androidInfo,
+            context,
+          );
         } else if (Platform.isIOS) {
           deviceData = _readIosDeviceInfo(
-              await deviceInfoPlugin.iosInfo, context, await FlutterUdid.udid);
+            await deviceInfoPlugin.iosInfo,
+            context,
+            await FlutterUdid.udid,
+          );
         }
         Utils.saveDeviceData(deviceData);
       } on PlatformException {
