@@ -7,12 +7,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/blocs/order_options_bloc.dart';
 import 'package:pharmacy/src/model/api/order_options_model.dart';
+import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/create_payment_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
-import 'package:pharmacy/src/ui/payment/verfy_payment_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -116,8 +116,10 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                 Navigator.pop(context);
               } else {
                 Navigator.of(context).popUntil((route) => route.isFirst);
-                RxBus.post(BottomViewModel(1),
-                    tag: "EVENT_BOTTOM_CLOSE_HISTORY");
+                RxBus.post(
+                  BottomViewModel(1),
+                  tag: "EVENT_BOTTOM_CLOSE_HISTORY",
+                );
               }
             },
           ),
@@ -231,7 +233,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                           Expanded(
                                             child: Text(
                                               snapshot
-                                                  .data.paymentTypes[index].id
+                                                  .data.paymentTypes[index].name
                                                   .toString(),
                                               style: TextStyle(
                                                 fontFamily: AppTheme.fontRubik,
@@ -650,90 +652,51 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
             Container(
               color: AppTheme.white,
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
                   if (!loading) {
                     if (paymentType != null) {
                       setState(() {
                         loading = true;
+                        errorText = "";
                       });
-
-                      PaymentOrderModel addModel = new PaymentOrderModel();
-
-                      // isEnd
-                      //     ? addModel = new PaymentOrderModel(
-                      //         orderId: widget.orderId,
-                      //         cashPay: cashPrice.toInt(),
-                      //         paymentType: paymentType,
-                      //         cardToken: cardToken == "" ? null : cardToken,
-                      //         cardPan: cardNum,
-                      //         cardExp: cardDate,
-                      //         cardSave: checkBox ? 1 : 0,
-                      //       )
-                      //     :
-                      addModel = new PaymentOrderModel(
+                      PaymentOrderModel addModel = new PaymentOrderModel(
                         orderId: widget.orderId,
                         cashPay: cashBackPrice.toInt(),
                         paymentType: paymentType,
-                        //cardToken: cardToken == "" ? null : cardToken,
                       );
 
-                      Repository().fetchPayment(addModel).then((response) => {
-                            if (response.status == 1)
-                              {
-                                if (response.data.errorCode == 0)
-                                  {
-                                    setState(() {
-                                      loading = false;
-                                      errorText = "";
-                                    }),
-                                    RxBus.post(CardItemChangeModel(true),
-                                        tag: "EVENT_CARD"),
-                                    if (response.data.cardToken != "")
-                                      {
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                VerifyPaymentScreen(
-                                              response.data.phoneNumber,
-                                              response.data.cardToken,
-                                            ),
-                                          ),
-                                        ),
-                                      }
-                                    else
-                                      {
-                                        Navigator.of(context)
-                                            .popUntil((route) => route.isFirst),
-                                        RxBus.post(CardItemChangeModel(true),
-                                            tag: "EVENT_CARD_BOTTOM"),
-                                      }
-                                  }
-                                else
-                                  {
-                                    setState(() {
-                                      loading = false;
-                                      errorText = response.data.errorNote;
-                                    }),
-                                  }
-                              }
-                            else if (response.status == -1)
-                              {
-                                setState(() {
-                                  loading = false;
-                                  errorText = response.msg;
-                                }),
-                              }
-                            else
-                              {
-                                setState(() {
-                                  loading = false;
-                                  errorText = response.msg == ""
-                                      ? translate("error_distanse")
-                                      : response.msg;
-                                }),
-                              }
+                      var response = await Repository().fetchPayment(addModel);
+                      if (response.isSuccess) {
+                        var result = OrderStatusModel.fromJson(response.result);
+                        if (result.status == 1) {
+                          if (result.data.errorCode == 0) {
+                            Navigator.of(context)
+                                .popUntil((route) => route.isFirst);
+                            RxBus.post(CardItemChangeModel(true),
+                                tag: "EVENT_CARD_BOTTOM");
+                          } else {
+                            setState(() {
+                              loading = false;
+                              errorText = result.data.errorNote;
+                            });
+                          }
+                        } else {
+                          setState(() {
+                            loading = false;
+                            errorText = result.msg;
                           });
+                        }
+                      } else if (response.status == -1) {
+                        setState(() {
+                          loading = false;
+                          errorText = translate("network.network_title");
+                        });
+                      } else {
+                        setState(() {
+                          loading = false;
+                          errorText = response.result["msg"];
+                        });
+                      }
                     }
                   }
                 },

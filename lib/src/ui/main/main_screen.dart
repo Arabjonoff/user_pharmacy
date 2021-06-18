@@ -160,12 +160,14 @@ class _MainScreenState extends State<MainScreen> {
       },
     );
 
+    ///card close
     RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_CLOSE_HISTORY").listen(
       (event) {
         BottomDialog.historyClosePayment(context);
       },
     );
 
+    ///card finish
     RxBus.register<CardItemChangeModel>(tag: "EVENT_CARD_BOTTOM")
         .listen((event) => {
               if (event.cardChange)

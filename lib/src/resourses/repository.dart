@@ -152,7 +152,7 @@ class Repository {
   Future<List<RegionModel>> fetchRegions(String obj) =>
       pharmacyApiProvider.fetchRegions(obj);
 
-  Future<OrderStatusModel> fetchPayment(PaymentOrderModel order) =>
+  Future<HttpResult> fetchPayment(PaymentOrderModel order) =>
       pharmacyApiProvider.fetchPayment(order);
 
   Future<HttpResult> fetchCreateOrder(CreateOrderModel order) =>

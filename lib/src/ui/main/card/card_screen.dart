@@ -12,10 +12,8 @@ import 'package:pharmacy/src/model/api/min_sum.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
-import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
-import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
@@ -240,9 +238,6 @@ class _CardScreenState extends State<CardScreen> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  // RxBus.post(CardItemChangeModel(true),
-                                  //     tag: "EVENT_CARD_BOTTOM");
-
                                   RxBus.post(BottomViewModel(1),
                                       tag: "EVENT_BOTTOM_VIEW");
                                 },
