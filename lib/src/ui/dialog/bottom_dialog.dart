@@ -4140,14 +4140,16 @@ class BottomDialog {
                                               ),
                                             )
                                                 .then((value) {
-                                              blocItem.fetchItemUpdate();
+                                              blocItem
+                                                  .fetchItemUpdate(position);
                                             });
                                           } else {
                                             dataBaseFav
                                                 .deleteProducts(
                                                     snapshot.data.id)
                                                 .then((value) {
-                                              blocItem.fetchItemUpdate();
+                                              blocItem
+                                                  .fetchItemUpdate(position);
                                             });
                                           }
                                         },
@@ -5149,7 +5151,8 @@ class BottomDialog {
                                               ),
                                             )
                                                 .then((value) {
-                                              blocItem.fetchItemUpdate();
+                                              blocItem
+                                                  .fetchItemUpdate(position);
                                             });
                                           } else if (snapshot.data.cardCount ==
                                               1) {
@@ -5157,7 +5160,8 @@ class BottomDialog {
                                                 .deleteProducts(
                                                     snapshot.data.id)
                                                 .then((value) {
-                                              blocItem.fetchItemUpdate();
+                                              blocItem
+                                                  .fetchItemUpdate(position);
                                             });
                                           }
                                         },
@@ -5214,7 +5218,7 @@ class BottomDialog {
                                             ),
                                           )
                                               .then((value) {
-                                            blocItem.fetchItemUpdate();
+                                            blocItem.fetchItemUpdate(position);
                                           });
                                         },
                                         child: Container(
@@ -5253,7 +5257,7 @@ class BottomDialog {
                                       ),
                                     )
                                         .then((value) {
-                                      blocItem.fetchItemUpdate();
+                                      blocItem.fetchItemUpdate(position);
                                     });
                                   },
                                   child: Container(

@@ -1,3 +1,6 @@
+import 'package:pharmacy/src/blocs/card_bloc.dart';
+import 'package:pharmacy/src/blocs/fav_bloc.dart';
+import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
@@ -46,7 +49,7 @@ class ItemBloc {
     }
   }
 
-  fetchItemUpdate() async {
+  fetchItemUpdate(int position) async {
     if (items != null) {
       List<ItemResult> database = await _repository.databaseItem();
       List<ItemResult> databaseFav = await _repository.databaseFavItem();
@@ -63,6 +66,15 @@ class ItemBloc {
         }
       }
       _itemFetcher.sink.add(items);
+      if (position == 0) {
+        blocHome.update();
+      } else if (position == 1) {
+        //category
+      } else if (position == 2) {
+        blocCard.fetchAllCard();
+      } else if (position == 3) {
+        blocFav.fetchAllFav();
+      }
     }
   }
 
