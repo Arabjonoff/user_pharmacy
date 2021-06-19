@@ -145,12 +145,10 @@ class Repository {
   Future<HttpResult> fetchItems(String id) =>
       pharmacyApiProvider.fetchItems(id);
 
-
   Future<HttpResult> fetchAccessStore(AccessStore accessStore) =>
       pharmacyApiProvider.fetchAccessStore(accessStore);
 
-  Future<List<RegionModel>> fetchRegions(String obj) =>
-      pharmacyApiProvider.fetchRegions(obj);
+  Future<HttpResult> fetchRegions() => pharmacyApiProvider.fetchRegions();
 
   Future<HttpResult> fetchPayment(PaymentOrderModel order) =>
       pharmacyApiProvider.fetchPayment(order);
@@ -202,10 +200,9 @@ class Repository {
 
   Future<HttpResult> fetchFAQ() => pharmacyApiProvider.fetchFAQ();
 
-  Future<OrderStatusModel> fetchGetRegion(String location) =>
+  Future<HttpResult> fetchGetRegion(String location) =>
       pharmacyApiProvider.fetchGetRegion(location);
 
   Future<OrderStatusModel> fetchAddRegion(int regionId) =>
       pharmacyApiProvider.fetchAddRegion(regionId);
-
 }

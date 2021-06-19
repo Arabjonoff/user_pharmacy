@@ -117,8 +117,8 @@ class MyApp extends StatelessWidget {
             child: child,
           );
         },
-        home: isLoginPage ? MainScreen() : OnBoarding(),
-        //home: OnBoarding(),
+        //home: isLoginPage ? MainScreen() : OnBoarding(),
+        home: OnBoarding(),
       ),
     );
   }

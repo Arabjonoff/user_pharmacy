@@ -19,7 +19,7 @@ class RegionModel {
   String name;
   String parentName;
   List<RegionModel> childs;
-  bool isOpen;
+  bool isOpen = false;
   bool isChoose;
   List<double> coords;
 

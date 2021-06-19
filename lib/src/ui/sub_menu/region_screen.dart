@@ -1,9 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
-import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,34 +19,14 @@ class RegionScreen extends StatefulWidget {
 }
 
 class _RegionScreenState extends State<RegionScreen> {
-  Size size;
-  TextEditingController searchController = TextEditingController();
-  DatabaseHelper dataBase = new DatabaseHelper();
-  bool isSearchText = false;
-  String obj = "";
   int cityId;
-
   bool isLoading = true;
-
   List<RegionModel> users = new List();
 
   @override
   void initState() {
     _getMoreData();
     super.initState();
-  }
-
-  _RegionScreenState() {
-    searchController.addListener(() {
-      if (searchController.text != obj) {
-        setState(() {
-          users = new List();
-          obj = searchController.text;
-          isSearchText = true;
-          _getMoreData();
-        });
-      }
-    });
   }
 
   @override
@@ -88,63 +69,6 @@ class _RegionScreenState extends State<RegionScreen> {
       ),
       body: Column(
         children: [
-          Container(
-            margin: EdgeInsets.only(left: 12, right: 12, bottom: 12),
-            height: 36,
-            width: double.infinity,
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(9.0),
-                      color: AppTheme.black_transparent,
-                    ),
-                    child: Row(
-                      children: [
-                        SizedBox(width: 8),
-                        Icon(
-                          Icons.search,
-                          size: 24,
-                          color: AppTheme.notWhite,
-                        ),
-                        SizedBox(width: 8),
-                        Expanded(
-                          child: Container(
-                            height: 36,
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: TextFormField(
-                                textInputAction: TextInputAction.search,
-                                cursorColor: AppTheme.notWhite,
-                                style: TextStyle(
-                                  color: AppTheme.black_text,
-                                  fontSize: 15,
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: translate("search_real"),
-                                  hintStyle: TextStyle(
-                                    color: AppTheme.notWhite,
-                                    fontSize: 15,
-                                    fontFamily: AppTheme.fontRubik,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                                controller: searchController,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
           isLoading
               ? Expanded(
                   child: Center(
@@ -168,7 +92,6 @@ class _RegionScreenState extends State<RegionScreen> {
                                 if (users[index].isChoose == null ||
                                     !users[index].isChoose) {
                                   Repository().fetchAddRegion(users[index].id);
-                                  dataBase.clear();
                                   SharedPreferences prefs =
                                       await SharedPreferences.getInstance();
                                   prefs.setString("city", users[index].name);
@@ -291,7 +214,6 @@ class _RegionScreenState extends State<RegionScreen> {
                                                     users[index]
                                                         .childs[position]
                                                         .id);
-                                                dataBase.clear();
                                                 SharedPreferences prefs =
                                                     await SharedPreferences
                                                         .getInstance();
@@ -375,41 +297,29 @@ class _RegionScreenState extends State<RegionScreen> {
     setState(() {
       isLoading = true;
     });
-    var response = Repository().fetchRegions(obj);
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getInt("cityId") != null) {
-      cityId = prefs.getInt("cityId");
-    }
-
-    response.then((value) => {
-          if (value != null)
-            {
-              setState(() {
-                isLoading = false;
-              }),
-              for (int i = 0; i < value.length; i++)
-                {
-                  if (value[i].childs.length > 0)
-                    {
-                      for (int j = 0; j < value[i].childs.length; j++)
-                        {
-                          if (cityId == value[i].childs[j].id)
-                            {
-                              value[i].childs[j].isChoose = true,
-                            }
-                        }
-                    }
-                  else if (cityId == value[i].id)
-                    {
-                      value[i].isChoose = true,
-                    }
-                },
-              setState(() {
-                users = new List();
-                users = value;
-              }),
+    var response = await Repository().fetchRegions();
+    if (response.isSuccess) {
+      var result = regionModelFromJson(json.encode(response.result));
+      for (int i = 0; i < result.length; i++) {
+        if (result[i].childs.length > 0) {
+          for (int j = 0; j < result[i].childs.length; j++) {
+            if (cityId == result[i].childs[j].id) {
+              result[i].childs[j].isChoose = true;
             }
-        });
+          }
+        } else if (cityId == result[i].id) {
+          result[i].isChoose = true;
+        }
+      }
+      setState(() {
+        isLoading = false;
+        users = new List();
+        users = result;
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 }

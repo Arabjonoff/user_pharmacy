@@ -394,34 +394,11 @@ class PharmacyApiProvider {
   }
 
   ///regions
-  Future<List<RegionModel>> fetchRegions(String obj) async {
+  Future<HttpResult> fetchRegions() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String lan = prefs.getString('language') ?? "ru";
-
-    String url = Utils.baseUrl + '/api/v1/regions?search=$obj&lan=$lan';
-
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-
-    try {
-      http.Response response =
-          await http.get(Uri.parse(url), headers: headers).timeout(duration);
-      var responseJson = utf8.decode(response.bodyBytes);
-      return regionModelFromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return null;
-    }
+    String url = Utils.baseUrl + '/api/v1/regions?lan=$lan';
+    return await getRequest(url);
   }
 
   ///History
@@ -650,42 +627,39 @@ class PharmacyApiProvider {
   }
 
   ///set location to region
-  Future<OrderStatusModel> fetchGetRegion(String location) async {
+  Future<HttpResult> fetchGetRegion(String location) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String lan = prefs.getString('language');
-    if (lan == null) {
-      lan = "ru";
-    }
+    String lan = prefs.getString('language') ?? "ru";
 
     final data = {
       "location": location,
     };
-
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-
     String url = Utils.baseUrl + '/api/v1/check-region-polygon?lan=$lan';
+    return await postRequest(url, json.encode(data));
 
-    try {
-      http.Response response = await http
-          .post(Uri.parse(url), headers: headers, body: json.encode(data))
-          .timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      return OrderStatusModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return OrderStatusModel(status: -1, msg: translate("internet_error"));
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return OrderStatusModel(status: -1, msg: translate("internet_error"));
-    }
+    // Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    // String encoded = prefs.getString("deviceData") != null
+    //     ? stringToBase64.encode(prefs.getString("deviceData"))
+    //     : "";
+    //
+    // Map<String, String> headers = {
+    //   'content-type': 'application/json; charset=utf-8',
+    //   'X-Device': encoded,
+    // };
+    //
+    // try {
+    //   http.Response response = await http
+    //       .post(Uri.parse(url), headers: headers, body: json.encode(data))
+    //       .timeout(duration);
+    //   final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
+    //   return OrderStatusModel.fromJson(responseJson);
+    // } on TimeoutException catch (_) {
+    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+    //   return OrderStatusModel(status: -1, msg: translate("internet_error"));
+    // } on SocketException catch (_) {
+    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
+    //   return OrderStatusModel(status: -1, msg: translate("internet_error"));
+    // }
   }
 
   ///add region

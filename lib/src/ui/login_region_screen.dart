@@ -1,21 +1,18 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:ui';
 
-import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:flutter_udid/flutter_udid.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/blocs/region_bloc.dart';
+import 'package:pharmacy/src/model/api/order_status_model.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
+import 'package:pharmacy/src/utils/accordion.dart';
 import 'package:pharmacy/src/utils/utils.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app_theme.dart';
 
@@ -27,11 +24,8 @@ class LoginRegionScreen extends StatefulWidget {
 }
 
 class _LoginRegionScreenState extends State<LoginRegionScreen> {
-
-
-  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-
-  bool isFirstData = true;
+  RegionModel data = RegionModel(id: -1);
+  var duration = Duration(milliseconds: 270);
 
   @override
   void initState() {
@@ -58,355 +52,216 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
     if (position != null) {
       lat = position.latitude;
       lng = position.longitude;
-      var response = Repository().fetchGetRegion("$lng,$lat");
-      response.then(
-        (value) => {
-          if (value.status == 1)
-            {
-              Utils.saveRegion(value.region, value.msg, lat, lng),
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MainScreen(),
-                ),
-              ),
-            }
-          else
-            {
-              blocRegion.fetchAllRegion(),
-            }
-        },
-      );
+      var response = await Repository().fetchGetRegion("$lng,$lat");
+      if (response.isSuccess) {
+        var result = OrderStatusModel.fromJson(response.result);
+        if (result.status == 1) {
+          Utils.saveRegion(result.region, result.msg, lat, lng);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MainScreen(),
+            ),
+          );
+        } else {
+          blocRegion.fetchAllRegion();
+        }
+      } else {
+        blocRegion.fetchAllRegion();
+      }
     } else {
       blocRegion.fetchAllRegion();
     }
   }
 
-  Future<void> _initPlatformState(BuildContext context) async {
-    Map<String, dynamic> deviceData;
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString("deviceData") == null) {
-      try {
-        if (Platform.isAndroid) {
-          deviceData = _readAndroidBuildData(
-              await deviceInfoPlugin.androidInfo, context);
-        } else if (Platform.isIOS) {
-          deviceData = _readIosDeviceInfo(
-              await deviceInfoPlugin.iosInfo, context, await FlutterUdid.udid);
-        }
-        Utils.saveDeviceData(deviceData);
-      } on PlatformException {
-        deviceData = <String, dynamic>{
-          'Error:': 'Failed to get platform version.'
-        };
-      }
-    }
-
-    if (!mounted) return;
-  }
-
-  Map<String, dynamic> _readAndroidBuildData(
-      AndroidDeviceInfo build, BuildContext context) {
-    return <String, dynamic>{
-      'platform': "Android",
-      'model': build.model,
-      'systemVersion': build.version.release,
-      'brand': build.brand,
-      'isPhysicalDevice': build.isPhysicalDevice,
-      'identifierForVendor': build.androidId,
-      'device': build.device,
-      'product': build.product,
-      'version.incremental': build.version.incremental,
-      'displaySize': MediaQuery.of(context).size.width.toString() +
-          "x" +
-          MediaQuery.of(context).size.height.toString(),
-      'displayPixel': window.physicalSize.width.toString() +
-          "x" +
-          window.physicalSize.height.toString(),
-    };
-  }
-
-  Map<String, dynamic> _readIosDeviceInfo(
-      IosDeviceInfo data, BuildContext context, String udid) {
-    return <String, dynamic>{
-      'platform': "IOS",
-      'model': data.name,
-      'systemVersion': data.systemVersion,
-      'brand': data.model,
-      'isPhysicalDevice': data.isPhysicalDevice,
-      'identifierForVendor': udid,
-      'systemName': data.systemName,
-      'displaySize': MediaQuery.of(context).size.width.toString() +
-          "x" +
-          MediaQuery.of(context).size.height.toString(),
-      'displayPixel': window.physicalSize.width.toString() +
-          "x" +
-          window.physicalSize.height.toString(),
-    };
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (isFirstData) {
-      _initPlatformState(context);
-      isFirstData = false;
-    }
-
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(30.0),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            elevation: 0.0,
-            backgroundColor: Colors.black,
-            brightness: Brightness.dark,
-            title: Container(
-              height: 30,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 10,
-                  decoration: BoxDecoration(
-                    color: AppTheme.item_navigation,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.0),
-                      topRight: Radius.circular(10.0),
+      backgroundColor: AppTheme.background,
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: AppTheme.white,
+      ),
+      body: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: 16, right: 16),
+            child: Text(
+              translate(""),
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                color: AppTheme.black_text,
+                fontWeight: FontWeight.w500,
+                fontFamily: AppTheme.fontRubik,
+                fontSize: 17,
+              ),
+            ),
+          ),
+          Expanded(
+            child: StreamBuilder(
+              stream: blocRegion.allRegion,
+              builder: (context, AsyncSnapshot<List<RegionModel>> snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    itemCount: snapshot.data.length,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, index) {
+                      return snapshot.data[index].childs.length == 0
+                          ? GestureDetector(
+                              onTap: () async {
+                                setState(() {
+                                  data = RegionModel(
+                                    id: snapshot.data[index].id,
+                                    name: snapshot.data[index].name,
+                                    coords: [
+                                      snapshot.data[index].coords[0],
+                                      snapshot.data[index].coords[1]
+                                    ],
+                                  );
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppTheme.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                margin: EdgeInsets.only(
+                                  bottom: 1,
+                                  left: 12,
+                                  right: 12,
+                                ),
+                                padding: EdgeInsets.only(
+                                  top: 16,
+                                  bottom: 16,
+                                  left: 16,
+                                  right: 16,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        snapshot.data[index].name,
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRubik,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 14,
+                                          height: 1.2,
+                                          color: AppTheme.black_text,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 8),
+                                    AnimatedContainer(
+                                      duration: duration,
+                                      curve: Curves.easeInOut,
+                                      height: 16,
+                                      width: 16,
+                                      padding: EdgeInsets.all(3),
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.white,
+                                        borderRadius: BorderRadius.circular(16),
+                                        border: Border.all(
+                                          color:
+                                              data.id == snapshot.data[index].id
+                                                  ? AppTheme.blue
+                                                  : AppTheme.gray,
+                                        ),
+                                      ),
+                                      child: AnimatedContainer(
+                                        duration: duration,
+                                        curve: Curves.easeInOut,
+                                        height: 10,
+                                        width: 10,
+                                        decoration: BoxDecoration(
+                                          color:
+                                              data.id == snapshot.data[index].id
+                                                  ? AppTheme.blue
+                                                  : AppTheme.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 8),
+                                  ],
+                                ),
+                              ),
+                            )
+                          : Accordion(
+                              title: snapshot.data[index].name,
+                              childs: snapshot.data[index].childs,
+                              data: data,
+                              onChoose: (choose) {
+                                setState(() {
+                                  data = RegionModel(
+                                    id: choose.id,
+                                    name: choose.name,
+                                    coords: [
+                                      choose.coords[0],
+                                      choose.coords[1]
+                                    ],
+                                  );
+                                });
+                              },
+                            );
+                    },
+                  );
+                }
+                return Center(
+                  child: CircularProgressIndicator(
+                    value: null,
+                    strokeWidth: 3.0,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      AppTheme.blue_app_color,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 12, left: 22, right: 22, bottom: 24),
+            color: AppTheme.white,
+            child: GestureDetector(
+              onTap: () {
+                if (data.id != -1) {
+                  Utils.saveRegion(
+                    data.id,
+                    data.name,
+                    data.coords[0],
+                    data.coords[1],
+                  );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MainScreen(),
+                    ),
+                  );
+                }
+              },
+              child: Container(
+                height: 44,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: data.id == -1 ? AppTheme.gray : AppTheme.blue,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: Text(
+                    "Выбрать",
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      height: 1.25,
+                      color: AppTheme.white,
                     ),
                   ),
                 ),
               ),
             ),
-          )),
-      body: Container(
-        decoration: BoxDecoration(
-          color: AppTheme.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(14.0),
-            topRight: Radius.circular(14.0),
-          ),
-        ),
-        padding: EdgeInsets.only(top: 14),
-        child: Container(
-          width: double.infinity,
-          color: AppTheme.white,
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(left: 16, right: 16),
-                child: Text(
-                  translate("menu.city"),
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    color: AppTheme.black_text,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: AppTheme.fontRubik,
-                    fontSize: 17,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: StreamBuilder(
-                  stream: blocRegion.allRegion,
-                  builder:
-                      (context, AsyncSnapshot<List<RegionModel>> snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                        itemCount: snapshot.data.length,
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (context, index) {
-                          return snapshot.data[index].childs.length == 0
-                              ? GestureDetector(
-                                  onTap: () async {
-                                    Utils.saveRegion(
-                                      snapshot.data[index].id,
-                                      snapshot.data[index].name,
-                                      snapshot.data[index].coords[0],
-                                      snapshot.data[index].coords[1],
-                                    );
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => MainScreen(),
-                                      ),
-                                    );
-                                  },
-                                  child: Container(
-                                    color: AppTheme.white,
-                                    height: 60,
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            width: double.infinity,
-                                            height: 59,
-                                            margin: EdgeInsets.only(
-                                                left: 16, right: 20),
-                                            child: Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                snapshot.data[index].name,
-                                                style: TextStyle(
-                                                  fontStyle: FontStyle.normal,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily:
-                                                      AppTheme.fontRubik,
-                                                  fontSize: 15,
-                                                  color: AppTheme.black_text,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          height: 1,
-                                          color: AppTheme.background,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              : Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () async {
-                                        setState(() {
-                                          if (snapshot.data[index].isOpen ==
-                                                  null ||
-                                              snapshot.data[index].isOpen ==
-                                                  false) {
-                                            snapshot.data[index].isOpen = true;
-                                          } else {
-                                            snapshot.data[index].isOpen = false;
-                                          }
-                                        });
-                                      },
-                                      child: Container(
-                                        margin: EdgeInsets.only(
-                                            left: 16, right: 16),
-                                        color: AppTheme.white,
-                                        height: 60,
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                snapshot.data[index].name,
-                                                style: TextStyle(
-                                                  fontStyle: FontStyle.normal,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily:
-                                                      AppTheme.fontRubik,
-                                                  fontSize: 15,
-                                                  color: AppTheme.black_text,
-                                                ),
-                                              ),
-                                            ),
-                                            Icon(
-                                              snapshot.data[index].isOpen ==
-                                                      null
-                                                  ? Icons.keyboard_arrow_down
-                                                  : snapshot.data[index].isOpen
-                                                      ? Icons.keyboard_arrow_up
-                                                      : Icons
-                                                          .keyboard_arrow_down,
-                                              size: 24,
-                                              color: AppTheme.black_text,
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    (snapshot.data[index].isOpen == null ||
-                                            snapshot.data[index].isOpen ==
-                                                false)
-                                        ? Container()
-                                        : ListView.builder(
-                                            itemCount: snapshot
-                                                .data[index].childs.length,
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.vertical,
-                                            itemBuilder: (context, position) {
-                                              return GestureDetector(
-                                                onTap: () async {
-                                                  Utils.saveRegion(
-                                                    snapshot.data[index]
-                                                        .childs[position].id,
-                                                    snapshot.data[index]
-                                                        .childs[position].name,
-                                                    snapshot
-                                                        .data[index]
-                                                        .childs[position]
-                                                        .coords[0],
-                                                    snapshot
-                                                        .data[index]
-                                                        .childs[position]
-                                                        .coords[1],
-                                                  );
-                                                  Navigator.pushReplacement(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          MainScreen(),
-                                                    ),
-                                                  );
-                                                },
-                                                child: Container(
-                                                  color: AppTheme.white,
-                                                  height: 60,
-                                                  width: double.infinity,
-                                                  margin: EdgeInsets.only(
-                                                      left: 32, right: 20),
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Text(
-                                                      snapshot
-                                                          .data[index]
-                                                          .childs[position]
-                                                          .name,
-                                                      style: TextStyle(
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontFamily:
-                                                            AppTheme.fontRubik,
-                                                        fontSize: 15,
-                                                        color:
-                                                            AppTheme.black_text,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                    Container(
-                                      height: 1,
-                                      color: AppTheme.background,
-                                    )
-                                  ],
-                                );
-                        },
-                      );
-                    }
-
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: null,
-                        strokeWidth: 3.0,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          AppTheme.blue_app_color,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
+          )
+        ],
       ),
     );
   }
