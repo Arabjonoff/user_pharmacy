@@ -2,13 +2,17 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
+import 'package:pharmacy/main.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_fav.dart';
@@ -88,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _setLanguage();
     _initPackageInfo();
     _registerBus();
-    _notificationFirebase();
+    //  _notificationFirebase();
     _getNoReview();
     blocHome.fetchBanner();
     blocHome.fetchBlog(1);
@@ -984,10 +988,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               height: 19,
                               width: 125,
                               decoration: BoxDecoration(
-                                color: AppTheme.white,
-                                borderRadius: BorderRadius.circular(8)
-                              ),
-
+                                  color: AppTheme.white,
+                                  borderRadius: BorderRadius.circular(8)),
                             ),
                             Expanded(
                               child: ListView.builder(
@@ -1765,8 +1767,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               width: 125,
                               decoration: BoxDecoration(
                                   color: AppTheme.white,
-                                  borderRadius: BorderRadius.circular(8)
-                              ),
+                                  borderRadius: BorderRadius.circular(8)),
                             ),
                             Expanded(
                               child: ListView.builder(
@@ -2380,8 +2381,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               width: 125,
                               decoration: BoxDecoration(
                                   color: AppTheme.white,
-                                  borderRadius: BorderRadius.circular(8)
-                              ),
+                                  borderRadius: BorderRadius.circular(8)),
                             ),
                             Expanded(
                               child: ListView.builder(
@@ -2514,8 +2514,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         width: double.infinity,
                         height: 210,
                         decoration: BoxDecoration(
-                            color: AppTheme.white,
-                            borderRadius: BorderRadius.circular(24),),
+                          color: AppTheme.white,
+                          borderRadius: BorderRadius.circular(24),
+                        ),
                       ),
                     );
                   },
@@ -2886,8 +2887,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
-  void _notificationFirebase() {}
-
   void _registerBus() {
     RxBus.register<BottomView>(tag: "HOME_VIEW").listen((event) {
       if (event.title) {
@@ -2910,43 +2909,5 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         );
       },
     );
-  }
-
-  void _notifyData(Map<String, dynamic> message) {
-    int item = int.parse(message["data"]["drug"]);
-    int category = int.parse(message["data"]["category"]);
-    String ids = message["data"]["drugs"];
-
-    if (item > 0) {
-      RxBus.post(BottomViewModel(item), tag: "EVENT_BOTTOM_ITEM_ALL");
-    } else if (category > 0) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ItemListScreen(
-            name: "",
-            type: 2,
-            id: category.toString(),
-            onReloadNetwork: widget.onReloadNetwork,
-          ),
-        ),
-      );
-    } else if (ids.length > 2) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ItemListScreen(
-            name: "",
-            type: 5,
-            id: ids
-                .toString()
-                .replaceAll('[', '')
-                .replaceAll(']', '')
-                .replaceAll(' ', ''),
-            onReloadNetwork: widget.onReloadNetwork,
-          ),
-        ),
-      );
-    }
   }
 }

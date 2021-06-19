@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:pharmacy/main.dart';
+import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/blocs/fav_bloc.dart';
@@ -25,7 +29,6 @@ import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/fav/favourite_screen.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_screen.dart';
-import 'package:pharmacy/src/ui/note/notification_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/curer_address_card.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/checkout_order_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/about_app_screen.dart';
@@ -65,73 +68,83 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    _requestIOSPermissions();
-    _configureDidReceiveLocalNotificationSubject();
-    _configureSelectNotificationSubject();
+    _notificationFirebase();
     _registerBus();
     _setLanguage();
   }
 
-  void _requestIOSPermissions() {
-    flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            IOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
-  }
-
-  void _configureDidReceiveLocalNotificationSubject() {
-    didReceiveLocalNotificationSubject.stream
-        .listen((ReceivedNotification receivedNotification) async {
-      await showDialog(
-        context: context,
-        builder: (BuildContext context) => CupertinoAlertDialog(
-          title: receivedNotification.title != null
-              ? Text(receivedNotification.title)
-              : null,
-          content: receivedNotification.body != null
-              ? Text(receivedNotification.body)
-              : null,
-          actions: [
-            CupertinoDialogAction(
-              isDefaultAction: true,
-              child: Text('Ok'),
-              onPressed: () async {
-                Navigator.of(context, rootNavigator: true).pop();
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NotificationScreen(
-                      receivedNotification.id,
-                    ),
-                  ),
-                );
-              },
-            )
-          ],
-        ),
-      );
+  void _notificationFirebase() {
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage message) {
+      if (message != null) {
+        int item = int.parse(message.data["data"]["drug"]);
+        int category = int.parse(message.data["data"]["category"]);
+        String ids = message.data["data"]["drugs"];
+        if (item > 0) {
+          BottomDialog.showItemDrug(context, item, _selectedIndex);
+        } else if (category > 0) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ItemListScreen(
+                name: "",
+                type: 2,
+                id: category.toString(),
+                //onReloadNetwork: widget.onReloadNetwork,
+              ),
+            ),
+          );
+        } else if (ids.length > 2) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ItemListScreen(
+                name: "",
+                type: 5,
+                id: ids
+                    .toString()
+                    .replaceAll('[', '')
+                    .replaceAll(']', '')
+                    .replaceAll(' ', ''),
+                //   onReloadNetwork: widget.onReloadNetwork,
+              ),
+            ),
+          );
+        }
+      }
     });
-  }
 
-  void _configureSelectNotificationSubject() {
-    selectNotificationSubject.stream.listen((String payload) async {
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => NotificationScreen(-1),
-        ),
-      );
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification notification = message.notification;
+      AndroidNotification android = message.notification?.android;
+      if (notification != null && android != null && !kIsWeb) {
+        flutterLocalNotifications.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channel.description,
+              icon: '@mipmap/ic_launcher',
+            ),
+          ),
+        );
+      }
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new onMessageOpenedApp event was published!');
+    });
+
+    FirebaseMessaging.instance.getToken().then((value) {
+      fcToken = value;
     });
   }
 
   @override
   void dispose() {
-    didReceiveLocalNotificationSubject.close();
-    selectNotificationSubject.close();
     RxBus.destroy();
     super.dispose();
   }
@@ -163,7 +176,10 @@ class _MainScreenState extends State<MainScreen> {
     ///card close
     RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_CLOSE_HISTORY").listen(
       (event) {
-        BottomDialog.historyClosePayment(context, _history,);
+        BottomDialog.historyClosePayment(
+          context,
+          _history,
+        );
       },
     );
 

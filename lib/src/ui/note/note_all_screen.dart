@@ -12,14 +12,6 @@ import 'package:rxdart/subjects.dart';
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
-    BehaviorSubject<ReceivedNotification>();
-
-final BehaviorSubject<String> selectNotificationSubject =
-    BehaviorSubject<String>();
-
-NotificationAppLaunchDetails notificationAppLaunchDetails;
-
 class ReceivedNotification {
   final int id;
   final String title;

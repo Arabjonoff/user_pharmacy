@@ -28,7 +28,9 @@ dependencies:
   cupertino_icons: ^0.1.2
   lottie: ^1.0.1
   package_info: ^2.0.2
-  flutter_local_notifications:
+  firebase_messaging: ^10.0.1
+  firebase_core: ^1.2.1
+  flutter_local_notifications: ^5.0.0
   flutter_picker: ^2.0.1
   carousel_slider: ^3.0.0
   device_info: ^2.0.2
