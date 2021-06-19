@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,16 +9,12 @@ import 'package:pharmacy/src/blocs/store_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
-import 'package:pharmacy/src/model/send/create_order_model.dart';
-import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
-import 'order_card_pickup.dart';
 
 class AddressStoreListPickupScreen extends StatefulWidget {
   final List<ProductsStore> drugs;

@@ -139,39 +139,6 @@ class _StoreListScreenState extends State<StoreListScreen> {
                           error = response.result["msg"];
                         });
                       }
-
-                      // Repository()
-                      //     .fetchCreateOrder(widget.createOrder)
-                      //     .then(
-                      //       (response) => {
-                      //         if (response.status == 1)
-                      //           {
-                      //             dataBase.clear(),
-                      //             Navigator.push(
-                      //               context,
-                      //               MaterialPageRoute(
-                      //                 builder: (context) =>
-                      //                     OrderCardCurerScreen(
-                      //                   orderId: response.data.orderId,
-                      //                   price: response.data.total,
-                      //                   cash: response.data.cash,
-                      //                   deliveryPrice: response
-                      //                           .data.isUserPay
-                      //                       ? response.data.deliverySum
-                      //                       : 0.0,
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           }
-                      //         else
-                      //           {
-                      //             setState(() {
-                      //               loading = false;
-                      //               error = response.msg;
-                      //             }),
-                      //           }
-                      //       },
-                      //     );
                     },
                     child: Container(
                       margin: EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -373,26 +340,23 @@ class _StoreListScreenState extends State<StoreListScreen> {
                             color: AppTheme.background,
                           ),
                           SizedBox(height: 16),
-                          GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              width: double.infinity,
-                              height: 44,
-                              margin: EdgeInsets.only(left: 16, right: 16),
-                              decoration: BoxDecoration(
-                                color: AppTheme.blue_app_color,
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  translate("card.choose_store_del"),
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontRubik,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    height: 1.2,
-                                    color: AppTheme.white,
-                                  ),
+                          Container(
+                            width: double.infinity,
+                            height: 44,
+                            margin: EdgeInsets.only(left: 16, right: 16),
+                            decoration: BoxDecoration(
+                              color: AppTheme.blue_app_color,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Center(
+                              child: Text(
+                                translate("card.choose_store_del"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  height: 1.2,
+                                  color: AppTheme.white,
                                 ),
                               ),
                             ),
