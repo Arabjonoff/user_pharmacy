@@ -5,16 +5,12 @@ import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/database/database_helper_fav.dart';
 import 'package:pharmacy/src/database/database_helper_note.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
-import 'package:pharmacy/src/model/api/order_status_model.dart';
-import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/http_result.dart';
 import 'package:pharmacy/src/model/note/note_data_model.dart';
-import 'package:pharmacy/src/model/payment_verfy.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/model/send/create_payment_model.dart';
-import 'package:pharmacy/src/model/send/verfy_payment_model.dart';
 
 import 'pharmacy_api_provider.dart';
 
@@ -126,7 +122,7 @@ class Repository {
         priceMax,
       );
 
-  Future<ItemModel> fetchSearchItemList(
+  Future<HttpResult> fetchSearchItemList(
     String obj,
     int page,
     String ordering,
@@ -178,9 +174,6 @@ class Repository {
   Future<HttpResult> fetchCheckErrorDelivery(AccessStore accessStore) =>
       pharmacyApiProvider.fetchCheckErrorDelivery(accessStore);
 
-  Future<PaymentVerfy> fetchVerifyPaymentModel(VerdyPaymentModel verify) =>
-      pharmacyApiProvider.fetchVerfyPaymentModel(verify);
-
   Future<HttpResult> fetchMinSum() => pharmacyApiProvider.fetchMinSum();
 
   Future<HttpResult> fetchCheckVersion(String version) =>
@@ -202,7 +195,4 @@ class Repository {
 
   Future<HttpResult> fetchGetRegion(String location) =>
       pharmacyApiProvider.fetchGetRegion(location);
-
-  Future<OrderStatusModel> fetchAddRegion(int regionId) =>
-      pharmacyApiProvider.fetchAddRegion(regionId);
 }

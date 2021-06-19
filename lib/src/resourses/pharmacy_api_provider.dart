@@ -2,19 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_translate/flutter_translate.dart';
 import 'package:http/http.dart' as http;
-import 'package:pharmacy/src/model/api/item_model.dart';
-import 'package:pharmacy/src/model/api/order_status_model.dart';
-import 'package:pharmacy/src/model/api/region_model.dart';
-import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/http_result.dart';
-import 'package:pharmacy/src/model/payment_verfy.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/model/send/create_payment_model.dart';
-import 'package:pharmacy/src/model/send/verfy_payment_model.dart';
-import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -340,7 +332,7 @@ class PharmacyApiProvider {
   }
 
   ///search's by item
-  Future<ItemModel> fetchSearchItemsList(
+  Future<HttpResult> fetchSearchItemsList(
     String obj,
     int page,
     int perPage,
@@ -361,26 +353,7 @@ class PharmacyApiProvider {
             '$search&'
             'ordering=$ordering&'
             'price_max=$priceMax';
-
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-    try {
-      http.Response response =
-          await http.get(Uri.parse(url), headers: headers).timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      return ItemModel.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      return null;
-    } on SocketException catch (_) {
-      return null;
-    }
+    return await getRequest(url);
   }
 
   ///items
@@ -486,39 +459,6 @@ class PharmacyApiProvider {
         '/api/v1/check-shipping-error?lan=$lan&region=$regionId';
 
     return await postRequest(url, json.encode(accessStore));
-  }
-
-  ///payment verify token
-  Future<PaymentVerfy> fetchVerfyPaymentModel(VerdyPaymentModel verfy) async {
-    String url = Utils.baseUrl + '/api/v1/verify-token';
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token");
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    Map<String, String> headers = {
-      HttpHeaders.authorizationHeader: "Bearer $token",
-      'content-type': 'application/json; charset=utf-8',
-      'X-Device': encoded,
-    };
-    try {
-      http.Response response = await http
-          .post(Uri.parse(url), headers: headers, body: json.encode(verfy))
-          .timeout(duration);
-      final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-      return PaymentVerfy.fromJson(responseJson);
-    } on TimeoutException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return PaymentVerfy(
-          errorCode: -1, errorNote: translate("internet_error"));
-    } on SocketException catch (_) {
-      RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-      return PaymentVerfy(
-          errorCode: -1, errorNote: translate("internet_error"));
-    }
   }
 
   ///check version
@@ -636,72 +576,5 @@ class PharmacyApiProvider {
     };
     String url = Utils.baseUrl + '/api/v1/check-region-polygon?lan=$lan';
     return await postRequest(url, json.encode(data));
-
-    // Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    // String encoded = prefs.getString("deviceData") != null
-    //     ? stringToBase64.encode(prefs.getString("deviceData"))
-    //     : "";
-    //
-    // Map<String, String> headers = {
-    //   'content-type': 'application/json; charset=utf-8',
-    //   'X-Device': encoded,
-    // };
-    //
-    // try {
-    //   http.Response response = await http
-    //       .post(Uri.parse(url), headers: headers, body: json.encode(data))
-    //       .timeout(duration);
-    //   final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-    //   return OrderStatusModel.fromJson(responseJson);
-    // } on TimeoutException catch (_) {
-    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-    //   return OrderStatusModel(status: -1, msg: translate("internet_error"));
-    // } on SocketException catch (_) {
-    //   RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-    //   return OrderStatusModel(status: -1, msg: translate("internet_error"));
-    // }
-  }
-
-  ///add region
-  Future<OrderStatusModel> fetchAddRegion(int regionId) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String lan = prefs.getString('language');
-    String token = prefs.getString("token");
-    if (lan == null) {
-      lan = "ru";
-    }
-
-    final data = {
-      "region": regionId.toString(),
-    };
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
-        : "";
-
-    String url = Utils.baseUrl + '/api/v1/add-region?lan=$lan';
-    if (token != null) {
-      try {
-        Map<String, String> headers = {
-          'content-type': 'application/json; charset=utf-8',
-          HttpHeaders.authorizationHeader: "Bearer $token",
-          'X-Device': encoded,
-        };
-        http.Response response = await http
-            .post(Uri.parse(url), headers: headers, body: json.encode(data))
-            .timeout(duration);
-        final Map responseJson = json.decode(utf8.decode(response.bodyBytes));
-
-        return OrderStatusModel.fromJson(responseJson);
-      } on TimeoutException catch (_) {
-        RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-        return OrderStatusModel(status: -1, msg: translate("internet_error"));
-      } on SocketException catch (_) {
-        RxBus.post(BottomViewModel(1), tag: "EVENT_BOTTOM_VIEW_ERROR");
-        return OrderStatusModel(status: -1, msg: translate("internet_error"));
-      }
-    } else {
-      return OrderStatusModel(status: -1, msg: translate("internet_error"));
-    }
   }
 }

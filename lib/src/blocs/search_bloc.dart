@@ -12,25 +12,29 @@ class SearchBloc {
 
   fetchSearch(int page, String obj, int barcode) async {
     if (obj.length > 2) {
-      ItemModel itemModel = await _repository.fetchSearchItemList(
+      var response = await _repository.fetchSearchItemList(
         obj,
         page,
         "",
         "",
         barcode,
       );
-      if (page == 1) {
-        allResult = new List();
+      if (response.isSuccess) {
+        ItemModel itemModel = ItemModel.fromJson(response.result);
+        if (page == 1) {
+          allResult = new List();
+        }
+        allResult.addAll(itemModel.results);
+        _searchFetcher.sink.add(
+          ItemModel(
+            count: itemModel.count,
+            next: itemModel.next,
+            previous: itemModel.previous,
+            results: allResult,
+          ),
+        );
+        ;
       }
-      allResult.addAll(itemModel.results);
-      _searchFetcher.sink.add(
-        ItemModel(
-          count: itemModel.count,
-          next: itemModel.next,
-          previous: itemModel.previous,
-          results: allResult,
-        ),
-      );
     }
   }
 

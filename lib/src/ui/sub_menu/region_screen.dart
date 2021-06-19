@@ -91,7 +91,6 @@ class _RegionScreenState extends State<RegionScreen> {
                               onTap: () async {
                                 if (users[index].isChoose == null ||
                                     !users[index].isChoose) {
-                                  Repository().fetchAddRegion(users[index].id);
                                   SharedPreferences prefs =
                                       await SharedPreferences.getInstance();
                                   prefs.setString("city", users[index].name);
@@ -210,10 +209,6 @@ class _RegionScreenState extends State<RegionScreen> {
                                                   !users[index]
                                                       .childs[position]
                                                       .isChoose) {
-                                                Repository().fetchAddRegion(
-                                                    users[index]
-                                                        .childs[position]
-                                                        .id);
                                                 SharedPreferences prefs =
                                                     await SharedPreferences
                                                         .getInstance();

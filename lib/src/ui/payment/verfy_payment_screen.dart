@@ -283,8 +283,7 @@ class _VerifyPaymentScreenState extends State<VerifyPaymentScreen> {
                       cardToken: widget.cardToken,
                       smsCode: int.parse(verfyController.text.toString()));
 
-                  var responce =
-                      await Repository().fetchVerifyPaymentModel(verfy);
+                  var responce;
 
                   if (responce.errorCode != null) {
                     if (responce.errorCode == 0) {
