@@ -37,6 +37,7 @@ import 'package:pharmacy/src/ui/sub_menu/about_app_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/faq_app_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/my_address_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/region_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -393,6 +394,7 @@ class _MainScreenState extends State<MainScreen> {
             onListItem: _itemList,
             onBlogList: _itemBlogList,
             onItemBlog: _itemBlog,
+            onRegion: _region,
           ),
           CategoryScreen(
             onListItem: _itemList,
@@ -485,6 +487,15 @@ class _MainScreenState extends State<MainScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => BlogListScreen(),
+      ),
+    );
+  }
+
+  void _region() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RegionScreen(),
       ),
     );
   }

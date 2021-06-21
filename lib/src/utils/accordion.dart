@@ -7,7 +7,7 @@ class Accordion extends StatefulWidget {
   final bool position;
   final String title;
   final List<RegionModel> childs;
-  final RegionModel data;
+  final int data;
   final Function(RegionModel data) onChoose;
 
   Accordion({
@@ -155,10 +155,9 @@ class _AccordionState extends State<Accordion> {
                             color: AppTheme.white,
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
-                              color:
-                                  widget.data.id == widget.childs[position].id
-                                      ? AppTheme.blue
-                                      : AppTheme.gray,
+                              color: widget.data == widget.childs[position].id
+                                  ? AppTheme.blue
+                                  : AppTheme.gray,
                             ),
                           ),
                           child: AnimatedContainer(
@@ -167,10 +166,9 @@ class _AccordionState extends State<Accordion> {
                             height: 10,
                             width: 10,
                             decoration: BoxDecoration(
-                              color:
-                                  widget.data.id == widget.childs[position].id
-                                      ? AppTheme.blue
-                                      : AppTheme.white,
+                              color: widget.data == widget.childs[position].id
+                                  ? AppTheme.blue
+                                  : AppTheme.white,
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),

@@ -27,7 +27,6 @@ import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_list_pickup.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/address_apteka_map_pickup.dart';
-import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/utils/number_mask.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:pharmacy/src/utils/utils.dart';

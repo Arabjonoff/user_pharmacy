@@ -22,7 +22,6 @@ import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/review/get_review.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
-import 'package:pharmacy/src/ui/dialog/top_dialog.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,6 +46,7 @@ class HomeScreen extends StatefulWidget {
     DateTime dateTime,
   }) onBlogList;
   final Function() onItemBlog;
+  final Function() onRegion;
 
   HomeScreen({
     this.onUnversal,
@@ -56,6 +56,7 @@ class HomeScreen extends StatefulWidget {
     this.onListItem,
     this.onBlogList,
     this.onItemBlog,
+    this.onRegion,
   });
 
   @override
@@ -188,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       isAnimated
                           ? GestureDetector(
                               onTap: () {
-                                TopDialog.createRegion(context);
+                                widget.onRegion();
                               },
                               child: Container(
                                 color: AppTheme.white,
@@ -251,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             ),
                                             SizedBox(width: 4),
                                             SvgPicture.asset(
-                                                "assets/icons/arrow_bottom_blue.svg"),
+                                                "assets/icons/arrow_blue_right.svg"),
                                           ],
                                         )
                                       ],

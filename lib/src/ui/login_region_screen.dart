@@ -12,6 +12,7 @@ import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/utils/accordion.dart';
 import 'package:pharmacy/src/utils/utils.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../app_theme.dart';
 
@@ -97,171 +98,181 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
       ),
       body: Column(
         children: [
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.only(
-              left: 16,
-              right: 16,
-              bottom: 1,
-              top: 16,
-            ),
-            padding: EdgeInsets.symmetric(
-              vertical: 16,
-              horizontal: 24,
-            ),
-            decoration: BoxDecoration(
-              color: AppTheme.white,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(24),
-                topLeft: Radius.circular(24),
-              ),
-            ),
-            child: Text(
-              "Ваше местоположение",
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                fontFamily: AppTheme.fontRubik,
-                fontWeight: FontWeight.w500,
-                fontSize: 16,
-                height: 1.2,
-                color: AppTheme.text_dark,
-              ),
-            ),
-          ),
           Expanded(
             child: StreamBuilder(
               stream: blocRegion.allRegion,
               builder: (context, AsyncSnapshot<List<RegionModel>> snapshot) {
                 if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemCount: snapshot.data.length,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, index) {
-                      return snapshot.data[index].childs.length == 0
-                          ? GestureDetector(
-                              onTap: () async {
-                                setState(() {
-                                  data = RegionModel(
-                                    id: snapshot.data[index].id,
-                                    name: snapshot.data[index].name,
-                                    coords: [
-                                      snapshot.data[index].coords[0],
-                                      snapshot.data[index].coords[1]
-                                    ],
-                                  );
-                                });
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: AppTheme.white,
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(
-                                      index == snapshot.data.length - 1
-                                          ? 24
-                                          : 0,
-                                    ),
-                                    bottomRight: Radius.circular(
-                                      index == snapshot.data.length - 1
-                                          ? 24
-                                          : 0,
-                                    ),
-                                  ),
-                                ),
-                                margin: EdgeInsets.only(
-                                  left: 16,
-                                  right: 16,
-                                ),
-                                padding: EdgeInsets.only(
-                                  top: 16,
-                                  bottom: index == snapshot.data.length - 1
-                                      ? 28
-                                      : 16,
-                                  left: 16,
-                                  right: 16,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        snapshot.data[index].name,
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontRubik,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 14,
-                                          height: 1.2,
-                                          color: AppTheme.text_dark,
+                  return Column(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.only(
+                          left: 16,
+                          right: 16,
+                          bottom: 1,
+                          top: 16,
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 16,
+                          horizontal: 24,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppTheme.white,
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(24),
+                            topLeft: Radius.circular(24),
+                          ),
+                        ),
+                        child: Text(
+                          "Ваше местоположение",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.2,
+                            color: AppTheme.text_dark,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                          child: ListView.builder(
+                        itemCount: snapshot.data.length,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (context, index) {
+                          return snapshot.data[index].childs.length == 0
+                              ? GestureDetector(
+                                  onTap: () async {
+                                    setState(() {
+                                      data = RegionModel(
+                                        id: snapshot.data[index].id,
+                                        name: snapshot.data[index].name,
+                                        coords: [
+                                          snapshot.data[index].coords[0],
+                                          snapshot.data[index].coords[1]
+                                        ],
+                                      );
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.white,
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(
+                                          index == snapshot.data.length - 1
+                                              ? 24
+                                              : 0,
+                                        ),
+                                        bottomRight: Radius.circular(
+                                          index == snapshot.data.length - 1
+                                              ? 24
+                                              : 0,
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 8),
-                                    AnimatedContainer(
-                                      duration: duration,
-                                      curve: Curves.easeInOut,
-                                      height: 16,
-                                      width: 16,
-                                      padding: EdgeInsets.all(3),
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.white,
-                                        borderRadius: BorderRadius.circular(16),
-                                        border: Border.all(
-                                          color:
-                                              data.id == snapshot.data[index].id
+                                    margin: EdgeInsets.only(
+                                      left: 16,
+                                      right: 16,
+                                    ),
+                                    padding: EdgeInsets.only(
+                                      top: 16,
+                                      bottom: index == snapshot.data.length - 1
+                                          ? 28
+                                          : 16,
+                                      left: 16,
+                                      right: 16,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            snapshot.data[index].name,
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontRubik,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 14,
+                                              height: 1.2,
+                                              color: AppTheme.text_dark,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 8),
+                                        AnimatedContainer(
+                                          duration: duration,
+                                          curve: Curves.easeInOut,
+                                          height: 16,
+                                          width: 16,
+                                          padding: EdgeInsets.all(3),
+                                          decoration: BoxDecoration(
+                                            color: AppTheme.white,
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                            border: Border.all(
+                                              color: data.id ==
+                                                      snapshot.data[index].id
                                                   ? AppTheme.blue
                                                   : AppTheme.gray,
-                                        ),
-                                      ),
-                                      child: AnimatedContainer(
-                                        duration: duration,
-                                        curve: Curves.easeInOut,
-                                        height: 10,
-                                        width: 10,
-                                        decoration: BoxDecoration(
-                                          color:
-                                              data.id == snapshot.data[index].id
+                                            ),
+                                          ),
+                                          child: AnimatedContainer(
+                                            duration: duration,
+                                            curve: Curves.easeInOut,
+                                            height: 10,
+                                            width: 10,
+                                            decoration: BoxDecoration(
+                                              color: data.id ==
+                                                      snapshot.data[index].id
                                                   ? AppTheme.blue
                                                   : AppTheme.white,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          : Accordion(
-                              position: snapshot.data.length - 1 == index
-                                  ? true
-                                  : false,
-                              title: snapshot.data[index].name,
-                              childs: snapshot.data[index].childs,
-                              data: data,
-                              onChoose: (choose) {
-                                setState(
-                                  () {
-                                    data = RegionModel(
-                                      id: choose.id,
-                                      name: choose.name,
-                                      coords: [
-                                        choose.coords[0],
-                                        choose.coords[1]
                                       ],
+                                    ),
+                                  ),
+                                )
+                              : Accordion(
+                                  position: snapshot.data.length - 1 == index
+                                      ? true
+                                      : false,
+                                  title: snapshot.data[index].name,
+                                  childs: snapshot.data[index].childs,
+                                  data: data.id,
+                                  onChoose: (choose) {
+                                    setState(
+                                      () {
+                                        data = RegionModel(
+                                          id: choose.id,
+                                          name: choose.name,
+                                          coords: [
+                                            choose.coords[0],
+                                            choose.coords[1]
+                                          ],
+                                        );
+                                      },
                                     );
                                   },
                                 );
-                              },
-                            );
-                    },
+                        },
+                      )),
+                    ],
                   );
                 }
-                return Center(
-                  child: CircularProgressIndicator(
-                    value: null,
-                    strokeWidth: 3.0,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      AppTheme.blue,
+                return Shimmer.fromColors(
+                  child: Container(
+                    height: 343,
+                    width: double.infinity,
+                    margin: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppTheme.white,
+                      borderRadius: BorderRadius.circular(24),
                     ),
                   ),
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.grey[100],
                 );
               },
             ),

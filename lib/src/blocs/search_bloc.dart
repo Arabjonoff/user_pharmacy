@@ -33,7 +33,6 @@ class SearchBloc {
             results: allResult,
           ),
         );
-        ;
       }
     }
   }

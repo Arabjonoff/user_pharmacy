@@ -1,13 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
+import 'package:pharmacy/src/blocs/region_bloc.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
-import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/utils/accordion.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
 
@@ -19,20 +19,21 @@ class RegionScreen extends StatefulWidget {
 }
 
 class _RegionScreenState extends State<RegionScreen> {
-  int cityId;
-  bool isLoading = true;
-  List<RegionModel> users = new List();
+  int regionId = -1;
+  String regionName = "";
+  var duration = Duration(milliseconds: 270);
 
   @override
   void initState() {
-    _getMoreData();
+    blocRegion.fetchAllRegion();
+    _getRegion();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.white,
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0.0,
@@ -43,8 +44,8 @@ class _RegionScreenState extends State<RegionScreen> {
             height: 56,
             width: 56,
             color: AppTheme.white,
-            padding: EdgeInsets.all(19),
-            child: SvgPicture.asset("assets/images/arrow_back.svg"),
+            padding: EdgeInsets.all(13),
+            child: SvgPicture.asset("assets/icons/arrow_left_blue.svg"),
           ),
           onTap: () {
             Navigator.pop(context);
@@ -55,13 +56,13 @@ class _RegionScreenState extends State<RegionScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              translate("menu.city"),
-              textAlign: TextAlign.start,
+              translate("region.name"),
               style: TextStyle(
-                color: AppTheme.text_dark,
-                fontWeight: FontWeight.w500,
                 fontFamily: AppTheme.fontRubik,
-                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                height: 1.2,
+                color: AppTheme.text_dark,
               ),
             ),
           ],
@@ -69,252 +70,224 @@ class _RegionScreenState extends State<RegionScreen> {
       ),
       body: Column(
         children: [
-          isLoading
-              ? Expanded(
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      value: null,
-                      strokeWidth: 3.0,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        AppTheme.blue,
+          Expanded(
+            child: StreamBuilder(
+              stream: blocRegion.allRegion,
+              builder: (context, AsyncSnapshot<List<RegionModel>> snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.only(
+                          left: 16,
+                          right: 16,
+                          bottom: 1,
+                          top: 16,
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 16,
+                          horizontal: 24,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppTheme.white,
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(24),
+                            topLeft: Radius.circular(24),
+                          ),
+                        ),
+                        child: Text(
+                          translate("region.title"),
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.2,
+                            color: AppTheme.text_dark,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                )
-              : Expanded(
-                  child: ListView.builder(
-                    itemCount: users.length,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, index) {
-                      return users[index].childs.length == 0
-                          ? GestureDetector(
-                              onTap: () async {
-                                if (users[index].isChoose == null ||
-                                    !users[index].isChoose) {
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  prefs.setString("city", users[index].name);
-                                  prefs.setInt("cityId", users[index].id);
-                                  blocHome.fetchCityName();
-                                  Navigator.pop(context);
-                                } else {
-                                  Navigator.pop(context);
-                                }
-                              },
-                              child: Container(
-                                color: AppTheme.white,
-                                height: 60,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: 59,
-                                        margin: EdgeInsets.only(
-                                            left: 16, right: 20),
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                users[index].name,
-                                                style: TextStyle(
-                                                  fontStyle: FontStyle.normal,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily:
-                                                      AppTheme.fontRubik,
-                                                  fontSize: 15,
-                                                  color: AppTheme.text_dark,
-                                                ),
-                                              ),
-                                            ),
-                                            users[index].isChoose == null
-                                                ? Container()
-                                                : users[index].isChoose == false
-                                                    ? Container()
-                                                    : SvgPicture.asset(
-                                                        "assets/images/icon_region.svg"),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 1,
-                                      color: AppTheme.background,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          : Column(
-                              children: [
-                                GestureDetector(
+                      Expanded(
+                          child: ListView.builder(
+                        itemCount: snapshot.data.length,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (context, index) {
+                          return snapshot.data[index].childs.length == 0
+                              ? GestureDetector(
                                   onTap: () async {
                                     setState(() {
-                                      if (users[index].isOpen == null ||
-                                          users[index].isOpen == false) {
-                                        users[index].isOpen = true;
-                                      } else {
-                                        users[index].isOpen = false;
-                                      }
+                                      regionId = snapshot.data[index].id;
+                                      regionName = snapshot.data[index].name;
                                     });
                                   },
                                   child: Container(
-                                    margin:
-                                        EdgeInsets.only(left: 16, right: 16),
-                                    color: AppTheme.white,
-                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.white,
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(
+                                          index == snapshot.data.length - 1
+                                              ? 24
+                                              : 0,
+                                        ),
+                                        bottomRight: Radius.circular(
+                                          index == snapshot.data.length - 1
+                                              ? 24
+                                              : 0,
+                                        ),
+                                      ),
+                                    ),
+                                    margin: EdgeInsets.only(
+                                      left: 16,
+                                      right: 16,
+                                    ),
+                                    padding: EdgeInsets.only(
+                                      top: 16,
+                                      bottom: index == snapshot.data.length - 1
+                                          ? 28
+                                          : 16,
+                                      left: 16,
+                                      right: 16,
+                                    ),
                                     child: Row(
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            users[index].name,
+                                            snapshot.data[index].name,
                                             style: TextStyle(
-                                              fontStyle: FontStyle.normal,
-                                              fontWeight: FontWeight.normal,
                                               fontFamily: AppTheme.fontRubik,
-                                              fontSize: 15,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 14,
+                                              height: 1.2,
                                               color: AppTheme.text_dark,
                                             ),
                                           ),
                                         ),
-                                        Icon(
-                                          users[index].isOpen == null
-                                              ? Icons.keyboard_arrow_down
-                                              : users[index].isOpen
-                                                  ? Icons.keyboard_arrow_up
-                                                  : Icons.keyboard_arrow_down,
-                                          size: 24,
-                                          color: AppTheme.text_dark,
-                                        )
+                                        SizedBox(width: 8),
+                                        AnimatedContainer(
+                                          duration: duration,
+                                          curve: Curves.easeInOut,
+                                          height: 16,
+                                          width: 16,
+                                          padding: EdgeInsets.all(3),
+                                          decoration: BoxDecoration(
+                                            color: AppTheme.white,
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                            border: Border.all(
+                                              color: regionId ==
+                                                      snapshot.data[index].id
+                                                  ? AppTheme.blue
+                                                  : AppTheme.gray,
+                                            ),
+                                          ),
+                                          child: AnimatedContainer(
+                                            duration: duration,
+                                            curve: Curves.easeInOut,
+                                            height: 10,
+                                            width: 10,
+                                            decoration: BoxDecoration(
+                                              color: regionId ==
+                                                      snapshot.data[index].id
+                                                  ? AppTheme.blue
+                                                  : AppTheme.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
-                                ),
-                                (users[index].isOpen == null ||
-                                        users[index].isOpen == false)
-                                    ? Container()
-                                    : ListView.builder(
-                                        itemCount: users[index].childs.length,
-                                        shrinkWrap: true,
-                                        scrollDirection: Axis.vertical,
-                                        itemBuilder: (context, position) {
-                                          return GestureDetector(
-                                            onTap: () async {
-                                              if (users[index]
-                                                          .childs[position]
-                                                          .isChoose ==
-                                                      null ||
-                                                  !users[index]
-                                                      .childs[position]
-                                                      .isChoose) {
-                                                SharedPreferences prefs =
-                                                    await SharedPreferences
-                                                        .getInstance();
-                                                prefs.setString(
-                                                    "city",
-                                                    users[index]
-                                                        .childs[position]
-                                                        .name);
-                                                prefs.setInt(
-                                                    "cityId",
-                                                    users[index]
-                                                        .childs[position]
-                                                        .id);
-                                                blocHome.fetchCityName();
-                                                Navigator.pop(context);
-                                              } else {
-                                                Navigator.pop(context);
-                                              }
-                                            },
-                                            child: Container(
-                                              color: AppTheme.white,
-                                              height: 60,
-                                              width: double.infinity,
-                                              margin: EdgeInsets.only(
-                                                  left: 32, right: 20),
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      users[index]
-                                                          .childs[position]
-                                                          .name,
-                                                      style: TextStyle(
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontFamily:
-                                                            AppTheme.fontRubik,
-                                                        fontSize: 15,
-                                                        color:
-                                                            AppTheme.text_dark,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  users[index]
-                                                              .childs[position]
-                                                              .isChoose ==
-                                                          null
-                                                      ? Container()
-                                                      : users[index]
-                                                                  .childs[
-                                                                      position]
-                                                                  .isChoose ==
-                                                              false
-                                                          ? Container()
-                                                          : SvgPicture.asset(
-                                                              "assets/images/icon_region.svg",
-                                                            )
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                Container(
-                                  height: 1,
-                                  color: AppTheme.background,
                                 )
-                              ],
-                            );
-                    },
+                              : Accordion(
+                                  position: snapshot.data.length - 1 == index
+                                      ? true
+                                      : false,
+                                  title: snapshot.data[index].name,
+                                  childs: snapshot.data[index].childs,
+                                  data: regionId,
+                                  onChoose: (choose) {
+                                    setState(
+                                      () {
+                                        regionId = choose.id;
+                                        regionName = choose.name;
+                                      },
+                                    );
+                                  },
+                                );
+                        },
+                      )),
+                    ],
+                  );
+                }
+                return Shimmer.fromColors(
+                  child: Container(
+                    height: 343,
+                    width: double.infinity,
+                    margin: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppTheme.white,
+                      borderRadius: BorderRadius.circular(24),
+                    ),
                   ),
-                )
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.grey[100],
+                );
+              },
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 12, left: 22, right: 22, bottom: 24),
+            color: AppTheme.white,
+            child: GestureDetector(
+              onTap: () async {
+                if (regionId != -1) {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.setInt('cityId', regionId);
+                  prefs.setString('city', regionName);
+                  blocHome.fetchCityName();
+                  Navigator.pop(context);
+                  blocHome.fetchBanner();
+                  blocHome.fetchRecently();
+                  blocHome.fetchCategory();
+                  blocHome.fetchBestItem();
+                  blocHome.fetchSlimmingItem();
+                }
+              },
+              child: Container(
+                height: 44,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: regionId == -1 ? AppTheme.gray : AppTheme.blue,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: Text(
+                    translate("region.save"),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      height: 1.25,
+                      color: AppTheme.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
   }
 
-  void _getMoreData() async {
+  Future<void> _getRegion() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      isLoading = true;
+      regionId = prefs.getInt('cityId') ?? -1;
+      regionName = prefs.getString('city') ?? "";
     });
-    var response = await Repository().fetchRegions();
-    if (response.isSuccess) {
-      var result = regionModelFromJson(json.encode(response.result));
-      for (int i = 0; i < result.length; i++) {
-        if (result[i].childs.length > 0) {
-          for (int j = 0; j < result[i].childs.length; j++) {
-            if (cityId == result[i].childs[j].id) {
-              result[i].childs[j].isChoose = true;
-            }
-          }
-        } else if (cityId == result[i].id) {
-          result[i].isChoose = true;
-        }
-      }
-      setState(() {
-        isLoading = false;
-        users = new List();
-        users = result;
-      });
-    } else {
-      setState(() {
-        isLoading = false;
-      });
-    }
   }
 }

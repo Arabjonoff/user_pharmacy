@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:rxdart/rxdart.dart';
@@ -20,7 +21,7 @@ class RegionBloc {
                 0,
                 RegionModel(
                   id: result[i].id,
-                  name: "Весь " + result[i].name,
+                  name: translate("region.all") + " " + result[i].name,
                   parentName: result[i].name,
                   coords: result[i].coords,
                   childs: [],

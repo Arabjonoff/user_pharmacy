@@ -7,7 +7,6 @@ import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/ui/note/add_notf_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_list_screen.dart';
 import 'package:pharmacy/src/ui/note/note_one_screen.dart';
-import 'package:rxdart/subjects.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
