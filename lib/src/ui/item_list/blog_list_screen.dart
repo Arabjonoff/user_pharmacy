@@ -128,11 +128,11 @@ class _BlogListScreenState extends State<BlogListScreen> {
                             child: CachedNetworkImage(
                               imageUrl: snapshot.data.results[index].image,
                               placeholder: (context, url) => SvgPicture.asset(
-                                "assets/images/place_holder.svg",
+                                "assets/icons/default_image.svg",
                               ),
                               errorWidget: (context, url, error) =>
                                   SvgPicture.asset(
-                                "assets/images/place_holder.svg",
+                                "assets/icons/default_image.svg",
                               ),
                               width: double.infinity,
                               fit: BoxFit.cover,

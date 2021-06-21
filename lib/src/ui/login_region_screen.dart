@@ -137,9 +137,6 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                     itemCount: snapshot.data.length,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
-                      print(index.toString() +
-                          " " +
-                          (snapshot.data.length - 1).toString());
                       return snapshot.data[index].childs.length == 0
                           ? GestureDetector(
                               onTap: () async {

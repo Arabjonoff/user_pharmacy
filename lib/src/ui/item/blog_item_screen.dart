@@ -83,10 +83,10 @@ class _BlogItemScreenState extends State<BlogItemScreen> {
               child: CachedNetworkImage(
                 imageUrl: widget.image,
                 placeholder: (context, url) => SvgPicture.asset(
-                  "assets/images/place_holder.svg",
+                  "assets/icons/default_image.svg",
                 ),
                 errorWidget: (context, url, error) => SvgPicture.asset(
-                  "assets/images/place_holder.svg",
+                  "assets/icons/default_image.svg",
                 ),
                 width: MediaQuery.of(context).size.width - 64,
                 fit: BoxFit.cover,
@@ -194,31 +194,31 @@ class _BlogItemScreenState extends State<BlogItemScreen> {
                   SizedBox(width: 16),
                   Expanded(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            translate("home.call_center"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 14,
-                              height: 1.2,
-                              color: AppTheme.textGray,
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            "+998 (71) 205-0-888",
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              height: 1.1,
-                              color: AppTheme.text_dark,
-                            ),
-                          ),
-                        ],
-                      )),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        translate("home.call_center"),
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          height: 1.2,
+                          color: AppTheme.textGray,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        "+998 (71) 205-0-888",
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
+                          height: 1.1,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                    ],
+                  )),
                   SizedBox(width: 16),
                   SvgPicture.asset("assets/icons/arrow_right_grey.svg")
                 ],

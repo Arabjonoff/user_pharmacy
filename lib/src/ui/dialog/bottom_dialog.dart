@@ -4098,11 +4098,11 @@ class BottomDialog {
                                         imageUrl: snapshot.data.image,
                                         placeholder: (context, url) =>
                                             SvgPicture.asset(
-                                          "assets/images/place_holder.svg",
+                                          "assets/icons/default_image.svg",
                                         ),
                                         errorWidget: (context, url, error) =>
                                             SvgPicture.asset(
-                                          "assets/images/place_holder.svg",
+                                          "assets/icons/default_image.svg",
                                         ),
                                         fit: BoxFit.fitHeight,
                                       ),
@@ -4645,14 +4645,14 @@ class BottomDialog {
                                                                         url) =>
                                                                     SvgPicture
                                                                         .asset(
-                                                              "assets/images/place_holder.svg",
+                                                              "assets/icons/default_image.svg",
                                                             ),
                                                             errorWidget:
                                                                 (context, url,
                                                                         error) =>
                                                                     SvgPicture
                                                                         .asset(
-                                                              "assets/images/place_holder.svg",
+                                                              "assets/icons/default_image.svg",
                                                             ),
                                                             fit: BoxFit
                                                                 .fitHeight,

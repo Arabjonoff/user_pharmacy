@@ -2,17 +2,13 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
-import 'package:pharmacy/main.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_fav.dart';
@@ -46,12 +42,14 @@ class HomeScreen extends StatefulWidget {
   final Function(bool optiona, String descl) onUpdate;
   final Function(Function reload) onReloadNetwork;
   final Function(int orderId) onCommentService;
+  final Function(String name, int type, String id) onListItem;
 
   HomeScreen({
     this.onUnversal,
     this.onUpdate,
     this.onReloadNetwork,
     this.onCommentService,
+    this.onListItem,
   });
 
   @override
@@ -92,7 +90,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _setLanguage();
     _initPackageInfo();
     _registerBus();
-    //  _notificationFirebase();
     _getNoReview();
     blocHome.fetchBanner();
     blocHome.fetchBlog(1);
@@ -516,12 +513,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       placeholder:
                                                           (context, url) =>
                                                               SvgPicture.asset(
-                                                        "assets/images/place_holder.svg",
+                                                        "assets/icons/default_image.svg",
                                                       ),
                                                       errorWidget: (context,
                                                               url, error) =>
                                                           SvgPicture.asset(
-                                                        "assets/images/place_holder.svg",
+                                                        "assets/icons/default_image.svg",
                                                       ),
                                                       fit: BoxFit.fitHeight,
                                                     ),
@@ -1096,21 +1093,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               imageUrl: snapshot
                                                   .data.results[index].image,
                                               placeholder: (context, url) =>
-                                                  Container(
-                                                child: Center(
-                                                  child: SvgPicture.asset(
-                                                    "assets/images/place_holder.svg",
-                                                  ),
-                                                ),
+                                                  SvgPicture.asset(
+                                                "assets/icons/default_image.svg",
                                               ),
                                               errorWidget:
                                                   (context, url, error) =>
-                                                      Container(
-                                                child: Center(
-                                                  child: SvgPicture.asset(
-                                                    "assets/images/place_holder.svg",
-                                                  ),
-                                                ),
+                                                      SvgPicture.asset(
+                                                "assets/icons/default_image.svg",
                                               ),
                                               fit: BoxFit.fitHeight,
                                             ),
@@ -1263,7 +1252,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   itemBuilder: (context, index) => Padding(
                                     padding: const EdgeInsets.only(bottom: 0.0),
                                     child: GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        RxBus.post(
+                                          BottomViewModel(
+                                              snapshot.data.results[index].id),
+                                          tag: "EVENT_BOTTOM_ITEM_ALL",
+                                        );
+                                      },
                                       child: Container(
                                         width: 148,
                                         height: 189,
@@ -1294,12 +1289,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       placeholder:
                                                           (context, url) =>
                                                               SvgPicture.asset(
-                                                        "assets/images/place_holder.svg",
+                                                        "assets/icons/default_image.svg",
                                                       ),
                                                       errorWidget: (context,
                                                               url, error) =>
                                                           SvgPicture.asset(
-                                                        "assets/images/place_holder.svg",
+                                                        "assets/icons/default_image.svg",
                                                       ),
                                                       fit: BoxFit.fitHeight,
                                                     ),
@@ -1878,7 +1873,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   itemBuilder: (context, index) => Padding(
                                     padding: const EdgeInsets.only(bottom: 0.0),
                                     child: GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        RxBus.post(
+                                          BottomViewModel(
+                                              snapshot.data.results[index].id),
+                                          tag: "EVENT_BOTTOM_ITEM_ALL",
+                                        );
+                                      },
                                       child: Container(
                                         width: 148,
                                         height: 189,
@@ -1909,12 +1910,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       placeholder:
                                                           (context, url) =>
                                                               SvgPicture.asset(
-                                                        "assets/images/place_holder.svg",
+                                                        "assets/icons/default_image.svg",
                                                       ),
                                                       errorWidget: (context,
                                                               url, error) =>
                                                           SvgPicture.asset(
-                                                        "assets/images/place_holder.svg",
+                                                        "assets/icons/default_image.svg",
                                                       ),
                                                       fit: BoxFit.fitHeight,
                                                     ),
@@ -2440,11 +2441,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   imageUrl: snapshot.data.results[0].image,
                                   placeholder: (context, url) =>
                                       SvgPicture.asset(
-                                    "assets/images/place_holder.svg",
+                                    "assets/icons/default_image.svg",
                                   ),
                                   errorWidget: (context, url, error) =>
                                       SvgPicture.asset(
-                                    "assets/images/place_holder.svg",
+                                    "assets/icons/default_image.svg",
                                   ),
                                   width: double.infinity,
                                   fit: BoxFit.cover,
@@ -2635,12 +2636,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       .results[index].image,
                                                   placeholder: (context, url) =>
                                                       SvgPicture.asset(
-                                                    "assets/images/place_holder.svg",
+                                                    "assets/icons/default_image.svg",
                                                   ),
                                                   errorWidget:
                                                       (context, url, error) =>
                                                           SvgPicture.asset(
-                                                    "assets/images/place_holder.svg",
+                                                    "assets/icons/default_image.svg",
                                                   ),
                                                   width: 253,
                                                   fit: BoxFit.cover,

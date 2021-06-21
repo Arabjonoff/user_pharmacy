@@ -777,20 +777,13 @@ class _OrderNumberState extends State<OrderNumber> {
                                     width: 80,
                                     imageUrl: widget
                                         .item.items[index].drug.imageThumbnail,
-                                    placeholder: (context, url) => Container(
-                                      padding: EdgeInsets.all(13),
-                                      child: Center(
-                                        child: SvgPicture.asset(
-                                            "assets/images/place_holder.svg"),
-                                      ),
+                                    placeholder: (context, url) =>
+                                        SvgPicture.asset(
+                                      "assets/icons/default_image.svg",
                                     ),
                                     errorWidget: (context, url, error) =>
-                                        Container(
-                                      padding: EdgeInsets.all(13),
-                                      child: Center(
-                                        child: SvgPicture.asset(
-                                            "assets/images/place_holder.svg"),
-                                      ),
+                                        SvgPicture.asset(
+                                      "assets/icons/default_image.svg",
                                     ),
                                   ),
                                   SizedBox(width: 8),

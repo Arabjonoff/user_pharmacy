@@ -122,19 +122,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           height: 40,
                           child: CachedNetworkImage(
                             imageUrl: snapshot.data.results[index].image,
-                            placeholder: (context, url) => Container(
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  "assets/images/place_holder.svg",
-                                ),
-                              ),
+                            placeholder: (context, url) => SvgPicture.asset(
+                              "assets/icons/default_image.svg",
                             ),
-                            errorWidget: (context, url, error) => Container(
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  "assets/images/place_holder.svg",
-                                ),
-                              ),
+                            errorWidget: (context, url, error) =>
+                                SvgPicture.asset(
+                              "assets/icons/default_image.svg",
                             ),
                             fit: BoxFit.fitHeight,
                           ),

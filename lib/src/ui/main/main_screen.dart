@@ -388,6 +388,7 @@ class _MainScreenState extends State<MainScreen> {
             onUpdate: _update,
             onReloadNetwork: _reloadScreen,
             onCommentService: _commentService,
+            onListItem: _itemList,
           ),
           CategoryScreen(),
           CardScreen(
@@ -458,6 +459,19 @@ class _MainScreenState extends State<MainScreen> {
 
   void _commentService(int orderId) {
     BottomDialog.showCommentService(context: context, orderId: orderId);
+  }
+
+  void _itemList(String name, int type, String id) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ItemListScreen(
+          name: name,
+          type: type,
+          id: id,
+        ),
+      ),
+    );
   }
 
   void _rate() {

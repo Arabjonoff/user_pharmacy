@@ -238,23 +238,13 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                             imageUrl: snapshot
                                                 .data[index].imageThumbnail,
                                             placeholder: (context, url) =>
-                                                Container(
-                                              padding: EdgeInsets.all(25),
-                                              child: Center(
-                                                child: SvgPicture.asset(
-                                                  "assets/images/place_holder.svg",
-                                                ),
-                                              ),
+                                                SvgPicture.asset(
+                                              "assets/icons/default_image.svg",
                                             ),
                                             errorWidget:
                                                 (context, url, error) =>
-                                                    Container(
-                                              padding: EdgeInsets.all(25),
-                                              child: Center(
-                                                child: SvgPicture.asset(
-                                                  "assets/images/place_holder.svg",
-                                                ),
-                                              ),
+                                                    SvgPicture.asset(
+                                              "assets/icons/default_image.svg",
                                             ),
                                           ),
                                           Expanded(
