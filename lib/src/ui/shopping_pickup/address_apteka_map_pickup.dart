@@ -171,10 +171,12 @@ class _AddressStoreMapPickupScreenState
   void _addMarkers(HttpResult response) async {
     if (response.isSuccess) {
       _isLoading(false);
-      if (placemarks != null)
-        for (int i = 0; i < placemarks.length; i++)
-          await mapController.removePlacemark(placemarks[i]);
-      _addMarkerData(locationModelFromJson(json.encode(response.result)));
+      if (locationModelFromJson(json.encode(response.result)).length > 0) {
+        if (placemarks != null)
+          for (int i = 0; i < placemarks.length; i++)
+            await mapController.removePlacemark(placemarks[i]);
+        _addMarkerData(locationModelFromJson(json.encode(response.result)));
+      }
     } else {
       _isLoading(false);
     }

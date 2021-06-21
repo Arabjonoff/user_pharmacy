@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.1.0"
+  appmetrica_sdk:
+    dependency: "direct main"
+    description:
+      name: appmetrica_sdk
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.7"
   archive:
     dependency: transitive
     description:

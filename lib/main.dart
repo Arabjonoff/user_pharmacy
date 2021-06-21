@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:appmetrica_sdk/appmetrica_sdk.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -29,6 +30,9 @@ class MyHttpOverrides extends HttpOverrides {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  await AppmetricaSdk()
+      .activate(apiKey: 'c66f6bbf-fba5-4710-86f0-8db5418f96df');
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 

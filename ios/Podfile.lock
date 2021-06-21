@@ -1,6 +1,9 @@
 PODS:
   - "app_settings (3.0.0+1)":
     - Flutter
+  - appmetrica_sdk (0.0.1):
+    - Flutter
+    - YandexMobileMetrica/Dynamic (= 3.14.0)
   - barcode_scan (0.0.1):
     - Flutter
     - MTBBarcodeScanner
@@ -100,9 +103,16 @@ PODS:
     - Flutter
     - YandexMapsMobile (= 4.0.0-full)
   - YandexMapsMobile (4.0.0-full)
+  - YandexMobileMetrica/Dynamic (3.14.0):
+    - YandexMobileMetrica/Dynamic/Core (= 3.14.0)
+    - YandexMobileMetrica/Dynamic/Crashes (= 3.14.0)
+  - YandexMobileMetrica/Dynamic/Core (3.14.0)
+  - YandexMobileMetrica/Dynamic/Crashes (3.14.0):
+    - YandexMobileMetrica/Dynamic/Core
 
 DEPENDENCIES:
   - app_settings (from `.symlinks/plugins/app_settings/ios`)
+  - appmetrica_sdk (from `.symlinks/plugins/appmetrica_sdk/ios`)
   - barcode_scan (from `.symlinks/plugins/barcode_scan/ios`)
   - device_info (from `.symlinks/plugins/device_info/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -136,10 +146,13 @@ SPEC REPOS:
     - SAMKeychain
     - SwiftProtobuf
     - YandexMapsMobile
+    - YandexMobileMetrica
 
 EXTERNAL SOURCES:
   app_settings:
     :path: ".symlinks/plugins/app_settings/ios"
+  appmetrica_sdk:
+    :path: ".symlinks/plugins/appmetrica_sdk/ios"
   barcode_scan:
     :path: ".symlinks/plugins/barcode_scan/ios"
   device_info:
@@ -175,6 +188,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   app_settings: d103828c9f5d515c4df9ee754dabd443f7cedcf3
+  appmetrica_sdk: 16fd4649242a8b9ca1a6d4209d9f876d978e890d
   barcode_scan: a5c27959edfafaa0c771905bad0b29d6d39e4479
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   Firebase: 73c3e3b216ec1ecbc54d2ffdd4670c65c749edb1
@@ -205,6 +219,7 @@ SPEC CHECKSUMS:
   webview_flutter: 9f491a9b5a66f2573946a389b2677987b0ff8c0b
   yandex_mapkit: 0454ffe6e303a299e9a4414b53a006ab4e15bce7
   YandexMapsMobile: 0f3d8c92fad685dc33d07f83eed4eb0166089743
+  YandexMobileMetrica: a2dd4fd2f01ae7ae6850d786c443cb41fbbbea78
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 
