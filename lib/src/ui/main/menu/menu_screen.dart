@@ -1110,7 +1110,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
                         fontFamily: AppTheme.fontRubik,
-                        color: AppTheme.black_text,
+                        color: AppTheme.text_dark,
                         fontSize: 15,
                       ),
                     ),

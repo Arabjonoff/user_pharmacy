@@ -10,6 +10,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/ui/auth/onboarding_screen.dart';
+import 'package:pharmacy/src/ui/login_region_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -116,8 +117,8 @@ class MyApp extends StatelessWidget {
             child: child,
           );
         },
-        home: isLoginPage ? MainScreen() : OnBoarding(),
-        //home: OnBoarding(),
+        // home: isLoginPage ? MainScreen() : OnBoarding(),
+        home: LoginRegionScreen(),
       ),
     );
   }

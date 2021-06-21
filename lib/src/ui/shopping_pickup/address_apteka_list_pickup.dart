@@ -249,7 +249,7 @@ class _AddressStoreListPickupScreenState
                           height: 44,
                           margin: EdgeInsets.only(left: 16, right: 16),
                           decoration: BoxDecoration(
-                            color: AppTheme.blue_app_color,
+                            color: AppTheme.blue,
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: Center(

@@ -60,7 +60,7 @@ class NotificationScreenState extends State<NotificationScreen> {
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: AppTheme.blue_app_color,
+          color: AppTheme.blue,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(14.0),
             topRight: Radius.circular(14.0),
@@ -80,7 +80,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                       height: 36,
                       width: 36,
                       margin: EdgeInsets.only(right: 6),
-                      color: AppTheme.blue_app_color,
+                      color: AppTheme.blue,
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
@@ -132,7 +132,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                   height: 1.23,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: AppTheme.fontRubik,
-                                  color: AppTheme.black_text,
+                                  color: AppTheme.text_dark,
                                 ),
                               ),
                               SizedBox(height: 3),
@@ -158,7 +158,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             fontFamily: AppTheme.fontRubik,
-                            color: AppTheme.black_text,
+                            color: AppTheme.text_dark,
                           ),
                         )
                       ],
@@ -175,7 +175,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
                           fontStyle: FontStyle.normal,
-                          color: AppTheme.black_text,
+                          color: AppTheme.text_dark,
                           height: 1.38),
                     ),
                   ),
@@ -189,7 +189,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                             fontWeight: FontWeight.normal,
                             fontSize: 13,
                             fontStyle: FontStyle.normal,
-                            color: AppTheme.black_text,
+                            color: AppTheme.text_dark,
                             height: 1.85),
                       ),
                     ),
@@ -213,7 +213,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                 color: AppTheme.white,
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(
-                                    color: AppTheme.blue_app_color, width: 1)),
+                                    color: AppTheme.blue, width: 1)),
                             child: Center(
                               child: Text(
                                 translate("note.next"),
@@ -222,7 +222,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                   fontWeight: FontWeight.w600,
                                   fontSize: 17,
                                   fontStyle: FontStyle.normal,
-                                  color: AppTheme.blue_app_color,
+                                  color: AppTheme.blue,
                                   height: 1.29,
                                 ),
                               ),
@@ -247,7 +247,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                             ),
                             height: 44,
                             decoration: BoxDecoration(
-                              color: AppTheme.blue_app_color,
+                              color: AppTheme.blue,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Center(

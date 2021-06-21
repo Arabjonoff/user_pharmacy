@@ -85,7 +85,7 @@ class _UniversalScreenState extends State<UniversalScreen> {
                         widget.title,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: AppTheme.black_text,
+                          color: AppTheme.text_dark,
                           fontFamily: AppTheme.fontRubik,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.w600,

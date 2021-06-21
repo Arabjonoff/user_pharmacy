@@ -83,7 +83,7 @@ class BottomDialog {
                     fontWeight: FontWeight.w600,
                     fontSize: 17,
                     height: 1.65,
-                    color: AppTheme.black_text,
+                    color: AppTheme.text_dark,
                   ),
                 ),
                 Container(
@@ -2840,7 +2840,7 @@ class BottomDialog {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: AppTheme.blue_app_color,
+                      color: AppTheme.blue,
                     ),
                     child: Center(
                       child: loading
@@ -3439,7 +3439,7 @@ class BottomDialog {
                                             fontStyle: FontStyle.normal,
                                             fontWeight: FontWeight.normal,
                                             fontFamily: AppTheme.fontRubik,
-                                            color: AppTheme.black_text,
+                                            color: AppTheme.text_dark,
                                           ),
                                         ),
                                       ],
@@ -3497,7 +3497,7 @@ class BottomDialog {
                                             fontStyle: FontStyle.normal,
                                             fontWeight: FontWeight.normal,
                                             fontFamily: AppTheme.fontRubik,
-                                            color: AppTheme.black_text,
+                                            color: AppTheme.text_dark,
                                           ),
                                         ),
                                       ],
@@ -5391,7 +5391,7 @@ class BottomDialog {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
-                              color: AppTheme.blue_app_color,
+                              color: AppTheme.blue,
                             ),
                             height: 44,
                             width: double.infinity,
@@ -5445,7 +5445,7 @@ class BottomDialog {
                           translate("dialog.danniy"),
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: AppTheme.blue_app_color,
+                            color: AppTheme.blue,
                             fontFamily: AppTheme.fontRubik,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.normal,

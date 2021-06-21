@@ -345,7 +345,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                             height: 44,
                             margin: EdgeInsets.only(left: 16, right: 16),
                             decoration: BoxDecoration(
-                              color: AppTheme.blue_app_color,
+                              color: AppTheme.blue,
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             child: Center(
@@ -392,7 +392,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
               ? Container(
                   height: double.infinity,
                   width: double.infinity,
-                  color: AppTheme.black_text.withOpacity(0.15),
+                  color: AppTheme.text_dark.withOpacity(0.15),
                   child: Center(
                     child: Container(
                       height: 36,

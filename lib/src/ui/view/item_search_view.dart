@@ -51,7 +51,7 @@ class _ItemSearchViewState extends State<ItemSearchView> {
                             widget.item.name,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              color: AppTheme.black_text,
+                              color: AppTheme.text_dark,
                               fontWeight: FontWeight.w600,
                               fontFamily: AppTheme.fontRubik,
                               fontSize: 13,

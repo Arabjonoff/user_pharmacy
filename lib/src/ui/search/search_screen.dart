@@ -198,7 +198,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(9.0),
-                          color: AppTheme.black_transparent,
+                          color: AppTheme.gray,
                         ),
                         child: Row(
                           children: [
@@ -249,7 +249,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                     },
                                     cursorColor: AppTheme.notWhite,
                                     style: TextStyle(
-                                      color: AppTheme.black_text,
+                                      color: AppTheme.text_dark,
                                       fontSize: 15,
                                       fontFamily: AppTheme.fontRubik,
                                       fontWeight: FontWeight.w600,
@@ -303,7 +303,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             cancelText,
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              color: AppTheme.blue_app_color,
+                              color: AppTheme.blue,
                               fontFamily: AppTheme.fontRubik,
                               fontSize: 17,
                             ),
@@ -437,7 +437,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: AppTheme.fontRubik,
-                                  color: AppTheme.black_text,
+                                  color: AppTheme.text_dark,
                                 ),
                               ),
                               Expanded(
@@ -530,7 +530,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                                                       .ellipsis,
                                                               style: TextStyle(
                                                                 color: AppTheme
-                                                                    .black_text,
+                                                                    .text_dark,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .normal,

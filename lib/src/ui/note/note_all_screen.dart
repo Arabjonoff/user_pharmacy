@@ -67,7 +67,7 @@ class _NoteAllScreenScreenState extends State<NoteAllScreen>
             child: Container(
               height: 56,
               width: 56,
-              color: AppTheme.arrow_examp_back,
+              color: AppTheme.white,
               padding: EdgeInsets.all(19),
               child: SvgPicture.asset("assets/images/arrow_back.svg"),
             ),
@@ -83,7 +83,7 @@ class _NoteAllScreenScreenState extends State<NoteAllScreen>
                 translate("note.title"),
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                  color: AppTheme.black_text,
+                  color: AppTheme.text_dark,
                   fontWeight: FontWeight.w500,
                   fontFamily: AppTheme.fontRubik,
                   fontSize: 17,
@@ -96,11 +96,11 @@ class _NoteAllScreenScreenState extends State<NoteAllScreen>
               child: Container(
                 height: 48,
                 width: 48,
-                color: AppTheme.arrow_examp_back,
+                color: AppTheme.white,
                 child: Center(
                   child: Icon(
                     Icons.add,
-                    color: AppTheme.blue_app_color,
+                    color: AppTheme.blue,
                     size: 36,
                   ),
                 ),
@@ -131,14 +131,14 @@ class _NoteAllScreenScreenState extends State<NoteAllScreen>
               ),
               child: TabBar(
                 controller: _tabController,
-                labelColor: AppTheme.blue_app_color,
+                labelColor: AppTheme.blue,
                 unselectedLabelColor: AppTheme.search_empty,
                 indicatorSize: TabBarIndicatorSize.tab,
                 labelStyle: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontFamily: AppTheme.fontRubik,
                   fontSize: 13,
-                  color: AppTheme.blue_app_color,
+                  color: AppTheme.blue,
                 ),
                 indicator: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),

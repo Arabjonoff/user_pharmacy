@@ -42,7 +42,7 @@ class _RegionScreenState extends State<RegionScreen> {
           child: Container(
             height: 56,
             width: 56,
-            color: AppTheme.arrow_examp_back,
+            color: AppTheme.white,
             padding: EdgeInsets.all(19),
             child: SvgPicture.asset("assets/images/arrow_back.svg"),
           ),
@@ -58,7 +58,7 @@ class _RegionScreenState extends State<RegionScreen> {
               translate("menu.city"),
               textAlign: TextAlign.start,
               style: TextStyle(
-                color: AppTheme.black_text,
+                color: AppTheme.text_dark,
                 fontWeight: FontWeight.w500,
                 fontFamily: AppTheme.fontRubik,
                 fontSize: 17,
@@ -76,7 +76,7 @@ class _RegionScreenState extends State<RegionScreen> {
                       value: null,
                       strokeWidth: 3.0,
                       valueColor: AlwaysStoppedAnimation<Color>(
-                        AppTheme.blue_app_color,
+                        AppTheme.blue,
                       ),
                     ),
                   ),
@@ -125,7 +125,7 @@ class _RegionScreenState extends State<RegionScreen> {
                                                   fontFamily:
                                                       AppTheme.fontRubik,
                                                   fontSize: 15,
-                                                  color: AppTheme.black_text,
+                                                  color: AppTheme.text_dark,
                                                 ),
                                               ),
                                             ),
@@ -175,7 +175,7 @@ class _RegionScreenState extends State<RegionScreen> {
                                               fontWeight: FontWeight.normal,
                                               fontFamily: AppTheme.fontRubik,
                                               fontSize: 15,
-                                              color: AppTheme.black_text,
+                                              color: AppTheme.text_dark,
                                             ),
                                           ),
                                         ),
@@ -186,7 +186,7 @@ class _RegionScreenState extends State<RegionScreen> {
                                                   ? Icons.keyboard_arrow_up
                                                   : Icons.keyboard_arrow_down,
                                           size: 24,
-                                          color: AppTheme.black_text,
+                                          color: AppTheme.text_dark,
                                         )
                                       ],
                                     ),
@@ -250,7 +250,7 @@ class _RegionScreenState extends State<RegionScreen> {
                                                             AppTheme.fontRubik,
                                                         fontSize: 15,
                                                         color:
-                                                            AppTheme.black_text,
+                                                            AppTheme.text_dark,
                                                       ),
                                                     ),
                                                   ),

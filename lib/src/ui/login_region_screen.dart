@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/blocs/region_bloc.dart';
@@ -81,19 +80,51 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: AppTheme.white,
+        title: Container(
+          margin: EdgeInsets.only(left: 16, right: 16),
+          child: Text(
+            "Выбор региона",
+            textAlign: TextAlign.start,
+            style: TextStyle(
+              fontFamily: AppTheme.fontRubik,
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+              height: 1.2,
+              color: AppTheme.text_dark,
+            ),
+          ),
+        ),
       ),
       body: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(left: 16, right: 16),
+            width: double.infinity,
+            margin: EdgeInsets.only(
+              left: 16,
+              right: 16,
+              bottom: 1,
+              top: 16,
+            ),
+            padding: EdgeInsets.symmetric(
+              vertical: 16,
+              horizontal: 24,
+            ),
+            decoration: BoxDecoration(
+              color: AppTheme.white,
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(24),
+                topLeft: Radius.circular(24),
+              ),
+            ),
             child: Text(
-              translate(""),
+              "Ваше местоположение",
               textAlign: TextAlign.start,
               style: TextStyle(
-                color: AppTheme.black_text,
-                fontWeight: FontWeight.w500,
                 fontFamily: AppTheme.fontRubik,
-                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                height: 1.2,
+                color: AppTheme.text_dark,
               ),
             ),
           ),
@@ -106,6 +137,9 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                     itemCount: snapshot.data.length,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
+                      print(index.toString() +
+                          " " +
+                          (snapshot.data.length - 1).toString());
                       return snapshot.data[index].childs.length == 0
                           ? GestureDetector(
                               onTap: () async {
@@ -123,16 +157,28 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: AppTheme.white,
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(
+                                      index == snapshot.data.length - 1
+                                          ? 24
+                                          : 0,
+                                    ),
+                                    bottomRight: Radius.circular(
+                                      index == snapshot.data.length - 1
+                                          ? 24
+                                          : 0,
+                                    ),
+                                  ),
                                 ),
                                 margin: EdgeInsets.only(
-                                  bottom: 1,
-                                  left: 12,
-                                  right: 12,
+                                  left: 16,
+                                  right: 16,
                                 ),
                                 padding: EdgeInsets.only(
                                   top: 16,
-                                  bottom: 16,
+                                  bottom: index == snapshot.data.length - 1
+                                      ? 28
+                                      : 16,
                                   left: 16,
                                   right: 16,
                                 ),
@@ -146,7 +192,7 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                                           fontWeight: FontWeight.normal,
                                           fontSize: 14,
                                           height: 1.2,
-                                          color: AppTheme.black_text,
+                                          color: AppTheme.text_dark,
                                         ),
                                       ),
                                     ),
@@ -182,26 +228,30 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 8),
                                   ],
                                 ),
                               ),
                             )
                           : Accordion(
+                              position: snapshot.data.length - 1 == index
+                                  ? true
+                                  : false,
                               title: snapshot.data[index].name,
                               childs: snapshot.data[index].childs,
                               data: data,
                               onChoose: (choose) {
-                                setState(() {
-                                  data = RegionModel(
-                                    id: choose.id,
-                                    name: choose.name,
-                                    coords: [
-                                      choose.coords[0],
-                                      choose.coords[1]
-                                    ],
-                                  );
-                                });
+                                setState(
+                                  () {
+                                    data = RegionModel(
+                                      id: choose.id,
+                                      name: choose.name,
+                                      coords: [
+                                        choose.coords[0],
+                                        choose.coords[1]
+                                      ],
+                                    );
+                                  },
+                                );
                               },
                             );
                     },
@@ -212,7 +262,7 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                     value: null,
                     strokeWidth: 3.0,
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      AppTheme.blue_app_color,
+                      AppTheme.blue,
                     ),
                   ),
                 );
@@ -248,7 +298,7 @@ class _LoginRegionScreenState extends State<LoginRegionScreen> {
                 ),
                 child: Center(
                   child: Text(
-                    "Выбрать",
+                    "Продолжить",
                     style: TextStyle(
                       fontFamily: AppTheme.fontRubik,
                       fontWeight: FontWeight.w500,

@@ -20,7 +20,7 @@ class RegionBloc {
                 0,
                 RegionModel(
                   id: result[i].id,
-                  name: result[i].name,
+                  name: "Весь " + result[i].name,
                   parentName: result[i].name,
                   coords: result[i].coords,
                   childs: [],

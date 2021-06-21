@@ -4,12 +4,14 @@ import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/utils/expanded_section.dart';
 
 class Accordion extends StatefulWidget {
+  final bool position;
   final String title;
   final List<RegionModel> childs;
   final RegionModel data;
   final Function(RegionModel data) onChoose;
 
   Accordion({
+    this.position,
     this.title,
     this.childs,
     this.data,
@@ -38,18 +40,23 @@ class _AccordionState extends State<Accordion> {
           },
           child: Container(
             margin: EdgeInsets.only(
-              left: 12,
-              right: 12,
+              left: 16,
+              right: 16,
             ),
             decoration: BoxDecoration(
               color: AppTheme.white,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(
+                    (!_showContent && widget.position) ? 24 : 0),
+                bottomRight: Radius.circular(
+                    (!_showContent && widget.position) ? 24 : 0),
+              ),
             ),
             padding: EdgeInsets.only(
               top: 16,
-              bottom: 16,
+              bottom: (!_showContent && widget.position) ? 24 : 16,
               left: 16,
-              right: 16,
+              right: 12,
             ),
             child: Row(
               children: [
@@ -62,7 +69,7 @@ class _AccordionState extends State<Accordion> {
                         fontWeight: FontWeight.normal,
                         fontSize: 14,
                         height: 1.2,
-                        color: AppTheme.black_text,
+                        color: AppTheme.text_dark,
                       ),
                     ),
                   ),
@@ -71,7 +78,7 @@ class _AccordionState extends State<Accordion> {
                   _showContent
                       ? Icons.keyboard_arrow_up
                       : Icons.keyboard_arrow_down,
-                  color: AppTheme.gray,
+                  color: AppTheme.blue,
                   size: 24,
                 ),
               ],
@@ -93,17 +100,34 @@ class _AccordionState extends State<Accordion> {
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppTheme.white,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(
+                          (_showContent &&
+                                  position == widget.childs.length - 1 &&
+                                  widget.position)
+                              ? 24
+                              : 0,
+                        ),
+                        bottomLeft: Radius.circular(
+                          (_showContent &&
+                                  position == widget.childs.length - 1 &&
+                                  widget.position)
+                              ? 24
+                              : 0,
+                        ),
+                      ),
                     ),
                     margin: EdgeInsets.only(
-                      top: 1,
-                      left: 12,
-                      right: 12,
+                      left: 16,
+                      right: 16,
                     ),
                     padding: EdgeInsets.only(
                       top: 16,
-                      bottom: 16,
-                      left: 24,
+                      bottom:
+                          _showContent && position == widget.childs.length - 1
+                              ? 28
+                              : 16,
+                      left: 40,
                       right: 16,
                     ),
                     child: Row(
@@ -116,7 +140,7 @@ class _AccordionState extends State<Accordion> {
                               fontWeight: FontWeight.normal,
                               fontFamily: AppTheme.fontRubik,
                               fontSize: 15,
-                              color: AppTheme.black_text,
+                              color: AppTheme.text_dark,
                             ),
                           ),
                         ),
@@ -151,7 +175,6 @@ class _AccordionState extends State<Accordion> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 8),
                       ],
                     ),
                   ),
@@ -161,11 +184,6 @@ class _AccordionState extends State<Accordion> {
           ),
           expand: _showContent,
         ),
-        Container(
-          height: 1,
-          width: double.infinity,
-          color: AppTheme.background,
-        )
       ],
     );
   }

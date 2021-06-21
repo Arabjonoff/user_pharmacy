@@ -196,7 +196,7 @@ class _VerifyPaymentScreenState extends State<VerifyPaymentScreen> {
                                 fontFamily: AppTheme.fontRubik,
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.normal,
-                                color: AppTheme.black_text,
+                                color: AppTheme.text_dark,
                                 fontSize: 15,
                               ),
                               controller: verfyController,
@@ -320,7 +320,7 @@ class _VerifyPaymentScreenState extends State<VerifyPaymentScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  color: AppTheme.blue_app_color,
+                  color: AppTheme.blue,
                 ),
                 height: 44,
                 width: double.infinity,

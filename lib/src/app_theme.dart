@@ -6,17 +6,13 @@ class AppTheme {
   static const Color notWhite = Color(0xFF818C99);
   static const Color arrow_catalog = Color(0xFFB8C1CC);
   static const Color arrow_back = Color(0xFFF0F1F3);
-  static const Color black_transparent = Color(0xFFEBEDF0);
   static const Color search_empty = Color(0xFF818C99);
   static const Color item_navigation = Color(0xFFA6A6A6);
 
   static const String fontRubik = 'Rubik';
 
-  static const Color black_text = Color(0xFF1C1C1E);
-  static const Color blue_app_color = Color(0xFF3F8AE0);
   static const Color auth_border = Color(0xFFD5D6D8);
   static const Color auth_login = Color(0xFFF2F3F5);
-  static const Color arrow_examp_back = Colors.white;
 
   ///new app
   static const Color text_dark = Color(0xFF172B4D);

@@ -93,7 +93,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                       child: Container(
                         height: 48,
                         width: 48,
-                        color: AppTheme.arrow_examp_back,
+                        color: AppTheme.white,
                         margin: EdgeInsets.only(right: 4),
                         child: Center(
                           child: Container(
@@ -127,7 +127,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                         fontWeight: FontWeight.w600,
                         fontStyle: FontStyle.normal,
                         fontSize: 20,
-                        color: AppTheme.black_text,
+                        color: AppTheme.text_dark,
                       ),
                     ),
                   ),
@@ -171,7 +171,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                                         ),
                                       ],
                                     ),
-                                    activeColor: AppTheme.blue_app_color,
+                                    activeColor: AppTheme.blue,
                                     groupValue: clickType,
                                     value: data.id,
                                     onChanged: (val) {
@@ -254,7 +254,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                                       fontFamily: AppTheme.fontRubik,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.normal,
-                                      color: AppTheme.black_text,
+                                      color: AppTheme.text_dark,
                                       fontSize: 15,
                                     ),
                                     controller: cardNumberController,
@@ -310,7 +310,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                                       fontFamily: AppTheme.fontRubik,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.normal,
-                                      color: AppTheme.black_text,
+                                      color: AppTheme.text_dark,
                                       fontSize: 15,
                                     ),
                                     controller: cardDateController,
@@ -366,11 +366,11 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
                                           fontStyle: FontStyle.normal,
                                           fontWeight: FontWeight.w600,
                                           fontFamily: AppTheme.fontRubik,
-                                          color: AppTheme.black_text,
+                                          color: AppTheme.text_dark,
                                         ),
                                       ),
                                       Checkbox(
-                                        activeColor: AppTheme.blue_app_color,
+                                        activeColor: AppTheme.blue,
                                         value: checkBox,
                                         onChanged: (bool value) {
                                           setState(() {
@@ -418,7 +418,7 @@ class _ReplacePaymentScreenState extends State<ReplacePaymentScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  color: AppTheme.blue_app_color,
+                  color: AppTheme.blue,
                 ),
                 height: 44,
                 width: double.infinity,

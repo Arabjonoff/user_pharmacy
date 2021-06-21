@@ -61,7 +61,7 @@ class _BlogItemScreenState extends State<BlogItemScreen> {
                 fontFamily: AppTheme.fontRubik,
                 fontWeight: FontWeight.w500,
                 fontSize: 17,
-                color: AppTheme.black_text,
+                color: AppTheme.text_dark,
               ),
             ),
           ],

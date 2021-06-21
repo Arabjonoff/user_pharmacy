@@ -70,7 +70,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
           child: Container(
             height: 56,
             width: 56,
-            color: AppTheme.arrow_examp_back,
+            color: AppTheme.white,
             padding: EdgeInsets.all(19),
             child: SvgPicture.asset("assets/images/arrow_back.svg"),
           ),
@@ -86,7 +86,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
               translate("note.add_notf"),
               textAlign: TextAlign.start,
               style: TextStyle(
-                color: AppTheme.black_text,
+                color: AppTheme.text_dark,
                 fontWeight: FontWeight.w500,
                 fontFamily: AppTheme.fontRubik,
                 fontSize: 17,
@@ -122,7 +122,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                         fontFamily: AppTheme.fontRubik,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.normal,
-                        color: AppTheme.black_text,
+                        color: AppTheme.text_dark,
                         fontSize: 15,
                       ),
                       controller: nameController,
@@ -190,7 +190,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                         fontFamily: AppTheme.fontRubik,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.normal,
-                        color: AppTheme.black_text,
+                        color: AppTheme.text_dark,
                         fontSize: 15,
                       ),
                       controller: dozaController,
@@ -282,7 +282,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                                           fontWeight: FontWeight.normal,
                                           fontSize: 15,
                                           fontStyle: FontStyle.normal,
-                                          color: AppTheme.black_text),
+                                          color: AppTheme.text_dark),
                                     ),
                                   ),
                                 )
@@ -321,7 +321,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                         fontFamily: AppTheme.fontRubik,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.normal,
-                        color: AppTheme.black_text,
+                        color: AppTheme.text_dark,
                         fontSize: 15,
                       ),
                       controller: durationController,
@@ -415,7 +415,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                                       fontWeight: FontWeight.normal,
                                       fontSize: 15,
                                       fontStyle: FontStyle.normal,
-                                      color: AppTheme.black_text),
+                                      color: AppTheme.text_dark),
                                 ),
                               ),
                             )
@@ -452,11 +452,11 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                         border: Border.all(
                             color: errorTime
                                 ? AppTheme.red
-                                : AppTheme.blue_app_color,
+                                : AppTheme.blue,
                             width: 1)),
                     child: Icon(
                       Icons.add,
-                      color: AppTheme.blue_app_color,
+                      color: AppTheme.blue,
                       size: 24,
                     ),
                   ),
@@ -563,7 +563,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
               height: 44,
               margin: EdgeInsets.only(top: 24, left: 12, right: 12, bottom: 28),
               decoration: BoxDecoration(
-                color: AppTheme.blue_app_color,
+                color: AppTheme.blue,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
