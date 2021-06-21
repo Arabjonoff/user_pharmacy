@@ -3621,6 +3621,534 @@ class BottomDialog {
     );
   }
 
+  static void showFilter(
+    BuildContext context,
+    String ordering,
+    String maxPrice,
+    Function(String ordering, String maxPrice) onChange,
+  ) {
+    PageController _pageController = PageController(initialPage: 0);
+    var duration = Duration(milliseconds: 270);
+    int currentIndex = 0;
+    showModalBottomSheet(
+      context: context,
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, setState) {
+            return Container(
+              height: 432,
+              decoration: BoxDecoration(
+                  color: AppTheme.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  )),
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    height: 4,
+                    width: 64,
+                    decoration: BoxDecoration(
+                      color: AppTheme.text_dark.withOpacity(0.05),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  Container(
+                    height: 1,
+                    width: double.infinity,
+                    margin: EdgeInsets.only(top: 16),
+                    color: AppTheme.background,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 16, right: 16),
+                    height: 50,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              if (currentIndex != 0) {
+                                setState(() {
+                                  currentIndex = 0;
+                                  _pageController.jumpToPage(currentIndex);
+                                });
+                              }
+                            },
+                            child: Container(
+                              color: AppTheme.white,
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        translate("item.sort"),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRubik,
+                                          fontWeight: currentIndex == 0
+                                              ? FontWeight.w500
+                                              : FontWeight.w400,
+                                          fontSize: 14,
+                                          height: 1.2,
+                                          color: currentIndex == 0
+                                              ? AppTheme.text_dark
+                                              : AppTheme.textGray,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  AnimatedContainer(
+                                    duration: Duration(milliseconds: 270),
+                                    curve: Curves.easeInOut,
+                                    height: currentIndex == 0 ? 2 : 1,
+                                    width: double.infinity,
+                                    color: currentIndex == 0
+                                        ? AppTheme.blue
+                                        : AppTheme.background,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              if (currentIndex != 1) {
+                                setState(() {
+                                  currentIndex = 1;
+                                  _pageController.jumpToPage(currentIndex);
+                                });
+                              }
+                            },
+                            child: Container(
+                              color: AppTheme.white,
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        translate("item.price_title"),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontRubik,
+                                          fontWeight: currentIndex == 1
+                                              ? FontWeight.w500
+                                              : FontWeight.w400,
+                                          fontSize: 14,
+                                          height: 1.2,
+                                          color: currentIndex == 1
+                                              ? AppTheme.text_dark
+                                              : AppTheme.textGray,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  AnimatedContainer(
+                                    duration: Duration(milliseconds: 270),
+                                    curve: Curves.easeInOut,
+                                    height: currentIndex == 1 ? 2 : 1,
+                                    width: double.infinity,
+                                    color: currentIndex == 1
+                                        ? AppTheme.blue
+                                        : AppTheme.background,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                        padding: EdgeInsets.all(16),
+                        child: PageView(
+                          physics: NeverScrollableScrollPhysics(),
+                          pageSnapping: false,
+                          onPageChanged: (int page) {
+                            setState(() {
+                              currentIndex = page;
+                            });
+                          },
+                          controller: _pageController,
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.only(
+                                top: 4,
+                                left: 8,
+                                right: 8,
+                              ),
+                              child: Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (ordering != "name") {
+                                        setState(() {
+                                          ordering = "name";
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                        top: 12,
+                                        bottom: 12,
+                                      ),
+                                      color: AppTheme.white,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              translate("item.name"),
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 14,
+                                                height: 1.2,
+                                                color: AppTheme.text_dark,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 8),
+                                          AnimatedContainer(
+                                            duration: duration,
+                                            curve: Curves.easeInOut,
+                                            height: 16,
+                                            width: 16,
+                                            padding: EdgeInsets.all(3),
+                                            decoration: BoxDecoration(
+                                              color: AppTheme.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                              border: Border.all(
+                                                color: ordering == "name"
+                                                    ? AppTheme.blue
+                                                    : AppTheme.gray,
+                                              ),
+                                            ),
+                                            child: AnimatedContainer(
+                                              duration: duration,
+                                              curve: Curves.easeInOut,
+                                              height: 10,
+                                              width: 10,
+                                              decoration: BoxDecoration(
+                                                color: ordering == "name"
+                                                    ? AppTheme.blue
+                                                    : AppTheme.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (ordering != "-name") {
+                                        setState(() {
+                                          ordering = "-name";
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                        top: 12,
+                                        bottom: 12,
+                                      ),
+                                      color: AppTheme.white,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              translate("item.un_name"),
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 14,
+                                                height: 1.2,
+                                                color: AppTheme.text_dark,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 8),
+                                          AnimatedContainer(
+                                            duration: duration,
+                                            curve: Curves.easeInOut,
+                                            height: 16,
+                                            width: 16,
+                                            padding: EdgeInsets.all(3),
+                                            decoration: BoxDecoration(
+                                              color: AppTheme.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                              border: Border.all(
+                                                color: ordering == "-name"
+                                                    ? AppTheme.blue
+                                                    : AppTheme.gray,
+                                              ),
+                                            ),
+                                            child: AnimatedContainer(
+                                              duration: duration,
+                                              curve: Curves.easeInOut,
+                                              height: 10,
+                                              width: 10,
+                                              decoration: BoxDecoration(
+                                                color: ordering == "-name"
+                                                    ? AppTheme.blue
+                                                    : AppTheme.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (ordering != "price") {
+                                        setState(() {
+                                          ordering = "price";
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                        top: 12,
+                                        bottom: 12,
+                                      ),
+                                      color: AppTheme.white,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              translate("item.price"),
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 14,
+                                                height: 1.2,
+                                                color: AppTheme.text_dark,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 8),
+                                          AnimatedContainer(
+                                            duration: duration,
+                                            curve: Curves.easeInOut,
+                                            height: 16,
+                                            width: 16,
+                                            padding: EdgeInsets.all(3),
+                                            decoration: BoxDecoration(
+                                              color: AppTheme.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                              border: Border.all(
+                                                color: ordering == "price"
+                                                    ? AppTheme.blue
+                                                    : AppTheme.gray,
+                                              ),
+                                            ),
+                                            child: AnimatedContainer(
+                                              duration: duration,
+                                              curve: Curves.easeInOut,
+                                              height: 10,
+                                              width: 10,
+                                              decoration: BoxDecoration(
+                                                color: ordering == "price"
+                                                    ? AppTheme.blue
+                                                    : AppTheme.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (ordering != "-price") {
+                                        setState(() {
+                                          ordering = "-price";
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                        top: 12,
+                                        bottom: 12,
+                                      ),
+                                      color: AppTheme.white,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              translate("item.un_price"),
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 14,
+                                                height: 1.2,
+                                                color: AppTheme.text_dark,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 8),
+                                          AnimatedContainer(
+                                            duration: duration,
+                                            curve: Curves.easeInOut,
+                                            height: 16,
+                                            width: 16,
+                                            padding: EdgeInsets.all(3),
+                                            decoration: BoxDecoration(
+                                              color: AppTheme.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                              border: Border.all(
+                                                color: ordering == "-price"
+                                                    ? AppTheme.blue
+                                                    : AppTheme.gray,
+                                              ),
+                                            ),
+                                            child: AnimatedContainer(
+                                              duration: duration,
+                                              curve: Curves.easeInOut,
+                                              height: 10,
+                                              width: 10,
+                                              decoration: BoxDecoration(
+                                                color: ordering == "-price"
+                                                    ? AppTheme.blue
+                                                    : AppTheme.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(
+                                top: 4,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    translate("item.max"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      height: 1.2,
+                                      color: AppTheme.text_dark,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 76,
+                                    padding: EdgeInsets.all(16),
+                                    margin: EdgeInsets.only(top: 16),
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.background,
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "0" + translate("sum"),
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 16,
+                                                height: 1.2,
+                                                color: AppTheme.text_dark,
+                                              ),
+                                            ),
+                                            Expanded(child: Container()),
+                                            maxPrice == ""
+                                                ? Container()
+                                                : Text(
+                                                    priceFormat.format(
+                                                            double.parse(
+                                                                maxPrice)) +
+                                                        translate("sum"),
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          AppTheme.fontRubik,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontSize: 16,
+                                                      height: 1.2,
+                                                      color: AppTheme.text_dark,
+                                                    ),
+                                                  ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        )),
+                  ),
+                  Container(
+                    height: 1,
+                    width: double.infinity,
+                    color: AppTheme.background,
+                  ),
+                  GestureDetector(
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        top: 12,
+                        left: 22,
+                        right: 22,
+                        bottom: 24,
+                      ),
+                      height: 44,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: AppTheme.blue,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("item.result"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            height: 1.2,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   static void showChooseStore(
     BuildContext context,
     List<ProductsStore> drugs,
