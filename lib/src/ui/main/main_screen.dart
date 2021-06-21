@@ -9,6 +9,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/main.dart';
+import 'package:pharmacy/src/ui/item/blog_item_screen.dart';
+import 'package:pharmacy/src/ui/item_list/blog_list_screen.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/category_bloc.dart';
@@ -389,6 +391,8 @@ class _MainScreenState extends State<MainScreen> {
             onReloadNetwork: _reloadScreen,
             onCommentService: _commentService,
             onListItem: _itemList,
+            onBlogList: _itemBlogList,
+            onItemBlog: _itemBlog,
           ),
           CategoryScreen(
             onListItem: _itemList,
@@ -471,6 +475,34 @@ class _MainScreenState extends State<MainScreen> {
           name: name,
           type: type,
           id: id,
+        ),
+      ),
+    );
+  }
+
+  void _itemBlog() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BlogListScreen(),
+      ),
+    );
+  }
+
+  void _itemBlogList({
+    String image,
+    String title,
+    String message,
+    DateTime dateTime,
+  }) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BlogItemScreen(
+          image: image,
+          dateTime: dateTime,
+          title: title,
+          message: message,
         ),
       ),
     );

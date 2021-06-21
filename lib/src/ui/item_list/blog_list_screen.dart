@@ -127,12 +127,15 @@ class _BlogListScreenState extends State<BlogListScreen> {
                           child: ClipRRect(
                             child: CachedNetworkImage(
                               imageUrl: snapshot.data.results[index].image,
-                              placeholder: (context, url) => SvgPicture.asset(
-                                "assets/icons/default_image.svg",
+                              placeholder: (context, url) => Image.asset(
+                                "assets/img/default.png",
+                                width: double.infinity,
+                                fit: BoxFit.cover,
                               ),
-                              errorWidget: (context, url, error) =>
-                                  SvgPicture.asset(
-                                "assets/icons/default_image.svg",
+                              errorWidget: (context, url, error) => Image.asset(
+                                "assets/img/default.png",
+                                width: double.infinity,
+                                fit: BoxFit.cover,
                               ),
                               width: double.infinity,
                               fit: BoxFit.cover,

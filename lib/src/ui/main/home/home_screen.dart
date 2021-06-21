@@ -23,8 +23,6 @@ import 'package:pharmacy/src/model/review/get_review.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/dialog/top_dialog.dart';
-import 'package:pharmacy/src/ui/item/blog_item_screen.dart';
-import 'package:pharmacy/src/ui/item_list/blog_list_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,6 +40,13 @@ class HomeScreen extends StatefulWidget {
   final Function(Function reload) onReloadNetwork;
   final Function(int orderId) onCommentService;
   final Function({String name, int type, String id}) onListItem;
+  final Function({
+    String image,
+    String title,
+    String message,
+    DateTime dateTime,
+  }) onBlogList;
+  final Function() onItemBlog;
 
   HomeScreen({
     this.onUnversal,
@@ -49,6 +54,8 @@ class HomeScreen extends StatefulWidget {
     this.onReloadNetwork,
     this.onCommentService,
     this.onListItem,
+    this.onBlogList,
+    this.onItemBlog,
   });
 
   @override
@@ -2403,13 +2410,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ClipRRect(
                                 child: CachedNetworkImage(
                                   imageUrl: snapshot.data.results[0].image,
-                                  placeholder: (context, url) =>
-                                      SvgPicture.asset(
-                                    "assets/icons/default_image.svg",
+                                  placeholder: (context, url) => Image.asset(
+                                    "assets/img/default.png",
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
                                   ),
                                   errorWidget: (context, url, error) =>
-                                      SvgPicture.asset(
-                                    "assets/icons/default_image.svg",
+                                      Image.asset(
+                                    "assets/img/default.png",
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
                                   ),
                                   width: double.infinity,
                                   fit: BoxFit.cover,
@@ -2430,17 +2440,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               SizedBox(height: 16),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => BlogItemScreen(
-                                        image: snapshot.data.results[0].image,
-                                        dateTime:
-                                            snapshot.data.results[0].updatedAt,
-                                        title: snapshot.data.results[0].title,
-                                        message: snapshot.data.results[0].body,
-                                      ),
-                                    ),
+                                  widget.onBlogList(
+                                    image: snapshot.data.results[0].image,
+                                    dateTime:
+                                        snapshot.data.results[0].updatedAt,
+                                    title: snapshot.data.results[0].title,
+                                    message: snapshot.data.results[0].body,
                                   );
                                 },
                                 child: Container(
@@ -2518,30 +2523,28 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                     Expanded(child: Container()),
                                     GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                BlogListScreen(),
-                                          ),
-                                        );
-                                      },
-                                      child: Text(
-                                        translate("home.all"),
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontRubik,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          height: 1.1,
-                                          color: AppTheme.blue,
+                                      child: Container(
+                                        color: AppTheme.background,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              translate("home.all"),
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                                height: 1.1,
+                                                color: AppTheme.blue,
+                                              ),
+                                            ),
+                                            SvgPicture.asset(
+                                                "assets/icons/arrow_right_blue.svg")
+                                          ],
                                         ),
                                       ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: SvgPicture.asset(
-                                          "assets/icons/arrow_right_blue.svg"),
+                                      onTap: () {
+                                        widget.onItemBlog();
+                                      },
                                     ),
                                   ],
                                 ),
@@ -2559,21 +2562,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     padding: const EdgeInsets.only(bottom: 0.0),
                                     child: GestureDetector(
                                       onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                BlogItemScreen(
-                                              image: snapshot
-                                                  .data.results[index].image,
-                                              dateTime: snapshot.data
-                                                  .results[index].updatedAt,
-                                              title: snapshot
-                                                  .data.results[index].title,
-                                              message: snapshot
-                                                  .data.results[index].body,
-                                            ),
-                                          ),
+                                        widget.onBlogList(
+                                          image: snapshot
+                                              .data.results[index].image,
+                                          dateTime: snapshot
+                                              .data.results[index].updatedAt,
+                                          title: snapshot
+                                              .data.results[index].title,
+                                          message:
+                                              snapshot.data.results[index].body,
                                         );
                                       },
                                       child: Container(
@@ -2599,13 +2596,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   imageUrl: snapshot.data
                                                       .results[index].image,
                                                   placeholder: (context, url) =>
-                                                      SvgPicture.asset(
-                                                    "assets/icons/default_image.svg",
+                                                      Image.asset(
+                                                    "assets/img/default.png",
+                                                    width: 253,
+                                                    fit: BoxFit.cover,
                                                   ),
                                                   errorWidget:
                                                       (context, url, error) =>
-                                                          SvgPicture.asset(
-                                                    "assets/icons/default_image.svg",
+                                                          Image.asset(
+                                                    "assets/img/default.png",
+                                                    width: 253,
+                                                    fit: BoxFit.cover,
                                                   ),
                                                   width: 253,
                                                   fit: BoxFit.cover,

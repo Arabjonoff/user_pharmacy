@@ -82,11 +82,15 @@ class _BlogItemScreenState extends State<BlogItemScreen> {
             child: ClipRRect(
               child: CachedNetworkImage(
                 imageUrl: widget.image,
-                placeholder: (context, url) => SvgPicture.asset(
-                  "assets/icons/default_image.svg",
+                placeholder: (context, url) => Image.asset(
+                  "assets/img/default.png",
+                  width: double.infinity,
+                  fit: BoxFit.cover,
                 ),
-                errorWidget: (context, url, error) => SvgPicture.asset(
-                  "assets/icons/default_image.svg",
+                errorWidget: (context, url, error) => Image.asset(
+                  "assets/img/default.png",
+                  width: double.infinity,
+                  fit: BoxFit.cover,
                 ),
                 width: MediaQuery.of(context).size.width - 64,
                 fit: BoxFit.cover,
@@ -155,6 +159,7 @@ class _BlogItemScreenState extends State<BlogItemScreen> {
                   fontSize: 14,
                   height: 1.6,
                   color: AppTheme.text_dark,
+                  decoration: TextDecoration.none,
                 ),
               ),
             ),
