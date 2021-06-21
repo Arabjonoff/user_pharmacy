@@ -66,8 +66,7 @@ class HomeBloc {
   ItemModel recentlyItemData;
 
   fetchRecently() async {
-    var response = await _repository.fetchBestItem(
-      1,
+    var response = await _repository.fetchRecently(
       "",
       "",
     );
@@ -267,7 +266,7 @@ class HomeBloc {
     }
   }
 
-  update(){
+  update() {
     fetchBestUpdate();
     fetchSlimmingUpdate();
     fetchRecentlyUpdate();

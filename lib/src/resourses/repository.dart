@@ -73,6 +73,15 @@ class Repository {
         priceMax,
       );
 
+  Future<HttpResult> fetchRecently(
+    String ordering,
+    String priceMax,
+  ) =>
+      pharmacyApiProvider.fetchRecently(
+        ordering,
+        priceMax,
+      );
+
   Future<HttpResult> fetchCategoryItem() =>
       pharmacyApiProvider.fetchCategoryList();
 

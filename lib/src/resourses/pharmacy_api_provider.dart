@@ -256,6 +256,24 @@ class PharmacyApiProvider {
     return await getRequest(url);
   }
 
+  ///recently
+  Future<HttpResult> fetchRecently(
+    String ordering,
+    String priceMax,
+  ) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var regionId = prefs.getInt("cityId") ?? "";
+
+    String url = Utils.baseUrl +
+        '/api/v1/drugs/latest/?'
+            'region=$regionId&'
+            'ordering=$ordering&'
+            'price_max=$priceMax';
+
+    return await getRequest(url);
+  }
+
   ///Top category
   Future<HttpResult> fetchTopCategory() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

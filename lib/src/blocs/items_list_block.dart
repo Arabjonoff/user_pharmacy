@@ -19,8 +19,7 @@ class ItemListBloc {
     String ordering,
     String priceMax,
   ) async {
-    var response = await _repository.fetchBestItem(
-      1,
+    var response = await _repository.fetchRecently(
       "",
       "",
     );
