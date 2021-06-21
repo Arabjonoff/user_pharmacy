@@ -27,7 +27,6 @@ import 'package:pharmacy/src/ui/item/blog_item_screen.dart';
 import 'package:pharmacy/src/ui/item_list/blog_list_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:pharmacy/src/utils/utils.dart';
-import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -42,7 +41,7 @@ class HomeScreen extends StatefulWidget {
   final Function(bool optiona, String descl) onUpdate;
   final Function(Function reload) onReloadNetwork;
   final Function(int orderId) onCommentService;
-  final Function(String name, int type, String id) onListItem;
+  final Function({String name, int type, String id}) onListItem;
 
   HomeScreen({
     this.onUnversal,
@@ -304,37 +303,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 return GestureDetector(
                                   onTap: () async {
                                     if (url.drugs.length > 0) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ItemListScreen(
-                                            name: url.name,
-                                            type: 5,
-                                            id: url.drugs
-                                                .toString()
-                                                .replaceAll('[', '')
-                                                .replaceAll(']', '')
-                                                .replaceAll(' ', ''),
-                                            onReloadNetwork:
-                                                widget.onReloadNetwork,
-                                          ),
-                                        ),
+                                      widget.onListItem(
+                                        name: url.name,
+                                        type: 5,
+                                        id: url.drugs
+                                            .toString()
+                                            .replaceAll('[', '')
+                                            .replaceAll(']', '')
+                                            .replaceAll(' ', ''),
                                       );
                                     } else if (url.drug != null) {
                                       RxBus.post(BottomViewModel(url.drug),
                                           tag: "EVENT_BOTTOM_ITEM_ALL");
                                     } else if (url.category != null) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ItemListScreen(
-                                            name: url.name,
-                                            type: 2,
-                                            id: url.category.toString(),
-                                            onReloadNetwork:
-                                                widget.onReloadNetwork,
-                                          ),
-                                        ),
+                                      widget.onListItem(
+                                        name: url.name,
+                                        type: 2,
+                                        id: url.category.toString(),
                                       );
                                     } else if (url.url.length > 0) {
                                       if (await canLaunch(url.url)) {
@@ -432,35 +417,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     Expanded(child: Container()),
                                     GestureDetector(
                                       onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ItemListScreen(
-                                              name: translate("home.recently"),
-                                              type: 1,
-                                              onReloadNetwork:
-                                                  widget.onReloadNetwork,
-                                            ),
-                                          ),
-                                        );
+                                        widget.onListItem(
+                                            name: translate("home.recently"),
+                                            type: 1);
                                       },
-                                      child: Text(
-                                        translate("home.all"),
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontRubik,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          height: 1.1,
-                                          color: AppTheme.blue,
+                                      child: Container(
+                                        color: AppTheme.background,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              translate("home.all"),
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                                height: 1.1,
+                                                color: AppTheme.blue,
+                                              ),
+                                            ),
+                                            SvgPicture.asset(
+                                                "assets/icons/arrow_right_blue.svg"),
+                                          ],
                                         ),
                                       ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: SvgPicture.asset(
-                                          "assets/icons/arrow_right_blue.svg"),
-                                    ),
+                                    )
                                   ],
                                 ),
                               ),
@@ -1065,19 +1045,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ItemListScreen(
-                                            name: snapshot
-                                                .data.results[index].name,
-                                            type: 2,
-                                            id: snapshot.data.results[index].id
-                                                .toString(),
-                                            onReloadNetwork:
-                                                widget.onReloadNetwork,
-                                          ),
-                                        ),
+                                      widget.onListItem(
+                                        name: snapshot.data.results[index].name,
+                                        type: 2,
+                                        id: snapshot.data.results[index].id
+                                            .toString(),
                                       );
                                     },
                                     child: Container(
@@ -1208,34 +1180,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     Expanded(child: Container()),
                                     GestureDetector(
                                       onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ItemListScreen(
-                                              name: translate("home.best"),
-                                              type: 3,
-                                              onReloadNetwork:
-                                                  widget.onReloadNetwork,
-                                            ),
-                                          ),
+                                        widget.onListItem(
+                                          name: translate("home.best"),
+                                          type: 3,
                                         );
                                       },
-                                      child: Text(
-                                        translate("home.all"),
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontRubik,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          height: 1.1,
-                                          color: AppTheme.blue,
+                                      child: Container(
+                                        color: AppTheme.background,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              translate("home.all"),
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                                height: 1.1,
+                                                color: AppTheme.blue,
+                                              ),
+                                            ),
+                                            SvgPicture.asset(
+                                                "assets/icons/arrow_right_blue.svg"),
+                                          ],
                                         ),
                                       ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: SvgPicture.asset(
-                                          "assets/icons/arrow_right_blue.svg"),
                                     ),
                                   ],
                                 ),
@@ -1829,34 +1797,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     Expanded(child: Container()),
                                     GestureDetector(
                                       onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ItemListScreen(
-                                              name: snapshot.data.title,
-                                              type: 4,
-                                              onReloadNetwork:
-                                                  widget.onReloadNetwork,
-                                            ),
-                                          ),
+                                        widget.onListItem(
+                                          name: snapshot.data.title,
+                                          type: 4,
                                         );
                                       },
-                                      child: Text(
-                                        translate("home.all"),
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontRubik,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          height: 1.1,
-                                          color: AppTheme.blue,
+                                      child: Container(
+                                        color: AppTheme.background,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              translate("home.all"),
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                                height: 1.1,
+                                                color: AppTheme.blue,
+                                              ),
+                                            ),
+                                            SvgPicture.asset(
+                                                "assets/icons/arrow_right_blue.svg"),
+                                          ],
                                         ),
                                       ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: SvgPicture.asset(
-                                          "assets/icons/arrow_right_blue.svg"),
                                     ),
                                   ],
                                 ),

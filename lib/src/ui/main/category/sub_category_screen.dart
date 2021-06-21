@@ -10,8 +10,9 @@ import '../../../app_theme.dart';
 class SubCategoryScreen extends StatefulWidget {
   final String name;
   final List<Childs> list;
+  final Function({String name, int type, String id}) onListItem;
 
-  SubCategoryScreen(this.name, this.list);
+  SubCategoryScreen(this.name, this.list, this.onListItem);
 
   @override
   State<StatefulWidget> createState() {
@@ -71,19 +72,15 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                     builder: (context) => SubCategoryScreen(
                       widget.list[index].name,
                       widget.list[index].childs,
+                      widget.onListItem,
                     ),
                   ),
                 );
               } else {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ItemListScreen(
-                      name: widget.list[index].name,
-                      type: 2,
-                      id: widget.list[index].id.toString(),
-                    ),
-                  ),
+                widget.onListItem(
+                  name: widget.list[index].name,
+                  type: 2,
+                  id: widget.list[index].id.toString(),
                 );
               }
             },

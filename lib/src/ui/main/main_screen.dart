@@ -390,7 +390,9 @@ class _MainScreenState extends State<MainScreen> {
             onCommentService: _commentService,
             onListItem: _itemList,
           ),
-          CategoryScreen(),
+          CategoryScreen(
+            onListItem: _itemList,
+          ),
           CardScreen(
             onPickup: _pickup,
             onCurer: _curer,
@@ -461,7 +463,7 @@ class _MainScreenState extends State<MainScreen> {
     BottomDialog.showCommentService(context: context, orderId: orderId);
   }
 
-  void _itemList(String name, int type, String id) {
+  void _itemList({String name, int type, String id}) {
     Navigator.push(
       context,
       MaterialPageRoute(

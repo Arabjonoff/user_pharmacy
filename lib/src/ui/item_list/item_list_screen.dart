@@ -22,13 +22,11 @@ class ItemListScreen extends StatefulWidget {
   final String name;
   final int type;
   final String id;
-  final Function(Function reload) onReloadNetwork;
 
   ItemListScreen({
     this.name,
     this.type,
     this.id,
-    this.onReloadNetwork,
   });
 
   @override
@@ -665,7 +663,6 @@ class _ItemListScreenState extends State<ItemListScreen> {
   }
 
   void _getMoreData(int index) async {
-    print(isLoading);
     if (!isLoading) {
       switch (widget.type) {
         case 1:

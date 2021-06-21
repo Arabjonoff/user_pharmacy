@@ -7,7 +7,6 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/blocs/category_bloc.dart';
 import 'package:pharmacy/src/model/api/category_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
-import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/ui/main/category/sub_category_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:shimmer/shimmer.dart';
@@ -15,6 +14,10 @@ import 'package:shimmer/shimmer.dart';
 import '../../../app_theme.dart';
 
 class CategoryScreen extends StatefulWidget {
+  final Function({String name, int type, String id}) onListItem;
+
+  CategoryScreen({this.onListItem});
+
   @override
   State<StatefulWidget> createState() {
     return _CategoryScreenState();
@@ -78,19 +81,15 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           builder: (context) => SubCategoryScreen(
                             snapshot.data.results[index].name,
                             snapshot.data.results[index].childs,
+                            widget.onListItem,
                           ),
                         ),
                       );
                     } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ItemListScreen(
-                            name: snapshot.data.results[index].name,
-                            type: 2,
-                            id: snapshot.data.results[index].id.toString(),
-                          ),
-                        ),
+                      widget.onListItem(
+                        name: snapshot.data.results[index].name,
+                        type: 2,
+                        id: snapshot.data.results[index].id.toString(),
                       );
                     }
                   },
