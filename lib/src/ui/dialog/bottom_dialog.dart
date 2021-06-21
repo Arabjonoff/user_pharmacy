@@ -2850,7 +2850,7 @@ class BottomDialog {
                                   AlwaysStoppedAnimation<Color>(AppTheme.white),
                             )
                           : Text(
-                              translate("dialog_rat.send"),
+                              translate("comment.send"),
                               style: TextStyle(
                                 fontStyle: FontStyle.normal,
                                 fontSize: 17,

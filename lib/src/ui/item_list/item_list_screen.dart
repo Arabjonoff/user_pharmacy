@@ -604,24 +604,86 @@ class _ItemListScreenState extends State<ItemListScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SvgPicture.asset(
-                              "assets/images/empty.svg",
-                              height: 155,
-                              width: 155,
-                            ),
                             Container(
-                              width: 210,
-                              child: Text(
-                                translate("search.empty"),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.normal,
-                                  color: AppTheme.search_empty,
-                                ),
+                              padding: EdgeInsets.all(16),
+                              margin: EdgeInsets.all(16),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: AppTheme.white,
+                                borderRadius: BorderRadius.circular(24),
                               ),
-                            ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 80,
+                                    width: 80,
+                                    margin: EdgeInsets.only(bottom: 16),
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.yellow,
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: Center(
+                                      child: Image.asset(
+                                        "assets/img/empty_store.png",
+                                        width: 32,
+                                        height: 32,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    translate("item.empty_title"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      height: 1.2,
+                                      color: AppTheme.text_dark,
+                                    ),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    translate("item.empty_message"),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14,
+                                      height: 1.6,
+                                      color: AppTheme.textGray,
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .popUntil((route) => route.isFirst);
+                                    },
+                                    child: Container(
+                                      height: 44,
+                                      margin: EdgeInsets.only(top: 16),
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.blue,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          translate("item.home"),
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontRubik,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16,
+                                            height: 1.25,
+                                            color: AppTheme.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
                           ],
                         );
                 }

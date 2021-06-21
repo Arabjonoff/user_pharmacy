@@ -218,7 +218,7 @@ class ItemListBloc {
         await _repository.fetchIdsItemsList(ids, page, ordering, priceMax);
     if (response.isSuccess) {
       if (page == 1) {
-        idsItemData =  ItemModel.fromJson(response.result);
+        idsItemData = ItemModel.fromJson(response.result);
       } else {
         var data = ItemModel.fromJson(response.result);
         idsItemData.next = data.next;
@@ -255,16 +255,16 @@ class ItemListBloc {
   ItemModel searchData;
 
   fetchAllSearchItem(
-      String ids,
-      int page,
-      String ordering,
-      String priceMax,
-      ) async {
+    String ids,
+    int page,
+    String ordering,
+    String priceMax,
+  ) async {
     var response =
-    await _repository.fetchIdsItemsList(ids, page, ordering, priceMax);
+        await _repository.fetchIdsItemsList(ids, page, ordering, priceMax);
     if (response.isSuccess) {
       if (page == 1) {
-        searchData =  ItemModel.fromJson(response.result);
+        searchData = ItemModel.fromJson(response.result);
       } else {
         var data = ItemModel.fromJson(response.result);
         searchData.next = data.next;
@@ -304,6 +304,7 @@ class ItemListBloc {
         List<ItemResult> resultFav = await _repository.databaseFavItem();
         if (recentlyItemData.results.length > 0) {
           for (var i = 0; i < recentlyItemData.results.length; i++) {
+            recentlyItemData.results[i].cardCount = 0;
             for (var j = 0; j < database.length; j++) {
               if (recentlyItemData.results[i].id == database[j].id) {
                 recentlyItemData.results[i].cardCount = database[j].cardCount;
@@ -329,6 +330,7 @@ class ItemListBloc {
         List<ItemResult> resultFav = await _repository.databaseFavItem();
         if (categoryItemData.results.length > 0) {
           for (var i = 0; i < categoryItemData.results.length; i++) {
+            categoryItemData.results[i].cardCount = 0;
             for (var j = 0; j < database.length; j++) {
               if (categoryItemData.results[i].id == database[j].id) {
                 categoryItemData.results[i].cardCount = database[j].cardCount;
@@ -354,6 +356,7 @@ class ItemListBloc {
         List<ItemResult> resultFav = await _repository.databaseFavItem();
         if (bestItemData.results.length > 0) {
           for (var i = 0; i < bestItemData.results.length; i++) {
+            bestItemData.results[i].cardCount = 0;
             for (var j = 0; j < database.length; j++) {
               if (bestItemData.results[i].id == database[j].id) {
                 bestItemData.results[i].cardCount = database[j].cardCount;
@@ -379,6 +382,7 @@ class ItemListBloc {
         List<ItemResult> resultFav = await _repository.databaseFavItem();
         if (collItemData.results.length > 0) {
           for (var i = 0; i < collItemData.results.length; i++) {
+            collItemData.results[i].cardCount = 0;
             for (var j = 0; j < database.length; j++) {
               if (collItemData.results[i].id == database[j].id) {
                 collItemData.results[i].cardCount = database[j].cardCount;
@@ -404,6 +408,7 @@ class ItemListBloc {
         List<ItemResult> resultFav = await _repository.databaseFavItem();
         if (idsItemData.results.length > 0) {
           for (var i = 0; i < idsItemData.results.length; i++) {
+            idsItemData.results[i].cardCount = 0;
             for (var j = 0; j < database.length; j++) {
               if (idsItemData.results[i].id == database[j].id) {
                 idsItemData.results[i].cardCount = database[j].cardCount;
@@ -423,12 +428,13 @@ class ItemListBloc {
         }
         _listItemsFetcher.sink.add(idsItemData);
       }
-    }else if (type == 6) {
+    } else if (type == 6) {
       if (searchData != null) {
         List<ItemResult> database = await _repository.databaseItem();
         List<ItemResult> resultFav = await _repository.databaseFavItem();
         if (searchData.results.length > 0) {
           for (var i = 0; i < searchData.results.length; i++) {
+            searchData.results[i].cardCount = 0;
             for (var j = 0; j < database.length; j++) {
               if (searchData.results[i].id == database[j].id) {
                 searchData.results[i].cardCount = database[j].cardCount;
