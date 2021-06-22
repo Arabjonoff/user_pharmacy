@@ -47,6 +47,7 @@ class HomeScreen extends StatefulWidget {
   }) onBlogList;
   final Function() onItemBlog;
   final Function() onRegion;
+  final Function() onSearch;
 
   HomeScreen({
     this.onUnversal,
@@ -57,6 +58,7 @@ class HomeScreen extends StatefulWidget {
     this.onBlogList,
     this.onItemBlog,
     this.onRegion,
+    this.onSearch,
   });
 
   @override
@@ -148,7 +150,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    widget.onSearch();
+                  },
                   child: Container(
                     margin: EdgeInsets.only(
                       top: 8,

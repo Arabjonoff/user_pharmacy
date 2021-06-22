@@ -136,7 +136,6 @@ class Repository {
     int page,
     String ordering,
     String priceMax,
-    int barcode,
   ) =>
       pharmacyApiProvider.fetchSearchItemsList(
         obj,
@@ -144,7 +143,6 @@ class Repository {
         20,
         ordering,
         priceMax,
-        barcode,
       );
 
   Future<HttpResult> fetchItems(String id) =>

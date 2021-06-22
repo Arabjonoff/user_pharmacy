@@ -31,6 +31,7 @@ import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/fav/favourite_screen.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
 import 'package:pharmacy/src/ui/note/note_all_screen.dart';
+import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/curer_address_card.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/checkout_order_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/about_app_screen.dart';
@@ -395,6 +396,7 @@ class _MainScreenState extends State<MainScreen> {
             onBlogList: _itemBlogList,
             onItemBlog: _itemBlog,
             onRegion: _region,
+            onSearch: _search,
           ),
           CategoryScreen(
             onListItem: _itemList,
@@ -501,6 +503,15 @@ class _MainScreenState extends State<MainScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => RegionScreen(),
+      ),
+    );
+  }
+
+  void _search() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchScreen(),
       ),
     );
   }

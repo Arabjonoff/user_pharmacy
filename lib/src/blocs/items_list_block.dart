@@ -266,7 +266,7 @@ class ItemListBloc {
     String priceMax,
   ) async {
     var response =
-        await _repository.fetchIdsItemsList(ids, page, ordering, priceMax);
+        await _repository.fetchSearchItemList(ids, page, ordering, priceMax);
     if (response.isSuccess) {
       if (page == 1) {
         _listItemsFetcher.sink.add(null);

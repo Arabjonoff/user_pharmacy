@@ -10,14 +10,13 @@ class SearchBloc {
 
   List<ItemResult> allResult;
 
-  fetchSearch(int page, String obj, int barcode) async {
+  fetchSearch(int page, String obj) async {
     if (obj.length > 2) {
       var response = await _repository.fetchSearchItemList(
         obj,
         page,
         "",
         "",
-        barcode,
       );
       if (response.isSuccess) {
         ItemModel itemModel = ItemModel.fromJson(response.result);
