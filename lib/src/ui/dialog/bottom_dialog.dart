@@ -3630,6 +3630,8 @@ class BottomDialog {
     PageController _pageController = PageController(initialPage: 0);
     var duration = Duration(milliseconds: 270);
     int currentIndex = 0;
+    double _sliderDiscreteValue = maxPrice == "" ? 0.0 : double.parse(maxPrice);
+
     showModalBottomSheet(
       context: context,
       barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
@@ -3640,11 +3642,12 @@ class BottomDialog {
             return Container(
               height: 432,
               decoration: BoxDecoration(
-                  color: AppTheme.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24),
-                  )),
+                color: AppTheme.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
+                ),
+              ),
               child: Column(
                 children: [
                   Container(
@@ -4057,8 +4060,8 @@ class BottomDialog {
                                     ),
                                   ),
                                   Container(
-                                    height: 76,
-                                    padding: EdgeInsets.all(16),
+                                    padding:
+                                        EdgeInsets.only(top: 16, bottom: 16),
                                     margin: EdgeInsets.only(top: 16),
                                     decoration: BoxDecoration(
                                       color: AppTheme.background,
@@ -4068,6 +4071,7 @@ class BottomDialog {
                                       children: [
                                         Row(
                                           children: [
+                                            SizedBox(width: 16),
                                             Text(
                                               "0" + translate("sum"),
                                               style: TextStyle(
@@ -4079,12 +4083,12 @@ class BottomDialog {
                                               ),
                                             ),
                                             Expanded(child: Container()),
-                                            maxPrice == ""
+                                            _sliderDiscreteValue == 0.0
                                                 ? Container()
                                                 : Text(
                                                     priceFormat.format(
-                                                            double.parse(
-                                                                maxPrice)) +
+                                                            _sliderDiscreteValue
+                                                                .toInt()) +
                                                         translate("sum"),
                                                     style: TextStyle(
                                                       fontFamily:
@@ -4096,8 +4100,30 @@ class BottomDialog {
                                                       color: AppTheme.text_dark,
                                                     ),
                                                   ),
+                                            SizedBox(width: 16),
                                           ],
-                                        )
+                                        ),
+                                        SliderTheme(
+                                          data: SliderThemeData(
+                                              trackHeight: 3,
+                                              valueIndicatorShape:
+                                                  PaddleSliderValueIndicatorShape(),
+                                              activeTrackColor: AppTheme.blue,
+                                              inactiveTrackColor: AppTheme.gray,
+                                              overlayColor: AppTheme.blue
+                                                  .withOpacity(0.1),
+                                              thumbColor: AppTheme.blue),
+                                          child: Slider(
+                                            value: _sliderDiscreteValue,
+                                            min: 0,
+                                            max: 10000000,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _sliderDiscreteValue = value;
+                                              });
+                                            },
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   )
@@ -4113,6 +4139,11 @@ class BottomDialog {
                     color: AppTheme.background,
                   ),
                   GestureDetector(
+                    onTap: () {
+                      onChange(
+                          ordering, _sliderDiscreteValue.toInt().toString());
+                      Navigator.pop(context);
+                    },
                     child: Container(
                       margin: EdgeInsets.only(
                         top: 12,

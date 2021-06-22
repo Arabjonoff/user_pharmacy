@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:pharmacy/src/delete/delete_screen.dart';
 import 'package:pharmacy/src/ui/auth/onboarding_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -604,7 +604,15 @@ class _ItemListScreenState extends State<ItemListScreen>
                                         context,
                                         ordering,
                                         priceMax,
-                                        (orderingValue, priceMaxValue) {},
+                                        (orderingValue, priceMaxValue) {
+                                          ordering = orderingValue;
+                                          priceMax = priceMaxValue == "0"
+                                              ? ""
+                                              : priceMaxValue;
+                                          page = 1;
+                                          isLoading = false;
+                                          _getMoreData(1);
+                                        },
                                       );
                                     },
                                     child: Container(

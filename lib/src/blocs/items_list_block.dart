@@ -25,6 +25,7 @@ class ItemListBloc {
     );
     if (response.isSuccess) {
       if (page == 1) {
+        _listItemsFetcher.sink.add(null);
         recentlyItemData = ItemModel.fromJson(response.result);
       } else {
         var data = ItemModel.fromJson(response.result);
@@ -75,6 +76,7 @@ class ItemListBloc {
     );
     if (response.isSuccess) {
       if (page == 1) {
+        _listItemsFetcher.sink.add(null);
         categoryItemData = ItemModel.fromJson(response.result);
       } else {
         var data = ItemModel.fromJson(response.result);
@@ -124,6 +126,7 @@ class ItemListBloc {
     );
     if (response.isSuccess) {
       if (page == 1) {
+        _listItemsFetcher.sink.add(null);
         bestItemData = ItemModel.fromJson(response.result);
       } else {
         var data = ItemModel.fromJson(response.result);
@@ -168,6 +171,7 @@ class ItemListBloc {
     var response = await _repository.fetchSlimming();
     if (response.isSuccess) {
       if (page == 1) {
+        _listItemsFetcher.sink.add(null);
         var data = ItemModel.fromJson(response.result);
         collItemData = ItemModel(
           next: data.next,
@@ -218,6 +222,7 @@ class ItemListBloc {
         await _repository.fetchIdsItemsList(ids, page, ordering, priceMax);
     if (response.isSuccess) {
       if (page == 1) {
+        _listItemsFetcher.sink.add(null);
         idsItemData = ItemModel.fromJson(response.result);
       } else {
         var data = ItemModel.fromJson(response.result);
@@ -264,6 +269,7 @@ class ItemListBloc {
         await _repository.fetchIdsItemsList(ids, page, ordering, priceMax);
     if (response.isSuccess) {
       if (page == 1) {
+        _listItemsFetcher.sink.add(null);
         searchData = ItemModel.fromJson(response.result);
       } else {
         var data = ItemModel.fromJson(response.result);
