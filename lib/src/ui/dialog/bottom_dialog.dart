@@ -17,6 +17,7 @@ import 'package:pharmacy/src/blocs/store_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/database/database_helper_fav.dart';
+import 'package:pharmacy/src/database/database_helper_history.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/api/items_all_model.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
@@ -3324,6 +3325,10 @@ class BottomDialog {
   }
 
   static void showExitProfile(BuildContext context) async {
+    DatabaseHelper dataBaseCard = new DatabaseHelper();
+    DatabaseHelperFav dataBaseFav = new DatabaseHelperFav();
+    DatabaseHelperHistory dataBaseHis = new DatabaseHelperHistory();
+    DatabaseHelperAddress dataBaseAddress = new DatabaseHelperAddress();
     showModalBottomSheet(
       barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
       context: context,
@@ -3401,11 +3406,16 @@ class BottomDialog {
                   GestureDetector(
                     onTap: () async {
                       Utils.clearData();
-                      if (Platform.isIOS) {
-                        exit(0);
-                      } else {
-                        SystemNavigator.pop();
-                      }
+                      dataBaseAddress.clear();
+                      dataBaseCard.clear();
+                      dataBaseFav.clear();
+                      dataBaseHis.clear().then((value) {
+                        if (Platform.isIOS) {
+                          exit(0);
+                        } else {
+                          SystemNavigator.pop();
+                        }
+                      });
                     },
                     child: Container(
                       height: 44,
@@ -6118,170 +6128,198 @@ class BottomDialog {
                             bottom: 24,
                           ),
                           color: AppTheme.white,
-                          child: snapshot.data.cardCount > 0
+                          child: snapshot.data.isComing
                               ? Container(
                                   height: 44,
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                    color: AppTheme.blue.withOpacity(0.12),
-                                    borderRadius: BorderRadius.circular(8),
+                                    color: AppTheme.blue,
+                                    borderRadius: BorderRadius.circular(12),
                                   ),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          if (snapshot.data.cardCount > 1) {
-                                            snapshot.data.cardCount =
-                                                snapshot.data.cardCount - 1;
-                                            dataBase
-                                                .updateProduct(
-                                              ItemResult(
-                                                snapshot.data.id,
-                                                snapshot.data.name,
-                                                snapshot.data.barcode,
-                                                snapshot.data.image,
-                                                snapshot.data.imageThumbnail,
-                                                snapshot.data.price,
-                                                Manifacture(snapshot
-                                                    .data.manufacturer.name),
-                                                true,
-                                                snapshot.data.cardCount,
+                                  child: Center(
+                                    child: Text(
+                                      translate("fast"),
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontRubik,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        height: 1.25,
+                                        color: AppTheme.white,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : snapshot.data.cardCount > 0
+                                  ? Container(
+                                      height: 44,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.blue.withOpacity(0.12),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              if (snapshot.data.cardCount > 1) {
+                                                snapshot.data.cardCount =
+                                                    snapshot.data.cardCount - 1;
+                                                dataBase
+                                                    .updateProduct(
+                                                  ItemResult(
+                                                    snapshot.data.id,
+                                                    snapshot.data.name,
+                                                    snapshot.data.barcode,
+                                                    snapshot.data.image,
+                                                    snapshot
+                                                        .data.imageThumbnail,
+                                                    snapshot.data.price,
+                                                    Manifacture(snapshot.data
+                                                        .manufacturer.name),
+                                                    true,
+                                                    snapshot.data.cardCount,
+                                                  ),
+                                                )
+                                                    .then((value) {
+                                                  blocItem.fetchItemUpdate(
+                                                      position);
+                                                });
+                                              } else if (snapshot
+                                                      .data.cardCount ==
+                                                  1) {
+                                                dataBase
+                                                    .deleteProducts(
+                                                        snapshot.data.id)
+                                                    .then((value) {
+                                                  blocItem.fetchItemUpdate(
+                                                      position);
+                                                });
+                                              }
+                                            },
+                                            child: Container(
+                                              height: 44,
+                                              width: 44,
+                                              decoration: BoxDecoration(
+                                                color: AppTheme.blue,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
                                               ),
-                                            )
-                                                .then((value) {
-                                              blocItem
-                                                  .fetchItemUpdate(position);
-                                            });
-                                          } else if (snapshot.data.cardCount ==
-                                              1) {
-                                            dataBase
-                                                .deleteProducts(
-                                                    snapshot.data.id)
-                                                .then((value) {
-                                              blocItem
-                                                  .fetchItemUpdate(position);
-                                            });
-                                          }
-                                        },
-                                        child: Container(
-                                          height: 44,
-                                          width: 44,
-                                          decoration: BoxDecoration(
-                                            color: AppTheme.blue,
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
-                                          child: Center(
-                                            child: SvgPicture.asset(
-                                              "assets/icons/remove.svg",
+                                              child: Center(
+                                                child: SvgPicture.asset(
+                                                  "assets/icons/remove.svg",
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
+                                          Expanded(
+                                            child: Center(
+                                              child: Text(
+                                                snapshot.data.cardCount
+                                                        .toString() +
+                                                    " " +
+                                                    translate("sht"),
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.fontRubik,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 20,
+                                                  height: 1.2,
+                                                  color: AppTheme.text_dark,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              if (snapshot.data.cardCount <
+                                                  snapshot.data.maxCount)
+                                                snapshot.data.cardCount =
+                                                    snapshot.data.cardCount + 1;
+                                              dataBase
+                                                  .updateProduct(
+                                                ItemResult(
+                                                  snapshot.data.id,
+                                                  snapshot.data.name,
+                                                  snapshot.data.barcode,
+                                                  snapshot.data.image,
+                                                  snapshot.data.imageThumbnail,
+                                                  snapshot.data.price,
+                                                  Manifacture(snapshot
+                                                      .data.manufacturer.name),
+                                                  true,
+                                                  snapshot.data.cardCount,
+                                                ),
+                                              )
+                                                  .then((value) {
+                                                blocItem
+                                                    .fetchItemUpdate(position);
+                                              });
+                                            },
+                                            child: Container(
+                                              height: 44,
+                                              width: 44,
+                                              decoration: BoxDecoration(
+                                                color: AppTheme.blue,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              child: Center(
+                                                child: SvgPicture.asset(
+                                                  "assets/icons/add.svg",
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      Expanded(
+                                    )
+                                  : GestureDetector(
+                                      onTap: () {
+                                        dataBase
+                                            .saveProducts(
+                                          ItemResult(
+                                            snapshot.data.id,
+                                            snapshot.data.name,
+                                            snapshot.data.barcode,
+                                            snapshot.data.image,
+                                            snapshot.data.imageThumbnail,
+                                            snapshot.data.price,
+                                            Manifacture(snapshot
+                                                .data.manufacturer.name),
+                                            true,
+                                            1,
+                                          ),
+                                        )
+                                            .then((value) {
+                                          blocItem.fetchItemUpdate(position);
+                                        });
+                                      },
+                                      child: Container(
+                                        height: 44,
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.blue,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
                                         child: Center(
                                           child: Text(
-                                            snapshot.data.cardCount.toString() +
-                                                " " +
-                                                translate("sht"),
+                                            translate("item.card"),
                                             style: TextStyle(
                                               fontFamily: AppTheme.fontRubik,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 20,
-                                              height: 1.2,
-                                              color: AppTheme.text_dark,
+                                              fontSize: 16,
+                                              height: 1.25,
+                                              color: AppTheme.white,
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          if (snapshot.data.cardCount <
-                                              snapshot.data.maxCount)
-                                            snapshot.data.cardCount =
-                                                snapshot.data.cardCount + 1;
-                                          dataBase
-                                              .updateProduct(
-                                            ItemResult(
-                                              snapshot.data.id,
-                                              snapshot.data.name,
-                                              snapshot.data.barcode,
-                                              snapshot.data.image,
-                                              snapshot.data.imageThumbnail,
-                                              snapshot.data.price,
-                                              Manifacture(snapshot
-                                                  .data.manufacturer.name),
-                                              true,
-                                              snapshot.data.cardCount,
-                                            ),
-                                          )
-                                              .then((value) {
-                                            blocItem.fetchItemUpdate(position);
-                                          });
-                                        },
-                                        child: Container(
-                                          height: 44,
-                                          width: 44,
-                                          decoration: BoxDecoration(
-                                            color: AppTheme.blue,
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
-                                          child: Center(
-                                            child: SvgPicture.asset(
-                                              "assets/icons/add.svg",
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : GestureDetector(
-                                  onTap: () {
-                                    dataBase
-                                        .saveProducts(
-                                      ItemResult(
-                                        snapshot.data.id,
-                                        snapshot.data.name,
-                                        snapshot.data.barcode,
-                                        snapshot.data.image,
-                                        snapshot.data.imageThumbnail,
-                                        snapshot.data.price,
-                                        Manifacture(
-                                            snapshot.data.manufacturer.name),
-                                        true,
-                                        1,
-                                      ),
-                                    )
-                                        .then((value) {
-                                      blocItem.fetchItemUpdate(position);
-                                    });
-                                  },
-                                  child: Container(
-                                    height: 44,
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.blue,
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        translate("item.card"),
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontRubik,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          height: 1.25,
-                                          color: AppTheme.white,
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ),
                         )
                       ],
                     );

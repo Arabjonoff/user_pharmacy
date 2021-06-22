@@ -177,7 +177,6 @@ class _MainScreenState extends State<MainScreen> {
       },
     );
 
-    ///card close
     RxBus.register<BottomViewModel>(tag: "EVENT_BOTTOM_CLOSE_HISTORY").listen(
       (event) {
         BottomDialog.historyClosePayment(
@@ -187,7 +186,6 @@ class _MainScreenState extends State<MainScreen> {
       },
     );
 
-    ///card finish
     RxBus.register<CardItemChangeModel>(tag: "EVENT_CARD_BOTTOM")
         .listen((event) => {
               if (event.cardChange)
@@ -261,6 +259,7 @@ class _MainScreenState extends State<MainScreen> {
                 }
               } else if (index == 0) {
                 blocHome.update();
+                blocHome.fetchCityName();
               } else if (index == 1) {
                 blocCategory.fetchAllCategory();
               } else if (index == 2) {

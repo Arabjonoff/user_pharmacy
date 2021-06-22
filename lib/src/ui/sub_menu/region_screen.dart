@@ -4,6 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/blocs/home_bloc.dart';
 import 'package:pharmacy/src/blocs/region_bloc.dart';
+import 'package:pharmacy/src/database/database_helper.dart';
+import 'package:pharmacy/src/database/database_helper_fav.dart';
 import 'package:pharmacy/src/model/api/region_model.dart';
 import 'package:pharmacy/src/utils/accordion.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +24,8 @@ class _RegionScreenState extends State<RegionScreen> {
   int regionId = -1;
   String regionName = "";
   var duration = Duration(milliseconds: 270);
+  DatabaseHelper dataBaseCard = new DatabaseHelper();
+  DatabaseHelperFav dataBaseFav = new DatabaseHelperFav();
 
   @override
   void initState() {
@@ -247,6 +251,8 @@ class _RegionScreenState extends State<RegionScreen> {
                       await SharedPreferences.getInstance();
                   prefs.setInt('cityId', regionId);
                   prefs.setString('city', regionName);
+                  dataBaseFav.clear();
+                  dataBaseCard.clear();
                   blocHome.fetchCityName();
                   Navigator.pop(context);
                   blocHome.fetchBanner();

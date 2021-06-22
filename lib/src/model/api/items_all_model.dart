@@ -60,12 +60,12 @@ class ItemsAllModel {
     image = json['image'];
     imageThumbnail = json['image_thumbnail'];
     piece = json['piece'];
-    basePrice = json['base_price'];
+    basePrice = json['base_price'] ?? 0.0;
     dose = json['dose'];
     status = json['status'];
     maxCount = json["max_count"];
     isComing = json["is_coming"];
-    price = json['price'];
+    price = json['price'] ?? 0.0;
     rating = json['rating'] ?? 0.0;
     expirationDate = json['expiration_date'];
     isRecept = json['is_recept'];
