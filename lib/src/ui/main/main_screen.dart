@@ -400,6 +400,7 @@ class _MainScreenState extends State<MainScreen> {
             onListItem: _itemList,
           ),
           CardScreen(
+            deleteItem: _deleteItem,
             onPickup: _pickup,
             onCurer: _curer,
             onLogin: _loginBottom,
@@ -446,6 +447,10 @@ class _MainScreenState extends State<MainScreen> {
             ),
           },
         );
+  }
+
+  void _deleteItem(int itemId) {
+    BottomDialog.showDeleteItem(context, itemId);
   }
 
   void _curer() {

@@ -23,11 +23,13 @@ class CardScreen extends StatefulWidget {
   final Function(CashBackData data) onPickup;
   final Function onCurer;
   final Function onLogin;
+  final Function(int id) deleteItem;
 
   CardScreen({
     this.onPickup,
     this.onCurer,
     this.onLogin,
+    this.deleteItem,
   });
 
   @override
@@ -585,17 +587,18 @@ class _CardScreenState extends State<CardScreen> {
                                                             ),
                                                             GestureDetector(
                                                               onTap: () {
-                                                                dataBase
-                                                                    .deleteProducts(
-                                                                        snapshot
-                                                                            .data[
-                                                                                index]
-                                                                            .id)
-                                                                    .then(
-                                                                        (value) {
-                                                                  blocCard
-                                                                      .fetchAllCard();
-                                                                });
+                                                                widget.deleteItem(snapshot.data[index].id);
+                                                                // dataBase
+                                                                //     .deleteProducts(
+                                                                //         snapshot
+                                                                //             .data[
+                                                                //                 index]
+                                                                //             .id)
+                                                                //     .then(
+                                                                //         (value) {
+                                                                //   blocCard
+                                                                //       .fetchAllCard();
+                                                                // });
                                                               },
                                                               child: SvgPicture
                                                                   .asset(

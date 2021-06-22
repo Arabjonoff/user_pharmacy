@@ -11,6 +11,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/app_theme.dart';
+import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/blocs/items_bloc.dart';
 import 'package:pharmacy/src/blocs/store_block.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
@@ -2164,6 +2165,149 @@ class BottomDialog {
     );
   }
 
+  static void showDeleteItem(
+    BuildContext context,
+    int itemId,
+  ) async {
+    DatabaseHelper dataBase = new DatabaseHelper();
+    showModalBottomSheet(
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              height: 365,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(24),
+                ),
+                color: AppTheme.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    height: 4,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      color: AppTheme.text_dark.withOpacity(0.05),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    child: Center(
+                      child: Text(
+                        translate("card.clear_title"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          height: 1.2,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFFFE8E2),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Image.asset(
+                            "assets/img/clear.png",
+                            height: 32,
+                            width: 32,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    translate("card.clear_message"),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      height: 1.6,
+                      color: AppTheme.textGray,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      dataBase.deleteProducts(itemId).then((value) {
+                        blocCard.fetchAllCard();
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 44,
+                      margin: EdgeInsets.only(
+                        bottom: 16,
+                        top: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.red,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("card.delete"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 44,
+                      color: AppTheme.white,
+                      child: Center(
+                        child: Text(
+                          translate("card.cancel"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.textGray,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 24,
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   static void historyClosePayment(
     BuildContext context,
     Function onHistory,
@@ -2232,7 +2376,7 @@ class BottomDialog {
                     ),
                   ),
                   Text(
-                    translate("card.order_message"),
+                    translate("card.can_msg"),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: AppTheme.fontRubik,
@@ -2245,6 +2389,8 @@ class BottomDialog {
                   GestureDetector(
                     onTap: () async {
                       Navigator.pop(context);
+                      RxBus.post(BottomViewModel(4), tag: "EVENT_BOTTOM_VIEW");
+                      onHistory();
                     },
                     child: Container(
                       height: 44,
@@ -2258,7 +2404,7 @@ class BottomDialog {
                       ),
                       child: Center(
                         child: Text(
-                          translate("card.order_close"),
+                          translate("card.can_btn"),
                           style: TextStyle(
                             fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.w500,
