@@ -54,225 +54,296 @@ class _AddressStoreListPickupScreenState
         stream: blocStore.allExistStore,
         builder: (context, AsyncSnapshot<List<LocationModel>> snapshot) {
           if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.only(bottom: 16),
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  decoration: BoxDecoration(
-                    color: AppTheme.background,
-                    borderRadius: BorderRadius.circular(24),
+            if (snapshot.data.length == 0) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 80,
+                    width: 80,
+                    margin: EdgeInsets.only(bottom: 16),
+                    decoration: BoxDecoration(
+                      color: AppTheme.yellow,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Center(
+                      child: Image.asset(
+                        "assets/img/empty_store.png",
+                        width: 32,
+                        height: 32,
+                      ),
+                    ),
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(width: 16),
-                          Image.asset(
-                            "assets/img/store_white.png",
-                            height: 64,
-                            width: 64,
+                  Text(
+                    translate("address.not_store"),
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      height: 1.2,
+                      color: AppTheme.text_dark,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    translate("address.not_store_message"),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      height: 1.6,
+                      color: AppTheme.textGray,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 44,
+                      margin: EdgeInsets.only(top: 16),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: AppTheme.blue,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("address.back"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.white,
                           ),
-                          SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  snapshot.data[index].name,
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontRubik,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    height: 1.2,
-                                    color: AppTheme.text_dark,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              );
+            } else {
+              return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 16),
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    decoration: BoxDecoration(
+                      color: AppTheme.background,
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(width: 16),
+                            Image.asset(
+                              "assets/img/store_white.png",
+                              height: 64,
+                              width: 64,
+                            ),
+                            SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    snapshot.data[index].name,
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      height: 1.2,
+                                      color: AppTheme.text_dark,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 4),
-                                Text(
-                                  snapshot.data[index].address,
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontRubik,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 14,
-                                    height: 1.6,
-                                    color: AppTheme.textGray,
+                                  SizedBox(height: 4),
+                                  Text(
+                                    snapshot.data[index].address,
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14,
+                                      height: 1.6,
+                                      color: AppTheme.textGray,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          SizedBox(width: 16),
-                        ],
-                      ),
-                      SizedBox(height: 16),
-                      Container(
-                        height: 1,
-                        width: double.infinity,
-                        color: AppTheme.white,
-                      ),
-                      SizedBox(height: 16),
-                      Row(
-                        children: [
-                          SizedBox(width: 16),
-                          Text(
-                            translate("card.distance"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 14,
-                              height: 1.3,
-                              color: AppTheme.textGray,
-                            ),
-                          ),
-                          Expanded(child: Container()),
-                          snapshot.data[index].distance == 0.0
-                              ? Container()
-                              : Text(
-                                  ((snapshot.data[index].distance ~/ 100) /
-                                              10.0)
-                                          .toString() +
-                                      translate("km"),
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontRubik,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 14,
-                                    height: 1.6,
-                                    color: AppTheme.text_dark,
-                                  ),
-                                ),
-                          SizedBox(width: 16),
-                        ],
-                      ),
-                      SizedBox(height: 16),
-                      Row(
-                        children: [
-                          SizedBox(width: 16),
-                          Text(
-                            translate("card.mode"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 14,
-                              height: 1.3,
-                              color: AppTheme.textGray,
-                            ),
-                          ),
-                          Expanded(child: Container()),
-                          Text(
-                            snapshot.data[index].mode,
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 14,
-                              height: 1.6,
-                              color: AppTheme.text_dark,
-                            ),
-                          ),
-                          SizedBox(width: 16),
-                        ],
-                      ),
-                      SizedBox(height: 16),
-                      Row(
-                        children: [
-                          SizedBox(width: 16),
-                          Text(
-                            translate("card.phone"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 14,
-                              height: 1.3,
-                              color: AppTheme.textGray,
-                            ),
-                          ),
-                          Expanded(child: Container()),
-                          Text(
-                            Utils.numberFormat(snapshot.data[index].phone),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 14,
-                              height: 1.6,
-                              color: AppTheme.text_dark,
-                            ),
-                          ),
-                          SizedBox(width: 16),
-                        ],
-                      ),
-                      SizedBox(height: 16),
-                      Row(
-                        children: [
-                          SizedBox(width: 16),
-                          Text(
-                            translate("card.price"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 14,
-                              height: 1.3,
-                              color: AppTheme.textGray,
-                            ),
-                          ),
-                          Expanded(child: Container()),
-                          Text(
-                            priceFormat.format(snapshot.data[index].total) +
-                                translate("sum"),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 14,
-                              height: 1.6,
-                              color: AppTheme.text_dark,
-                            ),
-                          ),
-                          SizedBox(width: 16),
-                        ],
-                      ),
-                      SizedBox(height: 16),
-                      Container(
-                        height: 1,
-                        width: double.infinity,
-                        color: AppTheme.white,
-                      ),
-                      SizedBox(height: 16),
-                      GestureDetector(
-                        onTap: () {
-                          widget.chooseStore(snapshot.data[index]);
-                        },
-                        child: Container(
+                            SizedBox(width: 16),
+                          ],
+                        ),
+                        SizedBox(height: 16),
+                        Container(
+                          height: 1,
                           width: double.infinity,
-                          height: 44,
-                          margin: EdgeInsets.only(left: 16, right: 16),
-                          decoration: BoxDecoration(
-                            color: AppTheme.blue,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Center(
-                            child: Text(
-                              translate("card.choose_store_info"),
+                          color: AppTheme.white,
+                        ),
+                        SizedBox(height: 16),
+                        Row(
+                          children: [
+                            SizedBox(width: 16),
+                            Text(
+                              translate("card.distance"),
                               style: TextStyle(
-                                fontSize: 17,
-                                color: AppTheme.white,
                                 fontFamily: AppTheme.fontRubik,
-                                fontWeight: FontWeight.w600,
-                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                height: 1.3,
+                                color: AppTheme.textGray,
+                              ),
+                            ),
+                            Expanded(child: Container()),
+                            snapshot.data[index].distance == 0.0
+                                ? Container()
+                                : Text(
+                                    ((snapshot.data[index].distance ~/ 100) /
+                                                10.0)
+                                            .toString() +
+                                        translate("km"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14,
+                                      height: 1.6,
+                                      color: AppTheme.text_dark,
+                                    ),
+                                  ),
+                            SizedBox(width: 16),
+                          ],
+                        ),
+                        SizedBox(height: 16),
+                        Row(
+                          children: [
+                            SizedBox(width: 16),
+                            Text(
+                              translate("card.mode"),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                height: 1.3,
+                                color: AppTheme.textGray,
+                              ),
+                            ),
+                            Expanded(child: Container()),
+                            Text(
+                              snapshot.data[index].mode,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                height: 1.6,
+                                color: AppTheme.text_dark,
+                              ),
+                            ),
+                            SizedBox(width: 16),
+                          ],
+                        ),
+                        SizedBox(height: 16),
+                        Row(
+                          children: [
+                            SizedBox(width: 16),
+                            Text(
+                              translate("card.phone"),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                height: 1.3,
+                                color: AppTheme.textGray,
+                              ),
+                            ),
+                            Expanded(child: Container()),
+                            Text(
+                              Utils.numberFormat(snapshot.data[index].phone),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                height: 1.6,
+                                color: AppTheme.text_dark,
+                              ),
+                            ),
+                            SizedBox(width: 16),
+                          ],
+                        ),
+                        SizedBox(height: 16),
+                        Row(
+                          children: [
+                            SizedBox(width: 16),
+                            Text(
+                              translate("card.price"),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                height: 1.3,
+                                color: AppTheme.textGray,
+                              ),
+                            ),
+                            Expanded(child: Container()),
+                            Text(
+                              priceFormat.format(snapshot.data[index].total) +
+                                  translate("sum"),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                height: 1.6,
+                                color: AppTheme.text_dark,
+                              ),
+                            ),
+                            SizedBox(width: 16),
+                          ],
+                        ),
+                        SizedBox(height: 16),
+                        Container(
+                          height: 1,
+                          width: double.infinity,
+                          color: AppTheme.white,
+                        ),
+                        SizedBox(height: 16),
+                        GestureDetector(
+                          onTap: () {
+                            widget.chooseStore(snapshot.data[index]);
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 44,
+                            margin: EdgeInsets.only(left: 16, right: 16),
+                            decoration: BoxDecoration(
+                              color: AppTheme.blue,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Center(
+                              child: Text(
+                                translate("card.choose_store_info"),
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  color: AppTheme.white,
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.w600,
+                                  fontStyle: FontStyle.normal,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
+                        )
+                      ],
+                    ),
+                  );
+                },
+              );
+            }
           }
           return Shimmer.fromColors(
             baseColor: Colors.grey[300],

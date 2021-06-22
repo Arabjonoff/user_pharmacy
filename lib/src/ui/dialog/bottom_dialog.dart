@@ -475,7 +475,9 @@ class BottomDialog {
                           color: AppTheme.white,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: AppTheme.textGray,
+                            color: lat == null
+                                ? AppTheme.textGray
+                                : AppTheme.green,
                             width: 2,
                           ),
                         ),
@@ -487,18 +489,24 @@ class BottomDialog {
                               "assets/icons/location.svg",
                               width: 24,
                               height: 24,
-                              color: AppTheme.textGray,
+                              color: lat == null
+                                  ? AppTheme.textGray
+                                  : AppTheme.green,
                             ),
                             SizedBox(width: 10),
                             Text(
-                              translate("address.see_map"),
+                              lat == null
+                                  ? translate("address.see_map")
+                                  : translate("address.add_loc"),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
                                 height: 1.25,
-                                color: AppTheme.textGray,
+                                color: lat == null
+                                    ? AppTheme.textGray
+                                    : AppTheme.green,
                               ),
                             )
                           ],
@@ -909,11 +917,16 @@ class BottomDialog {
                             41.311081,
                             69.240562,
                             (Point point) {
-                              lat = point.latitude;
-                              lng = point.longitude;
                               if (addressController.text.length > 0) {
                                 setState(() {
                                   isSave = true;
+                                  lat = point.latitude;
+                                  lng = point.longitude;
+                                });
+                              } else {
+                                setState(() {
+                                  lat = point.latitude;
+                                  lng = point.longitude;
                                 });
                               }
                             },
@@ -926,7 +939,9 @@ class BottomDialog {
                             color: AppTheme.white,
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                              color: AppTheme.textGray,
+                              color: lat == null
+                                  ? AppTheme.textGray
+                                  : AppTheme.green,
                               width: 2,
                             ),
                           ),
@@ -938,18 +953,24 @@ class BottomDialog {
                                 "assets/icons/location.svg",
                                 width: 24,
                                 height: 24,
-                                color: AppTheme.textGray,
+                                color: lat == null
+                                    ? AppTheme.textGray
+                                    : AppTheme.green,
                               ),
                               SizedBox(width: 10),
                               Text(
-                                translate("address.see_map"),
+                                lat == null
+                                    ? translate("address.see_map")
+                                    : translate("address.add_loc"),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 16,
                                   height: 1.25,
-                                  color: AppTheme.textGray,
+                                  color: lat == null
+                                      ? AppTheme.textGray
+                                      : AppTheme.green,
                                 ),
                               )
                             ],
