@@ -1090,46 +1090,46 @@ class _MenuScreenState extends State<MenuScreen> {
                 )
               : Container(),
           SizedBox(height: 24),
-          GestureDetector(
-            onTap: widget.onNoteAll,
-            child: Container(
-              margin: EdgeInsets.only(
-                left: 16,
-                right: 16,
-              ),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    height: 25,
-                    width: 25,
-                  ),
-                  SizedBox(width: 15),
-                  Expanded(
-                    child: Text(
-                      translate("note.screen_name"),
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontFamily: AppTheme.fontRubik,
-                        color: AppTheme.text_dark,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: 19,
-                    color: AppTheme.text_dark,
-                  ),
-                  SizedBox(width: 3),
-                ],
-              ),
-              height: 48,
-              color: AppTheme.white,
-            ),
-          ),
+          // GestureDetector(
+          //   onTap: widget.onNoteAll,
+          //   child: Container(
+          //     margin: EdgeInsets.only(
+          //       left: 16,
+          //       right: 16,
+          //     ),
+          //     child: Row(
+          //       children: <Widget>[
+          //         Container(
+          //           height: 25,
+          //           width: 25,
+          //         ),
+          //         SizedBox(width: 15),
+          //         Expanded(
+          //           child: Text(
+          //             translate("note.screen_name"),
+          //             style: TextStyle(
+          //               fontWeight: FontWeight.normal,
+          //               fontFamily: AppTheme.fontRubik,
+          //               color: AppTheme.text_dark,
+          //               fontSize: 15,
+          //             ),
+          //           ),
+          //         ),
+          //         SizedBox(
+          //           width: 15,
+          //         ),
+          //         Icon(
+          //           Icons.arrow_forward_ios,
+          //           size: 19,
+          //           color: AppTheme.text_dark,
+          //         ),
+          //         SizedBox(width: 3),
+          //       ],
+          //     ),
+          //     height: 48,
+          //     color: AppTheme.white,
+          //   ),
+          // ),
         ],
       ),
     );

@@ -2329,6 +2329,151 @@ class BottomDialog {
     );
   }
 
+  static void showDeleteAddress(
+    BuildContext context,
+    int addressId,
+  ) async {
+    DatabaseHelperAddress dataBase = new DatabaseHelperAddress();
+    showModalBottomSheet(
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              height: 365,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(24),
+                ),
+                color: AppTheme.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    height: 4,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      color: AppTheme.text_dark.withOpacity(0.05),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    child: Center(
+                      child: Text(
+                        translate("address.delete_title"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          height: 1.2,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFFFE8E2),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Image.asset(
+                            "assets/img/clear.png",
+                            height: 32,
+                            width: 32,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    translate("address.delete_mes"),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontRubik,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      height: 1.6,
+                      color: AppTheme.textGray,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      Navigator.pop(context);
+                      dataBase.deleteProducts(addressId).then((value) {
+                        blocStore.fetchAddress();
+                        blocStore.fetchAddressHome();
+                        blocStore.fetchAddressWork();
+                      });
+                    },
+                    child: Container(
+                      height: 44,
+                      margin: EdgeInsets.only(
+                        bottom: 16,
+                        top: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.red,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("address.delete"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 44,
+                      color: AppTheme.white,
+                      child: Center(
+                        child: Text(
+                          translate("address.cancel"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.textGray,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 24,
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   static void historyClosePayment(
     BuildContext context,
     Function onHistory,
@@ -3094,7 +3239,7 @@ class BottomDialog {
                         ),
                         child: Center(
                           child: Image.asset(
-                            "assets/img/best.png",
+                            "assets/img/exit.png",
                             height: 32,
                             width: 32,
                           ),
@@ -3115,7 +3260,12 @@ class BottomDialog {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      Navigator.pop(context);
+                      Utils.clearData();
+                      if (Platform.isIOS) {
+                        exit(0);
+                      } else {
+                        SystemNavigator.pop();
+                      }
                     },
                     child: Container(
                       height: 44,
@@ -3124,12 +3274,12 @@ class BottomDialog {
                         top: 16,
                       ),
                       decoration: BoxDecoration(
-                        color: AppTheme.blue,
+                        color: AppTheme.red,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Center(
                         child: Text(
-                          translate("menu.exit_no"),
+                          translate("menu.exit_yes"),
                           style: TextStyle(
                             fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.w500,
@@ -3143,19 +3293,14 @@ class BottomDialog {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Utils.clearData();
-                      if (Platform.isIOS) {
-                        exit(0);
-                      } else {
-                        SystemNavigator.pop();
-                      }
+                      Navigator.pop(context);
                     },
                     child: Container(
                       height: 44,
                       color: AppTheme.white,
                       child: Center(
                         child: Text(
-                          translate("menu.exit_yes"),
+                          translate("menu.exit_no"),
                           style: TextStyle(
                             fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.w500,
