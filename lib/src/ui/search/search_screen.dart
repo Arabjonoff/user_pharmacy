@@ -11,6 +11,7 @@ import 'package:pharmacy/src/blocs/search_bloc.dart';
 import 'package:pharmacy/src/database/database_helper_history.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
+import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 
@@ -224,7 +225,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                       ),
                                     );
                                   },
-                                  cursorColor: AppTheme.notWhite,
+                                  cursorColor: AppTheme.gray,
                                   style: TextStyle(
                                     color: AppTheme.text_dark,
                                     fontSize: 15,
@@ -235,7 +236,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                     border: InputBorder.none,
                                     hintText: translate("search.hint"),
                                     hintStyle: TextStyle(
-                                      color: AppTheme.notWhite,
+                                      color: AppTheme.gray,
                                       fontSize: 15,
                                       fontFamily: AppTheme.fontRubik,
                                       fontWeight: FontWeight.normal,
@@ -593,51 +594,54 @@ class _SearchScreenState extends State<SearchScreen> {
                         );
                       },
                     )
-                  : Column(
-                      children: [
-                        Container(
-                          child: Row(
-                            children: [
-                              Text(
-                                translate("search.history"),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  height: 1.2,
-                                  color: AppTheme.text_dark,
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(),
-                              ),
-                              GestureDetector(
-                                child: SvgPicture.asset(
-                                  "assets/icons/close.svg",
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    dataHistory.clear();
-                                  });
-                                },
-                              )
-                            ],
-                          ),
-                          margin: EdgeInsets.only(
-                            left: 16,
-                            right: 18,
-                            top: 24,
-                          ),
-                        ),
-                        Expanded(
-                          child: FutureBuilder<List<String>>(
-                            future: dataHistory.getProdu(),
-                            builder: (context, snapshots) {
-                              if (snapshots.data == null) {
-                                return Container();
-                              }
-                              return snapshots.data.length > 0
-                                  ? ListView.builder(
+                  : FutureBuilder<List<String>>(
+                      future: dataHistory.getProdu(),
+                      builder: (context, snapshots) {
+                        if (snapshots.data == null) {
+                          return Container();
+                        }
+                        return snapshots.data.length > 0
+                            ? Column(
+                                children: [
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          translate("search.history"),
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontRubik,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16,
+                                            height: 1.2,
+                                            color: AppTheme.text_dark,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(),
+                                        ),
+                                        GestureDetector(
+                                          child: SvgPicture.asset(
+                                            "assets/icons/close.svg",
+                                          ),
+                                          onTap: () {
+                                            BottomDialog.showClearHistory(
+                                                context, () {
+                                              setState(() {
+                                                dataHistory.clear();
+                                              });
+                                            });
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                    margin: EdgeInsets.only(
+                                      left: 16,
+                                      right: 18,
+                                      top: 24,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: ListView.builder(
                                       scrollDirection: Axis.vertical,
                                       itemCount: snapshots.data.length,
                                       padding:
@@ -711,12 +715,67 @@ class _SearchScreenState extends State<SearchScreen> {
                                           ),
                                         );
                                       },
-                                    )
-                                  : Container();
-                            },
-                          ),
-                        ),
-                      ],
+                                    ),
+                                  )
+                                ],
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 80,
+                                    width: 80,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFEFF0FF),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Center(
+                                      child: Image.asset(
+                                        "assets/img/search.png",
+                                        width: 32,
+                                        height: 32,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      translate("search.full_title"),
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontRubik,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        height: 1.2,
+                                        color: AppTheme.text_dark,
+                                      ),
+                                    ),
+                                    margin: EdgeInsets.only(
+                                      top: 16,
+                                      left: 32,
+                                      right: 32,
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      translate("search.full_msg"),
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontRubik,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 14,
+                                        height: 1.6,
+                                        color: AppTheme.textGray,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    margin: EdgeInsets.only(
+                                      top: 8,
+                                      left: 32,
+                                      right: 32,
+                                    ),
+                                  )
+                                ],
+                              );
+                      },
                     ),
             )
           ],

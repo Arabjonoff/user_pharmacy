@@ -44,7 +44,7 @@ class _UniversalScreenState extends State<UniversalScreen> {
               child: Container(
                 height: 10,
                 decoration: BoxDecoration(
-                  color: AppTheme.item_navigation,
+                  color: AppTheme.red,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10.0),
                     topRight: Radius.circular(10.0),
@@ -110,7 +110,7 @@ class _UniversalScreenState extends State<UniversalScreen> {
                         width: 24,
                         padding: EdgeInsets.all(7),
                         decoration: BoxDecoration(
-                          color: AppTheme.arrow_back,
+                          color: AppTheme.white,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: SvgPicture.asset(

@@ -131,7 +131,7 @@ class _NoteAllScreenScreenState extends State<NoteAllScreen>
               child: TabBar(
                 controller: _tabController,
                 labelColor: AppTheme.blue,
-                unselectedLabelColor: AppTheme.search_empty,
+                unselectedLabelColor: AppTheme.gray,
                 indicatorSize: TabBarIndicatorSize.tab,
                 labelStyle: TextStyle(
                   fontWeight: FontWeight.w600,

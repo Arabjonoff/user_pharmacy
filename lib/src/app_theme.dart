@@ -3,12 +3,6 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
-  static const Color notWhite = Color(0xFF818C99);
-  static const Color arrow_catalog = Color(0xFFB8C1CC);
-  static const Color arrow_back = Color(0xFFF0F1F3);
-  static const Color search_empty = Color(0xFF818C99);
-  static const Color item_navigation = Color(0xFFA6A6A6);
-
   static const String fontRubik = 'Rubik';
 
   static const Color auth_border = Color(0xFFD5D6D8);

@@ -588,17 +588,6 @@ class _CardScreenState extends State<CardScreen> {
                                                             GestureDetector(
                                                               onTap: () {
                                                                 widget.deleteItem(snapshot.data[index].id);
-                                                                // dataBase
-                                                                //     .deleteProducts(
-                                                                //         snapshot
-                                                                //             .data[
-                                                                //                 index]
-                                                                //             .id)
-                                                                //     .then(
-                                                                //         (value) {
-                                                                //   blocCard
-                                                                //       .fetchAllCard();
-                                                                // });
                                                               },
                                                               child: SvgPicture
                                                                   .asset(
