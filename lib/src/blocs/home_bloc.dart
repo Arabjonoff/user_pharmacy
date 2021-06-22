@@ -94,7 +94,7 @@ class HomeBloc {
         }
       }
       _recentlyFetcher.sink.add(recentlyItemData);
-    } else {
+    } else if (response.status == -1) {
       RxBus.post(BottomView(true), tag: "HOME_VIEW_ERROR_NETWORK");
     }
   }

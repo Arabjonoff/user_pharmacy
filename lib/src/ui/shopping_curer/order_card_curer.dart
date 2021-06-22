@@ -12,6 +12,7 @@ import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/create_payment_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/dialog/top_dialog.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:shimmer/shimmer.dart';
@@ -43,7 +44,6 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
   double cashBackPrice = 0.0;
   int paymentType;
   bool loading = false;
-  String errorText = "";
 
   TextEditingController cashPriceController = TextEditingController();
 
@@ -630,22 +630,6 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                       ],
                     ),
                   ),
-                  errorText != ""
-                      ? Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.only(top: 16, left: 16, right: 16),
-                          child: Text(
-                            errorText,
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontFamily: AppTheme.fontRubik,
-                              fontSize: 13,
-                              color: AppTheme.red,
-                            ),
-                          ),
-                        )
-                      : Container(),
                 ],
               ),
             ),
@@ -657,7 +641,6 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                     if (paymentType != null) {
                       setState(() {
                         loading = true;
-                        errorText = "";
                       });
                       PaymentOrderModel addModel = new PaymentOrderModel(
                         orderId: widget.orderId,
@@ -677,24 +660,36 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                           } else {
                             setState(() {
                               loading = false;
-                              errorText = result.data.errorNote;
+                              TopDialog.errorMessage(
+                                context,
+                                result.data.errorNote,
+                              );
                             });
                           }
                         } else {
                           setState(() {
                             loading = false;
-                            errorText = result.msg;
+                            TopDialog.errorMessage(
+                              context,
+                              result.msg,
+                            );
                           });
                         }
                       } else if (response.status == -1) {
                         setState(() {
                           loading = false;
-                          errorText = translate("network.network_title");
+                          TopDialog.errorMessage(
+                            context,
+                            translate("network.network_title"),
+                          );
                         });
                       } else {
                         setState(() {
                           loading = false;
-                          errorText = response.result["msg"];
+                          TopDialog.errorMessage(
+                            context,
+                            response.result["msg"],
+                          );
                         });
                       }
                     }

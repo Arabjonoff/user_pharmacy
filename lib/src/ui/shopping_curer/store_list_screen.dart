@@ -9,6 +9,7 @@ import 'package:pharmacy/src/model/api/check_order_model_new.dart';
 import 'package:pharmacy/src/model/create_order_status_model.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/dialog/top_dialog.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
 
@@ -31,7 +32,6 @@ class _StoreListScreenState extends State<StoreListScreen> {
   DatabaseHelper dataBase = new DatabaseHelper();
   bool loading = false;
   ScrollController _scrollController = new ScrollController();
-  String error = "";
 
   @override
   void dispose() {
@@ -179,7 +179,6 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                 widget.checkOrderModel.data.stores[index].id;
                             setState(() {
                               loading = true;
-                              error = "";
                             });
                             var response = await Repository()
                                 .fetchCreateOrder(widget.createOrder);
@@ -204,25 +203,33 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                 );
                                 setState(() {
                                   loading = false;
-                                  error = "";
                                 });
                                 dataBase.clear();
                                 blocCard.fetchAllCard();
                               } else {
                                 setState(() {
                                   loading = false;
-                                  error = result.msg;
+                                  TopDialog.errorMessage(
+                                    context,
+                                    result.msg,
+                                  );
                                 });
                               }
                             } else if (response.status == -1) {
                               setState(() {
                                 loading = false;
-                                error = translate("network.network_title");
+                                TopDialog.errorMessage(
+                                  context,
+                                  translate("network.network_title"),
+                                );
                               });
                             } else {
                               setState(() {
                                 loading = false;
-                                error = response.result["msg"];
+                                TopDialog.errorMessage(
+                                  context,
+                                  response.result["msg"],
+                                );
                               });
                             }
                           },
@@ -462,25 +469,6 @@ class _StoreListScreenState extends State<StoreListScreen> {
                         );
                       },
                     ),
-                    Container(
-                      margin: EdgeInsets.only(
-                        top: 16,
-                        left: 16,
-                        right: 16,
-                      ),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          error,
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            color: AppTheme.red,
-                            fontSize: 13,
-                          ),
-                        ),
-                      ),
-                    )
                   ],
                 ),
                 loading

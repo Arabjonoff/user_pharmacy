@@ -14,6 +14,7 @@ import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
+import 'package:pharmacy/src/ui/dialog/top_dialog.dart';
 import 'package:pharmacy/src/ui/shopping_curer/store_list_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,7 +36,6 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
   var duration = Duration(milliseconds: 270);
   String firstName = "", lastName = "", number = "";
   bool loading = false;
-  String errorText = "";
 
   DatabaseHelper dataBase = new DatabaseHelper();
   ScrollController _scrollController = new ScrollController();
@@ -620,22 +620,6 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                     ],
                   ),
                 ),
-                errorText != ""
-                    ? Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(top: 11, left: 16, right: 16),
-                        child: Text(
-                          errorText,
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontFamily: AppTheme.fontRubik,
-                            fontSize: 13,
-                            color: AppTheme.red,
-                          ),
-                        ),
-                      )
-                    : Container(),
               ],
             ),
           ),
@@ -652,7 +636,6 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                 if (!loading && myAddress != null) {
                   setState(() {
                     loading = true;
-                    errorText = "";
                   });
 
                   List<Drugs> drugs = new List();
@@ -694,18 +677,28 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                     } else {
                       setState(() {
                         loading = false;
-                        errorText = result.msg;
+
+                        TopDialog.errorMessage(
+                          context,
+                          result.msg,
+                        );
                       });
                     }
                   } else if (response.status == -1) {
                     setState(() {
                       loading = false;
-                      errorText = translate("network.network_title");
+                      TopDialog.errorMessage(
+                        context,
+                        translate("network.network_title"),
+                      );
                     });
                   } else {
                     setState(() {
                       loading = false;
-                      errorText = response.result["msg"];
+                      TopDialog.errorMessage(
+                        context,
+                        response.result["msg"],
+                      );
                     });
                   }
                 }

@@ -7,6 +7,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/model/api/auth/verfy_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/auth/register_screen.dart';
+import 'package:pharmacy/src/ui/dialog/top_dialog.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/utils/pipput/pin_put.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -27,7 +28,6 @@ class VerifyScreen extends StatefulWidget {
 class _VerifyScreenState extends State<VerifyScreen> {
   var loading = false;
   var isNext = false;
-  var errorText = "";
   var timerLoad = true;
 
   String deviceToken = "";
@@ -160,29 +160,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
               followingFieldDecoration: _pinPutDecoration,
             ),
           ),
-          errorText != ""
-              ? Container(
-                  margin: EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    top: 8,
-                    bottom: 8,
-                  ),
-                  width: double.infinity,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      errorText,
-                      style: TextStyle(
-                        fontFamily: AppTheme.fontRubik,
-                        fontSize: 13,
-                        fontWeight: FontWeight.normal,
-                        color: AppTheme.red,
-                      ),
-                    ),
-                  ),
-                )
-              : Container(),
           Container(
             margin: EdgeInsets.all(32),
             child: Text(
@@ -227,7 +204,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       if (result.user.complete == 0) {
                         setState(() {
                           loading = false;
-                          errorText = "";
                         });
                         Navigator.push(
                           context,
@@ -257,18 +233,27 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     } else {
                       setState(() {
                         loading = false;
-                        errorText = response.result["msg"];
+                        TopDialog.errorMessage(
+                          context,
+                          result.msg,
+                        );
                       });
                     }
                   } else if (response.status == -1) {
                     setState(() {
-                      errorText = translate("internet_error");
                       loading = false;
+                      TopDialog.errorMessage(
+                        context,
+                        translate("internet_error"),
+                      );
                     });
                   } else {
                     setState(() {
                       loading = false;
-                      errorText = response.result["msg"];
+                      TopDialog.errorMessage(
+                        context,
+                        response.result["msg"],
+                      );
                     });
                   }
                 }

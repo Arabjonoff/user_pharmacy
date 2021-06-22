@@ -6,6 +6,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/auth/verify_screen.dart';
+import 'package:pharmacy/src/ui/dialog/top_dialog.dart';
 import 'package:pharmacy/src/utils/number_mask.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,7 +23,6 @@ class _LoginScreenState extends State<LoginScreen> {
   var loading = false;
   var isNext = false;
   var isPrivacy = false;
-  var errorText = "";
   final PhoneNumberTextInputFormatter _phoneNumber =
       new PhoneNumberTextInputFormatter();
 
@@ -156,29 +156,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-          errorText != ""
-              ? Container(
-                  margin: EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    top: 8,
-                    bottom: 8,
-                  ),
-                  width: double.infinity,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      errorText,
-                      style: TextStyle(
-                        fontFamily: AppTheme.fontRubik,
-                        fontSize: 13,
-                        fontWeight: FontWeight.normal,
-                        color: AppTheme.red,
-                      ),
-                    ),
-                  ),
-                )
-              : Container(),
           Container(
             margin: EdgeInsets.all(32),
             child: Row(
@@ -186,7 +163,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 GestureDetector(
                   onTap: () {
                     isPrivacy = !isPrivacy;
-
                     if (isPrivacy && loginController.text.length == 17) {
                       setState(() {
                         isNext = true;
@@ -274,7 +250,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   if (number.length == 12) {
                     setState(() {
-                      errorText = "";
                       loading = true;
                     });
                     var response = await Repository().fetchLogin(number);
@@ -282,7 +257,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       var result = LoginModel.fromJson(response.result);
                       if (result.status == 1) {
                         setState(() {
-                          errorText = "";
                           loading = false;
                         });
                         Navigator.push(
@@ -293,18 +267,27 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       } else {
                         setState(() {
-                          errorText = response.result["msg"];
                           loading = false;
+                          TopDialog.errorMessage(
+                            context,
+                            result.msg,
+                          );
                         });
                       }
                     } else if (response.status == -1) {
                       setState(() {
-                        errorText = translate("internet_error");
+                        TopDialog.errorMessage(
+                          context,
+                          translate("internet_error"),
+                        );
                         loading = false;
                       });
                     } else {
                       setState(() {
-                        errorText = response.result["msg"];
+                        TopDialog.errorMessage(
+                          context,
+                          response.result["msg"],
+                        );
                         loading = false;
                       });
                     }

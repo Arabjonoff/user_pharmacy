@@ -1,5 +1,7 @@
 import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SearchBloc {
@@ -12,6 +14,7 @@ class SearchBloc {
 
   fetchSearch(int page, String obj) async {
     if (obj.length > 2) {
+      _searchFetcher.sink.add(null);
       var response = await _repository.fetchSearchItemList(
         obj,
         page,
@@ -32,6 +35,8 @@ class SearchBloc {
             results: allResult,
           ),
         );
+      } else if (response.status == -1) {
+        RxBus.post(BottomView(true), tag: "SEARCH_VIEW_ERROR_NETWORK");
       }
     }
   }

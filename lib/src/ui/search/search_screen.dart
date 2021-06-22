@@ -10,6 +10,7 @@ import 'package:lottie/lottie.dart';
 import 'package:pharmacy/src/blocs/search_bloc.dart';
 import 'package:pharmacy/src/database/database_helper_history.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
+import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
@@ -46,6 +47,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
+    _registerBus();
     Timer(Duration(milliseconds: 1), () {
       setState(() {
         width = translate("search.close").length * 10.0 + 16.0;
@@ -122,6 +124,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void dispose() {
     _sc.dispose();
+    RxBus.destroy();
     if (_timer != null) _timer.cancel();
     super.dispose();
   }
@@ -781,6 +784,18 @@ class _SearchScreenState extends State<SearchScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  void _registerBus() {
+    RxBus.register<BottomView>(tag: "SEARCH_VIEW_ERROR_NETWORK").listen(
+      (event) {
+        BottomDialog.showNetworkError(context, () {
+          page = 1;
+          isLoading = false;
+          _getMoreData(1);
+        });
+      },
     );
   }
 

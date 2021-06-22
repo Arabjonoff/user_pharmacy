@@ -8,26 +8,60 @@ import 'package:pharmacy/src/utils/top_modal_sheet.dart';
 import '../../app_theme.dart';
 
 class TopDialog {
-  static void createRegion(BuildContext context) async {
+  static void errorMessage(BuildContext context, String message) async {
     showTopModalSheet<String>(
       context: context,
-      backgroundColor: Color.fromRGBO(23, 43, 77, 0.3),
-      blur: 4,
+      backgroundColor: Colors.transparent,
+      blur: 0,
       child: StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           return Container(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(24),
-                  bottomLeft: Radius.circular(24),
+            margin: EdgeInsets.only(top: 64, left: 32, right: 32),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                height: 64,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: AppTheme.white,
+                  border: Border.all(
+                    color: AppTheme.red,
+                    width: 1,
+                  ),
                 ),
-                color: AppTheme.white,
-              ),
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 12),
-                ],
+                child: Row(
+                  children: [
+                    Container(
+                      height: 64,
+                      width: 9,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(8),
+                          bottomLeft: Radius.circular(8),
+                        ),
+                        color: AppTheme.red,
+                      ),
+                    ),
+                    SizedBox(width: 7),
+                    Expanded(
+                      child: Text(
+                        message ?? "",
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          height: 1.4,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    SvgPicture.asset("assets/icons/msg_close.svg"),
+                    SizedBox(width: 16),
+                  ],
+                ),
               ),
             ),
           );

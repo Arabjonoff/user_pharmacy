@@ -13,6 +13,7 @@ import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/eventBus/card_item_change_model.dart';
 import 'package:pharmacy/src/model/send/create_payment_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/dialog/top_dialog.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:shimmer/shimmer.dart';
@@ -42,7 +43,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
   double cashBackPrice = 0.0;
   int paymentType;
   bool loading = false;
-  String errorText = "";
 
   TextEditingController cashPriceController = TextEditingController();
 
@@ -583,22 +583,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                       ],
                     ),
                   ),
-                  errorText != ""
-                      ? Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.only(top: 12, left: 16, right: 16),
-                          child: Text(
-                            errorText,
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontFamily: AppTheme.fontRubik,
-                              fontSize: 13,
-                              color: AppTheme.red,
-                            ),
-                          ),
-                        )
-                      : Container(),
                   widget.message.length > 1
                       ? Container(
                           margin: EdgeInsets.only(left: 16, right: 16, top: 24),
@@ -645,24 +629,36 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
                           } else {
                             setState(() {
                               loading = false;
-                              errorText = result.data.errorNote;
+                              TopDialog.errorMessage(
+                                context,
+                                result.data.errorNote,
+                              );
                             });
                           }
                         } else {
                           setState(() {
                             loading = false;
-                            errorText = result.msg;
+                            TopDialog.errorMessage(
+                              context,
+                              result.msg,
+                            );
                           });
                         }
                       } else if (response.status == -1) {
                         setState(() {
                           loading = false;
-                          errorText = translate("network.network_title");
+                          TopDialog.errorMessage(
+                            context,
+                            translate("network.network_title"),
+                          );
                         });
                       } else {
                         setState(() {
                           loading = false;
-                          errorText = response.result["msg"];
+                          TopDialog.errorMessage(
+                            context,
+                            response.result["msg"],
+                          );
                         });
                       }
                     }

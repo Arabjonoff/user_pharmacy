@@ -12,6 +12,7 @@ import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
+import 'package:pharmacy/src/ui/dialog/top_dialog.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
@@ -44,7 +45,6 @@ class _CardScreenState extends State<CardScreen> {
   double allPrice = 0;
   var loadingPickup = false;
   var loadingDelivery = false;
-  String errorText = "";
   bool isNext = false;
   List<CheckErroData> errorData = new List();
   int minSum = 0;
@@ -587,12 +587,17 @@ class _CardScreenState extends State<CardScreen> {
                                                             ),
                                                             GestureDetector(
                                                               onTap: () {
-                                                                widget.deleteItem(snapshot.data[index].id);
+                                                                widget.deleteItem(
+                                                                    snapshot
+                                                                        .data[
+                                                                            index]
+                                                                        .id);
                                                               },
                                                               child: SvgPicture
                                                                   .asset(
                                                                       "assets/icons/delete_item.svg"),
-                                                            )
+                                                            ),
+                                                            SizedBox(width: 8),
                                                           ],
                                                         ),
                                                       ),
@@ -614,23 +619,6 @@ class _CardScreenState extends State<CardScreen> {
                                   );
                                 },
                               ),
-                              errorText != ""
-                                  ? Container(
-                                      width: double.infinity,
-                                      margin: EdgeInsets.only(
-                                          top: 11, left: 16, right: 16),
-                                      child: Text(
-                                        errorText,
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: AppTheme.fontRubik,
-                                          fontSize: 13,
-                                          color: AppTheme.red,
-                                        ),
-                                      ),
-                                    )
-                                  : Container(),
                               GestureDetector(
                                 onTap: () async {
                                   if (isLogin) {
@@ -638,7 +626,6 @@ class _CardScreenState extends State<CardScreen> {
                                       errorData = new List();
                                       setState(() {
                                         loadingDelivery = true;
-                                        errorText = "";
                                       });
                                       AccessStore addModel = new AccessStore();
                                       List<ProductsStore> drugs = new List();
@@ -673,26 +660,33 @@ class _CardScreenState extends State<CardScreen> {
                                           widget.onCurer();
                                           setState(() {
                                             loadingDelivery = false;
-                                            errorText = "";
                                           });
                                         } else {
                                           setState(() {
                                             loadingDelivery = false;
                                             if (result.errors != null)
                                               errorData.addAll(result.errors);
-                                            errorText = result.msg;
+                                            TopDialog.errorMessage(
+                                              context,
+                                              result.msg,
+                                            );
                                           });
                                         }
                                       } else if (response.status == -1) {
                                         setState(() {
                                           loadingDelivery = false;
-                                          errorText = translate(
-                                              "network.network_title");
+                                          TopDialog.errorMessage(
+                                            context,
+                                            translate("network.network_title"),
+                                          );
                                         });
                                       } else {
                                         setState(() {
                                           loadingDelivery = false;
-                                          errorText = response.result["msg"];
+                                          TopDialog.errorMessage(
+                                            context,
+                                            response.result["msg"],
+                                          );
                                         });
                                       }
                                     }
@@ -742,7 +736,6 @@ class _CardScreenState extends State<CardScreen> {
                                       errorData = new List();
                                       setState(() {
                                         loadingPickup = true;
-                                        errorText = "";
                                       });
                                       AccessStore addModel = new AccessStore();
                                       List<ProductsStore> drugs = new List();
@@ -779,7 +772,6 @@ class _CardScreenState extends State<CardScreen> {
                                           widget.onPickup(result.data);
                                           setState(() {
                                             loadingPickup = false;
-                                            errorText = "";
                                           });
                                         } else {
                                           setState(() {
@@ -787,19 +779,27 @@ class _CardScreenState extends State<CardScreen> {
                                             errorData = new List();
                                             if (result.errors != null)
                                               errorData.addAll(result.errors);
-                                            errorText = result.msg;
+                                            TopDialog.errorMessage(
+                                              context,
+                                              result.msg,
+                                            );
                                           });
                                         }
                                       } else if (response.status == -1) {
                                         setState(() {
                                           loadingPickup = false;
-                                          errorText = translate(
-                                              "network.network_title");
+                                          TopDialog.errorMessage(
+                                            context,
+                                            translate("network.network_title"),
+                                          );
                                         });
                                       } else {
                                         setState(() {
                                           loadingPickup = false;
-                                          errorText = response.result["msg"];
+                                          TopDialog.errorMessage(
+                                            context,
+                                            response.result["msg"],
+                                          );
                                         });
                                       }
                                     }

@@ -14,6 +14,7 @@ import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
+import 'package:pharmacy/src/ui/dialog/top_dialog.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/order_card_pickup.dart';
 import 'package:pharmacy/src/utils/utils.dart';
@@ -40,7 +41,6 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
   LocationModel storeInfo;
   String firstName = "", lastName = "", number = "";
   var loading = false;
-  var errorText = "";
   DatabaseHelper dataBase = new DatabaseHelper();
 
   @override
@@ -574,29 +574,10 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
               ],
             ),
           ),
-          errorText == ""
-              ? Container()
-              : Container(
-                  margin: EdgeInsets.all(12),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      errorText,
-                      style: TextStyle(
-                        fontFamily: AppTheme.fontRubik,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14,
-                        height: 1.2,
-                        color: AppTheme.red,
-                      ),
-                    ),
-                  ),
-                ),
           GestureDetector(
             onTap: () async {
               setState(() {
                 loading = true;
-                errorText = "";
               });
               List<Drugs> drugs = new List();
               var data = await dataBase.getProdu(true);
@@ -633,25 +614,33 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
                   );
                   setState(() {
                     loading = false;
-                    errorText = "";
                   });
                   dataBase.clear();
                   blocCard.fetchAllCard();
                 } else {
                   setState(() {
                     loading = false;
-                    errorText = response.result["msg"];
+                    TopDialog.errorMessage(
+                      context,
+                      result.msg,
+                    );
                   });
                 }
               } else if (response.status == -1) {
                 setState(() {
                   loading = false;
-                  errorText = translate("network.network_title");
+                  TopDialog.errorMessage(
+                    context,
+                    translate("network.network_title"),
+                  );
                 });
               } else {
                 setState(() {
                   loading = false;
-                  errorText = response.result["msg"];
+                  TopDialog.errorMessage(
+                    context,
+                    response.result["msg"],
+                  );
                 });
               }
             },
