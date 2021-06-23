@@ -52,6 +52,7 @@ class _MenuScreenState extends State<MenuScreen> {
   String language = "";
   String languageData = "";
   String fullName = "";
+  ScrollController _scrollController = new ScrollController();
 
   @override
   void initState() {
@@ -95,6 +96,7 @@ class _MenuScreenState extends State<MenuScreen> {
         ),
       ),
       body: ListView(
+        controller: _scrollController,
         physics: BouncingScrollPhysics(),
         cacheExtent: 99999999,
         children: <Widget>[
@@ -667,66 +669,66 @@ class _MenuScreenState extends State<MenuScreen> {
                     ),
                   ),
                 ),
-                isLogin
-                    ? GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          margin: EdgeInsets.only(top: 16, left: 16, right: 16),
-                          decoration: BoxDecoration(
-                            color: AppTheme.background,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 8,
-                          ),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                "assets/icons/password.svg",
-                                width: 24,
-                                height: 24,
-                              ),
-                              SizedBox(width: 16),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      translate("menu.pin_title"),
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontRubik,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14,
-                                        height: 1.43,
-                                        color: AppTheme.text_dark,
-                                      ),
-                                    ),
-                                    SizedBox(height: 2),
-                                    Text(
-                                      translate("menu.pin_message"),
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontRubik,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 12,
-                                        height: 1.67,
-                                        color: AppTheme.textGray,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width: 16),
-                              SvgPicture.asset(
-                                "assets/icons/arrow_right_grey.svg",
-                                width: 24,
-                                height: 24,
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    : Container(),
+                // isLogin
+                //     ? GestureDetector(
+                //         onTap: () {},
+                //         child: Container(
+                //           margin: EdgeInsets.only(top: 16, left: 16, right: 16),
+                //           decoration: BoxDecoration(
+                //             color: AppTheme.background,
+                //             borderRadius: BorderRadius.circular(12),
+                //           ),
+                //           padding: EdgeInsets.symmetric(
+                //             horizontal: 12,
+                //             vertical: 8,
+                //           ),
+                //           child: Row(
+                //             children: [
+                //               SvgPicture.asset(
+                //                 "assets/icons/password.svg",
+                //                 width: 24,
+                //                 height: 24,
+                //               ),
+                //               SizedBox(width: 16),
+                //               Expanded(
+                //                 child: Column(
+                //                   crossAxisAlignment: CrossAxisAlignment.start,
+                //                   children: [
+                //                     Text(
+                //                       translate("menu.pin_title"),
+                //                       style: TextStyle(
+                //                         fontFamily: AppTheme.fontRubik,
+                //                         fontWeight: FontWeight.normal,
+                //                         fontSize: 14,
+                //                         height: 1.43,
+                //                         color: AppTheme.text_dark,
+                //                       ),
+                //                     ),
+                //                     SizedBox(height: 2),
+                //                     Text(
+                //                       translate("menu.pin_message"),
+                //                       style: TextStyle(
+                //                         fontFamily: AppTheme.fontRubik,
+                //                         fontWeight: FontWeight.normal,
+                //                         fontSize: 12,
+                //                         height: 1.67,
+                //                         color: AppTheme.textGray,
+                //                       ),
+                //                     ),
+                //                   ],
+                //                 ),
+                //               ),
+                //               SizedBox(width: 16),
+                //               SvgPicture.asset(
+                //                 "assets/icons/arrow_right_grey.svg",
+                //                 width: 24,
+                //                 height: 24,
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       )
+                //     : Container(),
                 SizedBox(height: 16),
               ],
             ),
@@ -1147,7 +1149,11 @@ class _MenuScreenState extends State<MenuScreen> {
   void _registerBus() {
     RxBus.register<BottomView>(tag: "MENU_VIEW").listen((event) {
       if (event.title) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
+        _scrollController.animateTo(
+          _scrollController.position.minScrollExtent,
+          duration: const Duration(milliseconds: 270),
+          curve: Curves.easeInOut,
+        );
       }
     });
 

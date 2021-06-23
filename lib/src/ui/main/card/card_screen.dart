@@ -49,8 +49,8 @@ class _CardScreenState extends State<CardScreen> {
   bool isNext = false;
   List<CheckErroData> errorData = new List();
   int minSum = 0;
-
   DatabaseHelper dataBase = new DatabaseHelper();
+  ScrollController _scrollController = new ScrollController();
 
   @override
   void initState() {
@@ -267,581 +267,586 @@ class _CardScreenState extends State<CardScreen> {
                               )
                             ],
                           )
-                        : ListView(
-                            children: [
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: ClampingScrollPhysics(),
-                                scrollDirection: Axis.vertical,
-                                itemCount: snapshot.data.length,
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      RxBus.post(
-                                          BottomViewModel(
-                                              snapshot.data[index].id),
-                                          tag: "EVENT_BOTTOM_ITEM_ALL");
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.only(top: 16),
-                                      color: AppTheme.white,
-                                      child: Column(
+                        : ClipRRect(
+                      borderRadius: BorderRadius.circular(24),
+                      child: ListView(
+                        controller: _scrollController,
+                        padding: EdgeInsets.only(bottom: 24),
+                        children: [
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: ClampingScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  RxBus.post(
+                                      BottomViewModel(
+                                          snapshot.data[index].id),
+                                      tag: "EVENT_BOTTOM_ITEM_ALL");
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.only(top: 16),
+                                  color: AppTheme.white,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         children: <Widget>[
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: <Widget>[
-                                              SizedBox(width: 8),
-                                              CachedNetworkImage(
-                                                height: 80,
-                                                width: 80,
-                                                imageUrl: snapshot
-                                                    .data[index].imageThumbnail,
-                                                placeholder: (context, url) =>
-                                                    SvgPicture.asset(
+                                          SizedBox(width: 8),
+                                          CachedNetworkImage(
+                                            height: 80,
+                                            width: 80,
+                                            imageUrl: snapshot
+                                                .data[index].imageThumbnail,
+                                            placeholder: (context, url) =>
+                                                SvgPicture.asset(
                                                   "assets/icons/default_image.svg",
                                                 ),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        SvgPicture.asset(
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                SvgPicture.asset(
                                                   "assets/icons/default_image.svg",
                                                 ),
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              margin: EdgeInsets.only(
+                                                right: 8,
+                                                left: 8,
                                               ),
-                                              Expanded(
-                                                child: Container(
-                                                  margin: EdgeInsets.only(
-                                                    right: 8,
-                                                    left: 8,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment
+                                                    .start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    snapshot.data[index]
+                                                        .manufacturer.name,
+                                                    style: TextStyle(
+                                                      fontFamily: AppTheme
+                                                          .fontRubik,
+                                                      fontWeight:
+                                                      FontWeight.normal,
+                                                      fontSize: 10,
+                                                      height: 1.2,
+                                                      color:
+                                                      AppTheme.textGray,
+                                                    ),
                                                   ),
-                                                  child: Column(
+                                                  SizedBox(height: 4),
+                                                  Text(
+                                                    snapshot
+                                                        .data[index].name,
+                                                    style: TextStyle(
+                                                      fontFamily: AppTheme
+                                                          .fontRubik,
+                                                      fontWeight:
+                                                      FontWeight.normal,
+                                                      fontSize: 14,
+                                                      height: 1.5,
+                                                      color: AppTheme
+                                                          .text_dark,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 4),
+                                                  Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment.start,
+                                                    MainAxisAlignment
+                                                        .start,
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        snapshot.data[index]
-                                                            .manufacturer.name,
-                                                        style: TextStyle(
-                                                          fontFamily: AppTheme
+                                                    CrossAxisAlignment
+                                                        .center,
+                                                    children: [
+                                                      translate("lan") !=
+                                                          "2"
+                                                          ? Text(
+                                                        translate(
+                                                            "from"),
+                                                        style:
+                                                        TextStyle(
+                                                          fontFamily:
+                                                          AppTheme
                                                               .fontRubik,
                                                           fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 10,
-                                                          height: 1.2,
-                                                          color:
-                                                              AppTheme.textGray,
+                                                          FontWeight
+                                                              .normal,
+                                                          fontSize:
+                                                          14,
+                                                          height: 1.5,
+                                                          color: AppTheme
+                                                              .text_dark,
                                                         ),
-                                                      ),
-                                                      SizedBox(height: 4),
+                                                      )
+                                                          : Container(),
                                                       Text(
-                                                        snapshot
-                                                            .data[index].name,
+                                                        priceFormat.format(
+                                                            snapshot
+                                                                .data[
+                                                            index]
+                                                                .price) +
+                                                            translate(
+                                                                "sum"),
                                                         style: TextStyle(
-                                                          fontFamily: AppTheme
+                                                          fontFamily:
+                                                          AppTheme
                                                               .fontRubik,
                                                           fontWeight:
-                                                              FontWeight.normal,
+                                                          FontWeight
+                                                              .w500,
                                                           fontSize: 14,
                                                           height: 1.5,
                                                           color: AppTheme
                                                               .text_dark,
                                                         ),
                                                       ),
-                                                      SizedBox(height: 4),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          translate("lan") !=
-                                                                  "2"
-                                                              ? Text(
-                                                                  translate(
-                                                                      "from"),
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontFamily:
-                                                                        AppTheme
-                                                                            .fontRubik,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .normal,
-                                                                    fontSize:
-                                                                        14,
-                                                                    height: 1.5,
-                                                                    color: AppTheme
-                                                                        .text_dark,
-                                                                  ),
-                                                                )
-                                                              : Container(),
-                                                          Text(
-                                                            priceFormat.format(
-                                                                    snapshot
-                                                                        .data[
-                                                                            index]
-                                                                        .price) +
-                                                                translate(
-                                                                    "sum"),
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  AppTheme
-                                                                      .fontRubik,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontSize: 14,
-                                                              height: 1.5,
-                                                              color: AppTheme
-                                                                  .text_dark,
-                                                            ),
-                                                          ),
-                                                          translate("lan") ==
-                                                                  "2"
-                                                              ? Text(
-                                                                  translate(
-                                                                      "from"),
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontFamily:
-                                                                        AppTheme
-                                                                            .fontRubik,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .normal,
-                                                                    fontSize:
-                                                                        14,
-                                                                    height: 1.5,
-                                                                    color: AppTheme
-                                                                        .text_dark,
-                                                                  ),
-                                                                )
-                                                              : Container(),
-                                                          Expanded(
-                                                              child:
-                                                                  Container()),
-                                                          SizedBox(
-                                                            width: 7,
-                                                          ),
-                                                          Text(
-                                                            snapshot.data[index]
-                                                                .msg,
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  AppTheme
-                                                                      .fontRubik,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                              fontSize: 12,
-                                                              color:
-                                                                  AppTheme.red,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Container(
-                                                        margin: EdgeInsets.only(
-                                                          bottom: 16,
-                                                          top: 8,
+                                                      translate("lan") ==
+                                                          "2"
+                                                          ? Text(
+                                                        translate(
+                                                            "from"),
+                                                        style:
+                                                        TextStyle(
+                                                          fontFamily:
+                                                          AppTheme
+                                                              .fontRubik,
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .normal,
+                                                          fontSize:
+                                                          14,
+                                                          height: 1.5,
+                                                          color: AppTheme
+                                                              .text_dark,
                                                         ),
-                                                        child: Row(
-                                                          children: <Widget>[
-                                                            Container(
-                                                              height: 29,
-                                                              width: 147,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: AppTheme
-                                                                    .blue
-                                                                    .withOpacity(
-                                                                        0.12),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                  8,
-                                                                ),
-                                                              ),
-                                                              child: Row(
-                                                                children: <
-                                                                    Widget>[
-                                                                  GestureDetector(
-                                                                    child:
-                                                                        Container(
-                                                                      height:
-                                                                          29,
-                                                                      width: 29,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color: snapshot.data[index].cardCount ==
-                                                                                1
-                                                                            ? AppTheme.gray
-                                                                            : AppTheme.blue,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(8),
-                                                                      ),
-                                                                      child:
-                                                                          Center(
-                                                                        child: SvgPicture.asset(
-                                                                            "assets/icons/remove.svg"),
-                                                                      ),
-                                                                    ),
-                                                                    onTap: () {
-                                                                      if (snapshot
-                                                                              .data[index]
-                                                                              .cardCount >
-                                                                          1) {
-                                                                        snapshot
-                                                                            .data[
-                                                                                index]
-                                                                            .cardCount = snapshot
-                                                                                .data[index].cardCount -
-                                                                            1;
-                                                                        dataBase
-                                                                            .updateProduct(snapshot.data[index])
-                                                                            .then((value) {
-                                                                          blocCard
-                                                                              .fetchAllCard();
-                                                                        });
-                                                                      }
-                                                                    },
-                                                                  ),
-                                                                  Expanded(
-                                                                    child:
-                                                                        Center(
-                                                                      child:
-                                                                          Text(
-                                                                        snapshot.data[index].cardCount.toString() +
-                                                                            " " +
-                                                                            translate("item.sht"),
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontFamily:
-                                                                              AppTheme.fontRubik,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                          fontSize:
-                                                                              12,
-                                                                          height:
-                                                                              1.2,
-                                                                          color:
-                                                                              AppTheme.text_dark,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  GestureDetector(
-                                                                    onTap: () {
-                                                                      snapshot
-                                                                          .data[
-                                                                              index]
-                                                                          .cardCount = snapshot
-                                                                              .data[index]
-                                                                              .cardCount +
-                                                                          1;
-                                                                      dataBase
-                                                                          .updateProduct(snapshot.data[
-                                                                              index])
-                                                                          .then(
-                                                                              (value) {
-                                                                        blocCard
-                                                                            .fetchAllCard();
-                                                                      });
-                                                                    },
-                                                                    child:
-                                                                        Container(
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color: AppTheme
-                                                                            .blue,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                          8,
-                                                                        ),
-                                                                      ),
-                                                                      height:
-                                                                          29,
-                                                                      width: 29,
-                                                                      child:
-                                                                          Center(
-                                                                        child: SvgPicture.asset(
-                                                                            "assets/icons/add.svg"),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            Expanded(
-                                                              child:
-                                                                  Container(),
-                                                            ),
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                widget.deleteItem(
-                                                                    snapshot
-                                                                        .data[
-                                                                            index]
-                                                                        .id);
-                                                              },
-                                                              child: SvgPicture
-                                                                  .asset(
-                                                                      "assets/icons/delete_item.svg"),
-                                                            ),
-                                                            SizedBox(width: 8),
-                                                          ],
+                                                      )
+                                                          : Container(),
+                                                      Expanded(
+                                                          child:
+                                                          Container()),
+                                                      SizedBox(
+                                                        width: 7,
+                                                      ),
+                                                      Text(
+                                                        snapshot.data[index]
+                                                            .msg,
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                          AppTheme
+                                                              .fontRubik,
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .normal,
+                                                          fontSize: 12,
+                                                          color:
+                                                          AppTheme.red,
                                                         ),
                                                       ),
                                                     ],
                                                   ),
-                                                ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                      bottom: 16,
+                                                      top: 8,
+                                                    ),
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Container(
+                                                          height: 29,
+                                                          width: 147,
+                                                          decoration:
+                                                          BoxDecoration(
+                                                            color: AppTheme
+                                                                .blue
+                                                                .withOpacity(
+                                                                0.12),
+                                                            borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                              8,
+                                                            ),
+                                                          ),
+                                                          child: Row(
+                                                            children: <
+                                                                Widget>[
+                                                              GestureDetector(
+                                                                child:
+                                                                Container(
+                                                                  height:
+                                                                  29,
+                                                                  width: 29,
+                                                                  decoration:
+                                                                  BoxDecoration(
+                                                                    color: snapshot.data[index].cardCount ==
+                                                                        1
+                                                                        ? AppTheme.gray
+                                                                        : AppTheme.blue,
+                                                                    borderRadius:
+                                                                    BorderRadius.circular(8),
+                                                                  ),
+                                                                  child:
+                                                                  Center(
+                                                                    child: SvgPicture.asset(
+                                                                        "assets/icons/remove.svg"),
+                                                                  ),
+                                                                ),
+                                                                onTap: () {
+                                                                  if (snapshot
+                                                                      .data[index]
+                                                                      .cardCount >
+                                                                      1) {
+                                                                    snapshot
+                                                                        .data[
+                                                                    index]
+                                                                        .cardCount = snapshot
+                                                                        .data[index].cardCount -
+                                                                        1;
+                                                                    dataBase
+                                                                        .updateProduct(snapshot.data[index])
+                                                                        .then((value) {
+                                                                      blocCard
+                                                                          .fetchAllCard();
+                                                                    });
+                                                                  }
+                                                                },
+                                                              ),
+                                                              Expanded(
+                                                                child:
+                                                                Center(
+                                                                  child:
+                                                                  Text(
+                                                                    snapshot.data[index].cardCount.toString() +
+                                                                        " " +
+                                                                        translate("item.sht"),
+                                                                    style:
+                                                                    TextStyle(
+                                                                      fontFamily:
+                                                                      AppTheme.fontRubik,
+                                                                      fontWeight:
+                                                                      FontWeight.w500,
+                                                                      fontSize:
+                                                                      12,
+                                                                      height:
+                                                                      1.2,
+                                                                      color:
+                                                                      AppTheme.text_dark,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  snapshot
+                                                                      .data[
+                                                                  index]
+                                                                      .cardCount = snapshot
+                                                                      .data[index]
+                                                                      .cardCount +
+                                                                      1;
+                                                                  dataBase
+                                                                      .updateProduct(snapshot.data[
+                                                                  index])
+                                                                      .then(
+                                                                          (value) {
+                                                                        blocCard
+                                                                            .fetchAllCard();
+                                                                      });
+                                                                },
+                                                                child:
+                                                                Container(
+                                                                  decoration:
+                                                                  BoxDecoration(
+                                                                    color: AppTheme
+                                                                        .blue,
+                                                                    borderRadius:
+                                                                    BorderRadius.circular(
+                                                                      8,
+                                                                    ),
+                                                                  ),
+                                                                  height:
+                                                                  29,
+                                                                  width: 29,
+                                                                  child:
+                                                                  Center(
+                                                                    child: SvgPicture.asset(
+                                                                        "assets/icons/add.svg"),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child:
+                                                          Container(),
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            widget.deleteItem(
+                                                                snapshot
+                                                                    .data[
+                                                                index]
+                                                                    .id);
+                                                          },
+                                                          child: SvgPicture
+                                                              .asset(
+                                                              "assets/icons/delete_item.svg"),
+                                                        ),
+                                                        SizedBox(width: 8),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
+                                            ),
                                           ),
-                                          Container(
-                                            height: 1,
-                                            margin: EdgeInsets.only(
-                                                left: 8, right: 8),
-                                            color: AppTheme.background,
-                                          )
                                         ],
                                       ),
-                                    ),
-                                  );
-                                },
-                              ),
-                              GestureDetector(
-                                onTap: () async {
-                                  if (isLogin) {
-                                    if (isNext) {
-                                      errorData = new List();
-                                      setState(() {
-                                        loadingDelivery = true;
-                                      });
-                                      AccessStore addModel = new AccessStore();
-                                      List<ProductsStore> drugs = new List();
-
-                                      var databaseItem =
-                                          await dataBase.getProduct();
-
-                                      for (int i = 0;
-                                          i < databaseItem.length;
-                                          i++) {
-                                        drugs.add(
-                                          ProductsStore(
-                                            drugId: databaseItem[i].id,
-                                            qty: databaseItem[i].cardCount,
-                                          ),
-                                        );
-                                      }
-                                      addModel = new AccessStore(
-                                        lat: lat,
-                                        lng: lng,
-                                        products: drugs,
-                                      );
-
-                                      var response = await Repository()
-                                          .fetchCheckErrorDelivery(
-                                        addModel,
-                                      );
-                                      if (response.isSuccess) {
-                                        var result = CheckErrorModel.fromJson(
-                                            response.result);
-                                        if (result.error == 0) {
-                                          widget.onCurer();
-                                          setState(() {
-                                            loadingDelivery = false;
-                                          });
-                                        } else {
-                                          setState(() {
-                                            loadingDelivery = false;
-                                            if (result.errors != null)
-                                              errorData.addAll(result.errors);
-                                            TopDialog.errorMessage(
-                                              context,
-                                              result.msg,
-                                            );
-                                          });
-                                        }
-                                      } else if (response.status == -1) {
-                                        setState(() {
-                                          loadingDelivery = false;
-                                          TopDialog.errorMessage(
-                                            context,
-                                            translate("network.network_title"),
-                                          );
-                                        });
-                                      } else {
-                                        setState(() {
-                                          loadingDelivery = false;
-                                          TopDialog.errorMessage(
-                                            context,
-                                            response.result["msg"],
-                                          );
-                                        });
-                                      }
-                                    }
-                                  } else {
-                                    widget.onLogin();
-                                  }
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color:
-                                        isNext ? AppTheme.blue : AppTheme.gray,
-                                  ),
-                                  height: 44,
-                                  width: double.infinity,
-                                  margin: EdgeInsets.only(
-                                    top: 24,
-                                    left: 16,
-                                    right: 16,
-                                  ),
-                                  child: Center(
-                                    child: loadingDelivery
-                                        ? Lottie.asset(
-                                            'assets/anim/white.json',
-                                            height: 40,
-                                          )
-                                        : Text(
-                                            translate("card.delivery"),
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontRubik,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16,
-                                              height: 1.25,
-                                              color: AppTheme.white,
-                                            ),
-                                          ),
+                                      Container(
+                                        height: 1,
+                                        margin: EdgeInsets.only(
+                                            left: 8, right: 8),
+                                        color: AppTheme.background,
+                                      )
+                                    ],
                                   ),
                                 ),
-                              ),
-                              GestureDetector(
-                                onTap: () async {
-                                  if (isLogin) {
-                                    if (isNext) {
-                                      errorData = new List();
-                                      setState(() {
-                                        loadingPickup = true;
-                                      });
-                                      AccessStore addModel = new AccessStore();
-                                      List<ProductsStore> drugs = new List();
-
-                                      var databaseItem =
-                                          await dataBase.getProduct();
-
-                                      for (int i = 0;
-                                          i < databaseItem.length;
-                                          i++) {
-                                        drugs.add(
-                                          ProductsStore(
-                                            drugId: databaseItem[i].id,
-                                            qty: databaseItem[i].cardCount,
-                                          ),
-                                        );
-                                      }
-                                      addModel = new AccessStore(
-                                        lat: lat,
-                                        lng: lng,
-                                        products: drugs,
-                                      );
-
-                                      var response = await Repository()
-                                          .fetchCheckErrorPickup(
-                                        addModel,
-                                      );
-
-                                      if (response.isSuccess) {
-                                        var result = CheckErrorModel.fromJson(
-                                            response.result);
-                                        if (result.error == 0) {
-                                          errorData = new List();
-                                          widget.onPickup(result.data);
-                                          setState(() {
-                                            loadingPickup = false;
-                                          });
-                                        } else {
-                                          setState(() {
-                                            loadingPickup = false;
-                                            errorData = new List();
-                                            if (result.errors != null)
-                                              errorData.addAll(result.errors);
-                                            TopDialog.errorMessage(
-                                              context,
-                                              result.msg,
-                                            );
-                                          });
-                                        }
-                                      } else if (response.status == -1) {
-                                        setState(() {
-                                          loadingPickup = false;
-                                          TopDialog.errorMessage(
-                                            context,
-                                            translate("network.network_title"),
-                                          );
-                                        });
-                                      } else {
-                                        setState(() {
-                                          loadingPickup = false;
-                                          TopDialog.errorMessage(
-                                            context,
-                                            response.result["msg"],
-                                          );
-                                        });
-                                      }
-                                    }
-                                  } else {
-                                    widget.onLogin();
-                                  }
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: AppTheme.white,
-                                    border: Border.all(
-                                      color: AppTheme.textGray,
-                                      width: 2,
-                                    ),
-                                  ),
-                                  height: 44,
-                                  width: double.infinity,
-                                  margin: EdgeInsets.only(
-                                    top: 16,
-                                    left: 16,
-                                    right: 16,
-                                  ),
-                                  child: Center(
-                                    child: loadingPickup
-                                        ? Lottie.asset(
-                                            'assets/anim/gray.json',
-                                            height: 40,
-                                          )
-                                        : Text(
-                                            translate("card.take"),
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontRubik,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16,
-                                              height: 1.25,
-                                              color: AppTheme.textGray,
-                                            ),
-                                          ),
-                                  ),
-                                ),
-                              )
-                            ],
+                              );
+                            },
                           ),
+                          GestureDetector(
+                            onTap: () async {
+                              if (isLogin) {
+                                if (isNext) {
+                                  errorData = new List();
+                                  setState(() {
+                                    loadingDelivery = true;
+                                  });
+                                  AccessStore addModel = new AccessStore();
+                                  List<ProductsStore> drugs = new List();
+
+                                  var databaseItem =
+                                  await dataBase.getProduct();
+
+                                  for (int i = 0;
+                                  i < databaseItem.length;
+                                  i++) {
+                                    drugs.add(
+                                      ProductsStore(
+                                        drugId: databaseItem[i].id,
+                                        qty: databaseItem[i].cardCount,
+                                      ),
+                                    );
+                                  }
+                                  addModel = new AccessStore(
+                                    lat: lat,
+                                    lng: lng,
+                                    products: drugs,
+                                  );
+
+                                  var response = await Repository()
+                                      .fetchCheckErrorDelivery(
+                                    addModel,
+                                  );
+                                  if (response.isSuccess) {
+                                    var result = CheckErrorModel.fromJson(
+                                        response.result);
+                                    if (result.error == 0) {
+                                      widget.onCurer();
+                                      setState(() {
+                                        loadingDelivery = false;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        loadingDelivery = false;
+                                        if (result.errors != null)
+                                          errorData.addAll(result.errors);
+                                        TopDialog.errorMessage(
+                                          context,
+                                          result.msg,
+                                        );
+                                      });
+                                    }
+                                  } else if (response.status == -1) {
+                                    setState(() {
+                                      loadingDelivery = false;
+                                      TopDialog.errorMessage(
+                                        context,
+                                        translate("network.network_title"),
+                                      );
+                                    });
+                                  } else {
+                                    setState(() {
+                                      loadingDelivery = false;
+                                      TopDialog.errorMessage(
+                                        context,
+                                        response.result["msg"],
+                                      );
+                                    });
+                                  }
+                                }
+                              } else {
+                                widget.onLogin();
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color:
+                                isNext ? AppTheme.blue : AppTheme.gray,
+                              ),
+                              height: 44,
+                              width: double.infinity,
+                              margin: EdgeInsets.only(
+                                top: 24,
+                                left: 16,
+                                right: 16,
+                              ),
+                              child: Center(
+                                child: loadingDelivery
+                                    ? Lottie.asset(
+                                  'assets/anim/white.json',
+                                  height: 40,
+                                )
+                                    : Text(
+                                  translate("card.delivery"),
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRubik,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    height: 1.25,
+                                    color: AppTheme.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              if (isLogin) {
+                                if (isNext) {
+                                  errorData = new List();
+                                  setState(() {
+                                    loadingPickup = true;
+                                  });
+                                  AccessStore addModel = new AccessStore();
+                                  List<ProductsStore> drugs = new List();
+
+                                  var databaseItem =
+                                  await dataBase.getProduct();
+
+                                  for (int i = 0;
+                                  i < databaseItem.length;
+                                  i++) {
+                                    drugs.add(
+                                      ProductsStore(
+                                        drugId: databaseItem[i].id,
+                                        qty: databaseItem[i].cardCount,
+                                      ),
+                                    );
+                                  }
+                                  addModel = new AccessStore(
+                                    lat: lat,
+                                    lng: lng,
+                                    products: drugs,
+                                  );
+
+                                  var response = await Repository()
+                                      .fetchCheckErrorPickup(
+                                    addModel,
+                                  );
+
+                                  if (response.isSuccess) {
+                                    var result = CheckErrorModel.fromJson(
+                                        response.result);
+                                    if (result.error == 0) {
+                                      errorData = new List();
+                                      widget.onPickup(result.data);
+                                      setState(() {
+                                        loadingPickup = false;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        loadingPickup = false;
+                                        errorData = new List();
+                                        if (result.errors != null)
+                                          errorData.addAll(result.errors);
+                                        TopDialog.errorMessage(
+                                          context,
+                                          result.msg,
+                                        );
+                                      });
+                                    }
+                                  } else if (response.status == -1) {
+                                    setState(() {
+                                      loadingPickup = false;
+                                      TopDialog.errorMessage(
+                                        context,
+                                        translate("network.network_title"),
+                                      );
+                                    });
+                                  } else {
+                                    setState(() {
+                                      loadingPickup = false;
+                                      TopDialog.errorMessage(
+                                        context,
+                                        response.result["msg"],
+                                      );
+                                    });
+                                  }
+                                }
+                              } else {
+                                widget.onLogin();
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: AppTheme.white,
+                                border: Border.all(
+                                  color: AppTheme.textGray,
+                                  width: 2,
+                                ),
+                              ),
+                              height: 44,
+                              width: double.infinity,
+                              margin: EdgeInsets.only(
+                                top: 16,
+                                left: 16,
+                                right: 16,
+                              ),
+                              child: Center(
+                                child: loadingPickup
+                                    ? Lottie.asset(
+                                  'assets/anim/gray.json',
+                                  height: 40,
+                                )
+                                    : Text(
+                                  translate("card.take"),
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRubik,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    height: 1.25,
+                                    color: AppTheme.textGray,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                   )
                 ],
               ),
@@ -920,7 +925,11 @@ class _CardScreenState extends State<CardScreen> {
   void _registerBus() {
     RxBus.register<BottomView>(tag: "CARD_VIEW").listen((event) {
       if (event.title) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
+        _scrollController.animateTo(
+          _scrollController.position.minScrollExtent,
+          duration: const Duration(milliseconds: 270),
+          curve: Curves.easeInOut,
+        );
       }
     });
   }

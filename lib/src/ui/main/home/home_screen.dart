@@ -2744,10 +2744,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: Container(
                     padding: EdgeInsets.all(16),
                     margin: EdgeInsets.only(
-                      top: 24,
-                      left: 16,
-                      right: 16,
-                    ),
+                        top: 24, left: 16, right: 16, bottom: 24),
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: AppTheme.white,
@@ -2861,7 +2858,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _registerBus() {
     RxBus.register<BottomView>(tag: "HOME_VIEW").listen((event) {
       if (event.title) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
+        _sc.animateTo(
+          _sc.position.minScrollExtent,
+          duration: const Duration(milliseconds: 270),
+          curve: Curves.easeInOut,
+        );
+        //Navigator.of(context).popUntil((route) => route.isFirst);
       }
     });
 

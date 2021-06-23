@@ -253,6 +253,11 @@ class _MainScreenState extends State<MainScreen> {
                     }
                   case 3:
                     {
+                      RxBus.post(BottomView(true), tag: "FAV_VIEW");
+                      break;
+                    }
+                  case 4:
+                    {
                       RxBus.post(BottomView(true), tag: "MENU_VIEW");
                       break;
                     }
