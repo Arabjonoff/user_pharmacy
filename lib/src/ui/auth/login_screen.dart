@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pharmacy/src/model/api/auth/login_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/auth/verify_screen.dart';
@@ -303,11 +304,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: double.infinity,
                 child: Center(
                   child: loading
-                      ? CircularProgressIndicator(
-                          value: null,
-                          strokeWidth: 3.0,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(AppTheme.white),
+                      ? Lottie.asset(
+                          'assets/anim/white.json',
+                          height: 40,
                         )
                       : Text(
                           translate("auth.next"),

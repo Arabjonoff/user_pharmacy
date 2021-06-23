@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
@@ -473,17 +474,12 @@ class _StoreListScreenState extends State<StoreListScreen> {
                 ),
                 loading
                     ? Container(
-                        height: double.infinity,
-                        width: double.infinity,
-                        color: AppTheme.text_dark.withOpacity(0.15),
-                        child: Center(
-                          child: Container(
-                            height: 36,
-                            width: 36,
-                            child: CircularProgressIndicator(
-                              backgroundColor: AppTheme.blue,
-                              strokeWidth: 5.0,
-                            ),
+                        color: AppTheme.white.withOpacity(0.6),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Lottie.asset(
+                            'assets/anim/blue.json',
+                            height: 120,
                           ),
                         ),
                       )

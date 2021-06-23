@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
@@ -709,12 +710,9 @@ class _CardScreenState extends State<CardScreen> {
                                   ),
                                   child: Center(
                                     child: loadingDelivery
-                                        ? CircularProgressIndicator(
-                                            value: null,
-                                            strokeWidth: 3.0,
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                                    AppTheme.white),
+                                        ? Lottie.asset(
+                                            'assets/anim/white.json',
+                                            height: 40,
                                           )
                                         : Text(
                                             translate("card.delivery"),
@@ -825,13 +823,9 @@ class _CardScreenState extends State<CardScreen> {
                                   ),
                                   child: Center(
                                     child: loadingPickup
-                                        ? CircularProgressIndicator(
-                                            value: null,
-                                            strokeWidth: 3.0,
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                              AppTheme.textGray,
-                                            ),
+                                        ? Lottie.asset(
+                                            'assets/anim/gray.json',
+                                            height: 40,
                                           )
                                         : Text(
                                             translate("card.take"),

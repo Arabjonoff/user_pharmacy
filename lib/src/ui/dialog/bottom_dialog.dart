@@ -9,6 +9,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/app_theme.dart';
 import 'package:pharmacy/src/blocs/card_bloc.dart';
@@ -3296,11 +3297,9 @@ class BottomDialog {
                     ),
                     child: Center(
                       child: loading
-                          ? CircularProgressIndicator(
-                              value: null,
-                              strokeWidth: 3.0,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(AppTheme.white),
+                          ? Lottie.asset(
+                              'assets/anim/white.json',
+                              height: 40,
                             )
                           : Text(
                               translate("comment.send"),
@@ -4054,11 +4053,9 @@ class BottomDialog {
                         ),
                         child: Center(
                           child: loading
-                              ? CircularProgressIndicator(
-                                  value: null,
-                                  strokeWidth: 3.0,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      AppTheme.white),
+                              ? Lottie.asset(
+                                  'assets/anim/white.json',
+                                  height: 40,
                                 )
                               : Text(
                                   translate("menu.save"),

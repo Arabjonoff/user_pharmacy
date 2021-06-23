@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/model/api/location_model.dart';
@@ -130,22 +131,13 @@ class _AddressStoreMapPickupScreenState
               right: 12,
             ),
             isLoading
-                ? Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      height: 72,
-                      width: 72,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: AppTheme.blue.withOpacity(0.3),
-                      ),
-                      padding: EdgeInsets.all(16),
-                      child: CircularProgressIndicator(
-                        value: null,
-                        strokeWidth: 5.0,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          AppTheme.blue,
-                        ),
+                ? Container(
+                    color: AppTheme.white.withOpacity(0.6),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Lottie.asset(
+                        'assets/anim/blue.json',
+                        height: 120,
                       ),
                     ),
                   )
