@@ -202,4 +202,7 @@ class Repository {
 
   Future<HttpResult> fetchGetRegion(String location) =>
       pharmacyApiProvider.fetchGetRegion(location);
+
+  Future<HttpResult> fetchLocationAddress(double lat, double lng) =>
+      pharmacyApiProvider.fetchLocationAddress(lat, lng);
 }

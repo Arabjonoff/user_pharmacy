@@ -25,6 +25,7 @@ import 'package:pharmacy/src/model/api/location_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
+import 'package:pharmacy/src/model/location_address_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
@@ -918,7 +919,7 @@ class BottomDialog {
                             context,
                             41.311081,
                             69.240562,
-                            (Point point) {
+                            (Point point) async {
                               if (addressController.text.length > 0) {
                                 setState(() {
                                   isSave = true;
@@ -926,10 +927,33 @@ class BottomDialog {
                                   lng = point.longitude;
                                 });
                               } else {
-                                setState(() {
-                                  lat = point.latitude;
-                                  lng = point.longitude;
-                                });
+                                lat = point.latitude;
+                                lng = point.longitude;
+                                var response = await Repository()
+                                    .fetchLocationAddress(lat, lng);
+                                if (response.isSuccess) {
+                                  var result = LocationAddressModel.fromJson(
+                                      response.result);
+                                  if (result.response.geoObjectCollection
+                                          .featureMember.length >
+                                      0) {
+                                    setState(() {
+                                      addressController.text = result
+                                          .response
+                                          .geoObjectCollection
+                                          .featureMember[0]
+                                          .geoObject
+                                          .name;
+                                      if (addressController.text.length > 0) {
+                                        isSave = true;
+                                      }
+                                    });
+                                  } else {
+                                    setState(() {});
+                                  }
+                                } else {
+                                  setState(() {});
+                                }
                               }
                             },
                           );

@@ -594,4 +594,11 @@ class PharmacyApiProvider {
     String url = Utils.baseUrl + '/api/v1/check-region-polygon?lan=$lan';
     return await postRequest(url, json.encode(data));
   }
+
+  ///set location to address
+  Future<HttpResult> fetchLocationAddress(double lat, double lng) async {
+    String url =
+        "https://geocode-maps.yandex.ru/1.x/?apikey=b4985736-e176-472f-af14-36678b5d6aaa&geocode=$lng,$lat&format=json";
+    return await getRequest(url);
+  }
 }
