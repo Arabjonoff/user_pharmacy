@@ -2863,7 +2863,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           duration: const Duration(milliseconds: 270),
           curve: Curves.easeInOut,
         );
-        //Navigator.of(context).popUntil((route) => route.isFirst);
       }
     });
 

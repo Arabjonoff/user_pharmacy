@@ -410,7 +410,7 @@ class _MainScreenState extends State<MainScreen> {
             deleteItem: _deleteItem,
             onPickup: _pickup,
             onCurer: _curer,
-            onLogin: _loginBottom,
+            onLogin: _login,
           ),
           FavouriteScreen(),
           MenuScreen(
@@ -567,20 +567,6 @@ class _MainScreenState extends State<MainScreen> {
       MaterialPageRoute(
         builder: (context) => LoginScreen(),
       ),
-    );
-  }
-
-  void _loginBottom() {
-    BottomDialog.createBottomSheetHistory(
-      context,
-      () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => LoginScreen(),
-          ),
-        );
-      },
     );
   }
 
