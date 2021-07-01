@@ -656,7 +656,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                     shippingTime: shippingId,
                     drugs: drugs,
                     fullName: firstName + " " + lastName,
-                    phone: number,
+                    phone: number.replaceAll(" ", "").replaceAll("+", ""),
                   );
                   var response =
                       await Repository().fetchCheckOrder(createOrder);

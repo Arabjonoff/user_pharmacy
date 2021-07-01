@@ -596,7 +596,7 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
                 storeId: storeInfo.id,
                 drugs: drugs,
                 fullName: firstName + " " + lastName,
-                phone: number,
+                phone: number.replaceAll(" ", "").replaceAll("+", ""),
               );
               var response = await Repository().fetchCreateOrder(createOrder);
               if (response.isSuccess) {

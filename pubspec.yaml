@@ -39,6 +39,7 @@ dependencies:
   simple_html_css: ^3.0.1
   webview_flutter: ^2.0.8
   appmetrica_sdk: ^0.0.7
+  page_transition: ^2.0.2
 
 dev_dependencies:
   flutter_test:

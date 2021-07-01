@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:pharmacy/main.dart';
 import 'package:pharmacy/src/ui/item/blog_item_screen.dart';
 import 'package:pharmacy/src/ui/item_list/blog_list_screen.dart';
@@ -514,8 +515,9 @@ class _MainScreenState extends State<MainScreen> {
   void _search() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => SearchScreen(),
+      PageTransition(
+        type: PageTransitionType.fade,
+        child: SearchScreen(),
       ),
     );
   }
