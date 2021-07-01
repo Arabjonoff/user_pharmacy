@@ -17,6 +17,7 @@ import 'package:pharmacy/src/ui/dialog/top_dialog.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/utils/rx_bus.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
 
@@ -647,25 +648,21 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                         orderId: widget.orderId,
                         cashPay: cashBackPrice.toInt(),
                         paymentType: paymentType,
+                        paymentRedirect: true,
                       );
-
                       var response = await Repository().fetchPayment(addModel);
                       if (response.isSuccess) {
                         var result = OrderStatusModel.fromJson(response.result);
                         if (result.status == 1) {
-                          if (result.data.errorCode == 0) {
-                            Navigator.of(context)
-                                .popUntil((route) => route.isFirst);
-                            RxBus.post(CardItemChangeModel(true),
-                                tag: "EVENT_CARD_BOTTOM");
-                          } else {
-                            setState(() {
-                              loading = false;
-                              TopDialog.errorMessage(
-                                context,
-                                result.data.errorNote,
-                              );
-                            });
+                          if (result.paymentRedirectUrl.length > 0)
+                            await launch(result.paymentRedirectUrl);
+                          Navigator.of(context)
+                              .popUntil((route) => route.isFirst);
+                          if (!widget.isHistory) {
+                            RxBus.post(
+                              CardItemChangeModel(true),
+                              tag: "EVENT_CARD_BOTTOM",
+                            );
                           }
                         } else {
                           setState(() {

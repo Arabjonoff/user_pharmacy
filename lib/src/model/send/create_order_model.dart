@@ -8,6 +8,7 @@ class CreateOrderModel {
   String device;
   String fullName;
   String phone;
+  bool payment_redirect;
 
   CreateOrderModel({
     this.address,

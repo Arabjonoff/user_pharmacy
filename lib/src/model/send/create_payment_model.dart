@@ -2,29 +2,20 @@ class PaymentOrderModel {
   int paymentType;
   int orderId;
   int cashPay;
-  String cardToken;
-  String cardPan;
-  String cardExp;
-  int cardSave;
+  bool paymentRedirect;
 
   PaymentOrderModel({
     this.orderId,
     this.paymentType,
     this.cashPay,
-    this.cardPan,
-    this.cardExp,
-    this.cardSave,
-    this.cardToken,
+    this.paymentRedirect,
   });
 
   PaymentOrderModel.fromJson(Map<String, dynamic> json) {
     orderId = json['order_id'];
     cashPay = json['cash_pay'];
     paymentType = json['payment_type'];
-    cardPan = json['card_pan'];
-    cardExp = json['card_exp'];
-    cardSave = json['card_save'];
-    cardToken = json['card_token'];
+    paymentRedirect = json['payment_redirect'];
   }
 
   Map<String, dynamic> toJson() {
@@ -32,10 +23,7 @@ class PaymentOrderModel {
     data['order_id'] = this.orderId;
     data['cash_pay'] = this.cashPay;
     data['payment_type'] = this.paymentType;
-    data['card_pan'] = this.cardPan;
-    data['card_exp'] = this.cardExp;
-    data['card_save'] = this.cardSave;
-    data['card_token'] = this.cardToken;
+    data['payment_redirect'] = this.paymentRedirect;
     return data;
   }
 }
