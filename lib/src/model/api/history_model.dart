@@ -22,17 +22,6 @@ class HistoryModel {
       });
     }
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['count'] = this.count;
-    data['next'] = this.next;
-    data['previous'] = this.previous;
-    if (this.results != null) {
-      data['results'] = this.results.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
 }
 
 class HistoryResults {
@@ -52,6 +41,7 @@ class HistoryResults {
   String fullName;
   String phone;
   String expireSelfOrder;
+  String bookingLabel;
   List<Items> items;
 
   HistoryResults(
@@ -71,10 +61,12 @@ class HistoryResults {
       this.fullName,
       this.phone,
       this.expireSelfOrder,
+      this.bookingLabel,
       this.items});
 
   HistoryResults.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    bookingLabel = json['booking_label'] ?? "";
     address = json['address'] == null ? "" : json['address'];
     location = json['location'] != null
         ? new Location.fromJson(json['location'])
@@ -107,39 +99,6 @@ class HistoryResults {
         items.add(new Items.fromJson(v));
       });
     }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['address'] = this.address;
-    if (this.location != null) {
-      data['location'] = this.location.toJson();
-    }
-    data['end_shiptime'] =
-        this.endShiptime == null ? null : this.endShiptime.toIso8601String();
-    data['delivery_total'] = this.deliveryTotal;
-    if (this.paymentType != null) {
-      data['payment_type'] = this.paymentType.toJson();
-    }
-    if (this.store != null) {
-      data['store'] = this.store.toJson();
-    }
-    if (this.delivery != null) {
-      data['delivery'] = this.delivery.toJson();
-    }
-    data['created_at'] = this.createdAt;
-    data['total'] = this.total;
-    data['real_total'] = this.realTotal;
-    data['status'] = this.status;
-    data['type'] = this.type;
-    data['full_name'] = this.fullName;
-    data['phone'] = this.phone;
-    data['expire_self_order'] = this.expireSelfOrder;
-    if (this.items != null) {
-      data['items'] = this.items.map((v) => v.toJson()).toList();
-    }
-    return data;
   }
 }
 

@@ -428,6 +428,51 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       SizedBox(width: 16),
                                     ],
                                   ),
+                                  snapshot.data.results[index].bookingLabel
+                                              .length >
+                                          0
+                                      ? Container(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 16,
+                                            horizontal: 8,
+                                          ),
+                                          margin: EdgeInsets.only(
+                                            top: 16,
+                                            left: 16,
+                                            right: 16,
+                                          ),
+                                          decoration: BoxDecoration(
+                                              color: AppTheme.red
+                                                  .withOpacity(0.12),
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
+                                          child: Row(
+                                            children: [
+                                              SvgPicture.asset(
+                                                "assets/icons/attention.svg",
+                                                width: 24,
+                                                height: 24,
+                                                color: AppTheme.red,
+                                              ),
+                                              SizedBox(width: 8),
+                                              Expanded(
+                                                child: Text(
+                                                  snapshot.data.results[index]
+                                                      .bookingLabel,
+                                                  style: TextStyle(
+                                                    fontFamily:
+                                                        AppTheme.fontRubik,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 12,
+                                                    height: 1.67,
+                                                    color: AppTheme.red,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      : Container(),
                                   Container(
                                     height: 1,
                                     margin: EdgeInsets.only(top: 16),
