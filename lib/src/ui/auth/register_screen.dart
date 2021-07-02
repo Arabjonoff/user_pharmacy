@@ -152,7 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: TextField(
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.text,
                   style: TextStyle(
                     fontFamily: AppTheme.fontRubik,
                     fontWeight: FontWeight.normal,
@@ -227,7 +227,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: TextField(
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.text,
                   style: TextStyle(
                     fontFamily: AppTheme.fontRubik,
                     fontWeight: FontWeight.normal,

@@ -2442,6 +2442,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   color: AppTheme.text_dark,
                                 ),
                               ),
+                              SizedBox(height: 8),
+                              Text(
+                                snapshot.data.results[0].body.replaceAll("<p>", " "),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 14,
+                                  height: 1.6,
+                                  color: AppTheme.textGray,
+                                ),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                               SizedBox(height: 16),
                               GestureDetector(
                                 onTap: () {
