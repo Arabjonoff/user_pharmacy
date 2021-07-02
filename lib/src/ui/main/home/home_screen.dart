@@ -2828,7 +2828,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           if (v.isSuccess) {
             var value = CheckVersion.fromJson(v.result);
             if (value.status != 0) {
-              ///update
               widget.onUpdate(false, value.description);
             } else if (value.winner) {
               BottomDialog.showWinner(context, value.konkursText);
