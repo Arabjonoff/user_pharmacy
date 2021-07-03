@@ -945,27 +945,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                           ),
                                         ),
                                       )
-                                    : widget.item.status == "payment_waiting"
-                                        ? Container()
-                                        : Container(
-                                            padding: EdgeInsets.all(8),
-                                            decoration: BoxDecoration(
-                                              color: AppTheme.text_dark
-                                                  .withOpacity(0.1),
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            child: Text(
-                                              translate("history.pay"),
-                                              style: TextStyle(
-                                                fontFamily: AppTheme.fontRubik,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 12,
-                                                height: 1.2,
-                                                color: AppTheme.text_dark,
-                                              ),
-                                            ),
-                                          ),
+                                    : Container(),
                           ],
                         ),
                       ),
