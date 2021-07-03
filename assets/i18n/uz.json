@@ -1,5 +1,5 @@
 {
-  "about_app": "  ИДЕЯ приложения Go Pharm- это сделать доступную доставку медикаментов для всех слоев населения. Поэтому мы позаботились обо всех пунктах, начиная с выбора партнёра дистрибьютора с безупречной репутацией и, пожалуй, с самыми адекватными ценами медицинской продукции и лекарственных средств, и до выбора транспорта доставки; сегодня - скутеры, в условиях пандемии и ограничения движения это идеальное решение; в ближайшем будущем мы планируем закуп гаража экокар. Это соответствует нашей КОНЦЕПЦИИ все деяния наши во благо населения, экологии и человека. Упаковка, в которой Вам доставят Ваш заказ- это тоже одно из воплощений нашей Эко теории. Наша ЦЕЛЬ- социальная лояльность. Важен Ваш выбор, удобство пользования нашей интернет платформой, привязка населения к комфорту доставки. Ведь даже после окончания карантина поход в аптеку останется чем то вроде пережитка прошлого.  GRAND ONLINE PHARM LLC",
+  "about_app": "Go Pharm dasturining IDEA-si dori vositalarini aholining barcha qatlamlariga etkazib berishni ta'minlashdir. Shu sababli, biz benuqson obro'ga ega sherik distribyutorni tanlashdan va, ehtimol, tibbiy mahsulotlar va dori-darmonlarga eng munosib narxlardan va etkazib berish transportini tanlashdan boshlab, barcha fikrlarni ko'rib chiqdik; bugungi kunda - pandemiya va transport cheklovlarida skuterlar - bu ideal echim; yaqin kelajakda biz ekokaraj garajini sotib olishni rejalashtirmoqdamiz. Bu bizning kontseptsiyamizga, aholi, ekologiya va inson manfaatlari yo'lidagi barcha harakatlarimizga mos keladi. Sizning buyurtmangiz sizga etkazib beriladigan qadoq ham bizning Eko nazariyamizning mujassamlashuvlaridan biridir. Maqsadimiz - ijtimoiy sadoqat. Muhimi, sizning tanlovingiz, Internet-platformamizdan foydalanish qulayligi, aholini etkazib berish qulayligi bilan bog'lash. Axir, karantin tugaganidan keyin ham dorixonaga borish o'tmish qoldiqlari kabi qoladi. GRAND ONLINE PHARM MChJ",
   "lan": "2",
   "internet_error": "Internet bilan bog'lanishda xatolik",
   "sum": " So'm",
@@ -137,7 +137,7 @@
   },
   "search": {
     "hint": "Dori qidirish",
-    "close": "Bekor qilish",
+    "close": "Yopish",
     "history": "Qidiruvlar tarixi",
     "result": "Qidiruv natijasi",
     "empty_title": "Dori topilmadi",
