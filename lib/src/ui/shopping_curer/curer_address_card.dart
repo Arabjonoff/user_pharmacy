@@ -635,6 +635,21 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
             child: GestureDetector(
               onTap: () async {
                 if (!loading && myAddress != null) {
+                  var uy = myAddress.dom == ""
+                      ? ""
+                      : "Дом/Офис: " + myAddress.dom + ", ";
+
+                  var en = myAddress.en == ""
+                      ? ""
+                      : "Подъзд: " + myAddress.en + ", ";
+                  var kv = myAddress.kv == ""
+                      ? ""
+                      : "kavartira: " + myAddress.kv + ", ";
+
+                  var comment = myAddress.comment == ""
+                      ? ""
+                      : "Comment: " + myAddress.comment;
+
                   setState(() {
                     loading = true;
                   });
@@ -651,7 +666,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                   CreateOrderModel createOrder = new CreateOrderModel(
                     location: myAddress.lat + "," + myAddress.lng,
                     device: Platform.isIOS ? "IOS" : "Android",
-                    address: myAddress.street,
+                    address: myAddress.street + ", " + uy + en + kv + comment,
                     type: "shipping",
                     shippingTime: shippingId,
                     drugs: drugs,

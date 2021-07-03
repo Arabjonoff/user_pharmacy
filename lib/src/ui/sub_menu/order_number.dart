@@ -540,7 +540,7 @@ class _OrderNumberState extends State<OrderNumber> {
                                 vertical: 13,
                               ),
                               child: Text(
-                                widget.item.address,
+                                widget.item.address.split(",")[0],
                                 style: TextStyle(
                                   fontFamily: AppTheme.fontRubik,
                                   fontWeight: FontWeight.normal,
