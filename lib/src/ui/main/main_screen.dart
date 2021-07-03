@@ -641,7 +641,12 @@ class _MainScreenState extends State<MainScreen> {
       context,
       lan,
       () {
-        _setLanguage();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MainScreen(),
+          ),
+        );
       },
     );
   }

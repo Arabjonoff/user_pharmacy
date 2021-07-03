@@ -494,7 +494,6 @@ class _ItemListScreenState extends State<ItemListScreen>
                                                                                 fontFamily: AppTheme.fontRubik,
                                                                                 fontWeight: FontWeight.normal,
                                                                                 fontSize: 14,
-                                                                                height: 1.5,
                                                                                 color: AppTheme.white,
                                                                               ),
                                                                             )
@@ -510,8 +509,6 @@ class _ItemListScreenState extends State<ItemListScreen>
                                                                               FontWeight.w500,
                                                                           fontSize:
                                                                               14,
-                                                                          height:
-                                                                              1.5,
                                                                           color:
                                                                               AppTheme.white,
                                                                         ),
@@ -524,7 +521,6 @@ class _ItemListScreenState extends State<ItemListScreen>
                                                                                 fontFamily: AppTheme.fontRubik,
                                                                                 fontWeight: FontWeight.normal,
                                                                                 fontSize: 14,
-                                                                                height: 1.5,
                                                                                 color: AppTheme.white,
                                                                               ),
                                                                             )
