@@ -145,8 +145,6 @@ class PharmacyApiProvider {
     String birthday,
     String gender,
     String token,
-    String city,
-    String ads,
     String fctoken,
   ) async {
     String url = Utils.baseUrl + '/api/v1/register-profil';
@@ -163,8 +161,6 @@ class PharmacyApiProvider {
       "last_name": surname,
       "gender": gender,
       "birth_date": birthday,
-      "city": city,
-      "ads": ads,
       "fctoken": fctoken,
       "region": regionId.toString(),
     };

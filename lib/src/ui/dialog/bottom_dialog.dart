@@ -4038,8 +4038,6 @@ class BottomDialog {
                             birth,
                             gen,
                             token,
-                            "",
-                            "",
                             fcToken,
                           );
                           if (response.isSuccess) {

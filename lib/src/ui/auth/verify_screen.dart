@@ -94,18 +94,27 @@ class _VerifyScreenState extends State<VerifyScreen> {
             color: AppTheme.white,
           ),
         ],
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Container(
-            height: 56,
-            width: 56,
-            color: AppTheme.white,
-            child: Center(
-              child: SvgPicture.asset("assets/icons/arrow_left_blue.svg"),
+        leading: Material(
+          child: InkWell(
+            customBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(56),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              height: 56,
+              width: 56,
+              decoration: BoxDecoration(
+                color: AppTheme.white.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(56),
+              ),
+              child: Center(
+                child: SvgPicture.asset("assets/icons/arrow_left_blue.svg"),
+              ),
             ),
           ),
+          color: Colors.transparent,
         ),
         title: Center(
           child: Text(
@@ -213,7 +222,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
                               result.user.id,
                               result.token,
                               widget.number,
-                              result.konkurs,
                             ),
                           ),
                         );

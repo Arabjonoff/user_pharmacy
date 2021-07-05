@@ -34,8 +34,6 @@ class Repository {
     String birthday,
     String gender,
     String token,
-    String city,
-    String ads,
     String fctoken,
   ) =>
       pharmacyApiProvider.fetchRegister(
@@ -44,8 +42,6 @@ class Repository {
         birthday,
         gender,
         token,
-        city,
-        ads,
         fctoken,
       );
 

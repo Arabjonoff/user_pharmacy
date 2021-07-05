@@ -45,18 +45,27 @@ class _LoginScreenState extends State<LoginScreen> {
             color: AppTheme.white,
           ),
         ],
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Container(
-            height: 56,
-            width: 56,
-            color: AppTheme.white,
-            child: Center(
-              child: SvgPicture.asset("assets/icons/arrow_left_blue.svg"),
+        leading: Material(
+          child: InkWell(
+            customBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(56),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              height: 56,
+              width: 56,
+              decoration: BoxDecoration(
+                color: AppTheme.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(56),
+              ),
+              child: Center(
+                child: SvgPicture.asset("assets/icons/arrow_left_blue.svg"),
+              ),
             ),
           ),
+          color: Colors.transparent,
         ),
         title: Center(
           child: Text(

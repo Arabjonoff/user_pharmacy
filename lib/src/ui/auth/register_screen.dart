@@ -17,13 +17,11 @@ class RegisterScreen extends StatefulWidget {
   final int id;
   final String token;
   final String number;
-  final bool konkurs;
 
   RegisterScreen(
     this.id,
     this.token,
     this.number,
-    this.konkurs,
   );
 
   @override
@@ -40,21 +38,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController numberController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController birthdayController = TextEditingController();
-  TextEditingController cityController = TextEditingController();
 
   int id = 1;
   String birthday = "";
   DateTime dateTime = new DateTime.now();
-
-  String selectedUser;
-  List<String> users = <String>[
-    'Facebook/Instagram',
-    'Google/Yandex Поиск',
-    translate("winner.ads_choose"),
-    'Telegram',
-    translate("winner.fr"),
-    translate("winner.other"),
-  ];
 
   @override
   void initState() {
@@ -85,18 +72,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
             color: AppTheme.white,
           ),
         ],
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Container(
-            height: 56,
-            width: 56,
-            color: AppTheme.white,
-            child: Center(
-              child: SvgPicture.asset("assets/icons/arrow_left_blue.svg"),
+        leading: Material(
+          child: InkWell(
+            customBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(56),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              height: 56,
+              width: 56,
+              decoration: BoxDecoration(
+                color: AppTheme.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(56),
+              ),
+              child: Center(
+                child: SvgPicture.asset("assets/icons/arrow_left_blue.svg"),
+              ),
             ),
           ),
+          color: Colors.transparent,
         ),
         title: Center(
           child: Text(
@@ -568,142 +564,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
               ),
-              widget.konkurs
-                  ? Container(
-                      margin: EdgeInsets.only(top: 36, left: 16, right: 16),
-                      child: Text(
-                        translate("winner.register_title"),
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontRubik,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                          height: 1.33,
-                          color: AppTheme.textGray,
-                        ),
-                      ),
-                    )
-                  : Container(),
-              widget.konkurs
-                  ? Container(
-                      height: 52,
-                      margin: EdgeInsets.only(top: 12, left: 16, right: 16),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: AppTheme.auth_login,
-                        border: Border.all(
-                          color: AppTheme.gray,
-                          width: 1.0,
-                        ),
-                      ),
-                      padding: EdgeInsets.all(8),
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontRubik,
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.normal,
-                          color: AppTheme.text_dark,
-                          fontSize: 15,
-                        ),
-                        maxLength: 50,
-                        controller: cityController,
-                        decoration: InputDecoration(
-                          counterText: "",
-                          labelText: translate('winner.city'),
-                          labelStyle: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.normal,
-                            color: Color(0xFF6D7885),
-                            fontSize: 11,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: AppTheme.auth_login,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: AppTheme.auth_login,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : Container(),
-              widget.konkurs
-                  ? Theme(
-                      data: ThemeData(
-                        primaryColor: const Color(0xFF02BB9F),
-                        primaryColorDark: const Color(0xFF167F67),
-                        accentColor: const Color(0xFF167F67),
-                      ),
-                      child: Container(
-                        height: 52,
-                        width: double.infinity,
-                        margin: EdgeInsets.only(top: 12, left: 16, right: 16),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: AppTheme.auth_login,
-                          border: Border.all(
-                            color: AppTheme.gray,
-                            width: 1.0,
-                          ),
-                        ),
-                        padding: EdgeInsets.all(8),
-                        child: DropdownButtonHideUnderline(
-                          child: ButtonTheme(
-                            alignedDropdown: true,
-                            child: DropdownButton(
-                              hint: Text(
-                                translate('winner.ads'),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.normal,
-                                  color: Color(0xFF6D7885),
-                                  fontSize: 11,
-                                ),
-                              ),
-                              value: selectedUser,
-                              onChanged: (String value) {
-                                setState(() {
-                                  selectedUser = value;
-                                });
-                              },
-                              items: users.map((String user) {
-                                return DropdownMenuItem<String>(
-                                  value: user,
-                                  child: Text(
-                                    user,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontRubik,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: FontWeight.normal,
-                                      color: AppTheme.text_dark,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                              icon: Icon(
-                                Icons.keyboard_arrow_down,
-                                size: 24,
-                                color: Color(0xFF6D7885),
-                              ),
-                              style: Theme.of(context).textTheme.title,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : Container(),
             ],
           ),
           Expanded(child: Container()),
@@ -724,15 +584,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   setState(() {
                     loading = true;
                   });
-                  String ads = selectedUser == null ? "" : selectedUser;
                   var response = await Repository().fetchRegister(
                     nameController.text.toString(),
                     surNameController.text.toString(),
                     birthday,
                     gender,
                     widget.token,
-                    cityController.text,
-                    ads,
                     fcToken,
                   );
 
