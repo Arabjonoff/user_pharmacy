@@ -2020,29 +2020,36 @@ class BottomDialog {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      onTap();
-                    },
-                    child: Container(
-                      height: 44,
-                      margin: EdgeInsets.only(
-                        bottom: 24,
-                        top: 16,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppTheme.white,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Center(
-                        child: Text(
-                          translate("history.cancel_no"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            height: 1.25,
-                            color: AppTheme.textGray,
+                  Container(
+                    height: 44,
+                    margin: EdgeInsets.only(
+                      bottom: 24,
+                      top: 16,
+                    ),
+                    child: Material(
+                      child: InkWell(
+                        customBorder: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        onTap: () {
+                          onTap();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppTheme.white.withOpacity(0.01),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Center(
+                            child: Text(
+                              translate("history.cancel_no"),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                height: 1.25,
+                                color: AppTheme.textGray,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -2175,34 +2182,41 @@ class BottomDialog {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 44,
-                      margin: EdgeInsets.only(
-                        bottom: 24,
-                        top: 16,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppTheme.white,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Center(
-                        child: Text(
-                          translate("history.close"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            height: 1.25,
-                            color: AppTheme.textGray,
+                  Container(
+                    height: 44,
+                    margin: EdgeInsets.only(
+                      bottom: 24,
+                      top: 16,
+                    ),
+                    child: Material(
+                      child: InkWell(
+                        customBorder: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppTheme.white.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Center(
+                            child: Text(
+                              translate("history.close"),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                height: 1.25,
+                                color: AppTheme.textGray,
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
             );
@@ -2319,22 +2333,27 @@ class BottomDialog {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 44,
-                      color: AppTheme.white,
-                      child: Center(
-                        child: Text(
-                          translate("search.cancel"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            height: 1.25,
-                            color: AppTheme.textGray,
+                  Material(
+                    child: InkWell(
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 44,
+                        color: AppTheme.white.withOpacity(0.01),
+                        child: Center(
+                          child: Text(
+                            translate("search.cancel"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              height: 1.25,
+                              color: AppTheme.textGray,
+                            ),
                           ),
                         ),
                       ),
@@ -2462,22 +2481,27 @@ class BottomDialog {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 44,
-                      color: AppTheme.white,
-                      child: Center(
-                        child: Text(
-                          translate("card.cancel"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            height: 1.25,
-                            color: AppTheme.textGray,
+                  Material(
+                    child: InkWell(
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 44,
+                        color: AppTheme.white.withOpacity(0.01),
+                        child: Center(
+                          child: Text(
+                            translate("card.cancel"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              height: 1.25,
+                              color: AppTheme.textGray,
+                            ),
                           ),
                         ),
                       ),
@@ -2607,22 +2631,27 @@ class BottomDialog {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 44,
-                      color: AppTheme.white,
-                      child: Center(
-                        child: Text(
-                          translate("address.cancel"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            height: 1.25,
-                            color: AppTheme.textGray,
+                  Material(
+                    child: InkWell(
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 44,
+                        color: AppTheme.white.withOpacity(0.1),
+                        child: Center(
+                          child: Text(
+                            translate("address.cancel"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              height: 1.25,
+                              color: AppTheme.textGray,
+                            ),
                           ),
                         ),
                       ),
@@ -2748,24 +2777,30 @@ class BottomDialog {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                      RxBus.post(BottomViewModel(4), tag: "EVENT_BOTTOM_VIEW");
-                      onHistory();
-                    },
-                    child: Container(
-                      height: 44,
-                      color: AppTheme.white,
-                      child: Center(
-                        child: Text(
-                          translate("card.order_history"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            height: 1.25,
-                            color: AppTheme.textGray,
+                  Material(
+                    child: InkWell(
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        RxBus.post(BottomViewModel(4),
+                            tag: "EVENT_BOTTOM_VIEW");
+                        onHistory();
+                      },
+                      child: Container(
+                        height: 44,
+                        color: AppTheme.white.withOpacity(0.01),
+                        child: Center(
+                          child: Text(
+                            translate("card.order_history"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              height: 1.25,
+                              color: AppTheme.textGray,
+                            ),
                           ),
                         ),
                       ),
@@ -2905,22 +2940,27 @@ class BottomDialog {
                     ),
                   ),
                   optional
-                      ? GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            height: 44,
-                            color: AppTheme.white,
-                            child: Center(
-                              child: Text(
-                                translate("home.skip"),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  height: 1.25,
-                                  color: AppTheme.textGray,
+                      ? Material(
+                          child: InkWell(
+                            customBorder: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              height: 44,
+                              color: AppTheme.white.withOpacity(0.01),
+                              child: Center(
+                                child: Text(
+                                  translate("home.skip"),
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontRubik,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    height: 1.25,
+                                    color: AppTheme.textGray,
+                                  ),
                                 ),
                               ),
                             ),
@@ -3043,22 +3083,27 @@ class BottomDialog {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 44,
-                      color: AppTheme.white,
-                      child: Center(
-                        child: Text(
-                          translate("network.close"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            height: 1.25,
-                            color: AppTheme.textGray,
+                  Material(
+                    child: InkWell(
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 44,
+                        color: AppTheme.white.withOpacity(0.01),
+                        child: Center(
+                          child: Text(
+                            translate("network.close"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              height: 1.25,
+                              color: AppTheme.textGray,
+                            ),
                           ),
                         ),
                       ),
@@ -3469,22 +3514,27 @@ class BottomDialog {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 44,
-                      color: AppTheme.white,
-                      child: Center(
-                        child: Text(
-                          translate("menu.exit_no"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            height: 1.25,
-                            color: AppTheme.textGray,
+                  Material(
+                    child: InkWell(
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 44,
+                        color: AppTheme.white.withOpacity(0.1),
+                        child: Center(
+                          child: Text(
+                            translate("menu.exit_no"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              height: 1.25,
+                              color: AppTheme.textGray,
+                            ),
                           ),
                         ),
                       ),
@@ -6530,24 +6580,30 @@ class BottomDialog {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                      RxBus.post(BottomViewModel(4), tag: "EVENT_BOTTOM_VIEW");
-                      onHistory();
-                    },
-                    child: Container(
-                      height: 44,
-                      color: AppTheme.white,
-                      child: Center(
-                        child: Text(
-                          translate("card.order_history"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            height: 1.25,
-                            color: AppTheme.textGray,
+                  Material(
+                    child: InkWell(
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        RxBus.post(BottomViewModel(4),
+                            tag: "EVENT_BOTTOM_VIEW");
+                        onHistory();
+                      },
+                      child: Container(
+                        height: 44,
+                        color: AppTheme.white,
+                        child: Center(
+                          child: Text(
+                            translate("card.order_history"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              height: 1.25,
+                              color: AppTheme.textGray,
+                            ),
                           ),
                         ),
                       ),
