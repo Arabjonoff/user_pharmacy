@@ -47,7 +47,8 @@ class _OrderNumberState extends State<OrderNumber> {
       backgroundColor: AppTheme.background,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        elevation: 0.0,
+        elevation: 4.0,
+        shadowColor: Color.fromRGBO(110, 120, 146, 0.1),
         backgroundColor: AppTheme.white,
         brightness: Brightness.light,
         leading: GestureDetector(
@@ -896,6 +897,7 @@ class _OrderNumberState extends State<OrderNumber> {
                     top: 16,
                     left: 16,
                     right: 16,
+                    bottom: 24
                   ),
                   decoration: BoxDecoration(
                     color: AppTheme.white,

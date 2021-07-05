@@ -30,7 +30,8 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
       backgroundColor: AppTheme.background,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        elevation: 0.0,
+        elevation: 4.0,
+        shadowColor: Color.fromRGBO(110, 120, 146, 0.1),
         backgroundColor: AppTheme.white,
         brightness: Brightness.light,
         leading: GestureDetector(
