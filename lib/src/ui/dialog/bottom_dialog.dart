@@ -3088,258 +3088,263 @@ class BottomDialog {
       context: context,
       isScrollControlled: true,
       builder: (context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, setState) => Container(
-            height: 534,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(24),
-                topRight: Radius.circular(24),
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: StatefulBuilder(
+            builder: (BuildContext context, setState) => Container(
+              height: 534,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
+                ),
+                color: AppTheme.white,
               ),
-              color: AppTheme.white,
-            ),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(top: 8),
-                  height: 4,
-                  width: 64,
-                  decoration: BoxDecoration(
-                    color: AppTheme.text_dark.withOpacity(0.05),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 16, left: 16, right: 16),
-                  child: Text(
-                    translate("comment.title"),
-                    style: TextStyle(
-                      fontFamily: AppTheme.fontRubik,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      height: 1.2,
-                      color: AppTheme.text_dark,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    height: 4,
+                    width: 64,
+                    decoration: BoxDecoration(
+                      color: AppTheme.text_dark.withOpacity(0.05),
+                      borderRadius: BorderRadius.circular(4),
                     ),
                   ),
-                ),
-                Container(
-                  height: 80,
-                  width: 80,
-                  margin: EdgeInsets.only(top: 24, bottom: 16),
-                  decoration: BoxDecoration(
-                    color: AppTheme.yellow,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Center(
-                    child: Image.asset(
-                      "assets/img/note_image.png",
-                      height: 32,
-                      width: 32,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 16, right: 16),
-                  child: Text(
-                    translate("comment.message"),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: AppTheme.fontRubik,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 14,
-                      height: 1.6,
-                      color: AppTheme.textGray,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 16, left: 16, right: 16),
-                  height: 32,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      InkWell(
-                        child: _stars >= 1
-                            ? SvgPicture.asset("assets/icons/star_select.svg")
-                            : SvgPicture.asset(
-                                "assets/icons/star_un_select.svg"),
-                        onTap: () {
-                          setState(() {
-                            _stars = 1;
-                          });
-                        },
-                      ),
-                      SizedBox(width: 16),
-                      InkWell(
-                        child: _stars >= 2
-                            ? SvgPicture.asset("assets/icons/star_select.svg")
-                            : SvgPicture.asset(
-                                "assets/icons/star_un_select.svg"),
-                        onTap: () {
-                          setState(() {
-                            _stars = 2;
-                          });
-                        },
-                      ),
-                      SizedBox(width: 16),
-                      InkWell(
-                        child: _stars >= 3
-                            ? SvgPicture.asset("assets/icons/star_select.svg")
-                            : SvgPicture.asset(
-                                "assets/icons/star_un_select.svg"),
-                        onTap: () {
-                          setState(() {
-                            _stars = 3;
-                          });
-                        },
-                      ),
-                      SizedBox(width: 16),
-                      InkWell(
-                        child: _stars >= 4
-                            ? SvgPicture.asset("assets/icons/star_select.svg")
-                            : SvgPicture.asset(
-                                "assets/icons/star_un_select.svg"),
-                        onTap: () {
-                          setState(() {
-                            _stars = 4;
-                          });
-                        },
-                      ),
-                      SizedBox(width: 16),
-                      InkWell(
-                        child: _stars >= 5
-                            ? SvgPicture.asset("assets/icons/star_select.svg")
-                            : SvgPicture.asset(
-                                "assets/icons/star_un_select.svg"),
-                        onTap: () {
-                          setState(() {
-                            _stars = 5;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 16, left: 16, right: 16),
-                  width: double.infinity,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
+                  Container(
+                    margin: EdgeInsets.only(top: 16, left: 16, right: 16),
                     child: Text(
-                      translate("comment.comment"),
+                      translate("comment.title"),
                       style: TextStyle(
                         fontFamily: AppTheme.fontRubik,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
                         height: 1.2,
-                        color: AppTheme.textGray,
+                        color: AppTheme.text_dark,
                       ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Container(
+                  Container(
+                    height: 80,
+                    width: 80,
+                    margin: EdgeInsets.only(top: 24, bottom: 16),
                     decoration: BoxDecoration(
-                      color: AppTheme.background,
-                      borderRadius: BorderRadius.circular(12),
+                      color: AppTheme.yellow,
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                    margin: EdgeInsets.only(left: 16, right: 16, top: 8),
-                    child: TextField(
-                      keyboardType: TextInputType.multiline,
-                      maxLines: 5,
+                    child: Center(
+                      child: Image.asset(
+                        "assets/img/note_image.png",
+                        height: 32,
+                        width: 32,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 16, right: 16),
+                    child: Text(
+                      translate("comment.message"),
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: AppTheme.fontRubik,
                         fontWeight: FontWeight.normal,
                         fontSize: 14,
                         height: 1.6,
-                        color: AppTheme.text_dark,
-                      ),
-                      controller: commentController,
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppTheme.background,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppTheme.background,
-                          ),
-                        ),
+                        color: AppTheme.textGray,
                       ),
                     ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    if (commentController.text.length > 0 || _stars > 0) {
-                      setState(() {
-                        loading = true;
-                      });
-                      if (orderId != null) {
-                        Repository()
-                            .fetchOrderItemReview(
-                              commentController.text,
-                              _stars,
-                              orderId,
-                            )
-                            .then(
-                              (value) => {
-                                setState(() {
-                                  loading = false;
-                                }),
-                                Navigator.of(context).pop(),
-                              },
-                            );
-                      } else {
-                        Repository()
-                            .fetchSendRating(commentController.text, _stars)
-                            .then(
-                              (value) => {
-                                setState(() {
-                                  loading = false;
-                                }),
-                                Navigator.of(context).pop(),
-                              },
-                            );
-                      }
-                    }
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      top: 16,
-                      left: 16,
-                      right: 16,
-                      bottom: 24,
+                  Container(
+                    margin: EdgeInsets.only(top: 16, left: 16, right: 16),
+                    height: 32,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        InkWell(
+                          child: _stars >= 1
+                              ? SvgPicture.asset("assets/icons/star_select.svg")
+                              : SvgPicture.asset(
+                                  "assets/icons/star_un_select.svg"),
+                          onTap: () {
+                            setState(() {
+                              _stars = 1;
+                            });
+                          },
+                        ),
+                        SizedBox(width: 16),
+                        InkWell(
+                          child: _stars >= 2
+                              ? SvgPicture.asset("assets/icons/star_select.svg")
+                              : SvgPicture.asset(
+                                  "assets/icons/star_un_select.svg"),
+                          onTap: () {
+                            setState(() {
+                              _stars = 2;
+                            });
+                          },
+                        ),
+                        SizedBox(width: 16),
+                        InkWell(
+                          child: _stars >= 3
+                              ? SvgPicture.asset("assets/icons/star_select.svg")
+                              : SvgPicture.asset(
+                                  "assets/icons/star_un_select.svg"),
+                          onTap: () {
+                            setState(() {
+                              _stars = 3;
+                            });
+                          },
+                        ),
+                        SizedBox(width: 16),
+                        InkWell(
+                          child: _stars >= 4
+                              ? SvgPicture.asset("assets/icons/star_select.svg")
+                              : SvgPicture.asset(
+                                  "assets/icons/star_un_select.svg"),
+                          onTap: () {
+                            setState(() {
+                              _stars = 4;
+                            });
+                          },
+                        ),
+                        SizedBox(width: 16),
+                        InkWell(
+                          child: _stars >= 5
+                              ? SvgPicture.asset("assets/icons/star_select.svg")
+                              : SvgPicture.asset(
+                                  "assets/icons/star_un_select.svg"),
+                          onTap: () {
+                            setState(() {
+                              _stars = 5;
+                            });
+                          },
+                        ),
+                      ],
                     ),
-                    height: 44,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 16, left: 16, right: 16),
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: AppTheme.blue,
-                    ),
-                    child: Center(
-                      child: loading
-                          ? Lottie.asset(
-                              'assets/anim/white.json',
-                              height: 40,
-                            )
-                          : Text(
-                              translate("comment.send"),
-                              style: TextStyle(
-                                fontStyle: FontStyle.normal,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: AppTheme.fontRubik,
-                                color: AppTheme.white,
-                                height: 1.29,
-                              ),
-                            ),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        translate("comment.comment"),
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          height: 1.2,
+                          color: AppTheme.textGray,
+                        ),
+                      ),
                     ),
                   ),
-                )
-              ],
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppTheme.background,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      margin: EdgeInsets.only(left: 16, right: 16, top: 8),
+                      child: TextField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 5,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          height: 1.6,
+                          color: AppTheme.text_dark,
+                        ),
+                        controller: commentController,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: AppTheme.background,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: AppTheme.background,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      if (commentController.text.length > 0 || _stars > 0) {
+                        setState(() {
+                          loading = true;
+                        });
+                        if (orderId != null) {
+                          Repository()
+                              .fetchOrderItemReview(
+                                commentController.text,
+                                _stars,
+                                orderId,
+                              )
+                              .then(
+                                (value) => {
+                                  setState(() {
+                                    loading = false;
+                                  }),
+                                  Navigator.of(context).pop(),
+                                },
+                              );
+                        } else {
+                          Repository()
+                              .fetchSendRating(commentController.text, _stars)
+                              .then(
+                                (value) => {
+                                  setState(() {
+                                    loading = false;
+                                  }),
+                                  Navigator.of(context).pop(),
+                                },
+                              );
+                        }
+                      }
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        top: 16,
+                        left: 16,
+                        right: 16,
+                        bottom: 24,
+                      ),
+                      height: 44,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppTheme.blue,
+                      ),
+                      child: Center(
+                        child: loading
+                            ? Lottie.asset(
+                                'assets/anim/white.json',
+                                height: 40,
+                              )
+                            : Text(
+                                translate("comment.send"),
+                                style: TextStyle(
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: AppTheme.fontRubik,
+                                  color: AppTheme.white,
+                                  height: 1.29,
+                                ),
+                              ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         );

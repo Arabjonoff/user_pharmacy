@@ -6,10 +6,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pharmacy/src/blocs/history_bloc.dart';
+import 'package:pharmacy/src/model/api/cash_back_model.dart';
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/check_error_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view_model.dart';
+import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:pharmacy/src/ui/dialog/bottom_dialog.dart';
 import 'package:pharmacy/src/ui/main/home/home_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/order_card_curer.dart';
@@ -126,54 +128,102 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                           );
                         } else {
                           return GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               if (snapshot.data.results[index].status ==
                                   "payment_waiting") {
                                 if (snapshot.data.results[index].type ==
                                     "self") {
-                                  Utils.getCashBack().then(
-                                    (value) => {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              OrderCardPickupScreen(
-                                            snapshot.data.results[index].id,
-                                            snapshot.data.results[index]
-                                                .expireSelfOrder,
-                                            CashBackData(
-                                              total: snapshot
-                                                  .data.results[index].total,
-                                              cash: value == null ? 0.0 : value,
-                                            ),
-                                            true,
-                                          ),
-                                        ),
-                                      ),
-                                    },
-                                  );
-                                } else {
-                                  Utils.getCashBack().then(
-                                    (value) => {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              OrderCardCurerScreen(
-                                            orderId:
-                                                snapshot.data.results[index].id,
+                                  var response =
+                                      await Repository().fetchCashBack();
+                                  if (response.isSuccess) {
+                                    var result =
+                                        CashBackModel.fromJson(response.result);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            OrderCardPickupScreen(
+                                          snapshot.data.results[index].id,
+                                          snapshot.data.results[index]
+                                              .expireSelfOrder,
+                                          CashBackData(
                                             total: snapshot
-                                                .data.results[index].realTotal,
-                                            cashBack:
-                                                value == null ? 0.0 : value,
-                                            deliveryPrice: snapshot.data
-                                                .results[index].deliveryTotal,
-                                            isHistory: true,
+                                                .data.results[index].total,
+                                            cash: result.cash,
                                           ),
+                                          true,
                                         ),
                                       ),
-                                    },
-                                  );
+                                    );
+                                  } else {
+                                    Utils.getCashBack().then(
+                                      (value) => {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                OrderCardPickupScreen(
+                                              snapshot.data.results[index].id,
+                                              snapshot.data.results[index]
+                                                  .expireSelfOrder,
+                                              CashBackData(
+                                                total: snapshot
+                                                    .data.results[index].total,
+                                                cash:
+                                                    value == null ? 0.0 : value,
+                                              ),
+                                              true,
+                                            ),
+                                          ),
+                                        ),
+                                      },
+                                    );
+                                  }
+                                } else {
+                                  var response =
+                                      await Repository().fetchCashBack();
+                                  if (response.isSuccess) {
+                                    var result =
+                                        CashBackModel.fromJson(response.result);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            OrderCardCurerScreen(
+                                          orderId:
+                                              snapshot.data.results[index].id,
+                                          total: snapshot
+                                              .data.results[index].realTotal,
+                                          cashBack: result.cash,
+                                          deliveryPrice: snapshot.data
+                                              .results[index].deliveryTotal,
+                                          isHistory: true,
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    Utils.getCashBack().then(
+                                      (value) => {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                OrderCardCurerScreen(
+                                              orderId: snapshot
+                                                  .data.results[index].id,
+                                              total: snapshot.data
+                                                  .results[index].realTotal,
+                                              cashBack:
+                                                  value == null ? 0.0 : value,
+                                              deliveryPrice: snapshot.data
+                                                  .results[index].deliveryTotal,
+                                              isHistory: true,
+                                            ),
+                                          ),
+                                        ),
+                                      },
+                                    );
+                                  }
                                 }
                               } else {
                                 Navigator.push(
