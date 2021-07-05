@@ -13,7 +13,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PharmacyApiProvider {
   HttpClient httpClient = new HttpClient();
 
-  Duration duration = new Duration(seconds: 30);
   static Duration durationTimeout = new Duration(seconds: 30);
 
   static Future<HttpResult> postRequest(url, body) async {
