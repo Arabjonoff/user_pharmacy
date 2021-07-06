@@ -441,7 +441,7 @@ class BottomDialog {
                       margin: EdgeInsets.only(top: 16),
                       child: Center(
                         child: Text(
-                          translate("address.new_address"),
+                          translate("address.edit_address"),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: AppTheme.fontRubik,
@@ -828,7 +828,7 @@ class BottomDialog {
                         ),
                         child: Center(
                           child: Text(
-                            translate("address.add_address"),
+                            translate("address.edit_change"),
                             style: TextStyle(
                               fontFamily: AppTheme.fontRubik,
                               fontWeight: FontWeight.w500,
@@ -853,13 +853,14 @@ class BottomDialog {
   static void addAddress(
     BuildContext context,
     int type,
+    Function(AddressModel last) onSelected,
   ) async {
     TextEditingController addressController = TextEditingController();
     TextEditingController domController = TextEditingController();
     TextEditingController podezController = TextEditingController();
     TextEditingController kvController = TextEditingController();
     TextEditingController commentController = TextEditingController();
-    double lat = 41.311081, lng = 69.240562;
+    double lat, lng;
     bool isSave = false;
     showModalBottomSheet(
       barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
@@ -917,8 +918,8 @@ class BottomDialog {
                         onTap: () {
                           showChoosePoint(
                             context,
-                            lat,
-                            lng,
+                            41.311081,
+                            69.240562,
                             (Point point) async {
                               if (addressController.text.length > 0) {
                                 setState(() {
@@ -1292,10 +1293,22 @@ class BottomDialog {
                               type: type,
                             );
                             database.saveProducts(data).then((value) {
+                              AddressModel data = AddressModel(
+                                id: value,
+                                street: addressController.text,
+                                dom: domController.text ?? "",
+                                en: podezController.text ?? "",
+                                kv: kvController.text ?? "",
+                                comment: commentController.text ?? "",
+                                lat: lat.toString(),
+                                lng: lng.toString(),
+                                type: type,
+                              );
                               blocStore.fetchAddress();
                               blocStore.fetchAllAddress();
                               blocStore.fetchAddressHome();
                               blocStore.fetchAddressWork();
+                              onSelected(data);
                             });
                             Navigator.pop(context);
                           }

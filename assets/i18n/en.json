@@ -216,6 +216,8 @@
     "delivery_address": "Delivery address",
     "home": "My house",
     "work": "Work",
+    "edit_address": "Change address",
+    "edit_change": "Save changes",
     "add": "Add new address",
     "new_address": "New address",
     "see_map": "View on the map",

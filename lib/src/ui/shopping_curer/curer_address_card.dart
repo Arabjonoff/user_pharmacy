@@ -32,7 +32,7 @@ class CurerAddressCardScreen extends StatefulWidget {
 
 class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
   int shippingId = 0;
-  AddressModel myAddress;
+  AddressModel myAddress = AddressModel(id: -1);
   bool isFirst = true;
   var duration = Duration(milliseconds: 270);
   String firstName = "", lastName = "", number = "";
@@ -227,8 +227,8 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(16),
                                             border: Border.all(
-                                              color: myAddress ==
-                                                      snapshot.data[index]
+                                              color: myAddress.id ==
+                                                      snapshot.data[index].id
                                                   ? AppTheme.blue
                                                   : AppTheme.gray,
                                             ),
@@ -239,8 +239,8 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                             height: 10,
                                             width: 10,
                                             decoration: BoxDecoration(
-                                              color: myAddress ==
-                                                      snapshot.data[index]
+                                              color: myAddress.id ==
+                                                      snapshot.data[index].id
                                                   ? AppTheme.blue
                                                   : AppTheme.background,
                                               borderRadius:
@@ -262,7 +262,15 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          BottomDialog.addAddress(context, 0);
+                          BottomDialog.addAddress(
+                            context,
+                            0,
+                            (value) {
+                              setState(() {
+                                myAddress = value;
+                              });
+                            },
+                          );
                         },
                         child: Container(
                           height: 48,
@@ -635,7 +643,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
             ),
             child: GestureDetector(
               onTap: () async {
-                if (!loading && myAddress != null) {
+                if (!loading && myAddress.id != -1) {
                   var uy = myAddress.dom == ""
                       ? ""
                       : "Дом/Офис: " + myAddress.dom + ", ";
@@ -723,7 +731,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: myAddress == null ? AppTheme.gray : AppTheme.blue,
+                  color: myAddress.id == -1 ? AppTheme.gray : AppTheme.blue,
                 ),
                 height: 44,
                 width: double.infinity,

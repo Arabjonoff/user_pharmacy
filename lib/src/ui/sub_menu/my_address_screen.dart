@@ -155,7 +155,11 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
                     }
                     return GestureDetector(
                       onTap: () {
-                        BottomDialog.addAddress(context, 1);
+                        BottomDialog.addAddress(
+                          context,
+                          1,
+                          (value) {},
+                        );
                       },
                       child: Container(
                         height: 48,
@@ -244,7 +248,11 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
                     }
                     return GestureDetector(
                       onTap: () {
-                        BottomDialog.addAddress(context, 2);
+                        BottomDialog.addAddress(
+                          context,
+                          2,
+                          (value) {},
+                        );
                       },
                       child: Container(
                         height: 48,
@@ -351,7 +359,11 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    BottomDialog.addAddress(context, 0);
+                    BottomDialog.addAddress(
+                      context,
+                      0,
+                      (value) {},
+                    );
                   },
                   child: Container(
                     height: 48,
