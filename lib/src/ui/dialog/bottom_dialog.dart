@@ -458,8 +458,8 @@ class BottomDialog {
                       onTap: () {
                         showChoosePoint(
                           context,
-                          double.parse(addressModel.lat),
-                          double.parse(addressModel.lng),
+                          lat,
+                          lng,
                           (Point point) {
                             lat = point.latitude;
                             lng = point.longitude;
@@ -859,7 +859,7 @@ class BottomDialog {
     TextEditingController podezController = TextEditingController();
     TextEditingController kvController = TextEditingController();
     TextEditingController commentController = TextEditingController();
-    double lat, lng;
+    double lat = 41.311081, lng = 69.240562;
     bool isSave = false;
     showModalBottomSheet(
       barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
@@ -917,8 +917,8 @@ class BottomDialog {
                         onTap: () {
                           showChoosePoint(
                             context,
-                            41.311081,
-                            69.240562,
+                            lat,
+                            lng,
                             (Point point) async {
                               if (addressController.text.length > 0) {
                                 setState(() {
@@ -1407,7 +1407,7 @@ class BottomDialog {
                                     latitude: lat,
                                     longitude: lng,
                                   ),
-                                  zoom: 11,
+                                  zoom: 14,
                                   animation: const MapAnimation(
                                     smooth: true,
                                     duration: 0.5,
@@ -1489,24 +1489,6 @@ class BottomDialog {
                                               smooth: true,
                                               duration: 0.5,
                                             ),
-                                          );
-                                          if (lastPlaceMark != null) {
-                                            mapController
-                                                .removePlacemark(lastPlaceMark);
-                                          }
-                                          lastPlaceMark = placemark.Placemark(
-                                            point: Point(
-                                              latitude: position.latitude,
-                                              longitude: position.longitude,
-                                            ),
-                                            style: placemark.PlacemarkStyle(
-                                              iconName:
-                                                  'assets/map/location.png',
-                                              opacity: 0.9,
-                                            ),
-                                          );
-                                          await mapController.addPlacemark(
-                                            lastPlaceMark,
                                           );
                                         });
                                       } else if (value.isDenied) {
@@ -5146,12 +5128,22 @@ class BottomDialog {
     DatabaseHelper dataBase = new DatabaseHelper();
     DatabaseHelperFav dataBaseFav = new DatabaseHelperFav();
     int currentIndex = 0;
+    ScrollController scrollController;
+    var onClose = true;
 
     showModalBottomSheet(
       barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
       context: context,
       isScrollControlled: true,
       builder: (context) {
+        scrollController = ScrollController()
+          ..addListener(() {
+            if (scrollController.offset < -200 && onClose) {
+              scrollController.dispose();
+              onClose = false;
+              Navigator.pop(context);
+            }
+          });
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return Container(
@@ -5181,6 +5173,7 @@ class BottomDialog {
                         ),
                         Expanded(
                           child: ListView(
+                            controller: scrollController,
                             children: [
                               Container(
                                 height: 190,
