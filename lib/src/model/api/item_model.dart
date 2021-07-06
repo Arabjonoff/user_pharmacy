@@ -19,7 +19,7 @@ class ItemModel {
     this.count = json["count"];
     this.next = json["next"];
     this.previous = json["previous"];
-    this.title = json["title"]??"";
+    this.title = json["title"] ?? "";
     this.results = json["results"] == null
         ? []
         : List<ItemResult>.from(

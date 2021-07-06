@@ -1852,7 +1852,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       onTap: () {
                                         RxBus.post(
                                           BottomViewModel(
-                                              snapshot.data.results[index].id),
+                                              snapshot.data.drugs[index].id),
                                           tag: "EVENT_BOTTOM_ITEM_ALL",
                                         );
                                       },
