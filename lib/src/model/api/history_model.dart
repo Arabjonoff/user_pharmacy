@@ -35,6 +35,7 @@ class HistoryResults {
   Delivery delivery;
   String createdAt;
   double total;
+  double cash;
   double realTotal;
   String status;
   String type;
@@ -53,6 +54,7 @@ class HistoryResults {
       this.paymentType,
       this.store,
       this.delivery,
+      this.cash,
       this.createdAt,
       this.total,
       this.realTotal,
@@ -86,6 +88,7 @@ class HistoryResults {
         : Delivery(login: "", firstName: "", lastName: "");
     createdAt = json['created_at'];
     total = json['total'] == null ? 0.0 : json['total'];
+    cash = json['cash'] ?? 0.0;
     realTotal = json['real_total'] == null ? 0.0 : json['real_total'];
     status = json['status'];
     type = json['type'] == null ? "" : json['type'];

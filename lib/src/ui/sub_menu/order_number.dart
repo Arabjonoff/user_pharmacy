@@ -1051,6 +1051,35 @@ class _OrderNumberState extends State<OrderNumber> {
                               ],
                             )
                           : Container(),
+                      SizedBox(height: 16),
+                      Row(
+                        children: [
+                          SizedBox(width: 16),
+                          Text(
+                            translate("history.balance"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14,
+                              height: 1.2,
+                              color: AppTheme.textGray,
+                            ),
+                          ),
+                          Expanded(child: Container()),
+                          Text(
+                            priceFormat.format(widget.item.cash) +
+                                translate("sum"),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontRubik,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14,
+                              height: 1.2,
+                              color: AppTheme.text_dark,
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                        ],
+                      ),
                       Container(
                         height: 1,
                         margin: EdgeInsets.only(top: 16, bottom: 16),
@@ -1077,8 +1106,8 @@ class _OrderNumberState extends State<OrderNumber> {
                                 translate("sum"),
                             style: TextStyle(
                               fontFamily: AppTheme.fontRubik,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
                               height: 1.2,
                               color: AppTheme.text_dark,
                             ),

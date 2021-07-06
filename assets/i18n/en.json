@@ -199,6 +199,7 @@
     "cash": "Cash",
     "all_price": "Total",
     "cancel_title": "Order cancellation",
+    "balance": "Balance",
     "cancel_message": "Are you sure you want to cancel this order?",
     "cancel_yes": "Don't want to cancel",
     "cancel_no": "Cancel the order",
