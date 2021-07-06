@@ -461,7 +461,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   padding: const EdgeInsets.only(
                                     top: 0,
                                     bottom: 0,
-                                    right: 16,
+                                    right: 0,
                                     left: 16,
                                   ),
                                   scrollDirection: Axis.horizontal,
@@ -1225,7 +1225,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   padding: const EdgeInsets.only(
                                     top: 0,
                                     bottom: 0,
-                                    right: 16,
+                                    right: 0,
                                     left: 16,
                                   ),
                                   scrollDirection: Axis.horizontal,
@@ -1842,7 +1842,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   padding: const EdgeInsets.only(
                                     top: 0,
                                     bottom: 0,
-                                    right: 16,
+                                    right: 0,
                                     left: 16,
                                   ),
                                   scrollDirection: Axis.horizontal,
@@ -2572,7 +2572,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   padding: const EdgeInsets.only(
                                     top: 0,
                                     bottom: 0,
-                                    right: 16,
+                                    right: 0,
                                     left: 16,
                                   ),
                                   scrollDirection: Axis.horizontal,
