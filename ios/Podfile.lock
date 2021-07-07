@@ -101,14 +101,21 @@ PODS:
     - Flutter
   - yandex_mapkit (0.0.1):
     - Flutter
-    - YandexMapsMobile (= 4.0.0-full)
-  - YandexMapsMobile (4.0.0-full)
+    - YandexMapKit (= 3.5.0)
+    - YandexMapKitSearch (= 3.5.0)
+    - YandexRuntime (= 3.5.0)
+  - YandexMapKit (3.5.0):
+    - YandexRuntime (= 3.5.0)
+  - YandexMapKitSearch (3.5.0):
+    - YandexMapKit (= 3.5.0)
+    - YandexRuntime (= 3.5.0)
   - YandexMobileMetrica/Dynamic (3.14.0):
     - YandexMobileMetrica/Dynamic/Core (= 3.14.0)
     - YandexMobileMetrica/Dynamic/Crashes (= 3.14.0)
   - YandexMobileMetrica/Dynamic/Core (3.14.0)
   - YandexMobileMetrica/Dynamic/Crashes (3.14.0):
     - YandexMobileMetrica/Dynamic/Core
+  - YandexRuntime (3.5.0)
 
 DEPENDENCIES:
   - app_settings (from `.symlinks/plugins/app_settings/ios`)
@@ -145,8 +152,10 @@ SPEC REPOS:
     - PromisesObjC
     - SAMKeychain
     - SwiftProtobuf
-    - YandexMapsMobile
+    - YandexMapKit
+    - YandexMapKitSearch
     - YandexMobileMetrica
+    - YandexRuntime
 
 EXTERNAL SOURCES:
   app_settings:
@@ -217,9 +226,11 @@ SPEC CHECKSUMS:
   SwiftProtobuf: 9c85136c6ba74b0a1b84279dbf0f6db8efb714e0
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   webview_flutter: 9f491a9b5a66f2573946a389b2677987b0ff8c0b
-  yandex_mapkit: 0454ffe6e303a299e9a4414b53a006ab4e15bce7
-  YandexMapsMobile: 0f3d8c92fad685dc33d07f83eed4eb0166089743
+  yandex_mapkit: 808e1857438445c61e2789a9e4374b230a0a97ca
+  YandexMapKit: ecd4b78de34a35df63d066ac299e6fd0fe46d1ba
+  YandexMapKitSearch: b46ddd1c80e2e35d006cdfc4ab88070a50cebeda
   YandexMobileMetrica: a2dd4fd2f01ae7ae6850d786c443cb41fbbbea78
+  YandexRuntime: 2d55244d06267106cf9b00c25a1e63f72a73b6fd
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 

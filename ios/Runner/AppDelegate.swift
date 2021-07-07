@@ -1,6 +1,6 @@
 import UIKit
 import Flutter
-import YandexMapsMobile
+import YandexMapKit
 import AVKit
 
 @UIApplicationMain

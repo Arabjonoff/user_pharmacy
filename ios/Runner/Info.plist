@@ -33,16 +33,27 @@
 	<string>3340881139358614</string>
 	<key>FacebookDisplayName</key>
 	<string>GoPharm</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>https</string>
+		<string>http</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Play using while you are hiking</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>This app wants to access bluetooth</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>This app wants to access bluetooth</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>This app wants to access calendar.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>In the app we have used camera to scan the barcode of the products to search by barcode number.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Application wants to access your contacts list.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>In the app there is order section where user chooses his/her location for shipping information.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>In the app there is order section where user chooses his/her location for shipping information.</string>
 	<key>NSMicrophoneUsageDescription</key>
@@ -77,10 +88,5 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
-	<key>LSApplicationQueriesSchemes</key>
-    <array>
-      <string>https</string>
-      <string>http</string>
-    </array>
 </dict>
 </plist>
