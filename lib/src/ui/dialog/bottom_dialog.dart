@@ -918,8 +918,8 @@ class BottomDialog {
                         onTap: () {
                           showChoosePoint(
                             context,
-                            41.311081,
-                            69.240562,
+                            lat ?? 41.311081,
+                            lng ?? 69.240562,
                             (Point point) async {
                               if (addressController.text.length > 0) {
                                 setState(() {
@@ -1430,7 +1430,15 @@ class BottomDialog {
                                 final Point currentTarget =
                                     await yandexMapController
                                         .enableCameraTracking(
-                                  onCameraPositionChange: (arguments) async {
+                                  Placemark(
+                                    point: Point(
+                                      latitude: lat,
+                                      longitude: lng,
+                                    ),
+                                    iconName: 'assets/map/location.png',
+                                    opacity: 0.9,
+                                  ),
+                                  (arguments) async {
                                     if (lastPlaceMark != null) {
                                       yandexMapController
                                           .removePlacemark(lastPlaceMark);
@@ -1446,20 +1454,14 @@ class BottomDialog {
                                           latitude: arguments['latitude'],
                                           longitude: arguments['longitude'],
                                         ),
-                                        style: placemark.PlacemarkStyle(
-                                          iconName: 'assets/map/location.png',
-                                          opacity: 0.9,
-                                        ),
+                                        iconName: 'assets/map/location.png',
+                                        opacity: 0.9,
                                       );
                                       await yandexMapController.addPlacemark(
                                         lastPlaceMark,
                                       );
                                     }
                                   },
-                                  style: placemark.PlacemarkStyle(
-                                    iconName: 'assets/map/location.png',
-                                    opacity: 0.9,
-                                  ),
                                 );
 
                                 if (lastPlaceMark != null) {
@@ -1471,10 +1473,8 @@ class BottomDialog {
                                     latitude: currentTarget.latitude,
                                     longitude: currentTarget.longitude,
                                   ),
-                                  style: placemark.PlacemarkStyle(
-                                    iconName: 'assets/map/location.png',
-                                    opacity: 0.9,
-                                  ),
+                                  iconName: 'assets/map/location.png',
+                                  opacity: 0.9,
                                 );
                                 await yandexMapController.addPlacemark(
                                   lastPlaceMark,

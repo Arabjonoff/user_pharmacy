@@ -192,11 +192,9 @@ class _AddressStoreMapPickupScreenState
             latitude: data[i].location.coordinates[1],
             longitude: data[i].location.coordinates[0],
           ),
-          style: PlacemarkStyle(
-            opacity: 1,
-            iconName: 'assets/map/selected_order.png',
-          ),
-          onTap: (Placemark placemark, Point point) {
+          opacity: 1,
+          iconName: 'assets/map/selected_order.png',
+          onTap: (Point point) {
             BottomDialog.showStoreInfo(
               context,
               data[i],
