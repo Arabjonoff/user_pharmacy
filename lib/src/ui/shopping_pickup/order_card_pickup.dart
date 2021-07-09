@@ -609,58 +609,62 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
               color: AppTheme.white,
               child: GestureDetector(
                 onTap: () async {
-                  if (!loading) {
-                    if (widget.orderId != null) {
-                      setState(() {
-                        loading = true;
-                      });
+                  if (paymentType != null) {
+                    if (!loading) {
+                      if (widget.orderId != null) {
+                        setState(() {
+                          loading = true;
+                        });
 
-                      PaymentOrderModel addModel = new PaymentOrderModel(
-                        orderId: widget.orderId,
-                        cashPay: cashBackPrice.toInt(),
-                        paymentType: paymentType,
-                        paymentRedirect: true,
-                      );
+                        PaymentOrderModel addModel = new PaymentOrderModel(
+                          orderId: widget.orderId,
+                          cashPay: cashBackPrice.toInt(),
+                          paymentType: paymentType,
+                          paymentRedirect: true,
+                        );
 
-                      var response = await Repository().fetchPayment(addModel);
-                      if (response.isSuccess) {
-                        var result = OrderStatusModel.fromJson(response.result);
-                        if (result.status == 1) {
-                          if (result.paymentRedirectUrl.length > 0)
-                            await launch(result.paymentRedirectUrl);
-                          Navigator.of(context)
-                              .popUntil((route) => route.isFirst);
-                          if (!widget.isHistory) {
-                            RxBus.post(
-                              CardItemChangeModel(true),
-                              tag: "EVENT_CARD_BOTTOM",
-                            );
+                        var response =
+                            await Repository().fetchPayment(addModel);
+                        if (response.isSuccess) {
+                          var result =
+                              OrderStatusModel.fromJson(response.result);
+                          if (result.status == 1) {
+                            if (result.paymentRedirectUrl.length > 0)
+                              await launch(result.paymentRedirectUrl);
+                            Navigator.of(context)
+                                .popUntil((route) => route.isFirst);
+                            if (!widget.isHistory) {
+                              RxBus.post(
+                                CardItemChangeModel(true),
+                                tag: "EVENT_CARD_BOTTOM",
+                              );
+                            }
+                          } else {
+                            setState(() {
+                              loading = false;
+                              TopDialog.errorMessage(
+                                context,
+                                result.msg,
+                              );
+                            });
                           }
+                        } else if (response.status == -1) {
+                          setState(() {
+                            loading = false;
+                            TopDialog.errorMessage(
+                              context,
+                              translate("network.network_title"),
+                            );
+                          });
                         } else {
                           setState(() {
                             loading = false;
                             TopDialog.errorMessage(
                               context,
-                              result.msg,
+                              response.result["msg"],
                             );
                           });
                         }
-                      } else if (response.status == -1) {
-                        setState(() {
-                          loading = false;
-                          TopDialog.errorMessage(
-                            context,
-                            translate("network.network_title"),
-                          );
-                        });
-                      } else {
-                        setState(() {
-                          loading = false;
-                          TopDialog.errorMessage(
-                            context,
-                            response.result["msg"],
-                          );
-                        });
                       }
                     }
                   }

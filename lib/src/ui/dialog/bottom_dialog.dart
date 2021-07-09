@@ -1990,7 +1990,7 @@ class BottomDialog {
                   Expanded(child: Container()),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pop(context);
+                      onTap();
                     },
                     child: Container(
                       height: 44,
@@ -2003,7 +2003,7 @@ class BottomDialog {
                       ),
                       child: Center(
                         child: Text(
-                          translate("history.cancel_yes"),
+                          translate("history.cancel_no"),
                           style: TextStyle(
                             fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.w500,
@@ -2027,7 +2027,7 @@ class BottomDialog {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         onTap: () {
-                          onTap();
+                          Navigator.pop(context);
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -2036,7 +2036,7 @@ class BottomDialog {
                           ),
                           child: Center(
                             child: Text(
-                              translate("history.cancel_no"),
+                              translate("history.cancel_yes"),
                               style: TextStyle(
                                 fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.w500,
@@ -2059,7 +2059,163 @@ class BottomDialog {
     );
   }
 
-  static void historyCancelOrder(
+  static void historyCancelOrderCash(
+    BuildContext context,
+  ) async {
+    showModalBottomSheet(
+      barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
+      context: context,
+      isScrollControlled: true,
+      isDismissible: false,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              height: 365,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(24),
+                ),
+                color: AppTheme.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    height: 4,
+                    width: 64,
+                    decoration: BoxDecoration(
+                      color: AppTheme.text_dark.withOpacity(0.05),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    child: Center(
+                      child: Text(
+                        translate("history.message_title"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          height: 1.2,
+                          color: AppTheme.text_dark,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 24),
+                  Container(
+                    height: 80,
+                    width: 80,
+                    decoration: BoxDecoration(
+                      color: AppTheme.yellow,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Center(
+                      child: Image.asset(
+                        "assets/img/msg_img.png",
+                        height: 32,
+                        width: 32,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: 16,
+                      left: 12,
+                      right: 12,
+                    ),
+                    child: Center(
+                      child: Text(
+                        translate("item.cash_title"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontRubik,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          height: 1.6,
+                          color: AppTheme.textGray,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(child: Container()),
+                  GestureDetector(
+                    onTap: () async {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 44,
+                      margin: EdgeInsets.only(
+                        top: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.blue,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          translate("item.detail"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.25,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 44,
+                    margin: EdgeInsets.only(
+                      bottom: 24,
+                      top: 16,
+                    ),
+                    child: Material(
+                      child: InkWell(
+                        customBorder: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppTheme.white.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Center(
+                            child: Text(
+                              translate("history.close"),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                height: 1.25,
+                                color: AppTheme.textGray,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  static void historyCancelOrderOnline(
     BuildContext context,
   ) async {
     showModalBottomSheet(
@@ -5151,7 +5307,7 @@ class BottomDialog {
       builder: (context) {
         scrollController = ScrollController()
           ..addListener(() {
-            if (scrollController.offset < -200 && onClose) {
+            if (scrollController.offset < -150 && onClose) {
               scrollController.dispose();
               onClose = false;
               Navigator.pop(context);
@@ -5688,354 +5844,219 @@ class BottomDialog {
                                         )
                                       ],
                                     )
-                                  : Container(
-                                      height: 190,
-                                      margin: EdgeInsets.only(top: 16),
-                                      child: ListView.builder(
-                                        padding: const EdgeInsets.only(
-                                          top: 0,
-                                          bottom: 0,
-                                          right: 16,
-                                          left: 16,
-                                        ),
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder: (context, index) =>
-                                            Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 0.0),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                              showItemDrug(
-                                                context,
-                                                snapshot.data.analog[index].id,
-                                                position,
-                                              );
-                                            },
-                                            child: Container(
-                                              width: 148,
-                                              height: 189,
-                                              decoration: BoxDecoration(
-                                                color: AppTheme.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(16),
+                                  : snapshot.data.analog.length == 0
+                                      ? Container(
+                                          padding: EdgeInsets.only(
+                                            left: 32,
+                                            right: 32,
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                    top: 16, bottom: 16),
+                                                height: 80,
+                                                width: 80,
+                                                decoration: BoxDecoration(
+                                                  color: AppTheme.yellow,
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
+                                                child: Center(
+                                                  child: Image.asset(
+                                                    "assets/img/empty_store.png",
+                                                    height: 32,
+                                                    width: 32,
+                                                  ),
+                                                ),
                                               ),
-                                              margin: EdgeInsets.only(
-                                                right: 16,
+                                              Text(
+                                                translate(
+                                                    "category.analog_empty_title"),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.fontRubik,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 16,
+                                                  height: 1.2,
+                                                  color: AppTheme.text_dark,
+                                                ),
                                               ),
-                                              padding: EdgeInsets.all(8),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Expanded(
-                                                    child: Stack(
-                                                      children: [
-                                                        Center(
-                                                          child:
-                                                              CachedNetworkImage(
-                                                            imageUrl: snapshot
-                                                                .data
-                                                                .analog[index]
-                                                                .imageThumbnail,
-                                                            placeholder:
-                                                                (context,
-                                                                        url) =>
-                                                                    SvgPicture
-                                                                        .asset(
-                                                              "assets/icons/default_image.svg",
-                                                            ),
-                                                            errorWidget:
-                                                                (context, url,
-                                                                        error) =>
-                                                                    SvgPicture
-                                                                        .asset(
-                                                              "assets/icons/default_image.svg",
-                                                            ),
-                                                            fit: BoxFit
-                                                                .fitHeight,
-                                                          ),
-                                                        ),
-                                                        Positioned(
-                                                          child:
-                                                              GestureDetector(
-                                                            onTap: () {
-                                                              snapshot
-                                                                      .data
-                                                                      .analog[index]
-                                                                      .favourite =
-                                                                  !snapshot
-                                                                      .data
-                                                                      .analog[
-                                                                          index]
-                                                                      .favourite;
-                                                              if (snapshot
-                                                                  .data
-                                                                  .analog[index]
-                                                                  .favourite) {
-                                                                dataBaseFav
-                                                                    .saveProducts(snapshot
-                                                                            .data
-                                                                            .analog[
-                                                                        index])
-                                                                    .then(
-                                                                        (value) {
-                                                                  blocItem
-                                                                      .fetchAnalogUpdate();
-                                                                });
-                                                              } else {
-                                                                dataBaseFav
-                                                                    .deleteProducts(snapshot
-                                                                        .data
-                                                                        .analog[
-                                                                            index]
-                                                                        .id)
-                                                                    .then(
-                                                                        (value) {
-                                                                  blocItem
-                                                                      .fetchAnalogUpdate();
-                                                                });
-                                                              }
-                                                            },
-                                                            child: snapshot
+                                              Text(
+                                                translate(
+                                                    "category.analog_empty_msg"),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.fontRubik,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 14,
+                                                  height: 1.6,
+                                                  color: AppTheme.textGray,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : Container(
+                                          height: 190,
+                                          margin: EdgeInsets.only(top: 16),
+                                          child: ListView.builder(
+                                            padding: const EdgeInsets.only(
+                                              top: 0,
+                                              bottom: 0,
+                                              right: 16,
+                                              left: 16,
+                                            ),
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (context, index) =>
+                                                Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 0.0),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  Navigator.pop(context);
+                                                  showItemDrug(
+                                                    context,
+                                                    snapshot
+                                                        .data.analog[index].id,
+                                                    position,
+                                                  );
+                                                },
+                                                child: Container(
+                                                  width: 148,
+                                                  height: 189,
+                                                  decoration: BoxDecoration(
+                                                    color: AppTheme.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            16),
+                                                  ),
+                                                  margin: EdgeInsets.only(
+                                                    right: 16,
+                                                  ),
+                                                  padding: EdgeInsets.all(8),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Stack(
+                                                          children: [
+                                                            Center(
+                                                              child:
+                                                                  CachedNetworkImage(
+                                                                imageUrl: snapshot
                                                                     .data
                                                                     .analog[
                                                                         index]
-                                                                    .favourite
-                                                                ? SvgPicture.asset(
-                                                                    "assets/icons/fav_select.svg")
-                                                                : SvgPicture.asset(
-                                                                    "assets/icons/fav_unselect.svg"),
-                                                          ),
-                                                          top: 0,
-                                                          right: 0,
-                                                        ),
-                                                        Positioned(
-                                                          child: snapshot
-                                                                      .data
-                                                                      .analog[
-                                                                          index]
-                                                                      .price >=
-                                                                  snapshot
-                                                                      .data
-                                                                      .analog[
-                                                                          index]
-                                                                      .basePrice
-                                                              ? Container()
-                                                              : Container(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              4),
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    color: AppTheme
-                                                                        .red
-                                                                        .withOpacity(
-                                                                            0.1),
-                                                                    borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(8),
-                                                                  ),
-                                                                  child: Text(
-                                                                    "-" +
-                                                                        (((snapshot.data.analog[index].basePrice - snapshot.data.analog[index].price) * 100) ~/
-                                                                                snapshot.data.analog[index].basePrice)
-                                                                            .toString() +
-                                                                        "%",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontFamily:
-                                                                          AppTheme
-                                                                              .fontRubik,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      fontSize:
-                                                                          12,
-                                                                      height:
-                                                                          1.2,
-                                                                      color: AppTheme
-                                                                          .red,
-                                                                    ),
-                                                                  ),
+                                                                    .imageThumbnail,
+                                                                placeholder: (context,
+                                                                        url) =>
+                                                                    SvgPicture
+                                                                        .asset(
+                                                                  "assets/icons/default_image.svg",
                                                                 ),
-                                                          top: 0,
-                                                          left: 0,
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 4),
-                                                  Text(
-                                                    snapshot.data.analog[index]
-                                                        .name,
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          AppTheme.fontRubik,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontSize: 12,
-                                                      height: 1.5,
-                                                      color: AppTheme.text_dark,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 4),
-                                                  Text(
-                                                    snapshot.data.analog[index]
-                                                        .manufacturer.name,
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          AppTheme.fontRubik,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontSize: 10,
-                                                      height: 1.2,
-                                                      color: AppTheme.textGray,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 4),
-                                                  snapshot.data.analog[index]
-                                                          .isComing
-                                                      ? Container(
-                                                          height: 29,
-                                                          width:
-                                                              double.infinity,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                AppTheme.blue,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8),
-                                                          ),
-                                                          child: Center(
-                                                            child: RichText(
-                                                              text: TextSpan(
-                                                                children: [
-                                                                  TextSpan(
-                                                                    text: translate(
-                                                                        "fast"),
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontFamily:
-                                                                          AppTheme
-                                                                              .fontRubik,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      fontSize:
-                                                                          14,
-                                                                      height:
-                                                                          1.2,
-                                                                      color: AppTheme
-                                                                          .white,
-                                                                    ),
-                                                                  ),
-                                                                ],
+                                                                errorWidget: (context,
+                                                                        url,
+                                                                        error) =>
+                                                                    SvgPicture
+                                                                        .asset(
+                                                                  "assets/icons/default_image.svg",
+                                                                ),
+                                                                fit: BoxFit
+                                                                    .fitHeight,
                                                               ),
                                                             ),
-                                                          ),
-                                                        )
-                                                      : snapshot
-                                                                  .data
-                                                                  .analog[index]
-                                                                  .cardCount >
-                                                              0
-                                                          ? Container(
-                                                              height: 29,
-                                                              width: double
-                                                                  .infinity,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: AppTheme
-                                                                    .blue
-                                                                    .withOpacity(
-                                                                        0.12),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            8),
-                                                              ),
-                                                              child: Row(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .start,
-                                                                children: [
+                                                            Positioned(
+                                                              child:
                                                                   GestureDetector(
-                                                                    onTap: () {
-                                                                      if (snapshot
-                                                                              .data
-                                                                              .analog[index]
-                                                                              .cardCount >
-                                                                          1) {
-                                                                        snapshot
+                                                                onTap: () {
+                                                                  snapshot
+                                                                          .data
+                                                                          .analog[
+                                                                              index]
+                                                                          .favourite =
+                                                                      !snapshot
+                                                                          .data
+                                                                          .analog[
+                                                                              index]
+                                                                          .favourite;
+                                                                  if (snapshot
+                                                                      .data
+                                                                      .analog[
+                                                                          index]
+                                                                      .favourite) {
+                                                                    dataBaseFav
+                                                                        .saveProducts(snapshot
+                                                                            .data
+                                                                            .analog[index])
+                                                                        .then((value) {
+                                                                      blocItem
+                                                                          .fetchAnalogUpdate();
+                                                                    });
+                                                                  } else {
+                                                                    dataBaseFav
+                                                                        .deleteProducts(snapshot
                                                                             .data
                                                                             .analog[
                                                                                 index]
-                                                                            .cardCount = snapshot
-                                                                                .data.analog[index].cardCount -
-                                                                            1;
-                                                                        dataBase
-                                                                            .updateProduct(snapshot.data.analog[index])
-                                                                            .then((value) {
-                                                                          blocItem
-                                                                              .fetchAnalogUpdate();
-                                                                        });
-                                                                      } else if (snapshot
-                                                                              .data
-                                                                              .analog[index]
-                                                                              .cardCount ==
-                                                                          1) {
-                                                                        dataBase
-                                                                            .deleteProducts(snapshot.data.analog[index].id)
-                                                                            .then((value) {
-                                                                          blocItem
-                                                                              .fetchAnalogUpdate();
-                                                                        });
-                                                                      }
-                                                                    },
-                                                                    child:
-                                                                        Container(
-                                                                      height:
-                                                                          29,
-                                                                      width: 29,
+                                                                            .id)
+                                                                        .then(
+                                                                            (value) {
+                                                                      blocItem
+                                                                          .fetchAnalogUpdate();
+                                                                    });
+                                                                  }
+                                                                },
+                                                                child: snapshot
+                                                                        .data
+                                                                        .analog[
+                                                                            index]
+                                                                        .favourite
+                                                                    ? SvgPicture
+                                                                        .asset(
+                                                                            "assets/icons/fav_select.svg")
+                                                                    : SvgPicture
+                                                                        .asset(
+                                                                            "assets/icons/fav_unselect.svg"),
+                                                              ),
+                                                              top: 0,
+                                                              right: 0,
+                                                            ),
+                                                            Positioned(
+                                                              child: snapshot
+                                                                          .data
+                                                                          .analog[
+                                                                              index]
+                                                                          .price >=
+                                                                      snapshot
+                                                                          .data
+                                                                          .analog[
+                                                                              index]
+                                                                          .basePrice
+                                                                  ? Container()
+                                                                  : Container(
+                                                                      padding:
+                                                                          EdgeInsets.all(
+                                                                              4),
                                                                       decoration:
                                                                           BoxDecoration(
                                                                         color: AppTheme
-                                                                            .blue,
+                                                                            .red
+                                                                            .withOpacity(0.1),
                                                                         borderRadius:
                                                                             BorderRadius.circular(8),
                                                                       ),
                                                                       child:
-                                                                          Center(
-                                                                        child: SvgPicture
-                                                                            .asset(
-                                                                          "assets/icons/remove.svg",
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  Expanded(
-                                                                    child:
-                                                                        Center(
-                                                                      child:
                                                                           Text(
-                                                                        snapshot.data.analog[index].cardCount.toString() +
-                                                                            " " +
-                                                                            translate("sht"),
+                                                                        "-" +
+                                                                            (((snapshot.data.analog[index].basePrice - snapshot.data.analog[index].price) * 100) ~/ snapshot.data.analog[index].basePrice).toString() +
+                                                                            "%",
                                                                         style:
                                                                             TextStyle(
                                                                           fontFamily:
@@ -6047,151 +6068,295 @@ class BottomDialog {
                                                                           height:
                                                                               1.2,
                                                                           color:
-                                                                              AppTheme.text_dark,
+                                                                              AppTheme.red,
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                  GestureDetector(
-                                                                    onTap: () {
-                                                                      if (snapshot
-                                                                              .data
-                                                                              .analog[
-                                                                                  index]
-                                                                              .cardCount <
-                                                                          snapshot
-                                                                              .data
-                                                                              .analog[
-                                                                                  index]
-                                                                              .maxCount)
-                                                                        snapshot
-                                                                            .data
-                                                                            .analog[
-                                                                                index]
-                                                                            .cardCount = snapshot
-                                                                                .data.analog[index].cardCount +
-                                                                            1;
-                                                                      dataBase
-                                                                          .updateProduct(snapshot
-                                                                              .data
-                                                                              .analog[index])
-                                                                          .then((value) {
-                                                                        blocItem
-                                                                            .fetchAnalogUpdate();
-                                                                      });
-                                                                    },
-                                                                    child:
-                                                                        Container(
-                                                                      height:
-                                                                          29,
-                                                                      width: 29,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color: AppTheme
-                                                                            .blue,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(8),
-                                                                      ),
-                                                                      child:
-                                                                          Center(
-                                                                        child: SvgPicture
-                                                                            .asset(
-                                                                          "assets/icons/add.svg",
+                                                              top: 0,
+                                                              left: 0,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 4),
+                                                      Text(
+                                                        snapshot.data
+                                                            .analog[index].name,
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                          fontFamily: AppTheme
+                                                              .fontRubik,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 12,
+                                                          height: 1.5,
+                                                          color: AppTheme
+                                                              .text_dark,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 4),
+                                                      Text(
+                                                        snapshot
+                                                            .data
+                                                            .analog[index]
+                                                            .manufacturer
+                                                            .name,
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                          fontFamily: AppTheme
+                                                              .fontRubik,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 10,
+                                                          height: 1.2,
+                                                          color:
+                                                              AppTheme.textGray,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 4),
+                                                      snapshot
+                                                              .data
+                                                              .analog[index]
+                                                              .isComing
+                                                          ? Container(
+                                                              height: 29,
+                                                              width: double
+                                                                  .infinity,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: AppTheme
+                                                                    .blue,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8),
+                                                              ),
+                                                              child: Center(
+                                                                child: RichText(
+                                                                  text:
+                                                                      TextSpan(
+                                                                    children: [
+                                                                      TextSpan(
+                                                                        text: translate(
+                                                                            "fast"),
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontFamily:
+                                                                              AppTheme.fontRubik,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          fontSize:
+                                                                              14,
+                                                                          height:
+                                                                              1.2,
+                                                                          color:
+                                                                              AppTheme.white,
                                                                         ),
                                                                       ),
-                                                                    ),
+                                                                    ],
                                                                   ),
-                                                                ],
+                                                                ),
                                                               ),
                                                             )
-                                                          : GestureDetector(
-                                                              onTap: () {
-                                                                snapshot
-                                                                    .data
-                                                                    .analog[
-                                                                        index]
-                                                                    .cardCount = 1;
-                                                                dataBase
-                                                                    .saveProducts(snapshot
+                                                          : snapshot
+                                                                      .data
+                                                                      .analog[
+                                                                          index]
+                                                                      .cardCount >
+                                                                  0
+                                                              ? Container(
+                                                                  height: 29,
+                                                                  width: double
+                                                                      .infinity,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: AppTheme
+                                                                        .blue
+                                                                        .withOpacity(
+                                                                            0.12),
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(8),
+                                                                  ),
+                                                                  child: Row(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      GestureDetector(
+                                                                        onTap:
+                                                                            () {
+                                                                          if (snapshot.data.analog[index].cardCount >
+                                                                              1) {
+                                                                            snapshot.data.analog[index].cardCount =
+                                                                                snapshot.data.analog[index].cardCount - 1;
+                                                                            dataBase.updateProduct(snapshot.data.analog[index]).then((value) {
+                                                                              blocItem.fetchAnalogUpdate();
+                                                                            });
+                                                                          } else if (snapshot.data.analog[index].cardCount ==
+                                                                              1) {
+                                                                            dataBase.deleteProducts(snapshot.data.analog[index].id).then((value) {
+                                                                              blocItem.fetchAnalogUpdate();
+                                                                            });
+                                                                          }
+                                                                        },
+                                                                        child:
+                                                                            Container(
+                                                                          height:
+                                                                              29,
+                                                                          width:
+                                                                              29,
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            color:
+                                                                                AppTheme.blue,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(8),
+                                                                          ),
+                                                                          child:
+                                                                              Center(
+                                                                            child:
+                                                                                SvgPicture.asset(
+                                                                              "assets/icons/remove.svg",
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      Expanded(
+                                                                        child:
+                                                                            Center(
+                                                                          child:
+                                                                              Text(
+                                                                            snapshot.data.analog[index].cardCount.toString() +
+                                                                                " " +
+                                                                                translate("sht"),
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontFamily: AppTheme.fontRubik,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              fontSize: 12,
+                                                                              height: 1.2,
+                                                                              color: AppTheme.text_dark,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      GestureDetector(
+                                                                        onTap:
+                                                                            () {
+                                                                          if (snapshot.data.analog[index].cardCount <
+                                                                              snapshot.data.analog[index].maxCount)
+                                                                            snapshot.data.analog[index].cardCount =
+                                                                                snapshot.data.analog[index].cardCount + 1;
+                                                                          dataBase
+                                                                              .updateProduct(snapshot.data.analog[index])
+                                                                              .then((value) {
+                                                                            blocItem.fetchAnalogUpdate();
+                                                                          });
+                                                                        },
+                                                                        child:
+                                                                            Container(
+                                                                          height:
+                                                                              29,
+                                                                          width:
+                                                                              29,
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            color:
+                                                                                AppTheme.blue,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(8),
+                                                                          ),
+                                                                          child:
+                                                                              Center(
+                                                                            child:
+                                                                                SvgPicture.asset(
+                                                                              "assets/icons/add.svg",
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              : GestureDetector(
+                                                                  onTap: () {
+                                                                    snapshot
+                                                                        .data
+                                                                        .analog[
+                                                                            index]
+                                                                        .cardCount = 1;
+                                                                    dataBase
+                                                                        .saveProducts(snapshot
                                                                             .data
-                                                                            .analog[
-                                                                        index])
-                                                                    .then(
-                                                                        (value) {
-                                                                  blocItem
-                                                                      .fetchAnalogUpdate();
-                                                                });
-                                                              },
-                                                              child: Container(
-                                                                height: 29,
-                                                                width: double
-                                                                    .infinity,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color:
-                                                                      AppTheme
-                                                                          .blue,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8),
-                                                                ),
-                                                                child: Center(
+                                                                            .analog[index])
+                                                                        .then((value) {
+                                                                      blocItem
+                                                                          .fetchAnalogUpdate();
+                                                                    });
+                                                                  },
                                                                   child:
-                                                                      RichText(
-                                                                    text:
-                                                                        TextSpan(
-                                                                      children: [
-                                                                        TextSpan(
-                                                                          text: priceFormat.format(snapshot
-                                                                              .data
-                                                                              .analog[index]
-                                                                              .price),
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontFamily:
-                                                                                AppTheme.fontRubik,
-                                                                            fontWeight:
-                                                                                FontWeight.w500,
-                                                                            fontSize:
-                                                                                14,
-                                                                            height:
-                                                                                1.2,
-                                                                            color:
-                                                                                AppTheme.white,
-                                                                          ),
+                                                                      Container(
+                                                                    height: 29,
+                                                                    width: double
+                                                                        .infinity,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      color: AppTheme
+                                                                          .blue,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              8),
+                                                                    ),
+                                                                    child:
+                                                                        Center(
+                                                                      child:
+                                                                          RichText(
+                                                                        text:
+                                                                            TextSpan(
+                                                                          children: [
+                                                                            TextSpan(
+                                                                              text: priceFormat.format(snapshot.data.analog[index].price),
+                                                                              style: TextStyle(
+                                                                                fontFamily: AppTheme.fontRubik,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                fontSize: 14,
+                                                                                height: 1.2,
+                                                                                color: AppTheme.white,
+                                                                              ),
+                                                                            ),
+                                                                            TextSpan(
+                                                                              text: translate("sum"),
+                                                                              style: TextStyle(
+                                                                                fontFamily: AppTheme.fontRubik,
+                                                                                fontWeight: FontWeight.w400,
+                                                                                fontSize: 14,
+                                                                                height: 1.2,
+                                                                                color: AppTheme.white,
+                                                                              ),
+                                                                            ),
+                                                                          ],
                                                                         ),
-                                                                        TextSpan(
-                                                                          text:
-                                                                              translate("sum"),
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontFamily:
-                                                                                AppTheme.fontRubik,
-                                                                            fontWeight:
-                                                                                FontWeight.w400,
-                                                                            fontSize:
-                                                                                14,
-                                                                            height:
-                                                                                1.2,
-                                                                            color:
-                                                                                AppTheme.white,
-                                                                          ),
-                                                                        ),
-                                                                      ],
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                            ),
-                                                ],
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
                                             ),
+                                            itemCount:
+                                                snapshot.data.analog.length,
                                           ),
                                         ),
-                                        itemCount: snapshot.data.analog.length,
-                                      ),
-                                    ),
                             ],
                           ),
                         ),

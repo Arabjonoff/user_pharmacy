@@ -38,7 +38,17 @@ class _OnBoardingState extends State<OnBoarding> {
     controller.addListener(() {
       setState(() {
         currentPageValue = controller.page;
-        currentIndex = controller.page.toInt();
+        if (controller.page >= 0.0 && controller.page < 0.5) {
+          currentIndex = 0;
+        } else if (controller.page >= 0.5 && controller.page < 1.5) {
+          currentIndex = 1;
+        } else if (controller.page >= 1.5 && controller.page < 2.5) {
+          currentIndex = 2;
+        } else if (controller.page >= 2.5 && controller.page < 3.5) {
+          currentIndex = 3;
+        } else if (controller.page >= 3.5 && controller.page < 4.5) {
+          currentIndex = 4;
+        }
       });
     });
     super.initState();
@@ -227,57 +237,62 @@ class _OnBoardingState extends State<OnBoarding> {
                                 ),
                               ),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(top: 16),
-              width: double.infinity,
-              child: PageView.builder(
-                controller: controller,
-                itemBuilder: (context, position) {
-                  if (position == currentPageValue.floor()) {
-                    return Transform(
-                      transform: Matrix4.identity()
-                        ..rotateX(currentPageValue - position),
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 24),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(26),
-                          child: Image.asset(
-                            "assets/img/${image[position]}",
-                            fit: BoxFit.fill,
-                          ),
+          Expanded(child: Container()),
+          Container(
+            margin: EdgeInsets.only(top: 16),
+            constraints: BoxConstraints(
+              minHeight: 43.3,
+              minWidth: 32.7,
+              maxHeight: MediaQuery.of(context).size.width * 433.0 / 327.0,
+              maxWidth: MediaQuery.of(context).size.width,
+            ),
+            child: PageView.builder(
+              controller: controller,
+              itemBuilder: (context, position) {
+                if (position == currentPageValue.floor()) {
+                  return Transform(
+                    transform: Matrix4.identity()
+                      ..rotateX(currentPageValue - position),
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 24),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(26),
+                        child: Image.asset(
+                          "assets/img/${image[position]}",
+                          fit: BoxFit.fill,
                         ),
                       ),
-                    );
-                  } else if (position == currentPageValue.floor() + 1) {
-                    return Transform(
-                      transform: Matrix4.identity()
-                        ..rotateX(currentPageValue - position),
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 24),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(26),
-                          child: Image.asset(
-                            "assets/img/${image[position]}",
-                            fit: BoxFit.fill,
-                          ),
+                    ),
+                  );
+                } else if (position == currentPageValue.floor() + 1) {
+                  return Transform(
+                    transform: Matrix4.identity()
+                      ..rotateX(currentPageValue - position),
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 24),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(26),
+                        child: Image.asset(
+                          "assets/img/${image[position]}",
+                          fit: BoxFit.fill,
                         ),
                       ),
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-                itemCount: 5,
-              ),
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+              itemCount: 5,
             ),
           ),
+          Expanded(child: Container()),
           Container(
             margin: EdgeInsets.only(
               bottom: 24,

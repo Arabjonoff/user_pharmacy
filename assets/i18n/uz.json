@@ -46,7 +46,9 @@
     "skip": "O'tkazib yuborish"
   },
   "category": {
-    "title": "Kategoriyalar"
+    "title": "Kategoriyalar",
+    "analog_empty_title": "Hech narsa topilmadi",
+    "analog_empty_msg": "Afsuski, ushbu preparat uchun analoglar topilmadi."
   },
   "card": {
     "name": "Savatcha",
@@ -260,7 +262,9 @@
     "price": "Narx bo'yicha (o'sish bo'yicha)",
     "un_price": "Narx bo'yicha (kamayish bo'yicha)",
     "max": "Dorining maxkimal narxi",
-    "result": "Natijani ko'rish"
+    "result": "Natijani ko'rish",
+    "cash_title": "Buyurtma bekor qilindi, batafsil ma'lumot uchun buyurtma tafsilotlarini ko'ring",
+    "detail": "Buyurtma tafsilotlari"
   },
   "payment": {
     "name": "To'lov",

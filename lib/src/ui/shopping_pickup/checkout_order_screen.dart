@@ -578,72 +578,74 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
           ),
           GestureDetector(
             onTap: () async {
-              setState(() {
-                loading = true;
-              });
-              List<Drugs> drugs = new List();
-              var data = await dataBase.getProdu(true);
-              for (int i = 0; i < data.length; i++) {
-                drugs.add(
-                  Drugs(
-                    drug: data[i].id,
-                    qty: data[i].cardCount,
-                  ),
-                );
-              }
-              CreateOrderModel createOrder = new CreateOrderModel(
-                device: Platform.isIOS ? "IOS" : "Android",
-                type: "self",
-                storeId: storeInfo.id,
-                drugs: drugs,
-                fullName: firstName + " " + lastName,
-                phone: number.replaceAll(" ", "").replaceAll("+", ""),
-              );
-              var response = await Repository().fetchCreateOrder(createOrder);
-              if (response.isSuccess) {
-                var result = CreateOrderStatusModel.fromJson(response.result);
-                if (result.status == 1) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => OrderCardPickupScreen(
-                        result.data.orderId,
-                        result.data.expireSelfOrder,
-                        widget.cashBackData,
-                        false,
-                      ),
+              if (storeInfo != null) {
+                setState(() {
+                  loading = true;
+                });
+                List<Drugs> drugs = new List();
+                var data = await dataBase.getProdu(true);
+                for (int i = 0; i < data.length; i++) {
+                  drugs.add(
+                    Drugs(
+                      drug: data[i].id,
+                      qty: data[i].cardCount,
                     ),
                   );
+                }
+                CreateOrderModel createOrder = new CreateOrderModel(
+                  device: Platform.isIOS ? "IOS" : "Android",
+                  type: "self",
+                  storeId: storeInfo.id,
+                  drugs: drugs,
+                  fullName: firstName + " " + lastName,
+                  phone: number.replaceAll(" ", "").replaceAll("+", ""),
+                );
+                var response = await Repository().fetchCreateOrder(createOrder);
+                if (response.isSuccess) {
+                  var result = CreateOrderStatusModel.fromJson(response.result);
+                  if (result.status == 1) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OrderCardPickupScreen(
+                          result.data.orderId,
+                          result.data.expireSelfOrder,
+                          widget.cashBackData,
+                          false,
+                        ),
+                      ),
+                    );
+                    setState(() {
+                      loading = false;
+                    });
+                    dataBase.clear();
+                    blocCard.fetchAllCard();
+                  } else {
+                    setState(() {
+                      loading = false;
+                      TopDialog.errorMessage(
+                        context,
+                        result.msg,
+                      );
+                    });
+                  }
+                } else if (response.status == -1) {
                   setState(() {
                     loading = false;
+                    TopDialog.errorMessage(
+                      context,
+                      translate("network.network_title"),
+                    );
                   });
-                  dataBase.clear();
-                  blocCard.fetchAllCard();
                 } else {
                   setState(() {
                     loading = false;
                     TopDialog.errorMessage(
                       context,
-                      result.msg,
+                      response.result["msg"],
                     );
                   });
                 }
-              } else if (response.status == -1) {
-                setState(() {
-                  loading = false;
-                  TopDialog.errorMessage(
-                    context,
-                    translate("network.network_title"),
-                  );
-                });
-              } else {
-                setState(() {
-                  loading = false;
-                  TopDialog.errorMessage(
-                    context,
-                    response.result["msg"],
-                  );
-                });
               }
             },
             child: Container(

@@ -646,8 +646,6 @@ class _CardScreenState extends State<CardScreen> {
                                             ),
                                             Container(
                                               height: 1,
-                                              margin: EdgeInsets.only(
-                                                  left: 8, right: 8),
                                               color: AppTheme.background,
                                             )
                                           ],

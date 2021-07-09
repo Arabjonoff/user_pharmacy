@@ -134,8 +134,18 @@ class _VerifyScreenState extends State<VerifyScreen> {
         children: [
           Expanded(
             child: Center(
-              child: Image.asset(
-                "assets/img/logo.png",
+              child: Container(
+                constraints: BoxConstraints(
+                  minHeight: 5.0,
+                  minWidth: 5.0,
+                  maxHeight: 50.0,
+                  maxWidth: 258.0,
+                ),
+                child: Center(
+                  child: Image.asset(
+                    "assets/img/logo.png",
+                  ),
+                ),
               ),
             ),
           ),

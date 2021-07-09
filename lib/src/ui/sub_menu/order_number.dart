@@ -347,8 +347,16 @@ class _OrderNumberState extends State<OrderNumber> {
                                         blocHistory.fetchAllHistory(1);
                                         pageHistory = 2;
                                         Navigator.pop(context);
-                                        BottomDialog.historyCancelOrder(
-                                            context);
+                                        if (widget.item.paymentType.type ==
+                                            "cash") {
+                                          BottomDialog.historyCancelOrderCash(
+                                            context,
+                                          );
+                                        } else {
+                                          BottomDialog.historyCancelOrderOnline(
+                                            context,
+                                          );
+                                        }
                                       }
                                     },
                                   );
@@ -893,12 +901,8 @@ class _OrderNumberState extends State<OrderNumber> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(
-                    top: 16,
-                    left: 16,
-                    right: 16,
-                    bottom: 24
-                  ),
+                  margin:
+                      EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 24),
                   decoration: BoxDecoration(
                     color: AppTheme.white,
                     borderRadius: BorderRadius.circular(24),

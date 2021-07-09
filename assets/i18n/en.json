@@ -46,7 +46,9 @@
     "skip": "Skip"
   },
   "category": {
-    "title": "Categories"
+    "title": "Categories",
+    "analog_empty_title": "Nothing found",
+    "analog_empty_msg": "Unfortunately, no analogues could be found for this drug."
   },
   "card": {
     "name": "Basket",
@@ -260,7 +262,9 @@
     "price": "By price (ascending)",
     "un_price": "By price (descending)",
     "max": "Maximum drug price",
-    "result": "Show result"
+    "result": "Show result",
+    "cash_title": "Order canceled, for more details see order details",
+    "detail": "Order details"
   },
   "payment": {
     "name": "Payment",

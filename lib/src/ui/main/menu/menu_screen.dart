@@ -245,7 +245,6 @@ class _MenuScreenState extends State<MenuScreen> {
                           Color(0xFF5C9CE6),
                         ],
                       ),
-                      borderRadius: BorderRadius.circular(24),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
