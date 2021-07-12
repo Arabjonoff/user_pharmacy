@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:pharmacy/src/model/api/history_model.dart';
 import 'package:pharmacy/src/model/eventBus/bottom_view.dart';
 import 'package:pharmacy/src/resourses/repository.dart';

@@ -62,6 +62,7 @@ class _AddressStoreMapPickupScreenState
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     if (mapController != null) {
       mapController.showUserLayer(

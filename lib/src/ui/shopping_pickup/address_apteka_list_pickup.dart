@@ -47,6 +47,7 @@ class _AddressStoreListPickupScreenState
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.white,
