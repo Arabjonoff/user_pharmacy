@@ -6,7 +6,6 @@ import 'dart:convert';
 
 class Utils {
   static String baseUrl = "https://api.gopharm.uz";
-
   //static String baseUrl = "https://test.gopharm.uz";
 
   static Future<void> saveData(int userId, String name, String surname,

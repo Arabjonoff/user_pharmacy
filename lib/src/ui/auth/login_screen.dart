@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               maxLength: 17,
               inputFormatters: [
-                WhitelistingTextInputFormatter.digitsOnly,
+                FilteringTextInputFormatter.digitsOnly,
                 _phoneNumber,
               ],
               controller: loginController,

@@ -322,7 +322,7 @@ class BottomDialog {
                         ),
                         maxLength: 17,
                         inputFormatters: [
-                          WhitelistingTextInputFormatter.digitsOnly,
+                          FilteringTextInputFormatter.digitsOnly,
                           _phoneNumber,
                         ],
                         controller: numberController,
