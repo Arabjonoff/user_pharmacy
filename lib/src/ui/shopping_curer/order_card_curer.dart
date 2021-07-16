@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -48,6 +49,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
   bool loading = false;
 
   TextEditingController cashPriceController = TextEditingController();
+  static const platform = const MethodChannel('payment_launch');
 
   @override
   void initState() {
@@ -655,8 +657,19 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                       if (response.isSuccess) {
                         var result = OrderStatusModel.fromJson(response.result);
                         if (result.status == 1) {
-                          if (result.paymentRedirectUrl.length > 0)
-                            await launch(result.paymentRedirectUrl);
+                          if (result.paymentRedirectUrl.length > 0) {
+                            if (Platform.isIOS) {
+                              var click = await platform.invokeMethod(
+                                'click',
+                                result.paymentRedirectUrl,
+                              );
+                              if (click == 2) {
+                                await launch(result.paymentRedirectUrl);
+                              }
+                            } else {
+                              await launch(result.paymentRedirectUrl);
+                            }
+                          }
                           Navigator.of(context)
                               .popUntil((route) => route.isFirst);
                           if (!widget.isHistory) {
