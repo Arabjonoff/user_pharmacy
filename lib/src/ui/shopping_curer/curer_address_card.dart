@@ -44,6 +44,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
   @override
   void initState() {
     _getFullName();
+    _getOrderOption();
     blocOrderOptions.fetchOrderOptions();
     blocStore.fetchAllAddress();
     super.initState();
@@ -54,6 +55,9 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
     _scrollController.dispose();
     super.dispose();
   }
+
+  List<AddressModel> allAddressInfo;
+  OrderOptionsModel orderOptions;
 
   @override
   Widget build(BuildContext context) {
@@ -98,8 +102,6 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
         children: [
           Expanded(
             child: ListView(
-              physics: BouncingScrollPhysics(),
-              cacheExtent: 99999999,
               padding: EdgeInsets.all(16),
               controller: _scrollController,
               children: [
@@ -143,17 +145,20 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                         stream: blocStore.allAddressInfo,
                         builder: (context,
                             AsyncSnapshot<List<AddressModel>> snapshot) {
-                          if (snapshot.hasData) {
+                          if (snapshot.hasData || allAddressInfo != null) {
+                            if (snapshot.hasData) {
+                              allAddressInfo = snapshot.data;
+                            }
                             return ListView.builder(
                               shrinkWrap: true,
                               padding: EdgeInsets.all(0),
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount: snapshot.data.length,
+                              itemCount: allAddressInfo.length,
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      myAddress = snapshot.data[index];
+                                      myAddress = allAddressInfo[index];
                                     });
                                   },
                                   child: Container(
@@ -167,12 +172,12 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                     padding: EdgeInsets.all(8),
                                     child: Row(
                                       children: [
-                                        snapshot.data[index].type == 1
+                                        allAddressInfo[index].type == 1
                                             ? SvgPicture.asset(
                                                 "assets/icons/home.svg",
                                                 color: AppTheme.textGray,
                                               )
-                                            : snapshot.data[index].type == 2
+                                            : allAddressInfo[index].type == 2
                                                 ? SvgPicture.asset(
                                                     "assets/icons/work.svg",
                                                     color: AppTheme.textGray,
@@ -184,12 +189,13 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                         SizedBox(width: 8),
                                         Expanded(
                                           child: Text(
-                                            snapshot.data[index].type == 1
+                                            allAddressInfo[index].type == 1
                                                 ? translate("address.home")
-                                                : snapshot.data[index].type == 2
+                                                : allAddressInfo[index].type ==
+                                                        2
                                                     ? translate("address.work")
-                                                    : snapshot
-                                                        .data[index].street,
+                                                    : allAddressInfo[index]
+                                                        .street,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
@@ -202,19 +208,19 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                           ),
                                         ),
                                         SizedBox(width: 8),
-                                        snapshot.data[index].type == 0
+                                        allAddressInfo[index].type == 0
                                             ? GestureDetector(
                                                 child: SvgPicture.asset(
                                                     "assets/icons/edit.svg"),
                                                 onTap: () {
                                                   BottomDialog.editAddress(
                                                     context,
-                                                    snapshot.data[index],
+                                                    allAddressInfo[index],
                                                   );
                                                 },
                                               )
                                             : Container(),
-                                        snapshot.data[index].type == 0
+                                        allAddressInfo[index].type == 0
                                             ? SizedBox(width: 8)
                                             : Container(),
                                         AnimatedContainer(
@@ -228,7 +234,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                                 BorderRadius.circular(16),
                                             border: Border.all(
                                               color: myAddress.id ==
-                                                      snapshot.data[index].id
+                                                      allAddressInfo[index].id
                                                   ? AppTheme.blue
                                                   : AppTheme.gray,
                                             ),
@@ -240,7 +246,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                             width: 10,
                                             decoration: BoxDecoration(
                                               color: myAddress.id ==
-                                                      snapshot.data[index].id
+                                                      allAddressInfo[index].id
                                                   ? AppTheme.blue
                                                   : AppTheme.background,
                                               borderRadius:
@@ -307,201 +313,130 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                     ],
                   ),
                 ),
-                StreamBuilder(
-                  stream: blocOrderOptions.orderOptions,
-                  builder:
-                      (context, AsyncSnapshot<OrderOptionsModel> snapshot) {
-                    if (snapshot.hasData) {
-                      if (isFirst && snapshot.data.shippingTimes.length > 0) {
-                        isFirst = false;
-                        shippingId = snapshot.data.shippingTimes[0].id;
-                      }
-                      return Container(
-                        margin: EdgeInsets.only(top: 16),
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        decoration: BoxDecoration(
-                          color: AppTheme.white,
-                          borderRadius: BorderRadius.circular(24),
+                orderOptions == null ? Container():Container(
+                  margin: EdgeInsets.only(top: 16),
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  decoration: BoxDecoration(
+                    color: AppTheme.white,
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: 24,
+                          right: 24,
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                left: 24,
-                                right: 24,
-                              ),
-                              child: Text(
-                                translate("card.type"),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  height: 1.2,
-                                  color: AppTheme.text_dark,
-                                ),
-                              ),
-                            ),
-                            Container(
+                        child: Text(
+                          translate("card.type"),
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontRubik,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.2,
+                            color: AppTheme.text_dark,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 16),
+                        height: 1,
+                        width: double.infinity,
+                        color: AppTheme.background,
+                      ),
+                      ListView.builder(
+                        physics: ClampingScrollPhysics(),
+                        shrinkWrap: true,
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        itemCount: orderOptions.shippingTimes.length,
+                        itemBuilder: (BuildContext ctxt, int index) {
+                          return GestureDetector(
+                            onTap: () {
+                              if (orderOptions.shippingTimes[index].id !=
+                                  shippingId) {
+                                setState(() {
+                                  shippingId = orderOptions
+                                      .shippingTimes[index].id;
+                                });
+                              }
+                            },
+                            child: Container(
                               margin: EdgeInsets.only(top: 16),
-                              height: 1,
+                              padding: EdgeInsets.symmetric(
+                                vertical: 12,
+                                horizontal: 8,
+                              ),
                               width: double.infinity,
-                              color: AppTheme.background,
-                            ),
-                            ListView.builder(
-                              physics: ClampingScrollPhysics(),
-                              shrinkWrap: true,
-                              padding: EdgeInsets.only(left: 16, right: 16),
-                              itemCount: snapshot.data.shippingTimes.length,
-                              itemBuilder: (BuildContext ctxt, int index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    if (snapshot.data.shippingTimes[index].id !=
-                                        shippingId) {
-                                      setState(() {
-                                        shippingId = snapshot
-                                            .data.shippingTimes[index].id;
-                                      });
-                                    }
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(top: 16),
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 12,
-                                      horizontal: 8,
+                              decoration: BoxDecoration(
+                                color: AppTheme.background,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                      "assets/icons/time.svg"),
+                                  SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      orderOptions
+                                          .shippingTimes[index].name,
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontRubik,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 14,
+                                        height: 1.2,
+                                        color: AppTheme.textGray,
+                                      ),
                                     ),
-                                    width: double.infinity,
+                                  ),
+                                  SizedBox(width: 8),
+                                  AnimatedContainer(
+                                    curve: Curves.easeInOut,
+                                    duration: duration,
+                                    height: 16,
+                                    width: 16,
                                     decoration: BoxDecoration(
                                       color: AppTheme.background,
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius:
+                                      BorderRadius.circular(16),
+                                      border: Border.all(
+                                        color: shippingId ==
+                                            orderOptions
+                                                .shippingTimes[index]
+                                                .id
+                                            ? AppTheme.blue
+                                            : AppTheme.gray,
+                                      ),
                                     ),
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                            "assets/icons/time.svg"),
-                                        SizedBox(width: 8),
-                                        Expanded(
-                                          child: Text(
-                                            snapshot
-                                                .data.shippingTimes[index].name,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontRubik,
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 14,
-                                              height: 1.2,
-                                              color: AppTheme.textGray,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 8),
-                                        AnimatedContainer(
-                                          curve: Curves.easeInOut,
-                                          duration: duration,
-                                          height: 16,
-                                          width: 16,
-                                          decoration: BoxDecoration(
-                                            color: AppTheme.background,
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                            border: Border.all(
-                                              color: shippingId ==
-                                                      snapshot
-                                                          .data
-                                                          .shippingTimes[index]
-                                                          .id
-                                                  ? AppTheme.blue
-                                                  : AppTheme.gray,
-                                            ),
-                                          ),
-                                          child: AnimatedContainer(
-                                            duration: duration,
-                                            curve: Curves.easeInOut,
-                                            height: 10,
-                                            width: 10,
-                                            decoration: BoxDecoration(
-                                              color: shippingId ==
-                                                      snapshot
-                                                          .data
-                                                          .shippingTimes[index]
-                                                          .id
-                                                  ? AppTheme.blue
-                                                  : AppTheme.background,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                          ),
-                                          padding: EdgeInsets.all(3),
-                                        ),
-                                        SizedBox(width: 8),
-                                      ],
+                                    child: AnimatedContainer(
+                                      duration: duration,
+                                      curve: Curves.easeInOut,
+                                      height: 10,
+                                      width: 10,
+                                      decoration: BoxDecoration(
+                                        color: shippingId ==
+                                            orderOptions
+                                                .shippingTimes[index]
+                                                .id
+                                            ? AppTheme.blue
+                                            : AppTheme.background,
+                                        borderRadius:
+                                        BorderRadius.circular(10),
+                                      ),
                                     ),
+                                    padding: EdgeInsets.all(3),
                                   ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                    return Container(
-                      margin: EdgeInsets.only(top: 16),
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      decoration: BoxDecoration(
-                        color: AppTheme.white,
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                              left: 24,
-                              right: 24,
-                            ),
-                            child: Text(
-                              translate("card.type"),
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontRubik,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                height: 1.2,
-                                color: AppTheme.text_dark,
+                                  SizedBox(width: 8),
+                                ],
                               ),
                             ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 16),
-                            height: 1,
-                            width: double.infinity,
-                            color: AppTheme.background,
-                          ),
-                          ListView.builder(
-                            physics: ClampingScrollPhysics(),
-                            shrinkWrap: true,
-                            padding: EdgeInsets.only(left: 16, right: 16),
-                            itemCount: 1,
-                            itemBuilder: (BuildContext ctxt, int index) {
-                              return Shimmer.fromColors(
-                                child: Container(
-                                  margin: EdgeInsets.only(top: 16),
-                                  height: 48,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.white,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                baseColor: Colors.grey[300],
-                                highlightColor: Colors.grey[100],
-                              );
-                            },
-                          ),
-                        ],
+                          );
+                        },
                       ),
-                    );
-                  },
+                    ],
+                  ),
                 ),
                 Container(
                   width: double.infinity,
@@ -766,5 +701,18 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
       lastName = prefs.getString('surname') ?? "";
       number = Utils.numberFormat(prefs.getString('number') ?? "");
     });
+  }
+
+  Future<void> _getOrderOption() async {
+    var responseBlog = await blocOrderOptions.orderOptions.first;
+    if (responseBlog.shippingTimes.length > 0) {
+      setState(() {
+        orderOptions = responseBlog;
+        if (isFirst) {
+          isFirst = false;
+          shippingId = orderOptions.shippingTimes[0].id;
+        }
+      });
+    }
   }
 }

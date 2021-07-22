@@ -9,14 +9,14 @@ class BannerModel {
   int count;
   dynamic next;
   dynamic previous;
-  List<Result> results;
+  List<BannerResult> results;
 
   factory BannerModel.fromJson(Map<String, dynamic> json) => BannerModel(
         count: json["count"],
         next: json["next"],
         previous: json["previous"],
         results:
-            List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
+            List<BannerResult>.from(json["results"].map((x) => BannerResult.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -27,8 +27,8 @@ class BannerModel {
       };
 }
 
-class Result {
-  Result({
+class BannerResult {
+  BannerResult({
     this.id,
     this.name,
     this.image,
@@ -50,7 +50,7 @@ class Result {
   int category;
   List<int> drugs;
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory BannerResult.fromJson(Map<String, dynamic> json) => BannerResult(
         id: json["id"],
         name: json["name"],
         image: json["image"],

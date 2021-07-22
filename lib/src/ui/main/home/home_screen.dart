@@ -79,6 +79,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void initState() {
     _sc.addListener(() {
       if (_sc.offset ~/ 10 > 0) {
+        blocHome.update();
         if (_sc.offset ~/ 10 < lastPosition) {
           lastPosition = _sc.offset ~/ 10;
           if (isAnimated == false) {
@@ -108,6 +109,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     blocHome.fetchSlimmingItem();
     blocHome.fetchCashBack();
     blocHome.fetchCityName();
+    _getCashInfo();
+    _getBlog();
     super.initState();
   }
 
@@ -117,6 +120,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _sc.dispose();
     super.dispose();
   }
+
+  List<BannerResult> bannerResults;
+  List<ItemResult> recentlyItem;
+  List<CategoryResults> categoryResults;
+  List<ItemResult> getBestItem;
+  ItemModel slimmingItem;
+  BlogResults cashBack;
+  List<BlogResults> blog = [];
 
   @override
   Widget build(BuildContext context) {
@@ -282,9 +293,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
           Expanded(
             child: ListView(
+              shrinkWrap: true,
               controller: _sc,
-              physics: BouncingScrollPhysics(),
-              cacheExtent: 99999999,
               padding: EdgeInsets.only(
                 top: 16,
                 bottom: 24,
@@ -298,8 +308,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: StreamBuilder(
                     stream: blocHome.banner,
                     builder: (context, AsyncSnapshot<BannerModel> snapshot) {
-                      if (snapshot.hasData) {
-                        if (snapshot.data.results.length > 0) {
+                      if (snapshot.hasData || bannerResults != null) {
+                        if (snapshot.hasData) {
+                          bannerResults = snapshot.data.results;
+                        }
+                        if (bannerResults.length > 0) {
                           return CarouselSlider(
                             options: CarouselOptions(
                               height: (MediaQuery.of(context).size.width - 32) /
@@ -310,7 +323,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               autoPlayInterval: Duration(seconds: 4),
                               enlargeCenterPage: false,
                             ),
-                            items: snapshot.data.results.map(
+                            items: bannerResults.map(
                               (url) {
                                 return GestureDetector(
                                   onTap: () async {
@@ -399,8 +412,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 StreamBuilder(
                   stream: blocHome.recentlyItem,
                   builder: (context, AsyncSnapshot<ItemModel> snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data.results.length > 0) {
+                    if (snapshot.hasData || recentlyItem != null) {
+                      if (snapshot.hasData) {
+                        recentlyItem = snapshot.data.results;
+                      }
+                      if (recentlyItem.length > 0) {
                         return Container(
                           height: 225,
                           margin: EdgeInsets.only(top: 24),
@@ -430,8 +446,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     GestureDetector(
                                       onTap: () {
                                         widget.onListItem(
-                                            name: translate("home.recently"),
-                                            type: 1);
+                                          name: translate("home.recently"),
+                                          type: 1,
+                                        );
                                       },
                                       child: Container(
                                         color: AppTheme.background,
@@ -471,7 +488,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       onTap: () {
                                         RxBus.post(
                                           BottomViewModel(
-                                              snapshot.data.results[index].id),
+                                              recentlyItem[index].id),
                                           tag: "EVENT_BOTTOM_ITEM_ALL",
                                         );
                                       },
@@ -498,10 +515,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 children: [
                                                   Center(
                                                     child: CachedNetworkImage(
-                                                      imageUrl: snapshot
-                                                          .data
-                                                          .results[index]
-                                                          .imageThumbnail,
+                                                      imageUrl:
+                                                          recentlyItem[index]
+                                                              .imageThumbnail,
                                                       placeholder:
                                                           (context, url) =>
                                                               SvgPicture.asset(
@@ -518,22 +534,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   Positioned(
                                                     child: GestureDetector(
                                                       onTap: () {
-                                                        snapshot
-                                                                .data
-                                                                .results[index]
+                                                        recentlyItem[index]
                                                                 .favourite =
-                                                            !snapshot
-                                                                .data
-                                                                .results[index]
+                                                            !recentlyItem[index]
                                                                 .favourite;
-                                                        if (snapshot
-                                                            .data
-                                                            .results[index]
+                                                        if (recentlyItem[index]
                                                             .favourite) {
                                                           dataBaseFav
                                                               .saveProducts(
-                                                                  snapshot.data
-                                                                          .results[
+                                                                  recentlyItem[
                                                                       index])
                                                               .then((value) {
                                                             blocHome
@@ -542,9 +551,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                         } else {
                                                           dataBaseFav
                                                               .deleteProducts(
-                                                                  snapshot
-                                                                      .data
-                                                                      .results[
+                                                                  recentlyItem[
                                                                           index]
                                                                       .id)
                                                               .then((value) {
@@ -553,9 +560,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           });
                                                         }
                                                       },
-                                                      child: snapshot
-                                                              .data
-                                                              .results[index]
+                                                      child: recentlyItem[index]
                                                               .favourite
                                                           ? SvgPicture.asset(
                                                               "assets/icons/fav_select.svg")
@@ -566,13 +571,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     right: 0,
                                                   ),
                                                   Positioned(
-                                                    child: snapshot
-                                                                .data
-                                                                .results[index]
+                                                    child: recentlyItem[index]
                                                                 .price >=
-                                                            snapshot
-                                                                .data
-                                                                .results[index]
+                                                            recentlyItem[index]
                                                                 .basePrice
                                                         ? Container()
                                                         : Container(
@@ -592,11 +593,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             ),
                                                             child: Text(
                                                               "-" +
-                                                                  (((snapshot.data.results[index].basePrice - snapshot.data.results[index].price) *
+                                                                  (((recentlyItem[index].basePrice - recentlyItem[index].price) *
                                                                               100) ~/
-                                                                          snapshot
-                                                                              .data
-                                                                              .results[index]
+                                                                          recentlyItem[index]
                                                                               .basePrice)
                                                                       .toString() +
                                                                   "%",
@@ -622,7 +621,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             ),
                                             SizedBox(height: 4),
                                             Text(
-                                              snapshot.data.results[index].name,
+                                              recentlyItem[index].name,
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -635,8 +634,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             ),
                                             SizedBox(height: 4),
                                             Text(
-                                              snapshot.data.results[index]
-                                                  .manufacturer.name,
+                                              recentlyItem[index]
+                                                  .manufacturer
+                                                  .name,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -648,8 +648,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               ),
                                             ),
                                             SizedBox(height: 4),
-                                            snapshot.data.results[index]
-                                                    .isComing
+                                            recentlyItem[index].isComing
                                                 ? Container(
                                                     height: 29,
                                                     width: double.infinity,
@@ -684,7 +683,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       ),
                                                     ),
                                                   )
-                                                : snapshot.data.results[index]
+                                                : recentlyItem[index]
                                                             .cardCount >
                                                         0
                                                     ? Container(
@@ -709,44 +708,33 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           children: [
                                                             GestureDetector(
                                                               onTap: () {
-                                                                if (snapshot
-                                                                        .data
-                                                                        .results[
+                                                                if (recentlyItem[
                                                                             index]
                                                                         .cardCount >
                                                                     1) {
-                                                                  snapshot
-                                                                      .data
-                                                                      .results[
+                                                                  recentlyItem[
                                                                           index]
-                                                                      .cardCount = snapshot
-                                                                          .data
-                                                                          .results[
+                                                                      .cardCount = recentlyItem[
                                                                               index]
                                                                           .cardCount -
                                                                       1;
                                                                   dataBase
-                                                                      .updateProduct(snapshot
-                                                                              .data
-                                                                              .results[
-                                                                          index])
+                                                                      .updateProduct(
+                                                                          recentlyItem[
+                                                                              index])
                                                                       .then(
                                                                           (value) {
                                                                     blocHome
                                                                         .fetchRecentlyUpdate();
                                                                   });
-                                                                } else if (snapshot
-                                                                        .data
-                                                                        .results[
+                                                                } else if (recentlyItem[
                                                                             index]
                                                                         .cardCount ==
                                                                     1) {
                                                                   dataBase
-                                                                      .deleteProducts(snapshot
-                                                                          .data
-                                                                          .results[
-                                                                              index]
-                                                                          .id)
+                                                                      .deleteProducts(
+                                                                          recentlyItem[index]
+                                                                              .id)
                                                                       .then(
                                                                           (value) {
                                                                     blocHome
@@ -779,9 +767,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             Expanded(
                                                               child: Center(
                                                                 child: Text(
-                                                                  snapshot
-                                                                          .data
-                                                                          .results[
+                                                                  recentlyItem[
                                                                               index]
                                                                           .cardCount
                                                                           .toString() +
@@ -807,31 +793,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             ),
                                                             GestureDetector(
                                                               onTap: () {
-                                                                if (snapshot
-                                                                        .data
-                                                                        .results[
+                                                                if (recentlyItem[
                                                                             index]
                                                                         .cardCount <
-                                                                    snapshot
-                                                                        .data
-                                                                        .results[
+                                                                    recentlyItem[
                                                                             index]
                                                                         .maxCount)
-                                                                  snapshot
-                                                                      .data
-                                                                      .results[
+                                                                  recentlyItem[
                                                                           index]
-                                                                      .cardCount = snapshot
-                                                                          .data
-                                                                          .results[
+                                                                      .cardCount = recentlyItem[
                                                                               index]
                                                                           .cardCount +
                                                                       1;
                                                                 dataBase
-                                                                    .updateProduct(snapshot
-                                                                            .data
-                                                                            .results[
-                                                                        index])
+                                                                    .updateProduct(
+                                                                        recentlyItem[
+                                                                            index])
                                                                     .then(
                                                                         (value) {
                                                                   blocHome
@@ -865,14 +842,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       )
                                                     : GestureDetector(
                                                         onTap: () {
-                                                          snapshot
-                                                              .data
-                                                              .results[index]
+                                                          recentlyItem[index]
                                                               .cardCount = 1;
                                                           dataBase
                                                               .saveProducts(
-                                                                  snapshot.data
-                                                                          .results[
+                                                                  recentlyItem[
                                                                       index])
                                                               .then((value) {
                                                             blocHome
@@ -897,11 +871,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                               text: TextSpan(
                                                                 children: [
                                                                   TextSpan(
-                                                                    text: priceFormat.format(snapshot
-                                                                        .data
-                                                                        .results[
-                                                                            index]
-                                                                        .price),
+                                                                    text: priceFormat
+                                                                        .format(
+                                                                            recentlyItem[index].price),
                                                                     style:
                                                                         TextStyle(
                                                                       fontFamily:
@@ -948,7 +920,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ),
                                     ),
                                   ),
-                                  itemCount: snapshot.data.results.length,
+                                  itemCount: recentlyItem.length,
                                 ),
                               ),
                             ],
@@ -1015,8 +987,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 StreamBuilder(
                   stream: blocHome.categoryItem,
                   builder: (context, AsyncSnapshot<CategoryModel> snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data.results.length > 0) {
+                    if (snapshot.hasData || categoryResults != null) {
+                      if (snapshot.hasData) {
+                        categoryResults = snapshot.data.results;
+                      }
+                      if (categoryResults.length > 0) {
                         return Container(
                           margin: EdgeInsets.only(top: 24, left: 16, right: 16),
                           padding: EdgeInsets.only(top: 16, bottom: 16),
@@ -1053,14 +1028,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ListView.builder(
                                 padding: EdgeInsets.only(
                                     top: 0, left: 16, right: 16, bottom: 4),
-                                itemCount: snapshot.data.results.length,
+                                itemCount: categoryResults.length,
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
                                       widget.onListItem(
-                                        name: snapshot.data.results[index].name,
+                                        name: categoryResults[index].name,
                                         type: 2,
-                                        id: snapshot.data.results[index].id
+                                        id: categoryResults[index]
+                                            .id
                                             .toString(),
                                       );
                                     },
@@ -1074,8 +1050,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             width: 42,
                                             height: 42,
                                             child: CachedNetworkImage(
-                                              imageUrl: snapshot
-                                                  .data.results[index].image,
+                                              imageUrl:
+                                                  categoryResults[index].image,
                                               placeholder: (context, url) =>
                                                   SvgPicture.asset(
                                                 "assets/icons/default_image.svg",
@@ -1091,7 +1067,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           SizedBox(width: 12),
                                           Expanded(
                                             child: Text(
-                                              snapshot.data.results[index].name,
+                                              categoryResults[index].name,
                                               style: TextStyle(
                                                 fontFamily: AppTheme.fontRubik,
                                                 fontWeight: FontWeight.normal,
@@ -1162,8 +1138,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 StreamBuilder(
                   stream: blocHome.getBestItem,
                   builder: (context, AsyncSnapshot<ItemModel> snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data.results.length > 0) {
+                    if (snapshot.hasData || getBestItem != null) {
+                      if (snapshot.hasData) {
+                        getBestItem = snapshot.data.results;
+                      }
+                      if (getBestItem.length > 0) {
                         return Container(
                           height: 225,
                           margin: EdgeInsets.only(top: 24),
@@ -1235,7 +1214,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       onTap: () {
                                         RxBus.post(
                                           BottomViewModel(
-                                              snapshot.data.results[index].id),
+                                              getBestItem[index].id),
                                           tag: "EVENT_BOTTOM_ITEM_ALL",
                                         );
                                       },
@@ -1262,10 +1241,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 children: [
                                                   Center(
                                                     child: CachedNetworkImage(
-                                                      imageUrl: snapshot
-                                                          .data
-                                                          .results[index]
-                                                          .imageThumbnail,
+                                                      imageUrl:
+                                                          getBestItem[index]
+                                                              .imageThumbnail,
                                                       placeholder:
                                                           (context, url) =>
                                                               SvgPicture.asset(
@@ -1282,22 +1260,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   Positioned(
                                                     child: GestureDetector(
                                                       onTap: () {
-                                                        snapshot
-                                                                .data
-                                                                .results[index]
+                                                        getBestItem[index]
                                                                 .favourite =
-                                                            !snapshot
-                                                                .data
-                                                                .results[index]
+                                                            !getBestItem[index]
                                                                 .favourite;
-                                                        if (snapshot
-                                                            .data
-                                                            .results[index]
+                                                        if (getBestItem[index]
                                                             .favourite) {
                                                           dataBaseFav
                                                               .saveProducts(
-                                                                  snapshot.data
-                                                                          .results[
+                                                                  getBestItem[
                                                                       index])
                                                               .then((value) {
                                                             blocHome
@@ -1306,9 +1277,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                         } else {
                                                           dataBaseFav
                                                               .deleteProducts(
-                                                                  snapshot
-                                                                      .data
-                                                                      .results[
+                                                                  getBestItem[
                                                                           index]
                                                                       .id)
                                                               .then((value) {
@@ -1317,9 +1286,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           });
                                                         }
                                                       },
-                                                      child: snapshot
-                                                              .data
-                                                              .results[index]
+                                                      child: getBestItem[index]
                                                               .favourite
                                                           ? SvgPicture.asset(
                                                               "assets/icons/fav_select.svg")
@@ -1330,13 +1297,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     right: 0,
                                                   ),
                                                   Positioned(
-                                                    child: snapshot
-                                                                .data
-                                                                .results[index]
+                                                    child: getBestItem[index]
                                                                 .price >=
-                                                            snapshot
-                                                                .data
-                                                                .results[index]
+                                                            getBestItem[index]
                                                                 .basePrice
                                                         ? Container()
                                                         : Container(
@@ -1356,11 +1319,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             ),
                                                             child: Text(
                                                               "-" +
-                                                                  (((snapshot.data.results[index].basePrice - snapshot.data.results[index].price) *
+                                                                  (((getBestItem[index].basePrice - getBestItem[index].price) *
                                                                               100) ~/
-                                                                          snapshot
-                                                                              .data
-                                                                              .results[index]
+                                                                          getBestItem[index]
                                                                               .basePrice)
                                                                       .toString() +
                                                                   "%",
@@ -1386,7 +1347,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             ),
                                             SizedBox(height: 4),
                                             Text(
-                                              snapshot.data.results[index].name,
+                                              getBestItem[index].name,
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -1399,8 +1360,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             ),
                                             SizedBox(height: 4),
                                             Text(
-                                              snapshot.data.results[index]
-                                                  .manufacturer.name,
+                                              getBestItem[index]
+                                                  .manufacturer
+                                                  .name,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -1412,8 +1374,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               ),
                                             ),
                                             SizedBox(height: 4),
-                                            snapshot.data.results[index]
-                                                    .isComing
+                                            getBestItem[index].isComing
                                                 ? Container(
                                                     height: 29,
                                                     width: double.infinity,
@@ -1448,8 +1409,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       ),
                                                     ),
                                                   )
-                                                : snapshot.data.results[index]
-                                                            .cardCount >
+                                                : getBestItem[index].cardCount >
                                                         0
                                                     ? Container(
                                                         height: 29,
@@ -1473,44 +1433,33 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           children: [
                                                             GestureDetector(
                                                               onTap: () {
-                                                                if (snapshot
-                                                                        .data
-                                                                        .results[
+                                                                if (getBestItem[
                                                                             index]
                                                                         .cardCount >
                                                                     1) {
-                                                                  snapshot
-                                                                      .data
-                                                                      .results[
+                                                                  getBestItem[
                                                                           index]
-                                                                      .cardCount = snapshot
-                                                                          .data
-                                                                          .results[
+                                                                      .cardCount = getBestItem[
                                                                               index]
                                                                           .cardCount -
                                                                       1;
                                                                   dataBase
-                                                                      .updateProduct(snapshot
-                                                                              .data
-                                                                              .results[
-                                                                          index])
+                                                                      .updateProduct(
+                                                                          getBestItem[
+                                                                              index])
                                                                       .then(
                                                                           (value) {
                                                                     blocHome
                                                                         .fetchBestUpdate();
                                                                   });
-                                                                } else if (snapshot
-                                                                        .data
-                                                                        .results[
+                                                                } else if (getBestItem[
                                                                             index]
                                                                         .cardCount ==
                                                                     1) {
                                                                   dataBase
-                                                                      .deleteProducts(snapshot
-                                                                          .data
-                                                                          .results[
-                                                                              index]
-                                                                          .id)
+                                                                      .deleteProducts(
+                                                                          getBestItem[index]
+                                                                              .id)
                                                                       .then(
                                                                           (value) {
                                                                     blocHome
@@ -1543,10 +1492,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             Expanded(
                                                               child: Center(
                                                                 child: Text(
-                                                                  snapshot
-                                                                          .data
-                                                                          .results[
-                                                                              index]
+                                                                  getBestItem[index]
                                                                           .cardCount
                                                                           .toString() +
                                                                       " " +
@@ -1571,31 +1517,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             ),
                                                             GestureDetector(
                                                               onTap: () {
-                                                                if (snapshot
-                                                                        .data
-                                                                        .results[
+                                                                if (getBestItem[
                                                                             index]
                                                                         .cardCount <
-                                                                    snapshot
-                                                                        .data
-                                                                        .results[
+                                                                    getBestItem[
                                                                             index]
                                                                         .maxCount)
-                                                                  snapshot
-                                                                      .data
-                                                                      .results[
+                                                                  getBestItem[
                                                                           index]
-                                                                      .cardCount = snapshot
-                                                                          .data
-                                                                          .results[
+                                                                      .cardCount = getBestItem[
                                                                               index]
                                                                           .cardCount +
                                                                       1;
                                                                 dataBase
-                                                                    .updateProduct(snapshot
-                                                                            .data
-                                                                            .results[
-                                                                        index])
+                                                                    .updateProduct(
+                                                                        getBestItem[
+                                                                            index])
                                                                     .then(
                                                                         (value) {
                                                                   blocHome
@@ -1629,14 +1566,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       )
                                                     : GestureDetector(
                                                         onTap: () {
-                                                          snapshot
-                                                              .data
-                                                              .results[index]
+                                                          getBestItem[index]
                                                               .cardCount = 1;
                                                           dataBase
                                                               .saveProducts(
-                                                                  snapshot.data
-                                                                          .results[
+                                                                  getBestItem[
                                                                       index])
                                                               .then((value) {
                                                             blocHome
@@ -1661,11 +1595,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                               text: TextSpan(
                                                                 children: [
                                                                   TextSpan(
-                                                                    text: priceFormat.format(snapshot
-                                                                        .data
-                                                                        .results[
-                                                                            index]
-                                                                        .price),
+                                                                    text: priceFormat
+                                                                        .format(
+                                                                            getBestItem[index].price),
                                                                     style:
                                                                         TextStyle(
                                                                       fontFamily:
@@ -1712,7 +1644,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ),
                                     ),
                                   ),
-                                  itemCount: snapshot.data.results.length,
+                                  itemCount: getBestItem.length,
                                 ),
                               ),
                             ],
@@ -1779,8 +1711,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 StreamBuilder(
                   stream: blocHome.slimmingItem,
                   builder: (context, AsyncSnapshot<ItemModel> snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data.drugs.length > 0) {
+                    if (snapshot.hasData || slimmingItem != null) {
+                      if (snapshot.hasData) {
+                        slimmingItem = snapshot.data;
+                      }
+                      if (slimmingItem.drugs.length > 0) {
                         return Container(
                           height: 225,
                           margin: EdgeInsets.only(top: 24),
@@ -1797,7 +1732,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 child: Row(
                                   children: [
                                     Text(
-                                      snapshot.data.title,
+                                      slimmingItem.title,
                                       style: TextStyle(
                                         fontFamily: AppTheme.fontRubik,
                                         fontWeight: FontWeight.w500,
@@ -1810,7 +1745,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     GestureDetector(
                                       onTap: () {
                                         widget.onListItem(
-                                          name: snapshot.data.title,
+                                          name: slimmingItem.title,
                                           type: 4,
                                         );
                                       },
@@ -1852,7 +1787,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       onTap: () {
                                         RxBus.post(
                                           BottomViewModel(
-                                              snapshot.data.drugs[index].id),
+                                              slimmingItem.drugs[index].id),
                                           tag: "EVENT_BOTTOM_ITEM_ALL",
                                         );
                                       },
@@ -1879,8 +1814,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 children: [
                                                   Center(
                                                     child: CachedNetworkImage(
-                                                      imageUrl: snapshot
-                                                          .data
+                                                      imageUrl: slimmingItem
                                                           .drugs[index]
                                                           .imageThumbnail,
                                                       placeholder:
@@ -1899,21 +1833,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   Positioned(
                                                     child: GestureDetector(
                                                       onTap: () {
-                                                        snapshot
-                                                                .data
+                                                        slimmingItem
                                                                 .drugs[index]
                                                                 .favourite =
-                                                            !snapshot
-                                                                .data
+                                                            !slimmingItem
                                                                 .drugs[index]
                                                                 .favourite;
-                                                        if (snapshot
-                                                            .data
+                                                        if (slimmingItem
                                                             .drugs[index]
                                                             .favourite) {
                                                           dataBaseFav
                                                               .saveProducts(
-                                                                  snapshot.data
+                                                                  slimmingItem
                                                                           .drugs[
                                                                       index])
                                                               .then((value) {
@@ -1923,8 +1854,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                         } else {
                                                           dataBaseFav
                                                               .deleteProducts(
-                                                                  snapshot
-                                                                      .data
+                                                                  slimmingItem
                                                                       .drugs[
                                                                           index]
                                                                       .id)
@@ -1934,8 +1864,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           });
                                                         }
                                                       },
-                                                      child: snapshot
-                                                              .data
+                                                      child: slimmingItem
                                                               .drugs[index]
                                                               .favourite
                                                           ? SvgPicture.asset(
@@ -1947,12 +1876,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     right: 0,
                                                   ),
                                                   Positioned(
-                                                    child: snapshot
-                                                                .data
+                                                    child: slimmingItem
                                                                 .drugs[index]
                                                                 .price >=
-                                                            snapshot
-                                                                .data
+                                                            slimmingItem
                                                                 .drugs[index]
                                                                 .basePrice
                                                         ? Container()
@@ -1973,10 +1900,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             ),
                                                             child: Text(
                                                               "-" +
-                                                                  (((snapshot.data.drugs[index].basePrice - snapshot.data.drugs[index].price) *
+                                                                  (((slimmingItem.drugs[index].basePrice - slimmingItem.drugs[index].price) *
                                                                               100) ~/
-                                                                          snapshot
-                                                                              .data
+                                                                          slimmingItem
                                                                               .drugs[index]
                                                                               .basePrice)
                                                                       .toString() +
@@ -2003,7 +1929,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             ),
                                             SizedBox(height: 4),
                                             Text(
-                                              snapshot.data.drugs[index].name,
+                                              slimmingItem.drugs[index].name,
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -2016,7 +1942,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             ),
                                             SizedBox(height: 4),
                                             Text(
-                                              snapshot.data.drugs[index]
+                                              slimmingItem.drugs[index]
                                                   .manufacturer.name,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
@@ -2029,7 +1955,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               ),
                                             ),
                                             SizedBox(height: 4),
-                                            snapshot.data.drugs[index].isComing
+                                            slimmingItem.drugs[index].isComing
                                                 ? Container(
                                                     height: 29,
                                                     width: double.infinity,
@@ -2064,7 +1990,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       ),
                                                     ),
                                                   )
-                                                : snapshot.data.drugs[index]
+                                                : slimmingItem.drugs[index]
                                                             .cardCount >
                                                         0
                                                     ? Container(
@@ -2089,41 +2015,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           children: [
                                                             GestureDetector(
                                                               onTap: () {
-                                                                if (snapshot
-                                                                        .data
+                                                                if (slimmingItem
                                                                         .drugs[
                                                                             index]
                                                                         .cardCount >
                                                                     1) {
-                                                                  snapshot
-                                                                      .data
+                                                                  slimmingItem
                                                                       .drugs[
                                                                           index]
-                                                                      .cardCount = snapshot
-                                                                          .data
+                                                                      .cardCount = slimmingItem
                                                                           .drugs[
                                                                               index]
                                                                           .cardCount -
                                                                       1;
                                                                   dataBase
-                                                                      .updateProduct(snapshot
-                                                                              .data
-                                                                              .drugs[
-                                                                          index])
+                                                                      .updateProduct(
+                                                                          slimmingItem.drugs[
+                                                                              index])
                                                                       .then(
                                                                           (value) {
                                                                     blocHome
                                                                         .fetchSlimmingUpdate();
                                                                   });
-                                                                } else if (snapshot
-                                                                        .data
+                                                                } else if (slimmingItem
                                                                         .drugs[
                                                                             index]
                                                                         .cardCount ==
                                                                     1) {
                                                                   dataBase
-                                                                      .deleteProducts(snapshot
-                                                                          .data
+                                                                      .deleteProducts(slimmingItem
                                                                           .drugs[
                                                                               index]
                                                                           .id)
@@ -2159,8 +2079,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             Expanded(
                                                               child: Center(
                                                                 child: Text(
-                                                                  snapshot
-                                                                          .data
+                                                                  slimmingItem
                                                                           .drugs[
                                                                               index]
                                                                           .cardCount
@@ -2187,31 +2106,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             ),
                                                             GestureDetector(
                                                               onTap: () {
-                                                                if (snapshot
-                                                                        .data
+                                                                if (slimmingItem
                                                                         .drugs[
                                                                             index]
                                                                         .cardCount <
-                                                                    snapshot
-                                                                        .data
+                                                                    slimmingItem
                                                                         .drugs[
                                                                             index]
                                                                         .maxCount)
-                                                                  snapshot
-                                                                      .data
+                                                                  slimmingItem
                                                                       .drugs[
                                                                           index]
-                                                                      .cardCount = snapshot
-                                                                          .data
+                                                                      .cardCount = slimmingItem
                                                                           .drugs[
                                                                               index]
                                                                           .cardCount +
                                                                       1;
                                                                 dataBase
-                                                                    .updateProduct(snapshot
-                                                                            .data
-                                                                            .drugs[
-                                                                        index])
+                                                                    .updateProduct(
+                                                                        slimmingItem.drugs[
+                                                                            index])
                                                                     .then(
                                                                         (value) {
                                                                   blocHome
@@ -2245,13 +2159,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       )
                                                     : GestureDetector(
                                                         onTap: () {
-                                                          snapshot
-                                                              .data
+                                                          slimmingItem
                                                               .drugs[index]
                                                               .cardCount = 1;
                                                           dataBase
                                                               .saveProducts(
-                                                                  snapshot.data
+                                                                  slimmingItem
                                                                           .drugs[
                                                                       index])
                                                               .then((value) {
@@ -2277,8 +2190,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                               text: TextSpan(
                                                                 children: [
                                                                   TextSpan(
-                                                                    text: priceFormat.format(snapshot
-                                                                        .data
+                                                                    text: priceFormat.format(slimmingItem
                                                                         .drugs[
                                                                             index]
                                                                         .price),
@@ -2328,7 +2240,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ),
                                     ),
                                   ),
-                                  itemCount: snapshot.data.drugs.length,
+                                  itemCount: slimmingItem.drugs.length,
                                 ),
                               ),
                             ],
@@ -2392,313 +2304,104 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     );
                   },
                 ),
-                StreamBuilder(
-                  stream: blocHome.cashBack,
-                  builder: (context, AsyncSnapshot<BlogModel> snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data.results.length > 0) {
-                        return Container(
-                          padding: EdgeInsets.all(16),
-                          margin: EdgeInsets.only(
-                            top: 24,
-                            left: 16,
-                            right: 16,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppTheme.white,
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                child: CachedNetworkImage(
-                                  imageUrl: snapshot.data.results[0].image,
-                                  placeholder: (context, url) => Image.asset(
-                                    "assets/img/default.png",
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      Image.asset(
-                                    "assets/img/default.png",
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              SizedBox(height: 16),
-                              Text(
-                                snapshot.data.results[0].title,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18,
-                                  height: 1.2,
-                                  color: AppTheme.text_dark,
-                                ),
-                              ),
-                              SizedBox(height: 8),
-                              Text(
-                                snapshot.data.results[0].body.replaceAll("<p>", " "),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 14,
-                                  height: 1.6,
-                                  color: AppTheme.textGray,
-                                ),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(height: 16),
-                              GestureDetector(
-                                onTap: () {
-                                  widget.onBlogList(
-                                    image: snapshot.data.results[0].image,
-                                    dateTime:
-                                        snapshot.data.results[0].updatedAt,
-                                    title: snapshot.data.results[0].title,
-                                    message: snapshot.data.results[0].body,
-                                  );
-                                },
-                                child: Container(
-                                  child: Center(
-                                    child: Text(
-                                      translate("home.bonus_all"),
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontRubik,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        height: 1.25,
-                                        color: AppTheme.white,
-                                      ),
-                                    ),
-                                  ),
-                                  height: 44,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.blue,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-                      } else {
-                        return Container();
-                      }
-                    }
-                    return Shimmer.fromColors(
-                      baseColor: Colors.grey[300],
-                      highlightColor: Colors.grey[100],
-                      child: Container(
-                        margin: EdgeInsets.only(top: 24, left: 16, right: 16),
-                        width: double.infinity,
-                        height: 210,
+                cashBack == null
+                    ? Container()
+                    : Container(
+                        padding: EdgeInsets.all(16),
+                        margin: EdgeInsets.only(
+                          top: 24,
+                          left: 16,
+                          right: 16,
+                        ),
                         decoration: BoxDecoration(
                           color: AppTheme.white,
                           borderRadius: BorderRadius.circular(24),
                         ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              child: CachedNetworkImage(
+                                imageUrl: cashBack.image,
+                                placeholder: (context, url) => Image.asset(
+                                  "assets/img/default.png",
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
+                                  "assets/img/default.png",
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            SizedBox(height: 16),
+                            Text(
+                              cashBack.title,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                                height: 1.2,
+                                color: AppTheme.text_dark,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              cashBack.body.replaceAll("<p>", " "),
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontRubik,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                height: 1.6,
+                                color: AppTheme.textGray,
+                              ),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(height: 16),
+                            GestureDetector(
+                              onTap: () {
+                                widget.onBlogList(
+                                  image: cashBack.image,
+                                  dateTime: cashBack.updatedAt,
+                                  title: cashBack.title,
+                                  message: cashBack.body,
+                                );
+                              },
+                              child: Container(
+                                child: Center(
+                                  child: Text(
+                                    translate("home.bonus_all"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      height: 1.25,
+                                      color: AppTheme.white,
+                                    ),
+                                  ),
+                                ),
+                                height: 44,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: AppTheme.blue,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    );
-                  },
-                ),
-                StreamBuilder(
-                  stream: blocHome.blog,
-                  builder: (context, AsyncSnapshot<BlogModel> snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data.results.length > 0) {
-                        return Container(
-                          height: 282,
-                          margin: EdgeInsets.only(top: 24),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(
-                                  right: 16,
-                                  left: 16,
-                                  bottom: 16,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      translate("home.articles"),
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontRubik,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        height: 1.1,
-                                        color: AppTheme.text_dark,
-                                      ),
-                                    ),
-                                    Expanded(child: Container()),
-                                    GestureDetector(
-                                      child: Container(
-                                        color: AppTheme.background,
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              translate("home.all"),
-                                              style: TextStyle(
-                                                fontFamily: AppTheme.fontRubik,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16,
-                                                height: 1.1,
-                                                color: AppTheme.blue,
-                                              ),
-                                            ),
-                                            SvgPicture.asset(
-                                                "assets/icons/arrow_right_blue.svg")
-                                          ],
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        widget.onItemBlog();
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: ListView.builder(
-                                  padding: const EdgeInsets.only(
-                                    top: 0,
-                                    bottom: 0,
-                                    right: 0,
-                                    left: 16,
-                                  ),
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) => Padding(
-                                    padding: const EdgeInsets.only(bottom: 0.0),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        widget.onBlogList(
-                                          image: snapshot
-                                              .data.results[index].image,
-                                          dateTime: snapshot
-                                              .data.results[index].updatedAt,
-                                          title: snapshot
-                                              .data.results[index].title,
-                                          message:
-                                              snapshot.data.results[index].body,
-                                        );
-                                      },
-                                      child: Container(
-                                        width: 253,
-                                        height: 246,
-                                        decoration: BoxDecoration(
-                                          color: AppTheme.white,
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                        ),
-                                        margin: EdgeInsets.only(
-                                          right: 16,
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Expanded(
-                                              child: ClipRRect(
-                                                child: CachedNetworkImage(
-                                                  imageUrl: snapshot.data
-                                                      .results[index].image,
-                                                  placeholder: (context, url) =>
-                                                      Image.asset(
-                                                    "assets/img/default.png",
-                                                    width: 253,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          Image.asset(
-                                                    "assets/img/default.png",
-                                                    width: 253,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                  width: 253,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(16),
-                                                  topRight: Radius.circular(16),
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              child: Text(
-                                                Utils.dateFormat(snapshot.data
-                                                    .results[index].updatedAt),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      AppTheme.fontRubik,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 12,
-                                                  height: 1.2,
-                                                  color: AppTheme.textGray,
-                                                ),
-                                              ),
-                                              margin: EdgeInsets.only(
-                                                bottom: 8,
-                                                top: 8,
-                                                left: 16,
-                                                right: 16,
-                                              ),
-                                            ),
-                                            Container(
-                                              child: Text(
-                                                snapshot
-                                                    .data.results[index].title,
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      AppTheme.fontRubik,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 14,
-                                                  height: 1.6,
-                                                  color: AppTheme.text_dark,
-                                                ),
-                                              ),
-                                              margin: EdgeInsets.only(
-                                                bottom: 16,
-                                                left: 16,
-                                                right: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  itemCount: snapshot.data.results.length,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      } else {
-                        return Container();
-                      }
-                    }
-                    return Container(
-                      height: 282,
-                      margin: EdgeInsets.only(top: 24),
-                      child: Shimmer.fromColors(
-                        baseColor: Colors.grey[300],
-                        highlightColor: Colors.grey[100],
+                blog.length > 0
+                    ? Container(
+                        height: 282,
+                        margin: EdgeInsets.only(top: 24),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -2709,42 +2412,160 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 left: 16,
                                 bottom: 16,
                               ),
-                              height: 19,
-                              width: 125,
-                              color: AppTheme.white,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    translate("home.articles"),
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontRubik,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      height: 1.1,
+                                      color: AppTheme.text_dark,
+                                    ),
+                                  ),
+                                  Expanded(child: Container()),
+                                  GestureDetector(
+                                    child: Container(
+                                      color: AppTheme.background,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            translate("home.all"),
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontRubik,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                              height: 1.1,
+                                              color: AppTheme.blue,
+                                            ),
+                                          ),
+                                          SvgPicture.asset(
+                                              "assets/icons/arrow_right_blue.svg")
+                                        ],
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      widget.onItemBlog();
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
                             Expanded(
                               child: ListView.builder(
                                 padding: const EdgeInsets.only(
                                   top: 0,
                                   bottom: 0,
-                                  right: 16,
+                                  right: 0,
                                   left: 16,
                                 ),
                                 scrollDirection: Axis.horizontal,
-                                itemBuilder: (_, __) => Padding(
+                                itemBuilder: (context, index) => Padding(
                                   padding: const EdgeInsets.only(bottom: 0.0),
-                                  child: Container(
-                                    width: 253,
-                                    height: 246,
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.white,
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    margin: EdgeInsets.only(
-                                      right: 16,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      widget.onBlogList(
+                                        image: blog[index].image,
+                                        dateTime: blog[index].updatedAt,
+                                        title: blog[index].title,
+                                        message: blog[index].body,
+                                      );
+                                    },
+                                    child: Container(
+                                      width: 253,
+                                      height: 246,
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.white,
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      margin: EdgeInsets.only(
+                                        right: 16,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: ClipRRect(
+                                              child: CachedNetworkImage(
+                                                imageUrl: blog[index].image,
+                                                placeholder: (context, url) =>
+                                                    Image.asset(
+                                                  "assets/img/default.png",
+                                                  width: 253,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Image.asset(
+                                                  "assets/img/default.png",
+                                                  width: 253,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                width: 253,
+                                                fit: BoxFit.cover,
+                                              ),
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(16),
+                                                topRight: Radius.circular(16),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Text(
+                                              Utils.dateFormat(
+                                                  blog[index].updatedAt),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 12,
+                                                height: 1.2,
+                                                color: AppTheme.textGray,
+                                              ),
+                                            ),
+                                            margin: EdgeInsets.only(
+                                              bottom: 8,
+                                              top: 8,
+                                              left: 16,
+                                              right: 16,
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Text(
+                                              blog[index].title,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 14,
+                                                height: 1.6,
+                                                color: AppTheme.text_dark,
+                                              ),
+                                            ),
+                                            margin: EdgeInsets.only(
+                                              bottom: 16,
+                                              left: 16,
+                                              right: 16,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                                itemCount: 8,
+                                itemCount: blog.length,
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    );
-                  },
-                ),
+                      )
+                    : Container(),
                 GestureDetector(
                   onTap: () async {
                     var url = "tel:712050888";
@@ -2829,6 +2650,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       setState(() {
         var localizationDelegate = LocalizedApp.of(context).delegate;
         localizationDelegate.changeLocale(Locale('ru'));
+      });
+    }
+  }
+
+  Future<void> _getCashInfo() async {
+    var response = await blocHome.cashBack.first;
+    if (response.results.length > 0) {
+      setState(() {
+        cashBack = response.results[0];
+      });
+    }
+  }
+
+  Future<void> _getBlog() async {
+    var responseBlog = await blocHome.blog.first;
+    if (responseBlog.results.length > 0) {
+      setState(() {
+        blog = responseBlog.results;
       });
     }
   }

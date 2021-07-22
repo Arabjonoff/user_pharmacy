@@ -2,7 +2,7 @@ class CategoryModel {
   int count;
   String next;
   String previous;
-  List<Results> results;
+  List<CategoryResults> results;
 
   CategoryModel({this.count, this.next, this.previous, this.results});
 
@@ -11,9 +11,9 @@ class CategoryModel {
     next = json['next'];
     previous = json['previous'];
     if (json['results'] != null) {
-      results = new List<Results>();
+      results = new List<CategoryResults>();
       json['results'].forEach((v) {
-        results.add(new Results.fromJson(v));
+        results.add(new CategoryResults.fromJson(v));
       });
     }
   }
@@ -30,15 +30,15 @@ class CategoryModel {
   }
 }
 
-class Results {
+class CategoryResults {
   int id;
   String name;
   String image;
   List<Childs> childs;
 
-  Results({this.id, this.name, this.image, this.childs});
+  CategoryResults({this.id, this.name, this.image, this.childs});
 
-  Results.fromJson(Map<String, dynamic> json) {
+  CategoryResults.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     image = json['image'];

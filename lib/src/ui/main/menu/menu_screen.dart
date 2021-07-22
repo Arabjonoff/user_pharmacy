@@ -66,6 +66,7 @@ class _MenuScreenState extends State<MenuScreen> {
     RxBus.destroy();
     super.dispose();
   }
+  CashBackModel cashBackOptions;
 
   @override
   Widget build(BuildContext context) {
@@ -98,15 +99,16 @@ class _MenuScreenState extends State<MenuScreen> {
       ),
       body: ListView(
         controller: _scrollController,
-        physics: BouncingScrollPhysics(),
-        cacheExtent: 99999999,
         children: <Widget>[
           isLogin
               ? StreamBuilder(
                   stream: menuBack.cashBackOptions,
-                  builder: (context, AsyncSnapshot<CashBackModel> snapshot) {
-                    if (snapshot.hasData) {
-                      Utils.saveCashBack(snapshot.data.cash);
+                  builder: (context, AsyncSnapshot<CashBackModel> snapshot ) {
+                    if (snapshot.hasData || cashBackOptions != null) {
+                      if(snapshot.hasData){
+                        cashBackOptions = snapshot.data;
+                      }
+                      Utils.saveCashBack(cashBackOptions.cash);
                       return Container(
                         margin: EdgeInsets.only(
                           left: 16,
@@ -149,7 +151,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                     height: 4,
                                   ),
                                   Text(
-                                    priceFormat.format((snapshot.data.cash)
+                                    priceFormat.format((cashBackOptions.cash)
                                             .toInt()
                                             .toDouble()) +
                                         translate("sum"),
