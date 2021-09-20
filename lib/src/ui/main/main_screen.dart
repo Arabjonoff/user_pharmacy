@@ -36,6 +36,7 @@ import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/curer_address_card.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/checkout_order_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/about_app_screen.dart';
+import 'package:pharmacy/src/ui/sub_menu/chat_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/faq_app_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/history_order_screen.dart';
 import 'package:pharmacy/src/ui/sub_menu/my_address_screen.dart';
@@ -414,6 +415,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           FavouriteScreen(),
           MenuScreen(
+            onChat: _chat,
             onLogin: _login,
             onNoteAll: _noteAll,
             onHistory: _history,
@@ -431,7 +433,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _pickup(CashBackData data) {
-    List<ProductsStore> drugs = new List();
+    List<ProductsStore> drugs = <ProductsStore>[];
     dataBase.getProdu(true).then(
           (value) => {
             for (int i = 0; i < value.length; i++)
@@ -566,6 +568,14 @@ class _MainScreenState extends State<MainScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => LoginScreen(),
+      ),
+    );
+  }
+  void _chat() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChatScreen(),
       ),
     );
   }

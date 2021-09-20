@@ -47,7 +47,7 @@ class _CardScreenState extends State<CardScreen> {
   var loadingPickup = false;
   var loadingDelivery = false;
   bool isNext = false;
-  List<CheckErroData> errorData = new List();
+  List<CheckErroData> errorData = <CheckErroData>[];
   int minSum = 0;
   DatabaseHelper dataBase = new DatabaseHelper();
   ScrollController _scrollController = new ScrollController();
@@ -594,42 +594,45 @@ class _CardScreenState extends State<CardScreen> {
                                                                     Container(),
                                                               ),
                                                               Material(
-                                                                color: Colors.transparent,
+                                                                color: Colors
+                                                                    .transparent,
                                                                 child: InkWell(
-                                                                  customBorder: RoundedRectangleBorder(
-                                                                    borderRadius: BorderRadius.circular(56),
+                                                                  customBorder:
+                                                                      RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            56),
                                                                   ),
                                                                   onTap: () {
                                                                     widget.deleteItem(
                                                                         snapshot
-                                                                            .data[
-                                                                        index]
+                                                                            .data[index]
                                                                             .id);
                                                                   },
                                                                   child:
-                                                                  Container(
+                                                                      Container(
                                                                     height: 56,
                                                                     width: 56,
                                                                     decoration:
-                                                                    BoxDecoration(
-                                                                      color:
-                                                                      AppTheme
-                                                                          .white.withOpacity(0.01),
+                                                                        BoxDecoration(
+                                                                      color: AppTheme
+                                                                          .white
+                                                                          .withOpacity(
+                                                                              0.01),
                                                                       borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
+                                                                          BorderRadius
+                                                                              .circular(
                                                                         56,
                                                                       ),
                                                                     ),
                                                                     padding:
-                                                                    EdgeInsets
-                                                                        .all(
-                                                                        16),
-                                                                    child:
-                                                                    SvgPicture
+                                                                        EdgeInsets.all(
+                                                                            16),
+                                                                    child: SvgPicture
                                                                         .asset(
                                                                       "assets/icons/delete_item.svg",
-                                                                      height: 24,
+                                                                      height:
+                                                                          24,
                                                                       width: 24,
                                                                     ),
                                                                   ),
@@ -658,13 +661,14 @@ class _CardScreenState extends State<CardScreen> {
                                   onTap: () async {
                                     if (isLogin) {
                                       if (isNext) {
-                                        errorData = new List();
+                                        errorData = <CheckErroData>[];
                                         setState(() {
                                           loadingDelivery = true;
                                         });
                                         AccessStore addModel =
                                             new AccessStore();
-                                        List<ProductsStore> drugs = new List();
+                                        List<ProductsStore> drugs =
+                                            <ProductsStore>[];
 
                                         var databaseItem =
                                             await dataBase.getProduct();
@@ -781,14 +785,14 @@ class _CardScreenState extends State<CardScreen> {
                                       onTap: () async {
                                         if (isLogin) {
                                           if (isNext) {
-                                            errorData = new List();
+                                            errorData = <CheckErroData>[];
                                             setState(() {
                                               loadingPickup = true;
                                             });
                                             AccessStore addModel =
                                                 new AccessStore();
                                             List<ProductsStore> drugs =
-                                                new List();
+                                                <ProductsStore>[];
 
                                             var databaseItem =
                                                 await dataBase.getProduct();
@@ -820,7 +824,7 @@ class _CardScreenState extends State<CardScreen> {
                                                   CheckErrorModel.fromJson(
                                                       response.result);
                                               if (result.error == 0) {
-                                                errorData = new List();
+                                                errorData = <CheckErroData>[];
                                                 widget.onPickup(result.data);
                                                 setState(() {
                                                   loadingPickup = false;
@@ -828,7 +832,7 @@ class _CardScreenState extends State<CardScreen> {
                                               } else {
                                                 setState(() {
                                                   loadingPickup = false;
-                                                  errorData = new List();
+                                                  errorData = <CheckErroData>[];
                                                   if (result.errors != null)
                                                     errorData
                                                         .addAll(result.errors);

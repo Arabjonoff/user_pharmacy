@@ -99,7 +99,7 @@ class DatabaseHelper {
   Future<List<ItemResult>> getProduct() async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM $tableNote');
-    List<ItemResult> products = new List();
+    List<ItemResult> products = <ItemResult>[];
     for (int i = 0; i < list.length; i++) {
       var items = new ItemResult(
         list[i][columnId],
@@ -120,7 +120,7 @@ class DatabaseHelper {
   Future<List<ItemResult>> getProdu(bool card) async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM $tableNote');
-    List<ItemResult> products = new List();
+    List<ItemResult> products = <ItemResult>[];
     for (int i = 0; i < list.length; i++) {
       var items = new ItemResult(
         list[i][columnId],

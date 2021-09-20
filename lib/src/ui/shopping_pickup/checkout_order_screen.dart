@@ -582,7 +582,7 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
                 setState(() {
                   loading = true;
                 });
-                List<Drugs> drugs = new List();
+                List<Drugs> drugs = <Drugs>[];
                 var data = await dataBase.getProdu(true);
                 for (int i = 0; i < data.length; i++) {
                   drugs.add(

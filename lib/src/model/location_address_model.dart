@@ -47,7 +47,7 @@ class GeoObjectCollection {
 
   GeoObjectCollection.fromJson(Map<String, dynamic> json) {
     if (json['featureMember'] != null) {
-      featureMember = new List<FeatureMember>();
+      featureMember = <FeatureMember>[];
       json['featureMember'].forEach((v) {
         featureMember.add(new FeatureMember.fromJson(v));
       });

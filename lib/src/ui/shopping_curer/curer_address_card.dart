@@ -19,7 +19,6 @@ import 'package:pharmacy/src/ui/dialog/top_dialog.dart';
 import 'package:pharmacy/src/ui/shopping_curer/store_list_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../app_theme.dart';
 
@@ -598,7 +597,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                     loading = true;
                   });
 
-                  List<Drugs> drugs = new List();
+                  List<Drugs> drugs = <Drugs>[];
 
                   var cardItem = await dataBase.getProdu(true);
                   for (int i = 0; i < cardItem.length; i++) {

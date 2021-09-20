@@ -135,7 +135,9 @@
     "save": "Save changes",
     "exit_title": "Are you sure you want to logout of this account?",
     "exit_no": "Cancel",
-    "exit_yes": "Yes, logout"
+    "exit_yes": "Yes, logout",
+    "chat": "Chat",
+    "chat_title": "Chat title"
   },
   "search": {
     "hint": "Search for drugs",

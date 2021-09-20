@@ -76,7 +76,7 @@ class DatabaseHelperNote {
   Future<List<NoteModel>> getProduct() async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM $tableNote');
-    List<NoteModel> products = new List();
+    List<NoteModel> products = <NoteModel>[];
     for (int i = 0; i < list.length; i++) {
       var items = new NoteModel(
         id: list[i][columnId],
@@ -124,7 +124,7 @@ class DatabaseHelperNote {
 
   Future<List<NoteModel>> getProductsGroup(String id) async {
     var dbClient = await db;
-    List<NoteModel> products = new List();
+    List<NoteModel> products = <NoteModel>[];
     List<Map> result = await dbClient.query(tableNote,
         columns: [
           columnId,

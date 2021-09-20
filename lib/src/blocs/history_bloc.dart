@@ -7,7 +7,7 @@ import 'package:rxdart/rxdart.dart';
 class HistoryBloc {
   final _repository = Repository();
   final _historyFetcher = PublishSubject<HistoryModel>();
-  List<HistoryResults> data = new List();
+  List<HistoryResults> data = <HistoryResults>[];
 
   Stream<HistoryModel> get allHistory => _historyFetcher.stream;
 
@@ -15,7 +15,7 @@ class HistoryBloc {
     var response = await _repository.fetchHistory(page);
     if (response.isSuccess) {
       var result = HistoryModel.fromJson(response.result);
-      if (page == 1) data = new List();
+      if (page == 1) data = <HistoryResults>[];
       data.addAll(result.results);
       _historyFetcher.sink.add(
         HistoryModel(next: result.next, results: data),

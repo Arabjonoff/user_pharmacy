@@ -18,6 +18,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../app_theme.dart';
 
 class MenuScreen extends StatefulWidget {
+  final Function onChat;
   final Function onMyInfo;
   final Function onLogin;
   final Function onHistory;
@@ -30,6 +31,7 @@ class MenuScreen extends StatefulWidget {
   final Function onExit;
 
   MenuScreen({
+    this.onChat,
     this.onLogin,
     this.onNoteAll,
     this.onHistory,
@@ -66,6 +68,7 @@ class _MenuScreenState extends State<MenuScreen> {
     RxBus.destroy();
     super.dispose();
   }
+
   CashBackModel cashBackOptions;
 
   @override
@@ -103,9 +106,9 @@ class _MenuScreenState extends State<MenuScreen> {
           isLogin
               ? StreamBuilder(
                   stream: menuBack.cashBackOptions,
-                  builder: (context, AsyncSnapshot<CashBackModel> snapshot ) {
+                  builder: (context, AsyncSnapshot<CashBackModel> snapshot) {
                     if (snapshot.hasData || cashBackOptions != null) {
-                      if(snapshot.hasData){
+                      if (snapshot.hasData) {
                         cashBackOptions = snapshot.data;
                       }
                       Utils.saveCashBack(cashBackOptions.cash);
@@ -830,6 +833,66 @@ class _MenuScreenState extends State<MenuScreen> {
                     ),
                   ),
                 ),
+                isLogin
+                    ? GestureDetector(
+                        onTap: widget.onChat,
+                        child: Container(
+                          margin: EdgeInsets.only(top: 16, left: 16, right: 16),
+                          decoration: BoxDecoration(
+                            color: AppTheme.background,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                "assets/icons/card.svg",
+                                width: 24,
+                                height: 24,
+                              ),
+                              SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      translate("menu.chat"),
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontRubik,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 14,
+                                        height: 1.43,
+                                        color: AppTheme.text_dark,
+                                      ),
+                                    ),
+                                    SizedBox(height: 2),
+                                    Text(
+                                      translate("menu.chat_title"),
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontRubik,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 12,
+                                        height: 1.67,
+                                        color: AppTheme.textGray,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: 16),
+                              SvgPicture.asset(
+                                "assets/icons/arrow_right_grey.svg",
+                                width: 24,
+                                height: 24,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : Container(),
                 GestureDetector(
                   onTap: widget.onFaq,
                   child: Container(

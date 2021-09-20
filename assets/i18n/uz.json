@@ -135,7 +135,9 @@
     "save": "O'zgarishlarni saqlang",
     "exit_title": "Ushbu profildan chiqishni xohlaysizmi?",
     "exit_no": "Bekor qilish",
-    "exit_yes": "Ha, chiqaman"
+    "exit_yes": "Ha, chiqaman",
+    "chat": "Chat",
+    "chat_title": "Chat title"
   },
   "search": {
     "hint": "Dori qidirish",

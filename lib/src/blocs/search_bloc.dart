@@ -24,7 +24,7 @@ class SearchBloc {
       if (response.isSuccess) {
         ItemModel itemModel = ItemModel.fromJson(response.result);
         if (page == 1) {
-          allResult = new List();
+          allResult = <ItemResult>[];
         }
         allResult.addAll(itemModel.results);
         _searchFetcher.sink.add(

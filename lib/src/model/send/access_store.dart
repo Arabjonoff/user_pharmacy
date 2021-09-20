@@ -9,7 +9,7 @@ class AccessStore {
     lat = json['lat'];
     lng = json['lng'];
     if (json['products'] != null) {
-      products = new List<ProductsStore>();
+      products = <ProductsStore>[];
       json['products'].forEach((v) {
         products.add(new ProductsStore.fromJson(v));
       });

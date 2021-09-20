@@ -31,7 +31,7 @@ class CreateOrderModel {
     fullName = json['full_name'];
     phone = json['phone'];
     if (json['drugs'] != null) {
-      drugs = new List<Drugs>();
+      drugs = <Drugs>[];
       json['drugs'].forEach((v) {
         drugs.add(new Drugs.fromJson(v));
       });

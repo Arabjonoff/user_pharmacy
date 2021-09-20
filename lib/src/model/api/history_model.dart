@@ -16,7 +16,7 @@ class HistoryModel {
     next = json['next'];
     previous = json['previous'];
     if (json['results'] != null) {
-      results = new List<HistoryResults>();
+      results = <HistoryResults>[];
       json['results'].forEach((v) {
         results.add(new HistoryResults.fromJson(v));
       });
@@ -97,7 +97,7 @@ class HistoryResults {
     fullName = json['full_name'] == null ? "" : json['full_name'];
     phone = json['phone'] == null ? "" : json['phone'];
     if (json['items'] != null) {
-      items = new List<Items>();
+      items = <Items>[];
       json['items'].forEach((v) {
         items.add(new Items.fromJson(v));
       });

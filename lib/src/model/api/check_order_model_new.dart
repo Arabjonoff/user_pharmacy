@@ -31,7 +31,7 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['stores'] != null) {
-      stores = new List<Stores>();
+      stores = <Stores>[];
       json['stores'].forEach((v) {
         stores.add(new Stores.fromJson(v));
       });

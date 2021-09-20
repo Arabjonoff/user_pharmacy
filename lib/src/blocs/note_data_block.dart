@@ -13,7 +13,7 @@ class NoteDataBloc {
 
   fetchAllNote() async {
     List<NoteModel> note = await _repository.databaseNote();
-    List<NoteModel> noteSort = new List();
+    List<NoteModel> noteSort = <NoteModel>[];
     if (note.length > 0) {
       noteSort.add(note[0]);
       for (int i = 0; i < note.length - 1; i++) {
@@ -27,7 +27,7 @@ class NoteDataBloc {
 
   fetchOneNote(DateTime time) async {
     List<NoteModel> note = await _repository.databaseNote();
-    List<NoteModel> noteSort = new List();
+    List<NoteModel> noteSort = <NoteModel>[];
     if (note.length > 0) {
       for (int i = 0; i < note.length; i++) {
         if (note[i].dateItem.split(" ")[0] == time.toString().split(" ")[0]) {

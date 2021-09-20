@@ -72,7 +72,7 @@ class DatabaseHelperAddress {
   Future<List<AddressModel>> getProduct() async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM $tableNote');
-    List<AddressModel> products = new List();
+    List<AddressModel> products = <AddressModel>[];
     for (int i = 0; i < list.length; i++) {
       var items = new AddressModel(
         id: list[i][columnId],
@@ -95,7 +95,7 @@ class DatabaseHelperAddress {
   Future<List<AddressModel>> getAllProduct() async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM $tableNote');
-    List<AddressModel> products = new List();
+    List<AddressModel> products = <AddressModel>[];
     for (int i = 0; i < list.length; i++) {
       var items = new AddressModel(
         id: list[i][columnId],

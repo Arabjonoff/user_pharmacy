@@ -31,7 +31,7 @@ class RxBus {
 
   RxBus._internal();
 
-  static List<Bus> _list = List();
+  static List<Bus> _list = <Bus>[];
 
   static RxBus get singleton => _singleton;
 

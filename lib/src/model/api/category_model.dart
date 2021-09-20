@@ -11,7 +11,7 @@ class CategoryModel {
     next = json['next'];
     previous = json['previous'];
     if (json['results'] != null) {
-      results = new List<CategoryResults>();
+      results = <CategoryResults>[];
       json['results'].forEach((v) {
         results.add(new CategoryResults.fromJson(v));
       });
@@ -43,7 +43,7 @@ class CategoryResults {
     name = json['name'];
     image = json['image'];
     if (json['childs'] != null) {
-      childs = new List<Childs>();
+      childs = <Childs>[];
       json['childs'].forEach((v) {
         childs.add(new Childs.fromJson(v));
       });
@@ -73,7 +73,7 @@ class Childs {
     id = json['id'];
     name = json['name'];
     if (json['childs'] != null) {
-      childs = new List<Childs>();
+      childs = <Childs>[];
       json['childs'].forEach((v) {
         childs.add(new Childs.fromJson(v));
       });

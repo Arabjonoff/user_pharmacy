@@ -62,7 +62,7 @@ class ItemsAllModel {
         ? new Category.fromJson(json['category'])
         : Category(id: 0, name: "");
     if (json['analog'] != null) {
-      analog = new List<ItemResult>();
+      analog = <ItemResult>[];
       json['analog'].forEach((v) {
         analog.add(new ItemResult.fromJson(v));
       });

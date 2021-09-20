@@ -28,7 +28,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
 
   DatabaseHelperNote dataBase = new DatabaseHelperNote();
 
-  List<TimeNote> timeList = List();
+  List<TimeNote> timeList = <TimeNote>[];
 
   _AddNotifyScreenState() {
     durationController.addListener(() {
@@ -107,9 +107,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                     borderRadius: BorderRadius.circular(10.0),
                     color: AppTheme.auth_login,
                     border: Border.all(
-                      color: errorName
-                          ? AppTheme.red
-                          : AppTheme.auth_border,
+                      color: errorName ? AppTheme.red : AppTheme.auth_border,
                       width: 1.0,
                     ),
                   ),
@@ -175,9 +173,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                     borderRadius: BorderRadius.circular(10.0),
                     color: AppTheme.auth_login,
                     border: Border.all(
-                      color: errorDoza
-                          ? AppTheme.red
-                          : AppTheme.auth_border,
+                      color: errorDoza ? AppTheme.red : AppTheme.auth_border,
                       width: 1.0,
                     ),
                   ),
@@ -245,9 +241,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                       borderRadius: BorderRadius.circular(10.0),
                       color: AppTheme.auth_login,
                       border: Border.all(
-                        color: errorEda
-                            ? AppTheme.red
-                            : AppTheme.auth_border,
+                        color: errorEda ? AppTheme.red : AppTheme.auth_border,
                         width: 1.0,
                       ),
                     ),
@@ -306,9 +300,8 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                     borderRadius: BorderRadius.circular(10.0),
                     color: AppTheme.auth_login,
                     border: Border.all(
-                      color: errorDuration
-                          ? AppTheme.red
-                          : AppTheme.auth_border,
+                      color:
+                          errorDuration ? AppTheme.red : AppTheme.auth_border,
                       width: 1.0,
                     ),
                   ),
@@ -450,9 +443,7 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
                         color: AppTheme.white,
                         borderRadius: BorderRadius.circular(8.0),
                         border: Border.all(
-                            color: errorTime
-                                ? AppTheme.red
-                                : AppTheme.blue,
+                            color: errorTime ? AppTheme.red : AppTheme.blue,
                             width: 1)),
                     child: Icon(
                       Icons.add,
@@ -595,7 +586,8 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
     );
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.schedule(
         id,
         translate("note.notf_title") +

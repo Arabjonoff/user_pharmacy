@@ -31,7 +31,7 @@ class StoreBloc {
 
   fetchAllAddress() async {
     List<AddressModel> data = await _repository.databaseAddressAll();
-    List<AddressModel> sortData = new List();
+    List<AddressModel> sortData = <AddressModel>[];
     for (int i = 0; i < data.length; i++) {
       if (data[i].type == 1) {
         sortData.add(data[i]);

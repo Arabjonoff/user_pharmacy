@@ -6,13 +6,13 @@ class OrderOptionsModel {
 
   OrderOptionsModel.fromJson(Map<String, dynamic> json) {
     if (json['shipping_times'] != null) {
-      shippingTimes = new List<ShippingTimes>();
+      shippingTimes = <ShippingTimes>[];
       json['shipping_times'].forEach((v) {
         shippingTimes.add(new ShippingTimes.fromJson(v));
       });
     }
     if (json['payment_types'] != null) {
-      paymentTypes = new List<PaymentTypes>();
+      paymentTypes = <PaymentTypes>[];
       json['payment_types'].forEach((v) {
         paymentTypes.add(new PaymentTypes.fromJson(v));
       });

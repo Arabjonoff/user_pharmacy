@@ -11,7 +11,7 @@ class BlogModel {
     next = json['next'];
     previous = json['previous'];
     if (json['results'] != null) {
-      results = new List<BlogResults>();
+      results = <BlogResults>[];
       json['results'].forEach((v) {
         results.add(new BlogResults.fromJson(v));
       });
