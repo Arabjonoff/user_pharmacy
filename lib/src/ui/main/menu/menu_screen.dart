@@ -849,7 +849,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           child: Row(
                             children: [
                               SvgPicture.asset(
-                                "assets/icons/card.svg",
+                                "assets/icons/rate.svg",
                                 width: 24,
                                 height: 24,
                               ),

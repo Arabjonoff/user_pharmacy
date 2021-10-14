@@ -144,6 +144,12 @@ class Repository {
   Future<HttpResult> fetchItems(String id) =>
       pharmacyApiProvider.fetchItems(id);
 
+  Future<HttpResult> fetchAllMessage(int page) =>
+      pharmacyApiProvider.fetchAllMessage(page);
+
+  Future<HttpResult> fetchSendMessage(String message) =>
+      pharmacyApiProvider.fetchSendMessage(message);
+
   Future<HttpResult> fetchAccessStore(AccessStore accessStore) =>
       pharmacyApiProvider.fetchAccessStore(accessStore);
 

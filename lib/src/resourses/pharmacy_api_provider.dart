@@ -378,6 +378,21 @@ class PharmacyApiProvider {
     return await getRequest(url);
   }
 
+  ///All message
+  Future<HttpResult> fetchAllMessage(int page) async {
+    String url = Utils.baseUrl + '/api/v1/chat/messages?page=$page&per_page=20';
+    return await getRequest(url);
+  }
+
+  ///Send message
+  Future<HttpResult> fetchSendMessage(String message) async {
+    String url = Utils.baseUrl + '/api/v1/chat/send-message';
+    final data = {
+      "message": message,
+    };
+    return await postRequest(url, json.encode(data));
+  }
+
   ///regions
   Future<HttpResult> fetchRegions() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
