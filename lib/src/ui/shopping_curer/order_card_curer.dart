@@ -326,122 +326,122 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                       ],
                     ),
                   ),
-                  Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.only(
-                      left: 16,
-                      right: 16,
-                      top: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppTheme.white,
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 16),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  translate("payment.my_cash"),
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontRubik,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    height: 1.2,
-                                    color: AppTheme.text_dark,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                translate("payment.my_cash_price"),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 14,
-                                  height: 1.2,
-                                  color: AppTheme.textGray,
-                                ),
-                              ),
-                              Text(
-                                " " +
-                                    priceFormat.format(widget.cashBack) +
-                                    translate("sum"),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 14,
-                                  height: 1.2,
-                                  color: AppTheme.textGray,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          height: 1,
-                          width: double.infinity,
-                          color: AppTheme.background,
-                        ),
-                        Container(
-                          height: 44,
-                          margin: EdgeInsets.all(16),
-                          padding: EdgeInsets.only(top: 15),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: AppTheme.background,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: TextFormField(
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontRubik,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 16,
-                              height: 1.2,
-                              color: AppTheme.text_dark,
-                            ),
-                            controller: cashPriceController,
-                            decoration: InputDecoration(
-                              hintText: translate('payment.price'),
-                              hintStyle: TextStyle(
-                                fontFamily: AppTheme.fontRubik,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                height: 1.2,
-                                color: AppTheme.gray,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                  width: 1,
-                                  color: AppTheme.auth_login,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                                borderSide: BorderSide(
-                                  width: 1,
-                                  color: AppTheme.auth_login,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   width: double.infinity,
+                  //   margin: EdgeInsets.only(
+                  //     left: 16,
+                  //     right: 16,
+                  //     top: 16,
+                  //   ),
+                  //   decoration: BoxDecoration(
+                  //     color: AppTheme.white,
+                  //     borderRadius: BorderRadius.circular(24),
+                  //   ),
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     mainAxisAlignment: MainAxisAlignment.start,
+                  //     children: [
+                  //       Container(
+                  //         padding: EdgeInsets.symmetric(
+                  //             horizontal: 24, vertical: 16),
+                  //         child: Row(
+                  //           children: [
+                  //             Expanded(
+                  //               child: Text(
+                  //                 translate("payment.my_cash"),
+                  //                 style: TextStyle(
+                  //                   fontFamily: AppTheme.fontRubik,
+                  //                   fontWeight: FontWeight.w500,
+                  //                   fontSize: 16,
+                  //                   height: 1.2,
+                  //                   color: AppTheme.text_dark,
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //             Text(
+                  //               translate("payment.my_cash_price"),
+                  //               style: TextStyle(
+                  //                 fontFamily: AppTheme.fontRubik,
+                  //                 fontWeight: FontWeight.normal,
+                  //                 fontSize: 14,
+                  //                 height: 1.2,
+                  //                 color: AppTheme.textGray,
+                  //               ),
+                  //             ),
+                  //             Text(
+                  //               " " +
+                  //                   priceFormat.format(widget.cashBack) +
+                  //                   translate("sum"),
+                  //               style: TextStyle(
+                  //                 fontFamily: AppTheme.fontRubik,
+                  //                 fontWeight: FontWeight.normal,
+                  //                 fontSize: 14,
+                  //                 height: 1.2,
+                  //                 color: AppTheme.textGray,
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //       Container(
+                  //         height: 1,
+                  //         width: double.infinity,
+                  //         color: AppTheme.background,
+                  //       ),
+                  //       Container(
+                  //         height: 44,
+                  //         margin: EdgeInsets.all(16),
+                  //         padding: EdgeInsets.only(top: 15),
+                  //         width: double.infinity,
+                  //         decoration: BoxDecoration(
+                  //           color: AppTheme.background,
+                  //           borderRadius: BorderRadius.circular(12),
+                  //         ),
+                  //         child: TextFormField(
+                  //           keyboardType: TextInputType.number,
+                  //           inputFormatters: [
+                  //             FilteringTextInputFormatter.digitsOnly
+                  //           ],
+                  //           style: TextStyle(
+                  //             fontFamily: AppTheme.fontRubik,
+                  //             fontWeight: FontWeight.normal,
+                  //             fontSize: 16,
+                  //             height: 1.2,
+                  //             color: AppTheme.text_dark,
+                  //           ),
+                  //           controller: cashPriceController,
+                  //           decoration: InputDecoration(
+                  //             hintText: translate('payment.price'),
+                  //             hintStyle: TextStyle(
+                  //               fontFamily: AppTheme.fontRubik,
+                  //               fontWeight: FontWeight.normal,
+                  //               fontSize: 16,
+                  //               height: 1.2,
+                  //               color: AppTheme.gray,
+                  //             ),
+                  //             enabledBorder: OutlineInputBorder(
+                  //               borderRadius:
+                  //                   BorderRadius.all(Radius.circular(10)),
+                  //               borderSide: BorderSide(
+                  //                 width: 1,
+                  //                 color: AppTheme.auth_login,
+                  //               ),
+                  //             ),
+                  //             focusedBorder: OutlineInputBorder(
+                  //               borderRadius: BorderRadius.all(
+                  //                 Radius.circular(10),
+                  //               ),
+                  //               borderSide: BorderSide(
+                  //                 width: 1,
+                  //                 color: AppTheme.auth_login,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   Container(
                     width: double.infinity,
                     margin: EdgeInsets.only(
@@ -548,47 +548,48 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                             ],
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            top: 16,
-                            bottom: 16,
-                            left: 16,
-                            right: 16,
-                          ),
-                          child: Row(
-                            children: [
-                              Text(
-                                translate("payment.my_cash"),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 14,
-                                  height: 1.2,
-                                  color: AppTheme.textGray,
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(),
-                              ),
-                              Text(
-                                cashBackPrice == 0.0
-                                    ? "0" + translate(translate("sum"))
-                                    : "-" +
-                                        priceFormat.format(cashBackPrice) +
-                                        translate(
-                                          translate("sum"),
-                                        ),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontRubik,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 14,
-                                  height: 1.2,
-                                  color: AppTheme.text_dark,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        SizedBox(height: 16),
+                        // Container(
+                        //   margin: EdgeInsets.only(
+                        //     top: 16,
+                        //     bottom: 16,
+                        //     left: 16,
+                        //     right: 16,
+                        //   ),
+                        //   child: Row(
+                        //     children: [
+                        //       Text(
+                        //         translate("payment.my_cash"),
+                        //         style: TextStyle(
+                        //           fontFamily: AppTheme.fontRubik,
+                        //           fontWeight: FontWeight.normal,
+                        //           fontSize: 14,
+                        //           height: 1.2,
+                        //           color: AppTheme.textGray,
+                        //         ),
+                        //       ),
+                        //       Expanded(
+                        //         child: Container(),
+                        //       ),
+                        //       Text(
+                        //         cashBackPrice == 0.0
+                        //             ? "0" + translate(translate("sum"))
+                        //             : "-" +
+                        //                 priceFormat.format(cashBackPrice) +
+                        //                 translate(
+                        //                   translate("sum"),
+                        //                 ),
+                        //         style: TextStyle(
+                        //           fontFamily: AppTheme.fontRubik,
+                        //           fontWeight: FontWeight.normal,
+                        //           fontSize: 14,
+                        //           height: 1.2,
+                        //           color: AppTheme.text_dark,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                         Container(
                           height: 1,
                           width: double.infinity,
