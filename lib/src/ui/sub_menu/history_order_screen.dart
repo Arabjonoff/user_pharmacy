@@ -479,6 +479,40 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       SizedBox(width: 16),
                                     ],
                                   ),
+                                  snapshot.data.results[index].ball == 0
+                                      ? Container()
+                                      : SizedBox(height: 16),
+                                  snapshot.data.results[index].ball == 0
+                                      ? Container()
+                                      : Row(
+                                          children: [
+                                            SizedBox(width: 16),
+                                            Text(
+                                              translate("menu.get_ball"),
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 14,
+                                                height: 1.2,
+                                                color: AppTheme.textGray,
+                                              ),
+                                            ),
+                                            Expanded(child: Container()),
+                                            Text(
+                                              snapshot.data.results[index].ball
+                                                      .toString() +
+                                                  translate("ball"),
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontRubik,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 14,
+                                                height: 1.2,
+                                                color: AppTheme.text_dark,
+                                              ),
+                                            ),
+                                            SizedBox(width: 16),
+                                          ],
+                                        ),
                                   snapshot.data.results[index].bookingLabel
                                               .length >
                                           0

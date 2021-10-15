@@ -26,6 +26,7 @@ class HistoryModel {
 
 class HistoryResults {
   int id;
+  int ball;
   String address;
   Location location;
   DateTime endShiptime;
@@ -48,6 +49,7 @@ class HistoryResults {
   HistoryResults(
       {this.id,
       this.address,
+      this.ball,
       this.location,
       this.endShiptime,
       this.deliveryTotal,
@@ -68,6 +70,7 @@ class HistoryResults {
 
   HistoryResults.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    ball = json['ball'] ?? 0;
     bookingLabel = json['booking_label'] ?? "";
     address = json['address'] == null ? "" : json['address'];
     location = json['location'] != null

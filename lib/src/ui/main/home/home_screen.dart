@@ -2353,7 +2353,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ),
                             SizedBox(height: 8),
                             Text(
-                              cashBack.body.replaceAll("<p>", " "),
+                              cashBack.body
+                                  .replaceAll("<p>", " ")
+                                  .replaceAll("</p>", ""),
                               style: TextStyle(
                                 fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.normal,

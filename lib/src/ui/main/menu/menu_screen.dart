@@ -141,7 +141,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    translate("menu.my_price"),
+                                    translate("menu.my_ball"),
                                     style: TextStyle(
                                       fontFamily: AppTheme.fontRubik,
                                       fontWeight: FontWeight.normal,
@@ -154,10 +154,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                     height: 4,
                                   ),
                                   Text(
-                                    priceFormat.format((cashBackOptions.cash)
-                                            .toInt()
-                                            .toDouble()) +
-                                        translate("sum"),
+                                    priceFormat.format(cashBackOptions.ball) +
+                                        translate("ball"),
                                     style: TextStyle(
                                       fontFamily: AppTheme.fontRubik,
                                       fontWeight: FontWeight.w500,
@@ -166,6 +164,19 @@ class _MenuScreenState extends State<MenuScreen> {
                                       color: AppTheme.white,
                                     ),
                                   ),
+                                  // Text(
+                                  //   priceFormat.format((cashBackOptions.cash)
+                                  //           .toInt()
+                                  //           .toDouble()) +
+                                  //       translate("sum"),
+                                  //   style: TextStyle(
+                                  //     fontFamily: AppTheme.fontRubik,
+                                  //     fontWeight: FontWeight.w500,
+                                  //     fontSize: 20,
+                                  //     height: 1.2,
+                                  //     color: AppTheme.white,
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),
@@ -202,7 +213,7 @@ class _MenuScreenState extends State<MenuScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  translate("menu.my_price"),
+                                  translate("menu.my_ball"),
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontRubik,
                                     fontWeight: FontWeight.normal,
@@ -849,7 +860,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           child: Row(
                             children: [
                               SvgPicture.asset(
-                                "assets/icons/rate.svg",
+                                "assets/icons/faq.svg",
                                 width: 24,
                                 height: 24,
                               ),
@@ -908,7 +919,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     child: Row(
                       children: [
                         SvgPicture.asset(
-                          "assets/icons/faq.svg",
+                          "assets/icons/info_circle.svg",
                           width: 24,
                           height: 24,
                         ),

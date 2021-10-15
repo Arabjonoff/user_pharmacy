@@ -8,6 +8,7 @@
   "from": " dan",
   "free": "Bepul",
   "km": " km",
+  "ball": " bal",
   "auth": {
     "login_title": "Profilga kirish",
     "login_number": "Telefon nomeringizni kiriting",
@@ -106,6 +107,8 @@
   },
   "menu": {
     "name": "Mening profilim",
+    "my_ball": "Mening balim",
+    "get_ball": "Qaytarildi",
     "my_price": "Mening balansim",
     "all": "Umumiy",
     "user": "Mehmon",
@@ -136,8 +139,9 @@
     "exit_title": "Ushbu profildan chiqishni xohlaysizmi?",
     "exit_no": "Bekor qilish",
     "exit_yes": "Ha, chiqaman",
-    "chat": "Chat",
-    "chat_title": "Chat title"
+    "chat": "Aloqa markazi",
+    "chat_title": "Savollaringizni online bering",
+    "chat_message": "Xabar"
   },
   "search": {
     "hint": "Dori qidirish",

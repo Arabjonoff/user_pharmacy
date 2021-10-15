@@ -8,6 +8,7 @@
   "from": "from ",
   "free": "Free",
   "km": " km",
+  "ball": " ball",
   "auth": {
     "login_title": "Login to your account",
     "login_number": "Enter your phone number",
@@ -106,6 +107,8 @@
   },
   "menu": {
     "name": "My profile",
+    "my_ball": "My ball",
+    "get_ball": "Received",
     "my_price": "My balance",
     "all": "General",
     "user": "Guest",
@@ -136,8 +139,9 @@
     "exit_title": "Are you sure you want to logout of this account?",
     "exit_no": "Cancel",
     "exit_yes": "Yes, logout",
-    "chat": "Chat",
-    "chat_title": "Chat title"
+    "chat": "Support chat",
+    "chat_title": "Ask your questions online",
+    "chat_message": "Message"
   },
   "search": {
     "hint": "Search for drugs",
