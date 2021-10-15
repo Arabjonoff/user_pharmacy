@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'src/app_theme.dart';
 
 String language = 'ru';
+String token = "";
 bool isLoginPage;
 
 class MyHttpOverrides extends HttpOverrides {
@@ -66,6 +67,7 @@ void main() async {
   } else {
     isLoginPage = false;
   }
+  token = prefs.getString('token') ?? "";
   if (prefs.getString('language') != null) {
     language = prefs.getString('language');
   }

@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:web_socket_channel/io.dart';
 
+import '../../../main.dart';
 import '../../app_theme.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -26,6 +27,11 @@ class _ChatScreenState extends State<ChatScreen> {
   final ScrollController listScrollController = ScrollController();
   TextEditingController chatController = TextEditingController();
   final FocusNode focusNode = FocusNode();
+  var channel = IOWebSocketChannel.connect(
+    Uri.parse(
+      "wss://api.gopharm.uz/ws/messages?token=$token",
+    ),
+  );
   int page = 1;
   int userId = 0;
   bool isLoading = false;
@@ -35,7 +41,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     _getMoreData();
     _getUserId();
-    _initSocket();
+    _listenSocket();
     listScrollController.addListener(() {
       if (listScrollController.position.pixels ==
           listScrollController.position.maxScrollExtent) {
@@ -57,6 +63,12 @@ class _ChatScreenState extends State<ChatScreen> {
         });
       }
     });
+  }
+
+  @override
+  void dispose() {
+    channel.sink.close();
+    super.dispose();
   }
 
   Random random = new Random();
@@ -510,14 +522,7 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
-  void _initSocket() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString("token");
-    var url = "wss://api.gopharm.uz/ws/messages?token=$token";
-    var channel = IOWebSocketChannel.connect(Uri.parse(
-      url,
-    ));
-
+  void _listenSocket() async {
     channel.stream.listen((message) {
       blocChat.fetchSocketChat(message);
     });
