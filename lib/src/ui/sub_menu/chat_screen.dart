@@ -11,6 +11,7 @@ import 'package:pharmacy/src/model/api/all_message_model.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:web_socket_channel/io.dart';
 
 import '../../app_theme.dart';
 
@@ -34,6 +35,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     _getMoreData();
     _getUserId();
+    _initSocket();
     listScrollController.addListener(() {
       if (listScrollController.position.pixels ==
           listScrollController.position.maxScrollExtent) {
@@ -367,7 +369,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           ? GestureDetector(
                               onTap: () {
                                 if (chatController.text.isNotEmpty) {
-                                  blocChat.fetchSendChart(
+                                  blocChat.fetchSendChat(
                                     chatController.text,
                                     userId,
                                   );
@@ -496,7 +498,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void _getMoreData() async {
     if (!isLoading) {
-      blocChat.fetchAllChart(1);
+      blocChat.fetchAllChat(page);
       page++;
     }
   }
@@ -505,6 +507,19 @@ class _ChatScreenState extends State<ChatScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       userId = prefs.getInt('userId');
+    });
+  }
+
+  void _initSocket() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString("token");
+    var url = "wss://api.gopharm.uz/ws/messages?token=$token";
+    var channel = IOWebSocketChannel.connect(Uri.parse(
+      url,
+    ));
+
+    channel.stream.listen((message) {
+      blocChat.fetchSocketChat(message);
     });
   }
 }

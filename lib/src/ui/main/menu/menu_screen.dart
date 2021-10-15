@@ -154,7 +154,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                     height: 4,
                                   ),
                                   Text(
-                                    priceFormat.format(cashBackOptions.ball) +
+                                    priceFormat.format(cashBackOptions.bonus) +
                                         translate("ball"),
                                     style: TextStyle(
                                       fontFamily: AppTheme.fontRubik,

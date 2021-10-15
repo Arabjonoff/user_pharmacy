@@ -479,10 +479,10 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       SizedBox(width: 16),
                                     ],
                                   ),
-                                  snapshot.data.results[index].ball == 0
+                                  snapshot.data.results[index].bonus == 0
                                       ? Container()
                                       : SizedBox(height: 16),
-                                  snapshot.data.results[index].ball == 0
+                                  snapshot.data.results[index].bonus == 0
                                       ? Container()
                                       : Row(
                                           children: [
@@ -499,7 +499,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                             ),
                                             Expanded(child: Container()),
                                             Text(
-                                              snapshot.data.results[index].ball
+                                              snapshot.data.results[index].bonus
                                                       .toString() +
                                                   translate("ball"),
                                               style: TextStyle(

@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:pharmacy/src/model/api/all_message_model.dart';
+import 'package:pharmacy/src/model/socket/socket_model.dart';
 import 'package:pharmacy/src/resourses/repository.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -10,7 +13,7 @@ class ChatBloc {
   List<ChatResults> resultsData = [];
   String next = "";
 
-  fetchAllChart(int page) async {
+  fetchAllChat(int page) async {
     var response = await _repository.fetchAllMessage(page);
     if (response.isSuccess) {
       AllMessageModel result = AllMessageModel.fromJson(
@@ -34,7 +37,7 @@ class ChatBloc {
     }
   }
 
-  fetchSendChart(String data, int id) async {
+  fetchSendChat(String data, int id) async {
     resultsData.insert(
       0,
       ChatResults(
@@ -55,6 +58,29 @@ class ChatBloc {
       ),
     );
     await _repository.fetchSendMessage(data);
+  }
+
+  fetchSocketChat(String data) async {
+    var sokcetData = SocketModel.fromJson(json.decode(data));
+    resultsData.insert(
+      0,
+      ChatResults(
+        userId: sokcetData.message.userId,
+        body: sokcetData.message.body,
+        createdAt: DateTime.now(),
+        year: DateTime.now().year.toString() +
+            "." +
+            DateTime.now().month.toString() +
+            "." +
+            DateTime.now().day.toString(),
+      ),
+    );
+    _chatFetcher.sink.add(
+      AllMessageModel(
+        next: next,
+        results: resultsData,
+      ),
+    );
   }
 
   dispose() {

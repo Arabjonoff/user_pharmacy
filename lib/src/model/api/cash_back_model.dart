@@ -7,16 +7,16 @@ class CashBackModel {
   CashBackModel({
     this.status,
     this.cash,
-    this.ball,
+    this.bonus,
   });
 
   int status;
   double cash;
-  int ball;
+  int bonus;
 
   factory CashBackModel.fromJson(Map<String, dynamic> json) => CashBackModel(
         status: json["status"],
         cash: json["cash"] == null ? 0.0 : json["cash"].toDouble(),
-        ball: json["ball"] ?? 0,
+        bonus: json["bonus"] ?? 0,
       );
 }

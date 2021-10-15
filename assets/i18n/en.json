@@ -8,7 +8,7 @@
   "from": "from ",
   "free": "Free",
   "km": " km",
-  "ball": " ball",
+  "ball": " score",
   "auth": {
     "login_title": "Login to your account",
     "login_number": "Enter your phone number",
@@ -107,7 +107,7 @@
   },
   "menu": {
     "name": "My profile",
-    "my_ball": "My ball",
+    "my_ball": "My score",
     "get_ball": "Received",
     "my_price": "My balance",
     "all": "General",
