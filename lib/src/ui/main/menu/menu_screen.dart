@@ -253,6 +253,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   child: Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
+                      borderRadius:  BorderRadius.circular(16),
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,

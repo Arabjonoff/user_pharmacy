@@ -261,7 +261,7 @@ class _LoginScreenState extends State<LoginScreen> {
             color: AppTheme.white,
             child: GestureDetector(
               onTap: () async {
-                if (loginController.text.isNotEmpty) {
+                if (loginController.text.isNotEmpty && isPrivacy) {
                   var number = loginController.text
                       .replaceAll('(', '')
                       .replaceAll(')', '')
