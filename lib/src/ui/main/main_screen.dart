@@ -133,7 +133,6 @@ class _MainScreenState extends State<MainScreen> {
             android: AndroidNotificationDetails(
               channel.id,
               channel.name,
-              channel.description,
               icon: '@mipmap/ic_launcher',
             ),
           ),
@@ -146,6 +145,7 @@ class _MainScreenState extends State<MainScreen> {
 
     FirebaseMessaging.instance.getToken().then((value) {
       fcToken = value;
+      print(fcToken);
     });
   }
 
@@ -571,6 +571,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
   }
+
   void _chat() {
     Navigator.push(
       context,

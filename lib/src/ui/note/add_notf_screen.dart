@@ -582,7 +582,6 @@ class _AddNotifyScreenState extends State<AddNotifyScreen> {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       groupName,
       name,
-      name + " " + doza,
     );
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(

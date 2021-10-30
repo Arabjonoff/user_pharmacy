@@ -34,21 +34,30 @@ void main() async {
 
   await AppmetricaSdk()
       .activate(apiKey: 'c66f6bbf-fba5-4710-86f0-8db5418f96df');
-
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   if (!kIsWeb) {
     channel = const AndroidNotificationChannel(
-      'high_importance_channel', // id
-      'High Importance Notifications', // title
-      'This channel is used for important notifications.', // description
+      'high_importance_channel',
+      'High Importance Notifications',
       importance: Importance.high,
     );
     flutterLocalNotifications = FlutterLocalNotificationsPlugin();
-    await flutterLocalNotifications
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
+    if (Platform.isIOS) {
+      await flutterLocalNotifications
+          .resolvePlatformSpecificImplementation<
+              IOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: true,
+          );
+    } else {
+      await flutterLocalNotifications
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.createNotificationChannel(channel);
+    }
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
       alert: true,
@@ -150,7 +159,6 @@ void _setTargetPlatformForDesktop() {
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print('Handling a background message ${message.messageId}');
 }
 
 AndroidNotificationChannel channel;
