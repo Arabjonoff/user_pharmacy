@@ -33,6 +33,10 @@
 	<string>3340881139358614</string>
 	<key>FacebookDisplayName</key>
 	<string>GoPharm</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
+	<key>FirebaseScreenReportingEnabled</key>
+	<true/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>https</string>
@@ -88,9 +92,5 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
-	<key>FirebaseScreenReportingEnabled</key>
-    <true/>
-    <key>FirebaseAppDelegateProxyEnabled</key>
-    <false/>
 </dict>
 </plist>
