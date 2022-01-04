@@ -237,62 +237,58 @@ class _OnBoardingState extends State<OnBoarding> {
                                 ),
                               ),
           ),
-          Expanded(child: Container()),
-          Container(
-            margin: EdgeInsets.only(top: 16),
-            constraints: BoxConstraints(
-              minHeight: 43.3,
-              minWidth: 32.7,
-              maxHeight: MediaQuery.of(context).size.width * 433.0 / 327.0,
-              maxWidth: MediaQuery.of(context).size.width,
-            ),
-            child: PageView.builder(
-              controller: controller,
-              itemBuilder: (context, position) {
-                if (position == currentPageValue.floor()) {
-                  return Transform(
-                    transform: Matrix4.identity()
-                      ..rotateX(currentPageValue - position),
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 24),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(26),
-                        child: Image.asset(
-                          "assets/img/${image[position]}",
-                          fit: BoxFit.fill,
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.only(top: 16),
+              child: PageView.builder(
+                controller: controller,
+                itemBuilder: (context, position) {
+                  if (position == currentPageValue.floor()) {
+                    return Transform(
+                      transform: Matrix4.identity()
+                        ..rotateX(currentPageValue - position),
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 24),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(26),
+                          child: Image.asset(
+                            "assets/img/${image[position]}",
+                            width: MediaQuery.of(context).size.width - 48,
+                            fit: BoxFit.fitWidth,
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                } else if (position == currentPageValue.floor() + 1) {
-                  return Transform(
-                    transform: Matrix4.identity()
-                      ..rotateX(currentPageValue - position),
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 24),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(26),
-                        child: Image.asset(
-                          "assets/img/${image[position]}",
-                          fit: BoxFit.fill,
+                    );
+                  } else if (position == currentPageValue.floor() + 1) {
+                    return Transform(
+                      transform: Matrix4.identity()
+                        ..rotateX(currentPageValue - position),
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 24),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(26),
+                          child: Image.asset(
+                            "assets/img/${image[position]}",
+                            width: MediaQuery.of(context).size.width - 48,
+                            fit: BoxFit.fitWidth,
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                } else {
-                  return Container();
-                }
-              },
-              itemCount: 5,
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+                itemCount: 5,
+              ),
             ),
           ),
-          Expanded(child: Container()),
           Container(
             margin: EdgeInsets.only(
               bottom: 24,
