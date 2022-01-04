@@ -33,7 +33,7 @@ void main() async {
   await Firebase.initializeApp();
 
   await AppmetricaSdk()
-      .activate(apiKey: 'c66f6bbf-fba5-4710-86f0-8db5418f96df');
+      .activate(apiKey: '40cd0103-373a-4fed-95e4-db7eb1beefab');
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   if (!kIsWeb) {
