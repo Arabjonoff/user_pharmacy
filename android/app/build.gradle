@@ -29,7 +29,7 @@ apply plugin: 'com.google.gms.google-services'
 android {
 
 
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -44,9 +44,9 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "uz.go.pharm"
         minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 21
-        versionName '2.0.2'
+        targetSdkVersion 30
+        versionCode 22
+        versionName '2.0.3'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -61,6 +61,10 @@ android {
                     'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 flutter {
@@ -71,10 +75,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:support-annotations:28.0.0'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.yandex.android:mapkit:3.5.0'
     implementation 'com.yandex.android:search:3.5.0'
-    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation 'com.google.firebase:firebase-analytics:20.0.2'
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
 }
