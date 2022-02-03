@@ -12,11 +12,27 @@ class CashBackModel {
 
   int status;
   double cash;
-  int bonus;
+  double bonus;
 
-  factory CashBackModel.fromJson(Map<String, dynamic> json) => CashBackModel(
-        status: json["status"] ?? 0,
-        cash: json["cash"] ?? "",
-        bonus: json["bonus"] ?? 0,
-      );
+  factory CashBackModel.fromJson(Map<String, dynamic> json) {
+    double bonus;
+    try {
+      bonus = json["bonus"] ?? 0.0;
+    } catch (_) {
+      var k = (json["bonus"] ?? "").toString();
+      bonus = double.parse(k);
+    }
+    double cash;
+    try {
+      cash = json["cash"] ?? 0.0;
+    } catch (_) {
+      var k = (json["cash"] ?? "").toString();
+      cash = double.parse(k);
+    }
+    return CashBackModel(
+      status: json["status"] ?? 0,
+      cash: cash,
+      bonus: bonus,
+    );
+  }
 }

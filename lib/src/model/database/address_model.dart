@@ -1,14 +1,4 @@
 class AddressModel {
-  int id;
-  String street;
-  String lat;
-  String lng;
-  String dom;
-  String en;
-  String kv;
-  String comment;
-  int type;
-
   AddressModel({
     required this.id,
     this.street = "",
@@ -21,17 +11,27 @@ class AddressModel {
     this.comment = "",
   });
 
+  int id;
+  String street;
+  String lat;
+  String lng;
+  String dom;
+  String en;
+  String kv;
+  String comment;
+  int type;
+
   factory AddressModel.fromMap(Map<dynamic, dynamic> map) {
     return AddressModel(
-      id: map["id"],
-      street: map["street"],
-      lat: map["lat"],
-      lng: map["lng"],
-      type: map["type"],
-      dom: map["dom"],
-      en: map["en"],
-      kv: map["kv"],
-      comment: map["comment"],
+      id: map["id"] ?? 0,
+      street: map["street"] ?? "",
+      lat: map["lat"] ?? "",
+      lng: map["lng"] ?? "",
+      type: map["type"] ?? 0,
+      dom: map["dom"] ?? "",
+      en: map["en"] ?? "",
+      kv: map["kv"] ?? "",
+      comment: map["comment"] ?? "",
     );
   }
 

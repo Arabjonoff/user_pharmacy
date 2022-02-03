@@ -21,7 +21,7 @@ class CheckErrorModel {
         errors: json["errors"] == null
             ? <CheckErrorData>[]
             : List<CheckErrorData>.from(
-                json["errors"].map((x) => CheckErrorData.fromJson(x))),
+            json["errors"].map((x) => CheckErrorData.fromJson(x))),
       );
 }
 
@@ -34,7 +34,8 @@ class CheckErrorData {
   int drugId;
   String msg;
 
-  factory CheckErrorData.fromJson(Map<String, dynamic> json) => CheckErrorData(
+  factory CheckErrorData.fromJson(Map<String, dynamic> json) =>
+      CheckErrorData(
         drugId: json["drug_id"] ?? 0,
         msg: json["msg"] ?? "",
       );
@@ -49,8 +50,24 @@ class CashBackData {
   double total;
   double cash;
 
-  factory CashBackData.fromJson(Map<String, dynamic> json) => CashBackData(
-        total: json["total"] ?? 0.0,
-        cash: json["cash"] ?? 0.0,
-      );
+  factory CashBackData.fromJson(Map<String, dynamic> json) {
+    double total;
+    try {
+      total = json["total"] ?? 0.0;
+    } catch (_) {
+      var k = (json["total"] ?? "").toString();
+      total = double.parse(k);
+    }
+    double cash;
+    try {
+      cash = json["cash"] ?? 0.0;
+    } catch (_) {
+      var k = (json["cash"] ?? "").toString();
+      cash = double.parse(k);
+    }
+    return CashBackData(
+      total: total,
+      cash: cash,
+    );
+  }
 }
