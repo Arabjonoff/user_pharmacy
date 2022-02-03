@@ -30,11 +30,11 @@ class OrderCardCurerScreen extends StatefulWidget {
   final bool isHistory;
 
   OrderCardCurerScreen({
-    this.orderId,
-    this.total,
-    this.cashBack,
-    this.deliveryPrice,
-    this.isHistory,
+    required this.orderId,
+    required this.total,
+    required this.cashBack,
+    required this.deliveryPrice,
+    required this.isHistory,
   });
 
   @override
@@ -45,7 +45,7 @@ class OrderCardCurerScreen extends StatefulWidget {
 
 class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
   double cashBackPrice = 0.0;
-  int paymentType;
+  int? paymentType;
   bool loading = false;
 
   TextEditingController cashPriceController = TextEditingController();
@@ -54,10 +54,6 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
   @override
   void initState() {
     blocOrderOptions.fetchOrderOptions();
-    super.initState();
-  }
-
-  _OrderCardCurerScreenState() {
     cashPriceController.addListener(() {
       try {
         if (cashPriceController.text == "") {
@@ -66,13 +62,13 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
           });
         } else {
           double cashBack =
-              double.parse(cashPriceController.text.replaceAll(" ", ""));
+          double.parse(cashPriceController.text.replaceAll(" ", ""));
           if (cashBack > widget.cashBack ||
               cashBack > (widget.total + widget.deliveryPrice)) {
             setState(() {
               cashPriceController.text =
                   (min(widget.cashBack, (widget.total + widget.deliveryPrice))
-                          .toInt())
+                      .toInt())
                       .toString();
               cashPriceController.selection = TextSelection.fromPosition(
                 TextPosition(
@@ -95,7 +91,9 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
         });
       }
     });
+    super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -192,16 +190,16 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                               return new ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
-                                itemCount: snapshot.data.paymentTypes.length,
+                                itemCount: snapshot.data!.paymentTypes.length,
                                 itemBuilder: (BuildContext ctxt, int index) {
                                   return GestureDetector(
                                     onTap: () {
                                       if (snapshot
-                                              .data.paymentTypes[index].id !=
+                                              .data!.paymentTypes[index].id !=
                                           paymentType) {
                                         setState(() {
                                           paymentType = snapshot
-                                              .data.paymentTypes[index].id;
+                                              .data!.paymentTypes[index].id;
                                         });
                                       }
                                     },
@@ -220,13 +218,13 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                       child: Row(
                                         children: [
                                           SizedBox(width: 8),
-                                          snapshot.data.paymentTypes[index]
+                                          snapshot.data!.paymentTypes[index]
                                                       .type ==
                                                   "cash"
                                               ? SvgPicture.asset(
                                                   "assets/icons/cash.svg")
                                               : snapshot
-                                                          .data
+                                                          .data!
                                                           .paymentTypes[index]
                                                           .type ==
                                                       "card"
@@ -238,7 +236,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                           Expanded(
                                             child: Text(
                                               snapshot
-                                                  .data.paymentTypes[index].name
+                                                  .data!.paymentTypes[index].name
                                                   .toString(),
                                               style: TextStyle(
                                                 fontFamily: AppTheme.fontRubik,
@@ -264,7 +262,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                               border: Border.all(
                                                 color: paymentType ==
                                                         snapshot
-                                                            .data
+                                                            .data!
                                                             .paymentTypes[index]
                                                             .id
                                                     ? AppTheme.blue
@@ -283,7 +281,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                                                       BorderRadius.circular(10),
                                                   color: paymentType ==
                                                           snapshot
-                                                              .data
+                                                              .data!
                                                               .paymentTypes[
                                                                   index]
                                                               .id
@@ -302,8 +300,8 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                               );
                             }
                             return Shimmer.fromColors(
-                              baseColor: Colors.grey[300],
-                              highlightColor: Colors.grey[100],
+                              baseColor: AppTheme.shimmerBase,
+                              highlightColor: AppTheme.shimmerHighlight,
                               child: ListView.builder(
                                 shrinkWrap: true,
                                 physics: ClampingScrollPhysics(),
@@ -326,122 +324,6 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                       ],
                     ),
                   ),
-                  // Container(
-                  //   width: double.infinity,
-                  //   margin: EdgeInsets.only(
-                  //     left: 16,
-                  //     right: 16,
-                  //     top: 16,
-                  //   ),
-                  //   decoration: BoxDecoration(
-                  //     color: AppTheme.white,
-                  //     borderRadius: BorderRadius.circular(24),
-                  //   ),
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     mainAxisAlignment: MainAxisAlignment.start,
-                  //     children: [
-                  //       Container(
-                  //         padding: EdgeInsets.symmetric(
-                  //             horizontal: 24, vertical: 16),
-                  //         child: Row(
-                  //           children: [
-                  //             Expanded(
-                  //               child: Text(
-                  //                 translate("payment.my_cash"),
-                  //                 style: TextStyle(
-                  //                   fontFamily: AppTheme.fontRubik,
-                  //                   fontWeight: FontWeight.w500,
-                  //                   fontSize: 16,
-                  //                   height: 1.2,
-                  //                   color: AppTheme.text_dark,
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //             Text(
-                  //               translate("payment.my_cash_price"),
-                  //               style: TextStyle(
-                  //                 fontFamily: AppTheme.fontRubik,
-                  //                 fontWeight: FontWeight.normal,
-                  //                 fontSize: 14,
-                  //                 height: 1.2,
-                  //                 color: AppTheme.textGray,
-                  //               ),
-                  //             ),
-                  //             Text(
-                  //               " " +
-                  //                   priceFormat.format(widget.cashBack) +
-                  //                   translate("sum"),
-                  //               style: TextStyle(
-                  //                 fontFamily: AppTheme.fontRubik,
-                  //                 fontWeight: FontWeight.normal,
-                  //                 fontSize: 14,
-                  //                 height: 1.2,
-                  //                 color: AppTheme.textGray,
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       Container(
-                  //         height: 1,
-                  //         width: double.infinity,
-                  //         color: AppTheme.background,
-                  //       ),
-                  //       Container(
-                  //         height: 44,
-                  //         margin: EdgeInsets.all(16),
-                  //         padding: EdgeInsets.only(top: 15),
-                  //         width: double.infinity,
-                  //         decoration: BoxDecoration(
-                  //           color: AppTheme.background,
-                  //           borderRadius: BorderRadius.circular(12),
-                  //         ),
-                  //         child: TextFormField(
-                  //           keyboardType: TextInputType.number,
-                  //           inputFormatters: [
-                  //             FilteringTextInputFormatter.digitsOnly
-                  //           ],
-                  //           style: TextStyle(
-                  //             fontFamily: AppTheme.fontRubik,
-                  //             fontWeight: FontWeight.normal,
-                  //             fontSize: 16,
-                  //             height: 1.2,
-                  //             color: AppTheme.text_dark,
-                  //           ),
-                  //           controller: cashPriceController,
-                  //           decoration: InputDecoration(
-                  //             hintText: translate('payment.price'),
-                  //             hintStyle: TextStyle(
-                  //               fontFamily: AppTheme.fontRubik,
-                  //               fontWeight: FontWeight.normal,
-                  //               fontSize: 16,
-                  //               height: 1.2,
-                  //               color: AppTheme.gray,
-                  //             ),
-                  //             enabledBorder: OutlineInputBorder(
-                  //               borderRadius:
-                  //                   BorderRadius.all(Radius.circular(10)),
-                  //               borderSide: BorderSide(
-                  //                 width: 1,
-                  //                 color: AppTheme.auth_login,
-                  //               ),
-                  //             ),
-                  //             focusedBorder: OutlineInputBorder(
-                  //               borderRadius: BorderRadius.all(
-                  //                 Radius.circular(10),
-                  //               ),
-                  //               borderSide: BorderSide(
-                  //                 width: 1,
-                  //                 color: AppTheme.auth_login,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                   Container(
                     width: double.infinity,
                     margin: EdgeInsets.only(
@@ -549,47 +431,6 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                           ),
                         ),
                         SizedBox(height: 16),
-                        // Container(
-                        //   margin: EdgeInsets.only(
-                        //     top: 16,
-                        //     bottom: 16,
-                        //     left: 16,
-                        //     right: 16,
-                        //   ),
-                        //   child: Row(
-                        //     children: [
-                        //       Text(
-                        //         translate("payment.my_cash"),
-                        //         style: TextStyle(
-                        //           fontFamily: AppTheme.fontRubik,
-                        //           fontWeight: FontWeight.normal,
-                        //           fontSize: 14,
-                        //           height: 1.2,
-                        //           color: AppTheme.textGray,
-                        //         ),
-                        //       ),
-                        //       Expanded(
-                        //         child: Container(),
-                        //       ),
-                        //       Text(
-                        //         cashBackPrice == 0.0
-                        //             ? "0" + translate(translate("sum"))
-                        //             : "-" +
-                        //                 priceFormat.format(cashBackPrice) +
-                        //                 translate(
-                        //                   translate("sum"),
-                        //                 ),
-                        //         style: TextStyle(
-                        //           fontFamily: AppTheme.fontRubik,
-                        //           fontWeight: FontWeight.normal,
-                        //           fontSize: 14,
-                        //           height: 1.2,
-                        //           color: AppTheme.text_dark,
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                         Container(
                           height: 1,
                           width: double.infinity,
@@ -651,7 +492,7 @@ class _OrderCardCurerScreenState extends State<OrderCardCurerScreen> {
                       PaymentOrderModel addModel = new PaymentOrderModel(
                         orderId: widget.orderId,
                         cashPay: cashBackPrice.toInt(),
-                        paymentType: paymentType,
+                        paymentType: paymentType!,
                         paymentRedirect: true,
                       );
                       var response = await Repository().fetchPayment(addModel);

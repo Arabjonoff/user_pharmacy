@@ -21,17 +21,17 @@ class DatabaseHelperAddress {
   final String columnKv = 'kv';
   final String columnComment = 'comment';
 
-  static Database _db;
+  static Database? _db;
 
   DatabaseHelperAddress.internal();
 
   Future<Database> get db async {
     if (_db != null) {
-      return _db;
+      return _db!;
     }
     _db = await initDb();
 
-    return _db;
+    return _db!;
   }
 
   initDb() async {
@@ -134,7 +134,7 @@ class DatabaseHelperAddress {
       return AddressModel.fromMap(result.first);
     }
 
-    return null;
+    return AddressModel.fromMap({});
   }
 
   Future<int> deleteProducts(int id) async {

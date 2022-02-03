@@ -107,13 +107,13 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
           stream: blocHistory.allHistory,
           builder: (context, AsyncSnapshot<HistoryModel> snapshot) {
             if (snapshot.hasData) {
-              snapshot.data.next == null ? isLoading = true : isLoading = false;
-              return snapshot.data.results.length > 0
+              snapshot.data!.next == "" ? isLoading = true : isLoading = false;
+              return snapshot.data!.results.length > 0
                   ? ListView.builder(
                       controller: _sc,
-                      itemCount: snapshot.data.results.length + 1,
+                      itemCount: snapshot.data!.results.length + 1,
                       itemBuilder: (context, index) {
-                        if (index == snapshot.data.results.length) {
+                        if (index == snapshot.data!.results.length) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: new Center(
@@ -130,9 +130,9 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                         } else {
                           return GestureDetector(
                             onTap: () async {
-                              if (snapshot.data.results[index].status ==
+                              if (snapshot.data!.results[index].status ==
                                   "payment_waiting") {
-                                if (snapshot.data.results[index].type ==
+                                if (snapshot.data!.results[index].type ==
                                     "self") {
                                   var response =
                                       await Repository().fetchCashBack();
@@ -144,12 +144,12 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       MaterialPageRoute(
                                         builder: (context) =>
                                             OrderCardPickupScreen(
-                                          snapshot.data.results[index].id,
-                                          snapshot.data.results[index]
+                                          snapshot.data!.results[index].id,
+                                          snapshot.data!.results[index]
                                               .expireSelfOrder,
                                           CashBackData(
                                             total: snapshot
-                                                .data.results[index].total,
+                                                .data!.results[index].total,
                                             cash: result.cash,
                                           ),
                                           true,
@@ -164,14 +164,13 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 OrderCardPickupScreen(
-                                              snapshot.data.results[index].id,
-                                              snapshot.data.results[index]
+                                              snapshot.data!.results[index].id,
+                                              snapshot.data!.results[index]
                                                   .expireSelfOrder,
                                               CashBackData(
                                                 total: snapshot
-                                                    .data.results[index].total,
-                                                cash:
-                                                    value == null ? 0.0 : value,
+                                                    .data!.results[index].total,
+                                                cash: value,
                                               ),
                                               true,
                                             ),
@@ -192,11 +191,11 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                         builder: (context) =>
                                             OrderCardCurerScreen(
                                           orderId:
-                                              snapshot.data.results[index].id,
+                                              snapshot.data!.results[index].id,
                                           total: snapshot
-                                              .data.results[index].realTotal,
+                                              .data!.results[index].realTotal,
                                           cashBack: result.cash,
-                                          deliveryPrice: snapshot.data
+                                          deliveryPrice: snapshot.data!
                                               .results[index].deliveryTotal,
                                           isHistory: true,
                                         ),
@@ -211,12 +210,11 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                             builder: (context) =>
                                                 OrderCardCurerScreen(
                                               orderId: snapshot
-                                                  .data.results[index].id,
-                                              total: snapshot.data
+                                                  .data!.results[index].id,
+                                              total: snapshot.data!
                                                   .results[index].realTotal,
-                                              cashBack:
-                                                  value == null ? 0.0 : value,
-                                              deliveryPrice: snapshot.data
+                                              cashBack: value,
+                                              deliveryPrice: snapshot.data!
                                                   .results[index].deliveryTotal,
                                               isHistory: true,
                                             ),
@@ -231,7 +229,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => OrderNumber(
-                                      snapshot.data.results[index],
+                                      snapshot.data!.results[index],
                                     ),
                                   ),
                                 );
@@ -258,7 +256,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       children: [
                                         Text(
                                           translate("history.order") +
-                                              snapshot.data.results[index].id
+                                              snapshot.data!.results[index].id
                                                   .toString(),
                                           style: TextStyle(
                                             fontFamily: AppTheme.fontRubik,
@@ -273,21 +271,23 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(8),
-                                            color: colorStatus(snapshot
-                                                    .data.results[index].status)
+                                            color: colorStatus(snapshot.data!
+                                                    .results[index].status)
                                                 .withOpacity(0.1),
                                           ),
                                           padding: EdgeInsets.all(8),
                                           child: Center(
                                             child: Text(
                                               translate(
-                                                  "history.${snapshot.data.results[index].status}"),
+                                                  "history.${snapshot.data!.results[index].status}"),
                                               style: TextStyle(
                                                 fontFamily: AppTheme.fontRubik,
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 12,
-                                                color: colorStatus(snapshot.data
-                                                    .results[index].status),
+                                                color: colorStatus(snapshot
+                                                    .data!
+                                                    .results[index]
+                                                    .status),
                                                 height: 1.2,
                                               ),
                                             ),
@@ -317,7 +317,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       ),
                                       Expanded(child: Container()),
                                       Text(
-                                        snapshot.data.results[index].type ==
+                                        snapshot.data!.results[index].type ==
                                                 "self"
                                             ? translate("history.pickup")
                                             : translate("history.delivery"),
@@ -349,7 +349,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       Expanded(child: Container()),
                                       Text(
                                         snapshot
-                                            .data.results[index].items.length
+                                            .data!.results[index].items.length
                                             .toString(),
                                         style: TextStyle(
                                           fontFamily: AppTheme.fontRubik,
@@ -379,7 +379,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       Expanded(child: Container()),
                                       Text(
                                         priceFormat.format(snapshot
-                                                .data.results[index].total) +
+                                                .data!.results[index].total) +
                                             translate("sum"),
                                         style: TextStyle(
                                           fontFamily: AppTheme.fontRubik,
@@ -392,10 +392,10 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       SizedBox(width: 16),
                                     ],
                                   ),
-                                  snapshot.data.results[index].type != "self"
+                                  snapshot.data!.results[index].type != "self"
                                       ? SizedBox(height: 16)
                                       : Container(),
-                                  snapshot.data.results[index].type != "self"
+                                  snapshot.data!.results[index].type != "self"
                                       ? Row(
                                           children: [
                                             SizedBox(width: 16),
@@ -412,12 +412,12 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                             ),
                                             Expanded(child: Container()),
                                             Text(
-                                              snapshot.data.results[index]
+                                              snapshot.data!.results[index]
                                                           .deliveryTotal ==
                                                       0.0
                                                   ? translate("free")
                                                   : priceFormat.format(snapshot
-                                                          .data
+                                                          .data!
                                                           .results[index]
                                                           .deliveryTotal) +
                                                       translate("sum"),
@@ -451,8 +451,8 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       GestureDetector(
                                         onTap: () async {
                                           var url = "tel:" +
-                                              snapshot.data.results[index].store
-                                                  .phone
+                                              snapshot.data!.results[index]
+                                                  .store.phone
                                                   .replaceAll("+", "")
                                                   .replaceAll(" ", "")
                                                   .replaceAll("-", "")
@@ -465,8 +465,8 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                           }
                                         },
                                         child: Text(
-                                          Utils.numberFormat(snapshot
-                                              .data.results[index].store.phone),
+                                          Utils.numberFormat(snapshot.data!
+                                              .results[index].store.phone),
                                           style: TextStyle(
                                             fontFamily: AppTheme.fontRubik,
                                             fontWeight: FontWeight.normal,
@@ -479,10 +479,10 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                       SizedBox(width: 16),
                                     ],
                                   ),
-                                  snapshot.data.results[index].bonus == 0
+                                  snapshot.data!.results[index].bonus == 0
                                       ? Container()
                                       : SizedBox(height: 16),
-                                  snapshot.data.results[index].bonus == 0
+                                  snapshot.data!.results[index].bonus == 0
                                       ? Container()
                                       : Row(
                                           children: [
@@ -499,7 +499,8 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                             ),
                                             Expanded(child: Container()),
                                             Text(
-                                              snapshot.data.results[index].bonus
+                                              snapshot.data!.results[index]
+                                                      .bonus
                                                       .toString() +
                                                   translate("ball"),
                                               style: TextStyle(
@@ -513,7 +514,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                             SizedBox(width: 16),
                                           ],
                                         ),
-                                  snapshot.data.results[index].bookingLabel
+                                  snapshot.data!.results[index].bookingLabel
                                               .length >
                                           0
                                       ? Container(
@@ -542,7 +543,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                                               SizedBox(width: 8),
                                               Expanded(
                                                 child: Text(
-                                                  snapshot.data.results[index]
+                                                  snapshot.data!.results[index]
                                                       .bookingLabel,
                                                   style: TextStyle(
                                                     fontFamily:
@@ -687,8 +688,8 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                     );
             }
             return Shimmer.fromColors(
-              baseColor: Colors.grey[300],
-              highlightColor: Colors.grey[100],
+              baseColor: AppTheme.shimmerBase,
+              highlightColor: AppTheme.shimmerHighlight,
               child: ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {

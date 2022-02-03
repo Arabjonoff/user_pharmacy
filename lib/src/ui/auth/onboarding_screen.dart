@@ -37,16 +37,16 @@ class _OnBoardingState extends State<OnBoarding> {
   void initState() {
     controller.addListener(() {
       setState(() {
-        currentPageValue = controller.page;
-        if (controller.page >= 0.0 && controller.page < 0.5) {
+        currentPageValue = controller.page!;
+        if (controller.page! >= 0.0 && controller.page! < 0.5) {
           currentIndex = 0;
-        } else if (controller.page >= 0.5 && controller.page < 1.5) {
+        } else if (controller.page! >= 0.5 && controller.page! < 1.5) {
           currentIndex = 1;
-        } else if (controller.page >= 1.5 && controller.page < 2.5) {
+        } else if (controller.page! >= 1.5 && controller.page! < 2.5) {
           currentIndex = 2;
-        } else if (controller.page >= 2.5 && controller.page < 3.5) {
+        } else if (controller.page! >= 2.5 && controller.page! < 3.5) {
           currentIndex = 3;
-        } else if (controller.page >= 3.5 && controller.page < 4.5) {
+        } else if (controller.page! >= 3.5 && controller.page! < 4.5) {
           currentIndex = 4;
         }
       });
@@ -462,7 +462,7 @@ class _OnBoardingState extends State<OnBoarding> {
   }
 
   Future<void> _initPlatformState(BuildContext context) async {
-    Map<String, dynamic> deviceData;
+    Map<String, dynamic> deviceData = {};
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getString("deviceData") == null) {

@@ -5,23 +5,31 @@ class VerifyModel {
   String token;
   bool konkurs;
 
-  VerifyModel({this.msg, this.status, this.user, this.token, this.konkurs});
+  VerifyModel({
+    required this.msg,
+    required this.status,
+    required this.user,
+    required this.token,
+    required this.konkurs,
+  });
 
-  VerifyModel.fromJson(Map<String, dynamic> json) {
-    msg = json['msg'];
-    status = json['status'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    token = json['token'];
-    konkurs = json['konkurs'] ?? false;
+  factory VerifyModel.fromJson(Map<String, dynamic> json) {
+    return VerifyModel(
+      msg: json['msg'] ?? "",
+      status: json['status'] ?? 0,
+      user: json['user'] != null
+          ? User.fromJson(json['user'])
+          : User.fromJson({}),
+      token: json['token'] ?? "",
+      konkurs: json['konkurs'] ?? false,
+    );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['msg'] = this.msg;
     data['status'] = this.status;
-    if (this.user != null) {
-      data['user'] = this.user.toJson();
-    }
+    data['user'] = this.user.toJson();
     data['token'] = this.token;
     return data;
   }
@@ -37,25 +45,28 @@ class User {
   String birthDate;
   int complete;
 
-  User(
-      {this.id,
-      this.login,
-      this.avatar,
-      this.firstName,
-      this.lastName,
-      this.gender,
-      this.birthDate,
-      this.complete});
+  User({
+    required this.id,
+    required this.login,
+    required this.avatar,
+    required this.firstName,
+    required this.lastName,
+    required this.gender,
+    required this.birthDate,
+    required this.complete,
+  });
 
-  User.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    login = json['login'];
-    avatar = json['avatar'];
-    firstName = json['first_name'] != null ? json['first_name'] : "";
-    lastName = json['last_name'] != null ? json['last_name'] : "";
-    gender = json['gender'] != null ? json['gender'] : "";
-    birthDate = json['birth_date'] != null ? json['birth_date'] : "";
-    complete = json['complete'];
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'] ?? 0,
+      login: json['login'] ?? "",
+      avatar: json['avatar'] ?? "",
+      firstName: json['first_name'] ?? "",
+      lastName: json['last_name'] ?? "",
+      gender: json['gender'] ?? "",
+      birthDate: json['birth_date'] ?? "",
+      complete: json['complete'] ?? 0,
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -63,18 +74,10 @@ class User {
     data['id'] = this.id;
     data['login'] = this.login;
     data['avatar'] = this.avatar;
-    if (this.firstName != null) {
-      data['first_name'] = this.firstName;
-    }
-    if (this.lastName != null) {
-      data['last_name'] = this.lastName;
-    }
-    if (this.gender != null) {
-      data['gender'] = this.gender;
-    }
-    if (this.birthDate != null) {
-      data['birth_date'] = this.birthDate;
-    }
+    data['first_name'] = this.firstName;
+    data['last_name'] = this.lastName;
+    data['gender'] = this.gender;
+    data['birth_date'] = this.birthDate;
     data['complete'] = this.complete;
     return data;
   }

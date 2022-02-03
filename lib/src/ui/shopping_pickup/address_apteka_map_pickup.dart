@@ -17,7 +17,6 @@ import 'package:pharmacy/src/ui/main/main_screen.dart';
 import 'package:pharmacy/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
-
 import 'package:yandex_mapkit/yandex_mapkit.dart' as placemark;
 import '../../app_theme.dart';
 
@@ -42,7 +41,7 @@ class _AddressStoreMapPickupScreenState
   @override
   bool get wantKeepAlive => true;
 
-  YandexMapController mapController;
+  YandexMapController? mapController;
   final List<placemark.Placemark> placemarks = <placemark.Placemark>[];
   DatabaseHelper dataBase = new DatabaseHelper();
 
@@ -57,25 +56,13 @@ class _AddressStoreMapPickupScreenState
 
   @override
   void dispose() {
-    mapController.dispose();
+    mapController!.dispose();
     super.dispose();
   }
 
   @override
   // ignore: must_call_super
   Widget build(BuildContext context) {
-    if (mapController != null) {
-      mapController.showUserLayer(
-        iconName: 'assets/map/user.png',
-        arrowName: 'assets/map/arrow.png',
-        accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
-      );
-      mapController.move(
-        point: Point(latitude: 41.311081, longitude: 69.240562),
-        zoom: 11,
-        animation: const MapAnimation(smooth: true, duration: 0.5),
-      );
-    }
     return Scaffold(
       body: ClipRRect(
         borderRadius: BorderRadius.circular(24),
@@ -84,6 +71,16 @@ class _AddressStoreMapPickupScreenState
             YandexMap(
               onMapCreated: (YandexMapController yandexMapController) async {
                 mapController = yandexMapController;
+                mapController!.showUserLayer(
+                  iconName: 'assets/map/user.png',
+                  arrowName: 'assets/map/arrow.png',
+                  accuracyCircleFillColor: Colors.blue.withOpacity(0.5),
+                );
+                mapController!.move(
+                  point: Point(latitude: 41.311081, longitude: 69.240562),
+                  zoom: 11,
+                  animation: const MapAnimation(smooth: true, duration: 0.5),
+                );
               },
             ),
             Positioned(
@@ -92,7 +89,7 @@ class _AddressStoreMapPickupScreenState
                   Geolocator.getCurrentPosition(
                     desiredAccuracy: LocationAccuracy.best,
                   ).then((position) async {
-                    mapController.move(
+                    mapController!.move(
                       point: Point(
                         latitude: position.latitude,
                         longitude: position.longitude,
@@ -165,9 +162,8 @@ class _AddressStoreMapPickupScreenState
     if (response.isSuccess) {
       _isLoading(false);
       if (locationModelFromJson(json.encode(response.result)).length > 0) {
-        if (placemarks != null)
-          for (int i = 0; i < placemarks.length; i++)
-            await mapController.removePlacemark(placemarks[i]);
+        for (int i = 0; i < placemarks.length; i++)
+          await mapController!.removePlacemark(placemarks[i]);
         _addMarkerData(locationModelFromJson(json.encode(response.result)));
       }
     } else {
@@ -187,15 +183,17 @@ class _AddressStoreMapPickupScreenState
       latOr += data[i].location.coordinates[1];
       lngOr += data[i].location.coordinates[0];
 
-      mapController.addPlacemark(
+      mapController!.addPlacemark(
         placemark.Placemark(
           point: Point(
             latitude: data[i].location.coordinates[1],
             longitude: data[i].location.coordinates[0],
           ),
-          opacity: 1,
-          iconName: 'assets/map/selected_order.png',
-          onTap: (Point point) {
+          style: PlacemarkStyle(
+            opacity: 1,
+            iconName: 'assets/map/selected_order.png',
+          ),
+          onTap: (_, Point point) {
             BottomDialog.showStoreInfo(
               context,
               data[i],
@@ -208,7 +206,7 @@ class _AddressStoreMapPickupScreenState
       );
     }
     if (mapController != null)
-      mapController.move(
+      mapController!.move(
         point: new Point(
           latitude: latOr / data.length,
           longitude: lngOr / data.length,
@@ -219,28 +217,20 @@ class _AddressStoreMapPickupScreenState
   }
 
   Future<void> _getPosition() async {
-    AccessStore addModel = new AccessStore();
+    AccessStore? addModel;
     Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.best,
     );
-    if (position != null) {
-      lat = position.latitude;
-      lng = position.longitude;
-      addModel = new AccessStore(
-        lat: position.latitude,
-        lng: position.longitude,
-        products: widget.drugs,
-      );
-      Utils.saveLocation(position.latitude, position.longitude);
-      _addMarkers(await Repository().fetchAccessStore(addModel));
-    } else {
-      addModel = new AccessStore(
-        lat: 41.311081,
-        lng: 69.240562,
-        products: widget.drugs,
-      );
-      _addMarkers(await Repository().fetchAccessStore(addModel));
-    }
+
+    lat = position.latitude;
+    lng = position.longitude;
+    addModel = new AccessStore(
+      lat: position.latitude,
+      lng: position.longitude,
+      products: widget.drugs,
+    );
+    Utils.saveLocation(position.latitude, position.longitude);
+    _addMarkers(await Repository().fetchAccessStore(addModel));
   }
 
   Future<void> _defaultLocation() async {
@@ -248,10 +238,14 @@ class _AddressStoreMapPickupScreenState
     var lat = prefs.getDouble("coordLat") ?? 41.311081;
     var lng = prefs.getDouble("coordLng") ?? 69.240562;
 
-    AccessStore addModel = new AccessStore(products: widget.drugs);
+    AccessStore addModel = new AccessStore(
+      products: widget.drugs,
+      lng: 0.0,
+      lat: 0.0,
+    );
     _addMarkers(await Repository().fetchAccessStore(addModel));
     if (mapController != null) {
-      mapController.move(
+      mapController!.move(
         point: Point(
           latitude: lat,
           longitude: lng,

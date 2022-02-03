@@ -14,9 +14,13 @@ import 'package:shimmer/shimmer.dart';
 import '../../../app_theme.dart';
 
 class CategoryScreen extends StatefulWidget {
-  final Function({String name, int type, String id}) onListItem;
+  final Function({
+    required String name,
+    required int type,
+    required String id,
+  }) onListItem;
 
-  CategoryScreen({this.onListItem});
+  CategoryScreen({required this.onListItem});
 
   @override
   State<StatefulWidget> createState() {
@@ -71,26 +75,26 @@ class _CategoryScreenState extends State<CategoryScreen> {
           if (snapshot.hasData) {
             return ListView.builder(
               padding: EdgeInsets.all(16),
-              itemCount: snapshot.data.results.length,
+              itemCount: snapshot.data!.results.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    if (snapshot.data.results[index].childs.length > 0) {
+                    if (snapshot.data!.results[index].childs.length > 0) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => SubCategoryScreen(
-                            snapshot.data.results[index].name,
-                            snapshot.data.results[index].childs,
+                            snapshot.data!.results[index].name,
+                            snapshot.data!.results[index].childs,
                             widget.onListItem,
                           ),
                         ),
                       );
                     } else {
                       widget.onListItem(
-                        name: snapshot.data.results[index].name,
+                        name: snapshot.data!.results[index].name,
                         type: 2,
-                        id: snapshot.data.results[index].id.toString(),
+                        id: snapshot.data!.results[index].id.toString(),
                       );
                     }
                   },
@@ -98,7 +102,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     padding: EdgeInsets.only(
                       top: index == 0 ? 16 : 8,
                       bottom:
-                          index == snapshot.data.results.length - 1 ? 16 : 8,
+                          index == snapshot.data!.results.length - 1 ? 16 : 8,
                     ),
                     decoration: BoxDecoration(
                       color: AppTheme.white,
@@ -106,10 +110,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         topRight: Radius.circular(index == 0 ? 24 : 0),
                         topLeft: Radius.circular(index == 0 ? 24 : 0),
                         bottomLeft: Radius.circular(
-                          index == snapshot.data.results.length - 1 ? 24 : 0,
+                          index == snapshot.data!.results.length - 1 ? 24 : 0,
                         ),
                         bottomRight: Radius.circular(
-                          index == snapshot.data.results.length - 1 ? 24 : 0,
+                          index == snapshot.data!.results.length - 1 ? 24 : 0,
                         ),
                       ),
                     ),
@@ -121,7 +125,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           width: 40,
                           height: 40,
                           child: CachedNetworkImage(
-                            imageUrl: snapshot.data.results[index].image,
+                            imageUrl: snapshot.data!.results[index].image,
                             placeholder: (context, url) => SvgPicture.asset(
                               "assets/icons/default_image.svg",
                             ),
@@ -134,7 +138,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         ),
                         Expanded(
                           child: Text(
-                            snapshot.data.results[index].name,
+                            snapshot.data!.results[index].name,
                             style: TextStyle(
                               fontFamily: AppTheme.fontRubik,
                               fontWeight: FontWeight.normal,
@@ -156,8 +160,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
             );
           }
           return Shimmer.fromColors(
-            baseColor: Colors.grey[300],
-            highlightColor: Colors.grey[100],
+            baseColor: AppTheme.shimmerBase,
+            highlightColor: AppTheme.shimmerHighlight,
             child: Container(
               height: 575,
               width: double.infinity,

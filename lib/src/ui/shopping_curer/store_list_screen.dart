@@ -19,8 +19,8 @@ class StoreListScreen extends StatefulWidget {
   final CheckOrderModelNew checkOrderModel;
 
   StoreListScreen({
-    this.createOrder,
-    this.checkOrderModel,
+    required this.createOrder,
+    required this.checkOrderModel,
   });
 
   @override

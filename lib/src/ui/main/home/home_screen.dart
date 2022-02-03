@@ -38,27 +38,31 @@ class HomeScreen extends StatefulWidget {
   final Function(bool optiona, String descl) onUpdate;
   final Function(Function reload) onReloadNetwork;
   final Function(int orderId) onCommentService;
-  final Function({String name, int type, String id}) onListItem;
   final Function({
-    String image,
-    String title,
-    String message,
-    DateTime dateTime,
+    required String name,
+    required int type,
+    required String id,
+  }) onListItem;
+  final Function({
+    required String image,
+    required String title,
+    required String message,
+    required DateTime dateTime,
   }) onBlogList;
   final Function() onItemBlog;
   final Function() onRegion;
   final Function() onSearch;
 
   HomeScreen({
-    this.onUnversal,
-    this.onUpdate,
-    this.onReloadNetwork,
-    this.onCommentService,
-    this.onListItem,
-    this.onBlogList,
-    this.onItemBlog,
-    this.onRegion,
-    this.onSearch,
+    required this.onUnversal,
+    required this.onUpdate,
+    required this.onReloadNetwork,
+    required this.onCommentService,
+    required this.onListItem,
+    required this.onBlogList,
+    required this.onItemBlog,
+    required this.onRegion,
+    required this.onSearch,
   });
 
   @override
@@ -121,12 +125,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  List<BannerResult> bannerResults;
-  List<ItemResult> recentlyItem;
-  List<CategoryResults> categoryResults;
-  List<ItemResult> getBestItem;
-  ItemModel slimmingItem;
-  BlogResults cashBack;
+  List<BannerResult>? bannerResults;
+  List<ItemResult>? recentlyItem;
+  List<CategoryResults>? categoryResults;
+  List<ItemResult>? getBestItem;
+  ItemModel? slimmingItem;
+  BlogResults? cashBack;
   List<BlogResults> blog = [];
 
   @override
@@ -239,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       snapshot) {
                                                 if (snapshot.hasData) {
                                                   return Text(
-                                                    snapshot.data,
+                                                    snapshot.data!,
                                                     style: TextStyle(
                                                       fontFamily:
                                                           AppTheme.fontRubik,
@@ -310,9 +314,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     builder: (context, AsyncSnapshot<BannerModel> snapshot) {
                       if (snapshot.hasData || bannerResults != null) {
                         if (snapshot.hasData) {
-                          bannerResults = snapshot.data.results;
+                          bannerResults = snapshot.data!.results;
                         }
-                        if (bannerResults.length > 0) {
+                        if (bannerResults!.length > 0) {
                           return CarouselSlider(
                             options: CarouselOptions(
                               height: (MediaQuery.of(context).size.width - 32) /
@@ -323,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               autoPlayInterval: Duration(seconds: 4),
                               enlargeCenterPage: false,
                             ),
-                            items: bannerResults.map(
+                            items: bannerResults!.map(
                               (url) {
                                 return GestureDetector(
                                   onTap: () async {
@@ -337,10 +341,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             .replaceAll(']', '')
                                             .replaceAll(' ', ''),
                                       );
-                                    } else if (url.drug != null) {
+                                    } else if (url.drug != 0) {
                                       RxBus.post(BottomViewModel(url.drug),
                                           tag: "EVENT_BOTTOM_ITEM_ALL");
-                                    } else if (url.category != null) {
+                                    } else if (url.category != 0) {
                                       widget.onListItem(
                                         name: url.name,
                                         type: 2,
@@ -390,8 +394,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         }
                       }
                       return Shimmer.fromColors(
-                        baseColor: Colors.grey[300],
-                        highlightColor: Colors.grey[100],
+                        baseColor: AppTheme.shimmerBase,
+                        highlightColor: AppTheme.shimmerHighlight,
                         child: Container(
                           decoration: BoxDecoration(
                             color: AppTheme.white,
@@ -414,9 +418,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   builder: (context, AsyncSnapshot<ItemModel> snapshot) {
                     if (snapshot.hasData || recentlyItem != null) {
                       if (snapshot.hasData) {
-                        recentlyItem = snapshot.data.results;
+                        recentlyItem = snapshot.data!.results;
                       }
-                      if (recentlyItem.length > 0) {
+                      if (recentlyItem!.length > 0) {
                         return Container(
                           height: 225,
                           margin: EdgeInsets.only(top: 24),
@@ -448,6 +452,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         widget.onListItem(
                                           name: translate("home.recently"),
                                           type: 1,
+                                          id: "HOME",
                                         );
                                       },
                                       child: Container(
@@ -488,7 +493,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       onTap: () {
                                         RxBus.post(
                                           BottomViewModel(
-                                              recentlyItem[index].id),
+                                            recentlyItem![index].id,
+                                          ),
                                           tag: "EVENT_BOTTOM_ITEM_ALL",
                                         );
                                       },
@@ -516,7 +522,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   Center(
                                                     child: CachedNetworkImage(
                                                       imageUrl:
-                                                          recentlyItem[index]
+                                                          recentlyItem![index]
                                                               .imageThumbnail,
                                                       placeholder:
                                                           (context, url) =>
@@ -534,15 +540,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   Positioned(
                                                     child: GestureDetector(
                                                       onTap: () {
-                                                        recentlyItem[index]
+                                                        recentlyItem![index]
                                                                 .favourite =
-                                                            !recentlyItem[index]
+                                                            !recentlyItem![
+                                                                    index]
                                                                 .favourite;
-                                                        if (recentlyItem[index]
+                                                        if (recentlyItem![index]
                                                             .favourite) {
                                                           dataBaseFav
                                                               .saveProducts(
-                                                                  recentlyItem[
+                                                                  recentlyItem![
                                                                       index])
                                                               .then((value) {
                                                             blocHome
@@ -551,7 +558,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                         } else {
                                                           dataBaseFav
                                                               .deleteProducts(
-                                                                  recentlyItem[
+                                                                  recentlyItem![
                                                                           index]
                                                                       .id)
                                                               .then((value) {
@@ -560,7 +567,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           });
                                                         }
                                                       },
-                                                      child: recentlyItem[index]
+                                                      child: recentlyItem![
+                                                                  index]
                                                               .favourite
                                                           ? SvgPicture.asset(
                                                               "assets/icons/fav_select.svg")
@@ -571,9 +579,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     right: 0,
                                                   ),
                                                   Positioned(
-                                                    child: recentlyItem[index]
+                                                    child: recentlyItem![index]
                                                                 .price >=
-                                                            recentlyItem[index]
+                                                            recentlyItem![index]
                                                                 .basePrice
                                                         ? Container()
                                                         : Container(
@@ -593,9 +601,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             ),
                                                             child: Text(
                                                               "-" +
-                                                                  (((recentlyItem[index].basePrice - recentlyItem[index].price) *
+                                                                  (((recentlyItem![index].basePrice - recentlyItem![index].price) *
                                                                               100) ~/
-                                                                          recentlyItem[index]
+                                                                          recentlyItem![index]
                                                                               .basePrice)
                                                                       .toString() +
                                                                   "%",
@@ -621,7 +629,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             ),
                                             SizedBox(height: 4),
                                             Text(
-                                              recentlyItem[index].name,
+                                              recentlyItem![index].name,
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -634,7 +642,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             ),
                                             SizedBox(height: 4),
                                             Text(
-                                              recentlyItem[index]
+                                              recentlyItem![index]
                                                   .manufacturer
                                                   .name,
                                               maxLines: 1,
@@ -648,7 +656,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               ),
                                             ),
                                             SizedBox(height: 4),
-                                            recentlyItem[index].isComing
+                                            recentlyItem![index].isComing
                                                 ? Container(
                                                     height: 29,
                                                     width: double.infinity,
@@ -683,7 +691,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       ),
                                                     ),
                                                   )
-                                                : recentlyItem[index]
+                                                : recentlyItem![index]
                                                             .cardCount >
                                                         0
                                                     ? Container(
@@ -708,32 +716,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           children: [
                                                             GestureDetector(
                                                               onTap: () {
-                                                                if (recentlyItem[
+                                                                if (recentlyItem![
                                                                             index]
                                                                         .cardCount >
                                                                     1) {
-                                                                  recentlyItem[
+                                                                  recentlyItem![
                                                                           index]
-                                                                      .cardCount = recentlyItem[
+                                                                      .cardCount = recentlyItem![
                                                                               index]
                                                                           .cardCount -
                                                                       1;
                                                                   dataBase
                                                                       .updateProduct(
-                                                                          recentlyItem[
+                                                                          recentlyItem![
                                                                               index])
                                                                       .then(
                                                                           (value) {
                                                                     blocHome
                                                                         .fetchRecentlyUpdate();
                                                                   });
-                                                                } else if (recentlyItem[
+                                                                } else if (recentlyItem![
                                                                             index]
                                                                         .cardCount ==
                                                                     1) {
                                                                   dataBase
                                                                       .deleteProducts(
-                                                                          recentlyItem[index]
+                                                                          recentlyItem![index]
                                                                               .id)
                                                                       .then(
                                                                           (value) {
@@ -767,7 +775,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             Expanded(
                                                               child: Center(
                                                                 child: Text(
-                                                                  recentlyItem[
+                                                                  recentlyItem![
                                                                               index]
                                                                           .cardCount
                                                                           .toString() +
@@ -793,21 +801,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             ),
                                                             GestureDetector(
                                                               onTap: () {
-                                                                if (recentlyItem[
+                                                                if (recentlyItem![
                                                                             index]
                                                                         .cardCount <
-                                                                    recentlyItem[
+                                                                    recentlyItem![
                                                                             index]
                                                                         .maxCount)
-                                                                  recentlyItem[
+                                                                  recentlyItem![
                                                                           index]
-                                                                      .cardCount = recentlyItem[
+                                                                      .cardCount = recentlyItem![
                                                                               index]
                                                                           .cardCount +
                                                                       1;
                                                                 dataBase
                                                                     .updateProduct(
-                                                                        recentlyItem[
+                                                                        recentlyItem![
                                                                             index])
                                                                     .then(
                                                                         (value) {
@@ -842,11 +850,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       )
                                                     : GestureDetector(
                                                         onTap: () {
-                                                          recentlyItem[index]
+                                                          recentlyItem![index]
                                                               .cardCount = 1;
                                                           dataBase
                                                               .saveProducts(
-                                                                  recentlyItem[
+                                                                  recentlyItem![
                                                                       index])
                                                               .then((value) {
                                                             blocHome
@@ -873,7 +881,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                   TextSpan(
                                                                     text: priceFormat
                                                                         .format(
-                                                                            recentlyItem[index].price),
+                                                                            recentlyItem![index].price),
                                                                     style:
                                                                         TextStyle(
                                                                       fontFamily:
@@ -920,7 +928,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ),
                                     ),
                                   ),
-                                  itemCount: recentlyItem.length,
+                                  itemCount: recentlyItem!.length,
                                 ),
                               ),
                             ],
@@ -934,8 +942,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       height: 225,
                       margin: EdgeInsets.only(top: 24),
                       child: Shimmer.fromColors(
-                        baseColor: Colors.grey[300],
-                        highlightColor: Colors.grey[100],
+                        baseColor: AppTheme.shimmerBase,
+                        highlightColor: AppTheme.shimmerHighlight,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -989,9 +997,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   builder: (context, AsyncSnapshot<CategoryModel> snapshot) {
                     if (snapshot.hasData || categoryResults != null) {
                       if (snapshot.hasData) {
-                        categoryResults = snapshot.data.results;
+                        categoryResults = snapshot.data!.results;
                       }
-                      if (categoryResults.length > 0) {
+                      if (categoryResults!.length > 0) {
                         return Container(
                           margin: EdgeInsets.only(top: 24, left: 16, right: 16),
                           padding: EdgeInsets.only(top: 16, bottom: 16),
@@ -1028,14 +1036,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ListView.builder(
                                 padding: EdgeInsets.only(
                                     top: 0, left: 16, right: 16, bottom: 4),
-                                itemCount: categoryResults.length,
+                                itemCount: categoryResults!.length,
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
                                       widget.onListItem(
-                                        name: categoryResults[index].name,
+                                        name: categoryResults![index].name,
                                         type: 2,
-                                        id: categoryResults[index]
+                                        id: categoryResults![index]
                                             .id
                                             .toString(),
                                       );
@@ -1051,7 +1059,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             height: 42,
                                             child: CachedNetworkImage(
                                               imageUrl:
-                                                  categoryResults[index].image,
+                                                  categoryResults![index].image,
                                               placeholder: (context, url) =>
                                                   SvgPicture.asset(
                                                 "assets/icons/default_image.svg",
@@ -1067,7 +1075,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           SizedBox(width: 12),
                                           Expanded(
                                             child: Text(
-                                              categoryResults[index].name,
+                                              categoryResults![index].name,
                                               style: TextStyle(
                                                 fontFamily: AppTheme.fontRubik,
                                                 fontWeight: FontWeight.normal,
@@ -1121,8 +1129,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     }
 
                     return Shimmer.fromColors(
-                      baseColor: Colors.grey[300],
-                      highlightColor: Colors.grey[100],
+                      baseColor: AppTheme.shimmerBase,
+                      highlightColor: AppTheme.shimmerHighlight,
                       child: Container(
                         height: 225,
                         width: double.infinity,
@@ -1140,9 +1148,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   builder: (context, AsyncSnapshot<ItemModel> snapshot) {
                     if (snapshot.hasData || getBestItem != null) {
                       if (snapshot.hasData) {
-                        getBestItem = snapshot.data.results;
+                        getBestItem = snapshot.data!.results;
                       }
-                      if (getBestItem.length > 0) {
+                      if (getBestItem!.length > 0) {
                         return Container(
                           height: 225,
                           margin: EdgeInsets.only(top: 24),
@@ -1174,6 +1182,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         widget.onListItem(
                                           name: translate("home.best"),
                                           type: 3,
+                                          id: "BEST",
                                         );
                                       },
                                       child: Container(
@@ -1191,7 +1200,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               ),
                                             ),
                                             SvgPicture.asset(
-                                                "assets/icons/arrow_right_blue.svg"),
+                                              "assets/icons/arrow_right_blue.svg",
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -1214,7 +1224,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       onTap: () {
                                         RxBus.post(
                                           BottomViewModel(
-                                              getBestItem[index].id),
+                                            getBestItem![index].id,
+                                          ),
                                           tag: "EVENT_BOTTOM_ITEM_ALL",
                                         );
                                       },
@@ -1242,7 +1253,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   Center(
                                                     child: CachedNetworkImage(
                                                       imageUrl:
-                                                          getBestItem[index]
+                                                          getBestItem![index]
                                                               .imageThumbnail,
                                                       placeholder:
                                                           (context, url) =>
@@ -1260,15 +1271,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   Positioned(
                                                     child: GestureDetector(
                                                       onTap: () {
-                                                        getBestItem[index]
+                                                        getBestItem![index]
                                                                 .favourite =
-                                                            !getBestItem[index]
+                                                            !getBestItem![index]
                                                                 .favourite;
-                                                        if (getBestItem[index]
+                                                        if (getBestItem![index]
                                                             .favourite) {
                                                           dataBaseFav
                                                               .saveProducts(
-                                                                  getBestItem[
+                                                                  getBestItem![
                                                                       index])
                                                               .then((value) {
                                                             blocHome
@@ -1277,7 +1288,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                         } else {
                                                           dataBaseFav
                                                               .deleteProducts(
-                                                                  getBestItem[
+                                                                  getBestItem![
                                                                           index]
                                                                       .id)
                                                               .then((value) {
@@ -1286,7 +1297,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           });
                                                         }
                                                       },
-                                                      child: getBestItem[index]
+                                                      child: getBestItem![index]
                                                               .favourite
                                                           ? SvgPicture.asset(
                                                               "assets/icons/fav_select.svg")
@@ -1297,9 +1308,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     right: 0,
                                                   ),
                                                   Positioned(
-                                                    child: getBestItem[index]
+                                                    child: getBestItem![index]
                                                                 .price >=
-                                                            getBestItem[index]
+                                                            getBestItem![index]
                                                                 .basePrice
                                                         ? Container()
                                                         : Container(
@@ -1319,9 +1330,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             ),
                                                             child: Text(
                                                               "-" +
-                                                                  (((getBestItem[index].basePrice - getBestItem[index].price) *
+                                                                  (((getBestItem![index].basePrice - getBestItem![index].price) *
                                                                               100) ~/
-                                                                          getBestItem[index]
+                                                                          getBestItem![index]
                                                                               .basePrice)
                                                                       .toString() +
                                                                   "%",
@@ -1347,7 +1358,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             ),
                                             SizedBox(height: 4),
                                             Text(
-                                              getBestItem[index].name,
+                                              getBestItem![index].name,
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -1360,7 +1371,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             ),
                                             SizedBox(height: 4),
                                             Text(
-                                              getBestItem[index]
+                                              getBestItem![index]
                                                   .manufacturer
                                                   .name,
                                               maxLines: 1,
@@ -1374,7 +1385,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               ),
                                             ),
                                             SizedBox(height: 4),
-                                            getBestItem[index].isComing
+                                            getBestItem![index].isComing
                                                 ? Container(
                                                     height: 29,
                                                     width: double.infinity,
@@ -1409,7 +1420,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       ),
                                                     ),
                                                   )
-                                                : getBestItem[index].cardCount >
+                                                : getBestItem![index]
+                                                            .cardCount >
                                                         0
                                                     ? Container(
                                                         height: 29,
@@ -1433,32 +1445,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           children: [
                                                             GestureDetector(
                                                               onTap: () {
-                                                                if (getBestItem[
+                                                                if (getBestItem![
                                                                             index]
                                                                         .cardCount >
                                                                     1) {
-                                                                  getBestItem[
+                                                                  getBestItem![
                                                                           index]
-                                                                      .cardCount = getBestItem[
+                                                                      .cardCount = getBestItem![
                                                                               index]
                                                                           .cardCount -
                                                                       1;
                                                                   dataBase
                                                                       .updateProduct(
-                                                                          getBestItem[
+                                                                          getBestItem![
                                                                               index])
                                                                       .then(
                                                                           (value) {
                                                                     blocHome
                                                                         .fetchBestUpdate();
                                                                   });
-                                                                } else if (getBestItem[
+                                                                } else if (getBestItem![
                                                                             index]
                                                                         .cardCount ==
                                                                     1) {
                                                                   dataBase
                                                                       .deleteProducts(
-                                                                          getBestItem[index]
+                                                                          getBestItem![index]
                                                                               .id)
                                                                       .then(
                                                                           (value) {
@@ -1492,7 +1504,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             Expanded(
                                                               child: Center(
                                                                 child: Text(
-                                                                  getBestItem[index]
+                                                                  getBestItem![
+                                                                              index]
                                                                           .cardCount
                                                                           .toString() +
                                                                       " " +
@@ -1517,21 +1530,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             ),
                                                             GestureDetector(
                                                               onTap: () {
-                                                                if (getBestItem[
+                                                                if (getBestItem![
                                                                             index]
                                                                         .cardCount <
-                                                                    getBestItem[
+                                                                    getBestItem![
                                                                             index]
                                                                         .maxCount)
-                                                                  getBestItem[
+                                                                  getBestItem![
                                                                           index]
-                                                                      .cardCount = getBestItem[
+                                                                      .cardCount = getBestItem![
                                                                               index]
                                                                           .cardCount +
                                                                       1;
                                                                 dataBase
                                                                     .updateProduct(
-                                                                        getBestItem[
+                                                                        getBestItem![
                                                                             index])
                                                                     .then(
                                                                         (value) {
@@ -1566,11 +1579,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       )
                                                     : GestureDetector(
                                                         onTap: () {
-                                                          getBestItem[index]
+                                                          getBestItem![index]
                                                               .cardCount = 1;
                                                           dataBase
                                                               .saveProducts(
-                                                                  getBestItem[
+                                                                  getBestItem![
                                                                       index])
                                                               .then((value) {
                                                             blocHome
@@ -1597,7 +1610,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                   TextSpan(
                                                                     text: priceFormat
                                                                         .format(
-                                                                            getBestItem[index].price),
+                                                                            getBestItem![index].price),
                                                                     style:
                                                                         TextStyle(
                                                                       fontFamily:
@@ -1644,7 +1657,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ),
                                     ),
                                   ),
-                                  itemCount: getBestItem.length,
+                                  itemCount: getBestItem!.length,
                                 ),
                               ),
                             ],
@@ -1658,8 +1671,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       height: 225,
                       margin: EdgeInsets.only(top: 24),
                       child: Shimmer.fromColors(
-                        baseColor: Colors.grey[300],
-                        highlightColor: Colors.grey[100],
+                        baseColor: AppTheme.shimmerBase,
+                        highlightColor: AppTheme.shimmerHighlight,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -1715,7 +1728,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       if (snapshot.hasData) {
                         slimmingItem = snapshot.data;
                       }
-                      if (slimmingItem.drugs.length > 0) {
+                      if (slimmingItem!.drugs.length > 0) {
                         return Container(
                           height: 225,
                           margin: EdgeInsets.only(top: 24),
@@ -1732,7 +1745,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 child: Row(
                                   children: [
                                     Text(
-                                      slimmingItem.title,
+                                      slimmingItem!.title,
                                       style: TextStyle(
                                         fontFamily: AppTheme.fontRubik,
                                         fontWeight: FontWeight.w500,
@@ -1745,9 +1758,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     GestureDetector(
                                       onTap: () {
                                         widget.onListItem(
-                                          name: slimmingItem.title,
-                                          type: 4,
-                                        );
+                                            name: slimmingItem!.title,
+                                            type: 4,
+                                            id: "SLIM");
                                       },
                                       child: Container(
                                         color: AppTheme.background,
@@ -1787,7 +1800,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       onTap: () {
                                         RxBus.post(
                                           BottomViewModel(
-                                              slimmingItem.drugs[index].id),
+                                            slimmingItem!.drugs[index].id,
+                                          ),
                                           tag: "EVENT_BOTTOM_ITEM_ALL",
                                         );
                                       },
@@ -1814,7 +1828,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 children: [
                                                   Center(
                                                     child: CachedNetworkImage(
-                                                      imageUrl: slimmingItem
+                                                      imageUrl: slimmingItem!
                                                           .drugs[index]
                                                           .imageThumbnail,
                                                       placeholder:
@@ -1833,18 +1847,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   Positioned(
                                                     child: GestureDetector(
                                                       onTap: () {
-                                                        slimmingItem
+                                                        slimmingItem!
                                                                 .drugs[index]
                                                                 .favourite =
-                                                            !slimmingItem
+                                                            !slimmingItem!
                                                                 .drugs[index]
                                                                 .favourite;
-                                                        if (slimmingItem
+                                                        if (slimmingItem!
                                                             .drugs[index]
                                                             .favourite) {
                                                           dataBaseFav
                                                               .saveProducts(
-                                                                  slimmingItem
+                                                                  slimmingItem!
                                                                           .drugs[
                                                                       index])
                                                               .then((value) {
@@ -1854,7 +1868,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                         } else {
                                                           dataBaseFav
                                                               .deleteProducts(
-                                                                  slimmingItem
+                                                                  slimmingItem!
                                                                       .drugs[
                                                                           index]
                                                                       .id)
@@ -1864,7 +1878,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           });
                                                         }
                                                       },
-                                                      child: slimmingItem
+                                                      child: slimmingItem!
                                                               .drugs[index]
                                                               .favourite
                                                           ? SvgPicture.asset(
@@ -1876,10 +1890,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     right: 0,
                                                   ),
                                                   Positioned(
-                                                    child: slimmingItem
+                                                    child: slimmingItem!
                                                                 .drugs[index]
                                                                 .price >=
-                                                            slimmingItem
+                                                            slimmingItem!
                                                                 .drugs[index]
                                                                 .basePrice
                                                         ? Container()
@@ -1900,9 +1914,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             ),
                                                             child: Text(
                                                               "-" +
-                                                                  (((slimmingItem.drugs[index].basePrice - slimmingItem.drugs[index].price) *
+                                                                  (((slimmingItem!.drugs[index].basePrice - slimmingItem!.drugs[index].price) *
                                                                               100) ~/
-                                                                          slimmingItem
+                                                                          slimmingItem!
                                                                               .drugs[index]
                                                                               .basePrice)
                                                                       .toString() +
@@ -1929,7 +1943,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             ),
                                             SizedBox(height: 4),
                                             Text(
-                                              slimmingItem.drugs[index].name,
+                                              slimmingItem!.drugs[index].name,
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -1942,7 +1956,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             ),
                                             SizedBox(height: 4),
                                             Text(
-                                              slimmingItem.drugs[index]
+                                              slimmingItem!.drugs[index]
                                                   .manufacturer.name,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
@@ -1955,7 +1969,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               ),
                                             ),
                                             SizedBox(height: 4),
-                                            slimmingItem.drugs[index].isComing
+                                            slimmingItem!.drugs[index].isComing
                                                 ? Container(
                                                     height: 29,
                                                     width: double.infinity,
@@ -1990,7 +2004,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       ),
                                                     ),
                                                   )
-                                                : slimmingItem.drugs[index]
+                                                : slimmingItem!.drugs[index]
                                                             .cardCount >
                                                         0
                                                     ? Container(
@@ -2015,35 +2029,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           children: [
                                                             GestureDetector(
                                                               onTap: () {
-                                                                if (slimmingItem
+                                                                if (slimmingItem!
                                                                         .drugs[
                                                                             index]
                                                                         .cardCount >
                                                                     1) {
-                                                                  slimmingItem
+                                                                  slimmingItem!
                                                                       .drugs[
                                                                           index]
-                                                                      .cardCount = slimmingItem
+                                                                      .cardCount = slimmingItem!
                                                                           .drugs[
                                                                               index]
                                                                           .cardCount -
                                                                       1;
                                                                   dataBase
                                                                       .updateProduct(
-                                                                          slimmingItem.drugs[
+                                                                          slimmingItem!.drugs[
                                                                               index])
                                                                       .then(
                                                                           (value) {
                                                                     blocHome
                                                                         .fetchSlimmingUpdate();
                                                                   });
-                                                                } else if (slimmingItem
+                                                                } else if (slimmingItem!
                                                                         .drugs[
                                                                             index]
                                                                         .cardCount ==
                                                                     1) {
                                                                   dataBase
-                                                                      .deleteProducts(slimmingItem
+                                                                      .deleteProducts(slimmingItem!
                                                                           .drugs[
                                                                               index]
                                                                           .id)
@@ -2079,7 +2093,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             Expanded(
                                                               child: Center(
                                                                 child: Text(
-                                                                  slimmingItem
+                                                                  slimmingItem!
                                                                           .drugs[
                                                                               index]
                                                                           .cardCount
@@ -2106,25 +2120,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             ),
                                                             GestureDetector(
                                                               onTap: () {
-                                                                if (slimmingItem
+                                                                if (slimmingItem!
                                                                         .drugs[
                                                                             index]
                                                                         .cardCount <
-                                                                    slimmingItem
+                                                                    slimmingItem!
                                                                         .drugs[
                                                                             index]
                                                                         .maxCount)
-                                                                  slimmingItem
+                                                                  slimmingItem!
                                                                       .drugs[
                                                                           index]
-                                                                      .cardCount = slimmingItem
+                                                                      .cardCount = slimmingItem!
                                                                           .drugs[
                                                                               index]
                                                                           .cardCount +
                                                                       1;
                                                                 dataBase
                                                                     .updateProduct(
-                                                                        slimmingItem.drugs[
+                                                                        slimmingItem!.drugs[
                                                                             index])
                                                                     .then(
                                                                         (value) {
@@ -2159,12 +2173,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       )
                                                     : GestureDetector(
                                                         onTap: () {
-                                                          slimmingItem
+                                                          slimmingItem!
                                                               .drugs[index]
                                                               .cardCount = 1;
                                                           dataBase
                                                               .saveProducts(
-                                                                  slimmingItem
+                                                                  slimmingItem!
                                                                           .drugs[
                                                                       index])
                                                               .then((value) {
@@ -2190,7 +2204,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                               text: TextSpan(
                                                                 children: [
                                                                   TextSpan(
-                                                                    text: priceFormat.format(slimmingItem
+                                                                    text: priceFormat.format(slimmingItem!
                                                                         .drugs[
                                                                             index]
                                                                         .price),
@@ -2240,7 +2254,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ),
                                     ),
                                   ),
-                                  itemCount: slimmingItem.drugs.length,
+                                  itemCount: slimmingItem!.drugs.length,
                                 ),
                               ),
                             ],
@@ -2254,8 +2268,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       height: 225,
                       margin: EdgeInsets.only(top: 24),
                       child: Shimmer.fromColors(
-                        baseColor: Colors.grey[300],
-                        highlightColor: Colors.grey[100],
+                        baseColor: AppTheme.shimmerBase,
+                        highlightColor: AppTheme.shimmerHighlight,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -2323,7 +2337,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           children: [
                             ClipRRect(
                               child: CachedNetworkImage(
-                                imageUrl: cashBack.image,
+                                imageUrl: cashBack!.image,
                                 placeholder: (context, url) => Image.asset(
                                   "assets/img/default.png",
                                   width: double.infinity,
@@ -2342,7 +2356,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ),
                             SizedBox(height: 16),
                             Text(
-                              cashBack.title,
+                              cashBack!.title,
                               style: TextStyle(
                                 fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.w500,
@@ -2353,7 +2367,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ),
                             SizedBox(height: 8),
                             Text(
-                              cashBack.body
+                              cashBack!.body
                                   .replaceAll("<p>", " ")
                                   .replaceAll("</p>", ""),
                               style: TextStyle(
@@ -2370,10 +2384,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             GestureDetector(
                               onTap: () {
                                 widget.onBlogList(
-                                  image: cashBack.image,
-                                  dateTime: cashBack.updatedAt,
-                                  title: cashBack.title,
-                                  message: cashBack.body,
+                                  image: cashBack!.image,
+                                  dateTime: cashBack!.updatedAt,
+                                  title: cashBack!.title,
+                                  message: cashBack!.body,
                                 );
                               },
                               child: Container(
@@ -2646,7 +2660,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (prefs.getString('language') != null) {
       setState(() {
         var localizationDelegate = LocalizedApp.of(context).delegate;
-        localizationDelegate.changeLocale(Locale(prefs.getString('language')));
+        localizationDelegate.changeLocale(
+          Locale(prefs.getString('language') ?? "ru"),
+        );
       });
     } else {
       setState(() {

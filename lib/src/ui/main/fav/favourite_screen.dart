@@ -103,7 +103,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                             ),
                           ),
                           TextSpan(
-                            text: snapshot.data.length.toString(),
+                            text: snapshot.data!.length.toString(),
                             style: TextStyle(
                               fontFamily: AppTheme.fontRubik,
                               fontWeight: FontWeight.w500,
@@ -132,7 +132,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                     color: AppTheme.background,
                   ),
                   Expanded(
-                    child: snapshot.data.length == 0
+                    child: snapshot.data!.length == 0
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -227,14 +227,14 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                             child: ListView.builder(
                               controller: _scrollController,
                               scrollDirection: Axis.vertical,
-                              itemCount: snapshot.data.length,
+                              itemCount: snapshot.data!.length,
                               padding: EdgeInsets.only(bottom: 24),
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   onTap: () {
                                     RxBus.post(
                                         BottomViewModel(
-                                            snapshot.data[index].id),
+                                            snapshot.data![index].id),
                                         tag: "EVENT_BOTTOM_ITEM_ALL");
                                   },
                                   child: Container(
@@ -257,7 +257,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                               height: 80,
                                               width: 80,
                                               imageUrl: snapshot
-                                                  .data[index].imageThumbnail,
+                                                  .data![index].imageThumbnail,
                                               placeholder: (context, url) =>
                                                   SvgPicture.asset(
                                                 "assets/icons/default_image.svg",
@@ -281,7 +281,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                       CrossAxisAlignment.start,
                                                   children: <Widget>[
                                                     Text(
-                                                      snapshot.data[index]
+                                                      snapshot.data![index]
                                                           .manufacturer.name,
                                                       style: TextStyle(
                                                         fontFamily:
@@ -296,7 +296,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                     ),
                                                     SizedBox(height: 4),
                                                     Text(
-                                                      snapshot.data[index].name,
+                                                      snapshot.data![index].name,
                                                       style: TextStyle(
                                                         fontFamily:
                                                             AppTheme.fontRubik,
@@ -339,7 +339,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                         Text(
                                                           priceFormat.format(
                                                                   snapshot
-                                                                      .data[
+                                                                      .data![
                                                                           index]
                                                                       .price) +
                                                               translate("sum"),
@@ -384,7 +384,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                       ),
                                                       child: Row(
                                                         children: <Widget>[
-                                                          snapshot.data[index]
+                                                          snapshot.data![index]
                                                                       .cardCount >
                                                                   0
                                                               ? Container(
@@ -427,16 +427,16 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                                         ),
                                                                         onTap:
                                                                             () {
-                                                                          if (snapshot.data[index].cardCount >
+                                                                          if (snapshot.data![index].cardCount >
                                                                               1) {
-                                                                            snapshot.data[index].cardCount =
-                                                                                snapshot.data[index].cardCount - 1;
-                                                                            dataBaseCard.updateProduct(snapshot.data[index]).then((value) {
+                                                                            snapshot.data![index].cardCount =
+                                                                                snapshot.data![index].cardCount - 1;
+                                                                            dataBaseCard.updateProduct(snapshot.data![index]).then((value) {
                                                                               blocFav.fetchAllFav();
                                                                             });
-                                                                          } else if (snapshot.data[index].cardCount ==
+                                                                          } else if (snapshot.data![index].cardCount ==
                                                                               1) {
-                                                                            dataBaseCard.deleteProducts(snapshot.data[index].id).then((value) {
+                                                                            dataBaseCard.deleteProducts(snapshot.data![index].id).then((value) {
                                                                               blocFav.fetchAllFav();
                                                                             });
                                                                           }
@@ -447,7 +447,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                                             Center(
                                                                           child:
                                                                               Text(
-                                                                            snapshot.data[index].cardCount.toString() +
+                                                                            snapshot.data![index].cardCount.toString() +
                                                                                 " " +
                                                                                 translate("item.sht"),
                                                                             style:
@@ -465,10 +465,10 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                                         onTap:
                                                                             () {
                                                                           snapshot
-                                                                              .data[index]
-                                                                              .cardCount = snapshot.data[index].cardCount + 1;
+                                                                              .data![index]
+                                                                              .cardCount = snapshot.data![index].cardCount + 1;
                                                                           dataBaseCard
-                                                                              .updateProduct(snapshot.data[index])
+                                                                              .updateProduct(snapshot.data![index])
                                                                               .then((value) {
                                                                             blocFav.fetchAllFav();
                                                                           });
@@ -501,12 +501,12 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                               : GestureDetector(
                                                                   onTap: () {
                                                                     snapshot
-                                                                        .data[
+                                                                        .data![
                                                                             index]
                                                                         .cardCount = 1;
 
                                                                     dataBaseCard
-                                                                        .saveProducts(snapshot.data[
+                                                                        .saveProducts(snapshot.data![
                                                                             index])
                                                                         .then(
                                                                             (value) {
@@ -556,12 +556,12 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                           GestureDetector(
                                                             onTap: () {
                                                               if (snapshot
-                                                                  .data[index]
+                                                                  .data![index]
                                                                   .favourite) {
                                                                 dataBaseFav
                                                                     .deleteProducts(
                                                                         snapshot
-                                                                            .data[
+                                                                            .data![
                                                                                 index]
                                                                             .id)
                                                                     .then(
@@ -572,7 +572,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                               } else {
                                                                 dataBaseFav
                                                                     .saveProducts(
-                                                                        snapshot.data[
+                                                                        snapshot.data![
                                                                             index])
                                                                     .then(
                                                                         (value) {
@@ -582,7 +582,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                               }
                                                             },
                                                             child: snapshot
-                                                                    .data[index]
+                                                                    .data![index]
                                                                     .favourite
                                                                 ? SvgPicture.asset(
                                                                     "assets/icons/fav_select.svg")
@@ -615,8 +615,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
             );
           }
           return Shimmer.fromColors(
-            baseColor: Colors.grey[300],
-            highlightColor: Colors.grey[100],
+            baseColor: AppTheme.shimmerBase,
+            highlightColor: AppTheme.shimmerHighlight,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,

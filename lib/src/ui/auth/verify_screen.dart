@@ -33,7 +33,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
 
   String deviceToken = "";
 
-  Timer _timer;
+  Timer? _timer;
   int _start = 300;
 
   TextEditingController verifyController = TextEditingController();
@@ -68,7 +68,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer!.cancel();
     super.dispose();
   }
 

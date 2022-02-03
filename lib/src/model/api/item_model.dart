@@ -1,48 +1,39 @@
 class ItemModel {
   ItemModel({
-    this.count,
-    this.next,
-    this.previous,
-    this.results,
-    this.drugs,
-    this.title,
+    required this.count,
+    required this.next,
+    required this.results,
+    required this.drugs,
+    required this.title,
   });
 
   int count;
-  dynamic next;
-  dynamic previous;
+  String next;
   String title;
   List<ItemResult> results;
   List<ItemResult> drugs;
 
-  ItemModel.fromJson(Map<String, dynamic> json) {
-    this.count = json["count"];
-    this.next = json["next"];
-    this.previous = json["previous"];
-    this.title = json["title"] ?? "";
-    this.results = json["results"] == null
-        ? []
-        : List<ItemResult>.from(
-            json["results"].map(
-              (x) => ItemResult.fromJson(x),
+  factory ItemModel.fromJson(Map<String, dynamic> json) {
+    return ItemModel(
+      count: json["count"] ?? 0,
+      next: json["next"] ?? "",
+      title: json["title"] ?? "",
+      results: json["results"] == null
+          ? []
+          : List<ItemResult>.from(
+              json["results"].map(
+                (x) => ItemResult.fromJson(x),
+              ),
             ),
-          );
-    this.drugs = json["drugs"] == null
-        ? []
-        : List<ItemResult>.from(
-            json["drugs"].map(
-              (x) => ItemResult.fromJson(x),
+      drugs: json["drugs"] == null
+          ? []
+          : List<ItemResult>.from(
+              json["drugs"].map(
+                (x) => ItemResult.fromJson(x),
+              ),
             ),
-          );
+    );
   }
-
-  Map<String, dynamic> toJson() => {
-        "count": count,
-        "next": next,
-        "previous": previous,
-        "results": List<dynamic>.from(results.map((x) => x.toJson())),
-        "drugs": List<dynamic>.from(drugs.map((x) => x.toJson())),
-      };
 }
 
 class ItemResult {
@@ -53,54 +44,46 @@ class ItemResult {
   String imageThumbnail;
   double price;
   double basePrice;
-  Manifacture manufacturer;
+  Manufacturer manufacturer;
   int maxCount;
   bool isComing;
-  bool favourite = false;
-  int cardCount = 0;
-  String msg = "";
+  bool favourite;
+  int cardCount;
+  String msg;
 
-  ItemResult(
-    this.id,
-    this.name,
-    this.barcode,
-    this.image,
-    this.imageThumbnail,
-    this.price,
-    this.manufacturer,
-    this.favourite,
-    this.cardCount, {
-    this.basePrice,
+  ItemResult({
+    required this.id,
+    required this.name,
+    required this.barcode,
+    required this.image,
+    required this.imageThumbnail,
+    required this.price,
+    required this.manufacturer,
+    required this.basePrice,
+    required this.isComing,
+    required this.maxCount,
+    this.cardCount = 0,
+    this.favourite = false,
+    this.msg = "",
   });
 
-  ItemResult.fromJson(Map<String, dynamic> map) {
-    this.id = map["id"] ?? 0;
-    this.name = map["name"] ?? "";
-    this.barcode = map["barcode"] ?? "";
-    this.image = map["image"] ?? "";
-    this.imageThumbnail = map["image_thumbnail"] ?? "";
-    this.maxCount = map["max_count"] ?? 100;
-    this.isComing = map["is_coming"] ?? false;
-    this.price = map["price"] == null ? 0.0 : map["price"].toDouble();
-    this.basePrice =
-        map["base_price"] == null ? 0.0 : map["base_price"].toDouble();
-    this.manufacturer = map['manufacturer'] != null
-        ? new Manifacture.fromMap(map['manufacturer'])
-        : Manifacture("");
-    this.favourite = false;
-    this.cardCount = 0;
-  }
-
-  ItemResult.fromMap(Map<String, dynamic> map) {
-    this.id = map["id"];
-    this.name = map["name"];
-    this.barcode = map["barcode"];
-    this.image = map["image"];
-    this.imageThumbnail = map["image_thumbnail"];
-    this.price = map["price"].toDouble();
-    this.manufacturer = Manifacture(map["manufacturer"].toString());
-    this.favourite = map["favourite"] == 1 ? true : false;
-    this.cardCount = map["cardCount"];
+  factory ItemResult.fromJson(Map<dynamic, dynamic> map) {
+    return ItemResult(
+      id: map["id"] ?? 0,
+      name: map["name"] ?? "",
+      barcode: map["barcode"] ?? "",
+      image: map["image"] ?? "",
+      imageThumbnail: map["image_thumbnail"] ?? "",
+      maxCount: map["max_count"] ?? 100,
+      isComing: map["is_coming"] ?? false,
+      price: map["price"] == null ? 0.0 : map["price"].toDouble(),
+      basePrice: map["base_price"] == null ? 0.0 : map["base_price"].toDouble(),
+      manufacturer: map['manufacturer'] != null
+          ? Manufacturer.fromMap(map['manufacturer'])
+          : Manufacturer.fromMap({}),
+      favourite: map["favourite"] == 1 ? true : false,
+      cardCount: map["cardCount"] ?? 0,
+    );
   }
 
   Map<String, dynamic> toMap() {
@@ -116,36 +99,17 @@ class ItemResult {
     map["manufacturer"] = manufacturer.name;
     return map;
   }
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "barcode": barcode,
-        "image": image,
-        "max_count": maxCount,
-        "base_price": basePrice,
-        "is_coming": isComing,
-        "image_thumbnail": imageThumbnail,
-        "price": price,
-        "manufacturer": manufacturer.toJson(),
-      };
 }
 
-class Manifacture {
-  Manifacture(
-    this.name,
-  );
+class Manufacturer {
+  Manufacturer({
+    required this.name,
+  });
 
   String name;
 
-  Manifacture.fromMap(Map<String, dynamic> map) {
-    this.name = map["name"];
-  }
-
-  Map<String, dynamic> toMap() {
-    var map = new Map<String, dynamic>();
-    map["name"] = name;
-    return map;
+  factory Manufacturer.fromMap(Map<String, dynamic> map) {
+    return Manufacturer(name: map["name"] ?? "");
   }
 
   Map<String, dynamic> toJson() => {

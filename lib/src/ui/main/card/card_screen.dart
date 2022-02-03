@@ -28,10 +28,10 @@ class CardScreen extends StatefulWidget {
   final Function(int id) deleteItem;
 
   CardScreen({
-    this.onPickup,
-    this.onCurer,
-    this.onLogin,
-    this.deleteItem,
+    required this.onPickup,
+    required this.onCurer,
+    required this.onLogin,
+    required this.deleteItem,
   });
 
   @override
@@ -47,7 +47,7 @@ class _CardScreenState extends State<CardScreen> {
   var loadingPickup = false;
   var loadingDelivery = false;
   bool isNext = false;
-  List<CheckErroData> errorData = <CheckErroData>[];
+  List<CheckErrorData> errorData = <CheckErrorData>[];
   int minSum = 0;
   DatabaseHelper dataBase = new DatabaseHelper();
   ScrollController _scrollController = new ScrollController();
@@ -103,17 +103,18 @@ class _CardScreenState extends State<CardScreen> {
         builder: (context, AsyncSnapshot<List<ItemResult>> snapshot) {
           if (snapshot.hasData) {
             allPrice = 0.0;
-            for (int i = 0; i < snapshot.data.length; i++) {
-              allPrice += (snapshot.data[i].cardCount * snapshot.data[i].price);
+            for (int i = 0; i < snapshot.data!.length; i++) {
+              allPrice +=
+                  (snapshot.data![i].cardCount * snapshot.data![i].price);
             }
 
             allPrice.toInt() >= minSum ? isNext = true : isNext = false;
 
             if (errorData.length > 0) {
               for (int i = 0; i < errorData.length; i++) {
-                for (int j = 0; j < snapshot.data.length; j++) {
-                  if (errorData[i].drugId == snapshot.data[j].id) {
-                    snapshot.data[j].msg = errorData[i].msg;
+                for (int j = 0; j < snapshot.data!.length; j++) {
+                  if (errorData[i].drugId == snapshot.data![j].id) {
+                    snapshot.data![j].msg = errorData[i].msg;
                   }
                 }
               }
@@ -149,7 +150,7 @@ class _CardScreenState extends State<CardScreen> {
                             ),
                           ),
                           TextSpan(
-                            text: snapshot.data.length.toString(),
+                            text: snapshot.data!.length.toString(),
                             style: TextStyle(
                               fontFamily: AppTheme.fontRubik,
                               fontWeight: FontWeight.w500,
@@ -178,7 +179,7 @@ class _CardScreenState extends State<CardScreen> {
                     color: AppTheme.background,
                   ),
                   Expanded(
-                    child: snapshot.data.length == 0
+                    child: snapshot.data!.length == 0
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -278,13 +279,14 @@ class _CardScreenState extends State<CardScreen> {
                                   shrinkWrap: true,
                                   physics: ClampingScrollPhysics(),
                                   scrollDirection: Axis.vertical,
-                                  itemCount: snapshot.data.length,
+                                  itemCount: snapshot.data!.length,
                                   itemBuilder: (context, index) {
                                     return InkWell(
                                       onTap: () {
                                         RxBus.post(
                                             BottomViewModel(
-                                                snapshot.data[index].id),
+                                              snapshot.data![index].id,
+                                            ),
                                             tag: "EVENT_BOTTOM_ITEM_ALL");
                                       },
                                       child: Container(
@@ -306,7 +308,8 @@ class _CardScreenState extends State<CardScreen> {
                                                 CachedNetworkImage(
                                                   height: 80,
                                                   width: 80,
-                                                  imageUrl: snapshot.data[index]
+                                                  imageUrl: snapshot
+                                                      .data![index]
                                                       .imageThumbnail,
                                                   placeholder: (context, url) =>
                                                       SvgPicture.asset(
@@ -334,7 +337,7 @@ class _CardScreenState extends State<CardScreen> {
                                                       children: <Widget>[
                                                         Text(
                                                           snapshot
-                                                              .data[index]
+                                                              .data![index]
                                                               .manufacturer
                                                               .name,
                                                           style: TextStyle(
@@ -351,8 +354,8 @@ class _CardScreenState extends State<CardScreen> {
                                                         ),
                                                         SizedBox(height: 4),
                                                         Text(
-                                                          snapshot
-                                                              .data[index].name,
+                                                          snapshot.data![index]
+                                                              .name,
                                                           style: TextStyle(
                                                             fontFamily: AppTheme
                                                                 .fontRubik,
@@ -397,11 +400,10 @@ class _CardScreenState extends State<CardScreen> {
                                                                   )
                                                                 : Container(),
                                                             Text(
-                                                              priceFormat.format(
-                                                                      snapshot
-                                                                          .data[
-                                                                              index]
-                                                                          .price) +
+                                                              priceFormat.format(snapshot
+                                                                      .data![
+                                                                          index]
+                                                                      .price) +
                                                                   translate(
                                                                       "sum"),
                                                               style: TextStyle(
@@ -447,7 +449,7 @@ class _CardScreenState extends State<CardScreen> {
                                                             ),
                                                             Text(
                                                               snapshot
-                                                                  .data[index]
+                                                                  .data![index]
                                                                   .msg,
                                                               style: TextStyle(
                                                                 fontFamily:
@@ -497,7 +499,7 @@ class _CardScreenState extends State<CardScreen> {
                                                                             29,
                                                                         decoration:
                                                                             BoxDecoration(
-                                                                          color: snapshot.data[index].cardCount == 1
+                                                                          color: snapshot.data![index].cardCount == 1
                                                                               ? AppTheme.gray
                                                                               : AppTheme.blue,
                                                                           borderRadius:
@@ -511,13 +513,13 @@ class _CardScreenState extends State<CardScreen> {
                                                                       ),
                                                                       onTap:
                                                                           () {
-                                                                        if (snapshot.data[index].cardCount >
+                                                                        if (snapshot.data![index].cardCount >
                                                                             1) {
                                                                           snapshot
-                                                                              .data[index]
-                                                                              .cardCount = snapshot.data[index].cardCount - 1;
+                                                                              .data![index]
+                                                                              .cardCount = snapshot.data![index].cardCount - 1;
                                                                           dataBase
-                                                                              .updateProduct(snapshot.data[index])
+                                                                              .updateProduct(snapshot.data![index])
                                                                               .then((value) {
                                                                             blocCard.fetchAllCard();
                                                                           });
@@ -529,7 +531,7 @@ class _CardScreenState extends State<CardScreen> {
                                                                           Center(
                                                                         child:
                                                                             Text(
-                                                                          snapshot.data[index].cardCount.toString() +
+                                                                          snapshot.data![index].cardCount.toString() +
                                                                               " " +
                                                                               translate("item.sht"),
                                                                           style:
@@ -552,13 +554,13 @@ class _CardScreenState extends State<CardScreen> {
                                                                       onTap:
                                                                           () {
                                                                         snapshot
-                                                                            .data[
+                                                                            .data![
                                                                                 index]
                                                                             .cardCount = snapshot
-                                                                                .data[index].cardCount +
+                                                                                .data![index].cardCount +
                                                                             1;
                                                                         dataBase
-                                                                            .updateProduct(snapshot.data[index])
+                                                                            .updateProduct(snapshot.data![index])
                                                                             .then((value) {
                                                                           blocCard
                                                                               .fetchAllCard();
@@ -606,7 +608,7 @@ class _CardScreenState extends State<CardScreen> {
                                                                   onTap: () {
                                                                     widget.deleteItem(
                                                                         snapshot
-                                                                            .data[index]
+                                                                            .data![index]
                                                                             .id);
                                                                   },
                                                                   child:
@@ -661,12 +663,11 @@ class _CardScreenState extends State<CardScreen> {
                                   onTap: () async {
                                     if (isLogin) {
                                       if (isNext) {
-                                        errorData = <CheckErroData>[];
+                                        errorData = <CheckErrorData>[];
                                         setState(() {
                                           loadingDelivery = true;
                                         });
-                                        AccessStore addModel =
-                                            new AccessStore();
+                                        AccessStore? addModel;
                                         List<ProductsStore> drugs =
                                             <ProductsStore>[];
 
@@ -785,12 +786,11 @@ class _CardScreenState extends State<CardScreen> {
                                       onTap: () async {
                                         if (isLogin) {
                                           if (isNext) {
-                                            errorData = <CheckErroData>[];
+                                            errorData = <CheckErrorData>[];
                                             setState(() {
                                               loadingPickup = true;
                                             });
-                                            AccessStore addModel =
-                                                new AccessStore();
+                                            AccessStore? addModel;
                                             List<ProductsStore> drugs =
                                                 <ProductsStore>[];
 
@@ -824,7 +824,7 @@ class _CardScreenState extends State<CardScreen> {
                                                   CheckErrorModel.fromJson(
                                                       response.result);
                                               if (result.error == 0) {
-                                                errorData = <CheckErroData>[];
+                                                errorData = <CheckErrorData>[];
                                                 widget.onPickup(result.data);
                                                 setState(() {
                                                   loadingPickup = false;
@@ -832,7 +832,8 @@ class _CardScreenState extends State<CardScreen> {
                                               } else {
                                                 setState(() {
                                                   loadingPickup = false;
-                                                  errorData = <CheckErroData>[];
+                                                  errorData =
+                                                      <CheckErrorData>[];
                                                   if (result.errors != null)
                                                     errorData
                                                         .addAll(result.errors);
@@ -905,8 +906,8 @@ class _CardScreenState extends State<CardScreen> {
             );
           }
           return Shimmer.fromColors(
-            baseColor: Colors.grey[300],
-            highlightColor: Colors.grey[100],
+            baseColor: AppTheme.shimmerBase,
+            highlightColor: AppTheme.shimmerHighlight,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,

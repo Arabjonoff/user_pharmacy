@@ -66,7 +66,7 @@ class _FaqAppScreenState extends State<FaqAppScreen> {
         builder: (context, AsyncSnapshot<List<FaqModel>> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
-              itemCount: snapshot.data.length,
+              itemCount: snapshot.data!.length,
               padding: EdgeInsets.only(bottom: 24, top: 24),
               itemBuilder: (BuildContext ctxt, int index) {
                 return Container(
@@ -86,7 +86,7 @@ class _FaqAppScreenState extends State<FaqAppScreen> {
                       Container(
                         margin: EdgeInsets.only(top: 16, left: 16, right: 16),
                         child: Text(
-                          snapshot.data[index].question,
+                          snapshot.data![index].question,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 16,
@@ -108,7 +108,7 @@ class _FaqAppScreenState extends State<FaqAppScreen> {
                           bottom: 16,
                         ),
                         child: Text(
-                          snapshot.data[index].answer,
+                          snapshot.data![index].answer,
                           style: TextStyle(
                             fontFamily: AppTheme.fontRubik,
                             fontWeight: FontWeight.normal,
@@ -127,8 +127,8 @@ class _FaqAppScreenState extends State<FaqAppScreen> {
             return Text(snapshot.error.toString());
           }
           return Shimmer.fromColors(
-            baseColor: Colors.grey[300],
-            highlightColor: Colors.grey[100],
+            baseColor: AppTheme.shimmerBase,
+            highlightColor: AppTheme.shimmerHighlight,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,

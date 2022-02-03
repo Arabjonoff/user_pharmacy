@@ -36,13 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.8.1"
-  barcode_scan:
+  barcode_scan2:
     dependency: "direct main"
     description:
-      name: barcode_scan
+      name: barcode_scan2
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "4.2.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -63,7 +63,7 @@ packages:
       name: carousel_slider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "4.0.0"
   characters:
     dependency: transitive
     description:
@@ -133,7 +133,7 @@ packages:
       name: equatable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.6"
+    version: "2.0.3"
   fake_async:
     dependency: transitive
     description:
@@ -203,7 +203,7 @@ packages:
       name: fixnum
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.11"
+    version: "1.0.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -229,7 +229,7 @@ packages:
       name: flutter_datetime_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.5.0"
+    version: "1.5.1"
   flutter_local_notifications:
     dependency: "direct main"
     description:
@@ -517,7 +517,7 @@ packages:
       name: protobuf
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "2.0.1"
   rxdart:
     dependency: "direct main"
     description:
@@ -767,7 +767,7 @@ packages:
       name: yandex_mapkit
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.2"
+    version: "1.1.1"
 sdks:
-  dart: ">=2.12.0 <3.0.0"
+  dart: ">=2.14.4 <3.0.0"
   flutter: ">=2.2.0"

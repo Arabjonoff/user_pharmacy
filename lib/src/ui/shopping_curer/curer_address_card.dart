@@ -55,8 +55,8 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
     super.dispose();
   }
 
-  List<AddressModel> allAddressInfo;
-  OrderOptionsModel orderOptions;
+  List<AddressModel>? allAddressInfo;
+  OrderOptionsModel? orderOptions;
 
   @override
   Widget build(BuildContext context) {
@@ -152,12 +152,12 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                               shrinkWrap: true,
                               padding: EdgeInsets.all(0),
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount: allAddressInfo.length,
+                              itemCount: allAddressInfo!.length,
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      myAddress = allAddressInfo[index];
+                                      myAddress = allAddressInfo![index];
                                     });
                                   },
                                   child: Container(
@@ -171,12 +171,12 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                     padding: EdgeInsets.all(8),
                                     child: Row(
                                       children: [
-                                        allAddressInfo[index].type == 1
+                                        allAddressInfo![index].type == 1
                                             ? SvgPicture.asset(
                                                 "assets/icons/home.svg",
                                                 color: AppTheme.textGray,
                                               )
-                                            : allAddressInfo[index].type == 2
+                                            : allAddressInfo![index].type == 2
                                                 ? SvgPicture.asset(
                                                     "assets/icons/work.svg",
                                                     color: AppTheme.textGray,
@@ -188,12 +188,12 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                         SizedBox(width: 8),
                                         Expanded(
                                           child: Text(
-                                            allAddressInfo[index].type == 1
+                                            allAddressInfo![index].type == 1
                                                 ? translate("address.home")
-                                                : allAddressInfo[index].type ==
+                                                : allAddressInfo![index].type ==
                                                         2
                                                     ? translate("address.work")
-                                                    : allAddressInfo[index]
+                                                    : allAddressInfo![index]
                                                         .street,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
@@ -207,19 +207,19 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                           ),
                                         ),
                                         SizedBox(width: 8),
-                                        allAddressInfo[index].type == 0
+                                        allAddressInfo![index].type == 0
                                             ? GestureDetector(
                                                 child: SvgPicture.asset(
                                                     "assets/icons/edit.svg"),
                                                 onTap: () {
                                                   BottomDialog.editAddress(
                                                     context,
-                                                    allAddressInfo[index],
+                                                    allAddressInfo![index],
                                                   );
                                                 },
                                               )
                                             : Container(),
-                                        allAddressInfo[index].type == 0
+                                        allAddressInfo![index].type == 0
                                             ? SizedBox(width: 8)
                                             : Container(),
                                         AnimatedContainer(
@@ -233,7 +233,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                                 BorderRadius.circular(16),
                                             border: Border.all(
                                               color: myAddress.id ==
-                                                      allAddressInfo[index].id
+                                                      allAddressInfo![index].id
                                                   ? AppTheme.blue
                                                   : AppTheme.gray,
                                             ),
@@ -245,7 +245,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                                             width: 10,
                                             decoration: BoxDecoration(
                                               color: myAddress.id ==
-                                                      allAddressInfo[index].id
+                                                      allAddressInfo![index].id
                                                   ? AppTheme.blue
                                                   : AppTheme.background,
                                               borderRadius:
@@ -312,131 +312,133 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                     ],
                   ),
                 ),
-                orderOptions == null ? Container():Container(
-                  margin: EdgeInsets.only(top: 16),
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  decoration: BoxDecoration(
-                    color: AppTheme.white,
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                          left: 24,
-                          right: 24,
-                        ),
-                        child: Text(
-                          translate("card.type"),
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontRubik,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            height: 1.2,
-                            color: AppTheme.text_dark,
-                          ),
-                        ),
-                      ),
-                      Container(
+                orderOptions == null
+                    ? Container()
+                    : Container(
                         margin: EdgeInsets.only(top: 16),
-                        height: 1,
-                        width: double.infinity,
-                        color: AppTheme.background,
-                      ),
-                      ListView.builder(
-                        physics: ClampingScrollPhysics(),
-                        shrinkWrap: true,
-                        padding: EdgeInsets.only(left: 16, right: 16),
-                        itemCount: orderOptions.shippingTimes.length,
-                        itemBuilder: (BuildContext ctxt, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              if (orderOptions.shippingTimes[index].id !=
-                                  shippingId) {
-                                setState(() {
-                                  shippingId = orderOptions
-                                      .shippingTimes[index].id;
-                                });
-                              }
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(top: 16),
-                              padding: EdgeInsets.symmetric(
-                                vertical: 12,
-                                horizontal: 8,
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        decoration: BoxDecoration(
+                          color: AppTheme.white,
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                left: 24,
+                                right: 24,
                               ),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: AppTheme.background,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                      "assets/icons/time.svg"),
-                                  SizedBox(width: 8),
-                                  Expanded(
-                                    child: Text(
-                                      orderOptions
-                                          .shippingTimes[index].name,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontRubik,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14,
-                                        height: 1.2,
-                                        color: AppTheme.textGray,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 8),
-                                  AnimatedContainer(
-                                    curve: Curves.easeInOut,
-                                    duration: duration,
-                                    height: 16,
-                                    width: 16,
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.background,
-                                      borderRadius:
-                                      BorderRadius.circular(16),
-                                      border: Border.all(
-                                        color: shippingId ==
-                                            orderOptions
-                                                .shippingTimes[index]
-                                                .id
-                                            ? AppTheme.blue
-                                            : AppTheme.gray,
-                                      ),
-                                    ),
-                                    child: AnimatedContainer(
-                                      duration: duration,
-                                      curve: Curves.easeInOut,
-                                      height: 10,
-                                      width: 10,
-                                      decoration: BoxDecoration(
-                                        color: shippingId ==
-                                            orderOptions
-                                                .shippingTimes[index]
-                                                .id
-                                            ? AppTheme.blue
-                                            : AppTheme.background,
-                                        borderRadius:
-                                        BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    padding: EdgeInsets.all(3),
-                                  ),
-                                  SizedBox(width: 8),
-                                ],
+                              child: Text(
+                                translate("card.type"),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontRubik,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  height: 1.2,
+                                  color: AppTheme.text_dark,
+                                ),
                               ),
                             ),
-                          );
-                        },
+                            Container(
+                              margin: EdgeInsets.only(top: 16),
+                              height: 1,
+                              width: double.infinity,
+                              color: AppTheme.background,
+                            ),
+                            ListView.builder(
+                              physics: ClampingScrollPhysics(),
+                              shrinkWrap: true,
+                              padding: EdgeInsets.only(left: 16, right: 16),
+                              itemCount: orderOptions!.shippingTimes.length,
+                              itemBuilder: (BuildContext ctxt, int index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    if (orderOptions!.shippingTimes[index].id !=
+                                        shippingId) {
+                                      setState(() {
+                                        shippingId = orderOptions!
+                                            .shippingTimes[index].id;
+                                      });
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 16),
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 12,
+                                      horizontal: 8,
+                                    ),
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.background,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                            "assets/icons/time.svg"),
+                                        SizedBox(width: 8),
+                                        Expanded(
+                                          child: Text(
+                                            orderOptions!
+                                                .shippingTimes[index].name,
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontRubik,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 14,
+                                              height: 1.2,
+                                              color: AppTheme.textGray,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 8),
+                                        AnimatedContainer(
+                                          curve: Curves.easeInOut,
+                                          duration: duration,
+                                          height: 16,
+                                          width: 16,
+                                          decoration: BoxDecoration(
+                                            color: AppTheme.background,
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                            border: Border.all(
+                                              color: shippingId ==
+                                                      orderOptions!
+                                                          .shippingTimes[index]
+                                                          .id
+                                                  ? AppTheme.blue
+                                                  : AppTheme.gray,
+                                            ),
+                                          ),
+                                          child: AnimatedContainer(
+                                            duration: duration,
+                                            curve: Curves.easeInOut,
+                                            height: 10,
+                                            width: 10,
+                                            decoration: BoxDecoration(
+                                              color: shippingId ==
+                                                      orderOptions!
+                                                          .shippingTimes[index]
+                                                          .id
+                                                  ? AppTheme.blue
+                                                  : AppTheme.background,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                          padding: EdgeInsets.all(3),
+                                        ),
+                                        SizedBox(width: 8),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
                 Container(
                   width: double.infinity,
                   margin: EdgeInsets.only(
@@ -615,6 +617,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
                     drugs: drugs,
                     fullName: firstName + " " + lastName,
                     phone: number.replaceAll(" ", "").replaceAll("+", ""),
+                    storeId: 0,
                   );
                   var response =
                       await Repository().fetchCheckOrder(createOrder);
@@ -709,7 +712,7 @@ class _CurerAddressCardScreenState extends State<CurerAddressCardScreen> {
         orderOptions = responseBlog;
         if (isFirst) {
           isFirst = false;
-          shippingId = orderOptions.shippingTimes[0].id;
+          shippingId = orderOptions!.shippingTimes[0].id;
         }
       });
     }

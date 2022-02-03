@@ -7,9 +7,9 @@ String cancelDrugToJson(CancelOrder data) => json.encode(data.toJson());
 
 class CancelOrder {
   CancelOrder({
-    this.status,
-    this.payment,
-    this.message,
+    required this.status,
+    required this.payment,
+    required this.message,
   });
 
   int status;

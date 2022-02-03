@@ -40,7 +40,7 @@ class HomeBloc {
     if (response.isSuccess) {
       _bannerFetcher.sink.add(BannerModel.fromJson(response.result));
     } else {
-      _bannerFetcher.sink.add(BannerModel(results: []));
+      _bannerFetcher.sink.add(BannerModel.fromJson({}));
     }
   }
 
@@ -49,7 +49,7 @@ class HomeBloc {
     if (response.isSuccess) {
       _blogFetcher.sink.add(BlogModel.fromJson(response.result));
     } else {
-      _blogFetcher.sink.add(BlogModel(results: []));
+      _blogFetcher.sink.add(BlogModel.fromJson({}));
     }
   }
 
@@ -58,12 +58,12 @@ class HomeBloc {
     if (response.isSuccess) {
       _cashBackFetcher.sink.add(BlogModel.fromJson(response.result));
     } else {
-      _cashBackFetcher.sink.add(BlogModel(results: []));
+      _cashBackFetcher.sink.add(BlogModel.fromJson({}));
     }
   }
 
   ///recently
-  ItemModel recentlyItemData;
+  ItemModel? recentlyItemData;
 
   fetchRecently() async {
     var response = await _repository.fetchRecently(
@@ -74,26 +74,26 @@ class HomeBloc {
       recentlyItemData = ItemModel.fromJson(response.result);
       List<ItemResult> database = await _repository.databaseItem();
       List<ItemResult> resultFav = await _repository.databaseFavItem();
-      if (recentlyItemData.results.length > 0) {
-        for (var i = 0; i < recentlyItemData.results.length; i++) {
+      if (recentlyItemData!.results.length > 0) {
+        for (var i = 0; i < recentlyItemData!.results.length; i++) {
           for (var j = 0; j < database.length; j++) {
-            if (recentlyItemData.results[i].id == database[j].id) {
-              recentlyItemData.results[i].cardCount = database[j].cardCount;
+            if (recentlyItemData!.results[i].id == database[j].id) {
+              recentlyItemData!.results[i].cardCount = database[j].cardCount;
             }
           }
         }
 
-        for (int i = 0; i < recentlyItemData.results.length; i++) {
-          recentlyItemData.results[i].favourite = false;
+        for (int i = 0; i < recentlyItemData!.results.length; i++) {
+          recentlyItemData!.results[i].favourite = false;
           for (int j = 0; j < resultFav.length; j++) {
-            if (recentlyItemData.results[i].id == resultFav[j].id) {
-              recentlyItemData.results[i].favourite = resultFav[j].favourite;
+            if (recentlyItemData!.results[i].id == resultFav[j].id) {
+              recentlyItemData!.results[i].favourite = resultFav[j].favourite;
               break;
             }
           }
         }
       }
-      _recentlyFetcher.sink.add(recentlyItemData);
+      _recentlyFetcher.sink.add(recentlyItemData!);
     } else if (response.status == -1) {
       RxBus.post(BottomView(true), tag: "HOME_VIEW_ERROR_NETWORK");
     }
@@ -103,27 +103,27 @@ class HomeBloc {
     if (recentlyItemData != null) {
       List<ItemResult> database = await _repository.databaseItem();
       List<ItemResult> resultFav = await _repository.databaseFavItem();
-      if (recentlyItemData.results.length > 0) {
-        for (var i = 0; i < recentlyItemData.results.length; i++) {
-          recentlyItemData.results[i].cardCount = 0;
+      if (recentlyItemData!.results.length > 0) {
+        for (var i = 0; i < recentlyItemData!.results.length; i++) {
+          recentlyItemData!.results[i].cardCount = 0;
           for (var j = 0; j < database.length; j++) {
-            if (recentlyItemData.results[i].id == database[j].id) {
-              recentlyItemData.results[i].cardCount = database[j].cardCount;
+            if (recentlyItemData!.results[i].id == database[j].id) {
+              recentlyItemData!.results[i].cardCount = database[j].cardCount;
             }
           }
         }
 
-        for (int i = 0; i < recentlyItemData.results.length; i++) {
-          recentlyItemData.results[i].favourite = false;
+        for (int i = 0; i < recentlyItemData!.results.length; i++) {
+          recentlyItemData!.results[i].favourite = false;
           for (int j = 0; j < resultFav.length; j++) {
-            if (recentlyItemData.results[i].id == resultFav[j].id) {
-              recentlyItemData.results[i].favourite = resultFav[j].favourite;
+            if (recentlyItemData!.results[i].id == resultFav[j].id) {
+              recentlyItemData!.results[i].favourite = resultFav[j].favourite;
               break;
             }
           }
         }
       }
-      _recentlyFetcher.sink.add(recentlyItemData);
+      _recentlyFetcher.sink.add(recentlyItemData!);
     } else {
       fetchRecently();
     }
@@ -134,12 +134,12 @@ class HomeBloc {
     if (response.isSuccess) {
       _categoryFetcher.sink.add(CategoryModel.fromJson(response.result));
     } else {
-      _categoryFetcher.sink.add(CategoryModel(results: []));
+      _categoryFetcher.sink.add(CategoryModel.fromJson({}));
     }
   }
 
   ///Best item
-  ItemModel bestItemData;
+  ItemModel? bestItemData;
 
   fetchBestItem() async {
     var response = await _repository.fetchBestItem(
@@ -151,26 +151,26 @@ class HomeBloc {
       bestItemData = ItemModel.fromJson(response.result);
       List<ItemResult> database = await _repository.databaseItem();
       List<ItemResult> resultFav = await _repository.databaseFavItem();
-      if (bestItemData.results.length > 0) {
-        for (var i = 0; i < bestItemData.results.length; i++) {
+      if (bestItemData!.results.length > 0) {
+        for (var i = 0; i < bestItemData!.results.length; i++) {
           for (var j = 0; j < database.length; j++) {
-            if (bestItemData.results[i].id == database[j].id) {
-              bestItemData.results[i].cardCount = database[j].cardCount;
+            if (bestItemData!.results[i].id == database[j].id) {
+              bestItemData!.results[i].cardCount = database[j].cardCount;
             }
           }
         }
 
-        for (int i = 0; i < bestItemData.results.length; i++) {
-          bestItemData.results[i].favourite = false;
+        for (int i = 0; i < bestItemData!.results.length; i++) {
+          bestItemData!.results[i].favourite = false;
           for (int j = 0; j < resultFav.length; j++) {
-            if (bestItemData.results[i].id == resultFav[j].id) {
-              bestItemData.results[i].favourite = resultFav[j].favourite;
+            if (bestItemData!.results[i].id == resultFav[j].id) {
+              bestItemData!.results[i].favourite = resultFav[j].favourite;
               break;
             }
           }
         }
       }
-      _bestItemFetcher.sink.add(bestItemData);
+      _bestItemFetcher.sink.add(bestItemData!);
     }
   }
 
@@ -178,34 +178,34 @@ class HomeBloc {
     if (bestItemData != null) {
       List<ItemResult> database = await _repository.databaseItem();
       List<ItemResult> resultFav = await _repository.databaseFavItem();
-      if (bestItemData.results.length > 0) {
-        for (var i = 0; i < bestItemData.results.length; i++) {
-          bestItemData.results[i].cardCount = 0;
+      if (bestItemData!.results.length > 0) {
+        for (var i = 0; i < bestItemData!.results.length; i++) {
+          bestItemData!.results[i].cardCount = 0;
           for (var j = 0; j < database.length; j++) {
-            if (bestItemData.results[i].id == database[j].id) {
-              bestItemData.results[i].cardCount = database[j].cardCount;
+            if (bestItemData!.results[i].id == database[j].id) {
+              bestItemData!.results[i].cardCount = database[j].cardCount;
             }
           }
         }
 
-        for (int i = 0; i < bestItemData.results.length; i++) {
-          bestItemData.results[i].favourite = false;
+        for (int i = 0; i < bestItemData!.results.length; i++) {
+          bestItemData!.results[i].favourite = false;
           for (int j = 0; j < resultFav.length; j++) {
-            if (bestItemData.results[i].id == resultFav[j].id) {
-              bestItemData.results[i].favourite = resultFav[j].favourite;
+            if (bestItemData!.results[i].id == resultFav[j].id) {
+              bestItemData!.results[i].favourite = resultFav[j].favourite;
               break;
             }
           }
         }
       }
-      _bestItemFetcher.sink.add(bestItemData);
+      _bestItemFetcher.sink.add(bestItemData!);
     } else {
       fetchBestItem();
     }
   }
 
   ///slimming
-  ItemModel slimmingItemData;
+  ItemModel? slimmingItemData;
 
   fetchSlimmingItem() async {
     var response = await _repository.fetchSlimming();
@@ -213,26 +213,26 @@ class HomeBloc {
       slimmingItemData = ItemModel.fromJson(response.result);
       List<ItemResult> database = await _repository.databaseItem();
       List<ItemResult> resultFav = await _repository.databaseFavItem();
-      if (slimmingItemData.drugs.length > 0) {
-        for (var i = 0; i < slimmingItemData.drugs.length; i++) {
+      if (slimmingItemData!.drugs.length > 0) {
+        for (var i = 0; i < slimmingItemData!.drugs.length; i++) {
           for (var j = 0; j < database.length; j++) {
-            if (slimmingItemData.drugs[i].id == database[j].id) {
-              slimmingItemData.drugs[i].cardCount = database[j].cardCount;
+            if (slimmingItemData!.drugs[i].id == database[j].id) {
+              slimmingItemData!.drugs[i].cardCount = database[j].cardCount;
             }
           }
         }
 
-        for (int i = 0; i < slimmingItemData.drugs.length; i++) {
-          slimmingItemData.drugs[i].favourite = false;
+        for (int i = 0; i < slimmingItemData!.drugs.length; i++) {
+          slimmingItemData!.drugs[i].favourite = false;
           for (int j = 0; j < resultFav.length; j++) {
-            if (slimmingItemData.drugs[i].id == resultFav[j].id) {
-              slimmingItemData.drugs[i].favourite = resultFav[j].favourite;
+            if (slimmingItemData!.drugs[i].id == resultFav[j].id) {
+              slimmingItemData!.drugs[i].favourite = resultFav[j].favourite;
               break;
             }
           }
         }
       }
-      _slimmingFetcher.sink.add(slimmingItemData);
+      _slimmingFetcher.sink.add(slimmingItemData!);
     }
   }
 
@@ -240,27 +240,27 @@ class HomeBloc {
     if (slimmingItemData != null) {
       List<ItemResult> database = await _repository.databaseItem();
       List<ItemResult> resultFav = await _repository.databaseFavItem();
-      if (slimmingItemData.drugs.length > 0) {
-        for (var i = 0; i < slimmingItemData.drugs.length; i++) {
-          slimmingItemData.drugs[i].cardCount = 0;
+      if (slimmingItemData!.drugs.length > 0) {
+        for (var i = 0; i < slimmingItemData!.drugs.length; i++) {
+          slimmingItemData!.drugs[i].cardCount = 0;
           for (var j = 0; j < database.length; j++) {
-            if (slimmingItemData.drugs[i].id == database[j].id) {
-              slimmingItemData.drugs[i].cardCount = database[j].cardCount;
+            if (slimmingItemData!.drugs[i].id == database[j].id) {
+              slimmingItemData!.drugs[i].cardCount = database[j].cardCount;
             }
           }
         }
 
-        for (int i = 0; i < slimmingItemData.drugs.length; i++) {
-          slimmingItemData.drugs[i].favourite = false;
+        for (int i = 0; i < slimmingItemData!.drugs.length; i++) {
+          slimmingItemData!.drugs[i].favourite = false;
           for (int j = 0; j < resultFav.length; j++) {
-            if (slimmingItemData.drugs[i].id == resultFav[j].id) {
-              slimmingItemData.drugs[i].favourite = resultFav[j].favourite;
+            if (slimmingItemData!.drugs[i].id == resultFav[j].id) {
+              slimmingItemData!.drugs[i].favourite = resultFav[j].favourite;
               break;
             }
           }
         }
       }
-      _slimmingFetcher.sink.add(slimmingItemData);
+      _slimmingFetcher.sink.add(slimmingItemData!);
     } else {
       fetchSlimmingItem();
     }
@@ -275,7 +275,7 @@ class HomeBloc {
   fetchCityName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getString("city") != null) {
-      _cityNameFetcher.sink.add(prefs.getString("city"));
+      _cityNameFetcher.sink.add(prefs.getString("city") ?? "");
     }
   }
 

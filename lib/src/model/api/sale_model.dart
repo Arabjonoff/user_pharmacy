@@ -1,43 +1,38 @@
 class BannerModel {
   BannerModel({
-    this.count,
-    this.next,
-    this.previous,
-    this.results,
+    required this.count,
+    required this.next,
+    required this.results,
   });
 
   int count;
-  dynamic next;
-  dynamic previous;
+  String next;
   List<BannerResult> results;
 
   factory BannerModel.fromJson(Map<String, dynamic> json) => BannerModel(
-        count: json["count"],
-        next: json["next"],
-        previous: json["previous"],
-        results:
-            List<BannerResult>.from(json["results"].map((x) => BannerResult.fromJson(x))),
+        count: json["count"] ?? 0,
+        next: json["next"] ?? "",
+        results: json["results"] == null
+            ? <BannerResult>[]
+            : List<BannerResult>.from(
+                json["results"].map(
+                  (x) => BannerResult.fromJson(x),
+                ),
+              ),
       );
-
-  Map<String, dynamic> toJson() => {
-        "count": count,
-        "next": next,
-        "previous": previous,
-        "results": List<dynamic>.from(results.map((x) => x.toJson())),
-      };
 }
 
 class BannerResult {
   BannerResult({
-    this.id,
-    this.name,
-    this.image,
-    this.description,
-    this.status,
-    this.drug,
-    this.category,
-    this.drugs,
-    this.url,
+    required this.id,
+    required this.name,
+    required this.image,
+    required this.description,
+    required this.status,
+    required this.drug,
+    required this.category,
+    required this.drugs,
+    required this.url,
   });
 
   int id;
@@ -51,26 +46,16 @@ class BannerResult {
   List<int> drugs;
 
   factory BannerResult.fromJson(Map<String, dynamic> json) => BannerResult(
-        id: json["id"],
-        name: json["name"],
-        image: json["image"],
-        description: json["description"],
-        status: json["status"],
+        id: json["id"] ?? 0,
+        name: json["name"] ?? "",
+        image: json["image"] ?? "",
+        description: json["description"] ?? "",
+        status: json["status"] ?? false,
         url: json["url"] ?? "",
-        drug: json["drug"] == null ? null : json["drug"],
-        category: json["category"] == null ? null : json["drug"],
-        drugs: List<int>.from(json["drugs"].map((x) => x)),
+        drug: json["drug"] ?? 0,
+        category: json["category"] ?? 0,
+        drugs: json["drugs"] == null
+            ? <int>[]
+            : List<int>.from(json["drugs"].map((x) => x)),
       );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "image": image,
-        "description": description,
-        "status": status,
-        "url": url,
-        "drug": drug,
-        "category": category,
-        "drugs": List<dynamic>.from(drugs.map((x) => x)),
-      };
 }

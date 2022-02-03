@@ -1,31 +1,33 @@
 class BlogModel {
   int count;
   String next;
-  String previous;
   List<BlogResults> results;
 
-  BlogModel({this.count, this.next, this.previous, this.results});
+  BlogModel({
+    required this.count,
+    required this.next,
+    required this.results,
+  });
 
-  BlogModel.fromJson(Map<String, dynamic> json) {
-    count = json['count'];
-    next = json['next'];
-    previous = json['previous'];
-    if (json['results'] != null) {
-      results = <BlogResults>[];
-      json['results'].forEach((v) {
-        results.add(new BlogResults.fromJson(v));
-      });
-    }
+  factory BlogModel.fromJson(Map<String, dynamic> json) {
+    return BlogModel(
+      count: json["count"] ?? 0,
+      next: json["next"] ?? "",
+      results: json["results"] == null
+          ? <BlogResults>[]
+          : List<BlogResults>.from(
+              json["results"].map(
+                (x) => BlogResults.fromJson(x),
+              ),
+            ),
+    );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['count'] = this.count;
     data['next'] = this.next;
-    data['previous'] = this.previous;
-    if (this.results != null) {
-      data['results'] = this.results.map((v) => v.toJson()).toList();
-    }
+    data['results'] = this.results.map((v) => v.toJson()).toList();
     return data;
   }
 }
@@ -39,23 +41,25 @@ class BlogResults {
   DateTime updatedAt;
 
   BlogResults({
-    this.id,
-    this.title,
-    this.body,
-    this.image,
-    this.imageUz,
-    this.updatedAt,
+    required this.id,
+    required this.title,
+    required this.body,
+    required this.image,
+    required this.imageUz,
+    required this.updatedAt,
   });
 
-  BlogResults.fromJson(Map<String, dynamic> json) {
-    id = json['id'] ?? 0;
-    title = json['title'] ?? "";
-    body = json['body'] ?? "";
-    image = json['image'] ?? "";
-    imageUz = json['image_uz'] ?? "";
-    updatedAt = json['updated_at'] == null
-        ? DateTime.now()
-        : DateTime.parse(json["updated_at"]);
+  factory BlogResults.fromJson(Map<String, dynamic> json) {
+    return BlogResults(
+      id: json['id'] ?? 0,
+      title: json['title'] ?? "",
+      body: json['body'] ?? "",
+      image: json['image'] ?? "",
+      imageUz: json['image_uz'] ?? "",
+      updatedAt: json['updated_at'] == null
+          ? DateTime.now()
+          : DateTime.parse(json["updated_at"]),
+    );
   }
 
   Map<String, dynamic> toJson() {

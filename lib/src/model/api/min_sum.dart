@@ -1,15 +1,11 @@
 class MinSum {
   MinSum({
-    this.min,
+    required this.min,
   });
 
   int min;
 
   factory MinSum.fromJson(Map<String, dynamic> json) => MinSum(
-        min: json["min"],
+        min: json["min"] ?? 0,
       );
-
-  Map<String, dynamic> toJson() => {
-        "min": min,
-      };
 }

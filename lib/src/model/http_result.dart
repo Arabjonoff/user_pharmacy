@@ -4,8 +4,8 @@ class HttpResult {
   var result;
 
   HttpResult({
-    this.isSuccess,
-    this.result,
-    this.status,
+    required this.isSuccess,
+    required this.result,
+    required this.status,
   });
 }

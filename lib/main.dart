@@ -15,13 +15,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'src/app_theme.dart';
 
-String language = 'ru';
 String token = "";
-bool isLoginPage;
+bool isLoginPage = false;
 
 class MyHttpOverrides extends HttpOverrides {
   @override
-  HttpClient createHttpClient(SecurityContext context) {
+  HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
       ..badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
@@ -44,7 +43,7 @@ void main() async {
     );
     flutterLocalNotifications = FlutterLocalNotificationsPlugin();
     if (Platform.isIOS) {
-      await flutterLocalNotifications
+      await flutterLocalNotifications!
           .resolvePlatformSpecificImplementation<
               IOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions(
@@ -53,10 +52,10 @@ void main() async {
             sound: true,
           );
     } else {
-      await flutterLocalNotifications
+      await flutterLocalNotifications!
           .resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>()
-          ?.createNotificationChannel(channel);
+          ?.createNotificationChannel(channel!);
     }
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
@@ -77,9 +76,6 @@ void main() async {
     isLoginPage = false;
   }
   token = prefs.getString('token') ?? "";
-  if (prefs.getString('language') != null) {
-    language = prefs.getString('language');
-  }
 
   WidgetsFlutterBinding.ensureInitialized();
   if (!kIsWeb) _setTargetPlatformForDesktop();
@@ -113,7 +109,6 @@ class MyApp extends StatelessWidget {
       ),
     );
     var localizationDelegate = LocalizedApp.of(context).delegate;
-    localizationDelegate.changeLocale(Locale(language));
     return LocalizationProvider(
       state: LocalizationProvider.of(context).state,
       child: MaterialApp(
@@ -132,10 +127,10 @@ class MyApp extends StatelessWidget {
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        builder: (BuildContext context, Widget child) {
+        builder: (BuildContext context, Widget? child) {
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
-            child: child,
+            child: child!,
           );
         },
         home: isLoginPage ? MainScreen() : OnBoarding(),
@@ -146,7 +141,7 @@ class MyApp extends StatelessWidget {
 }
 
 void _setTargetPlatformForDesktop() {
-  TargetPlatform targetPlatform;
+  TargetPlatform? targetPlatform;
   if (Platform.isMacOS) {
     targetPlatform = TargetPlatform.iOS;
   } else if (Platform.isLinux || Platform.isWindows) {
@@ -161,5 +156,5 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 }
 
-AndroidNotificationChannel channel;
-FlutterLocalNotificationsPlugin flutterLocalNotifications;
+AndroidNotificationChannel? channel;
+FlutterLocalNotificationsPlugin? flutterLocalNotifications;

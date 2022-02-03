@@ -3,23 +3,20 @@ class SocketModel {
   String event;
   Message message;
 
-  SocketModel({this.type, this.event, this.message});
+  SocketModel({
+    required this.type,
+    required this.event,
+    required this.message,
+  });
 
-  SocketModel.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
-    event = json['event'];
-    message =
-        json['message'] != null ? new Message.fromJson(json['message']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['event'] = this.event;
-    if (this.message != null) {
-      data['message'] = this.message.toJson();
-    }
-    return data;
+  factory SocketModel.fromJson(Map<String, dynamic> json) {
+    return SocketModel(
+      type: json['type'] ?? "",
+      event: json['event'] ?? "",
+      message: json['message'] != null
+          ? Message.fromJson(json['message'])
+          : Message.fromJson({}),
+    );
   }
 }
 
@@ -31,28 +28,20 @@ class Message {
   String updatedAt;
 
   Message({
-    this.id,
-    this.userId,
-    this.body,
-    this.createdAt,
-    this.updatedAt,
+    required this.id,
+    required this.userId,
+    required this.body,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
-  Message.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['user_id'];
-    body = json['body'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['body'] = this.body;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    return data;
+  factory Message.fromJson(Map<String, dynamic> json) {
+    return Message(
+      id: json['id'] ?? 0,
+      userId: json['user_id'] ?? 0,
+      body: json['body'] ?? "",
+      createdAt: json['created_at'] ?? "",
+      updatedAt: json['updated_at'] ?? "",
+    );
   }
 }

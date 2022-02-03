@@ -135,7 +135,7 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
                             GestureDetector(
                               onTap: () {
                                 BottomDialog.editAddress(
-                                    context, snapshot.data);
+                                    context, snapshot.data!);
                               },
                               child: SvgPicture.asset("assets/icons/edit.svg"),
                             ),
@@ -143,7 +143,7 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
                             GestureDetector(
                               onTap: () {
                                 BottomDialog.showDeleteAddress(
-                                    context, snapshot.data.id);
+                                    context, snapshot.data!.id);
                               },
                               child: SvgPicture.asset(
                                   "assets/icons/delete_item.svg"),
@@ -228,7 +228,7 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
                             GestureDetector(
                               onTap: () {
                                 BottomDialog.editAddress(
-                                    context, snapshot.data);
+                                    context, snapshot.data!);
                               },
                               child: SvgPicture.asset("assets/icons/edit.svg"),
                             ),
@@ -236,7 +236,7 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
                             GestureDetector(
                               onTap: () {
                                 BottomDialog.showDeleteAddress(
-                                    context, snapshot.data.id);
+                                    context, snapshot.data!.id);
                               },
                               child: SvgPicture.asset(
                                   "assets/icons/delete_item.svg"),
@@ -297,7 +297,7 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
                         shrinkWrap: true,
                         padding: EdgeInsets.all(0),
                         physics: NeverScrollableScrollPhysics(),
-                        itemCount: snapshot.data.length,
+                        itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
                           return Container(
                             height: 48,
@@ -317,7 +317,7 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
                                 SizedBox(width: 8),
                                 Expanded(
                                   child: Text(
-                                    snapshot.data[index].street,
+                                    snapshot.data![index].street,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -333,7 +333,7 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
                                 GestureDetector(
                                   onTap: () {
                                     BottomDialog.editAddress(
-                                        context, snapshot.data[index]);
+                                        context, snapshot.data![index]);
                                   },
                                   child:
                                       SvgPicture.asset("assets/icons/edit.svg"),
@@ -342,7 +342,7 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
                                 GestureDetector(
                                   onTap: () {
                                     BottomDialog.showDeleteAddress(
-                                        context, snapshot.data[index].id);
+                                        context, snapshot.data![index].id);
                                   },
                                   child: SvgPicture.asset(
                                       "assets/icons/delete_item.svg"),

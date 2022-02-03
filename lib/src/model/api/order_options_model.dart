@@ -2,32 +2,31 @@ class OrderOptionsModel {
   List<ShippingTimes> shippingTimes;
   List<PaymentTypes> paymentTypes;
 
-  OrderOptionsModel({this.shippingTimes, this.paymentTypes});
+  OrderOptionsModel({required this.shippingTimes, required this.paymentTypes});
 
-  OrderOptionsModel.fromJson(Map<String, dynamic> json) {
-    if (json['shipping_times'] != null) {
-      shippingTimes = <ShippingTimes>[];
-      json['shipping_times'].forEach((v) {
-        shippingTimes.add(new ShippingTimes.fromJson(v));
-      });
-    }
-    if (json['payment_types'] != null) {
-      paymentTypes = <PaymentTypes>[];
-      json['payment_types'].forEach((v) {
-        paymentTypes.add(new PaymentTypes.fromJson(v));
-      });
-    }
+  factory OrderOptionsModel.fromJson(Map<String, dynamic> json) {
+    return OrderOptionsModel(
+      shippingTimes: json["shipping_times"] == null
+          ? <ShippingTimes>[]
+          : List<ShippingTimes>.from(
+              json["shipping_times"].map(
+                (x) => ShippingTimes.fromJson(x),
+              ),
+            ),
+      paymentTypes: json["payment_types"] == null
+          ? <PaymentTypes>[]
+          : List<PaymentTypes>.from(
+              json["payment_types"].map(
+                (x) => PaymentTypes.fromJson(x),
+              ),
+            ),
+    );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.shippingTimes != null) {
-      data['shipping_times'] =
-          this.shippingTimes.map((v) => v.toJson()).toList();
-    }
-    if (this.paymentTypes != null) {
-      data['payment_types'] = this.paymentTypes.map((v) => v.toJson()).toList();
-    }
+    data['shipping_times'] = this.shippingTimes.map((v) => v.toJson()).toList();
+    data['payment_types'] = this.paymentTypes.map((v) => v.toJson()).toList();
     return data;
   }
 }
@@ -41,23 +40,25 @@ class ShippingTimes {
   List<String> descriptions;
 
   ShippingTimes({
-    this.id,
-    this.name,
-    this.price,
-    this.time,
-    this.isUserPay,
-    this.descriptions,
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.time,
+    required this.isUserPay,
+    required this.descriptions,
   });
 
-  ShippingTimes.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'] == null ? "" : json['name'];
-    price = json['price'] == null ? 0.0 : json['price'];
-    time = json['time'];
-    isUserPay = json['is_user_pay'];
-    descriptions = json['descriptions'] == null
-        ? null
-        : List<String>.from(json["descriptions"].map((x) => x));
+  factory ShippingTimes.fromJson(Map<String, dynamic> json) {
+    return ShippingTimes(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? "",
+      price: json['price'] ?? 0.0,
+      time: json['time'] ?? 0,
+      isUserPay: json['is_user_pay'] ?? false,
+      descriptions: json['descriptions'] == null
+          ? <String>[]
+          : List<String>.from(json["descriptions"].map((x) => x)),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -81,21 +82,23 @@ class PaymentTypes {
   String type;
 
   PaymentTypes({
-    this.id,
-    this.cardId,
-    this.cardToken,
-    this.name,
-    this.pan,
-    this.type,
+    required this.id,
+    required this.cardId,
+    required this.cardToken,
+    required this.name,
+    required this.pan,
+    required this.type,
   });
 
-  PaymentTypes.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    cardId = json['card_id'];
-    cardToken = json['card_token'];
-    name = json['name'];
-    pan = json['pan'];
-    type = json['type'];
+  factory PaymentTypes.fromJson(Map<String, dynamic> json) {
+    return PaymentTypes(
+      id: json['id'] ?? 0,
+      cardId: json['card_id'] ?? 0,
+      cardToken: json['card_token'] ?? "",
+      name: json['name'] ?? "",
+      pan: json['pan'] ?? "",
+      type: json['type'] ?? "",
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -108,24 +111,4 @@ class PaymentTypes {
     data['type'] = this.type;
     return data;
   }
-}
-
-class PaymentTypesCheckBox {
-  int id;
-  int paymentId;
-  int cardId;
-  String name;
-  String cardToken;
-  String pan;
-  String type;
-
-  PaymentTypesCheckBox({
-    this.id,
-    this.paymentId,
-    this.cardToken,
-    this.cardId,
-    this.name,
-    this.pan,
-    this.type,
-  });
 }

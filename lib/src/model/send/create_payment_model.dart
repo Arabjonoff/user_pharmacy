@@ -5,18 +5,11 @@ class PaymentOrderModel {
   bool paymentRedirect;
 
   PaymentOrderModel({
-    this.orderId,
-    this.paymentType,
-    this.cashPay,
-    this.paymentRedirect,
+    required this.orderId,
+    required this.paymentType,
+    required this.cashPay,
+    required this.paymentRedirect,
   });
-
-  PaymentOrderModel.fromJson(Map<String, dynamic> json) {
-    orderId = json['order_id'];
-    cashPay = json['cash_pay'];
-    paymentType = json['payment_type'];
-    paymentRedirect = json['payment_redirect'];
-  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

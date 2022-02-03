@@ -1,8 +1,8 @@
 class LoginModel {
   LoginModel({
-    this.status,
-    this.msg,
-    this.konkurs,
+    required this.status,
+    required this.msg,
+    required this.konkurs,
   });
 
   int status;
@@ -10,9 +10,9 @@ class LoginModel {
   bool konkurs;
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
-        status: json["status"],
-        msg: json["msg"],
-        konkurs: json["konkurs"] == null ? false : json["konkurs"],
+        status: json["status"] ?? 0,
+        msg: json["msg"] ?? "",
+        konkurs: json["konkurs"] ?? false,
       );
 
   Map<String, dynamic> toJson() => {

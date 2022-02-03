@@ -24,9 +24,9 @@ class ItemListScreen extends StatefulWidget {
   final String id;
 
   ItemListScreen({
-    this.name,
-    this.type,
-    this.id,
+    required this.name,
+    required this.type,
+    required this.id,
   });
 
   @override
@@ -45,8 +45,8 @@ class _ItemListScreenState extends State<ItemListScreen>
   bool isLoading = false;
   int lastPosition = 0;
   ScrollController _sc = new ScrollController();
-  AnimationController controller;
-  Animation<Offset> offset;
+  AnimationController? controller;
+  Animation<Offset>? offset;
   var duration = Duration(milliseconds: 270);
 
   @override
@@ -58,17 +58,17 @@ class _ItemListScreenState extends State<ItemListScreen>
     offset = Tween<Offset>(
       begin: Offset.zero,
       end: Offset(0.0, 1.0),
-    ).animate(controller);
+    ).animate(controller!);
     super.initState();
     _registerBus();
     _getMoreData(1);
     _sc.addListener(() {
       if (_sc.offset ~/ 10 > 0) {
         if (_sc.offset ~/ 10 < lastPosition) {
-          controller.reverse();
+          controller!.reverse();
           lastPosition = _sc.offset ~/ 10;
         } else if (_sc.offset ~/ 10 != lastPosition) {
-          controller.forward();
+          controller!.forward();
           lastPosition = _sc.offset ~/ 10;
         }
       }
@@ -143,17 +143,17 @@ class _ItemListScreenState extends State<ItemListScreen>
               stream: blocItemsList.allItemsList,
               builder: (context, AsyncSnapshot<ItemModel> snapshot) {
                 if (snapshot.hasData) {
-                  snapshot.data.next == null
+                  snapshot.data!.next == ""
                       ? isLoading = true
                       : isLoading = false;
-                  return snapshot.data.results.length > 0
+                  return snapshot.data!.results.length > 0
                       ? Stack(
                           children: [
                             ListView.builder(
                               controller: _sc,
-                              itemCount: snapshot.data.results.length + 1,
+                              itemCount: snapshot.data!.results.length + 1,
                               itemBuilder: (BuildContext ctxt, int index) {
-                                if (index == snapshot.data.results.length) {
+                                if (index == snapshot.data!.results.length) {
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: new Center(
@@ -172,7 +172,7 @@ class _ItemListScreenState extends State<ItemListScreen>
                                     onTap: () {
                                       RxBus.post(
                                           BottomViewModel(
-                                              snapshot.data.results[index].id),
+                                              snapshot.data!.results[index].id,),
                                           tag: "EVENT_BOTTOM_ITEM_ALL");
                                     },
                                     child: Container(
@@ -196,7 +196,7 @@ class _ItemListScreenState extends State<ItemListScreen>
                                                     height: 80,
                                                     width: 80,
                                                     imageUrl: snapshot
-                                                        .data
+                                                        .data!
                                                         .results[index]
                                                         .imageThumbnail,
                                                     placeholder:
@@ -214,11 +214,11 @@ class _ItemListScreenState extends State<ItemListScreen>
                                                 ),
                                                 Positioned(
                                                   child: snapshot
-                                                              .data
+                                                              .data!
                                                               .results[index]
                                                               .price >=
                                                           snapshot
-                                                              .data
+                                                              .data!
                                                               .results[index]
                                                               .basePrice
                                                       ? Container()
@@ -235,10 +235,10 @@ class _ItemListScreenState extends State<ItemListScreen>
                                                           ),
                                                           child: Text(
                                                             "-" +
-                                                                (((snapshot.data.results[index].basePrice - snapshot.data.results[index].price) *
+                                                                (((snapshot.data!.results[index].basePrice - snapshot.data!.results[index].price) *
                                                                             100) ~/
                                                                         snapshot
-                                                                            .data
+                                                                            .data!
                                                                             .results[index]
                                                                             .basePrice)
                                                                     .toString() +
@@ -276,7 +276,7 @@ class _ItemListScreenState extends State<ItemListScreen>
                                                     CrossAxisAlignment.start,
                                                 children: <Widget>[
                                                   Text(
-                                                    snapshot.data.results[index]
+                                                    snapshot.data!.results[index]
                                                         .manufacturer.name,
                                                     style: TextStyle(
                                                       fontFamily:
@@ -290,7 +290,7 @@ class _ItemListScreenState extends State<ItemListScreen>
                                                   ),
                                                   SizedBox(height: 4),
                                                   Text(
-                                                    snapshot.data.results[index]
+                                                    snapshot.data!.results[index]
                                                         .name,
                                                     style: TextStyle(
                                                       fontFamily:
@@ -310,7 +310,7 @@ class _ItemListScreenState extends State<ItemListScreen>
                                                     child: Row(
                                                       children: <Widget>[
                                                         snapshot
-                                                                    .data
+                                                                    .data!
                                                                     .results[
                                                                         index]
                                                                     .cardCount >
@@ -355,21 +355,21 @@ class _ItemListScreenState extends State<ItemListScreen>
                                                                       ),
                                                                       onTap:
                                                                           () {
-                                                                        if (snapshot.data.results[index].cardCount >
+                                                                        if (snapshot.data!.results[index].cardCount >
                                                                             1) {
                                                                           snapshot
-                                                                              .data
+                                                                              .data!
                                                                               .results[index]
-                                                                              .cardCount = snapshot.data.results[index].cardCount - 1;
+                                                                              .cardCount = snapshot.data!.results[index].cardCount - 1;
                                                                           dataBase
-                                                                              .updateProduct(snapshot.data.results[index])
+                                                                              .updateProduct(snapshot.data!.results[index])
                                                                               .then((value) {
                                                                             blocItemsList.update(widget.type);
                                                                           });
-                                                                        } else if (snapshot.data.results[index].cardCount ==
+                                                                        } else if (snapshot.data!.results[index].cardCount ==
                                                                             1) {
                                                                           dataBase
-                                                                              .deleteProducts(snapshot.data.results[index].id)
+                                                                              .deleteProducts(snapshot.data!.results[index].id)
                                                                               .then((value) {
                                                                             blocItemsList.update(widget.type);
                                                                           });
@@ -381,7 +381,7 @@ class _ItemListScreenState extends State<ItemListScreen>
                                                                           Center(
                                                                         child:
                                                                             Text(
-                                                                          snapshot.data.results[index].cardCount.toString() +
+                                                                          snapshot.data!.results[index].cardCount.toString() +
                                                                               " " +
                                                                               translate("item.sht"),
                                                                           style:
@@ -404,14 +404,14 @@ class _ItemListScreenState extends State<ItemListScreen>
                                                                       onTap:
                                                                           () {
                                                                         snapshot
-                                                                            .data
+                                                                            .data!
                                                                             .results[
                                                                                 index]
                                                                             .cardCount = snapshot
-                                                                                .data.results[index].cardCount +
+                                                                                .data!.results[index].cardCount +
                                                                             1;
                                                                         dataBase
-                                                                            .updateProduct(snapshot.data.results[index])
+                                                                            .updateProduct(snapshot.data!.results[index])
                                                                             .then((value) {
                                                                           blocItemsList
                                                                               .update(widget.type);
@@ -445,14 +445,14 @@ class _ItemListScreenState extends State<ItemListScreen>
                                                             : GestureDetector(
                                                                 onTap: () {
                                                                   snapshot
-                                                                      .data
+                                                                      .data!
                                                                       .results[
                                                                           index]
                                                                       .cardCount = 1;
 
                                                                   dataBase
                                                                       .saveProducts(snapshot
-                                                                              .data
+                                                                              .data!
                                                                               .results[
                                                                           index])
                                                                       .then(
@@ -500,7 +500,7 @@ class _ItemListScreenState extends State<ItemListScreen>
                                                                             )
                                                                           : Container(),
                                                                       Text(
-                                                                        priceFormat.format(snapshot.data.results[index].price) +
+                                                                        priceFormat.format(snapshot.data!.results[index].price) +
                                                                             translate("sum"),
                                                                         style:
                                                                             TextStyle(
@@ -536,13 +536,13 @@ class _ItemListScreenState extends State<ItemListScreen>
                                                         GestureDetector(
                                                           onTap: () {
                                                             if (snapshot
-                                                                .data
+                                                                .data!
                                                                 .results[index]
                                                                 .favourite) {
                                                               dataBaseFav
                                                                   .deleteProducts(
                                                                       snapshot
-                                                                          .data
+                                                                          .data!
                                                                           .results[
                                                                               index]
                                                                           .id)
@@ -556,7 +556,7 @@ class _ItemListScreenState extends State<ItemListScreen>
                                                               dataBaseFav
                                                                   .saveProducts(
                                                                       snapshot
-                                                                          .data
+                                                                          .data!
                                                                           .results[index])
                                                                   .then((value) {
                                                                 blocItemsList
@@ -566,7 +566,7 @@ class _ItemListScreenState extends State<ItemListScreen>
                                                             }
                                                           },
                                                           child: snapshot
-                                                                  .data
+                                                                  .data!
                                                                   .results[
                                                                       index]
                                                                   .favourite
@@ -592,7 +592,7 @@ class _ItemListScreenState extends State<ItemListScreen>
                             Align(
                               alignment: Alignment.bottomRight,
                               child: SlideTransition(
-                                position: offset,
+                                position: offset!,
                                 child: Padding(
                                   padding: EdgeInsets.only(right: 12),
                                   child: GestureDetector(
@@ -722,8 +722,8 @@ class _ItemListScreenState extends State<ItemListScreen>
                         );
                 }
                 return Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
-                  highlightColor: Colors.grey[100],
+                  baseColor: AppTheme.shimmerBase,
+                  highlightColor: AppTheme.shimmerHighlight,
                   child: new ListView.builder(
                     itemCount: 20,
                     itemBuilder: (BuildContext ctxt, int index) {

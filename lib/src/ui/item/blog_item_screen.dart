@@ -17,10 +17,10 @@ class BlogItemScreen extends StatefulWidget {
   final DateTime dateTime;
 
   BlogItemScreen({
-    this.image,
-    this.title,
-    this.message,
-    this.dateTime,
+    required this.image,
+    required this.title,
+    required this.message,
+    required this.dateTime,
   });
 
   @override

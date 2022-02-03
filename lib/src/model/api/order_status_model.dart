@@ -5,17 +5,19 @@ class OrderStatusModel {
   int region;
 
   OrderStatusModel({
-    this.status,
-    this.msg,
-    this.region,
-    this.paymentRedirectUrl,
+    required this.status,
+    required this.msg,
+    required this.region,
+    required this.paymentRedirectUrl,
   });
 
-  OrderStatusModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    region = json['region'] ?? 0;
-    msg = json['msg'] ?? "";
-    paymentRedirectUrl = json['payment_redirect_url'] ?? "";
+  factory OrderStatusModel.fromJson(Map<String, dynamic> json) {
+    return OrderStatusModel(
+      status: json['status'] ?? 0,
+      region: json['region'] ?? 0,
+      msg: json['msg'] ?? "",
+      paymentRedirectUrl: json['payment_redirect_url'] ?? "",
+    );
   }
 
   Map<String, dynamic> toJson() {

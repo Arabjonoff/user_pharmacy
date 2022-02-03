@@ -10,33 +10,16 @@ class CreateOrderModel {
   String phone;
 
   CreateOrderModel({
-    this.address,
-    this.location,
-    this.type,
-    this.shippingTime,
-    this.device,
-    this.storeId,
-    this.drugs,
-    this.fullName,
-    this.phone,
+    required this.address,
+    required this.location,
+    required this.type,
+    required this.shippingTime,
+    required this.device,
+    required this.storeId,
+    required this.drugs,
+    required this.fullName,
+    required this.phone,
   });
-
-  CreateOrderModel.fromJson(Map<String, dynamic> json) {
-    address = json['address'];
-    location = json['location'];
-    type = json['type'];
-    device = json['device'];
-    shippingTime = json['shipping_time'];
-    storeId = json['store_id'];
-    fullName = json['full_name'];
-    phone = json['phone'];
-    if (json['drugs'] != null) {
-      drugs = <Drugs>[];
-      json['drugs'].forEach((v) {
-        drugs.add(new Drugs.fromJson(v));
-      });
-    }
-  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -58,12 +41,10 @@ class Drugs {
   int drug;
   int qty;
 
-  Drugs({this.drug, this.qty});
-
-  Drugs.fromJson(Map<String, dynamic> json) {
-    drug = json['drug'];
-    qty = json['qty'];
-  }
+  Drugs({
+    required this.drug,
+    required this.qty,
+  });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

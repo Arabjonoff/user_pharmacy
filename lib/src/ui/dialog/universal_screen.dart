@@ -11,7 +11,10 @@ class UniversalScreen extends StatefulWidget {
   final String title;
   final String uri;
 
-  UniversalScreen({this.title, this.uri});
+  UniversalScreen({
+    required this.title,
+    required this.uri,
+  });
 
   @override
   State<StatefulWidget> createState() {

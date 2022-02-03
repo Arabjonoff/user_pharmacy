@@ -5,10 +5,10 @@ import 'package:pharmacy/src/app_theme.dart';
 
 class FavoriteButton extends StatefulWidget {
   FavoriteButton({
-    bool isFavorite,
-    Function valueChanged,
-    Key key,
-  })  : _isFavorite = isFavorite ?? false,
+    required bool isFavorite,
+    required Function valueChanged,
+    Key? key,
+  })  : _isFavorite = isFavorite,
         _valueChanged = valueChanged,
         super(key: key);
 
@@ -21,10 +21,10 @@ class FavoriteButton extends StatefulWidget {
 
 class _FavoriteButtonState extends State<FavoriteButton>
     with TickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _sizeAnimation;
+  AnimationController? _controller;
+  Animation<double>? _sizeAnimation;
 
-  CurvedAnimation _curve;
+  CurvedAnimation? _curve;
 
   double _maxIconSize = 0.0;
   double _minIconSize = 0.0;
@@ -48,7 +48,7 @@ class _FavoriteButtonState extends State<FavoriteButton>
       duration: Duration(milliseconds: _animationTime),
     );
 
-    _curve = CurvedAnimation(curve: Curves.slowMiddle, parent: _controller);
+    _curve = CurvedAnimation(curve: Curves.slowMiddle, parent: _controller!);
 
     _sizeAnimation = TweenSequence(
       <TweenSequenceItem<double>>[
@@ -67,9 +67,9 @@ class _FavoriteButtonState extends State<FavoriteButton>
           weight: 50,
         ),
       ],
-    ).animate(_curve);
+    ).animate(_curve!);
 
-    _controller.addStatusListener((status) {
+    _controller!.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _isAnimationCompleted = true;
         _isFavorite = !_isFavorite;
@@ -85,29 +85,29 @@ class _FavoriteButtonState extends State<FavoriteButton>
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    _controller!.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: _controller,
+      animation: _controller!,
       builder: (BuildContext context, _) {
         return GestureDetector(
           onTap: () {
             setState(() {
               if (_isAnimationCompleted == true) {
-                _controller.reverse();
+                _controller!.reverse();
               } else {
-                _controller.forward();
+                _controller!.forward();
               }
             });
           },
           child: AnimatedContainer(
             duration: Duration(microseconds: 270),
             curve: Curves.easeInOut,
-            height: _sizeAnimation.value,
-            width: _sizeAnimation.value,
+            height: _sizeAnimation!.value,
+            width: _sizeAnimation!.value,
             color: AppTheme.white,
             child: _isFavorite
                 ? SvgPicture.asset("assets/icons/fav_select.svg")

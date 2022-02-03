@@ -5,9 +5,9 @@ CashBackModel cashBackModelFromJson(String str) =>
 
 class CashBackModel {
   CashBackModel({
-    this.status,
-    this.cash,
-    this.bonus,
+    required this.status,
+    required this.cash,
+    required this.bonus,
   });
 
   int status;
@@ -15,8 +15,8 @@ class CashBackModel {
   int bonus;
 
   factory CashBackModel.fromJson(Map<String, dynamic> json) => CashBackModel(
-        status: json["status"],
-        cash: json["cash"] == null ? 0.0 : json["cash"].toDouble(),
+        status: json["status"] ?? 0,
+        cash: json["cash"] ?? "",
         bonus: json["bonus"] ?? 0,
       );
 }

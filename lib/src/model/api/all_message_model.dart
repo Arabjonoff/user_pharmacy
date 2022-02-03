@@ -3,18 +3,21 @@ class AllMessageModel {
   List<ChatResults> results;
 
   AllMessageModel({
-    this.next,
-    this.results,
+    required this.next,
+    required this.results,
   });
 
-  AllMessageModel.fromJson(Map<String, dynamic> json) {
-    next = json['next'] ?? "";
-    if (json['results'] != null) {
-      results = new List<ChatResults>();
-      json['results'].forEach((v) {
-        results.add(new ChatResults.fromJson(v));
-      });
-    }
+  factory AllMessageModel.fromJson(Map<String, dynamic> json) {
+    return AllMessageModel(
+      next: json["next"] ?? "",
+      results: json["results"] == null
+          ? <ChatResults>[]
+          : List<ChatResults>.from(
+              json["results"].map(
+                (x) => ChatResults.fromJson(x),
+              ),
+            ),
+    );
   }
 }
 
@@ -26,30 +29,32 @@ class ChatResults {
   String year;
 
   ChatResults({
-    this.id,
-    this.userId,
-    this.body,
-    this.createdAt,
-    this.year,
+    required this.id,
+    required this.userId,
+    required this.body,
+    required this.createdAt,
+    required this.year,
   });
 
-  ChatResults.fromJson(Map<String, dynamic> json) {
-    id = json['id'] ?? 0;
-    userId = json['user_id'] ?? 0;
-    body = json['body'] ?? "";
-    createdAt = json['created_at'] == null
-        ? DateTime.now()
-        : DateTime.parse(json['created_at']);
-    year = json['created_at'] != null
-        ? DateTime.parse(json["created_at"]).year.toString() +
-            "." +
-            DateTime.parse(json["created_at"]).month.toString() +
-            "." +
-            DateTime.parse(json["created_at"]).day.toString()
-        : DateTime.now().year.toString() +
-            "." +
-            DateTime.now().month.toString() +
-            "." +
-            DateTime.now().day.toString();
+  factory ChatResults.fromJson(Map<String, dynamic> json) {
+    return ChatResults(
+      id: json['id'] ?? 0,
+      userId: json['user_id'] ?? 0,
+      body: json['body'] ?? "",
+      createdAt: json['created_at'] == null
+          ? DateTime.now()
+          : DateTime.parse(json['created_at']),
+      year: json['created_at'] != null
+          ? DateTime.parse(json["created_at"]).year.toString() +
+              "." +
+              DateTime.parse(json["created_at"]).month.toString() +
+              "." +
+              DateTime.parse(json["created_at"]).day.toString()
+          : DateTime.now().year.toString() +
+              "." +
+              DateTime.now().month.toString() +
+              "." +
+              DateTime.now().day.toString(),
+    );
   }
 }

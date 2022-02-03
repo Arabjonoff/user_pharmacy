@@ -49,6 +49,7 @@ class ChatBloc {
             DateTime.now().month.toString() +
             "." +
             DateTime.now().day.toString(),
+        id: 0,
       ),
     );
     _chatFetcher.sink.add(
@@ -73,6 +74,7 @@ class ChatBloc {
             DateTime.now().month.toString() +
             "." +
             DateTime.now().day.toString(),
+        id: 0,
       ),
     );
     _chatFetcher.sink.add(

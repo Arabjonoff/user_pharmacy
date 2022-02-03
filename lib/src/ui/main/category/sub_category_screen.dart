@@ -9,7 +9,11 @@ import '../../../app_theme.dart';
 class SubCategoryScreen extends StatefulWidget {
   final String name;
   final List<Childs> list;
-  final Function({String name, int type, String id}) onListItem;
+  final Function({
+    required String name,
+    required int type,
+    required String id,
+  }) onListItem;
 
   SubCategoryScreen(this.name, this.list, this.onListItem);
 

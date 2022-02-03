@@ -55,7 +55,7 @@ class _AddressStoreListPickupScreenState
         stream: blocStore.allExistStore,
         builder: (context, AsyncSnapshot<List<LocationModel>> snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.length == 0) {
+            if (snapshot.data!.length == 0) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -128,7 +128,7 @@ class _AddressStoreListPickupScreenState
               );
             } else {
               return ListView.builder(
-                itemCount: snapshot.data.length,
+                itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   return Container(
                     margin: EdgeInsets.only(bottom: 16),
@@ -156,7 +156,7 @@ class _AddressStoreListPickupScreenState
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    snapshot.data[index].name,
+                                    snapshot.data![index].name,
                                     style: TextStyle(
                                       fontFamily: AppTheme.fontRubik,
                                       fontWeight: FontWeight.w500,
@@ -167,7 +167,7 @@ class _AddressStoreListPickupScreenState
                                   ),
                                   SizedBox(height: 4),
                                   Text(
-                                    snapshot.data[index].address,
+                                    snapshot.data![index].address,
                                     style: TextStyle(
                                       fontFamily: AppTheme.fontRubik,
                                       fontWeight: FontWeight.normal,
@@ -203,10 +203,10 @@ class _AddressStoreListPickupScreenState
                               ),
                             ),
                             Expanded(child: Container()),
-                            snapshot.data[index].distance == 0.0
+                            snapshot.data![index].distance == 0.0
                                 ? Container()
                                 : Text(
-                                    ((snapshot.data[index].distance ~/ 100) /
+                                    ((snapshot.data![index].distance ~/ 100) /
                                                 10.0)
                                             .toString() +
                                         translate("km"),
@@ -237,7 +237,7 @@ class _AddressStoreListPickupScreenState
                             ),
                             Expanded(child: Container()),
                             Text(
-                              snapshot.data[index].mode,
+                              snapshot.data![index].mode,
                               style: TextStyle(
                                 fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.normal,
@@ -265,7 +265,7 @@ class _AddressStoreListPickupScreenState
                             ),
                             Expanded(child: Container()),
                             Text(
-                              Utils.numberFormat(snapshot.data[index].phone),
+                              Utils.numberFormat(snapshot.data![index].phone),
                               style: TextStyle(
                                 fontFamily: AppTheme.fontRubik,
                                 fontWeight: FontWeight.normal,
@@ -293,7 +293,7 @@ class _AddressStoreListPickupScreenState
                             ),
                             Expanded(child: Container()),
                             Text(
-                              priceFormat.format(snapshot.data[index].total) +
+                              priceFormat.format(snapshot.data![index].total) +
                                   translate("sum"),
                               style: TextStyle(
                                 fontFamily: AppTheme.fontRubik,
@@ -315,7 +315,7 @@ class _AddressStoreListPickupScreenState
                         SizedBox(height: 16),
                         GestureDetector(
                           onTap: () {
-                            widget.chooseStore(snapshot.data[index]);
+                            widget.chooseStore(snapshot.data![index]);
                           },
                           child: Container(
                             width: double.infinity,
@@ -347,8 +347,8 @@ class _AddressStoreListPickupScreenState
             }
           }
           return Shimmer.fromColors(
-            baseColor: Colors.grey[300],
-            highlightColor: Colors.grey[100],
+            baseColor: AppTheme.shimmerBase,
+            highlightColor: AppTheme.shimmerHighlight,
             child: ListView.builder(
               itemBuilder: (_, __) => Container(
                 height: 124,
@@ -392,13 +392,15 @@ class _AddressStoreListPickupScreenState
           products: widget.drugs);
       blocStore.fetchAccessStore(addModel);
     } else {
-      AccessStore addModel = new AccessStore(products: widget.drugs);
+      AccessStore addModel =
+          new AccessStore(products: widget.drugs, lat: 0.0, lng: 0.0);
       blocStore.fetchAccessStore(addModel);
     }
   }
 
   Future<void> _defaultLocation() async {
-    AccessStore addModel = new AccessStore(products: widget.drugs);
+    AccessStore addModel =
+        new AccessStore(products: widget.drugs, lng: 0.0, lat: 0.0);
     blocStore.fetchAccessStore(addModel);
   }
 }

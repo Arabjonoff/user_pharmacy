@@ -116,8 +116,8 @@ class _ChatScreenState extends State<ChatScreen> {
         stream: blocChat.allMessage,
         builder: (context, AsyncSnapshot<AllMessageModel> snapshot) {
           if (snapshot.hasData) {
-            List<ChatResults> chatData = snapshot.data.results;
-            snapshot.data.next == "" ? isLoading = true : isLoading = false;
+            List<ChatResults> chatData = snapshot.data!.results;
+            snapshot.data!.next == "" ? isLoading = true : isLoading = false;
             return Column(
               children: [
                 Expanded(
@@ -455,8 +455,8 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     itemCount: 20,
                   ),
-                  baseColor: Colors.grey[300],
-                  highlightColor: Colors.grey[100],
+                  baseColor: AppTheme.shimmerBase,
+                  highlightColor: AppTheme.shimmerHighlight,
                 ),
               ),
               Container(
@@ -518,7 +518,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void _getUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      userId = prefs.getInt('userId');
+      userId = prefs.getInt('userId') ?? 0;
     });
   }
 

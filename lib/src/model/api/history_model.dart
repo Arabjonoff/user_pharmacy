@@ -1,26 +1,27 @@
 class HistoryModel {
   int count;
   String next;
-  String previous;
+
   List<HistoryResults> results;
 
   HistoryModel({
-    this.count,
-    this.next,
-    this.previous,
-    this.results,
+    required this.count,
+    required this.next,
+    required this.results,
   });
 
-  HistoryModel.fromJson(Map<String, dynamic> json) {
-    count = json['count'];
-    next = json['next'];
-    previous = json['previous'];
-    if (json['results'] != null) {
-      results = <HistoryResults>[];
-      json['results'].forEach((v) {
-        results.add(new HistoryResults.fromJson(v));
-      });
-    }
+  factory HistoryModel.fromJson(Map<String, dynamic> json) {
+    return HistoryModel(
+      count: json['count'] ?? 0,
+      next: json['next'] ?? "",
+      results: json["results"] == null
+          ? <HistoryResults>[]
+          : List<HistoryResults>.from(
+              json["results"].map(
+                (x) => HistoryResults.fromJson(x),
+              ),
+            ),
+    );
   }
 }
 
@@ -46,65 +47,71 @@ class HistoryResults {
   String bookingLabel;
   List<Items> items;
 
-  HistoryResults(
-      {this.id,
-      this.address,
-      this.bonus,
-      this.location,
-      this.endShiptime,
-      this.deliveryTotal,
-      this.paymentType,
-      this.store,
-      this.delivery,
-      this.cash,
-      this.createdAt,
-      this.total,
-      this.realTotal,
-      this.status,
-      this.type,
-      this.fullName,
-      this.phone,
-      this.expireSelfOrder,
-      this.bookingLabel,
-      this.items});
+  HistoryResults({
+    required this.id,
+    required this.address,
+    required this.bonus,
+    required this.location,
+    required this.endShiptime,
+    required this.deliveryTotal,
+    required this.paymentType,
+    required this.store,
+    required this.delivery,
+    required this.cash,
+    required this.createdAt,
+    required this.total,
+    required this.realTotal,
+    required this.status,
+    required this.type,
+    required this.fullName,
+    required this.phone,
+    required this.expireSelfOrder,
+    required this.bookingLabel,
+    required this.items,
+  });
 
-  HistoryResults.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    bonus = json['bonus'] ?? 0;
-    bookingLabel = json['booking_label'] ?? "";
-    address = json['address'] == null ? "" : json['address'];
-    location = json['location'] != null
-        ? new Location.fromJson(json['location'])
-        : Location(type: "", coordinates: [0.0, 0.0]);
-    endShiptime = json["end_shiptime"] == null
-        ? null
-        : DateTime.parse(json["end_shiptime"]);
-    deliveryTotal = json['delivery_total'] == null
-        ? 0.0
-        : json['delivery_total'].toDouble();
-    paymentType = json['payment_type'] != null
-        ? new PaymentType.fromJson(json['payment_type'])
-        : PaymentType(id: 0, name: "", type: "");
-    store = json['store'] != null ? Store.fromJson(json['store']) : Store();
-    delivery = json['delivery'] != null
-        ? Delivery.fromJson(json['delivery'])
-        : Delivery(login: "", firstName: "", lastName: "");
-    createdAt = json['created_at'];
-    total = json['total'] == null ? 0.0 : json['total'];
-    cash = json['cash'] ?? 0.0;
-    realTotal = json['real_total'] == null ? 0.0 : json['real_total'];
-    status = json['status'];
-    type = json['type'] == null ? "" : json['type'];
-    expireSelfOrder =
-        json['expire_self_order'] == null ? "" : json['expire_self_order'];
-    fullName = json['full_name'] == null ? "" : json['full_name'];
-    phone = json['phone'] == null ? "" : json['phone'];
-    if (json['items'] != null) {
-      items = <Items>[];
-      json['items'].forEach((v) {
-        items.add(new Items.fromJson(v));
-      });
-    }
+  factory HistoryResults.fromJson(Map<String, dynamic> json) {
+    return HistoryResults(
+      id: json['id'],
+      bonus: json['bonus'] ?? 0,
+      bookingLabel: json['booking_label'] ?? "",
+      address: json['address'] == null ? "" : json['address'],
+      location: json['location'] != null
+          ? new Location.fromJson(json['location'])
+          : Location(type: "", coordinates: [0.0, 0.0]),
+      endShiptime: json["end_shiptime"] == null
+          ? DateTime.now()
+          : DateTime.parse(json["end_shiptime"]),
+      deliveryTotal: json['delivery_total'] == null
+          ? 0.0
+          : json['delivery_total'].toDouble(),
+      paymentType: json['payment_type'] != null
+          ? new PaymentType.fromJson(json['payment_type'])
+          : PaymentType(id: 0, name: "", type: ""),
+      store: json['store'] != null
+          ? Store.fromJson(json['store'])
+          : Store.fromJson({}),
+      delivery: json['delivery'] != null
+          ? Delivery.fromJson(json['delivery'])
+          : Delivery(login: "", firstName: "", lastName: ""),
+      createdAt: json['created_at'],
+      total: json['total'] == null ? 0.0 : json['total'],
+      cash: json['cash'] ?? 0.0,
+      realTotal: json['real_total'] == null ? 0.0 : json['real_total'],
+      status: json['status'],
+      type: json['type'] == null ? "" : json['type'],
+      expireSelfOrder:
+          json['expire_self_order'] == null ? "" : json['expire_self_order'],
+      fullName: json['full_name'] == null ? "" : json['full_name'],
+      phone: json['phone'] == null ? "" : json['phone'],
+      items: json["items"] == null
+          ? <Items>[]
+          : List<Items>.from(
+              json["items"].map(
+                (x) => Items.fromJson(x),
+              ),
+            ),
+    );
   }
 }
 
@@ -112,11 +119,15 @@ class Location {
   String type;
   List<double> coordinates;
 
-  Location({this.type, this.coordinates});
+  Location({required this.type, required this.coordinates});
 
-  Location.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
-    coordinates = json['coordinates'].cast<double>();
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      type: json['type'] ?? "",
+      coordinates: json['coordinates'] == null
+          ? <double>[]
+          : json['coordinates'].cast<double>(),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -132,12 +143,18 @@ class PaymentType {
   String name;
   String type;
 
-  PaymentType({this.id, this.name, this.type});
+  PaymentType({
+    required this.id,
+    required this.name,
+    required this.type,
+  });
 
-  PaymentType.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    type = json['type'] == null ? "" : json['type'];
+  factory PaymentType.fromJson(Map<String, dynamic> json) {
+    return PaymentType(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? "",
+      type: json['type'] ?? "",
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -157,18 +174,26 @@ class Store {
   String mode;
   Location location;
 
-  Store(
-      {this.id, this.name, this.address, this.phone, this.mode, this.location});
+  Store({
+    required this.id,
+    required this.name,
+    required this.address,
+    required this.phone,
+    required this.mode,
+    required this.location,
+  });
 
-  Store.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    address = json['address'];
-    phone = json['phone'];
-    mode = json['mode'];
-    location = json['location'] != null
-        ? new Location.fromJson(json['location'])
-        : Location(type: "", coordinates: [0.0, 0.0]);
+  factory Store.fromJson(Map<String, dynamic> json) {
+    return Store(
+      id: json['id'],
+      name: json['name'],
+      address: json['address'],
+      phone: json['phone'],
+      mode: json['mode'],
+      location: json['location'] != null
+          ? Location.fromJson(json['location'])
+          : Location.fromJson({}),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -178,9 +203,7 @@ class Store {
     data['address'] = this.address;
     data['phone'] = this.phone;
     data['mode'] = this.mode;
-    if (this.location != null) {
-      data['location'] = this.location.toJson();
-    }
+    data['location'] = this.location.toJson();
     return data;
   }
 }
@@ -191,15 +214,17 @@ class Delivery {
   String lastName;
 
   Delivery({
-    this.login,
-    this.firstName,
-    this.lastName,
+    required this.login,
+    required this.firstName,
+    required this.lastName,
   });
 
-  Delivery.fromJson(Map<String, dynamic> json) {
-    login = json['login'] ?? "";
-    firstName = json['first_name'] ?? "";
-    lastName = json['last_name'] ?? "";
+  factory Delivery.fromJson(Map<String, dynamic> json) {
+    return Delivery(
+      login: json['login'] ?? "",
+      firstName: json['first_name'] ?? "",
+      lastName: json['last_name'] ?? "",
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -219,23 +244,32 @@ class Items {
   double subtotal;
   bool status;
 
-  Items({this.id, this.drug, this.qty, this.price, this.subtotal, this.status});
+  Items({
+    required this.id,
+    required this.drug,
+    required this.qty,
+    required this.price,
+    required this.subtotal,
+    required this.status,
+  });
 
-  Items.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    drug = json['drug'] != null ? new Drug.fromJson(json['drug']) : null;
-    qty = json['qty'];
-    price = json['price'];
-    subtotal = json['subtotal'];
-    status = json['status'];
+  factory Items.fromJson(Map<String, dynamic> json) {
+    return Items(
+      id: json['id'],
+      drug: json['drug'] != null
+          ? Drug.fromJson(json['drug'])
+          : Drug.fromJson({}),
+      qty: json['qty'],
+      price: json['price'],
+      subtotal: json['subtotal'],
+      status: json['status'],
+    );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    if (this.drug != null) {
-      data['drug'] = this.drug.toJson();
-    }
+    data['drug'] = this.drug.toJson();
     data['qty'] = this.qty;
     data['price'] = this.price;
     data['subtotal'] = this.subtotal;
@@ -252,19 +286,21 @@ class Drug {
   String imageThumbnail;
 
   Drug({
-    this.id,
-    this.name,
-    this.barcode,
-    this.image,
-    this.imageThumbnail,
+    required this.id,
+    required this.name,
+    required this.barcode,
+    required this.image,
+    required this.imageThumbnail,
   });
 
-  Drug.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    barcode = json['barcode'];
-    image = json['image'];
-    imageThumbnail = json['image_thumbnail'];
+  factory Drug.fromJson(Map<String, dynamic> json) {
+    return Drug(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? "",
+      barcode: json['barcode'] ?? "",
+      image: json['image'] ?? "",
+      imageThumbnail: json['image_thumbnail'] ?? "",
+    );
   }
 
   Map<String, dynamic> toJson() {

@@ -1,11 +1,12 @@
+import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
 class Utils {
   static String baseUrl = "https://api.gopharm.uz";
+
   //static String baseUrl = "https://test.gopharm.uz";
 
   static Future<void> saveData(int userId, String name, String surname,
@@ -32,7 +33,7 @@ class Utils {
 
   static Future<double> getCashBack() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getDouble("cashBack");
+    return prefs.getDouble("cashBack") ?? 0.0;
   }
 
   static Future<void> saveRegion(
@@ -61,12 +62,12 @@ class Utils {
 
   static Future<int> getId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt("userId");
+    return prefs.getInt("userId") ?? 0;
   }
 
   static Future<String> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString("token");
+    return prefs.getString("token") ?? "";
   }
 
   static Future<bool> isLogin() async {
@@ -92,84 +93,83 @@ class Utils {
             translate("month.january") +
             " " +
             dateTime.year.toString();
-        break;
       case 2:
         return format(dateTime.day) +
             " " +
             translate("month.february") +
             " " +
             dateTime.year.toString();
-        break;
+
       case 3:
         return format(dateTime.day) +
             " " +
             translate("month.march") +
             " " +
             dateTime.year.toString();
-        break;
+
       case 4:
         return format(dateTime.day) +
             " " +
             translate("month.april") +
             " " +
             dateTime.year.toString();
-        break;
+
       case 5:
         return format(dateTime.day) +
             " " +
             translate("month.may") +
             " " +
             dateTime.year.toString();
-        break;
+
       case 6:
         return format(dateTime.day) +
             " " +
             translate("month.june") +
             " " +
             dateTime.year.toString();
-        break;
+
       case 7:
         return format(dateTime.day) +
             " " +
             translate("month.july") +
             " " +
             dateTime.year.toString();
-        break;
+
       case 8:
         return format(dateTime.day) +
             " " +
             translate("month.august") +
             " " +
             dateTime.year.toString();
-        break;
+
       case 9:
         return format(dateTime.day) +
             " " +
             translate("month.september") +
             " " +
             dateTime.year.toString();
-        break;
+
       case 10:
         return format(dateTime.day) +
             " " +
             translate("month.october") +
             " " +
             dateTime.year.toString();
-        break;
+
       case 11:
         return format(dateTime.day) +
             " " +
             translate("month.november") +
             " " +
             dateTime.year.toString();
-        break;
+
       case 12:
         return format(dateTime.day) +
             " " +
             translate("month.december") +
             " " +
             dateTime.year.toString();
-        break;
+
       default:
         return format(dateTime.day) +
             " " +
@@ -180,21 +180,17 @@ class Utils {
   }
 
   static String numberFormat(String number) {
-    if (number == null) {
-      return "";
-    } else {
-      String s = "+";
-      if (number.length == 12) {
-        for (int i = 0; i < number.length; i++) {
-          s += number[i];
-          if (i == 2 || i == 4 || i == 7 || i == 9) {
-            s += " ";
-          }
+    String s = "+";
+    if (number.length == 12) {
+      for (int i = 0; i < number.length; i++) {
+        s += number[i];
+        if (i == 2 || i == 4 || i == 7 || i == 9) {
+          s += " ";
         }
-        return s;
-      } else {
-        return number;
       }
+      return s;
+    } else {
+      return number;
     }
   }
 

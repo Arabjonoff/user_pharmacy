@@ -802,10 +802,10 @@ class BottomDialog {
                           var data = AddressModel(
                             id: addressModel.id,
                             street: addressController.text,
-                            dom: domController.text ?? "",
-                            en: podezController.text ?? "",
-                            kv: kvController.text ?? "",
-                            comment: commentController.text ?? "",
+                            dom: domController.text,
+                            en: podezController.text,
+                            kv: kvController.text,
+                            comment: commentController.text,
                             lat: lat.toString(),
                             lng: lng.toString(),
                             type: addressModel.type,
@@ -860,7 +860,7 @@ class BottomDialog {
     TextEditingController podezController = TextEditingController();
     TextEditingController kvController = TextEditingController();
     TextEditingController commentController = TextEditingController();
-    double lat, lng;
+    double? lat, lng;
     bool isSave = false;
     showModalBottomSheet(
       barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
@@ -930,8 +930,11 @@ class BottomDialog {
                               } else {
                                 lat = point.latitude;
                                 lng = point.longitude;
-                                var response = await Repository()
-                                    .fetchLocationAddress(lat, lng);
+                                var response =
+                                    await Repository().fetchLocationAddress(
+                                  lat ?? 41.311081,
+                                  lng ?? 69.240562,
+                                );
                                 if (response.isSuccess) {
                                   var result = LocationAddressModel.fromJson(
                                       response.result);
@@ -1284,22 +1287,23 @@ class BottomDialog {
                                 DatabaseHelperAddress();
                             var data = AddressModel(
                               street: addressController.text,
-                              dom: domController.text ?? "",
-                              en: podezController.text ?? "",
-                              kv: kvController.text ?? "",
-                              comment: commentController.text ?? "",
+                              dom: domController.text,
+                              en: podezController.text,
+                              kv: kvController.text,
+                              comment: commentController.text,
                               lat: lat.toString(),
                               lng: lng.toString(),
                               type: type,
+                              id: -1,
                             );
                             database.saveProducts(data).then((value) {
                               AddressModel data = AddressModel(
                                 id: value,
                                 street: addressController.text,
-                                dom: domController.text ?? "",
-                                en: podezController.text ?? "",
-                                kv: kvController.text ?? "",
-                                comment: commentController.text ?? "",
+                                dom: domController.text,
+                                en: podezController.text,
+                                kv: kvController.text,
+                                comment: commentController.text,
                                 lat: lat.toString(),
                                 lng: lng.toString(),
                                 type: type,
@@ -1349,8 +1353,8 @@ class BottomDialog {
     double lng,
     Function(Point point) onChooseLocation,
   ) {
-    placemark.Placemark lastPlaceMark;
-    YandexMapController mapController;
+    placemark.Placemark? lastPlaceMark;
+    YandexMapController? mapController;
     showModalBottomSheet(
       context: context,
       barrierColor: Color.fromRGBO(23, 43, 77, 0.3),
@@ -1430,35 +1434,41 @@ class BottomDialog {
                                 final Point currentTarget =
                                     await yandexMapController
                                         .enableCameraTracking(
-                                  Placemark(
-                                    point: Point(
-                                      latitude: lat,
-                                      longitude: lng,
-                                    ),
+                                  // Placemark(
+                                  //   point: Point(
+                                  //     latitude: lat,
+                                  //     longitude: lng,
+                                  //   ),
+                                  //   iconName: 'assets/map/location.png',
+                                  //   opacity: 0.9,
+                                  // ),
+                                  style: PlacemarkStyle(
                                     iconName: 'assets/map/location.png',
                                     opacity: 0.9,
                                   ),
-                                  (arguments) async {
+                                  onCameraPositionChange: (arguments) async {
                                     if (lastPlaceMark != null) {
                                       yandexMapController
-                                          .removePlacemark(lastPlaceMark);
+                                          .removePlacemark(lastPlaceMark!);
                                     }
                                     final bool bFinal = arguments['final'];
                                     if (bFinal) {
                                       if (lastPlaceMark != null) {
                                         yandexMapController
-                                            .removePlacemark(lastPlaceMark);
+                                            .removePlacemark(lastPlaceMark!);
                                       }
                                       lastPlaceMark = placemark.Placemark(
                                         point: Point(
                                           latitude: arguments['latitude'],
                                           longitude: arguments['longitude'],
                                         ),
-                                        iconName: 'assets/map/location.png',
-                                        opacity: 0.9,
+                                        style: PlacemarkStyle(
+                                          iconName: 'assets/map/location.png',
+                                          opacity: 0.9,
+                                        ),
                                       );
                                       await yandexMapController.addPlacemark(
-                                        lastPlaceMark,
+                                        lastPlaceMark!,
                                       );
                                     }
                                   },
@@ -1466,18 +1476,20 @@ class BottomDialog {
 
                                 if (lastPlaceMark != null) {
                                   yandexMapController
-                                      .removePlacemark(lastPlaceMark);
+                                      .removePlacemark(lastPlaceMark!);
                                 }
                                 lastPlaceMark = placemark.Placemark(
                                   point: Point(
                                     latitude: currentTarget.latitude,
                                     longitude: currentTarget.longitude,
                                   ),
-                                  iconName: 'assets/map/location.png',
-                                  opacity: 0.9,
+                                  style: PlacemarkStyle(
+                                    iconName: 'assets/map/location.png',
+                                    opacity: 0.9,
+                                  ),
                                 );
                                 await yandexMapController.addPlacemark(
-                                  lastPlaceMark,
+                                  lastPlaceMark!,
                                 );
                                 mapController = yandexMapController;
                               },
@@ -1492,7 +1504,7 @@ class BottomDialog {
                                           desiredAccuracy:
                                               LocationAccuracy.best,
                                         ).then((position) async {
-                                          mapController.move(
+                                          mapController!.move(
                                             point: Point(
                                               latitude: position.latitude,
                                               longitude: position.longitude,
@@ -1555,8 +1567,8 @@ class BottomDialog {
                       onTap: () {
                         onChooseLocation(
                           Point(
-                            latitude: lastPlaceMark.point.latitude,
-                            longitude: lastPlaceMark.point.longitude,
+                            latitude: lastPlaceMark!.point.latitude,
+                            longitude: lastPlaceMark!.point.longitude,
                           ),
                         );
                         Navigator.pop(context);
@@ -3273,8 +3285,8 @@ class BottomDialog {
   }
 
   static void showCommentService({
-    BuildContext context,
-    int orderId,
+    required BuildContext context,
+    required int orderId,
   }) async {
     int _stars = 5;
     TextEditingController commentController = TextEditingController();
@@ -3705,13 +3717,13 @@ class BottomDialog {
 
   static void showEditProfile(
     BuildContext context, {
-    String firstName,
-    String lastName,
-    String number,
-    String birthday,
-    DateTime dateTime,
-    int gender,
-    String token,
+    required String firstName,
+    required String lastName,
+    required String number,
+    required String birthday,
+    required DateTime dateTime,
+    required int gender,
+    required String token,
   }) async {
     TextEditingController firstNameController =
         TextEditingController(text: firstName);
@@ -5297,7 +5309,7 @@ class BottomDialog {
     DatabaseHelper dataBase = new DatabaseHelper();
     DatabaseHelperFav dataBaseFav = new DatabaseHelperFav();
     int currentIndex = 0;
-    ScrollController scrollController;
+    ScrollController? scrollController;
     var onClose = true;
 
     showModalBottomSheet(
@@ -5307,8 +5319,8 @@ class BottomDialog {
       builder: (context) {
         scrollController = ScrollController()
           ..addListener(() {
-            if (scrollController.offset < -150 && onClose) {
-              scrollController.dispose();
+            if (scrollController!.offset < -150 && onClose) {
+              scrollController!.dispose();
               onClose = false;
               Navigator.pop(context);
             }
@@ -5351,7 +5363,7 @@ class BottomDialog {
                                   children: [
                                     Center(
                                       child: CachedNetworkImage(
-                                        imageUrl: snapshot.data.image,
+                                        imageUrl: snapshot.data!.image,
                                         placeholder: (context, url) =>
                                             SvgPicture.asset(
                                           "assets/icons/default_image.svg",
@@ -5368,22 +5380,32 @@ class BottomDialog {
                                       right: 0,
                                       child: GestureDetector(
                                         onTap: () {
-                                          snapshot.data.favourite =
-                                              !snapshot.data.favourite;
-                                          if (snapshot.data.favourite) {
+                                          snapshot.data!.favourite =
+                                              !snapshot.data!.favourite;
+                                          if (snapshot.data!.favourite) {
                                             dataBaseFav
                                                 .saveProducts(
                                               ItemResult(
-                                                snapshot.data.id,
-                                                snapshot.data.name,
-                                                snapshot.data.barcode,
-                                                snapshot.data.image,
-                                                snapshot.data.imageThumbnail,
-                                                snapshot.data.price,
-                                                Manifacture(snapshot
-                                                    .data.manufacturer.name),
-                                                true,
-                                                0,
+                                                id: snapshot.data!.id,
+                                                name: snapshot.data!.name,
+                                                barcode: snapshot.data!.barcode,
+                                                image: snapshot.data!.image,
+                                                imageThumbnail: snapshot
+                                                    .data!.imageThumbnail,
+                                                price: snapshot.data!.price,
+                                                basePrice:
+                                                    snapshot.data!.basePrice,
+                                                isComing:
+                                                    snapshot.data!.isComing,
+                                                maxCount:
+                                                    snapshot.data!.maxCount,
+                                                manufacturer: Manufacturer(
+                                                  name: snapshot
+                                                      .data!.manufacturer.name,
+                                                ),
+                                                favourite: true,
+                                                cardCount: 0,
+                                                msg: "",
                                               ),
                                             )
                                                 .then((value) {
@@ -5393,14 +5415,14 @@ class BottomDialog {
                                           } else {
                                             dataBaseFav
                                                 .deleteProducts(
-                                                    snapshot.data.id)
+                                                    snapshot.data!.id)
                                                 .then((value) {
                                               blocItem
                                                   .fetchItemUpdate(position);
                                             });
                                           }
                                         },
-                                        child: snapshot.data.favourite
+                                        child: snapshot.data!.favourite
                                             ? SvgPicture.asset(
                                                 "assets/icons/fav_select.svg",
                                                 width: 32,
@@ -5428,7 +5450,7 @@ class BottomDialog {
                                                 "assets/icons/icon_rating.svg"),
                                             SizedBox(width: 4),
                                             Text(
-                                              snapshot.data.rating.toString(),
+                                              snapshot.data!.rating.toString(),
                                               style: TextStyle(
                                                 fontFamily: AppTheme.fontRubik,
                                                 fontWeight: FontWeight.w500,
@@ -5450,7 +5472,7 @@ class BottomDialog {
                                 margin: EdgeInsets.only(
                                     top: 16, left: 16, right: 16),
                                 child: Text(
-                                  snapshot.data.manufacturer.name,
+                                  snapshot.data!.manufacturer.name,
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontRubik,
                                     fontWeight: FontWeight.normal,
@@ -5464,7 +5486,7 @@ class BottomDialog {
                                 margin: EdgeInsets.only(
                                     top: 10, left: 16, right: 16),
                                 child: Text(
-                                  snapshot.data.name,
+                                  snapshot.data!.name,
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontRubik,
                                     fontWeight: FontWeight.normal,
@@ -5481,8 +5503,8 @@ class BottomDialog {
                                   right: 16,
                                   bottom: 16,
                                 ),
-                                child: snapshot.data.price >=
-                                        snapshot.data.basePrice
+                                child: snapshot.data!.price >=
+                                        snapshot.data!.basePrice
                                     ? Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.end,
@@ -5505,7 +5527,7 @@ class BottomDialog {
                                               : Container(),
                                           Text(
                                             priceFormat.format(
-                                                    snapshot.data.price) +
+                                                    snapshot.data!.price) +
                                                 translate("sum"),
                                             style: TextStyle(
                                               fontFamily: AppTheme.fontRubik,
@@ -5553,7 +5575,7 @@ class BottomDialog {
                                               : Container(),
                                           Text(
                                             priceFormat.format(
-                                                    snapshot.data.price) +
+                                                    snapshot.data!.price) +
                                                 translate("sum"),
                                             style: TextStyle(
                                               fontFamily: AppTheme.fontRubik,
@@ -5580,8 +5602,8 @@ class BottomDialog {
                                           SizedBox(width: 12),
                                           RichText(
                                             text: new TextSpan(
-                                              text: priceFormat.format(
-                                                      snapshot.data.basePrice) +
+                                              text: priceFormat.format(snapshot
+                                                      .data!.basePrice) +
                                                   translate("sum"),
                                               style: new TextStyle(
                                                 fontFamily: AppTheme.fontRubik,
@@ -5744,7 +5766,7 @@ class BottomDialog {
                                               ),
                                               SizedBox(height: 4),
                                               Text(
-                                                snapshot.data.internationalName
+                                                snapshot.data!.internationalName
                                                     .name,
                                                 style: TextStyle(
                                                   fontFamily:
@@ -5769,7 +5791,7 @@ class BottomDialog {
                                               ),
                                               SizedBox(height: 4),
                                               Text(
-                                                snapshot.data.unit.name,
+                                                snapshot.data!.unit.name,
                                                 style: TextStyle(
                                                   fontFamily:
                                                       AppTheme.fontRubik,
@@ -5793,7 +5815,7 @@ class BottomDialog {
                                               ),
                                               SizedBox(height: 4),
                                               Text(
-                                                snapshot.data.category.name,
+                                                snapshot.data!.category.name,
                                                 style: TextStyle(
                                                   fontFamily:
                                                       AppTheme.fontRubik,
@@ -5831,7 +5853,7 @@ class BottomDialog {
                                           child: RichText(
                                             text: HTML.toTextSpan(
                                               context,
-                                              snapshot.data.description,
+                                              snapshot.data!.description,
                                               defaultTextStyle: TextStyle(
                                                 fontFamily: AppTheme.fontRubik,
                                                 fontWeight: FontWeight.normal,
@@ -5844,7 +5866,7 @@ class BottomDialog {
                                         )
                                       ],
                                     )
-                                  : snapshot.data.analog.length == 0
+                                  : snapshot.data!.analog.length == 0
                                       ? Container(
                                           padding: EdgeInsets.only(
                                             left: 32,
@@ -5920,7 +5942,7 @@ class BottomDialog {
                                                   showItemDrug(
                                                     context,
                                                     snapshot
-                                                        .data.analog[index].id,
+                                                        .data!.analog[index].id,
                                                     position,
                                                   );
                                                 },
@@ -5951,7 +5973,7 @@ class BottomDialog {
                                                               child:
                                                                   CachedNetworkImage(
                                                                 imageUrl: snapshot
-                                                                    .data
+                                                                    .data!
                                                                     .analog[
                                                                         index]
                                                                     .imageThumbnail,
@@ -5977,23 +5999,23 @@ class BottomDialog {
                                                                   GestureDetector(
                                                                 onTap: () {
                                                                   snapshot
-                                                                          .data
+                                                                          .data!
                                                                           .analog[
                                                                               index]
                                                                           .favourite =
                                                                       !snapshot
-                                                                          .data
+                                                                          .data!
                                                                           .analog[
                                                                               index]
                                                                           .favourite;
                                                                   if (snapshot
-                                                                      .data
+                                                                      .data!
                                                                       .analog[
                                                                           index]
                                                                       .favourite) {
                                                                     dataBaseFav
                                                                         .saveProducts(snapshot
-                                                                            .data
+                                                                            .data!
                                                                             .analog[index])
                                                                         .then((value) {
                                                                       blocItem
@@ -6002,7 +6024,7 @@ class BottomDialog {
                                                                   } else {
                                                                     dataBaseFav
                                                                         .deleteProducts(snapshot
-                                                                            .data
+                                                                            .data!
                                                                             .analog[
                                                                                 index]
                                                                             .id)
@@ -6014,7 +6036,7 @@ class BottomDialog {
                                                                   }
                                                                 },
                                                                 child: snapshot
-                                                                        .data
+                                                                        .data!
                                                                         .analog[
                                                                             index]
                                                                         .favourite
@@ -6030,12 +6052,12 @@ class BottomDialog {
                                                             ),
                                                             Positioned(
                                                               child: snapshot
-                                                                          .data
+                                                                          .data!
                                                                           .analog[
                                                                               index]
                                                                           .price >=
                                                                       snapshot
-                                                                          .data
+                                                                          .data!
                                                                           .analog[
                                                                               index]
                                                                           .basePrice
@@ -6055,7 +6077,7 @@ class BottomDialog {
                                                                       child:
                                                                           Text(
                                                                         "-" +
-                                                                            (((snapshot.data.analog[index].basePrice - snapshot.data.analog[index].price) * 100) ~/ snapshot.data.analog[index].basePrice).toString() +
+                                                                            (((snapshot.data!.analog[index].basePrice - snapshot.data!.analog[index].price) * 100) ~/ snapshot.data!.analog[index].basePrice).toString() +
                                                                             "%",
                                                                         style:
                                                                             TextStyle(
@@ -6080,7 +6102,7 @@ class BottomDialog {
                                                       ),
                                                       SizedBox(height: 4),
                                                       Text(
-                                                        snapshot.data
+                                                        snapshot.data!
                                                             .analog[index].name,
                                                         maxLines: 2,
                                                         overflow: TextOverflow
@@ -6099,7 +6121,7 @@ class BottomDialog {
                                                       SizedBox(height: 4),
                                                       Text(
                                                         snapshot
-                                                            .data
+                                                            .data!
                                                             .analog[index]
                                                             .manufacturer
                                                             .name,
@@ -6119,7 +6141,7 @@ class BottomDialog {
                                                       ),
                                                       SizedBox(height: 4),
                                                       snapshot
-                                                              .data
+                                                              .data!
                                                               .analog[index]
                                                               .isComing
                                                           ? Container(
@@ -6163,7 +6185,7 @@ class BottomDialog {
                                                               ),
                                                             )
                                                           : snapshot
-                                                                      .data
+                                                                      .data!
                                                                       .analog[
                                                                           index]
                                                                       .cardCount >
@@ -6193,16 +6215,16 @@ class BottomDialog {
                                                                       GestureDetector(
                                                                         onTap:
                                                                             () {
-                                                                          if (snapshot.data.analog[index].cardCount >
+                                                                          if (snapshot.data!.analog[index].cardCount >
                                                                               1) {
-                                                                            snapshot.data.analog[index].cardCount =
-                                                                                snapshot.data.analog[index].cardCount - 1;
-                                                                            dataBase.updateProduct(snapshot.data.analog[index]).then((value) {
+                                                                            snapshot.data!.analog[index].cardCount =
+                                                                                snapshot.data!.analog[index].cardCount - 1;
+                                                                            dataBase.updateProduct(snapshot.data!.analog[index]).then((value) {
                                                                               blocItem.fetchAnalogUpdate();
                                                                             });
-                                                                          } else if (snapshot.data.analog[index].cardCount ==
+                                                                          } else if (snapshot.data!.analog[index].cardCount ==
                                                                               1) {
-                                                                            dataBase.deleteProducts(snapshot.data.analog[index].id).then((value) {
+                                                                            dataBase.deleteProducts(snapshot.data!.analog[index].id).then((value) {
                                                                               blocItem.fetchAnalogUpdate();
                                                                             });
                                                                           }
@@ -6234,7 +6256,7 @@ class BottomDialog {
                                                                             Center(
                                                                           child:
                                                                               Text(
-                                                                            snapshot.data.analog[index].cardCount.toString() +
+                                                                            snapshot.data!.analog[index].cardCount.toString() +
                                                                                 " " +
                                                                                 translate("sht"),
                                                                             style:
@@ -6251,12 +6273,12 @@ class BottomDialog {
                                                                       GestureDetector(
                                                                         onTap:
                                                                             () {
-                                                                          if (snapshot.data.analog[index].cardCount <
-                                                                              snapshot.data.analog[index].maxCount)
-                                                                            snapshot.data.analog[index].cardCount =
-                                                                                snapshot.data.analog[index].cardCount + 1;
+                                                                          if (snapshot.data!.analog[index].cardCount <
+                                                                              snapshot.data!.analog[index].maxCount)
+                                                                            snapshot.data!.analog[index].cardCount =
+                                                                                snapshot.data!.analog[index].cardCount + 1;
                                                                           dataBase
-                                                                              .updateProduct(snapshot.data.analog[index])
+                                                                              .updateProduct(snapshot.data!.analog[index])
                                                                               .then((value) {
                                                                             blocItem.fetchAnalogUpdate();
                                                                           });
@@ -6289,13 +6311,13 @@ class BottomDialog {
                                                               : GestureDetector(
                                                                   onTap: () {
                                                                     snapshot
-                                                                        .data
+                                                                        .data!
                                                                         .analog[
                                                                             index]
                                                                         .cardCount = 1;
                                                                     dataBase
                                                                         .saveProducts(snapshot
-                                                                            .data
+                                                                            .data!
                                                                             .analog[index])
                                                                         .then((value) {
                                                                       blocItem
@@ -6323,7 +6345,7 @@ class BottomDialog {
                                                                             TextSpan(
                                                                           children: [
                                                                             TextSpan(
-                                                                              text: priceFormat.format(snapshot.data.analog[index].price),
+                                                                              text: priceFormat.format(snapshot.data!.analog[index].price),
                                                                               style: TextStyle(
                                                                                 fontFamily: AppTheme.fontRubik,
                                                                                 fontWeight: FontWeight.w500,
@@ -6354,7 +6376,7 @@ class BottomDialog {
                                               ),
                                             ),
                                             itemCount:
-                                                snapshot.data.analog.length,
+                                                snapshot.data!.analog.length,
                                           ),
                                         ),
                             ],
@@ -6373,7 +6395,7 @@ class BottomDialog {
                             bottom: 24,
                           ),
                           color: AppTheme.white,
-                          child: snapshot.data.isComing
+                          child: snapshot.data!.isComing
                               ? Container(
                                   height: 44,
                                   width: double.infinity,
@@ -6394,7 +6416,7 @@ class BottomDialog {
                                     ),
                                   ),
                                 )
-                              : snapshot.data.cardCount > 0
+                              : snapshot.data!.cardCount > 0
                                   ? Container(
                                       height: 44,
                                       width: double.infinity,
@@ -6410,23 +6432,36 @@ class BottomDialog {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              if (snapshot.data.cardCount > 1) {
-                                                snapshot.data.cardCount =
-                                                    snapshot.data.cardCount - 1;
+                                              if (snapshot.data!.cardCount >
+                                                  1) {
+                                                snapshot.data!.cardCount =
+                                                    snapshot.data!.cardCount -
+                                                        1;
                                                 dataBase
                                                     .updateProduct(
                                                   ItemResult(
-                                                    snapshot.data.id,
-                                                    snapshot.data.name,
-                                                    snapshot.data.barcode,
-                                                    snapshot.data.image,
-                                                    snapshot
-                                                        .data.imageThumbnail,
-                                                    snapshot.data.price,
-                                                    Manifacture(snapshot.data
-                                                        .manufacturer.name),
-                                                    true,
-                                                    snapshot.data.cardCount,
+                                                    id: snapshot.data!.id,
+                                                    name: snapshot.data!.name,
+                                                    barcode:
+                                                        snapshot.data!.barcode,
+                                                    image: snapshot.data!.image,
+                                                    imageThumbnail: snapshot
+                                                        .data!.imageThumbnail,
+                                                    price: snapshot.data!.price,
+                                                    basePrice: snapshot
+                                                        .data!.basePrice,
+                                                    isComing:
+                                                        snapshot.data!.isComing,
+                                                    maxCount:
+                                                        snapshot.data!.maxCount,
+                                                    manufacturer: Manufacturer(
+                                                      name: snapshot.data!
+                                                          .manufacturer.name,
+                                                    ),
+                                                    favourite: true,
+                                                    cardCount: snapshot
+                                                        .data!.cardCount,
+                                                    msg: "",
                                                   ),
                                                 )
                                                     .then((value) {
@@ -6434,11 +6469,11 @@ class BottomDialog {
                                                       position);
                                                 });
                                               } else if (snapshot
-                                                      .data.cardCount ==
+                                                      .data!.cardCount ==
                                                   1) {
                                                 dataBase
                                                     .deleteProducts(
-                                                        snapshot.data.id)
+                                                        snapshot.data!.id)
                                                     .then((value) {
                                                   blocItem.fetchItemUpdate(
                                                       position);
@@ -6463,7 +6498,7 @@ class BottomDialog {
                                           Expanded(
                                             child: Center(
                                               child: Text(
-                                                snapshot.data.cardCount
+                                                snapshot.data!.cardCount
                                                         .toString() +
                                                     " " +
                                                     translate("sht"),
@@ -6480,23 +6515,36 @@ class BottomDialog {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              if (snapshot.data.cardCount <
-                                                  snapshot.data.maxCount)
-                                                snapshot.data.cardCount =
-                                                    snapshot.data.cardCount + 1;
+                                              if (snapshot.data!.cardCount <
+                                                  snapshot.data!.maxCount)
+                                                snapshot.data!.cardCount =
+                                                    snapshot.data!.cardCount +
+                                                        1;
                                               dataBase
                                                   .updateProduct(
                                                 ItemResult(
-                                                  snapshot.data.id,
-                                                  snapshot.data.name,
-                                                  snapshot.data.barcode,
-                                                  snapshot.data.image,
-                                                  snapshot.data.imageThumbnail,
-                                                  snapshot.data.price,
-                                                  Manifacture(snapshot
-                                                      .data.manufacturer.name),
-                                                  true,
-                                                  snapshot.data.cardCount,
+                                                  id: snapshot.data!.id,
+                                                  name: snapshot.data!.name,
+                                                  barcode:
+                                                      snapshot.data!.barcode,
+                                                  image: snapshot.data!.image,
+                                                  imageThumbnail: snapshot
+                                                      .data!.imageThumbnail,
+                                                  price: snapshot.data!.price,
+                                                  basePrice:
+                                                      snapshot.data!.basePrice,
+                                                  isComing:
+                                                      snapshot.data!.isComing,
+                                                  maxCount:
+                                                      snapshot.data!.maxCount,
+                                                  manufacturer: Manufacturer(
+                                                    name: snapshot.data!
+                                                        .manufacturer.name,
+                                                  ),
+                                                  favourite: true,
+                                                  cardCount:
+                                                      snapshot.data!.cardCount,
+                                                  msg: "",
                                                 ),
                                               )
                                                   .then((value) {
@@ -6527,16 +6575,23 @@ class BottomDialog {
                                         dataBase
                                             .saveProducts(
                                           ItemResult(
-                                            snapshot.data.id,
-                                            snapshot.data.name,
-                                            snapshot.data.barcode,
-                                            snapshot.data.image,
-                                            snapshot.data.imageThumbnail,
-                                            snapshot.data.price,
-                                            Manifacture(snapshot
-                                                .data.manufacturer.name),
-                                            true,
-                                            1,
+                                            id: snapshot.data!.id,
+                                            name: snapshot.data!.name,
+                                            barcode: snapshot.data!.barcode,
+                                            image: snapshot.data!.image,
+                                            imageThumbnail:
+                                                snapshot.data!.imageThumbnail,
+                                            price: snapshot.data!.price,
+                                            basePrice: snapshot.data!.basePrice,
+                                            isComing: snapshot.data!.isComing,
+                                            maxCount: snapshot.data!.maxCount,
+                                            manufacturer: Manufacturer(
+                                              name: snapshot
+                                                  .data!.manufacturer.name,
+                                            ),
+                                            favourite: true,
+                                            cardCount: 1,
+                                            msg: "",
                                           ),
                                         )
                                             .then((value) {
@@ -6570,8 +6625,8 @@ class BottomDialog {
                     );
                   }
                   return Shimmer.fromColors(
-                    baseColor: Colors.grey[300],
-                    highlightColor: Colors.grey[100],
+                    baseColor: AppTheme.shimmerBase,
+                    highlightColor: AppTheme.shimmerHighlight,
                     child: ListView(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),

@@ -73,7 +73,6 @@ class PharmacyApiProvider {
   static HttpResult _result(response) {
     var result;
     int status = response.statusCode ?? 404;
-
     if (response.statusCode >= 200 && response.statusCode <= 299) {
       result = json.decode(utf8.decode(response.bodyBytes));
       return HttpResult(
@@ -94,7 +93,7 @@ class PharmacyApiProvider {
     final prefs = await SharedPreferences.getInstance();
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
+        ? stringToBase64.encode(prefs.getString("deviceData") ?? "")
         : "";
 
     if (prefs.getString('token') == null) {
@@ -108,7 +107,7 @@ class PharmacyApiProvider {
         "Accept": "application/json",
         'content-type': 'application/json; charset=utf-8',
         'X-Device': encoded,
-        "Authorization": "Bearer " + prefs.getString('token')
+        "Authorization": "Bearer " + (prefs.getString('token') ?? "")
       };
     }
   }
@@ -153,7 +152,7 @@ class PharmacyApiProvider {
     var regionId = prefs.getInt("cityId") ?? "";
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = prefs.getString("deviceData") != null
-        ? stringToBase64.encode(prefs.getString("deviceData"))
+        ? stringToBase64.encode(prefs.getString("deviceData") ?? "")
         : "";
 
     final data = {

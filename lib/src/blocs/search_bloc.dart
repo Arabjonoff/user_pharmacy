@@ -10,11 +10,10 @@ class SearchBloc {
 
   Stream<ItemModel> get searchOptions => _searchFetcher.stream;
 
-  List<ItemResult> allResult;
+  List<ItemResult> allResult = <ItemResult>[];
 
   fetchSearch(int page, String obj) async {
     if (obj.length > 2) {
-      _searchFetcher.sink.add(null);
       var response = await _repository.fetchSearchItemList(
         obj,
         page,
@@ -31,8 +30,9 @@ class SearchBloc {
           ItemModel(
             count: itemModel.count,
             next: itemModel.next,
-            previous: itemModel.previous,
             results: allResult,
+            drugs: [],
+            title: "",
           ),
         );
       } else if (response.status == -1) {

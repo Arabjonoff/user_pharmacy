@@ -12,7 +12,7 @@ class ItemListBloc {
   Stream<ItemModel> get allItemsList => _listItemsFetcher.stream;
 
   ///recently
-  ItemModel recentlyItemData;
+  ItemModel? recentlyItemData;
 
   fetchAllRecently(
     int page,
@@ -25,42 +25,41 @@ class ItemListBloc {
     );
     if (response.isSuccess) {
       if (page == 1) {
-        _listItemsFetcher.sink.add(null);
         recentlyItemData = ItemModel.fromJson(response.result);
       } else {
         var data = ItemModel.fromJson(response.result);
-        recentlyItemData.next = data.next;
-        recentlyItemData.results.addAll(data.results);
+        recentlyItemData!.next = data.next;
+        recentlyItemData!.results.addAll(data.results);
       }
       List<ItemResult> database = await _repository.databaseItem();
       List<ItemResult> resultFav = await _repository.databaseFavItem();
-      if (recentlyItemData.results.length > 0) {
-        for (var i = 0; i < recentlyItemData.results.length; i++) {
+      if (recentlyItemData!.results.length > 0) {
+        for (var i = 0; i < recentlyItemData!.results.length; i++) {
           for (var j = 0; j < database.length; j++) {
-            if (recentlyItemData.results[i].id == database[j].id) {
-              recentlyItemData.results[i].cardCount = database[j].cardCount;
+            if (recentlyItemData!.results[i].id == database[j].id) {
+              recentlyItemData!.results[i].cardCount = database[j].cardCount;
             }
           }
         }
 
-        for (int i = 0; i < recentlyItemData.results.length; i++) {
-          recentlyItemData.results[i].favourite = false;
+        for (int i = 0; i < recentlyItemData!.results.length; i++) {
+          recentlyItemData!.results[i].favourite = false;
           for (int j = 0; j < resultFav.length; j++) {
-            if (recentlyItemData.results[i].id == resultFav[j].id) {
-              recentlyItemData.results[i].favourite = resultFav[j].favourite;
+            if (recentlyItemData!.results[i].id == resultFav[j].id) {
+              recentlyItemData!.results[i].favourite = resultFav[j].favourite;
               break;
             }
           }
         }
       }
-      _listItemsFetcher.sink.add(recentlyItemData);
+      _listItemsFetcher.sink.add(recentlyItemData!);
     } else {
       RxBus.post(BottomView(true), tag: "LIST_VIEW_ERROR_NETWORK");
     }
   }
 
   ///category
-  ItemModel categoryItemData;
+  ItemModel? categoryItemData;
 
   fetchCategory(
     String id,
@@ -76,43 +75,42 @@ class ItemListBloc {
     );
     if (response.isSuccess) {
       if (page == 1) {
-        _listItemsFetcher.sink.add(null);
         categoryItemData = ItemModel.fromJson(response.result);
       } else {
         var data = ItemModel.fromJson(response.result);
-        categoryItemData.next = data.next;
-        categoryItemData.results.addAll(data.results);
+        categoryItemData!.next = data.next;
+        categoryItemData!.results.addAll(data.results);
       }
 
       List<ItemResult> database = await _repository.databaseItem();
       List<ItemResult> resultFav = await _repository.databaseFavItem();
-      if (categoryItemData.results.length > 0) {
-        for (var i = 0; i < categoryItemData.results.length; i++) {
+      if (categoryItemData!.results.length > 0) {
+        for (var i = 0; i < categoryItemData!.results.length; i++) {
           for (var j = 0; j < database.length; j++) {
-            if (categoryItemData.results[i].id == database[j].id) {
-              categoryItemData.results[i].cardCount = database[j].cardCount;
+            if (categoryItemData!.results[i].id == database[j].id) {
+              categoryItemData!.results[i].cardCount = database[j].cardCount;
             }
           }
         }
 
-        for (int i = 0; i < categoryItemData.results.length; i++) {
-          categoryItemData.results[i].favourite = false;
+        for (int i = 0; i < categoryItemData!.results.length; i++) {
+          categoryItemData!.results[i].favourite = false;
           for (int j = 0; j < resultFav.length; j++) {
-            if (categoryItemData.results[i].id == resultFav[j].id) {
-              categoryItemData.results[i].favourite = resultFav[j].favourite;
+            if (categoryItemData!.results[i].id == resultFav[j].id) {
+              categoryItemData!.results[i].favourite = resultFav[j].favourite;
               break;
             }
           }
         }
       }
-      _listItemsFetcher.sink.add(categoryItemData);
+      _listItemsFetcher.sink.add(categoryItemData!);
     } else {
       RxBus.post(BottomView(true), tag: "LIST_VIEW_ERROR_NETWORK");
     }
   }
 
   ///best
-  ItemModel bestItemData;
+  ItemModel? bestItemData;
 
   fetchAllBestItem(
     int page,
@@ -126,42 +124,41 @@ class ItemListBloc {
     );
     if (response.isSuccess) {
       if (page == 1) {
-        _listItemsFetcher.sink.add(null);
         bestItemData = ItemModel.fromJson(response.result);
       } else {
         var data = ItemModel.fromJson(response.result);
-        bestItemData.next = data.next;
-        bestItemData.results.addAll(data.results);
+        bestItemData!.next = data.next;
+        bestItemData!.results.addAll(data.results);
       }
       List<ItemResult> database = await _repository.databaseItem();
       List<ItemResult> resultFav = await _repository.databaseFavItem();
-      if (bestItemData.results.length > 0) {
-        for (var i = 0; i < bestItemData.results.length; i++) {
+      if (bestItemData!.results.length > 0) {
+        for (var i = 0; i < bestItemData!.results.length; i++) {
           for (var j = 0; j < database.length; j++) {
-            if (bestItemData.results[i].id == database[j].id) {
-              bestItemData.results[i].cardCount = database[j].cardCount;
+            if (bestItemData!.results[i].id == database[j].id) {
+              bestItemData!.results[i].cardCount = database[j].cardCount;
             }
           }
         }
 
-        for (int i = 0; i < bestItemData.results.length; i++) {
-          bestItemData.results[i].favourite = false;
+        for (int i = 0; i < bestItemData!.results.length; i++) {
+          bestItemData!.results[i].favourite = false;
           for (int j = 0; j < resultFav.length; j++) {
-            if (bestItemData.results[i].id == resultFav[j].id) {
-              bestItemData.results[i].favourite = resultFav[j].favourite;
+            if (bestItemData!.results[i].id == resultFav[j].id) {
+              bestItemData!.results[i].favourite = resultFav[j].favourite;
               break;
             }
           }
         }
       }
-      _listItemsFetcher.sink.add(bestItemData);
+      _listItemsFetcher.sink.add(bestItemData!);
     } else {
       RxBus.post(BottomView(true), tag: "LIST_VIEW_ERROR_NETWORK");
     }
   }
 
   ///coll
-  ItemModel collItemData;
+  ItemModel? collItemData;
 
   fetchAllCollItem(
     int page,
@@ -171,46 +168,48 @@ class ItemListBloc {
     var response = await _repository.fetchSlimming();
     if (response.isSuccess) {
       if (page == 1) {
-        _listItemsFetcher.sink.add(null);
         var data = ItemModel.fromJson(response.result);
         collItemData = ItemModel(
           next: data.next,
           results: data.drugs,
+          drugs: [],
+          title: '',
+          count: 0,
         );
       } else {
         var data = ItemModel.fromJson(response.result);
-        collItemData.next = data.next;
-        collItemData.results.addAll(data.drugs);
+        collItemData!.next = data.next;
+        collItemData!.results.addAll(data.drugs);
       }
       List<ItemResult> database = await _repository.databaseItem();
       List<ItemResult> resultFav = await _repository.databaseFavItem();
-      if (collItemData.results.length > 0) {
-        for (var i = 0; i < collItemData.results.length; i++) {
+      if (collItemData!.results.length > 0) {
+        for (var i = 0; i < collItemData!.results.length; i++) {
           for (var j = 0; j < database.length; j++) {
-            if (collItemData.results[i].id == database[j].id) {
-              collItemData.results[i].cardCount = database[j].cardCount;
+            if (collItemData!.results[i].id == database[j].id) {
+              collItemData!.results[i].cardCount = database[j].cardCount;
             }
           }
         }
 
-        for (int i = 0; i < collItemData.results.length; i++) {
-          collItemData.results[i].favourite = false;
+        for (int i = 0; i < collItemData!.results.length; i++) {
+          collItemData!.results[i].favourite = false;
           for (int j = 0; j < resultFav.length; j++) {
-            if (collItemData.results[i].id == resultFav[j].id) {
-              collItemData.results[i].favourite = resultFav[j].favourite;
+            if (collItemData!.results[i].id == resultFav[j].id) {
+              collItemData!.results[i].favourite = resultFav[j].favourite;
               break;
             }
           }
         }
       }
-      _listItemsFetcher.sink.add(collItemData);
+      _listItemsFetcher.sink.add(collItemData!);
     } else {
       RxBus.post(BottomView(true), tag: "LIST_VIEW_ERROR_NETWORK");
     }
   }
 
   ///ids
-  ItemModel idsItemData;
+  ItemModel? idsItemData;
 
   fetchAllIdsItem(
     String ids,
@@ -222,42 +221,41 @@ class ItemListBloc {
         await _repository.fetchIdsItemsList(ids, page, ordering, priceMax);
     if (response.isSuccess) {
       if (page == 1) {
-        _listItemsFetcher.sink.add(null);
         idsItemData = ItemModel.fromJson(response.result);
       } else {
         var data = ItemModel.fromJson(response.result);
-        idsItemData.next = data.next;
-        idsItemData.results.addAll(data.results);
+        idsItemData!.next = data.next;
+        idsItemData!.results.addAll(data.results);
       }
       List<ItemResult> database = await _repository.databaseItem();
       List<ItemResult> resultFav = await _repository.databaseFavItem();
-      if (idsItemData.results.length > 0) {
-        for (var i = 0; i < idsItemData.results.length; i++) {
+      if (idsItemData!.results.length > 0) {
+        for (var i = 0; i < idsItemData!.results.length; i++) {
           for (var j = 0; j < database.length; j++) {
-            if (idsItemData.results[i].id == database[j].id) {
-              idsItemData.results[i].cardCount = database[j].cardCount;
+            if (idsItemData!.results[i].id == database[j].id) {
+              idsItemData!.results[i].cardCount = database[j].cardCount;
             }
           }
         }
 
-        for (int i = 0; i < idsItemData.results.length; i++) {
-          idsItemData.results[i].favourite = false;
+        for (int i = 0; i < idsItemData!.results.length; i++) {
+          idsItemData!.results[i].favourite = false;
           for (int j = 0; j < resultFav.length; j++) {
-            if (idsItemData.results[i].id == resultFav[j].id) {
-              idsItemData.results[i].favourite = resultFav[j].favourite;
+            if (idsItemData!.results[i].id == resultFav[j].id) {
+              idsItemData!.results[i].favourite = resultFav[j].favourite;
               break;
             }
           }
         }
       }
-      _listItemsFetcher.sink.add(idsItemData);
+      _listItemsFetcher.sink.add(idsItemData!);
     } else {
       RxBus.post(BottomView(true), tag: "LIST_VIEW_ERROR_NETWORK");
     }
   }
 
   ///search
-  ItemModel searchData;
+  ItemModel? searchData;
 
   fetchAllSearchItem(
     String ids,
@@ -269,35 +267,34 @@ class ItemListBloc {
         await _repository.fetchSearchItemList(ids, page, ordering, priceMax);
     if (response.isSuccess) {
       if (page == 1) {
-        _listItemsFetcher.sink.add(null);
         searchData = ItemModel.fromJson(response.result);
       } else {
         var data = ItemModel.fromJson(response.result);
-        searchData.next = data.next;
-        searchData.results.addAll(data.results);
+        searchData!.next = data.next;
+        searchData!.results.addAll(data.results);
       }
       List<ItemResult> database = await _repository.databaseItem();
       List<ItemResult> resultFav = await _repository.databaseFavItem();
-      if (searchData.results.length > 0) {
-        for (var i = 0; i < searchData.results.length; i++) {
+      if (searchData!.results.length > 0) {
+        for (var i = 0; i < searchData!.results.length; i++) {
           for (var j = 0; j < database.length; j++) {
-            if (searchData.results[i].id == database[j].id) {
-              searchData.results[i].cardCount = database[j].cardCount;
+            if (searchData!.results[i].id == database[j].id) {
+              searchData!.results[i].cardCount = database[j].cardCount;
             }
           }
         }
 
-        for (int i = 0; i < searchData.results.length; i++) {
-          searchData.results[i].favourite = false;
+        for (int i = 0; i < searchData!.results.length; i++) {
+          searchData!.results[i].favourite = false;
           for (int j = 0; j < resultFav.length; j++) {
-            if (searchData.results[i].id == resultFav[j].id) {
-              searchData.results[i].favourite = resultFav[j].favourite;
+            if (searchData!.results[i].id == resultFav[j].id) {
+              searchData!.results[i].favourite = resultFav[j].favourite;
               break;
             }
           }
         }
       }
-      _listItemsFetcher.sink.add(searchData);
+      _listItemsFetcher.sink.add(searchData!);
     } else {
       RxBus.post(BottomView(true), tag: "LIST_VIEW_ERROR_NETWORK");
     }
@@ -308,157 +305,157 @@ class ItemListBloc {
       if (recentlyItemData != null) {
         List<ItemResult> database = await _repository.databaseItem();
         List<ItemResult> resultFav = await _repository.databaseFavItem();
-        if (recentlyItemData.results.length > 0) {
-          for (var i = 0; i < recentlyItemData.results.length; i++) {
-            recentlyItemData.results[i].cardCount = 0;
+        if (recentlyItemData!.results.length > 0) {
+          for (var i = 0; i < recentlyItemData!.results.length; i++) {
+            recentlyItemData!.results[i].cardCount = 0;
             for (var j = 0; j < database.length; j++) {
-              if (recentlyItemData.results[i].id == database[j].id) {
-                recentlyItemData.results[i].cardCount = database[j].cardCount;
+              if (recentlyItemData!.results[i].id == database[j].id) {
+                recentlyItemData!.results[i].cardCount = database[j].cardCount;
               }
             }
           }
 
-          for (int i = 0; i < recentlyItemData.results.length; i++) {
-            recentlyItemData.results[i].favourite = false;
+          for (int i = 0; i < recentlyItemData!.results.length; i++) {
+            recentlyItemData!.results[i].favourite = false;
             for (int j = 0; j < resultFav.length; j++) {
-              if (recentlyItemData.results[i].id == resultFav[j].id) {
-                recentlyItemData.results[i].favourite = resultFav[j].favourite;
+              if (recentlyItemData!.results[i].id == resultFav[j].id) {
+                recentlyItemData!.results[i].favourite = resultFav[j].favourite;
                 break;
               }
             }
           }
         }
-        _listItemsFetcher.sink.add(recentlyItemData);
+        _listItemsFetcher.sink.add(recentlyItemData!);
       }
     } else if (type == 2) {
       if (categoryItemData != null) {
         List<ItemResult> database = await _repository.databaseItem();
         List<ItemResult> resultFav = await _repository.databaseFavItem();
-        if (categoryItemData.results.length > 0) {
-          for (var i = 0; i < categoryItemData.results.length; i++) {
-            categoryItemData.results[i].cardCount = 0;
+        if (categoryItemData!.results.length > 0) {
+          for (var i = 0; i < categoryItemData!.results.length; i++) {
+            categoryItemData!.results[i].cardCount = 0;
             for (var j = 0; j < database.length; j++) {
-              if (categoryItemData.results[i].id == database[j].id) {
-                categoryItemData.results[i].cardCount = database[j].cardCount;
+              if (categoryItemData!.results[i].id == database[j].id) {
+                categoryItemData!.results[i].cardCount = database[j].cardCount;
               }
             }
           }
 
-          for (int i = 0; i < categoryItemData.results.length; i++) {
-            categoryItemData.results[i].favourite = false;
+          for (int i = 0; i < categoryItemData!.results.length; i++) {
+            categoryItemData!.results[i].favourite = false;
             for (int j = 0; j < resultFav.length; j++) {
-              if (categoryItemData.results[i].id == resultFav[j].id) {
-                categoryItemData.results[i].favourite = resultFav[j].favourite;
+              if (categoryItemData!.results[i].id == resultFav[j].id) {
+                categoryItemData!.results[i].favourite = resultFav[j].favourite;
                 break;
               }
             }
           }
         }
-        _listItemsFetcher.sink.add(categoryItemData);
+        _listItemsFetcher.sink.add(categoryItemData!);
       }
     } else if (type == 3) {
       if (bestItemData != null) {
         List<ItemResult> database = await _repository.databaseItem();
         List<ItemResult> resultFav = await _repository.databaseFavItem();
-        if (bestItemData.results.length > 0) {
-          for (var i = 0; i < bestItemData.results.length; i++) {
-            bestItemData.results[i].cardCount = 0;
+        if (bestItemData!.results.length > 0) {
+          for (var i = 0; i < bestItemData!.results.length; i++) {
+            bestItemData!.results[i].cardCount = 0;
             for (var j = 0; j < database.length; j++) {
-              if (bestItemData.results[i].id == database[j].id) {
-                bestItemData.results[i].cardCount = database[j].cardCount;
+              if (bestItemData!.results[i].id == database[j].id) {
+                bestItemData!.results[i].cardCount = database[j].cardCount;
               }
             }
           }
 
-          for (int i = 0; i < bestItemData.results.length; i++) {
-            bestItemData.results[i].favourite = false;
+          for (int i = 0; i < bestItemData!.results.length; i++) {
+            bestItemData!.results[i].favourite = false;
             for (int j = 0; j < resultFav.length; j++) {
-              if (bestItemData.results[i].id == resultFav[j].id) {
-                bestItemData.results[i].favourite = resultFav[j].favourite;
+              if (bestItemData!.results[i].id == resultFav[j].id) {
+                bestItemData!.results[i].favourite = resultFav[j].favourite;
                 break;
               }
             }
           }
         }
-        _listItemsFetcher.sink.add(bestItemData);
+        _listItemsFetcher.sink.add(bestItemData!);
       }
     } else if (type == 4) {
       if (collItemData != null) {
         List<ItemResult> database = await _repository.databaseItem();
         List<ItemResult> resultFav = await _repository.databaseFavItem();
-        if (collItemData.results.length > 0) {
-          for (var i = 0; i < collItemData.results.length; i++) {
-            collItemData.results[i].cardCount = 0;
+        if (collItemData!.results.length > 0) {
+          for (var i = 0; i < collItemData!.results.length; i++) {
+            collItemData!.results[i].cardCount = 0;
             for (var j = 0; j < database.length; j++) {
-              if (collItemData.results[i].id == database[j].id) {
-                collItemData.results[i].cardCount = database[j].cardCount;
+              if (collItemData!.results[i].id == database[j].id) {
+                collItemData!.results[i].cardCount = database[j].cardCount;
               }
             }
           }
 
-          for (int i = 0; i < collItemData.results.length; i++) {
-            collItemData.results[i].favourite = false;
+          for (int i = 0; i < collItemData!.results.length; i++) {
+            collItemData!.results[i].favourite = false;
             for (int j = 0; j < resultFav.length; j++) {
-              if (collItemData.results[i].id == resultFav[j].id) {
-                collItemData.results[i].favourite = resultFav[j].favourite;
+              if (collItemData!.results[i].id == resultFav[j].id) {
+                collItemData!.results[i].favourite = resultFav[j].favourite;
                 break;
               }
             }
           }
         }
-        _listItemsFetcher.sink.add(collItemData);
+        _listItemsFetcher.sink.add(collItemData!);
       }
     } else if (type == 5) {
       if (idsItemData != null) {
         List<ItemResult> database = await _repository.databaseItem();
         List<ItemResult> resultFav = await _repository.databaseFavItem();
-        if (idsItemData.results.length > 0) {
-          for (var i = 0; i < idsItemData.results.length; i++) {
-            idsItemData.results[i].cardCount = 0;
+        if (idsItemData!.results.length > 0) {
+          for (var i = 0; i < idsItemData!.results.length; i++) {
+            idsItemData!.results[i].cardCount = 0;
             for (var j = 0; j < database.length; j++) {
-              if (idsItemData.results[i].id == database[j].id) {
-                idsItemData.results[i].cardCount = database[j].cardCount;
+              if (idsItemData!.results[i].id == database[j].id) {
+                idsItemData!.results[i].cardCount = database[j].cardCount;
               }
             }
           }
 
-          for (int i = 0; i < idsItemData.results.length; i++) {
-            idsItemData.results[i].favourite = false;
+          for (int i = 0; i < idsItemData!.results.length; i++) {
+            idsItemData!.results[i].favourite = false;
             for (int j = 0; j < resultFav.length; j++) {
-              if (idsItemData.results[i].id == resultFav[j].id) {
-                idsItemData.results[i].favourite = resultFav[j].favourite;
+              if (idsItemData!.results[i].id == resultFav[j].id) {
+                idsItemData!.results[i].favourite = resultFav[j].favourite;
                 break;
               }
             }
           }
         }
-        _listItemsFetcher.sink.add(idsItemData);
+        _listItemsFetcher.sink.add(idsItemData!);
       }
     } else if (type == 6) {
       if (searchData != null) {
         List<ItemResult> database = await _repository.databaseItem();
         List<ItemResult> resultFav = await _repository.databaseFavItem();
-        if (searchData.results.length > 0) {
-          for (var i = 0; i < searchData.results.length; i++) {
-            searchData.results[i].cardCount = 0;
+        if (searchData!.results.length > 0) {
+          for (var i = 0; i < searchData!.results.length; i++) {
+            searchData!.results[i].cardCount = 0;
             for (var j = 0; j < database.length; j++) {
-              if (searchData.results[i].id == database[j].id) {
-                searchData.results[i].cardCount = database[j].cardCount;
+              if (searchData!.results[i].id == database[j].id) {
+                searchData!.results[i].cardCount = database[j].cardCount;
               }
             }
           }
 
-          for (int i = 0; i < searchData.results.length; i++) {
-            searchData.results[i].favourite = false;
+          for (int i = 0; i < searchData!.results.length; i++) {
+            searchData!.results[i].favourite = false;
             for (int j = 0; j < resultFav.length; j++) {
-              if (searchData.results[i].id == resultFav[j].id) {
-                searchData.results[i].favourite = resultFav[j].favourite;
+              if (searchData!.results[i].id == resultFav[j].id) {
+                searchData!.results[i].favourite = resultFav[j].favourite;
                 break;
               }
             }
           }
         }
-        _listItemsFetcher.sink.add(searchData);
+        _listItemsFetcher.sink.add(searchData!);
       }
     }
   }

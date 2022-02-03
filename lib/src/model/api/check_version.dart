@@ -10,27 +10,29 @@ class CheckVersion {
   bool requestForm;
 
   CheckVersion({
-    this.status,
-    this.description,
-    this.version,
-    this.winner,
-    this.isRequestForm,
-    this.konkursText,
-    this.requestTitle,
-    this.requestUrl,
-    this.requestForm,
+    required this.status,
+    required this.description,
+    required this.version,
+    required this.winner,
+    required this.isRequestForm,
+    required this.konkursText,
+    required this.requestTitle,
+    required this.requestUrl,
+    required this.requestForm,
   });
 
-  CheckVersion.fromJson(Map<String, dynamic> json) {
-    status = json['status'] ?? 1;
-    description = json['description'] ?? "";
-    version = json['version'] ?? "";
-    konkursText = json['konkurs_text'] ?? "";
-    requestTitle = json['request_title'] ?? "";
-    requestUrl = json['request_url'] ?? "";
-    winner = json['winner'] ?? false;
-    isRequestForm = json['is_request_form'] ?? false;
-    requestForm = json['request_form'] ?? false;
+  factory CheckVersion.fromJson(Map<String, dynamic> json) {
+    return CheckVersion(
+      status: json['status'] ?? 1,
+      description: json['description'] ?? "",
+      version: json['version'] ?? "",
+      konkursText: json['konkurs_text'] ?? "",
+      requestTitle: json['request_title'] ?? "",
+      requestUrl: json['request_url'] ?? "",
+      winner: json['winner'] ?? false,
+      isRequestForm: json['is_request_form'] ?? false,
+      requestForm: json['request_form'] ?? false,
+    );
   }
 
   Map<String, dynamic> toJson() {

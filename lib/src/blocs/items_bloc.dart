@@ -13,42 +13,41 @@ class ItemBloc {
   final _itemFetcher = PublishSubject<ItemsAllModel>();
 
   Stream<ItemsAllModel> get allItems => _itemFetcher.stream;
-  ItemsAllModel items;
+  ItemsAllModel? items;
 
   fetchAllInfoItem(String id) async {
     var response = await _repository.fetchItems(id);
     if (response.isSuccess) {
       items = ItemsAllModel.fromJson(response.result);
-      if (items.id != null) {
-        List<ItemResult> database = await _repository.databaseItem();
-        List<ItemResult> databaseFav = await _repository.databaseFavItem();
-        for (int i = 0; i < databaseFav.length; i++) {
-          if (databaseFav[i].id == items.id) {
-            items.favourite = true;
-          }
+
+      List<ItemResult> database = await _repository.databaseItem();
+      List<ItemResult> databaseFav = await _repository.databaseFavItem();
+      for (int i = 0; i < databaseFav.length; i++) {
+        if (databaseFav[i].id == items!.id) {
+          items!.favourite = true;
         }
-        for (var j = 0; j < database.length; j++) {
-          if (items.id == database[j].id) {
-            items.cardCount = database[j].cardCount;
-          }
-        }
-        for (var i = 0; i < items.analog.length; i++) {
-          for (var j = 0; j < database.length; j++) {
-            if (items.analog[i].id == database[j].id) {
-              items.analog[i].cardCount = database[j].cardCount;
-            }
-          }
-        }
-        for (var i = 0; i < items.analog.length; i++) {
-          for (var j = 0; j < databaseFav.length; j++) {
-            if (items.analog[i].id == databaseFav[j].id) {
-              items.analog[i].favourite = true;
-            }
-          }
-        }
-        _itemFetcher.sink.add(items);
       }
-    }else if(response.status == -1){
+      for (var j = 0; j < database.length; j++) {
+        if (items!.id == database[j].id) {
+          items!.cardCount = database[j].cardCount;
+        }
+      }
+      for (var i = 0; i < items!.analog.length; i++) {
+        for (var j = 0; j < database.length; j++) {
+          if (items!.analog[i].id == database[j].id) {
+            items!.analog[i].cardCount = database[j].cardCount;
+          }
+        }
+      }
+      for (var i = 0; i < items!.analog.length; i++) {
+        for (var j = 0; j < databaseFav.length; j++) {
+          if (items!.analog[i].id == databaseFav[j].id) {
+            items!.analog[i].favourite = true;
+          }
+        }
+      }
+      _itemFetcher.sink.add(items!);
+    } else if (response.status == -1) {
       RxBus.post(BottomViewIdsModel(id), tag: "HOME_VIEW_ERROR_HISTORY");
     }
   }
@@ -57,19 +56,19 @@ class ItemBloc {
     if (items != null) {
       List<ItemResult> database = await _repository.databaseItem();
       List<ItemResult> databaseFav = await _repository.databaseFavItem();
-      items.favourite = false;
-      items.cardCount = 0;
+      items!.favourite = false;
+      items!.cardCount = 0;
       for (int i = 0; i < databaseFav.length; i++) {
-        if (databaseFav[i].id == items.id) {
-          items.favourite = true;
+        if (databaseFav[i].id == items!.id) {
+          items!.favourite = true;
         }
       }
       for (var j = 0; j < database.length; j++) {
-        if (items.id == database[j].id) {
-          items.cardCount = database[j].cardCount;
+        if (items!.id == database[j].id) {
+          items!.cardCount = database[j].cardCount;
         }
       }
-      _itemFetcher.sink.add(items);
+      _itemFetcher.sink.add(items!);
       if (position == 0) {
         blocHome.update();
       } else if (position == 1) {
@@ -86,23 +85,23 @@ class ItemBloc {
     if (items != null) {
       List<ItemResult> database = await _repository.databaseItem();
       List<ItemResult> databaseFav = await _repository.databaseFavItem();
-      for (var i = 0; i < items.analog.length; i++) {
-        items.analog[i].cardCount = 0;
+      for (var i = 0; i < items!.analog.length; i++) {
+        items!.analog[i].cardCount = 0;
         for (var j = 0; j < database.length; j++) {
-          if (items.analog[i].id == database[j].id) {
-            items.analog[i].cardCount = database[j].cardCount;
+          if (items!.analog[i].id == database[j].id) {
+            items!.analog[i].cardCount = database[j].cardCount;
           }
         }
       }
-      for (var i = 0; i < items.analog.length; i++) {
-        items.analog[i].favourite = false;
+      for (var i = 0; i < items!.analog.length; i++) {
+        items!.analog[i].favourite = false;
         for (var j = 0; j < databaseFav.length; j++) {
-          if (items.analog[i].id == databaseFav[j].id) {
-            items.analog[i].favourite = true;
+          if (items!.analog[i].id == databaseFav[j].id) {
+            items!.analog[i].favourite = true;
           }
         }
       }
-      _itemFetcher.sink.add(items);
+      _itemFetcher.sink.add(items!);
     }
   }
 

@@ -4,20 +4,17 @@ List<LocationModel> locationModelFromJson(String str) =>
     List<LocationModel>.from(
         json.decode(str).map((x) => LocationModel.fromJson(x)));
 
-String locationModelToJson(List<LocationModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
 class LocationModel {
   LocationModel({
-    this.id,
-    this.name,
-    this.image,
-    this.address,
-    this.phone,
-    this.mode,
-    this.location,
-    this.distance,
-    this.total,
+    required this.id,
+    required this.name,
+    required this.image,
+    required this.address,
+    required this.phone,
+    required this.mode,
+    required this.location,
+    required this.distance,
+    required this.total,
   });
 
   int id;
@@ -31,47 +28,33 @@ class LocationModel {
   double total;
 
   factory LocationModel.fromJson(Map<String, dynamic> json) => LocationModel(
-        id: json["id"],
-        name: json["name"],
-        image: json["image"],
-        address: json["address"],
-        phone: json["phone"],
-        mode: json["mode"],
-        location: Location.fromJson(json["location"]),
-        distance: json["distance"] == null ? 0.0 : json["distance"],
-        total: json["total"] == null ? 0.0 : json["total"],
+        id: json["id"] ?? 0,
+        name: json["name"] ?? "",
+        image: json["image"] ?? "",
+        address: json["address"] ?? "",
+        phone: json["phone"] ?? "",
+        mode: json["mode"] ?? "",
+        location: json["location"] == null
+            ? Location.fromJson({})
+            : Location.fromJson(json["location"]),
+        distance: json["distance"] ?? 0.0,
+        total: json["total"] ?? 0.0,
       );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "image": image,
-        "address": address,
-        "phone": phone,
-        "mode": mode,
-        "location": location.toJson(),
-        "distance": distance,
-        "total": total,
-      };
 }
 
 class Location {
   Location({
-    this.type,
-    this.coordinates,
+    required this.type,
+    required this.coordinates,
   });
 
   String type;
   List<double> coordinates;
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
-        type: json["type"],
-        coordinates:
-            List<double>.from(json["coordinates"].map((x) => x.toDouble())),
+        type: json["type"] ?? "",
+        coordinates: json["coordinates"] == null
+            ? <double>[]
+            : List<double>.from(json["coordinates"].map((x) => x.toDouble())),
       );
-
-  Map<String, dynamic> toJson() => {
-        "type": type,
-        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
-      };
 }

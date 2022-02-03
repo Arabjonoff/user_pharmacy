@@ -10,27 +10,29 @@ class AddressModel {
   int type;
 
   AddressModel({
-    this.id,
-    this.street,
-    this.lat,
-    this.lng,
-    this.type,
-    this.dom,
-    this.en,
-    this.kv,
-    this.comment,
+    required this.id,
+    this.street = "",
+    this.lat = "",
+    this.lng = "",
+    this.type = 0,
+    this.dom = "",
+    this.en = "",
+    this.kv = "",
+    this.comment = "",
   });
 
-  AddressModel.fromMap(Map<String, dynamic> map) {
-    this.id = map["id"];
-    this.street = map["street"];
-    this.lat = map["lat"];
-    this.lng = map["lng"];
-    this.type = map["type"];
-    this.dom = map["dom"];
-    this.en = map["en"];
-    this.kv = map["kv"];
-    this.comment = map["comment"];
+  factory AddressModel.fromMap(Map<dynamic, dynamic> map) {
+    return AddressModel(
+      id: map["id"],
+      street: map["street"],
+      lat: map["lat"],
+      lng: map["lng"],
+      type: map["type"],
+      dom: map["dom"],
+      en: map["en"],
+      kv: map["kv"],
+      comment: map["comment"],
+    );
   }
 
   Map<String, dynamic> toMap() {

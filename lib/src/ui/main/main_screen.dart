@@ -1,15 +1,11 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:pharmacy/main.dart';
 import 'package:pharmacy/src/ui/item/blog_item_screen.dart';
 import 'package:pharmacy/src/ui/item_list/blog_list_screen.dart';
 import 'package:pharmacy/src/ui/item_list/item_list_screen.dart';
@@ -31,7 +27,6 @@ import 'package:pharmacy/src/ui/dialog/universal_screen.dart';
 import 'package:pharmacy/src/ui/main/card/card_screen.dart';
 import 'package:pharmacy/src/ui/main/fav/favourite_screen.dart';
 import 'package:pharmacy/src/ui/main/menu/menu_screen.dart';
-import 'package:pharmacy/src/ui/note/note_all_screen.dart';
 import 'package:pharmacy/src/ui/search/search_screen.dart';
 import 'package:pharmacy/src/ui/shopping_curer/curer_address_card.dart';
 import 'package:pharmacy/src/ui/shopping_pickup/checkout_order_screen.dart';
@@ -73,80 +68,54 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    super.initState();
-    _notificationFirebase();
     _registerBus();
     _setLanguage();
+    super.initState();
   }
 
   void _notificationFirebase() {
-    FirebaseMessaging.instance
-        .getInitialMessage()
-        .then((RemoteMessage message) {
-      if (message != null) {
-        int item = int.parse(message.data["data"]["drug"]);
-        int category = int.parse(message.data["data"]["category"]);
-        String ids = message.data["data"]["drugs"];
-        if (item > 0) {
-          BottomDialog.showItemDrug(context, item, _selectedIndex);
-        } else if (category > 0) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ItemListScreen(
-                name: "",
-                type: 2,
-                id: category.toString(),
-                //onReloadNetwork: widget.onReloadNetwork,
-              ),
-            ),
-          );
-        } else if (ids.length > 2) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ItemListScreen(
-                name: "",
-                type: 5,
-                id: ids
-                    .toString()
-                    .replaceAll('[', '')
-                    .replaceAll(']', '')
-                    .replaceAll(' ', ''),
-                //   onReloadNetwork: widget.onReloadNetwork,
-              ),
-            ),
-          );
-        }
-      }
-    });
-
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification notification = message.notification;
-      AndroidNotification android = message.notification?.android;
-      if (notification != null && android != null && !kIsWeb) {
-        flutterLocalNotifications.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              icon: '@mipmap/ic_launcher',
-            ),
-          ),
-        );
-      }
-    });
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('A new onMessageOpenedApp event was published!');
-    });
-
-    FirebaseMessaging.instance.getToken().then((value) {
-      fcToken = value;
-      print(fcToken);
-    });
+    // FirebaseMessaging.instance
+    //     .getInitialMessage()
+    //     .then((RemoteMessage message) {
+    // if (message != null) {
+    //   int item = int.parse(message.data["data"]["drug"]);
+    //   int category = int.parse(message.data["data"]["category"]);
+    //   String ids = message.data["data"]["drugs"];
+    //   if (item > 0) {
+    //     BottomDialog.showItemDrug(context, item, _selectedIndex);
+    //   } else if (category > 0) {
+    //     Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) =>
+    //             ItemListScreen(
+    //               name: "",
+    //               type: 2,
+    //               id: category.toString(),
+    //               //onReloadNetwork: widget.onReloadNetwork,
+    //             ),
+    //       ),
+    //     );
+    //   } else if (ids.length > 2) {
+    //     Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) =>
+    //             ItemListScreen(
+    //               name: "",
+    //               type: 5,
+    //               id: ids
+    //                   .toString()
+    //                   .replaceAll('[', '')
+    //                   .replaceAll(']', '')
+    //                   .replaceAll(' ', ''),
+    //               //   onReloadNetwork: widget.onReloadNetwork,
+    //             ),
+    //       ),
+    //     );
+    //   }
+    //   }
+    // });
   }
 
   @override
@@ -216,7 +185,7 @@ class _MainScreenState extends State<MainScreen> {
     return WillPopScope(
       onWillPop: () async {
         final isFirstRouteInCurrentTab =
-            !await _navigatorKeys[_selectedIndex].currentState.maybePop();
+            !await _navigatorKeys[_selectedIndex].currentState!.maybePop();
         return isFirstRouteInCurrentTab;
       },
       child: Scaffold(
@@ -417,7 +386,6 @@ class _MainScreenState extends State<MainScreen> {
           MenuScreen(
             onChat: _chat,
             onLogin: _login,
-            onNoteAll: _noteAll,
             onHistory: _history,
             onAddress: _address,
             onLanguage: _language,
@@ -483,7 +451,11 @@ class _MainScreenState extends State<MainScreen> {
     BottomDialog.showCommentService(context: context, orderId: orderId);
   }
 
-  void _itemList({String name, int type, String id}) {
+  void _itemList({
+    required String name,
+    required int type,
+    required String id,
+  }) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -525,10 +497,10 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _itemBlogList({
-    String image,
-    String title,
-    String message,
-    DateTime dateTime,
+    required String image,
+    required String title,
+    required String message,
+    required DateTime dateTime,
   }) {
     Navigator.push(
       context,
@@ -544,7 +516,10 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _rate() {
-    BottomDialog.showCommentService(context: context);
+    BottomDialog.showCommentService(
+      context: context,
+      orderId: 0,
+    );
   }
 
   void _exit() {
@@ -583,13 +558,11 @@ class _MainScreenState extends State<MainScreen> {
 
   Future<void> _myInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString("token");
-    var number = prefs.getString("number");
-    var birthday = prefs.getString("birthday").split("-")[2] +
-        "/" +
-        prefs.getString("birthday").split("-")[1] +
-        "/" +
-        prefs.getString("birthday").split("-")[0];
+    String token = prefs.getString("token") ?? "";
+    String number = prefs.getString("number") ?? "";
+    String bir = prefs.getString("birthday") ?? "1900/02/16";
+    var birthday =
+        bir.split("-")[2] + "/" + bir.split("-")[1] + "/" + bir.split("-")[0];
     var num = "+";
     for (int i = 0; i < number.length; i++) {
       if (i == 3 || i == 5 || i == 8 || i == 10) {
@@ -602,9 +575,10 @@ class _MainScreenState extends State<MainScreen> {
     var lastName = prefs.getString("surname") ?? "";
     var firstName = prefs.getString("name") ?? "";
     var time = new DateTime(
-        int.parse(prefs.getString("birthday").split("-")[0]),
-        int.parse(prefs.getString("birthday").split("-")[1]),
-        int.parse(prefs.getString("birthday").split("-")[2]));
+      int.parse(bir.split("-")[0]),
+      int.parse(bir.split("-")[1]),
+      int.parse(bir.split("-")[2]),
+    );
 
     BottomDialog.showEditProfile(
       context,
@@ -615,15 +589,6 @@ class _MainScreenState extends State<MainScreen> {
       dateTime: time,
       gender: id,
       token: token,
-    );
-  }
-
-  void _noteAll() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => NoteAllScreen(),
-      ),
     );
   }
 
@@ -689,7 +654,7 @@ class _MainScreenState extends State<MainScreen> {
         key: _navigatorKeys[index],
         onGenerateRoute: (routeSettings) {
           return MaterialPageRoute(
-            builder: (context) => routeBuilders[routeSettings.name](context),
+            builder: (context) => routeBuilders[routeSettings.name]!(context),
           );
         },
       ),

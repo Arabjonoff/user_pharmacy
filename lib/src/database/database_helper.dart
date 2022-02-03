@@ -20,17 +20,17 @@ class DatabaseHelper {
   final String columnFav = 'favourite';
   final String columnCount = 'cardCount';
 
-  static Database _db;
+  static Database? _db;
 
   DatabaseHelper.internal();
 
   Future<Database> get db async {
     if (_db != null) {
-      return _db;
+      return _db!;
     }
     _db = await initDb();
 
-    return _db;
+    return _db!;
   }
 
   initDb() async {
@@ -102,15 +102,20 @@ class DatabaseHelper {
     List<ItemResult> products = <ItemResult>[];
     for (int i = 0; i < list.length; i++) {
       var items = new ItemResult(
-        list[i][columnId],
-        list[i][columnName],
-        list[i][columnBarcode],
-        list[i][columnImage],
-        list[i][columnImageThumbnail],
-        list[i][columnPrice],
-        Manifacture(list[i][columnManufacturer]),
-        false,
-        list[i][columnCount],
+        id: list[i][columnId],
+        name: list[i][columnName],
+        barcode: list[i][columnBarcode],
+        image: list[i][columnImage],
+        imageThumbnail: list[i][columnImageThumbnail],
+        price: list[i][columnPrice],
+        manufacturer: Manufacturer(
+          name: list[i][columnManufacturer],
+        ),
+        favourite: false,
+        maxCount: 1000,
+        basePrice: 0.0,
+        isComing: true,
+        cardCount: list[i][columnCount],
       );
       products.add(items);
     }
@@ -123,15 +128,20 @@ class DatabaseHelper {
     List<ItemResult> products = <ItemResult>[];
     for (int i = 0; i < list.length; i++) {
       var items = new ItemResult(
-        list[i][columnId],
-        list[i][columnName],
-        list[i][columnBarcode],
-        list[i][columnImage],
-        list[i][columnImageThumbnail],
-        list[i][columnPrice],
-        Manifacture(list[i][columnManufacturer]),
-        false,
-        list[i][columnCount],
+        id: list[i][columnId],
+        name: list[i][columnName],
+        barcode: list[i][columnBarcode],
+        image: list[i][columnImage],
+        imageThumbnail: list[i][columnImageThumbnail],
+        price: list[i][columnPrice],
+        manufacturer: Manufacturer(
+          name: list[i][columnManufacturer],
+        ),
+        favourite: false,
+        maxCount: 1000,
+        basePrice: 0.0,
+        isComing: true,
+        cardCount: list[i][columnCount],
       );
 
       if (items.cardCount > 0) {
@@ -139,12 +149,6 @@ class DatabaseHelper {
       }
     }
     return products;
-  }
-
-  Future<int> getCount() async {
-    var dbClient = await db;
-    return Sqflite.firstIntValue(
-        await dbClient.rawQuery('SELECT COUNT(*) FROM $tableNote'));
   }
 
   Future<ItemResult> getProducts(int id) async {
@@ -164,10 +168,9 @@ class DatabaseHelper {
         whereArgs: [id]);
 
     if (result.length > 0) {
-      return ItemResult.fromMap(result.first);
+      return ItemResult.fromJson(result.first);
     }
-
-    return null;
+    return ItemResult.fromJson({});
   }
 
   Future<int> deleteProducts(int id) async {

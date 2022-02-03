@@ -12,17 +12,17 @@ class DatabaseHelperHistory {
   final String tableNote = 'historyTable';
   final String columnName = 'name';
 
-  static Database _db;
+  static Database? _db;
 
   DatabaseHelperHistory.internal();
 
   Future<Database> get db async {
     if (_db != null) {
-      return _db;
+      return _db!;
     }
     _db = await initDb();
 
-    return _db;
+    return _db!;
   }
 
   initDb() async {

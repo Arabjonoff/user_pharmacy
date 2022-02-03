@@ -11,11 +11,11 @@ class Accordion extends StatefulWidget {
   final Function(RegionModel data) onChoose;
 
   Accordion({
-    this.position,
-    this.title,
-    this.childs,
-    this.data,
-    this.onChoose,
+    required this.position,
+    required this.title,
+    required this.childs,
+    required this.data,
+    required this.onChoose,
   });
 
   @override

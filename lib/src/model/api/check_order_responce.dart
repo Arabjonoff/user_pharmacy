@@ -1,23 +1,29 @@
-class CheckOrderResponceModel {
+class CheckOrderResponseModel {
   int status;
   String msg;
   Data data;
 
-  CheckOrderResponceModel({this.status, this.msg, this.data});
+  CheckOrderResponseModel({
+    required this.status,
+    required this.msg,
+    required this.data,
+  });
 
-  CheckOrderResponceModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    msg = json['error'] == null ? "" : json['error'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+  factory CheckOrderResponseModel.fromJson(Map<String, dynamic> json) {
+    return CheckOrderResponseModel(
+      status: json['status'] ?? 0,
+      msg: json['error'] ?? "",
+      data: json['data'] != null
+          ? Data.fromJson(json['data'])
+          : Data.fromJson({}),
+    );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     data['error'] = this.msg;
-    if (this.data != null) {
-      data['data'] = this.data.toJson();
-    }
+    data['data'] = this.data.toJson();
     return data;
   }
 }
@@ -30,21 +36,24 @@ class Data {
   double total;
   double cash;
 
-  Data(
-      {this.distance,
-      this.deliverySum,
-      this.address,
-      this.isUserPay,
-      this.cash,
-      this.total});
+  Data({
+    required this.distance,
+    required this.deliverySum,
+    required this.address,
+    required this.isUserPay,
+    required this.cash,
+    required this.total,
+  });
 
-  Data.fromJson(Map<String, dynamic> json) {
-    distance = json['distance'] == null ? 0.0 : json['distance'];
-    deliverySum = json['delivery_sum'] == null ? 0.0 : json['delivery_sum'];
-    address = json['address'];
-    isUserPay = json['is_user_pay'];
-    cash = json['cash'] == null ? 0.0 : json['cash'];
-    total = json['total'] == null ? 0.0 : json['total'];
+  factory Data.fromJson(Map<String, dynamic> json) {
+    return Data(
+      distance: json['distance'] ?? 0.0,
+      deliverySum: json['delivery_sum'] ?? 0.0,
+      address: json['address'] ?? "",
+      isUserPay: json['is_user_pay'] ?? false,
+      cash: json['cash'] ?? 0.0,
+      total: json['total'] ?? 0.0,
+    );
   }
 
   Map<String, dynamic> toJson() {

@@ -8,9 +8,9 @@ String faqModelToJson(List<FaqModel> data) =>
 
 class FaqModel {
   FaqModel({
-    this.id,
-    this.question,
-    this.answer,
+    required this.id,
+    required this.question,
+    required this.answer,
   });
 
   int id;
@@ -18,9 +18,9 @@ class FaqModel {
   String answer;
 
   factory FaqModel.fromJson(Map<String, dynamic> json) => FaqModel(
-        id: json["id"],
-        question: json["question"] == null ? "" : json["question"],
-        answer: json["answer"] == null ? "" : json["answer"],
+        id: json["id"] ?? 0,
+        question: json["question"] ?? "",
+        answer: json["answer"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

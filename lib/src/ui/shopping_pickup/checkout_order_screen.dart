@@ -28,8 +28,8 @@ class CheckoutOrderScreen extends StatefulWidget {
   final CashBackData cashBackData;
 
   CheckoutOrderScreen({
-    this.drugs,
-    this.cashBackData,
+    required this.drugs,
+    required this.cashBackData,
   });
 
   @override
@@ -39,7 +39,7 @@ class CheckoutOrderScreen extends StatefulWidget {
 }
 
 class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
-  LocationModel storeInfo;
+  LocationModel? storeInfo;
   String firstName = "", lastName = "", number = "";
   var loading = false;
   DatabaseHelper dataBase = new DatabaseHelper();
@@ -212,7 +212,7 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        storeInfo.name,
+                                        storeInfo!.name,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -225,7 +225,7 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
                                       ),
                                       SizedBox(height: 4),
                                       Text(
-                                        storeInfo.address,
+                                        storeInfo!.address,
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -263,10 +263,10 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
                                   ),
                                 ),
                                 Expanded(child: Container()),
-                                storeInfo.distance == 0.0
+                                storeInfo!.distance == 0.0
                                     ? Container()
                                     : Text(
-                                        ((storeInfo.distance ~/ 100) / 10.0)
+                                        ((storeInfo!.distance ~/ 100) / 10.0)
                                                 .toString() +
                                             translate("km"),
                                         style: TextStyle(
@@ -296,7 +296,7 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
                                 ),
                                 Expanded(child: Container()),
                                 Text(
-                                  storeInfo.mode,
+                                  storeInfo!.mode,
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontRubik,
                                     fontWeight: FontWeight.normal,
@@ -324,7 +324,7 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
                                 ),
                                 Expanded(child: Container()),
                                 Text(
-                                  Utils.numberFormat(storeInfo.phone),
+                                  Utils.numberFormat(storeInfo!.phone),
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontRubik,
                                     fontWeight: FontWeight.normal,
@@ -517,7 +517,7 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
                                   ),
                                   Expanded(child: Container()),
                                   Text(
-                                    priceFormat.format(storeInfo.total) +
+                                    priceFormat.format(storeInfo!.total) +
                                         translate("sum"),
                                     style: TextStyle(
                                       fontFamily: AppTheme.fontRubik,
@@ -595,10 +595,13 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
                 CreateOrderModel createOrder = new CreateOrderModel(
                   device: Platform.isIOS ? "IOS" : "Android",
                   type: "self",
-                  storeId: storeInfo.id,
+                  storeId: storeInfo!.id,
                   drugs: drugs,
                   fullName: firstName + " " + lastName,
                   phone: number.replaceAll(" ", "").replaceAll("+", ""),
+                  shippingTime: 0,
+                  address: '',
+                  location: '',
                 );
                 var response = await Repository().fetchCreateOrder(createOrder);
                 if (response.isSuccess) {

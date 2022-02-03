@@ -27,21 +27,19 @@ class MenuScreen extends StatefulWidget {
   final Function onRate;
   final Function onFaq;
   final Function onAbout;
-  final Function onNoteAll;
   final Function onExit;
 
   MenuScreen({
-    this.onChat,
-    this.onLogin,
-    this.onNoteAll,
-    this.onHistory,
-    this.onAddress,
-    this.onLanguage,
-    this.onRate,
-    this.onFaq,
-    this.onAbout,
-    this.onMyInfo,
-    this.onExit,
+    required this.onChat,
+    required this.onLogin,
+    required this.onHistory,
+    required this.onAddress,
+    required this.onLanguage,
+    required this.onRate,
+    required this.onFaq,
+    required this.onAbout,
+    required this.onMyInfo,
+    required this.onExit,
   });
 
   @override
@@ -69,7 +67,7 @@ class _MenuScreenState extends State<MenuScreen> {
     super.dispose();
   }
 
-  CashBackModel cashBackOptions;
+  CashBackModel? cashBackOptions;
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +109,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       if (snapshot.hasData) {
                         cashBackOptions = snapshot.data;
                       }
-                      Utils.saveCashBack(cashBackOptions.cash);
+                      Utils.saveCashBack(cashBackOptions!.cash);
                       return Container(
                         margin: EdgeInsets.only(
                           left: 16,
@@ -154,7 +152,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                     height: 4,
                                   ),
                                   Text(
-                                    priceFormat.format(cashBackOptions.bonus) +
+                                    priceFormat.format(cashBackOptions!.bonus) +
                                         translate("ball"),
                                     style: TextStyle(
                                       fontFamily: AppTheme.fontRubik,
@@ -164,19 +162,6 @@ class _MenuScreenState extends State<MenuScreen> {
                                       color: AppTheme.white,
                                     ),
                                   ),
-                                  // Text(
-                                  //   priceFormat.format((cashBackOptions.cash)
-                                  //           .toInt()
-                                  //           .toDouble()) +
-                                  //       translate("sum"),
-                                  //   style: TextStyle(
-                                  //     fontFamily: AppTheme.fontRubik,
-                                  //     fontWeight: FontWeight.w500,
-                                  //     fontSize: 20,
-                                  //     height: 1.2,
-                                  //     color: AppTheme.white,
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                             ),
@@ -253,7 +238,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   child: Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      borderRadius:  BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16),
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -278,7 +263,9 @@ class _MenuScreenState extends State<MenuScreen> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: widget.onLogin,
+                          onTap: () {
+                            widget.onLogin();
+                          },
                           child: Container(
                             height: 44,
                             margin: EdgeInsets.only(top: 12),
@@ -407,7 +394,9 @@ class _MenuScreenState extends State<MenuScreen> {
                 ),
                 isLogin
                     ? GestureDetector(
-                        onTap: widget.onHistory,
+                        onTap: (){
+                          widget.onHistory();
+                        },
                         child: Container(
                           margin: EdgeInsets.only(top: 16, left: 16, right: 16),
                           decoration: BoxDecoration(
@@ -465,66 +454,6 @@ class _MenuScreenState extends State<MenuScreen> {
                         ),
                       )
                     : Container(),
-                // isLogin
-                //     ? GestureDetector(
-                //         onTap: () {},
-                //         child: Container(
-                //           margin: EdgeInsets.only(top: 16, left: 16, right: 16),
-                //           decoration: BoxDecoration(
-                //             color: AppTheme.background,
-                //             borderRadius: BorderRadius.circular(12),
-                //           ),
-                //           padding: EdgeInsets.symmetric(
-                //             horizontal: 12,
-                //             vertical: 8,
-                //           ),
-                //           child: Row(
-                //             children: [
-                //               SvgPicture.asset(
-                //                 "assets/icons/card.svg",
-                //                 width: 24,
-                //                 height: 24,
-                //               ),
-                //               SizedBox(width: 16),
-                //               Expanded(
-                //                 child: Column(
-                //                   crossAxisAlignment: CrossAxisAlignment.start,
-                //                   children: [
-                //                     Text(
-                //                       translate("menu.price_title"),
-                //                       style: TextStyle(
-                //                         fontFamily: AppTheme.fontRubik,
-                //                         fontWeight: FontWeight.normal,
-                //                         fontSize: 14,
-                //                         height: 1.43,
-                //                         color: AppTheme.text_dark,
-                //                       ),
-                //                     ),
-                //                     SizedBox(height: 2),
-                //                     Text(
-                //                       translate("menu.price_message"),
-                //                       style: TextStyle(
-                //                         fontFamily: AppTheme.fontRubik,
-                //                         fontWeight: FontWeight.normal,
-                //                         fontSize: 12,
-                //                         height: 1.67,
-                //                         color: AppTheme.textGray,
-                //                       ),
-                //                     ),
-                //                   ],
-                //                 ),
-                //               ),
-                //               SizedBox(width: 16),
-                //               SvgPicture.asset(
-                //                 "assets/icons/arrow_right_grey.svg",
-                //                 width: 24,
-                //                 height: 24,
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //       )
-                //     : Container(),
                 isLogin
                     ? GestureDetector(
                         onTap: () {
@@ -629,7 +558,9 @@ class _MenuScreenState extends State<MenuScreen> {
                   color: AppTheme.background,
                 ),
                 GestureDetector(
-                  onTap: widget.onLanguage,
+                  onTap: (){
+                    widget.onLanguage();
+                  },
                   child: Container(
                     margin: EdgeInsets.only(top: 16, left: 16, right: 16),
                     decoration: BoxDecoration(
@@ -686,66 +617,6 @@ class _MenuScreenState extends State<MenuScreen> {
                     ),
                   ),
                 ),
-                // isLogin
-                //     ? GestureDetector(
-                //         onTap: () {},
-                //         child: Container(
-                //           margin: EdgeInsets.only(top: 16, left: 16, right: 16),
-                //           decoration: BoxDecoration(
-                //             color: AppTheme.background,
-                //             borderRadius: BorderRadius.circular(12),
-                //           ),
-                //           padding: EdgeInsets.symmetric(
-                //             horizontal: 12,
-                //             vertical: 8,
-                //           ),
-                //           child: Row(
-                //             children: [
-                //               SvgPicture.asset(
-                //                 "assets/icons/password.svg",
-                //                 width: 24,
-                //                 height: 24,
-                //               ),
-                //               SizedBox(width: 16),
-                //               Expanded(
-                //                 child: Column(
-                //                   crossAxisAlignment: CrossAxisAlignment.start,
-                //                   children: [
-                //                     Text(
-                //                       translate("menu.pin_title"),
-                //                       style: TextStyle(
-                //                         fontFamily: AppTheme.fontRubik,
-                //                         fontWeight: FontWeight.normal,
-                //                         fontSize: 14,
-                //                         height: 1.43,
-                //                         color: AppTheme.text_dark,
-                //                       ),
-                //                     ),
-                //                     SizedBox(height: 2),
-                //                     Text(
-                //                       translate("menu.pin_message"),
-                //                       style: TextStyle(
-                //                         fontFamily: AppTheme.fontRubik,
-                //                         fontWeight: FontWeight.normal,
-                //                         fontSize: 12,
-                //                         height: 1.67,
-                //                         color: AppTheme.textGray,
-                //                       ),
-                //                     ),
-                //                   ],
-                //                 ),
-                //               ),
-                //               SizedBox(width: 16),
-                //               SvgPicture.asset(
-                //                 "assets/icons/arrow_right_grey.svg",
-                //                 width: 24,
-                //                 height: 24,
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //       )
-                //     : Container(),
                 SizedBox(height: 16),
               ],
             ),
@@ -788,7 +659,9 @@ class _MenuScreenState extends State<MenuScreen> {
                   color: AppTheme.background,
                 ),
                 GestureDetector(
-                  onTap: widget.onRate,
+                  onTap: (){
+                    widget.onRate();
+                  },
                   child: Container(
                     margin: EdgeInsets.only(top: 16, left: 16, right: 16),
                     decoration: BoxDecoration(
@@ -847,7 +720,9 @@ class _MenuScreenState extends State<MenuScreen> {
                 ),
                 isLogin
                     ? GestureDetector(
-                        onTap: widget.onChat,
+                        onTap: (){
+                          widget.onChat();
+                        },
                         child: Container(
                           margin: EdgeInsets.only(top: 16, left: 16, right: 16),
                           decoration: BoxDecoration(
@@ -906,7 +781,9 @@ class _MenuScreenState extends State<MenuScreen> {
                       )
                     : Container(),
                 GestureDetector(
-                  onTap: widget.onFaq,
+                  onTap: (){
+                    widget.onFaq();
+                  },
                   child: Container(
                     margin: EdgeInsets.only(top: 16, left: 16, right: 16),
                     decoration: BoxDecoration(
@@ -964,7 +841,9 @@ class _MenuScreenState extends State<MenuScreen> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: widget.onAbout,
+                  onTap: (){
+                    widget.onAbout();
+                  },
                   child: Container(
                     margin: EdgeInsets.only(top: 16, left: 16, right: 16),
                     decoration: BoxDecoration(
@@ -1106,7 +985,9 @@ class _MenuScreenState extends State<MenuScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       GestureDetector(
-                        onTap: widget.onExit,
+                        onTap: (){
+                          widget.onExit();
+                        },
                         child: Container(
                           margin: EdgeInsets.only(top: 16, left: 16, right: 16),
                           decoration: BoxDecoration(
@@ -1169,46 +1050,6 @@ class _MenuScreenState extends State<MenuScreen> {
                 )
               : Container(),
           SizedBox(height: 24),
-          // GestureDetector(
-          //   onTap: widget.onNoteAll,
-          //   child: Container(
-          //     margin: EdgeInsets.only(
-          //       left: 16,
-          //       right: 16,
-          //     ),
-          //     child: Row(
-          //       children: <Widget>[
-          //         Container(
-          //           height: 25,
-          //           width: 25,
-          //         ),
-          //         SizedBox(width: 15),
-          //         Expanded(
-          //           child: Text(
-          //             translate("note.screen_name"),
-          //             style: TextStyle(
-          //               fontWeight: FontWeight.normal,
-          //               fontFamily: AppTheme.fontRubik,
-          //               color: AppTheme.text_dark,
-          //               fontSize: 15,
-          //             ),
-          //           ),
-          //         ),
-          //         SizedBox(
-          //           width: 15,
-          //         ),
-          //         Icon(
-          //           Icons.arrow_forward_ios,
-          //           size: 19,
-          //           color: AppTheme.text_dark,
-          //         ),
-          //         SizedBox(width: 3),
-          //       ],
-          //     ),
-          //     height: 48,
-          //     color: AppTheme.white,
-          //   ),
-          // ),
         ],
       ),
     );

@@ -115,15 +115,15 @@ class _RegionScreenState extends State<RegionScreen> {
                       ),
                       Expanded(
                           child: ListView.builder(
-                        itemCount: snapshot.data.length,
+                        itemCount: snapshot.data!.length,
                         scrollDirection: Axis.vertical,
                         itemBuilder: (context, index) {
-                          return snapshot.data[index].childs.length == 0
+                          return snapshot.data![index].childs.length == 0
                               ? GestureDetector(
                                   onTap: () async {
                                     setState(() {
-                                      regionId = snapshot.data[index].id;
-                                      regionName = snapshot.data[index].name;
+                                      regionId = snapshot.data![index].id;
+                                      regionName = snapshot.data![index].name;
                                     });
                                   },
                                   child: Container(
@@ -131,12 +131,12 @@ class _RegionScreenState extends State<RegionScreen> {
                                       color: AppTheme.white,
                                       borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(
-                                          index == snapshot.data.length - 1
+                                          index == snapshot.data!.length - 1
                                               ? 24
                                               : 0,
                                         ),
                                         bottomRight: Radius.circular(
-                                          index == snapshot.data.length - 1
+                                          index == snapshot.data!.length - 1
                                               ? 24
                                               : 0,
                                         ),
@@ -148,7 +148,7 @@ class _RegionScreenState extends State<RegionScreen> {
                                     ),
                                     padding: EdgeInsets.only(
                                       top: 16,
-                                      bottom: index == snapshot.data.length - 1
+                                      bottom: index == snapshot.data!.length - 1
                                           ? 28
                                           : 16,
                                       left: 16,
@@ -158,7 +158,7 @@ class _RegionScreenState extends State<RegionScreen> {
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            snapshot.data[index].name,
+                                            snapshot.data![index].name,
                                             style: TextStyle(
                                               fontFamily: AppTheme.fontRubik,
                                               fontWeight: FontWeight.normal,
@@ -181,7 +181,7 @@ class _RegionScreenState extends State<RegionScreen> {
                                                 BorderRadius.circular(16),
                                             border: Border.all(
                                               color: regionId ==
-                                                      snapshot.data[index].id
+                                                      snapshot.data![index].id
                                                   ? AppTheme.blue
                                                   : AppTheme.gray,
                                             ),
@@ -193,7 +193,7 @@ class _RegionScreenState extends State<RegionScreen> {
                                             width: 10,
                                             decoration: BoxDecoration(
                                               color: regionId ==
-                                                      snapshot.data[index].id
+                                                      snapshot.data![index].id
                                                   ? AppTheme.blue
                                                   : AppTheme.white,
                                               borderRadius:
@@ -206,11 +206,11 @@ class _RegionScreenState extends State<RegionScreen> {
                                   ),
                                 )
                               : Accordion(
-                                  position: snapshot.data.length - 1 == index
+                                  position: snapshot.data!.length - 1 == index
                                       ? true
                                       : false,
-                                  title: snapshot.data[index].name,
-                                  childs: snapshot.data[index].childs,
+                                  title: snapshot.data![index].name,
+                                  childs: snapshot.data![index].childs,
                                   data: regionId,
                                   onChoose: (choose) {
                                     setState(
@@ -236,8 +236,8 @@ class _RegionScreenState extends State<RegionScreen> {
                       borderRadius: BorderRadius.circular(24),
                     ),
                   ),
-                  baseColor: Colors.grey[300],
-                  highlightColor: Colors.grey[100],
+                  baseColor: AppTheme.shimmerBase,
+                  highlightColor: AppTheme.shimmerHighlight,
                 );
               },
             ),

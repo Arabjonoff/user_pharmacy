@@ -18,7 +18,11 @@ class HistoryBloc {
       if (page == 1) data = <HistoryResults>[];
       data.addAll(result.results);
       _historyFetcher.sink.add(
-        HistoryModel(next: result.next, results: data),
+        HistoryModel(
+          next: result.next,
+          results: data,
+          count: 0,
+        ),
       );
     } else if (response.status == -1) {
       RxBus.post(BottomView(true), tag: "HOME_VIEW_ERROR_HISTORY");

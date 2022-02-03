@@ -88,11 +88,11 @@ class _BlogListScreenState extends State<BlogListScreen> {
         stream: blocHome.blog,
         builder: (context, AsyncSnapshot<BlogModel> snapshot) {
           if (snapshot.hasData) {
-            snapshot.data.next == null ? isLoading = true : isLoading = false;
+            snapshot.data!.next == "" ? isLoading = true : isLoading = false;
             return ListView.builder(
               padding: EdgeInsets.only(bottom: 24),
               scrollDirection: Axis.vertical,
-              itemCount: snapshot.data.results.length,
+              itemCount: snapshot.data!.results.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
@@ -100,10 +100,10 @@ class _BlogListScreenState extends State<BlogListScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => BlogItemScreen(
-                          image: snapshot.data.results[index].image,
-                          dateTime: snapshot.data.results[index].updatedAt,
-                          title: snapshot.data.results[index].title,
-                          message: snapshot.data.results[index].body,
+                          image: snapshot.data!.results[index].image,
+                          dateTime: snapshot.data!.results[index].updatedAt,
+                          title: snapshot.data!.results[index].title,
+                          message: snapshot.data!.results[index].body,
                         ),
                       ),
                     );
@@ -127,7 +127,7 @@ class _BlogListScreenState extends State<BlogListScreen> {
                         Expanded(
                           child: ClipRRect(
                             child: CachedNetworkImage(
-                              imageUrl: snapshot.data.results[index].image,
+                              imageUrl: snapshot.data!.results[index].image,
                               placeholder: (context, url) => Image.asset(
                                 "assets/img/default.png",
                                 width: double.infinity,
@@ -150,7 +150,7 @@ class _BlogListScreenState extends State<BlogListScreen> {
                         Container(
                           child: Text(
                             Utils.dateFormat(
-                                snapshot.data.results[index].updatedAt),
+                                snapshot.data!.results[index].updatedAt),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -170,7 +170,7 @@ class _BlogListScreenState extends State<BlogListScreen> {
                         ),
                         Container(
                           child: Text(
-                            snapshot.data.results[index].title,
+                            snapshot.data!.results[index].title,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -195,8 +195,8 @@ class _BlogListScreenState extends State<BlogListScreen> {
             );
           }
           return Shimmer.fromColors(
-            baseColor: Colors.grey[300],
-            highlightColor: Colors.grey[100],
+            baseColor: AppTheme.shimmerBase,
+            highlightColor: AppTheme.shimmerHighlight,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: 10,

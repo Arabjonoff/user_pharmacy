@@ -3,21 +3,27 @@ class CheckOrderModelNew {
   String msg;
   Data data;
 
-  CheckOrderModelNew({this.status, this.msg, this.data});
+  CheckOrderModelNew({
+    required this.status,
+    required this.msg,
+    required this.data,
+  });
 
-  CheckOrderModelNew.fromJson(Map<String, dynamic> json) {
-    status = json['status'] ?? 1;
-    msg = json['msg'] ?? "";
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+  factory CheckOrderModelNew.fromJson(Map<String, dynamic> json) {
+    return CheckOrderModelNew(
+      status: json['status'] ?? 1,
+      msg: json['msg'] ?? "",
+      data: json['data'] != null
+          ? Data.fromJson(json['data'])
+          : Data.fromJson({}),
+    );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     data['msg'] = this.msg;
-    if (this.data != null) {
-      data['data'] = this.data.toJson();
-    }
+    data['data'] = this.data.toJson();
     return data;
   }
 }
@@ -26,23 +32,24 @@ class Data {
   List<Stores> stores;
 
   Data({
-    this.stores,
+    required this.stores,
   });
 
-  Data.fromJson(Map<String, dynamic> json) {
-    if (json['stores'] != null) {
-      stores = <Stores>[];
-      json['stores'].forEach((v) {
-        stores.add(new Stores.fromJson(v));
-      });
-    }
+  factory Data.fromJson(Map<String, dynamic> json) {
+    return Data(
+      stores: json["stores"] == null
+          ? <Stores>[]
+          : List<Stores>.from(
+              json["stores"].map(
+                (x) => Stores.fromJson(x),
+              ),
+            ),
+    );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.stores != null) {
-      data['stores'] = this.stores.map((v) => v.toJson()).toList();
-    }
+    data['stores'] = this.stores.map((v) => v.toJson()).toList();
     return data;
   }
 }
@@ -57,23 +64,25 @@ class Stores {
   String text;
 
   Stores({
-    this.id,
-    this.name,
-    this.address,
-    this.distance,
-    this.deliverySum,
-    this.total,
-    this.text,
+    required this.id,
+    required this.name,
+    required this.address,
+    required this.distance,
+    required this.deliverySum,
+    required this.total,
+    required this.text,
   });
 
-  Stores.fromJson(Map<String, dynamic> json) {
-    id = json['id'] ?? 0;
-    name = json['name'] ?? "";
-    address = json['address'] ?? "";
-    distance = json['distance'] ?? 0.0;
-    deliverySum = json['delivery_sum'] ?? 0.0;
-    total = json['total'] ?? 0.0;
-    text = json['text'] ?? "";
+  factory Stores.fromJson(Map<String, dynamic> json) {
+    return Stores(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? "",
+      address: json['address'] ?? "",
+      distance: json['distance'] ?? 0.0,
+      deliverySum: json['delivery_sum'] ?? 0.0,
+      total: json['total'] ?? 0.0,
+      text: json['text'] ?? "",
+    );
   }
 
   Map<String, dynamic> toJson() {

@@ -43,7 +43,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   DatabaseHelperHistory dataHistory = new DatabaseHelperHistory();
 
-  Timer _timer;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -64,10 +64,6 @@ class _SearchScreenState extends State<SearchScreen> {
         _getMoreData(page);
       }
     });
-    super.initState();
-  }
-
-  _SearchScreenState() {
     const oneSec = const Duration(milliseconds: 500);
     searchController.addListener(() {
       if (searchController.text.length > 2) {
@@ -76,7 +72,7 @@ class _SearchScreenState extends State<SearchScreen> {
             obj = searchController.text;
             if (obj.length > 2) {
               setState(() {
-                _timer.cancel();
+                _timer!.cancel();
                 page = 1;
                 isLoading = false;
                 isSearchText = true;
@@ -91,12 +87,12 @@ class _SearchScreenState extends State<SearchScreen> {
             }
           });
         } else {
-          _timer.cancel();
+          _timer!.cancel();
           _timer = new Timer(oneSec, () {
             obj = searchController.text;
             if (obj.length > 2) {
               setState(() {
-                _timer.cancel();
+                _timer!.cancel();
                 page = 1;
                 isSearchText = true;
                 isLoading = false;
@@ -119,13 +115,15 @@ class _SearchScreenState extends State<SearchScreen> {
         });
       }
     });
+    super.initState();
   }
+
 
   @override
   void dispose() {
     _sc.dispose();
     RxBus.destroy();
-    if (_timer != null) _timer.cancel();
+    if (_timer != null) _timer!.cancel();
     super.dispose();
   }
 
@@ -300,10 +298,10 @@ class _SearchScreenState extends State<SearchScreen> {
                       stream: blocSearch.searchOptions,
                       builder: (context, AsyncSnapshot<ItemModel> snapshot) {
                         if (snapshot.hasData) {
-                          snapshot.data.next == null
+                          snapshot.data!.next == null
                               ? isLoading = true
                               : isLoading = false;
-                          return snapshot.data.results.length > 0
+                          return snapshot.data!.results.length > 0
                               ? Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -335,11 +333,11 @@ class _SearchScreenState extends State<SearchScreen> {
                                           right: 16,
                                         ),
                                         itemCount:
-                                            snapshot.data.results.length + 1,
+                                            snapshot.data!.results.length + 1,
                                         controller: _sc,
                                         itemBuilder: (context, index) {
                                           if (index ==
-                                              snapshot.data.results.length) {
+                                              snapshot.data!.results.length) {
                                             return Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
@@ -360,7 +358,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               onTap: () {
                                                 RxBus.post(
                                                     BottomViewModel(snapshot
-                                                        .data
+                                                        .data!
                                                         .results[index]
                                                         .id),
                                                     tag:
@@ -381,7 +379,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                                       children: [
                                                         CachedNetworkImage(
                                                           imageUrl: snapshot
-                                                              .data
+                                                              .data!
                                                               .results[index]
                                                               .imageThumbnail,
                                                           placeholder: (context,
@@ -407,7 +405,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                                             children: [
                                                               Text(
                                                                 snapshot
-                                                                    .data
+                                                                    .data!
                                                                     .results[
                                                                         index]
                                                                     .manufacturer
@@ -428,7 +426,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                                               ),
                                                               Text(
                                                                 snapshot
-                                                                    .data
+                                                                    .data!
                                                                     .results[
                                                                         index]
                                                                     .name,
@@ -515,8 +513,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                 );
                         }
                         return Shimmer.fromColors(
-                          baseColor: Colors.grey[300],
-                          highlightColor: Colors.grey[100],
+                          baseColor: AppTheme.shimmerBase,
+                          highlightColor: AppTheme.shimmerHighlight,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -605,7 +603,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         if (snapshots.data == null) {
                           return Container();
                         }
-                        return snapshots.data.length > 0
+                        return snapshots.data!.length > 0
                             ? Column(
                                 children: [
                                   Container(
@@ -648,7 +646,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   Expanded(
                                     child: ListView.builder(
                                       scrollDirection: Axis.vertical,
-                                      itemCount: snapshots.data.length,
+                                      itemCount: snapshots.data!.length,
                                       padding:
                                           EdgeInsets.only(top: 18, bottom: 18),
                                       itemBuilder: (context, index) {
@@ -656,7 +654,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                           onTap: () {
                                             setState(() {
                                               searchController.text =
-                                                  snapshots.data[index];
+                                                  snapshots.data![index];
                                               searchController.selection =
                                                   TextSelection.fromPosition(
                                                 TextPosition(
@@ -693,7 +691,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                                     SizedBox(width: 8),
                                                     Expanded(
                                                       child: Text(
-                                                        snapshots.data[index],
+                                                        snapshots.data![index],
                                                         style: TextStyle(
                                                           fontFamily: AppTheme
                                                               .fontRubik,

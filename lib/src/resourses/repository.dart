@@ -3,11 +3,9 @@ import 'dart:async';
 import 'package:pharmacy/src/database/database_helper.dart';
 import 'package:pharmacy/src/database/database_helper_address.dart';
 import 'package:pharmacy/src/database/database_helper_fav.dart';
-import 'package:pharmacy/src/database/database_helper_note.dart';
 import 'package:pharmacy/src/model/api/item_model.dart';
 import 'package:pharmacy/src/model/database/address_model.dart';
 import 'package:pharmacy/src/model/http_result.dart';
-import 'package:pharmacy/src/model/note/note_data_model.dart';
 import 'package:pharmacy/src/model/send/access_store.dart';
 import 'package:pharmacy/src/model/send/create_order_model.dart';
 import 'package:pharmacy/src/model/send/create_payment_model.dart';
@@ -19,7 +17,6 @@ class Repository {
 
   DatabaseHelper databaseHelper = new DatabaseHelper();
   DatabaseHelperFav databaseHelperFav = new DatabaseHelperFav();
-  DatabaseHelperNote databaseHelperNote = new DatabaseHelperNote();
   DatabaseHelperAddress databaseHelperAddress = new DatabaseHelperAddress();
 
   Future<HttpResult> fetchLogin(String login) =>
@@ -91,8 +88,6 @@ class Repository {
 
   Future<AddressModel> databaseAddressType(int id) =>
       databaseHelperAddress.getProductsType(id);
-
-  Future<List<NoteModel>> databaseNote() => databaseHelperNote.getProduct();
 
   Future<List<ItemResult>> databaseCardItem(bool isCard) =>
       databaseHelper.getProdu(isCard);
