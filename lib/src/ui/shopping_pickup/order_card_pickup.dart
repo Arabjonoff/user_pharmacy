@@ -103,7 +103,6 @@ class _OrderCardPickupScreenState extends State<OrderCardPickupScreen> {
           elevation: 4.0,
           shadowColor: Color.fromRGBO(110, 120, 146, 0.1),
           backgroundColor: AppTheme.white,
-          brightness: Brightness.light,
           leading: GestureDetector(
             child: Container(
               height: 56,

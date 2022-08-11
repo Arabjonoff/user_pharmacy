@@ -99,9 +99,7 @@ class Childs {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
-    if (this.childs != null) {
-      data['childs'] = this.childs.map((v) => v.toJson()).toList();
-    }
+    data['childs'] = this.childs.map((v) => v.toJson()).toList();
     return data;
   }
 }

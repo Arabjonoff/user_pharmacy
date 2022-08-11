@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -33,7 +32,6 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
         elevation: 4.0,
         shadowColor: Color.fromRGBO(110, 120, 146, 0.1),
         backgroundColor: AppTheme.white,
-        brightness: Brightness.light,
         leading: GestureDetector(
           child: Container(
             height: 56,

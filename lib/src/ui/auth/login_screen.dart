@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -38,7 +37,6 @@ class _LoginScreenState extends State<LoginScreen> {
         elevation: 4.0,
         shadowColor: Color.fromRGBO(110, 120, 146, 0.1),
         backgroundColor: AppTheme.white,
-        brightness: Brightness.light,
         actions: [
           Container(
             height: 56,

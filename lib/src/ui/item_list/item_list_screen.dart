@@ -36,7 +36,7 @@ class ItemListScreen extends StatefulWidget {
 }
 
 class _ItemListScreenState extends State<ItemListScreen>
-    with SingleTickerProviderStateMixin, TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin{
   int page = 1;
   String priceMax = "";
   String ordering = "name";

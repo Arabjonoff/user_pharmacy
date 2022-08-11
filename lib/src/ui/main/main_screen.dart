@@ -265,34 +265,14 @@ class _MainScreenState extends State<MainScreen> {
                     ? SvgPicture.asset("assets/menu/home_selected.svg")
                     : SvgPicture.asset("assets/menu/home_unselected.svg"),
                 // ignore: deprecated_member_use
-                title: AnimatedContainer(
-                  duration: duration,
-                  curve: Curves.easeInOut,
-                  height: 4,
-                  width: 4,
-                  margin: EdgeInsets.only(top: 8),
-                  decoration: BoxDecoration(
-                    color: _selectedIndex == 0 ? AppTheme.blue : AppTheme.white,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
+
               ),
               BottomNavigationBarItem(
                 icon: _selectedIndex == 1
                     ? SvgPicture.asset("assets/menu/catalog_selected.svg")
                     : SvgPicture.asset("assets/menu/catalog_unselected.svg"),
                 // ignore: deprecated_member_use
-                title: AnimatedContainer(
-                  duration: duration,
-                  curve: Curves.easeInOut,
-                  height: 4,
-                  width: 4,
-                  margin: EdgeInsets.only(top: 8),
-                  decoration: BoxDecoration(
-                    color: _selectedIndex == 1 ? AppTheme.blue : AppTheme.white,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
+
               ),
               BottomNavigationBarItem(
                 icon: Stack(
@@ -305,51 +285,20 @@ class _MainScreenState extends State<MainScreen> {
                   ],
                 ),
                 // ignore: deprecated_member_use
-                title: AnimatedContainer(
-                  duration: duration,
-                  curve: Curves.easeInOut,
-                  height: 4,
-                  width: 4,
-                  margin: EdgeInsets.only(top: 8),
-                  decoration: BoxDecoration(
-                    color: _selectedIndex == 2 ? AppTheme.blue : AppTheme.white,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
+
               ),
               BottomNavigationBarItem(
                 icon: _selectedIndex == 3
                     ? SvgPicture.asset("assets/menu/favourite_selected.svg")
                     : SvgPicture.asset("assets/menu/favourite_unselected.svg"),
                 // ignore: deprecated_member_use
-                title: AnimatedContainer(
-                  duration: duration,
-                  curve: Curves.easeInOut,
-                  height: 4,
-                  width: 4,
-                  margin: EdgeInsets.only(top: 8),
-                  decoration: BoxDecoration(
-                    color: _selectedIndex == 3 ? AppTheme.blue : AppTheme.white,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
               ),
               BottomNavigationBarItem(
                 icon: _selectedIndex == 4
                     ? SvgPicture.asset("assets/menu/menu_selected.svg")
                     : SvgPicture.asset("assets/menu/menu_unselected.svg"),
                 // ignore: deprecated_member_use
-                title: AnimatedContainer(
-                  duration: duration,
-                  curve: Curves.easeInOut,
-                  height: 4,
-                  width: 4,
-                  margin: EdgeInsets.only(top: 8),
-                  decoration: BoxDecoration(
-                    color: _selectedIndex == 4 ? AppTheme.blue : AppTheme.white,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
+
               ),
             ],
           ),

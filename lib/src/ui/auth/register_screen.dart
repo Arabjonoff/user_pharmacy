@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/svg.dart';
@@ -65,7 +64,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         elevation: 4.0,
         shadowColor: Color.fromRGBO(110, 120, 146, 0.1),
         backgroundColor: AppTheme.white,
-        brightness: Brightness.light,
         actions: [
           Container(
             height: 56,

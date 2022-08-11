@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -59,7 +58,6 @@ class _CheckoutOrderScreenState extends State<CheckoutOrderScreen> {
         elevation: 4.0,
         shadowColor: Color.fromRGBO(110, 120, 146, 0.1),
         backgroundColor: AppTheme.white,
-        brightness: Brightness.light,
         leading: GestureDetector(
           child: Container(
             height: 56,
